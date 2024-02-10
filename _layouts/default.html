@@ -1,1 +1,57 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>DarthCoin Bitcoin Guides</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="shortcut icon" type="image/png" href="/assets/images/darthcoin-logo.png" />
+  <link rel="stylesheet" href="/assets/css/style.css" />
+</head>
+<body>
+<main>
+<header>
+  <h1>
+    <img src="/assets/images/darthcoin-logo.png" class="darthcoin-header-icon" />
+    <a href="/">Blixt Wallet</a>
+  </h1>
+  <nav>
+    <a href="/general">
+      <button>General</button>
+    <a href="/beginner">
+      <button>Beginner</button>
+    <a href="/wallets">
+      <button>Wallets</button>
+    </a>
+  </nav>
+</header>
+{{ content }}
+</main>
+<script>
+const setThemeSwitcherEmoji = () => {
+  themeSwitcher.innerHTML = body.classList.contains("dark-theme")
+    ? "☀️"
+    : "🌙";
+};
+
+const themeSwitcher = document.querySelector("#theme-switcher");
+const body = document.querySelector("body");
+body.classList.add("dark-theme");
+
+themeSwitcher.addEventListener("click", () => {
+  if (body.classList.contains("dark-theme")) {
+    body.classList.add("light-theme");
+    body.classList.remove("dark-theme")
+  }
+  else {
+    body.classList.add("dark-theme");
+    body.classList.remove("light-theme");
+  }
+  setThemeSwitcherEmoji();
+});
+setThemeSwitcherEmoji();
+
+fetch("https://blixtwallet.com/count");
+</script>
+</body>
+</html>
 
