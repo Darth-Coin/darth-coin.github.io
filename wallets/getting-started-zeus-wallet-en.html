@@ -29,7 +29,7 @@ title: Getting started with Zeus Mobile Node
 <li>LND logs - user can read in real time the LND service logs and use them to debug possible issues (mainly for bad connections)</li>
 <li>Automated Backups - the LN node channels are automatically back up on the Olympus server. This automated backup is encrypted with your node wallet seed (without the seed is totally useless). User also can export manually a SCB (static channels backup) for a disaster recovery.</li>
 </ul>
-<hr style="height:30px">
+<hr style="height:10px">
 <h3>How to get onboard with Zeus Node (embedded)</h3>
 <p><img src="/assets/images/zeus-laser-eyes.gif" class="center"></p>
 <p>In this guide I will talk only about the embedded LND node, and not about the other ways to use this magnificent app (remote node management and LNDhub accounts). For the other types of connections, please refer to <a href="https://docs.zeusln.app/category/getting-started">Zeus Docs page</a>, that is very well explained and no need for writing a dedicated guide.</p>
@@ -104,13 +104,82 @@ title: Getting started with Zeus Mobile Node
 <ul>
   <li>Pathfinding mode - bimodal or apriori, ways to find a better route for your LN payments and also resetting the previous routing information. Please read these very good guides about pathfinding:</li>
   <ul>
-  <li>Pathfinding - by Docs Lightning Engineering</li>
-  <li>LN Payment Pathfinding - by Voltage</li>
+  <li><a href="https://docs.lightning.engineering/lightning-network-tools/lnd/pathfinding">Pathfinding</a> - by Docs Lightning Engineering</li>
+  <li><a href="https://voltage.cloud/blog/lightning-network-faq/understanding-payment-pathfinding-between-nodes-on-lightning-network/">LN Payment Pathfinding</a> - by Voltage</li>
   </ul
 <li>Persistent LND - activate this mode if you want the LND service to run continuously in the background and keep your node online 24/7. This is very useful if you use Zeus as a PoS in a small shop or you are receiving many LN tips over the LN Address.</li>
 <li>Rescan wallet - this option will trigger at restart a full scan of all onchain txs of your wallet. Activate it only in case you are missing some txs in your wallet. The rescan task will take time, several minutes so be patient and always check the logs to see more details about the progress.</li>
 <li>Compact Database - this option is very useful if your Zeus app is occupying a lot of device space (see app details in your device settings). If you have a lot of activity using Zeus, I would recommend to do this compaction more often. Once you see that you have more than 1-1.5GB data for Zeus app, do the compaction. It will restart and take some time, so be patient. Also the other option to delete the neutrino files (with a restart) will reduce a lot the data storage usage. Reducing the data usage also have a big impact in battery use, reducing the battery use, especially if you use Zeus in persistent mode.</li>
 </ul>
+<h3>F - Node Info</h3>
+<p>In this section, you will find more details about the status of your Zeus node as:</p>
+<ul>
+<li>Alias - short node ID</li>
+<li>Public Key - the full public key for your node required for other nodes to find that path towards your node. Remember that this pubkey is NOT visible on the regular LN Explorers (Mempool, Amboss, 1ML etc). This pubkey is reachable ONLY through your connected LN peers and channels.</li>
+<li>LN implementation version</li>
+<li>Zeus app version</li>
+<li>Synced to chain and Synced to graph status - very important ones, showing the correct status of your node. If these two are not displaying “true” it means that your node is still syncing or is having some issues syncing. So is suggested to look into your LND logs or wait a bit longer.</li>
+<li>Block height and hash - shows the last block and hash that your node saw and synced.</li>
+</ul>
+<h3>G - Network Info</h3>
+<p>This section displays more details about the general status for the Lightning network, extracted from your graph sync data: number of public channels available, number of nodes, number of zombie channels (offline or dead), graph diameter, average and max out degree for the graph.</p>
+<p>This information data could be useful to debug or just used for statistics.</p>
+<h3>H - Payment settings</h3>
+<p>This feature will offer you the way to set your own preferred fees for payments, over LN or onchain. Also provide the option to increase or decrease the timeout for your invoices.</p>
+<p>If some of your LN payments fail, you could increase the fee to find a better route. Also if are doing onchain txs, you can setup a specific fee so your tx could not end up stuck in the mempool for long time, in case of high fees period.</p>
+<h3>I - Invoices settings</h3>
+<p>In this section are some options to generate invoices:</p>
+<ul>
+<li>Set a standard memo to be displayed in the invoice you generate</li>
+<li>Expiration time in seconds, in case you want specific time, longer or shorter for your invoice to be paid</li>
+<li>Include route hints - provide information to find non-advertised, or private, channels. This allows routing of payments to nodes that are not publicly visible on the network. A routing hint provides a partial route between the receiver's private node and a public node. This routing hint is then included in the invoice generated by the receiver and provided to the payer. I suggest to have it enable by default, otherwise incoming payments could fail (no route found).</li>
+<li>AMP invoice - Atomic Multi-path Payments are a new type of Lightning payments implemented by LND that allow to receive sats without a specific invoice, using <a href="https://docs.lightning.engineering/lightning-network-tools/lnd/send-messages-with-keysend">keysend</a>. Is practically a static payment code. <a href="https://docs.lightning.engineering/lightning-network-tools/lnd/amp">Read more here</a>.</li>
+<li>Show custom preimage field - use this option only in very specific cases when you really want to use custom fields in the preimage. <a href="https://bitcoin.stackexchange.com/questions/90797/how-can-i-generate-preimage-for-lightning-network-invoice-should-i">Read more here</a>.</li>
+</ul>
+<h3>J - Speed up transaction</h3>
+<p>This feature could be helpful when you have a stuck tx into mempool and want to bump the fee. You will need to provide the tx output from tx details and select the desired new fee you want to use. Must be higher then previous one and require you to have more funds available in your onchain wallet.</p>
+<p><img src="/assets/images/zeus-fees-bump.jpg" class="center"></p>
+<p>You have to go to your pending tx and copy the txID outpoint. Then come to this section and paste it, then select the new fee you want to use to bump it. It will popup a new screen with recommended fees in that moment, or you can set a custom one. Remember MUST be higher than previous one.</p>
+<p>Is always better to keep a UTXO with a maximum 100k sats in your Zeus onchain wallet, to be able to use it to bump fees when is necessary.</p>
+<h3>K - Privacy settings</h3>
+<p>Here you will find some basic settings to add more privacy using Zeus app:</p>
+<ul>
+<li>Block explorer to open tx details (mempool.space, blockstream.info or custom personal one)</li>
+<li>Read clipboard - on/off toggle if you want Zeus to read your device clipboard</li>
+<li>Lurker mode - on/off toggle if you want to hide specific sensitive info from your Zeus app. Is a good option when you make demos or screenshots.</li>
+<li>Mempool fee suggestion - activate this option if you want to use recommended fee levels from <a href="https://mempool.space/">mempool.space</a></li>
+</ul>
+<h3>L - Security</h3>
+<p>This section have only two options for securing the app at opening: set a password or a PIN.</p>
+<p>Once you set a PIN to open the app, you also be able to set a “duress PIN”. This secret additional PIN will be used ONLY in case of duress situation, if you are threaten. If you put this PIN, the configuration will be all WIPE OUT. So you better keep updated your backups. Automated backups are ON by default, but is good to have your own backups too, out of the device.</p>
+<h3>M - Sign or verify</h3>
+<p>With this feature you could sign a specific message with your wallet keys. Also can be used to verify a message to prove that is coming from a specific wallet keys.</p>
+<h3>N - Currency</h3>
+<p>Enable or disable the option to display a fiat currency conversion in the Zeus app usage. Currently is supporting over 30 worldwide fiat currencies.</p>
+<h3>O - Language</h3>
+<p>You can switch between multiple translation languages, reviewed by Zeus community with native speakers.</ul>
+<h3>P - Display</h3>
+<p>In this section you can personalize your Zeus display, selecting various color themes, default screen (keypad or balance), show your node alias, activate big keypad buttons, show more decimal places.</p>
+<h3>Q - Point of Sale</h3>
+<p>This is a special feature to enable / disable an integrated PoS system into Zeus. You could run a standalone PoS or linked to a Square PoS system. Currently is supporting basic functionalities as a PoS, but enough for a good start and could help those small merchants (bars/restaurants, groceries) to start accepting BTC in a native way.</p>
+<p>Inside this settings, you will find various options to setup your PoS:</p>
+<ul>
+<li>Confirmation payment type: LN only, 0-conf, 1-conf</li>
+<li>Enable / disable tips for employee that operate the PoS</li>
+<li>Show / hide keypad</li>
+<li>Tax percentage to apply on the ticket</li>
+<li>Create products and categories of products</li>
+<li>A simple listing of all sales</li>
+</ul>
+<p>Here is a live demo video how to use Zeus PoS:</p>
+<video width="320" height="640" controls>
+  <source src="/assets/media/zeus-pos.mp4" type="video/mp4">
+</video>
+<h3>R - Merch and Support</h3>
+<p>Here you will find more info and links about Zeus, online shop, sponsors, social media.</p>
+<h3>S - Help</h3>
+<p>In this last section you will find links to Zeus documentation page, Github issues (if you want to post a bug or request directly to app developers), email support.</p>
+<hr style="height:10px">
 
 
 
