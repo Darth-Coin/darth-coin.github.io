@@ -1,0 +1,109 @@
+---
+layout: default
+title: Getting started with Green Wallet LN
+---
+<article>
+<!DOCTYPE html>
+<html lang="en">
+<body>
+<h3>A step by step guide about how to start using Green wallet with Lightning, a good option for new users to get onboard with Lightning.</h3>
+<p>Many of my readers were asking me to write this guide, even that most of the documentation can be found on Blockstream website. So I took some excerpts from their docs added some of my observations and recommendations and put them together into this short guide to have it at hand for new users.</p>
+<p>The long awaited Lightning wallet on Blockstream Green have arrived. At the time writing this guide, IS STILL IN BETA PHASE, but if you want to test its functionalities, is ready to be used on Bitcoin mainnet.</p>
+<p><img src="/assets/images/green-intro.png" class="center"></p>
+<p>At the end of this guide you will find all the links to download it so I am sure you read first the IMPORTANT steps you should do.</p>
+<h3>INTRODUCTION</h3>
+<p>The Green wallet is a multi account application, where you could start using multiple Bitcoin accounts (singlesig, multisig, watch-only, HW-connect) and now also was introduced the Lightning account.</p>
+<p>What's the difference between wallets and accounts?</p>
+<h3>Wallets</h3>
+<p>A Green wallet lets you store and spend you funds securely and conveniently. I's self-custodial, so it means that it stores or manages the keys to access your bitcoin, so you are in control.</p>
+<p>To start sending and receiving funds on Blockstream Green, you must create at least one wallet, but you can have create or import multiple ones.</p>
+<p><img src="/assets/images/green-accounts.png" class="center"></p>
+<p>For each wallet you create, need to back up your primary key. The backup consists of a 12 or 24-word recovery phrase.</p>
+<p>Each wallet can be accessed via PIN or biometrics and even be exported across multiple devices.</p>
+<h3>Accounts</h3>
+<p>An account is a subsection of wallets that allows you to separate funds based on your needs, for more security, or instant payments. You can manage multiple additional accounts in each wallet.</p>
+<p><img src="/assets/images/green-main-account.jpg" class="center"></p>
+<p>Accounts are tied to the primary key in which they are created. The recovery phrase backup of your primary key, unlocks access to all accounts inside that wallet. If you lose access to your wallet, you lose access to all accounts inside the wallet.</p>
+<h3>What Is the Purpose of Using Multiple Accounts?</h3>
+<p>Some of the benefits of using multiple accounts include:</p>
+<p><strong>Instant transactions</strong></p>
+<p>Top up your instant account to send instant cheap transactions to everyone on the Lightning Network, with our unique self-custody solution for Bitcoin Lightning payments.</p>
+<p><strong>Increased Security</strong></p>
+<p>You can create a 2FA protected account, where spending funds from requires authenticating with a separate 2FA of your choice among Authenticator app, email, sms, or call.</p>
+<p><strong>Easier Accounting</strong></p>
+<p>Maintaining multiple accounts can be useful if you want to keep track of different income streams or budgets without having to write down and store a new recovery phrase for each balance.</p>
+<p><strong>Stronger Privacy</strong></p>
+<p>Your account balance shows the total value of all UTXOs in your account. When you make a transaction, your Blockstream Green app may combine transaction outputs in order to send the required amount of funds. Combining UTXOs can compromise your privacy as it links multiple addresses to the same sender.</p>
+<p>By creating separate accounts within the same wallet, you can control which UTXOs are combined and which aren’t. Blockstream Green will never combine UTXOs from two different accounts, even if they are part of the same wallet.</p>
+<p>In Blockstream Green, your funds are stored inside accounts, which are stored inside wallets. Accounts enable you to conveniently separate your funds in one wallet. For example, you might use one account for daily spending and another for stacking securely with 2FA protection.</p>
+<hr style="height:2px">
+<h3>LET’S GET STARTED</h3>
+<p>To play around and test it, you would need to activate the “experimental” features and open a “Lightning Account”, is actually a CLN node using Greenlight, where the keys stays on your device.</p>
+<p>First step is to create a simple Bitcoin wallet, single sig, from which will be derived the keys for your Lightning Account (node).</p>
+<p>You do not have to deposit any BTC into this onchain wallet and then later open a LN channel (as you are used to do with regular LN nodes). The Lightning node could receive straight away sats directly from a LN invoice. Greenlight (Blockstream backend node hosting) is providing all the liquidity and channels management as the main LSP.</p>
+<p>For a regular new user, this is a very simple way to start with Lightning without all the hassle of running a full LN node and managing the liquidity, channels etc.</p>
+<p>After you create a main Bitcoin wallet, then go to App Settings (top left drawer on main screen) and activate “Experimental features”.</p>
+<p><img src="/assets/images/green-experimental.jpg" class="center"></p>
+<p>Once you’ve done that, go back to Accounts screen and click on “Create new account“ button from top right. Then on the bottom, click on “Advanced features”. You will see that now you can create a “Lightning Account”.</p>
+<h3>Some aspects to remember:</h3>
+<ul>
+<li>This LN account will have maximum 4M sats capacity.</li>
+<li>Green is using splicing, to expand channel capacity (same as Phoenix).</li>
+<li>You will be asked to encrypt the node keys on your device with YOUR device PIN. Be aware, some users the tried using a new PIN, but is actually your device security PIN. It is NOT the Green app PIN, that you normally set for opening.</li>
+<li>Save the LN nose seed for backup !</li>
+<li>Save the nodeID for backup and later use !</li>
+<li>The node liquidity is offered ONLY through Blockstream Greenlight LSP (similar with Phoenix), but the keys stays on your device.</li>
+<li>Green is supporting fully LNURL, except LUD-18 and 02. And it works pretty well.</li>
+</ul>
+<h3>How Liquidity works in Green LN wallet?</h3>
+<p>Let’s explain a bit, for new users, how the liquidity works in Green so they have it clear in their mind from the beginning.</p>
+<p>So, Green is dedicating a maximum 4M sats capacity for this LN account. That means you can deposit a max 4M sats initially or during the whole use of Green, through smaller amounts until you reach that max limit.</p>
+<p>When you are inside the LN account, if you click on the top right corner menu and open the “Node Info” option, you will see your LN node ID and also displaying the liquidity available.</p>
+<blockquote>
+<p>You better save that nodeID info together with your LN seed words that are separate from your main Bitcoin wallet !</p>
+</blockquote>
+<p>So let’s say you deposited 50k sats initially.</p>
+<p><img src="/assets/images/green-deposit.jpg" class="center"></p>
+<p>As you can see, on the balance it says 47199 sats (represent the 50k - 2500 sats fee - some tests I did) and bellow it says 28174 sats “receive capacity”. That means I can still receive 28174 sats WITHOUT paying an additional 2500 sats fee to expand the capacity of that channel, through splicing.</p>
+<p>This is a nice way that Green is offering to users to have like 40-50% more inbound capacity on top of what they already deposited.</p>
+<p>Now come the interesting part. Let’s say you deposit more than that extra capacity of 28174 sats, you deposit 900k sats. In that moment the channel is expanded using splicing LN feature, you pay an extra fee of 2500 sats and now you have a bigger channel. But is still full and you will still get a smaller inbound liquidity on top.</p>
+<p><img src="/assets/images/green-capacity.jpg" class="center"></p>
+<p>Remember you cannot go further than 4M sats. I think this is a limitation for beta phase and not be too much reckless. But 4M sats for mobile LN wallet is more than enough.</p>
+<p>What happen if you swap out those 900k sats now? Let’s say you want to move them to an onchain wallet. Fine, <a href="https://darthcoin.substack.com/p/lightning-network-submarine-swaps">use any swap service</a> to move out those sats, but not all, just leave in the channel at least 1%.</p>
+<p>In that moment you will remain with an almost empty channel, ready to receive more sats over LN, without paying those extra fees of 2500 sats for each deposit. That’s why is recommended to start with a bigger initial deposit, so you will pay only once that fee, instead of each time you deposit.</p>
+<p>For the moment I could find a way to swap out directly into main Bitcoin wallet, you have to use an external service.</p>
+<p>But the swap in function works just fine.</p>
+<p><img src="/assets/images/green-swap.jpg" class="center"></p>
+<p>Click on LN account main screen the “Receive” button and in that screen, before you put the amount, you will see at the bottom “Show onchain Address”. Will generate a new BTC address to deposit.</p>
+<p>In the next screen you will get the BTC address and also a warning saying that min and max limit for that deposit. Also a fee for the splicing will be applied.</p>
+<p>As you can see is limiting the max deposit to 900k sats. I don’t know why exactly this limit, but I supposed is specific to beta phase and also maybe for a better channels management and not being abused. But is more than enough for the moment.</p>
+<p>So this onchain deposit practically will expand your channel capacity with the amount of sats you deposited + what you already had inside + a little bit more inbound capacity.</p>
+<h3>OBSERVATIONS</h3>
+<p>Another very interesting aspect to be mentioned is that this LN wallet is offering more privacy when you RECEIVE sats over LN. Why? Because is using wrapped invoices.</p>
+<p>I did a test, creating an invoice in Green and then decode it into LN decoder to see possible tracing of the LN invoice. You can see that end up as “destination” node a BreezC node, that I supposed is the LSP for Greenlight, using the new C= specs.</p>
+<p>So in this way, your Green nodeID is not revealed in a payment, offering more privacy.</p>
+<p>I tested also the disaster recovery procedure, wiping out the whole app and restore from seed, the main bitcoin wallet account and the LN account. All worked as designed, recovering straight away the LN channel funds, without the necessity of closing the channel.</p>
+<h3>CONCLUSION</h3>
+<p>I think this is a nice, simple and elegant way for new users to start using Lightning without any complications, with self-custody of their keys.</p>
+<p>This wallet is a good alternative to all those custodial accounts, some of them even KYC and closed source. It still have some limitations, but for a not so technical user is a very good option.</p>
+<hr style="height:2px">
+<h3>RESOURCES LINKS:</h3>
+<p>Green is free, open source software, that can be installed from Google Play Store, Apple Store, F-Droid and also straight from Github repository (<a href="https://darthcoin.substack.com/p/bitcoiners-mobile-device">you can use Obtainium for updates</a>)</p>
+<ul>
+<li><a href="https://blockstream.com/green/">Blockstream Green Website</a> | <a href="https://github.com/Blockstream/green_qt/">Github</a> | <a href="https://help.blockstream.com/">Documentation</a></li>
+<li><a href="https://www.youtube.com/watch?v=gkxIbihwfEc">In depth explanation of how Green LN works</a> (YT video)</li>
+<li>Download links: <a href="https://play.google.com/store/apps/details?id=com.greenaddress.greenbits_android_wallet">Google Play Store</a> | <a href="https://apps.apple.com/us/app/green-bitcoin-wallet/id1402243590">Apple Store</a> | <a href="https://f-droid.org/en/packages/com.greenaddress.greenbits_android_wallet">F-Droid</a> | <a href="https://github.com/Blockstream/green_qt/releases">Github repo</a></li>
+<li><a href="https://t.me/blockstream_green">Telegram Support</a></li>
+<li><a href="https://help.blockstream.com/hc/en-us/articles/18788578831897">What are funding fees when receiving on my Instant lightning account?</a></li>
+<li><a href="https://help.blockstream.com/hc/en-us/articles/23020279153177-How-does-the-shortcut-to-my-lightning-account-work-and-how-do-I-create-it-">How does the shortcut to my lightning account work?</a></li>
+<li><a href="https://darthcoin.substack.com/p/lightning-wallets-comparison">Lightning Wallets Comparison Guide</a></li>
+<hr style="height:2px">
+<blockquote>
+<h3>DISCLAIMER</h3>
+<p>I am not paid by Blockstream or any other team/company. I just support for free their open-source solutions with guides. We MUST help each others if we want to go forward with Bitcoin adoption. They write code, I write guides.</p>
+<p>I am writing guides and documentations, translations for many other Bitcoin solutions, for free. My life is dedicated to Bitcoin as a whole, as a way forward for a better world.</p>
+<p><a href="https://darthcoin.substack.com/p/what-you-did-for-bitcoin">Don’t ask what Bitcoin did for you, ask what YOU did for Bitcoin!</a></p>
+</blockquote>
+</body>
+</html>
+</article>
