@@ -1,0 +1,136 @@
+---
+layout: default
+title: Zeus LN Node - Advanced Usage
+---
+<article>
+<!DOCTYPE html>
+<html lang="en">
+<body>
+<h3>How to use Zeus embedded LN node, opening channels, SHTF situations, migration to another devices, high fees environment, stuck opening channels, force closed channels, funds recovery.</h3>
+<p><a href="https://darth-coin.github.io/wallets/getting-started-zeus-wallet-en.html">In the previous guide</a>, I wrote a presentation of new Zeus embedded LN node but being too large I couldn't add also these advanced steps for using it.</p>
+<p>This guide is for advanced users and only for the SHTF cases, after you consult also with <a href="https://t.me/zeusLN">Zeus chat support</a>. The guide was created after I put myself in the situation of a user, using Zeus embedded LN node and doing deliberately some mistakes, to find out solutions to fix the situations. This was reckless testing on mainnet !</p>
+<p>I write this guide so YOU WILL NOT DO THESE MISTAKES or avoid them. I already spent a lot of sats in fees and force closing channels doing all these tests.</p>
+<p>The guide contain 3 different scenarios:</p>
+<ul>
+<li><a href="#getting-started">Getting started with opening channels</a></li>
+<li><a href="#migrate">Migrate your Zeus embedded node to another device</a></li>
+<li><a href="#broken-device">Old device is dead, database is broken, Zeus node is not starting</li>
+</ul>
+<p>Maybe in the future we will have available the option to export / import the whole Zeus node data, without the need to close the LN channels, but right now is not possible this full recovery. I’ve tested this option but is more complicated (using Android adb tools with some CLI commands) and require some changes in Zeus code.</p>
+<p><img src="/assets/images/zeus-1.jpg" class="center"></p>
+<h2 id="getting-started">A - Getting started with opening channels</h2>
+<p>This is a general procedure, used as a regular method to obtain inbound and outbound liquidity for your new Zeus LN node. Many new users do not get it from the start so I will try to explain it step by step.</p>
+<p>It is recommended also to read <a href="https://bitcoin.design/guide/how-it-works/liquidity/">this important guide about LN liquidity.</a></p>
+<p>Thanks to Renè Pickhardt, here is a shot video explaining how channels routing and liquidity works:</p>
+<video width="640" height="320" controls>
+  <source src="/assets/media/ln-explained.mp4" type="video/mp4" class="center">
+</video>
+<ol>
+<li>Install the latest Zeus version, strongly recommend to use <a href="https://github.com/ImranR98/Obtainium/releases">Obtainium</a> and NOT from the app store. <a href="https://darth-coin.github.io/beginner/bitcoiners-mobile-device-en.html">Please read this guide</a> if you still considering to use an iPhone.</li>
+<li>Create a new Zeus embedded node in your new device</li>
+<li>Wait for it to fully sync. Go to Settings → Node Info and see if is synced to chain and synced to graph.</li>
+<li>At this stage, I recommend to prepare your Zeus node properly:</li>
+<ul>
+<li><p>Set good neutrino peers. Test the default ones to see the ping response. Depending on your location, some of them will have a long time response. If the ping is higher than 150-200ms, you better remove it from the list and add good ones. <a href="https://bitnodes.io/nodes/?q=NODE_COMPACT_FILTERS">Here is a list with worldwide neutrino peers</a>. Make your own list based on the ping and select the option to use only peers from list, not random.</p>
+    <p>For US users, the default btcd.lnolymp.us should work fine.</p>
+    <p>For EU users, node.blixtwallet.com should have a good ping.</p>
+    <p>Or use your own Bitcoin node if you run one. <a href="https://docs.lightning.engineering/lightning-network-tools/lnd/enable-neutrino-mode-in-bitcoin-core">You just have to activate Neutrino</a> in your node and open the port 8333 in your router. No worry, nothing is leaked from your node, you are only delivering block filters to your Zeus. If you want you can share your neutrino node IP with other friends that are using Zeus too.</p>
+</li>
+<li>Put Zeus in persistent mode. Go to Settings - Embedded - Advanced - select “persistent mode”. When you will start opening channels this option is very useful, because it will maintain the LND service alive and even if you close the app, the service is still running in background and will keep alive the connections.</li>
+<li>Activate EGS (express graph sync) and also activate reset EGS at startup. This could make a bit slow Zeus to start but you always have a fresh updated graph sync.</li>
+<li>Activate LSP, Default is https://0conf.lnolymp.us</li>
+<li>In the same screen, activate simple taproot channels. Later will be useful.</li>
+</ul>
+<li>Go to Settings → Invoice - click on top right option icon and select “Taproot type of address”. By default is segwit. Taproot is only optional if you want to open Simple Taproot Channels.</li>
+<li>Go to main screen, swipe to the right the onchain tab and click on receive. It will generate a new Taproot address.</li>
+<li>Let’s consider that you do not have any other funds in other LN wallets, only from onchain sources. Send to that address all the sats you want to use for opening channels. Put a decent fee, not too low and wait to have 6 confirmations.</li>
+<li>Once you have the funds confirmed, open your first channel to a well known node, LSP. Do not open with random unknown nodes, choose a good one, <a href="https://github.com/ZeusLN/zeus/discussions/2265">for example one from this list.</a></li>
+<li>Do not use all your funds ! Always leave an UTXO of like 50-100k for the anchors reserve. In case the mempool fees will increase drastically is better to have a reserve UTXO to be able to push the fees.</li>
+</ol>
+<h3>OPTION A - You need first more inbound liquidity</h3>
+<p>This is the option in case you want to use Zeus more for receiving (especially if you use LN Address zeuspay.com) so you will start with an “empty” channel or you can choose also how much you want to have as outbound liquidity.</p>
+<p>For this we can use the <a href="https://lsps1.olympusln.com/">new LSP Olympus service to buy channels</a>.</p>
+<p><img src="/assets/images/zeus-buy-channels.png" class="center"></p>
+<p>You can pay them over onchain or LN, with funds from the same Zeus wallet or any other wallet where you have funds. Then once is paid, Olympus LSP will open a channel towards your Zeus nodeID (see in Zeus Settings - Node ID) with the amounts you choose. Once you hit “Create Order” you can choose also if you want a private or public channel. For Zeus embedded nodes is better to stay on private.</p>
+<p>If this is your first channel and your Zeus never connected to Olympus, you should add first the <a href="https://mempool.space/lightning/node/031b301307574bbe9b9ac7b79cbe1700e31e544513eae0b5d7497483083f99e581">Olympus node as LN peer</a>.</p>
+<p>Go to “Channels” screen and hit the “+” button from top right corner. It will open the modal screen to open a new channel. Now, click on the top button to switch to “Connect Peer” (see below image).</p>
+<p><img src="/assets/images/zeus-peer-olympus.jpg" class="center"></p>
+<p>You can hit the button “peer to Olympus” or scan the QR code of <a href="https://mempool.space/lightning/node/031b301307574bbe9b9ac7b79cbe1700e31e544513eae0b5d7497483083f99e581">Olympus node</a> from any LN Explorer, to add its node pubkey into the form. Click connect peer and then go to finish the channel purchasing process.</p>
+<p>During this process, is better to keep your Zeus online using the persistent LND mode (see in Settings - Embedded - Advanced settings).</p>
+<p>Finish the purchasing channel process and done! In few moment your channel will be ready to receive. If you fill up that channel, you can always swap out from it like 50-80% using an external swap to onchain or moving to other temporary LN wallets until you need back that liquidity.</p>
+<h3>OPTION B - Advanced opening channels</h3>
+<p>Opening channels procedure. Let's consider that you will use 2.1M sats and you already moved them all to the new Zeus. And with these 2M sats you want to open 3 channels: <a href="https://mempool.space/lightning/node/031b301307574bbe9b9ac7b79cbe1700e31e544513eae0b5d7497483083f99e581">Olympus</a>, <a href="https://mempool.space/lightning/node/0230a5bca558e6741460c13dd34e636da28e52afd91cf93db87ed1b0392a7466eb">Blixt</a>, <a href="https://megalithic.me/">Megalithic LSP</a>.</p>
+<ol>
+<li>We start to open a 1M channel to Blixt node, or any other good node you want. I choose Blixt because I know is a LND node and also is supporting Simple Taproot Channels. You can set that in the opening channel screen, in “Advanced options”.</li>
+<li>Wait for the channel to confirm and also to have the new UTXO ready (6 conf).</li>
+<li><p>Swap out like (50%) 500k to <a href="https://www.blink.sv/">Blink</a> / <a href="https://getalby.com/">Alby</a> / <a href="https://coinos.io/">CoinOS</a> / <a href="https://www.walletano.com/">Walletano</a> / <a href="https://lifpay.me/">Lifpay</a> / <a href="https://t.me/satsmobiBot">Sats.Mobi</a> / <a href="https://www.walletofsatoshi.com/">Wallet of Satoshi</a> / a friend LNbits / BTCpay instance or LNDHUB account or whatever other simple custodial (non-KYC) temporary LN account.</p>
+    <p>Why a custodial for this phase? Because it’s easier and faster, without bothering with channels liquidity, swaps etc, you just need a temporary repository.</p>
+    <p>It could be in small batches or all at once, but must be all into same destination. The idea is to reuse part of the sats from already opened channels to open a new channel with Olympus LSP.</p>
+</li>
+<li>Now, with the rest of 1M sats you still have in your Zeus onchain wallet, open another channel to Voltage or any other good node that accept private channels, <a href="https://github.com/ZeusLN/zeus/discussions/2265">see examples here</a>.</li>
+<li>Repeat the step from point 13, until you will have almost 1M sats in a temporary LN custodial account (or any other LN wallet you have).</li>
+<li><p>Once you got around 1M sats into the temporary LN account, open 1M channel with Olympus LSP.</p>
+    <p>How to do that? Simply, hit the receive button from Zeus main screen and put 1M sats. It will appear a message on top, that “this transaction will use the LSP and will incur some fees” (around 10k sats).</p>
+</li>
+<li>Pay that generated invoice from your temporary LN custodial account. It will be paid to Olympus LSP and the LSP will open a channel towards your Zeus node, pushing all the sats into your side. Will deduct the fee from the total amount you've sent, but also will give you a plus of 100k inbound liquidity, so your channel will be in total 1,1M sats with 990k sats on your side, ready to be spend.</li>
+</ol>
+<p>Now you have 3 nice channels, one with 1M outbound liquidity, 2 with 500k inbound and outbound liquidity. So you are ready for sending and receiving.</p>
+<p><strong>Why 3 channels with different peers?</strong></p>
+<ul>
+<li>you want reliability, if one peer goes offline or have issues or high fees you can always use alternative routes.</li>
+<li>you can use MPP (multi-part payment), that means your payment can be sent (using the option MPP in the payment screen), through multiple channels, with smaller parts. This could help if the route couldn’t not find a path with enough large liquidity and could take with smaller parts.</li>
+<li>MPP is also good for more privacy in a payment.</li>
+<li>If one channel get almost depleted, you can still have the other two alternatives.</li>
+</ul>
+<p><strong>Do the channels backup !</strong></p>
+<p>Now is time to make a full backup of your node. Every time you open or close a channel is recommended to do a full backup.</p>
+<p><em>Go to Settings - Embedded node - Disaster recovery.</em></p>
+<ul>
+<li>be sure the automatic backups are enabled</li>
+<li>do also an export of the data into clipboard. This will create a special encrypted string. Copy it into an external file and keep it safe. This is your LN channels backup that could be used later to recover your funds from LN channels.</li>
+<li>do also the backup to Olympus server. That will keep a copy of this string to the LSP server. It also can be used to recover in case you lost your personal file.</li>
+</ul>
+<p>Done. Additionally if you want some more inbound in your new Olympus channel, just move out into the temporary LN accounts or any other <a href="https://stacker.news/items/163372">external swap services</a> (swapping out into your own onchain addresses), with the amount you expect to receive through this channel. For example if you use the LN Address provided by Zeus (zeuspay.com) you will need some inbound liquidity into this channel with Olympus.</p>
+<hr style="height:2px">
+<p><img src="/assets/images/zeus-ungovernable.jpg" class="center"></p>
+<h2 id="migrate">B - Migrate Zeus LN node to a new device</h2>
+<p>This procedure will require closing old channels.</p>
+<p>If you still have your old device and Zeus working well but you want to migrate to another new device it is much better to start fresh, with a new nodeID, new set of keys. Also for less stress in the process of closing channels, small UTXOs, lots of bloated txs history that could load up your wallet.</p>
+<ul>
+<li>Save your Zeus node seed
+<li><a href="https://docs.zeusln.app/for-users/embedded-node/backup-and-recovery#can-i-recover-my-zeus-onchain-wallet-into-other-wallet-applications">Use this procedure to import your LND aezeed from old Zeus into Sparrow</a></li>
+<li>Coop close all your channels in Zeus and wait until are all confirmed, you will see also the txs into Sparrow</li>
+<li>Uninstall Zeus from the old device.</li>
+<li>Follow all the steps from previous scenario “Getting started with opening channels”. With sending the funds from the old Zeus (now imported in Sparrow) to the new Zeus node.</li>
+</ul>
+<p>Done, you’ve migrated your old Zeus node into a new device, with a new nodeID.</p>
+<hr style="height:2px">
+<p><img src="/assets/images/zeus-2.jpg" class="center"></p>
+<h2 id="broken-device">C - Old device or node is dead</h2>
+<p>Let's say you had some problems with syncing, channels got force closed, database corrupted, app not responding correctly etc. Shit can happen all the time and in some situations is better to start over, clean, fresh. In any case, before doing these steps, consult with the devs and more experienced users in the <a href="https://t.me/zeusLN">Zeus Telegram group</a>. In order to be sure that nothing else can be done, is better to have a second opinion for a correct diagnostic of your problems.</p>
+<p>We suppose you already have backup the seed and the channels backup string. We suppose that you cannot coop close the existing channels, database is corrupted or the device is dead, app cannot be open or function properly anymore.</p>
+<p>So uninstall Zeus, completely and install it fresh, new, latest version.</p>
+<ol>
+<li>Open Zeus and in the screen of creating a new node, but select RESTORE.</li>
+<li>Insert your 24 words seed and also paste the backup channels string.</li>
+<li>Wait patiently to fully sync and do the recovery process ! It will take several minutes.</li>
+<li>Try to keep the app alive as much as you can, at least in the initial phase of closing the channels. In this moment you cannot activate the persistent mode because it will require to restart the app and you do not want that to happen in the recovery process. In the future versions this persistent mode will be ON by default for the recovery process.</li>
+<li>Optional you can go and set better neutrino peers, that do not require to restart, but could help with keeping alive the sync with good peers. See previous scenario A point 7.</li>
+<li>Go to Channels screen (from main screen, bottom right icon) and switch the central button to "closed / pending” channels. You will see there in few moments that was initiated the force closure of the old channels. Optional you can monitor their closing in <a href="https://mempool.space/">mempool.space</a> using the closing txid.</li>
+<li>In case the channels were closed with a low fee (this could happen sometimes, due to high fees fluctuation and the LND fee estimator didn’t take the right one), you can import your old Zeus seed into Sparrow (<a href="https://docs.zeusln.app/for-users/embedded-node/backup-and-recovery#can-i-recover-my-zeus-onchain-wallet-into-other-wallet-applications">see here the instructions</a>) and from Sparrow you bump the fee with CPFP (Child Pay For Parent). Otherwise just wait patiently for channels to be closed. IT COULD TAKE TIME ! Don't freak out, is normal. If there were pending HTLC from previous channels, it could take even 144 blocks or more.</li>
+<li><p>DISASTER CASE - DO NOT DO RBF ON PENDING OPENING CHANNELS!</p>
+    <p>In case you got a zombie channel, that cannot be opened or closed normally from node UI, you will have to proceed with using the <a href="https://node-recovery.com/">LND chantools</a>. Please read carefully all the scenarios presented in that guide and choose the one that is appropriate for your case.</p>
+    <p>How I end up testing a disaster case? <a href="https://github.com/ZeusLN/zeus/discussions/2174">Read here</a> so you can avoid my mistakes.</p>
+    <p>Here are the most common used cases:</p>
+    <ul>
+    <li><a href="https://github.com/lightningnetwork/lnd/discussions/8208">Recovering a channel that by mistake you did an RBF instead of CPFP</a></li>
+    <li><a href="https://github.com/lightninglabs/chantools/blob/master/doc/zombierecovery.md">Recovering a zombie channel</a></li>
+    </ul>
+<li>Once you have all channels closed and funds back to onchain wallet (also checking in Sparrow that all funds are confirmed) you can uninstall Zeus and start fresh, proceeding with the instructions from the previous scenario A “Getting started with opening channels”. Is much better to start with new set of keys and nodeID, database etc.</li>
+</ol>
+<hr style="height:2px">
+<h3>Zeus Resources Links:</h3>
+<p><a hyref="https://zeusln.com/">Website</a> | <a href="https://docs.zeusln.app/">Docs</a> | <a href="https://github.com/ZeusLN/zeus">Github</a> | <a href="https://github.com/ZeusLN/zeus/releases">Releases</a> | <a href="https://t.me/zeusLN">Telegram</a> | <a href="https://nostr.at/npub1xnf02f60r9v0e5kty33a404dm79zr7z2eepyrk5gsq3m7pwvsz2sazlpr5">NOSTR</a> | <a href="https://x.com/ZeusLN">Twix</a> | <a href="https://blog.zeusln.com/">Blog</a></p>
+</body>
+</html>
+</article>
