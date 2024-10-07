@@ -1,0 +1,119 @@
+---
+layout: default
+title: Bluewallet - connect to LN funding sources
+---
+<article>
+<!DOCTYPE html>
+<html lang="en">
+<body>
+<h3>How to use Bluewallet with many different lndhub accounts sources and activate embedded LN node (LDK).</h3>
+<blockquote>
+<p style="color:Tomato;"><em>This article was posted and <a href="https://mempool.space/tx/27fc9f50844667ef38fd5648d7198722b55bdc41e19966cdd63563469749c340">registered OP_RETURN</a> at block height <a href="https://mempool.space/block/00000000000000000003384de72ac0c8b2bc6ac2cbd1d7a21045b3d4c9538ad3">#778230</a></em></p>
+<p style="color:Tomato;"><em>Updated 07 Oct 2024</em></p>
+</blockquote>
+<p>On Feb 23, 2023, <a href="https://bluewallet.io/sunsetting-lndhub/">Bluewallet Team announced</a> that will shut down their custodial LNDHUB server (lndhub.io).</p>
+<p>I saw that many users didn’t paid attention to the text of that announcement and freaked out, like the world will end… Too much noise for nothing.</p>
+<h4>What does it mean for regular Bluewallet (BW) users?</h4>
+<ul>
+<li>Not too much. Yes, is affecting directly only those that are using exclusively the lndhub.io as funding source for their BW LN wallets.</li>
+<li>BW app it DOESN’T SHUT DOWN (as many freaked out), the app still can be used as usual, it have nothing to do with the lndhub.io.</li>
+<li>IF you use that lndhub.io in your BW app, you will have to move the funds out to another LN wallet, until April 30. Otherwise you will lose them. Lndhub.io was just a funding source for regular BW users that do NOT run their own node with a lndhub server. That’s all.</li>
+<li>If you didn’t redeem your sats from that lndhub account, <a href="https://bluewallet.io/docs/recover-lndhub/">you still have chance following the instructions from this Bluewallet post</a>.</li>
+</ul>
+<p><img src="/assets/images/bluewallet-intro.png" class="center"></p>
+<h3>What options do you have as a Bluewallet user?</h3>
+<p>We have four categories here:</p>
+<ul>
+<li>the ones that do not run / have a LN node (easy mode)</li>
+<li>the ones that run their own LN node (advanced mode)</li>
+<li>move totally to another LN wallet (extreme case)</li>
+<li>or use the new (hidden) option for LDK node in Bluewallet</li>
+</ul>
+<hr style="height:2px">
+<h2>A. Users that do not have / can’t run their own LN node</h2>
+<p>First of all: don’t freak out, you still have time to move your funds. Is not the end of the world. Now is time for you to analyze the options and think about if is the right time to start your own LN node or just continue using custodial funding sources for your LN wallet.</p>
+<p>If you still can’t run your own LN node, here are some alternatives where to move your funds from that lndhub.io account / Bluewallet server.</p>
+<p><strong>Remember:</strong> these are still custodial services! If you are OK with that, go ahead and setup your accounts. Do not keep too much funds in those accounts. Use them just enough to receive some small amounts or make small payments and then move the funds to your own wallets (onchain or LN).</p>
+<p>Is OK to use custodial services like these as long you are not hit by crazy KYC verification or run by a well known "uncle Jim". Here we have some:</p>
+<ul>
+<li><a href="https://t.me/SatsMobiBot">SatsMobi</a> - Telegram LN bot, providing rich features (LNURL, LN address, lndhub account, LN-auth, PoS, NFC cards, NIP-57 nostr zaps and many more).</li>
+<li><a href="https://getalby.com/">Alby</a> or <a href="https://darth-coin.github.io/wallets/getting-started-alby-hub-en.html">Alby Hub</a> - LN browser extension, LNURL, LN address, lndhub account, LN-auth, NIP5, NIP57 and many more features.</li>
+<li><a href="https://darthcoin.substack.com/p/getting-started-lnbits">LNbits</a> - powerful LN accounting system, providing rich features and extensions for many use cases, endless LNURL and LN addresses, LN-auth, accounts. Can be run on your own server and LN node or temporarily you can use the demo instance.</li>
+<li>BTCPay Server - powerful LN server dedicated for merchants that include a LN bank, based on a lndhub. So you can connect your Bluewallet app easily.</li>
+<li>Maybe there are other not public announced lndhub providers there, for sure. Practically anybody can run a lndhub server and provide accounts for family and friends <a href="https://darthcoin.substack.com/p/bitcoin-private-banks-over-lightning">as I described in this guide</a>.</li>
+</ul>
+<h3>Steps do to moving your funds from BW lndhub.io to another LN account</h3>
+<p>Choose one or all of above mentioned lndhub services and open an account. Is dumb easy. Each of those is providing information guides how to generate your lndhub account and link it to BW.</p>
+<h4><a href="@SatsMobiBot">SatsMobiBot</a> - use case</h4>
+<p>Go to Telegram and start the chat with @SatsMobiBot, /start, create the account linked to your Telegram account. Is better to setup first your alias in Telegram, by adding a @username.</p>
+<p>Type /link and you will get a QR code and a URL like:</p>
+<p><code>lndhub://admin:<string></string>@https://seven.gwoq.com/lndhub/ext/</code></p>
+<p>Save that information out of your Telegram, eg. a password manager like KeePass.</p>
+<p>Copy the URL or scan that QR and open now your Bluewallet. Go to create new LN wallet and paste the URL or scan the QR code provided in SatsMobiBot.</p>
+<p>Done! Save the new lndhub account, put a name as wish and start using it as a LN wallet.</p>
+<p>Now in the same imported SatsMobiBot imported LN account, create an invoice with an amount from your old BW lndhub account.</p>
+<p>Let’s say you had 100k sats in that BW lndhub.io account. You always will have to consider 1% as reserve for fees. So more chunks of 99% of the remaining balance, not all at once. In this case we will make an invoice of 99k sats in the new created lndhub account. Copy it and go to the old BW lndhub.io and paste it and pay it.</p>
+<p>So you will remain with 1k sats - fees. Make another invoice in the new lndhub account of 99% of the balance. And pay it from the old lndhub.io account. Repeat the process until you consider enough to leave some sats to the BW team as a donation for their services.</p>
+<p>Now you can remove that old LN account from your BW app and start using the new one.</p>
+<p>Remember: this SatsMobiBot also provide many other useful services like:</p>
+<ul>
+<li>LNURL / Lightning Address - username@sats.mobi or anonymous LNURL/LN address
+<li>NIP05 - NOSTR verification</li>
+<li>NIP57 - NOSTR zap address</li>
+<li>Shops, buy sats with fiat, group chat features, faucet, tipjar</li>
+<li>Scrub - withdraw sats automatically to any external address</li>
+<li>Link a NFC card</li>
+</ul>
+<h4><a href="https://getalby.com/">Alby extension</a> - use case</h4>
+<p>This one is a browser extension. So you will have to create the account from a desktop computer. Again, is a custodial service, but also offer connection to your own node if you run one.</p>
+<p>So just go to their webpage, install the browser extension, create an account and go to settings to look for the lndhub details, to be linked to your BW app.</p>
+<p>You can also use your own Alby Hub, self hosted with multiple accounts for family and friends, <a href="https://darth-coin.github.io/wallets/getting-started-alby-hub-en.html">as I described in this guide</a>.</p>
+<p><img src="/assets/images/bluewallet-alby-account.png" class="center"></p>
+<p>Scan that QR code with your BW app (creating a new LN account) and done, you can use it as any other LN wallet.</p>
+<p>Keep in mind, with this account you can login with LN-auth, use it in NOSTR as NIP-05 or tip zap address or simply as a donation page like <a href="https://getalby.com/p/darthcoin">https://getalby.com/darthcoin</a>.</p>
+<h4>LNbits - use case</h4>
+<p>LNbits is a powerful suite software that can be run on top of a LN node. If you want to use it just as a temporary funding LN source, you can use the public demo server <a href="https://demo.lnbits.com">https://demo.lnbits.com</a>.</p>
+<p>Remember: this is just a demo custodial server! Please don’t abuse it! Is OK to move your funds there for a certain time, but not consider it as your main funding source. Later just move out your funds from there to your own LN wallets or onchain wallets. You can even use the LNbits extension Boltz or Deezy to swap your funds to any onchain address or use the Scrub extension to automatically forward the received funds to a self custody LN node / address.</p>
+<p>If you use the demo or any other public hosted LNbits instance, you can export your lndhub account, by going to the lndhub extension and scan or copy paste the lndhub URL into your Bluewallet app as a new LN account.</p>
+<p>Same, you can do the steps explained in the previous point about LightningTipBot.</p>
+<p>Optionally you can run your own LNbits instance, even without running a LN node but choosing an external funding source (<a href="https://github.com/lnbits/lnbits/wiki/LNbits-Documentation#funding-sources">see the LNbits documentation</a>).</p>
+<p>You can create a free account on LNpay.co or Alby for example and link it as a funding source for your LNbits self-hosted instance. You can even use the SatsMobiBot as funding source for your LNbits instance. That means you will use those servers liquidity for your own LNbits instance! Is quite insane but is working amazingly as of temporary solution. But the best and easy one is to use a Phoenixd node as a funding source. Works very easy to setup and no need for liquidity management.</p>
+<hr style="height:2px">
+<h2>B. Users that have their own LN node</h2>
+<p>If you are in this category, here are the options you have:</p>
+<ul>
+<li>install the BW lndhub repository on your own LN node. Umbrel, myNode, Citadel already have this built in, you just have to install it from their app store. Then connect to your own lndhub server and create endless lndhub accounts (hosted) into your Bluewallet apps. <a href="https://darthcoin.substack.com/p/umbrel-lndhub-bluewallet">Here I wrote a guide about this</a>.</li>
+<li>install the <a href="https://github.com/BlueWallet/LndHub">lndhub libraries from BW team Github</a>. Then provide to yourself and/or to your family and friends several lndhub accounts that can be used in the Bluewallet app.</li>
+<li>Other methods using LNbits on your node., <a href="https://darthcoin.substack.com/p/umbrel-node-lnbits">here is a guide</a>. This option is also described in <a href="https://darthcoin.substack.com/p/bitcoin-private-banks-over-lightning">my other guide about being a LN bank</a> for your community. This is one of the best options because in this way you are helping more people around you and also offer good LN services to your family members and friends, in a more private way to use LN.</li>
+<li>Use Lightning Accounts from Lightning terminal, if you run a LND node. <a href="https://docs.lightning.engineering/lightning-network-tools/lightning-terminal/accounts">Here is the documentation</a>.</li>
+</ul>
+<hr style="height:2px">
+<h2>C. Move to another LN wallet app</h2>
+<p>Yes, this is the simple one. But if you are a new LN user, moving to another new LN wallet app sometimes is frustrating, until you learn it.</p>
+<p>Don’t worry, is nothing wrong to move away from Bluewallet app, if you really want to make the next step to a more advanced level.</p>
+<p>Making this move, means you want to go for a more self-custody solution and that is always welcomed in the Bitcoin space. More self-custody means more sovereignty, means more financial freedom.</p>
+<p>What options do you have?</p>
+<ul>
+<li><a href="https://darthcoin.substack.com/p/private-lightning-nodes">Mobile non-custodial LN nodes: important guide here, about private nodes</a>.</li>
+<li>More LN wallets, choose wisely from <a href="https://darth-coin.github.io/wallets/lightning-wallets-comparison-en.html">this comparison guide</a> or follow this <a href="https://darth-coin.github.io/beginner/getting-started-stack-sats-en.html">another guide for starters</a>.</li>
+</ul>
+<p>Remember: Do not choose a LN wallet app just because somebody else “recommended” you. Choose the wallet app that suits better your use case, your habits, your amount of spending over LN etc.</p>
+<p>Anybody that “recommend” a wallet app it doesn’t know you or your particular case of using LN, or simply want to shill a particular app.</p>
+<p>NEVER use only one LN wallet app, always use at least 2-3 to have a load balancing and backup. Spread your LN stash through some of them and be ready to use them anytime.</p>
+<hr style="height:2px">
+<h2>D. Activate the hidden LDK node in Bluewallet</h2>
+<p>Yes, you hear it very well, Bluewallet have now an integrated LDK node as Lightning wallet. And this is good.</p>
+<p>But remember, is still in beta so proceed with caution. How to activate it?</p>
+<p><img src="/assets/images/bluewallet-ldk-node.jpg" class="center"></p>
+<p>Tap the "+" to Add Wallet, then tap the Lightning button 10 times.</p>
+<p>Voila, you can then create a wallet via LDK.</p>
+<p>Save the seed words in a safe place and now you can start opening channels, with Bluewallet LSP node. To do that, click on “funding wallet” button and select any onchain wallet you already have configured in your Bluewallet that have funds enough to open a LN channel. You should keep that onchain wallet always linked with your LDK node, do not remove it from your Bluewallet app. In case of closure of a channel, the funds will come back to that onchain wallet that was funding the channel.</p>
+<p>Done, now you can use your Bluewallet LDK as any other regular LN wallet, in a more self-custody mode.</p>
+<hr style="height:2px">
+<h2>CONCLUSION</h2>
+<p>As you can see, the world is not ending just because BW team announced that their custodial lndhub server end to provide some custodial LN liquidity for noob users.</p>
+<p>This is Lightning Network world, in continuous changing and improving.</p>
+<p>I see this shut down as a good thing for BTC/LN world. That will make more people think and be prepared to run their own LN nodes, own lndhub servers and provide more semi-custodial-trusted services for their community.</p>
+<p>Please DO NOT FREAK OUT! Is a good thing that this happen.</p>
+<p>The whole Bitcoin power stays in SELF CUSTODY. So learn how to do that.</p>
+<p>I really hope this guide will give you more insight and determination to run your own LN node and provide these kind of services for your own family and friends that are not so skilled with this technology. Please help them. This is the future.</p>
