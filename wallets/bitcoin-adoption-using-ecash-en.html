@@ -1,0 +1,133 @@
+---
+layout: default
+title: Bitcoin adoption using Ecash
+---
+<article>
+<!DOCTYPE html>
+<html lang="en">
+<body>
+<h3>A use case scenario for Ecash over Bitcoin LN, using Cashu mints. How we can bring more Bitcoin adoption to people that can't afford to start with an UTXO.</h3>
+<p>Lately I was talking with a lot of people asking me questions about how to start with Bitcoin, but the easy way, from zero level and with very limited resources (money, knowledge, infrastructure).</p>
+<p>I even wrote a dedicated guide for them <a href="/beginner/getting-started-stack-sats-en.html">“Stacking Sats - The noobs journey”</a> explaining how to start from low level with basic custodial wallet apps and climb slowly the ladder, towards the self-custody apps. But is not enough. Some people even that “journey” they find it hard to do it.</p>
+<p>This guide is NOT for those noobs, but for all those “Uncle Jim”s out there, willing to help for more adoption of Bitcoin. And this time will explain a use case how to onboard those noobs, using Ecash with Cashu mints, over Lightning Network (LN).</p>
+<p>Let’s be clear: Ecash is NOT replacing LN (as I heard others saying)! Ecash is just an additional protocol that can communicate with LN.</p>
+<p>In a previous guide I also explained how these “Uncle Jim”s could run <a href="https://darthcoin.substack.com/p/bitcoin-private-banks-over-lightning">“Private banks over Lightning Network”</a> and what infrastructure they need. So this guide will be an extension of that previous one, with focus on using Cashu mints.</p>
+<p><img src="/assets/images/bitcoin-coins.jpg" class="center"></p>
+<h2>WHAT IS ECASH CASHU MINTS ?</h2>
+<blockquote>
+<p style="color:Tomato;"><em>Cashu is a free and open-source Chaumian ecash system built for Bitcoin. Cashu offers near-perfect privacy for users of custodial Bitcoin applications. Nobody needs to knows who you are, how much funds you have, and with whom you transact.</em></p>
+<p style="color:Tomato;"><em>Cashu is a new ecash protocol for custodial Bitcoin applications that is tightly integrated into the Lightning network. An Ecash system consists of two parts, the mint and the ecash wallet. Ecash transactions are untraceable, instant, and require no fees. Cashu is built for Bitcoin. Wallets use the mint's Lightning node for making or receiving Bitcoin payments in exchange for ecash.</em></p>
+<p style="color:Tomato;"><em>A Cashu mint does not know who you are, what your balance is, or who you're transacting with. Users of a mint can exchange ecash privately without anyone being able to know who the involved parties are. Bitcoin payments are executed without anyone able to censor specific users.</em></p>
+<p style="color:Tomato;">Source - <a href="https://docs.cashu.space/">Cashu.space</a></p>
+<p style="color:Tomato;"><a href="https://nuts-and-bolts.gandlaf.com/">How Ecash works slides</a> - by Gandlaf (very nice and clear animated slides)</p>
+</blockquote>
+<p>So in more simple terms, consider ecash Cashu as digital gift cards, with additional privacy and cryptographic proof of (sats) reserves.</p>
+<p>Think about that these tokens are like smaller parts (coins) minted from a bigger reserve of bitcoin. Who is minting these tokens is the banker and this banker is distributing them among his customers.</p>
+<p>But keep in mind: THE BANKER IS HAVING THE CUSTODY OF THE SATS! So in order to use these mints, the user still have to put some trust in the minter (banker). The banker cannot create more sats (fractional reserve) than he have in custody, but still can shut down the mint and users cannot redeem their sats anymore.</p>
+<p>So the rug-pull danger still exist! So be aware, do not leave all your life savings in these mints and also use only trusted mints.</p>
+<p>That’s why in this guide, we will talk about a scenario where “the banker” and the users are from a local community, where they have a certain trust between each others.</p>
+<h3>WHY WOULD USE SUCH THING AS ECASH?</h3>
+<p>The situation with Bitcoin (BTC) and Lightning Network (LN) right now, is not favorable with onboarding billions of people, that are not well prepared and this situation will get more complicated until we could find more practical and easier solutions.</p>
+<p>Yes, some old bitcoiners will not see any advantage of using this ecash, other than adding some more privacy on top of the existing LN protocol. Those that have already a lot of liquidity in LN channels and various UTXOs in cold storage, this use case will not bring them too many advantages, except if they want to use ecash as a form of coinjoin their income sources. But that is another story.</p>
+<p>But for many new Bitcoin users is quite hard to get started with a UTXO directly onchain and from there running sophisticated LN nodes, public or even private nodes. Managing LN liquidity is not so easy for many new users. Yes, they can use a large number of custodial LN wallets / accounts, but those also still could leak a lot of personal information and easily be shut down or limiting access to users funds.</p>
+<h4>Some important aspects to consider:</h4>
+<ul>
+<li>Using Ecash is NOT the ultimate way of using Bitcoin ! Keep in mind that this is more suitable to onboard new users, until they get comfortable and more knowledgeable. Yes, using ecash day to day payments is very useful and cheap, but please DO NOT keep all your sats into a Cashu wallet!</li>
+<li>Between users of the same mint, there are NO FEES. You can send back and forth sats under the same mint, without going to use LN or onchain, remember you are just exchanging IOU digital signatures. This could be a huge advantage for members of local communities, transacting each others.</li>
+<li>Users can pay any other LN wallet (out of the mint), directly from their ecash wallets, but that will be a regular LN payment and will involve the regular LN fees.</li>
+<li>User can redeem the sats out of the mint, ANYTIME, to any of his other LN wallet. But that redeem will involve some fees as a regular LN payment. This redeem will reduce the amount of sats that the banker will have into his “bank” (node). So as a node runner you will have to maintain a good liquidity and enough balance on both sides (inbound and outbound).</li>
+<li>User can make swaps between multiple mints (banks) but also that will involve some fees over LN. Swaps are actually LN payments between two nodes or two mints. Even that the mints are from the same LN node, it could involve fees.</li>
+<li>The “banker” could earn sats from regular LN routing, when the users are cashing out to other of their regular LN wallets. In your LNbits you could also set a fee to be charged for the users wallets (including the mints).</li>
+<li>Ecash mint is ALWAYS custodial ! Once the users start depositing sats into the mint, those sats literally sits into “banker’s” node channels.</li>
+<li>If the banker delete the mint, users cannot redeem anymore their sats.</li>
+<li>If the user lose their backup from their ecash wallets, nobody can redeem those tokens anymore, not even the banker knows how much each user can have. So please make your backups! Each app offer this option.</li>
+<li>The banker will NEVER know who is paying who and also cannot see exactly how much tokens were spent between users. This is very good for privacy. Here is a Ecash Workshop presented by Supertestnet, explaining all these aspects.</li>
+</ul>
+<iframe width="696" height="392" src="https://www.youtube.com/embed/xfYmwc-gnK8" title="Cashu workshop" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<hr style="height:2px">
+<h2>USE CASE SCENARIO</h2>
+<h3>LOCAL COMMUNITY MERCHANT</h3>
+<p>Let’s consider a local grocery store owner that want to help his customers to start using Bitcoin for their shopping:</p>
+<ul>
+<li>S/he still have to pay his suppliers with fiat currency, until also these ones will start accepting BTC.</li>
+<li>the customers DO NOT HAVE ANY SATS but are willing to start using or even stacking some.</li>
+<li>the shop owner is willing to offer discounts to people that are using BTC in his shop</li>
+<li>the shop owner knows what is going to do, this is a serious task and require good knowledge about Bitcoin, LN, liquidity, managing nodes etc. S/He will be the local “banker” that also will have the duty to educate his customers how to use this solution based on Bitcoin and Cashu ecash.</li>
+</ul>
+<h3>STEPS TO DO AS THE “BANKER”</h3>
+<ol>
+<li>Read and learn how ecash mints are working. Test before use. Start here:</li>
+<ul>
+<li><a href="https://cashu.space/">https://cashu.space/</a> | <a href="https://docs.cashu.space/">https://docs.cashu.space/</a></li>
+<li>LNbits - <a href="https://lnbits.com/">Webpage</a> | <a href="https://github.com/lnbits/lnbits">Github</a> | <a href="https://github.com/lnbits/lnbits/wiki">Documentation</a> | <a href="https://saas.lnbits.com/">SaaS instance</a> - easy to create and manage Cashu mints (I wrote several guides about LNbits, with several use cases).</li>
+<li>Wallets - <a href="https://www.enuts.cash/">eNuts</a> | <a href="https://www.minibits.cash/">Minibits</a> | <a href="https://wallet.cashu.me/">Cashu.me</a> | <a href="https://wallet.nutstash.app/">Nutstash.app</a> | <a href="https://docs.cashu.space/wallets">More…</a></li>
+<li>Tutorial <a href="https://cashu.how/">Cashu.how</a></li>
+</ul>
+<li>Run a good public LN node, with good liquidity and maintenance. This is a serious task, do not ignore the maintenance aspect, you are a banker now. I wrote several guides about running routing nodes, please read them:</li>
+<ul>
+<li><a href="https://darthcoin.substack.com/p/what-bitcoin-ln-node-software-can">What software could I run for a LN node?</a></li>
+<li><a href="https://darthcoin.substack.com/p/managing-lightning-node-liquidity">Managing Lightning Node Liquidity</a></li>
+<li><a href="https://darthcoin.substack.com/p/lightning-node-maintenance">Lightning Node Maintenance</a></li>
+<li><a href="https://darthcoin.substack.com/p/bitcoin-private-banks-over-lightning">Private banks over the Lightning Network</a></li>
+<li><a href="https://darthcoin.substack.com/p/recommendations-for-ln-users">Recommendations for LN users</a></li>
+<li><a href="https://darthcoin.substack.com/p/lightning-routing-fees-experiment">Lightning Routing Fees Experiment</a></li>
+<li><a href="https://darthcoin.substack.com/p/umbrel-bitcoin-ln-node">Getting started with Umbrel as LN node</a></li>
+<li><a href="https://darthcoin.substack.com/p/lightning-network-submarine-swaps">Lightning Network Submarine Swaps</a></li>
+<li>and many more… on my substack and github page</li>
+</ul>
+<li>
+<p>On top of your LN node, install LNbits. A powerful apps suite with many extensions useful for a merchant and for the customers. In LNbits, you can start creating the Cashu mints, practically you could create various “banks”. With just 2 clicks and selecting a LNbits wallet dedicated for the mint, you can have a “bank” Cashu mint that will manage all the tokens.</p>
+<p><img src="/assets/images/ecash-mint.png" class="center"></p>
+<p>As you can see, I could use a very descriptive name, that will appear in the user wallet as name of the mint (bank).</p>
+<p><img src="/assets/images/ecash-mint-lnbits-ext.png" class="center"></p>
+<p>You can have various mints, with various destinations, use cases, and assigned to specific LNbits wallets.</p>
+<p>Please, remember these are only for testing and demo, DO NOT use them as a regular ecash mint !</p>
+<p>Install and run Cashu wallets to familiarize with using ecash and mints. By scanning the QR code displayed for each bank you can open it in Minibits or eNuts apps or just in browser with Cashu.me or Nutstash.app.</p>
+</li>
+<li>
+<p>Create some tokens in your mints (banks). Just by depositing (from any LN wallet) let’s say 100.000 sats into a mint, you will create the same amount of ecash tokens.</p>
+<p>!!! Keep in mind that if you want to share / distribute those ecash tokens to other users, you must have imported your mint link into one of those wallets. Each import in a different wallet app will have its own mint amount, but could communicate with other users under the same mint, WITH NO FEES.</p>
+<p><img src="/assets/images/ecash-scenario.jpg" class="center"></p>
+<p>This could be a scheme for a scenario where the banker created 3 different mints, for different destinations. It could be just one or many others, is up to you how you organize them.</p>
+<p>So, as a “banker”, open your mint into one of those wallets. It will be EMPTY, no tokens. By depositing let’s say 10.000 sats to the mint, it will create 10k tokens, ready to be distributed among your customers.</p>
+</li>
+<li>
+<p>Make an announcement among your shop customers. They could buy with their fiat currency, the amount of ecash desired, directly from you.</p>
+<p>How?</p>
+<p>They will have to install the Minibits or eNuts wallet apps into their devices and you will just be able to send them directly the ecash tokens from your own Minibits / eNuts / Cashu.me wallet where you start “minting” those new tokens.</p>
+<p>Now they can start transacting with those new ecash tokens, in your shop or between each others, or even send them to any other LN wallet (cash out).</p>
+</li>
+<li>
+<p>If the user spend all his tokens bought from you, they have 2 options:</p>
+<ul>
+<li>buy more tokens with fiat currency from you (the banker)</li>
+<li>just deposit sats from any other LN wallet into his Cashu wallet, using your mint or any other mint. If they choose the same mint of yours, could transact again free fee in your shop.</li>
+</ul>
+</li>
+<li>
+<p>You could incentivize your customers to buy from you the tokens offering them a good discount in your shop and a good rate price for fiat/BTC. Practically if you buy more BTC from the market, then you sell them to your customers as ecash, you will get back your sats when they come back and spend them in the shop. Exactly like regular gift cards.</p>
+<p>Then you use that fiat currency to buy more BTC and pay your suppliers. Everybody is happy.</p>
+</li>
+</ol>
+<p>With LNbits is also possible to create physical NFC cards, pre-loaded with sats, using the extension BoltCards. As a banker you can sell these are gift cards and your customers will come into your shop to use them.</p>
+<p>Here is an example of how kids are using NFC cards pre-loaded with sats and pay for groceries in a shop in Brazil. <a href="https://darthcoin.substack.com/p/bitcoin-lightning-irl-examples">See more examples here.</a></p>
+<video width="320" height="640" controls>
+  <source src="/assets/media/lnbits-pay-nfc.mp4" type="video/mp4">
+</video>
+<h3>STEPS TO DO AS THE MINT USER</h3>
+<p>As the user you don’t have to do too much:</p>
+<ul>
+<li>install one of those Cashu wallets - Minibits | eNuts or both…</li>
+<li>save your backup information in a safe place</li>
+<li>receive or redeem the ecash tokens from your local minter (banker)</li>
+<li>start transacting with your tokens or redeem them into any of your self-custody wallets in case you accumulated too much.</li>
+</ul>
+<p>In each app you can also see each mint details (if you use multiple mints), make backups, swaps between mints and more technical details about the tokens.</p>
+<p>The swaps between mints also could be a very nice and easy form of coinjoin…</p>
+<p><img src="/assets/images/ecash-wallets.jpg" class="center"></p>
+<p>Here is also a very good video tutorial of how to use Minibits wallet by BTC Sessions:</p>
+<iframe width="728" height="410" src="https://www.youtube.com/embed/igJF8ccMnbQ" title="Minibits BTC Wallet: Near Perfect Privacy and Low Fees - FULL TUTORIAL" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<h3>CONCLUSION</h3>
+<p>As you can see, this could be another way to onboard more people into using Bitcoin, without even knowing all the technical details behind the UTXO, nodes, liquidity, channels, routing fees etc. For many all these aspects will be a hassle and they will just not want to start using Bitcoin.</p>
+<p>But with simple solutions, as ecash, NFC cards, “uncle Jim” local banks could be a start for all these simple users.</p>
+<p>Later, once they learn more about Bitcoin, they can move their sats into more self-custody wallets and hold safely large quantities of sats.</p>
