@@ -1,0 +1,313 @@
+---
+layout: default
+title: Introducción a Zeus Mobile LN Node
+---
+<article>
+<!DOCTYPE html>
+<html lang="es">
+<body>
+<h3>Una guía paso a paso sobre cómo comenzar a utilizar un potente nodo LND en su dispositivo móvil con el nodo integrado Zeus LN.</h3>
+<blockquote>
+<p><em>Actualizado el 11 de octubre de 2024</em></p>
+<p style="color:Tomato;"><em>Esta guía es una celebración de los 5 años de existencia de la aplicación Zeus LN, <a href="https://github.com/ZeusLN/zeus/releases/tag/v0.0.1">su primer lanzamiento v0.0.1 fue el 19 de febrero de 2019</a>, 5 años de mejoras continuas y dedicación a la aplicación FOSS de autocustodia para bitcoiners. Un viaje increíble para una aplicación móvil muy poderosa, que merece su lugar en la cima de los desarrolladores de Bitcoin. Podría decir que no eres un verdadero bitcoiner si no tienes instalado Zeus en tu dispositivo móvil. ¡Gracias a Evan Kaloudis!</em></p>
+</blockquote>
+<p>Dedico esta guía a todos aquellos nuevos usuarios de Lightning Network (LN) que quieran comenzar un nuevo viaje soberano utilizando una billetera de nodo de autocustodia en sus dispositivos móviles.</p>
+<p>Consideremos que ya pasaste por toda esa plétora de billeteras de LN de custodia, pero aún no estás listo para comenzar a ejecutar un nodo de enrutamiento PÚBLICO de LN, solo quieres acumular más sats sobre LN de una manera más "self-custodial" y hacer tus pagos regulares sobre LN./<p>
+<p><img src="/assets/images/zeus-intro-logo.jpg" class="center"></p>
+<p>Aquí viene Zeus, comenzando con la <a href="https://blog.zeusln.com/new-release-zeus-v0-8-0/">versión v0.8.0 anunciada en su blog</a>, que ahora ofrece un nodo LND integrado en la aplicación. Hasta ahora Zeus era una aplicación de gestión de nodos remotos + cuentas LNDhub. Pero ahora… ¡el nodo está en el teléfono!</p>
+<p>Si quieres ver más detalles sobre la gestión remota de nodos Zeus, empieza con este excelente <a href="https://www.youtube.com/watch?v=hmmehTnV3ys">videotutorial de BTC Sessions</a>.</p>
+<p><img src="/assets/images/zeus-node-lagarde.jpg" class="center"></p>
+<h3>Resumen rápido de las características principales de Zeus Node:</h3>
+<ul>
+<li><strong style="color:Tomato;">Nodo LND privado</strong>: esto significa que este nodo NO enrutará públicamente los pagos de otros a través de su nodo. El nodo y los canales no se anuncian (son privados, no son visibles en el gráfico LN público). Para recibir y realizar pagos, se utilizarán los pares LSP conectados. RECUERDE: ¡El nodo Zeus Embedded NO enrutará públicamente!</li>
+<li><strong style="color:Tomato;">Servicio LND persistente</strong>: el usuario puede activar esta función y mantener el servicio LND activo de forma continua como cualquier nodo LN normal. La aplicación no tiene que estar abierta, el servicio persistente mantendrá toda la comunicación en línea.</li>
+<li><strong style="color:Tomato;">Filtros de bloques Neutrino</strong>: la sincronización de bloques se realiza mediante <a href="https://bitcoinops.org/en/topics/compact-block-filters/">filtros de bloques y el protocolo Neutrino</a> (no se proporciona información sobre los fondos en cadena de nuestros usuarios). Recordatorio: para conexiones a Internet lentas o de alta latencia, esta sincronización de bloques basada en Neutrino a veces puede fallar. Intentar cambiar a un servidor Neutrino cercano podría ayudar a restablecer la sincronización. Sin esta sincronización, su nodo LND no podría iniciarse.</li>
+<li><strong style="color:Tomato;">Canales Taproot simples</strong>: al cerrar estos canales, los usuarios incurren en menos tarifas y obtienen más privacidad, ya que parecen no tener ningún otro gasto de Taproot al examinar su huella en la cadena.</li>
+<li><strong style="color:Tomato;">LSP integrado</strong>: Olympus es el nuevo nodo LSP para Zeus. Los usuarios pueden recibir satélites a través de LN de inmediato, sin haber configurado previamente los canales de LN. Simplemente tendrán que crear una factura de LN y pagar desde cualquier otra billetera de LN, con el servicio de canal Zeus 0-conf. Lea más sobre Zeus LSP aquí. El LSP también proporciona mayor privacidad a nuestros usuarios al proporcionarles facturas envueltas que ocultan las claves públicas de sus nodos a los pagadores.</li>
+<li><strong style="color:Tomato;">Libro de contactos</strong>: puede guardar contactos manualmente o importarlos desde NOSTR para enviar pagos fácilmente a sus destinos habituales.</li>
+<li><strong style="color:Tomato;">Compatibilidad total con LNURL, envío y recepción de direcciones LN</strong>: ahora puede configurar su propia dirección LN de autocustodia con @zeuspay.com. Recordatorio: también puede usar Zeus para autenticación LN en sitios donde puede iniciar sesión con una autenticación LN. Es muy útil.</li>
+<li><strong style="color:Tomato;">Punto de venta</strong>: ahora los usuarios comerciantes pueden configurar sus propios artículos de productos y vender directamente desde Zeus, con PoS integrado. Por el momento, contiene las necesidades básicas, pero en el futuro incluirá funciones ampliadas.</li>
+<li><strong style="color:Tomato;">Registros de LND</strong>: el usuario puede leer en tiempo real los registros de servicio de LND y usarlos para depurar posibles problemas (principalmente para conexiones defectuosas).</li>
+<li><strong style="color:Tomato;">Copias de seguridad automáticas</strong>: los canales del nodo LN se respaldan automáticamente en el servidor Olympus. Esta copia de seguridad automática se cifra con la semilla de la billetera de su nodo (sin la semilla es totalmente inútil). El usuario también puede exportar manualmente una copia de seguridad de canales estáticos (SCB) para una recuperación ante desastres.</li>
+</ul>
+<hr style="height:2px">
+<h3>Cómo empezar a utilizar el nodo Zeus LN (LND integrado)</h3>
+<p><img src="/assets/images/zeus-laser-eyes.gif" class="center"></p>
+<p>En esta guía hablaré solo sobre el nodo LND integrado, y no sobre las otras formas de usar esta magnífica aplicación (gestión remota de nodos y cuentas LNDhub). Para los otros tipos de conexiones, consulte la <a href="https://docs.zeusln.app/category/getting-started">página de documentación de Zeus</a>, que está muy bien explicada y no es necesario escribir una guía dedicada.</p>
+<h2>PASO 1 - CONFIGURACIÓN INICIAL</h2>
+<p>Debido a que Zeus es un nodo LND completo, tendré algunas recomendaciones iniciales:</p>
+<ul>
+<li>No utilices un dispositivo antiguo, ya que podría afectar el uso de esta potente aplicación. Especialmente en el período de sincronización, la aplicación podría utilizar intensivamente la CPU y la RAM. La falta de estos podría incluso hacer imposible el uso de la aplicación Zeus.</li>
+<li>Utiliza al menos Android 11 como sistema operativo móvil y actualiza tanto como sea posible. Para iOS lo mismo, intenta utilizar una versión mucho más alta del sistema operativo.</li>
+<li>Necesitarás al menos 1 GB de espacio en disco para el almacenamiento de datos. Con el tiempo podría crecer más, pero hay una funcionalidad para compactar la base de datos a un nivel de MB.</li>
+<li>NO es necesario utilizar Zeus con el servicio Tor u Orbot. No compliques las cosas más de lo necesario. Tor en este caso no te ofrecerá más privacidad, sino que solo empeorará las cosas para la sincronización inicial. También ten cuidado con los VPN que estás usando y comprueba la latencia de la conexión hacia los servidores de neutrinos. Ten en cuenta que el filtro de bloques de neutrinos no filtra ni rastrea la identidad de tu dispositivo, solo sirve bloques. El tráfico de LN también está detrás de un LSP con canales privados, por lo que hay muy poca información disponible, no hay razón para preocuparse por la privacidad.</li>
+<li>Ten paciencia con la sincronización inicial, puede tardar varios minutos. Intenta estar conectado a una conexión a Internet de banda ancha con buena latencia. Si ejecutas tu propio nodo de Bitcoin, <a href="https://docs.lightning.engineering/lightning-network-tools/lnd/enable-neutrino-mode-in-bitcoin-core">puedes activar el servicio de neutrinos</a> y conectar tu Zeus a tu propio nodo, incluso usando la LAN interna, para que tengas una velocidad máxima.</li>
+</ul>
+<p>Una vez que configure el tipo de conexión "Nodo integrado", la aplicación comenzará a sincronizarse por un tiempo. Espere pacientemente a que finalice esa parte y luego ingrese a la página principal de Configuración.</p>
+<p><img src="/assets/images/zeus-main-settings.jpg" class="center"></p>
+<p>Brevemente, analicemos cada una de las secciones de Configuración y comprendamos algunas de las características principales, antes de comenzar a usar Zeus:</p>
+<h2>CONFIGURACIÓN</h2>
+<p>Esta es una sección con configuraciones generales para toda la aplicación</p>
+<h3>1 - Proveedor de servicios Lightning (LSP)</h3>
+<p>Aquí se presentan dos servicios LSP:</p>
+<ul>
+<li><em style="color:Tomato;">Canales Just in time</em>: cuando no tienes ningún canal abierto o liquidez entrante disponible, si el servicio está activado, abrirá un canal sobre la marcha para ti. Esta opción se puede desactivar si no quieres abrir más canales de este tipo.</li>
+<li><em style="color:Tomato;">Solicitar canales por adelantado</em>: puedes comprar canales entrantes desde el LSP de Olympus directamente en la aplicación con múltiples opciones y montos (para entrantes y salientes).</li>
+</ul>
+<p>El LSP ayuda a conectar a los usuarios a la red Lightning abriendo canales de pago a sus nodos. <a href="https://medium.com/breez-technology/envisioning-lsps-in-the-lightning-economy-832b45871992">Lea más sobre LSP aquí</a>. ZEUS tiene un nuevo LSP integrado llamado <a href="https://mempool.space/lightning/node/031b301307574bbe9b9ac7b79cbe1700e31e544513eae0b5d7497483083f99e581">OLYMPUS by ZEUS</a>, que está disponible para todos los usuarios que utilicen el nuevo nodo integrado.</p>
+<p>En esta sección, por defecto está el LSP de Olympus (https://0conf.lnolymp.us), pero pronto también podrás configurar otro LSP de 0conf que soporte este protocolo.</p>
+<blockquote>
+<p style="color:Tomato;"><em>Keep in mind:</em></p>
+<ul>
+<li style="color:Tomato;"><em>Cuando abres un canal con Olympus LSP usando las facturas LN envueltas, ¡también obtienes una liquidez entrante de 100k! Esta es una muy buena opción en caso de que necesites recibir más sats de inmediato.</em></li>
+<li style="color:Tomato;"><em>Ejemplo: depositas 400k sats para abrir un canal LSP, luego el LSP abre un canal con capacidad de 500k sats hacia tu nodo Zeus y empuja los 400k sats que depositas hacia tu lado.</em></li>
+<li style="color:Tomato;"><em>“Liquidez entrante” = más “espacio” en tu canal para recibir.</em></li>
+</ul>
+</blockquote>
+<p>En el futuro esperamos poder tener muchos otros LSP que puedan integrarse en Zeus y utilizarlos alternativamente. Es solo cuestión de tiempo hasta que los nuevos LSP adopten un estándar abierto para este tipo de canales 0conf.</p>
+<p>Si no desea abrir nuevos canales "sobre la marcha", puede desactivar esta opción.</p>
+<p>En esta misma sección, también tiene la opción de elegir "solicitar canales de raíz simple" cuando el LSP abra un canal hacia su nodo Zeus. Estos canales de raíz simple ofrecen una mejor privacidad en la cadena y tarifas más bajas al cerrar el canal. Solo hay dos razones por las que no querría usarlos:</p>
+<ul>
+<li>Son nuevos y aún puede haber errores en LND al usarlos.</li>
+<li>Su contraparte no los admite. Por ahora, incluso los nodos LND deben optar explícitamente por ellos.</li>
+</ul>
+<h3>2 - Configuración de pagos</h3>
+<p>Esta función le ofrecerá la forma de establecer sus propias tarifas preferidas para los pagos, en LN o en cadena. También le brindará la opción de aumentar o disminuir el tiempo de espera para sus facturas.</p>
+<p>Si algunos de sus pagos de LN fallan, puede aumentar la tarifa para encontrar una mejor ruta. Además, si está realizando transacciones en cadena, puede configurar una tarifa específica para que su transacción no termine estancada en el mempool durante mucho tiempo, en caso de un período de tarifas altas.</p>
+<h3>3 - Configuración de facturas</h3>
+<p>En esta sección hay algunas opciones para generar facturas:</p>
+<ul>
+<li>Establezca una nota estándar para que se muestre en la factura que genere</li>
+<li>Tiempo de vencimiento en segundos, en caso de que desee un tiempo específico, más largo o más corto para que se pague su factura</li>
+<li>Incluya sugerencias de ruta: proporcione información para encontrar canales no publicitados o privados. Esto permite el enrutamiento de pagos a nodos que no son visibles públicamente en la red. Una sugerencia de enrutamiento proporciona una ruta parcial entre el nodo privado del receptor y un nodo público. Esta sugerencia de enrutamiento se incluye luego en la factura generada por el receptor y se proporciona al pagador. Sugiero habilitarla de manera predeterminada; de lo contrario, los pagos entrantes podrían fallar (no se encuentra ninguna ruta).</li>
+<li>Factura AMP: los pagos multiruta atómicos son un nuevo tipo de pagos Lightning implementados por LND que permiten recibir sats sin una factura específica, utilizando <a href="https://docs.lightning.engineering/lightning-network-tools/lnd/send-messages-with-keysend">keysend</a>. Es prácticamente un código de pago estático. <a href="https://docs.lightning.engineering/lightning-network-tools/lnd/amp">Lea más aquí</a>.</li>
+<li>Mostrar campo de preimagen personalizado: use esta opción solo en casos muy específicos cuando realmente desee usar campos personalizados en la preimagen. <a href="https://bitcoin.stackexchange.com/questions/90797/how-can-i-generate-preimage-for-lightning-network-invoice-should-i">Lea más aquí</a>.</li>
+</ul>
+<p>Otra opción en esta sección es cómo configurar el tipo de dirección onchain que desea utilizar: segwit nested, segwit, taproot.</p>
+<p><img src="/assets/images/zeus-invoice-set-type-address.jpg" class="center"></p>
+<p>Haga clic en el botón de la rueda superior y aparecerá una pantalla emergente para elegir el tipo de dirección deseado. Una vez que lo configure, la próxima vez que presione el botón de recepción para onchain, se generará el tipo de dirección seleccionado. Puede cambiarlo en cualquier momento.</p>
+<h3>4 - Configuración de canales</h3>
+<p>En esta sección, puede preconfigurar algunas funciones de apertura de canales como:</p>
+<ul>
+<li>Número de confirmaciones</li>
+<li>Anunciar canal (por defecto está desactivado), lo que significa que serán canales no anunciados</li>
+<li>Canales Taproot Simples</li>
+<li>Mostrar botón de compra de canal</li>
+</ul>
+<h3>5 - Configuración de privacidad</h3>
+<p>Aquí encontrarás algunas configuraciones básicas para agregar más privacidad al usar la aplicación Zeus:</p>
+<ul>
+<li>Bloquear el explorador para abrir detalles de transacciones (mempool.space, blockstream.info o uno personalizado)</li>
+<li>Leer portapapeles: activa o desactiva la opción si quieres que Zeus lea el portapapeles de tu dispositivo</li>
+<li>Modo de acecho: activa o desactiva la opción si quieres ocultar información confidencial específica de tu aplicación Zeus. Es una buena opción cuando haces demostraciones o capturas de pantalla.</li>
+<li>Sugerencia de tarifa de mempool: activa esta opción si quieres usar los niveles de tarifa recomendados de <a href="https://mempool.space/">mempool.space</a></li>
+</ul>
+<h3>6 - Seguridad</h3>
+<p>Esta sección tiene solo dos opciones para proteger la aplicación al abrirla: establecer una contraseña o un PIN.</p>
+<p>Una vez que establezca un PIN para abrir la aplicación, también podrá establecer un "PIN de coacción". Este PIN secreto adicional se usará SOLO en caso de una situación de coacción, si se encuentra amenazado. Si ingresa este PIN, la configuración se BORRARÁ por completo. Por lo tanto, es mejor que mantenga actualizadas sus copias de seguridad. Las copias de seguridad automáticas están ACTIVADAS de manera predeterminada, pero es bueno tener también sus propias copias de seguridad fuera del dispositivo.</p>
+<h3>7 - Moneda</h3>
+<p>Habilite o deshabilite la opción para mostrar una conversión de moneda fiduciaria en el uso de la aplicación Zeus. Actualmente, es compatible con más de 30 monedas fiduciarias de todo el mundo.</p>
+<h3>8 - Idioma</h3>
+<p>Puedes cambiar entre varios idiomas de traducción, revisados ??por la comunidad de Zeus con hablantes nativos.</ul>
+<h3>9 - Pantalla</h3>
+<p>En esta sección puedes personalizar la pantalla de Zeus, seleccionando varios temas de color, pantalla predeterminada (teclado o balanza), mostrar tu alias de nodo, activar botones grandes del teclado, mostrar más decimales.</p>
+<h3>10 - Punto de venta</h3>
+<p>Esta es una función especial para habilitar o deshabilitar un sistema PoS integrado en Zeus. Puedes ejecutar un PoS independiente o vinculado a un sistema PoS de Square. Actualmente, es compatible con las funcionalidades básicas de un PoS, pero es suficiente para un buen comienzo y podría ayudar a los pequeños comerciantes (bares/restaurantes, tiendas de comestibles) a comenzar a aceptar BTC de forma nativa.</p>
+<p>Dentro de esta configuración, encontrarás varias opciones para configurar tu PoS:</p>
+<ul>
+<li>Tipo de pago de confirmación: solo LN, 0-conf, 1-conf</li>
+<li>Habilitar/deshabilitar propinas para empleados que operan el PoS</li>
+<li>Mostrar/ocultar teclado</li>
+<li>Porcentaje de impuesto a aplicar en el ticket</li>
+<li>Crear productos y categorías de productos</li>
+<li>Un listado simple de todas las ventas</li>
+</ul>
+<p>Aquí hay un video de demostración en vivo sobre cómo utilizar Zeus PoS:</p>
+<center>
+<video width="320" height="640" controls>
+  <source src="/assets/media/zeus-pos.mp4" type="video/mp4">
+</video>
+</center>
+<h2>B - Respaldo de Monedero</h2>
+<p>El nodo integrado en ZEUS se basa en LND y utiliza el <a href="https://github.com/lightningnetwork/lnd/blob/master/aezeed/README.md">formato de semilla de aezeed</a>. Este es diferente del <a href="https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki">formato BIP39</a> típico que se ve en la mayoría de los monederos de Bitcoin, aunque puede parecer similar. Aezeed incluye algunos datos adicionales, incluida la fecha de nacimiento del monedero, que ayudarán a que los nuevos escaneos durante la recuperación se realicen de manera más eficiente.</p>
+<p>El formato de clave de aezeed debería ser compatible con los siguientes monederos móviles: Blixt, BlueWallet y Breez. Tenga en cuenta que la semilla por sí sola no será suficiente para recuperar todos sus saldos si tiene canales abiertos o pendientes de cerrar.</p>
+<p>Obtenga más información sobre el proceso de copia de seguridad y restauración en la <a href="https://docs.zeusln.app/for-users/embedded-node/backup-and-recovery">página de documentación de Zeus</a>.</p>
+<p>CONSEJO DE ALIMENTACIÓN: Cuando guarde su semilla, guarde también la clave pública del nodo. A veces es bueno tenerla a mano, junto con su semilla y SCB (copia de seguridad de canales estáticos) en caso de que necesite verificar la recuperación.</p>
+<p>SCB es necesario solo si tiene canales LN abiertos. En caso de que solo tengas fondos en cadena, no es necesario.</p>
+<p>Si ves que después de un largo tiempo aún no se muestran las transacciones del historial anterior, ve a Nodo integrado - Peers y desactiva la opción para usar la lista de peers seleccionados (por defecto es btcd.lnolymp.us). Eso activará un reinicio y se conectará al primer nodo neutrino disponible con un mejor tiempo de respuesta. O usa los otros peers neutrino conocidos que se mencionan a continuación.</p>
+<p>Si quieres ver más opciones de recuperación para un nodo LND, <a href="https://darthcoin.substack.com/p/umbrel-btcln-node-shtf-scenario">lee mi guía anterior</a>, donde puedes encontrar los pasos para importar una semilla aezeed a la billetera Sparrow u otros métodos.</p> 
+<h2>C - Nodo integrado</h2>
+<p>En esta sección, encontraremos algunas herramientas básicas para administrar el nodo integrado:</p>
+<ol>
+<li><em style="color:Tomato;">Recuperación ante desastres</em>: copias de seguridad automáticas y manuales para los canales de LN. Lea más sobre cómo usar esta función en la página de documentación de Zeus.</li>
+<li><em style="color:Tomato;">Sincronización de Gráficos Express</em>: la aplicación Zeus descargará el gráfico de datos de chismes de LN desde un servidor dedicado, para una sincronización más rápida y mejor, ofreciendo las mejores rutas de pago. También puede elegir borrar los datos del gráfico anterior al inicio.</li>
+<li><em style="color:Tomato;">Peers</em>: sección para administrar los peers de neutrino y los peers 0-conf. Si tiene problemas con la sincronización inicial, los canales no se conectan, es porque su dispositivo tiene una latencia alta con el peer de neutrino configurado. Intente cambiar la lista de pares preferidos o agregue un par específico que sepa que tiene mejor latencia para la sincronización. Los servidores de neutrinos más conocidos son:</li>
+<ul>
+<li>btcd1.lnolymp.us | btcd2.lnolymp.us - para la región de EE.UU.</li>
+<li>btcd-mainnet.lightning.computer - para la región de EE.UU.</li>
+<li>uswest.blixtwallet.com (Seattle) - para la región de EE.UU.</li>
+<li>europe.blixtwallet.com (Alemania) - para la región de la UE</li>
+<li>asia.blixtwallet.com - para la región de Asia</li>
+<li>node.eldamar.icu - para la región de EE. UU.</li>
+<li>noad.sathoarder.com - para la región de EE. UU.</li>
+<li>bb1.breez.technology | bb2.breez.technology - para la región de EE.UU.</li>
+</ul>
+<li><em style="color:Tomato;">Registros de LND</em>: herramienta muy útil para depurar los problemas de su nodo de LN y controlar en profundidad lo que está sucediendo a un nivel más técnico.</li>
+<li><em style="color:Tomato;">Configuración avanzada</em>: más herramientas para controlar el uso de su nodo de LND:</li>
+<ul>
+<li><em style="color:Tomato;">Modo de búsqueda de ruta</em>: bimodal o a priori, formas de encontrar una mejor ruta para sus pagos de LN y también restablecer la información de ruta anterior. Lea estas excelentes guías sobre la búsqueda de rutas: <a href="https://docs.lightning.engineering/lightning-network-tools/lnd/pathfinding">Búsqueda de rutas</a>, de Docs Lightning Engineering y <a href="https://voltage.cloud/blog/lightning-network-faq/understanding-payment-pathfinding-between-nodes-on-lightning-network/">Búsqueda de rutas de pago de LN</a>, de Voltage</li>
+<li><em style="color:Tomato;">LND persistente</em>: active este modo si desea que el servicio LND se ejecute continuamente en segundo plano y mantenga su nodo en línea las 24 horas del día, los 7 días de la semana. Esto es muy útil si usa Zeus como PoS en una tienda pequeña o si recibe muchas propinas de LN a través de la dirección de LN.</li>
+<li><em style="color:Tomato;">Volver a escanear la billetera</em>: esta opción activará al reiniciar un escaneo completo de todas las transacciones en cadena de su billetera. Actívala solo en caso de que te falten algunas transacciones en tu billetera. La tarea de volver a escanear llevará tiempo, varios minutos, así que ten paciencia y siempre revisa los registros para ver más detalles sobre el progreso.</li>
+<li><em style="color:Tomato;">Compactar base de datos</em>: esta opción es muy útil si tu aplicación Zeus ocupa mucho espacio en el dispositivo (consulta los detalles de la aplicación en la configuración de tu dispositivo). Si tienes mucha actividad con Zeus, te recomendaría hacer esta compactación con más frecuencia. Una vez que veas que tienes más de 1-1.5 GB de datos para la aplicación Zeus, realiza la compactación. Se reiniciará y llevará algo de tiempo, así que ten paciencia.</li>
+<li><em style="color:Tomato;">Eliminar archivos Neutrino</em>: esta opción para eliminar los archivos Neutrino (con un reinicio) reducirá mucho el uso de almacenamiento de datos. Reducir el uso de datos también tiene un gran impacto en el uso de la batería, especialmente si usas Zeus en modo persistente.</li>
+</ul>
+</ol>
+<h2>D - Información del nodo</h2>
+<p>En esta sección, encontrará más detalles sobre el estado de su nodo Zeus como:</p>
+<ul>
+<li>Alias: ID de nodo corto</li>
+<li>Clave pública: la clave pública completa de su nodo que se requiere para que otros nodos encuentren esa ruta hacia su nodo. Recuerde que esta clave pública NO es visible en los exploradores LN habituales (Mempool, Amboss, 1ML, etc.). Esta clave pública SÓLO es accesible a través de sus pares y canales LN conectados.</li>
+<li>Versión de implementación de LN</li>
+<li>Versión de la aplicación Zeus</li>
+<li>Estado sincronizado con la cadena y sincronizado con el gráfico: muy importantes, ya que muestran el estado correcto de su nodo. Si estos dos no se muestran como "verdaderos", significa que su nodo aún se está sincronizando o tiene algunos problemas de sincronización. Por lo tanto, se sugiere que consultes los registros de LND o esperes un poco más.</li>
+<li>Altura de bloque y hash: muestra el último bloque y hash que tu nodo vio y sincronizó.</li>
+</ul>
+<h2>E - Información de la red</h2>
+<p>Esta sección muestra más detalles sobre el estado general de la red Lightning, extraídos de los datos de sincronización de gráficos: cantidad de canales públicos disponibles, cantidad de nodos, cantidad de canales zombis (fuera de línea o inactivos), diámetro del gráfico, grado de salida promedio y máximo del gráfico.</p>
+<p>Estos datos de información pueden ser útiles para depurar o simplemente usarse para estadísticas.</p>
+<h2>F - Lightning Address</h2>
+<p>En esta sección, el usuario puede configurar su propia dirección LN de autocustodia @zeuspay.com.</p>
+<p>EUS PAY aprovecha los hashes de preimagen generados por el usuario, las facturas de retención y el esquema de certificación Zaplocker Nostr para permitir que los usuarios que no estén en línea las 24 horas del día, los 7 días de la semana, reciban pagos en una dirección Lightning estática. Los usuarios solo deben iniciar sesión en sus billeteras ZEUS dentro de las 24 horas para reclamar los pagos; de lo contrario, se devolverán al remitente.</p>
+<p>Si activa el "modo persistente", todos los pagos a su dirección LN se recibirán instantáneamente.</p>
+<p>Obtenga más información sobre cómo funcionan los pagos de <a href="https://github.com/supertestnet/zaplocker#how-it-works">Zaplocker</a> y más sobre las <a href="https://docs.zeusln.app/lightning-address/fees">tarifas de ZeusPay aquí</a>.</p>
+<h2>G - Direcciones en cadena</h2>
+<p>En esta sección puedes consultar las direcciones en cadena que generaste para un mejor control de las monedas</p>
+<h2>H - Contactos</h2>
+<p>En Zeus v 0.8.0 se introdujo una nueva libreta de contactos que puedes usar para enviar pagos rápidamente a tus amigos y familiares, y también con la capacidad de importar tus contactos desde Nostr.</p>
+<p>Simplemente ingresa tu dirección npub o NIP-05 legible por humanos de Nostr y ZEUS consultará a Nostr todos tus contactos. Desde allí, puedes enviar un pago rápido a un contacto o importar todos o algunos contactos a tu libreta de contactos local./<
+<p>Aquí hay un video corto sobre cómo configurar y usar tus contactos de Zeus:</p>
+<center>
+<video width="320" height="640" controls>
+  <source src="/assets/media/zeus-contacts.mp4" type="video/mp4">
+</video>
+</center>
+<h2>I - Herramientas</h2>
+<p>Aquí tenemos varias subsecciones con más herramientas:</p>
+<ol>
+<li><em style="color:Tomato;">Cuentas</em>: aquí puede importar cuentas/carteras externas, carteras frías, carteras calientes, para controlar o usar como fuente de financiación externa para sus canales de nodos Zeus. Esta función aún es experimental.</li>
+<li>
+<p><em style="color:Tomato;">Acelerar transacciones</em>: esta función puede ser útil cuando tiene una transacción atascada en el mempool y desea aumentar la tarifa. Deberá proporcionar la salida de la transacción desde los detalles de la transacción y seleccionar la nueva tarifa que desea utilizar. Debe ser mayor que la anterior y requiere que tengas más fondos disponibles en tu billetera en cadena.</p>
+<p><img src="/assets/images/zeus-fees-bump.jpg" class="center"></p>
+<p>Tienes que ir a tu transacción pendiente y copiar el punto de salida txID. Luego, ve a esta sección y pégalo, luego selecciona la nueva tarifa que quieres usar para aumentarla. Aparecerá una nueva pantalla con las tarifas recomendadas en ese momento, o puedes configurar una personalizada. Recuerda que DEBE ser mayor que la anterior.</p>
+<p>Siempre es mejor mantener una UTXO con un máximo de 100k sats en tu billetera en cadena Zeus, para poder usarla para aumentar las tarifas cuando sea necesario.</p>
+</li>
+<li><em style="color:Tomato;">Firmar o verificar</em>: con esta función puedes firmar un mensaje específico con las claves de tu billetera. También se puede utilizar para verificar un mensaje y demostrar que proviene de una billetera específica.</li>
+<li><em style="color:Tomato;">Conversor de divisas</em>: una herramienta sencilla para calcular la tasa de conversión entre BTC y otras monedas fiduciarias.</li>
+<h2>J - Merchandising y soporte</h2>
+<p>Aquí encontrarás más información y enlaces sobre Zeus, tienda en línea, patrocinadores, redes sociales.</p>
+<h2>K - Ayuda</h2>
+<p>En esta última sección encontrarás enlaces a la página de documentación de Zeus, problemas de Github (si quieres publicar un error o una solicitud directamente a los desarrolladores de la aplicación), soporte por correo electrónico.</p>
+<hr style="height:2px">
+<h3>PASO 2 - COMIENZA A USAR EL NODO ZEUS</h3>
+<p>Recuerda que Zeus se usa principalmente como billetera LN, para pagos rápidos y fáciles a través de LN. Claro, también contiene una billetera onchain, pero esa debe usarse exclusivamente para abrir/cerrar canales LN y no para pagos regulares de un café.</p>
+<p>Lee mi otra guía sobre <a href="https://darth-coin.github.io/beginner/be-your-own-bank-en.html">cómo ser tu propio banco usando los 3 niveles de almacenamiento</a>.</p>
+<p>En este momento, el usuario tiene 2 formas de comenzar a usar Zeus:</p>
+<ul>
+<li>Directamente a través de LN, usando el canal 0-conf de Olympus LSP</li>
+<li>Deposita primero en la billetera onchain y luego abre un canal LN normal con el par que desees.</li>
+</ul>
+<h3>Método A: uso de Olympus LSP</h3>
+<p>Esta es una manera muy sencilla y directa de incorporar un nuevo usuario de LN a Zeus. Puede ser un usuario de bitcoin totalmente nuevo que no tenga sats, incorporado por un amigo, o un nuevo comerciante que comience con su primer pago de LN.</p>
+<p>De manera predeterminada, Zeus usará su propio LSP, Olympus. Pero más adelante también puedes cambiar a otros LSP que admitan este protocolo 0-conf para abrir canales.</p>
+<p>Con solo crear una factura en tu Zeus (pon el monto y haz clic en el botón "solicitar"), podrás recibir esos sats de inmediato.</p>
+<p>La factura que generes será <a href="https://docs.zeusln.app/lsp/wrapped-invoices">wrapped</a> y se te mostrarán las tarifas asociadas con el servicio si se pagan. Esta factura envuelta contiene sugerencias de ruta hacia tu nodo Zeus, para que el LSP pueda encontrar tu nuevo nodo y abrir un canal con los nuevos fondos que estás depositando.</p>
+<p><img src="/assets/images/zeus-wrapped-invoice.jpg" class="center"></p>
+<p>Para obtener un canal LN del LSP con los fondos que quieres recibir por primera vez, esta factura debe pagarse desde otra billetera LN y esperar unos momentos hasta que el LSP abra el canal hacia tu nodo Zeus, deducir la tarifa y enviar el monto restante del pago a tu lado del canal.</p>
+<p>Todo lo que tienes que hacer es pagar la factura generada para ti en ZEUS con otra billetera Lightning y tu canal se abrirá instantáneamente. <a href="https://docs.zeusln.app/lsp/fees">Consulta las tarifas de Zeus LSP</a>.</p>
+<p>Otro beneficio de pagar por un canal es el enrutamiento sin tarifa. Esto significa que, al enrutar los pagos, el primer salto a través de OLYMPUS by ZEUS no genera cargos por enrutamiento. Tenga en cuenta que los saltos más allá de OLYMPUS by ZEUS igualmente le cobrarán.</p>
+<p>Una vez que el canal esté listo, haga clic en el botón derecho en la parte inferior de la pantalla, que muestra los canales de Zeus.</p>
+<p><img src="/assets/images/zeus-channels-button.png" class="center"></p>
+<p>Y verá un canal como este, que muestra su lado del saldo del canal:</p>
+<p><img src="/assets/images/zeus-channels-screen.jpg" class="center"></p>
+<p>Cuanto más gaste en este canal, más liquidez entrante tendrá. Cuantos más sats recibas en este canal, menos espacio de liquidez entrante tendrás.</p>
+<p>A continuación, se muestra una demostración visual sencilla y agradable (por Rene Pickhardt) sobre cómo funcionan los canales LN:</p>
+<center>
+<video width="640" height="320" controls>
+  <source src="/assets/media/ln-explained.mp4" type="video/mp4">
+</video>
+</center>
+<p>En este momento, considerando la pantalla de demostración de canales, haga clic en el nombre del canal y verá más detalles al respecto.</p>
+<p>Tiene un solo canal con Olympus, con una capacidad total de 490 000 sats, con un saldo de 378k sats de su lado y 88k sats del lado de Olympus. Eso significa que podría recibir un máximo de 88k sats más en el mismo canal.</p>
+<p>Si necesita recibir más de 88k sats (la liquidez entrante disponible en este caso), digamos otros 500k sats, simplemente creando una nueva factura de LN con esa cantidad, se activará una nueva solicitud de canal al LSP de Olympus. Por lo tanto, obtendrá un segundo canal.</p>
+<p>Es por eso que, para evitar pagar más tarifas por abrir múltiples canales, se recomienda abrir por primera vez un canal más grande, digamos de 1 a 2 millones de sats. Una vez que esté abierto, puedes intercambiar parte de esos sats en la cadena, digamos el 50 %, usando cualquier servicio de intercambio externo descrito en esta guía.</p>
+<p>Una vez que hayas intercambiado desde ese canal, digamos el 50 %, y hayas recuperado los sats en tu propia billetera Zeus en la cadena, estarás listo para pasar al siguiente método de apertura de un nuevo canal: desde el saldo en la cadena.</p>
+<h3>Método B: usar tu saldo en la cadena</h3>
+<p>Con este método puedes abrir canales hacia cualquier otro nodo de LN, incluido el mismo LSP de Olympus. Pero si ya tienes un canal con Olympus, se recomienda tenerlo también con otro nodo, para mayor confiabilidad y también podrías usar MPP (pago en varias partes).</p>
+<p><img src="/assets/images/zeus-mpp.jpg" class="center"></p>
+<p>A continuación, se muestra un ejemplo de pago de una factura de LN mediante MPP. Como puedes ver en la parte inferior de la pantalla tienes “configuraciones” y se abre una página desplegable con más detalles para el pago que estás a punto de realizar. En esa pantalla, si tienes al menos 2 canales abiertos, la función MPP estará ACTIVADA de forma predeterminada. También puedes activar AMP (atómica multi-path) y configurar las partes específicas que quieras. ¡Esta es una característica poderosa!</p>
+<p>Para un nodo privado como Zeus, recomendaría tener 2-3 buenos canales (máximo 4-5), con buenos LSP y buena liquidez para cubrir todas tus necesidades de pago o recepción de sats a través de LN. <a href="https://darthcoin.substack.com/p/managing-lightning-node-liquidity">Consulta más consejos sobre liquidez de nodos de LN en esta guía</a>. También aquí hay otra <a href="https://bitcoin.design/guide/how-it-works/liquidity/">guía general sobre la liquidez de LN</a> del equipo de diseño de Bitcoin.</p>
+<p>Elegir los pares correctos, lo sé, no es una tarea fácil, incluso para usuarios experimentados. Por eso, te daré algunas opciones para comenzar, estos son nodos pares que probé yo mismo usando Zeus (traté de conectarme solo a nodos LND para evitar problemas de incompatibilidad):</p>
+<ul>
+<li><a href="https://mempool.space/lightning/node/0230a5bca558e6741460c13dd34e636da28e52afd91cf93db87ed1b0392a7466eb">Nodo Blixt</a>: 1 base/ppm dinámico | canal mínimo de 50k, buen nodo LND con muchas conexiones a muchos anillos y grandes rutas, LSP para usuarios de Blixt Wallet</li>
+<li><a href="https://lnbig.com/">LNBig</a>: tarifas dinámicas y bastante altas | sin tamaño de canal mínimo/máximo | varios nodos LND en todo el mundo | Servicios de liquidez entrante</li>
+<li><a href="https://mempool.space/lightning/node/028c589131fae8c7e2103326542d568373019b50a9eb376a139a330c8545efb79a">NERV</a>: tarifas razonables | buen nodo LND que también proporciona liquidez para los usuarios de Blixt</li>
+<li><a href="https://mempool.space/lightning/node/03c72f89b660de43fc5c77ef879cbf7846601af88befb80e436242909b14fd0495">RecklessApotheosis</a>: base 1 / ppm dinámico | tarifas automáticas con LNDg | Min 5M sats canal público, min 500k sats canal privado | Nodo híbrido LND | Contacto</li>
+</ul>
+<p>Aquí también hay una lista de pares de nodos avalados para Zeus. Si conoces algunos buenos, puedes agregarlos a esa lista.</p>
+<p>Puedes abrir un canal en Zeus yendo a la vista Canales haciendo clic en el ícono del canal en la esquina inferior derecha de la vista principal y luego presionando el ícono + en la esquina superior derecha.</p>
+<p><img src="/assets/images/zeus-open-chan-olympus.jpg" class="center"></p>
+<p>Si quieres abrir un canal con un nodo específico, haz clic en la esquina superior (A) para escanear el código QR del nodo nodeID (en Mempool, Amboss, 1ML puedes obtener ese código QR) y se completarán todos los detalles del par.</p>
+<p>RECORDATORIO</p>
+<ul>
+<li>¡Los nodos integrados de Zeus no utilizan el servicio Tor! Por lo tanto, no intente abrir canales con nodos que estén bajo Tor. Se está haciendo más daño a sí mismo que añadiendo más privacidad. Tor para LN no ofrece más privacidad, sino que añade más problemas.</li>
+<li>Elija sabiamente a sus pares, mejor que sean buenos LSP, buenos nodos de enrutamiento, no nodos de plebeyos al azar que podrían cerrar sus canales y no ofrecer una buena liquidez. <a href="https://darthcoin.substack.com/p/managing-lightning-node-liquidity">Aquí escribí una guía dedicada</a> sobre liquidez y un ejemplo de nodos.</li>
+</ul>
+<p>Si hace clic directamente en el botón "Abrir canal a Olympus", completará los campos necesarios para abrir un canal a <a href="https://mempool.space/lightning/node/031b301307574bbe9b9ac7b79cbe1700e31e544513eae0b5d7497483083f99e581">OLYMPUS de ZEUS</a>.</p>
+<p>A diferencia de los canales LSP pagos, su canal requerirá confirmación en cadena, utilizando sus fondos en cadena (puede seleccionar entre sus UTXO en la vista de canal abierto); no se abrirá instantáneamente. Por favor, consulta primero las tarifas actuales del mempool y ajústalas en consecuencia, dependiendo de qué tan rápido quieras abrir ese canal.</p>
+<p>Antes de presionar el botón para abrir el canal, desliza hacia abajo las opciones avanzadas:</p>
+<p><img src="/assets/images/zeus-chan-details.jpg" class="center"></p>
+<p>También deberás asegurarte de que el canal no esté anunciado (sea privado). De manera predeterminada, la opción está desactivada para los canales anunciados. No se recomienda activar esta opción para el nodo integrado de Zeus, es útil solo cuando usas Zeus con tu nodo remoto, como un nodo de enrutamiento público.</p>
+<p>A diferencia de los canales LSP pagos, no te beneficiarás del enrutamiento con tarifa cero al abrir canales con este método.</p>
+<p>Y listo, solo haz clic en el botón "Abrir canal", espera a que los mineros confirmen la transacción. Una vez que el canal esté abierto, puedes realizar transacciones como desees con los sats de tus canales.</p>
+<p>Ten en cuenta que estos canales tendrán todo el saldo de TU lado, por lo que no tendrás liquidez entrante. Como dije antes, intercambia o gasta algunos sats comprando cosas a través de LN para "hacer más espacio" para recibir.</p>
+<p>Piensa en tus canales de LN como un vaso de agua. Viertes un poco de agua (sats) en un vaso vacío (tu canal) hasta que lo llenas. No puedes verter más agua hasta que bebas un poco (gastando/intercambiando). Cuando el vaso esté casi vacío, vierte más agua (sats) en él utilizando un swap. <a href="https://darthcoin.substack.com/p/lightning-network-submarine-swaps">Lee más sobre los servicios de swap externos aquí</a>.</p>
+<p>También hay otros servicios de LSP que te venden canales entrantes: LNBig o Bitrefill. Creo que hay más servicios como estos, pero no los recuerdo ahora.</p>
+<p>Por lo tanto, si necesitas un canal LN prácticamente vacío (el saldo está 100 % en el lado de los pares desde el principio), para recibir más pagos de los que puedes manejar en tus canales llenos existentes, esta podría ser una muy buena opción. Pagarás una tarifa específica por abrir estos canales y obtendrás mucho espacio de entrada.</p>
+<h3>TRUCOS Y CONSEJOS</h3>
+<h3>a. Límites de reserva de entrada</h3>
+<p>En este momento, debido a algunas limitaciones del código LN, no es posible recibir exactamente la cantidad que se muestra en “Entrada”. Siempre tenga en cuenta que debe realizar sus facturas con un monto ligeramente menor, respectivamente el monto de “Reserva local del canal”.</p>
+<p><img src="/assets/images/zeus-chan-reserves.jpg" class="center"></p>
+<p>Como puede ver en la imagen de arriba, en “entrada” se muestra que aún puedo recibir 5101 sats, pero de hecho en este momento es imposible recibir más. Y puedes observar que es la misma cantidad que la "Reserva local".</p>
+<p>Así que ten en cuenta que, cuando hagas facturas para recibir, también debes echar un vistazo a la liquidez de tus canales y deducir la reserva local de esa cantidad, si quieres llevar al límite el monto por cobrar.</p>
+<h3>Consejo rápido para nuevos usuarios que comienzan con el nodo Zeus:</h3>
+<p>1. Aprovecha correctamente tus nuevos canales.</p>
+<p>Por ejemplo, si sabes que recibirás en una semana, digamos 1 millón de sats, abre un canal de 2 millones de sats y cambia a una billetera en cadena o a otra cuenta de custodia LN (temporal) el 50-60 % de tu liquidez saliente. Siempre debes estar preparado con más liquidez. Una vez que necesites más liquidez en tus canales Zeus, puedes moverla de vuelta desde las cuentas de custodia.</p>
+<p>Si sabes que enviarás, digamos, 500.000 sats por semana, abre un canal de 1 millón de sats. De esta manera, seguirás teniendo una reserva hasta que lo vuelvas a llenar.</p>
+<p>2. Si eres un comerciante y siempre recibirás más de lo que gastas regularmente, compra un canal de entrada dedicado. Es la forma más barata. Pagas una tarifa mínima y obtienes un canal "vacío".</p>
+<p>3. No abras canales pequeños y sin sentido de 50-100-300-500k sats. Los llenarás en cuestión de días, incluso si los usas solo para zaps. Abre canales más grandes y diferentes, NO solo un canal.</p>
+<p>Una vez que abras un canal más grande, siempre puedes usar swaps submarinos externos para mover sats a tus billeteras en cadena (incluso de regreso a Zeus en cadena). Mantener un equilibrio entre la liquidez entrante y saliente es bueno y también puedes "reutilizar" esos sats para abrir más canales si lo deseas.</p>
+<h3>b. Factura envuelta</h3>
+<p>Si quieres agregar más privacidad cuando recibes, puedes usar el método de "factura envuelta". Recordatorio: para poder hacer esto, necesitas un canal con Olympus LSP. Las facturas envueltas "ocultarán" el destino final (tu nodo Zeus) y mostrarán tu nodo LSP como destino al pagador.</p>
+<p>Para obtener una factura envuelta, ve a la pantalla principal del teclado, ingresa el monto y presiona solicitar. Se mostrará un código QR normal para tu factura. Ahora, haz clic en el botón “X” de la parte superior derecha y serás redirigido a más opciones para la factura.</p>
+<p><img src="/assets/images/zeus-wrapped-invoice2.jpg" class="center"></p>
+<p>Ahora tendrás que activar esa opción en la parte superior “Habilitar LSP” y presionar el botón “Crear factura”. Esa opción creará la factura envuelta y recuerda, cobrará una pequeña tarifa.</p>
+<h3>c. Pagar con Keysend</h3>
+<p>Keysend es una característica de LN muy subestimada y los usuarios deberían usarla con más frecuencia.</p>
+<p><a href="https://docs.lightning.engineering/lightning-network-tools/lnd/send-messages-with-keysend">Keysend</a> permite a los usuarios de la red Lightning enviar pagos a otros, directamente a su clave pública, siempre que su nodo tenga canales públicos y tenga habilitado el envío de claves. Keysend no requiere que el beneficiario emita una factura.</p>
+<p>Entonces, ¿cómo puede hacer eso con Zeus?</p>
+<p>Simplemente escanee o copie el ID del nodo de destino (o use los contactos de Zeus para guardar sus nodos de destino habituales como contactos) y luego, desde la pantalla principal de Zeus, haga clic en el botón "Enviar". En esa pantalla, pega el ID del nodo o selecciónalo de tus contactos.</p>
+<p>Ingresa la cantidad de sats, un mensaje si es necesario (sí, también puedes usarlo como un chat secreto a través de LN) y haz clic en el botón "Enviar". ¡Listo!</p>
+<p><img src="/assets/images/zeus-keysend.jpg" class="center"></p>
+<p>Si tienes un canal directo con el par de destino, NO habrá tarifas involucradas.</p>
+<p>Si no tienes un canal directo con el par de destino, entonces el pago de keysend pagará las tarifas como un pago de factura de LN normal, enrutado en una ruta regular como cualquier otro pago. Solo eso, recuerda, no quedará ningún rastro como factura de LN.</p>
+<hr style="height:2px">
+<p><a href="https://darthcoin.substack.com/p/zeus-node-advanced-usage">Una guía más avanzada de uso de Zeus, la escribí aquí</a>.
+<p>Y… ¡eso es todo! A partir de ahora, solo usa Zeus Node como una billetera BTC/LN normal en tu móvil. La interfaz de usuario es bastante sencilla y fácil de usar, intuitiva para cualquier tipo de usuario, no creo que tenga que entrar en más detalles sobre cómo realizar y recibir pagos.</p>
+<p>En conclusión, aquí hay un cuadro comparativo de privacidad:</p>
+<p><img src="/assets/images/privacy-chart-mobile-nodes.jpg" class="center"></p>
+<hr style="height:2px">
+<h3>Enlaces de recursos de Zeus:</h3>
+<p><a href="https://zeusln.com/">Website</a> | <a href="https://docs.zeusln.app/">Docs</a> | <a href="https://github.com/ZeusLN/zeus">Github</a> | <a href="https://github.com/ZeusLN/zeus/releases">Releases</a> | <a href="https://t.me/zeusLN">Telegram</a> | <a href="https://nostr.at/npub1xnf02f60r9v0e5kty33a404dm79zr7z2eepyrk5gsq3m7pwvsz2sazlpr5">NOSTR</a> | <a href="https://x.com/ZeusLN">Twix</a> | <a href="https://blog.zeusln.com/">Blog</a></p>
+</body>
+</html>
+</article>
