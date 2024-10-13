@@ -1,0 +1,364 @@
+---
+layout: default
+title: Empezar a utilizar Alby Hub
+---
+
+<article>
+  <!DOCTYPE html>
+  <html lang="es">
+    <body>
+      <h3>
+        Una guía simple paso a paso para instalar y usar Alby Hub + Alby Go de
+        manera autogestionada, con pocos recursos y conocimientos básicos.
+      </h3>
+      <p>
+        Primero que nada, respondamos a esta pregunta que muchos principiantes
+        me estaban haciendo: ¿Qué es Alby Hub?
+      </p>
+      <p>
+        Alby Hub es una interfaz simple para nodos LN, con buenas
+        funcionalidades de NWC para conectar varios servicios LN y ser utilizado
+        “sobre la marcha”. NO es un nodo LN en sí, sino que ofrece herramientas
+        para gestionar el nodo LN que está detrás. Es como LNbits o Zeus.
+      </p>
+      <p>
+        Sí, lo sé,
+        <a
+          href="https://guides.getalby.com/user-guide/v/alby-account-and-browser-extension/alby-hub/getting-started"
+          >el equipo de Alby ya tiene una buena página de documentación sobre
+          esto</a
+        >, su repositorio de Github también está bien documentado (de ahí
+        también me inspiré), pero con esta mini guía quiero llevar esta
+        información a más personas, especialmente a mis lectores que tal vez
+        encuentren un poco complicado leer todas esas instrucciones. También mi
+        guía está dedicada a una configuración específica, de la que pocos están
+        hablando: la configuración en modo avanzado.
+      </p>
+      <p>
+        Además,
+        <a href="https://www.youtube.com/watch?v=2Z1BzwxdP4I"
+          >BTC Session hizo un buen video tutorial</a
+        >, pero ese también está tomando el camino simple de usar Alby Cloud y
+        no el camino “avanzado” de gestionar el nodo LN detrás de Alby Hub.
+      </p>
+      <p>
+        Así que comencemos a explicar los modos en que puedes ejecutar Alby Hub:
+      </p>
+      <ul>
+        <li>
+          Usando Alby Cloud, migrando tu cuenta custodial existente de Alby.
+        </li>
+        <li>
+          Usando un VPS / servicio de hosting con Alby Hub, apuntando a tu nodo
+          LN local/remoto.
+        </li>
+        <li>
+          Usando una nueva cuenta, ejecutando Alby Hub en tu PC local, junto con
+          tu propio nodo LN. Este método también podría ejecutarse como una
+          aplicación LN independiente o como un servidor, dependiendo de cómo
+          sea tu uso diario.
+        </li>
+      </ul>
+      <p>
+        He estado probando (casi) todas las fuentes de financiación para Alby
+        Hub y haré una clasificación. También debo mencionar que puedes
+        ejecutarlo como un “nodo privado” (no enrutador) o como un nodo público
+        (enrutador) con algunos pasos más complejos. En esta guía solo hablaré
+        sobre el modo “privado”, modo que puede ser utilizado por todos los
+        principiantes que no están tan familiarizados con las complejidades de
+        ejecutar un nodo expuesto públicamente (dominios, certificados SSL,
+        puertos de enrutador, etc.).
+      </p>
+      <p><img src="/assets/images/alby-intro.png" class="center" /></p>
+      <h3>REQUISITOS BÁSICOS</h3>
+      <p>
+        Consideramos que eres un usuario básico, que no tiene ningún nodo LN (de
+        escritorio), nada, solo quiere ejecutar de manera autogestionada un nodo
+        LN simple para sus necesidades personales y tal vez más tarde dar
+        algunas subcuentas a su familia y amigos.
+      </p>
+      <ul>
+        <li>
+          Una PC simple, incluso con 4 GB de RAM, sistema operativo recomendado
+          Linux. Alby Hub también funciona en máquinas con Windows, pero no lo
+          recomendaría.
+        </li>
+        <li>
+          Algo de conocimiento básico para ejecutar algunas líneas de comando en
+          la terminal de Linux. En realidad, solo es copiar/pegar.
+        </li>
+        <li>un teléfono móvil para conectar Alby Go.</li>
+      </ul>
+      <h2>PASOS DE CONFIGURACIÓN</h2>
+      <h3>PASO 1 - SO</h3>
+      <p>
+        Instala Linux en esa PC, recomendaría DebianOS (es más estable, si
+        deseas dedicar esa máquina solo a Alby HUB + nodo LN), pero funciona en
+        cualquier otra distribución de Linux, incluso si tienes un escritorio de
+        Linux Mint podría funcionar perfectamente. Así que usa cualquier otro
+        Linux que te guste.
+      </p>
+      <h3>PASO 2 - PREPARAR FUENTE DE FINANCIACIÓN DE ALBY</h3>
+      <p>
+        Comienza aquí: <a href="https://albyhub.com/">https://albyhub.com/</a> y
+        elige “hazlo tú mismo”. Luego serás redirigido para iniciar sesión con
+        una cuenta existente de Alby (si deseas migrarla a autogestionada) o
+        crear una nueva, para comenzar una separada con tu nueva instancia
+        autogestionada.
+      </p>
+      <p><img src="/assets/images/alby-login.png" class="center" /></p>
+      <p>
+        Solo crea una nueva y recibirás un código de invitación para ejecutar tu
+        Alby Hub.
+      </p>
+      <p>
+        Ve a las instrucciones de
+        <a
+          href="https://guides.getalby.com/user-guide/v/alby-account-and-browser-extension/alby-hub/alby-hub-flavors/desktop"
+          >“Configuración de escritorio”</a
+        >
+        y descarga el archivo ejecutable para el sistema operativo que estás
+        utilizando. No necesitas instalar nada, solo ejecuta el archivo
+        ejecutable.
+      </p>
+      <p>
+        Una vez que inicies la aplicación Alby Hub, se te pedirá que ingreses un
+        código de invitación. Si ya tienes una cuenta de Alby (custodial),
+        puedes obtenerlo de ahí, pero recuerda que migrarás todo a tu nuevo Alby
+        Hub autohospedado. Sugeriría comenzar con un nuevo registro de Alby y,
+        una vez que te pregunten qué tipo de cuenta deseas, puedes elegir
+        autohospedada y obtener ese código de invitación, que más tarde tendrás
+        que ingresar en la configuración de tu Alby Hub. Más tarde podrás
+        cambiar o personalizar la dirección LN y
+        <a
+          href="https://guides.getalby.com/user-guide/v/alby-account-and-browser-extension/alby-account/use-your-lightning-address/own-domain"
+          >incluso usar tu propio dominio para eso</a
+        >.
+      </p>
+      <p>
+        Alby Hub ofrece una variedad de fuentes de financiación que puedes
+        elegir la primera vez que lo inicies. Una interfaz gráfica de usuario
+        muy fácil de usar, que te ayuda a conectarte instantáneamente con tu
+        nodo LN detrás (fuente de financiación).
+      </p>
+      <p>
+        Recordatorio: Estamos hablando aquí SOLO sobre el uso del modo “nodo
+        privado”, no público.
+      </p>
+      <p>
+        Una vez que inicies Alby Hub, se te mostrará esta pantalla, donde debes
+        elegir “Configuración avanzada” si no deseas usar la opción Alby Cloud:
+      </p>
+      <p>
+        <img src="/assets/images/albyhub-advanced-setup.jpg" class="center" />
+      </p>
+      <p>
+        Luego se te pedirá que elijas una de las fuentes de financiación de
+        backend:
+      </p>
+      <p><img src="/assets/images/albyhub-backend.jpg" class="center" /></p>
+      <h3>Backend LDK</h3>
+      <p>
+        El más simple y directo. Si eliges ese, instalará automáticamente una
+        instancia de nodo LDK y comenzará de inmediato, abriendo uno o varios
+        canales con los LSPs ofrecidos o cualquier otro nodo par que desees. LDK
+        no utilizará muchos recursos, siendo una implementación ligera de LN.
+        Además, no necesita ejecutarse junto a un nodo completo de Bitcoin Core,
+        utiliza servidores públicos de Esplora. Si deseas ejecutar tu servidor
+        Esplora personal, también tienes esa opción, pero necesitarás
+        profundizar más en las configuraciones de CLI.
+      </p>
+      <h3>Backend Phoenixd</h3>
+      <p>
+        Otra fuente de financiación simple y directa para Alby Hub. Solo que
+        este utilizará la liquidez del “jardín amurallado” de Acinq y cobrará el
+        1% de tarifas por eso. Si no deseas lidiar con la gestión de nodos de
+        canales, esta es una solución perfecta.
+      </p>
+      <p>
+        La instalación de phoenixd es bastante simple, solo sigue estas
+        sencillas líneas de comando:
+        <a href="https://phoenix.acinq.co/server/get-started"
+          >https://phoenix.acinq.co/server/get-started</a
+        >
+      </p>
+      <p>
+        Una vez que phoenixd esté en funcionamiento, ve a Alby Hub e ingresa el
+        código de autorización requerido para ese servidor local:
+      </p>
+      <p><img src="/assets/images/albyhub-phoenixd.jpg" class="center" /></p>
+      <h3>Backend LND</h3>
+      <p>
+        Una fuente de financiación más compleja y robusta, que requiere
+        instalación previa antes de que desees vincularla a tu Alby Hub. Sería
+        bueno que el equipo de Alby incluyera una instalación automatizada de
+        LND como el LDK.
+      </p>
+      <p>
+        Lo que recomendaría es instalar una instancia de LND en
+        <a
+          href="https://docs.lightning.engineering/lightning-network-tools/lnd/enable-neutrino-mode-in-bitcoin-core"
+          >“modo neutrino”</a
+        >
+        en la misma máquina donde vas a ejecutar Alby Hub. De esta manera no
+        necesitarás ejecutar también un nodo completo de Bitcoin Core, con
+        bloques completos que consumirán casi todos los recursos de la máquina.
+        Y no te preocupes, el “modo neutrino” no es una “preocupación de
+        privacidad”, neutrino solo entrega filtros de datos de bloques, no lee
+        ningún xpub o direcciones, IPs, etc. También es utilizado por Zeus
+        (embebido), Blixt, Breez.
+      </p>
+      <p><strong>Instalando lnd desde el código fuente</strong></p>
+      <p>
+        Con los pasos preliminares completados, para instalar lnd, lncli y todas
+        las dependencias relacionadas, ejecuta los siguientes comandos:
+      </p>
+      <pre><code>git clone https://github.com/lightningnetwork/lnd
+cd lnd
+make install
+</code></pre>
+      <p>
+        El comando anterior instalará la rama principal actual de lnd. Si deseas
+        instalar una versión etiquetada de lnd (ya que la rama principal puede
+        ser inestable a veces), entonces
+        <a href="https://github.com/lightningnetwork/lnd/releases"
+          >visita la página de lanzamientos para localizar la última versión.
+          Suponiendo que el nombre de la versión es v0.x.x</a
+        >, puedes compilar esta versión desde el código fuente con una pequeña
+        modificación al comando anterior:
+      </p>
+      <pre><code>git clone https://github.com/lightningnetwork/lnd
+cd lnd
+git checkout v0.x.x
+make install
+</code></pre>
+      <p>
+        <a
+          href="https://docs.lightning.engineering/lightning-network-tools/lnd/run-lnd"
+          >Para más detalles sobre la instalación y configuración de la
+          instancia LND, por favor lee aquí.</a
+        >
+      </p>
+      <p>
+        En ese documento también encontrarás la siguiente configuración de
+        lnd.conf para el modo neutrino:
+      </p>
+      <pre><code>
+<p>bitcoin.node=neutrino
+<p>feeurl=https://nodes.lightning.computer/fees/v1/btc-fee-estimates.json</p>
+</code></pre>
+      <p>
+        Una vez que LND esté en funcionamiento, continúa con
+        <a
+          href="https://docs.lightning.engineering/lightning-network-tools/lnd/macaroons"
+          >respaldar los macaroons</a
+        >
+        y el certificado TLS necesarios para conectar Alby Hub, que serán
+        necesarios en este siguiente paso:
+      </p>
+      <p><img src="/assets/images/albyhub-LND.jpg" class="center" /></p>
+      <blockquote>
+        <p style="color: Tomato">
+          <em
+            >Dirección LND - tu instancia LND local, por ejemplo.
+            http:/127.0.0.1:9735</em
+          >
+        </p>
+        <p style="color: Tomato">
+          <em
+            >Certificado TLS - ruta al archivo de certificado TLS de LND,
+            generalmente en lnd/data</em
+          >
+        </p>
+        <p style="color: Tomato">
+          <em
+            >Macaroon de administrador - tu macaroon de administrador respaldado
+            para autorizar la conexión</em
+          >
+        </p>
+      </blockquote>
+      <h3>Backend de Cashu Mint</h3>
+      <p>
+        Una conexión interesante y muy simple como fuente de financiamiento. Si
+        no deseas lidiar con todos los nodos LN mencionados anteriormente, la
+        gestión de canales, la liquidez, etc., esta es una de las soluciones más
+        directas y simples.
+      </p>
+      <p>
+        SÍ, es custodial, pero si manejas pequeñas cantidades, solo para
+        donaciones, nostr zaps, pequeños pagos, etc., esto es suficiente.
+      </p>
+      <p><img src="/assets/images/albyhub-cashu.jpg" class="center" /></p>
+      <p>
+        Por defecto, ofrece el mint de Minibits.cash, pero puedes usar cualquier
+        otro mint que desees (ve más aquí:
+        <a href="https://bitcoinmints.com/">https://bitcoinmints.com</a>), o tu
+        propio mint si tienes uno.
+      </p>
+      <p>
+        La única parte preocupante con esta fuente de financiamiento es que no
+        hay forma de tener una copia de seguridad de los tokens o claves para
+        esta fuente de financiamiento. Aún no, estoy seguro de que el equipo de
+        Alby está trabajando en eso. Así que si tu Alby Hub se ve comprometido,
+        no tienes una copia de seguridad de los fondos (o no he podido
+        encontrarla hasta ahora).
+      </p>
+      <h3>Backend de Greenlight / Breez SDK</h3>
+      <p>
+        Este es un método de fuente de financiamiento de Greenlight, basado en
+        un código de invitación y una clave API de Breez.
+        <a href="https://blockstream.com/lightning/greenlight/"
+          >Puedes solicitarlas aquí</a
+        >. Greenlight es un nodo de “Lightning-as-a-service”, donde el usuario
+        tiene las claves pero no gestiona la liquidez de los canales ni el
+        servidor.
+      </p>
+      <p><img src="/assets/images/albyhub-greenlight.jpg" class="center" /></p>
+      <p><img src="/assets/images/albyhub-breez.jpg" class="center" /></p>
+      <h3>PASO 3 - COMIENZA A USAR TU ALBY HUB</h3>
+      <p>
+        ¡Y eso es todo! Una vez que conectes una fuente de financiamiento,
+        estarás listo para usar tu Alby Hub, conectándolo a varias aplicaciones
+        LN con NWC, conectándote a
+        <a
+          href="https://blog.getalby.com/alby-go-the-easiest-mobile-app-to-use-bitcoin-on-the-go/"
+          >Alby Go como una billetera móvil</a
+        >, creando cuentas limitadas o incluso actuando como “tío Jim” con la
+        implementación especial de
+        <a href="https://github.com/getAlby/jim">“Alby Jim”</a>.
+      </p>
+      <p>
+        La variedad de conexiones de aplicaciones es increíble y fácil de
+        configurar con las instrucciones proporcionadas en la interfaz.
+      </p>
+      <p><img src="/assets/images/alby-apps.jpg" class="center" /></p>
+      <h2>MÁS RECURSOS:</h2>
+      <ul>
+        <li>
+          <a
+            href="https://github.com/getAlby/hub?tab=readme-ov-file#deploy-it-yourself"
+            >Despliega por ti mismo</a
+          >
+          - Instrucciones de Alby en Github si deseas ejecutarlo como servidor
+        </li>
+        <li>
+          <a href="https://stacker.news/items/698497"
+            >Una guía muy buena sobre cómo configurar y conectar Alby Hub a la
+            cuenta de Stacker News</a
+          >
+        </li>
+        <li>
+          <a href="https://nodana.io/services/alby-hub"
+            >Ejecuta tu Alby Hub con Nodana (servicio de alojamiento)</a
+          >
+        </li>
+        <li>
+          <a
+            href="https://medium.com/@michael.leigh.stewart/setting-up-a-lightning-network-node-with-alby-hub-alby-cloud-4895e97624f8"
+            >Ejecuta tu Alby Hub con Alby Cloud (servicio de alojamiento)</a
+          >
+        </li>
+      </ul>
+    </body>
+  </html>
+</article>
