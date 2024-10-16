@@ -1,0 +1,103 @@
+---
+layout: default
+title: Recommendations for BTC LN node operators
+---
+<article>
+<!DOCTYPE html>
+<html lang="en">
+<meta name="description" content="Bitcoin and Lightning Nodes guides: A warning to all public LN node operators about actual usage of Lightning Network">
+<body>
+| <a href="https://darthcoin.substack.com/p/intercambios-submarinos-lightning">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="https://asi0.substack.com/p/echanges-sous-marin-entre-le-reseau">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="https://darthcoin.substack.com/p/lightning-network-submarine-swaps-8d4">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+
+<h3>A warning to all public node operators about actual usage of Lightning Network. This article is dedicated to all new those new users that start now or want to start running now a BTC LN node.</h3>
+<h2>INTRODUCTION</h2>
+<p>These are my personal observations and recommendations after 25+ years in IT systems, 10+ years in Bitcoinlandia and 2+ years running various LN nodes, dedicating a lot of time testing and using various solutions for LN nodes, helping other node operators.</p>
+<p>My only goal is to make LN working better for all participants and presenting some aspects in a very objective point of view.</p>
+<p><img src="/assets/images/darth-aprentice-failed.jpg" class="center"></p>
+<p>I don't care if many will not agree or even hate me for what I will say here. Yes for some will not be pleasant words. I am not here to please anybody, I am presenting facts. If you are looking for nice words and "kiss ass", you will not hear it from me. I will always speak the truth in my own way, if you do not like my words, it is your problem not mine.</p>
+<p>In 2020 after Umbrel launched the BTC/LN suite Umbrel Node, many new people jump in and install it, thinking that is fun, easy and even a "passive income". But they ignored one important aspect: EDUCATION about Lightning Network.</p>
+<p>In almost 1 year, we've seen the number of LN nodes increased with at least 9000 nodes. That's an insane number in such a short time. And mostly on Tor.</p>
+<p>Yes, is nice to see the interest in running a LN node, but from what I saw on Telegram groups and forums, 90% have no idea what they are doing.</p>
+<p>I think this launch was a mistake, or at least the way was done. Too many users with total 0 knowledge jumped in and create a chaos. I don’t know who promote it as “very easy to install a node in 3 clicks” but running a node is not about that you can install it with just 3 clicks. Is more about having a lot of knowledge about Bitcoin and how LN is working in background. Otherwise is just creating a chaotic network of people with not idea about what they are doing. Yes, I helped them a lot with my guides and being almost 24/7 available with advice. But is not enough. They have to make big efforts in reading and learning about nodes. Otherwise is all in vain.</p>
+<p>Yes, some of them start slowly educate themselves and became good node operators. But the majority, didn't give a shit about the warnings and still continue to run their nodes in very bad ways, without proper maintenance, without basic knowledge about how LN works, some of them the only focus they have is "earn sats".</p>
+<p>This situation is getting worse and worse every day, because these "bad nodes" are making a nightmare for ALL OF US in the network.</p>
+
+<h3>ACTUAL ISSUES ON LN</h3>
+<p>Here I will mention some aspects of this nightmare (maybe some issues are already fixed):</p>
+<ul>
+<li>Nodes that are going offline very often. That makes the channels very unstable and unusable.</li>
+<li>Nodes that doesn't have a stable internet connection and in special good Tor relays.</li>
+<li>Nodes that are ONLY Tor, and still don't use a hybrid mode (Tor + clearnet). Tor as communication network for nodes is really bad, because is unstable. LN nodes need to be all the time able to communicate through gossip protocol. Otherwise cannot "see each others" even if the Bitcoin node is still syncing.</li>
+<li>Stuck HTLCs, that in the end provoke force closed channels. This is a very annoying situation and costly. Many node operators do not think or know that if a HTLC pass through their node and their node goes offline or simply cannot communicate with the LN through the gossip protocol, that HTLC is a real pain in the ass for EVERYBODY. It's an unfulfilled contract and if in the expiration period the HTLC is not fulfilled, then it will trigger a force closing channels in cascade to all peers connected to that HTLC. It affect everybody. <a href="https://xcancel.com/zerofeerouting/status/1528754778041372674">Here is an alert from ZFR node</a>.</li>
+<li>Wrong or chaotic settings for <a href="https://github.com/lightning/bolts/blob/master/02-peer-protocol.md#cltv_expiry_delta-selection">CLTV delta</a>, fees, min/max HTLC. I saw users playing around with these settings without having any basic knowledge what they are changing. That makes very difficult to work with them as peers. Or even worse, if they are the peers of your peers and you don't know what they do, will affect you indirectly.</li>
+<li>Obsessive rebalancing. This is another story, that many embrace it and I don't understand this obsession with rebalancing all the time their channels. IMHO this is moronic and useless. It can move liquidity exactly when is needed for a pending HTLC. It is useless and do not help in any way but making it worse with "fake" traffic that doesn't represent in any way the real LN traffic. Instead of doing this rebalancing, better adjust the min/max HTLC, lower it to a normal amount of a tx and user should start <a href="https://lightning.engineering/posts/2020-05-07-mpp/">using MPP</a> all the time.</li>
+<li>Disabling channels. There are still "LN-tools" out there, scripts that are disabling channels, if the specific channel is "not profitable" to route. This is moronic and unproductive. Is just closing doors for possible routes.</li>
+<li>Users still don't use <a href="https://lightning.engineering/posts/2020-05-07-mpp/">MPP</a> as main option when they do payments over LN. This makes that channels can be drained very quickly and also not using efficient routes, nodes will always have to adapt the traffic with different methods (rebalancing, adjusting fees, adjusting max HTLC, opening more channels). MPP is not just split the amount of a payment in many small parts, but also looking for best route for each split. Smaller HTLC will have faster and better rate of finding a good path than a big amount.</li>
+<li>Path finding. Yes this is a very important issue in LN and is mostly due to all aspects mentioned above.</li>
+</ul>
+<p><img src="/assets/images/change-my-mind-restart-node.jpg" class="center"></p>
+
+<h3>RECOMMENDATIONS FOR NEW PUBLIC LN NODE RUNNERS</h3>
+<p>So as a new user in this fascinating world of Lightning Network, what you should do:</p>
+<ul>
+<li>Before start running a node, ask yourself: why do you need to run a full LN node? As I mention in the guide about <a href="https://darthcoin.substack.com/p/umbrel-bitcoin-ln-node">Getting started with Umbrel</a> there is a list of answers there that people should consider it before start running a node.</li>
+<li>If you just want to play around with LN and even have a private LN node, there's NO NEED to run a routing node! You can easily run your mobile <a href="/wallets/getting-started-blixt-wallet-en.html">Blixt Node Wallet</a> or <a href="/wallets/getting-started-zeus-wallet-en.html">Zeus Node wallet</a> with private channels, no need to be 100% online, fully management of your channels, more private, easily to manage, no need for having a lot of funds in LN. See more <a href="/wallets/lightning-wallets-comparison-en.html">LN wallets for mobiles here</a> with all features detailed and a dedicated <a href="h/nodes/private-ln-nodes-en.html">guide for PRIVATE LN nodes here</a>.</li>
+<li>If you want to use a desktop LN wallet, you can easily use Electrum, works perfectly. Soon also Blixt will have a desktop version, more advanced and powerful.</li>
+<li>If you are not so techy and don't like to read documentation, better just don't run those desktop/ RPi nodes. You are not helping at all the network by not knowing anything about LN and just keep a shity node in the network. You are doing more harm than good.</li>
+<li>If you really want to run a full desktop routing node, then better be well prepared: <a href="https://www.lightning-network.tech/">read a lot all the documentation available</a>, study all the video tutorials, have prepared a good strong machine for your node as I mentioned in <a href="https://darthcoin.substack.com/p/lightning-node-maintenance">this dedicated guide for nodes maintenance</a>, pro-actively watch your peers and channels, maintain a good traffic with low fees and good routes. Peers that are difficult to maintain online, do not keep them, are making it more difficult for your routes.</li>
+<li>Use strong hardware! It is very important. For nodes with more than 50-100 channels a RPi machine is getting really problematic, in special using LND.</li>
+<li>Start using the method of adjusting max HTLC per channels, to a certain level where you see that the traffic from your peers is getting well on both sides. <a href="https://darthcoin.substack.com/p/lightning-routing-fees-experiment">As I explained in the other guide here</a>. This will help a lot the path finding for routes and will make to flow faster the sats through your node, going through correct channels, where there's sufficient liquidity indicated.</li>
+<li>High fees will not help you in any way, but will make things even worse. Never connect to nodes with high fees. ISOLATE THEM! Just take examples of these idiotic nodes with ultra high fees: <a href="https://amboss.space/node/028e9e578efe5f09f3edfd98ef0fad51007014401d8b7ff62236b89d6867529635">Sweet16Joe</a>, <a href="https://amboss.space/node/038f8f113c580048d847d6949371726653e02b928196bad310e3eda39ff61723f6">Magnetron</a> (Muun wallet) and many more like that. We are here to fuck the banksters not to fuck each others.</li>
+</ul>
+<figure>
+    <img src="/assets/images/waiting-for-problem.jpg" class="center">
+    <figcaption>Example of Umbrel user, that want to be a “node operator” with no idea what is doing</figcaption>
+</figure>
+
+<h3>REQUESTS FOR LIGHTNING DEVELOPERS</h3>
+<p>Please consider to find a way to improve LN code with these aspects. These requests are not only for LN implementation developers, but also for managing tools and wallets like Thunderhub, RTL, Zeus etc. Maybe your goals are different, but please at least listen to what users say and request:</p>
+<ul>
+<li>Add in the code an option to not close a channel until a certain block height, established by both peers opening the channel. We have today many channel markets, selling liquidity channels, but there's no simple way to "lock" those channels, to be almost impossible to close them until a certain block number. This will also avoid cheating in those liquidity contracts and also establishing certain rules.</li>
+<li>Change the way HTLC are triggering a force close. Why punishing a node that was already route the HTLC, if the next peer in the route is the one that do not fulfill the HTLC ? These force closed channels are literally IDIOTIC, doesn't make any sense and are costly. Or at least give the chance to the peer to keep the channel open and functional and dispute in another way the pending HTLCs. Use a reserves system, where each peer will deposit a reserve first. That will make nodes to think twice with who and how they will open channels.</li>
+<li>Make the gossip protocol to be more efficient and reliable. This is really painful to see that peers are literally online, you could ping them but the gossip is saying that the channel is offline. This makes a lot of HTLC to be in pending state and even lost due to not being well communicated through gossip.</li>
+<li>Add a simple option to set max HTLC for a channel based on liquidity of that channel for each side, literally announcing the balance when a payment arrive to the node. Yes, many will say that this will "violate privacy", but let's be honest, we already have many ways to find the balance of a channel, no need to hide behind the finger. These are routing nodes, that have to announce very well the liquidity, are not private nodes. Right now I find out that just by adjusting manually the max HTLC for a channel improved a lot the traffic, without doing any stupid rebalancing or adjusting fees based on available liquidity. <a href="https://xcancel.com/zerofeerouting/status/1522226213439389697">I totally agree with ZFR node proposal here</a>.</li>
+<li>Add better options to manage routes on specific channels, with set of rules that can be easily managed by the node operator. Example: I want all private channels to be routed out through specific public channels. Or for LNDhub apps like Bluewallet and LNbits, I would like to have dedicated channels to be used. Yes I tried many ways to set specific fees, min/max HTLC but is not working well.</li>
+<li>Add better support for Tor only nodes or find another protocol to communicate privately. Tor is truly unreliable for LN nodes. It creates so many troubles.</li>
+<li>Why we have 3 LN implementations with 3 different CLTV delta? Why are not all the same? How users should set, based on which metrics? I saw some nodes playing around with these default settings (CLN=34, LND=40, Eclair=144) and the routing is going nuts and even end up with force closed channels. Why can't be something stable and reliable?</li>
+<li>lease let all the bullshit put for a while, stop adding "new useless features and tokens" on top of LN, and concentrate in making LN to work better. Because right now... it is not working well. Is far from being an efficient payment network. And if we do not deal with these issues, soon we will have a failed project or just trying to patch over patch.</li>
+<li>For developers of Umbrel in special: please don't add so many bloatware apps! Users are just installing them just for curiosity and load up those tiny RPis with useless apps. Concentrate more on the part of having a strong LN node and add important options for managing that LN node. All the non-node related apps are not useful at all and could be easily packed into another "personal server" suite if they really want to use them. Don't mix these things! I know your intentions is to make a "sovereign personal server" but is not going to work like that! I run myself an Umbrel node, but just as a LN node, not anything else. All the rest of apps I run them separately in another machine or even on my Qnap NAS. I don't need to bloat my node with them. But many noobs don't know this aspect. Better separate.</li>
+</ul>
+
+<h3>CONCLUSION</h3>
+<p>I hope this article will open many more eyes and make people realize that we still have work to do to improve LN. We still have time to fix it and we can start with simple things: education for new users and fixing/improving LN code.</p>
+<p>You can reopen a channel but the lost sats from force closing, and reopening were thrown in vain...</p>
+<p>And when you start having 4-5 FC / week you would not see it so reliable to run a routing node.</p>
+<p>I myself have 2 running LN nodes and I am considering to shut down totally one of them. Maybe both (CLN and LND) and will just run a <a href="/wallets/getting-started-blixt-wallet-en.html">Blixt</a> or <a href="/wallets/getting-started-zeus-wallet-en.html">Zeus</a> on desktop or mobile, privately and don’t give a shit about all the routing and helping the network.</p>
+<p>I am willing to route for free but paying force closures for others mistakes... is not acceptable./<
+<p>We start building a payment network but others on the other side are trying to shut it down. We now have liquidity marketplaces, we buy channels, but if these “contracts” are not respected and established with certain rules, nobody will give a shit and will just close your channels. Reputation will not give you back any sats you lost from that force closing and the network that you start building and now is lost.</p>
+<p>Example here, a seller that sold a channel and then willing to close it. Yes the peer could be offline or could be online. But you have a contract when you sold that channel. And this will create a precedent. People will sell you channels and then close them. All your work is gone.</p>
+<p><img src="/assets/images/question-inbound-channel.jpg" class="center"></p>
+<p>Yes, this seller is right, is concerned why the peer is offline. But the contract is a contract. Must be respected.</p>
+<p>Also could be the fucking gossip, that sometimes is really crazy, showing some peers offline, but in fact they aren’t.</p>
+<p>Myself I was in a situation that few days in a row, 3-4-5 peers appeared offline (from 55 peers in total). One of those was even my another node CLN, that I was watching in the same time and was OK, online and well. So LND decided to close connection with these peers, for no reason.</p>
+<p>Tried to re-connect to peers, some worked, some don’t. Contacted peers, they said they are online and well. My CLN included.</p>
+<p>Why this is happening? Nobody knows or try to fix it. And from this issue start the other problems with pending HTLCs, then force closings.</p>
+<p>I am raising a WARNING here, now, and maybe in few years people will remember my words.</p>
+<p>If this issue in LN, with force closed channels is not fixed some way, or add new specific rules in the code, we will see a huge centralization in a handful of big nodes that will handle the liquidity, with huge fees.</p>
+<p>Or maybe in few years, we will see coming up a new LN, the plebs LN, in parallel, where another payment system will be born, but that can be “pegged” to the “centralized LN” that is forming today.</p>
+<p>At the time of writing this article, LND launched also v.0.15 and CLN v0.11.1, fixing some issues, but in the same time causing massive force closures for many nodes.</p>
+<p>As you can see here in this graph from https://bitcoinvisuals.com/ln-nodes:</p>
+<p><img src="/assets/images/bitcoin-visuals-drop-nodes.png" class="center"></p>
+<p>Many of those nodes “disappeared” from the graph, are:</p>
+<ul>
+<li>nodes that are moving to “private” nodes (not announced, not public), not routing anymore, or routing in private.</li>
+<li>noobs realizing that the model of “RPi node with Umbrel” it doesn’t bring “passive income” and they just give up</li>
+<li>too many force closed channels and operators that just shut down nodes</li>
+</ul>
+<p><img src="/assets/images/have-spoken.gif" class="center"></p>
+<p><em>Note: a continuation of this article <a href=Ç"https://darthcoin.substack.com/p/getting-started-ln">is here with a guide</a> about how to use LN on 3 levels</em></p>
+</body>
+</html>
+</article>
