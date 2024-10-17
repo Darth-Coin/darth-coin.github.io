@@ -1,0 +1,243 @@
+---
+layout: default
+title: SHTF scenario - How to restore a dead LND node?
+---
+<article>
+<!DOCTYPE html>
+<html lang="en">
+<meta name="description" content="Bitcoin and Lightning Nodes guides: Various ways to restore your LND node funds in case of SHTF">
+<body>
+| <a href="https://darthcoin.substack.com/p/recuperar-fondos-de-un-nodo-umbrel">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="https://asi0.substack.com/p/scenario-shtf-pour-noeud-umbrel">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+
+<h3>Various ways to restore your LND node funds in case of SHTF (shit hit the fan - dead node)</h3>
+<blockquote style="color:Tomato;"><em>
+<p>Originaly posted on <a href="https://darthcoin.substack.com/p/umbrel-btcln-node-shtf-scenario">Substack</a> on October 01, 2021</p>
+<p>Updated October 17, 2024</p>
+</em></blockquote>
+<p>Here is a separate chapter about managing your LND node (Umbrel, myNodeBTC, Raspiblitz, Start9 etc), about methods and procedure to restore/recover your node wallet funds in case of SHTF (shit hit the fan).</p>
+<p>There are many users that do crazy stuff with their Umbrel nodes and sometimes, there's no other way to fix it than restore it into another wallet app and start over with a new one or same LND wallet but in a new instance.</p>
+<p><img src="/assets/images/shtf-recovery-plan.jpg" class="center"></p>
+<h3>Before we begin... TO REMEMBER:</h3>
+<ul>
+<li>Keep calm and be patient.</li>
+<li>This process can take time and precise steps to follow.</li>
+<li>Don’t do anything stupid that could fuck up the process.</li>
+<li>Do not empty or move funds/ UTXOs from your onchain wallet during the recovery process. Many UTXOs can be linked to the closure of channels from so called “anchor reserve” UTXO.</li>
+<li>Wait patiently for channels to close, can take from 40 to 144 blocks until the funds are released, even if the txs are confirmed in the block explorer.</li>
+<li>Restoring funds procedure is the LAST resort, so before starting it, please consult with others and try to have a correct diagnostic of what happen to your node. Maybe a simple restart is just enough.</li>
+</ul>
+<p>Below I will present you various methods to "restore" your dead LND node funds.</p>
+<p>If you have funds ONLY in onchain wallet and do not have funds in LN channels, just use the methods 2, 3, 4, 5.</p>
+<p>If you have funds in onchain wallet AND in LN channels use the methods: 1, 3, 6, 7, 8.</p>
+<p><a href="#umbrel">1. Standard, normal way using a new instance of Umbrel node</a></p>
+<p><a href="#bluewallet">Using Bluewallet mobile app</a></p>
+<p><a href="#blixt">Using Blixt wallet mobile app</a></p>
+<p><a href="#zeus">Using Zeus LN wallet mobile app</a></p>
+<p><a href="#zap">Using Zap wallet desktop app</a></p>
+<p><a href="#sparrow">Using Sparrow wallet desktop app</a></p>
+<p><a href="#raw-copy">Using a copy of database files into another LND node instance</a></p>
+<p><a href="#experimental">Experimental full copy data from RPi node to desktop/NUC Linux machine</a>
+<p><a href="#th">Using Thunderhub / Amboss SCB backup to restore in Blixt</a>
+<p><a href="https://github.com/guggero/chantools">Using Guggero's Chantools for stuck channels</a></p>
+<hr style="height:2px">
+
+<h2 id="umbrel">Method 1 - Standard, normal way using a new instance of Umbrel node <a href="#umbrel">#</a></h2>
+<p>This method is the normal way, as described and recommended by <a href="https://umbrel.com">Umbrel team</a>.</p>
+<p>It is suppose that you already have the 24 words seed and the channel.backup file obtained previously. If you didn’t make that backup, but you still have access to your old node drive, you can find it in /home/umbrel/umbrel/lnd/data/chain/bitcoin/mainnet/channel.backup</p>
+<p>or you can request a copy from Umbrel devs (contact them in <a href="https://t.me/getumbrel">Umbrel Telegram group</a> or on <a href="https://community.getumbrel.com/">Umbrel Community Forum</a>.</p>
+<p>Install a new instance of Umbrel. Start the dashboard page and you will be prompted to use previously backup 24 words seed.</p>
+<p>Once you’ve restored from the 24 words, it might take a few minutes to a few hours for it to scan all of your previous Bitcoin (on-chain) transactions and balances. Meanwhile, here’s how you can restore the funds in your Lightning channels.</p>
+<p>STEP 1: COPY OVER THE CHANNEL BACKUP FILE FROM YOUR COMPUTER TO YOUR UMBREL.</p>
+<p>Enter using SSH and run this:</p>
+
+<pre><code>
+scp <path/to/your/channel/backup/file> umbrel@umbrel.local:/home/umbrel/umbrel/lnd/channel.backup
+</code></pre>
+
+<p>Replace `<path/to/your/channel/backup/file>` with the exact path to channel backup file on your computer</path>
+<p>The password is `moneyprintergobrrr`, except on version 0.3.3 or later where the password is your personal user password instead.</p>
+<p>STEP 2: RECOVER FUNDS</p>
+<pre><code>
+cd ~/umbrel && ./bin/lncli restorechanbackup --multi_file /data/.lnd/channel.backup
+</code></pre>
+<p>After you run this, wait for 1 minute. You should now be able to see your channels being closed on http://umbrel.local/lightning.</p>
+<p>You should wait patiently until the funds are coming back to your onchain wallet. It will take at least 40 blocks. You can see/check the details of closing channels in the <a href="https://community.umbrel.com/t/umbrel-troubleshooting-guide/3632">troubleshooting guide</a></p>
+<hr style="height:2px">
+
+<h2 id="bluewallet">Method 2 - Using Bluewallet <a href="#bluewallet">#</a></h2>
+<h3>IMPORTANT NOTE:</h3>
+<p>There is a limitation of type of addresses in <a href="https://bluewallet.com">Bluewallet</a>! LND / Umbrel now is using also Taproot type of addresses. Is not by default, but if you activated that option in Settings, your Umbrel wallet will generate Taproot format addresses. Keep in mind that not all other apps that can import xpub or full Blixt aezeed wallet could also display / read those addresses. That means, you will miss some sats in your balance displayed because those taproot addresses will be ignored. That doesn't means you lost your sats. It just that are not displayed, not shown, not "readable" by the app you use to import the wallet.</p>
+<p>Yes, now you can connect directly to a mobile app, the onchain AEZEED node wallet. Just use your Umbrel node seed in Bluewallet (adding it as new wallet) and done. Use cases:</p>
+<ul>
+<li>you want to have at hand a way to deposit quick to your node wallet (onchain)</li>
+<li>you need to have access to your onchain funds in case your node is crashed and want to recover / access the funds</li>
+</ul>
+<p><strong>REMINDER:</strong></p>
+<ul>
+<li>this is restoring ONLY onchain wallet, not also the LN channels!</li>
+<li>to restore the funds from your LN channels you still need to follow the procedure for recovering using the standard method, see point 1.</li>
+<li>I would recommend to not restore the same seed into a new Umbrel LND instance, just start with a new LND instance and keep this old wallet in Bluewallet, or simply move the funds to the new Umbrel instance.</li>
+</ul>
+<hr style="height:2px">
+
+<h2 id="blixt">Method 3 - Using Blixt mobile wallet <a href="#blixt">#</a></h2>
+<p><a href="/wallets/getting-started-blixt-wallet-en.html">Blixt Wallet</a> is an excellent mobile app, using LND and neutrino blocks sync, also with many other features that none other mobile wallet put together. Worth having it in your phone as a pair node with regular other node.</p>
+<p>It have the option to restore a LND node, right in the first steps of opening the app.</p>
+<p>You will not lose funds in this test/scenario, the worst thing can happen is not recovering the channels and or channels are closed and funds recovered into onchain wallet. It will just reject the "restore" and your channels will still be active in Umbrel node.</p>
+<h4>Requirements:</h4>
+<ul>
+<li>Your Umbrel node is dead and should not be online int his process.</li>
+<li>you have a backup of your channels with the latest state. Use the backu file you get from Umbrel dashboard - Lightning page. Not RTL or Thunderhub. Also you can use the online backup from Umbrel servers (you will need to contact Umbrel devs for that). If you didn’t make that backup, but you still have access to your old node drive, you can find it in `/home/umbrel/umbrel/lnd/data/chain/bitcoin/mainnet/channel.backup`</li>
+<li>you have a backup of your 24 words seed</li>
+</ul>
+<h3>Steps to do:</h3>
+<ol>
+<li><a href="https://blixtwallet.github.io/">Install Blixt wallet</a> on your mobile</li>
+<li>Go to menu settings and activate Tor (app will restart). This is necessary due to the fact that Umbrel is by default Tor and many of your previous channels were open with Tor node peers.</li>
+<li>Select restore wallet</li>
+<li>Take your 24 words seed and insert it in the 1st field</li>
+<li>Take your channels.backup file (that you previously saved from Umbrel LN dashboard) and upload it to your mobile and insert it into Blixt restore box.</li>
+<li>Click restore and wait good amount of time to let the app to sync the neutrino node (a small version of the blockchain). Once is restored, funds in onchain should appear in balance and also channels. But remember, channels will be closed and funds back into onchain. Just be patient.</li>
+</ol>
+<p>I would recommend to not restore the same seed into a new Umbrel LND instance, just start with a new LND instance and keep this old wallet in Blixt, or simply move the funds to the new Umbrel instance. <a href="https://darthcoin.substack.com/p/blixt-btc-ln-node-and-wallet">Blixt could be a very good node companion</a> node for your new Umbrel node.</p>
+<p>There are some ways to check the status in Blixt app but I will not enter in details here.</p>
+<p>Let me know when/if you want to do this test and I can assist, but only if your Umbrel node is dead. Also you can enter in contact with Hampus, Blixt dev, using <a href="https://t.me/blixtwallet">Telegram Blixt group</a></p>
+<p>Don't break things just to test others. Remember this is an experimental test and you do not have another way.</p>
+<hr style="height:2px">
+
+<h2 id="zeus">Method 4 - Using Zeus LN mobile <a href="#zeus">#</a></h2>
+<p>Starting with the new Zeus v 0.8.0 with embedded LND node, you could recover your dead Umbrel LND node very easily and quick.</p>
+<p>Remember, “recovering” means using the SCB (Static Channel Backup) file that will trigger a collaborative closing of your existing channels and the funds will be back in the onchain wallet.</p>
+<p>ZEUS currently only allows one embedded node wallet at a time, so if you have already initialized a wallet, you must uninstall and reinstall the app.</p>
+<p>Once you're ready to recover, go to the Settings menu in ZEUS. It is accessible from the top left corner on the main view (typically an icon of Zeus) if you have a wallet configured already, or by pressing 'Advanced set-up' on the splash screen of a new install.</p>
+<p>From there you can add a new node by pressing the top field (it will either say 'No Nodes', or the name of your active connection), and then hitting the plus (+) icon in the top right corner.</p>
+<p>From there, enter your 24 word seed phrase in the field labeled 'Recovery Cipher Seed (aezeed)'. You can optionally provide a static backup string in the field labeled 'Disaster recovery data (SCB, Base64)'. If you have the previous SCB file from another node, just open it as a text file and copy the string.</p>
+<p>Then press 'Restore mainnet wallet' if you're dealing with real funds or 'Restore testnet wallet' if you're using Bitcoin's test network.</p>
+<p>Please leave ZEUS running the first time you restore the seed. It has to go through the recovery process to restore your balance. It is not uncommon for this to take over 10 minutes, especially if you have a heavily used wallet. You may want to temporarily turn off any screen timeouts and energy saving options in your phone's settings, so that ZEUS doesn't go into the background and pause LND during the process.</p>
+<p>Also you can activate first the persistent LND service (Emebedded node - Advanced - Persistent mode). That will keep alive the LND service in background.</p>
+<p>If you see that after a long time is still not showing the old history txs, go to Embedded node - Peers and disable the option to use the list of selected peers (by default is the btcd.lnolymp.us). That will trigger a restart and will connect to first available neutrino node with a better time response. Or use these well iknown neutrino peers, choosing the one that is closer to your location:</p>
+<ul>
+<li>btcd1.lnolymp.us | btcd2.lnolymp.us - for US region</li>
+<li>btcd-mainnet.lightning.computer - for US region</li>
+<li>uswest.blixtwallet.com (Seattle) - for US region</li>
+<li>europe.blixtwallet.com (Germany) - for EU region</li>
+<li>asia.blixtwallet.com - for Asia region</li>
+<li>node.eldamar.icu - for US region</li>
+<li>noad.sathoarder.com - for US region</li>
+<li>bb1.breez.technology | bb2.breez.technology - for US region</li>
+<li>neutrino.shock.network - US region</li>
+</ul>
+<hr style="height:2px">
+
+<h2 id="zap">Method 5 - Using Zap desktop <a href="#zap">#</a></h2>
+<h3>IMPORTANT NOTES:</h3>
+<ul>
+<li>There is a limitation for Zap apps. LND / Umbrel now is using also Taproot type of addresses. Is not by default, but if you activated that option in Settings, your Umbrel wallet will generate Taproot format addresses. Keep in mind that not all other apps that can import xpub or full Blixt aezeed wallet could also display / read those addresses. That means, you will miss some sats in your balance displayed because those taproot addresses will be ignored. That doesn't means you lost your sats. It just that are not displayed, not shown, not "readable" by the app you use to import the wallet.</li>
+<li>This works only with desktop version of Zap, not mobile.</li>
+<li>Zap app is discontinued so no further updates available. Use this desktop app only if you want to check your onchain funds quickly</li>
+</ul>
+<p>Just install the Zap app and use your 24 words seed to restore the AEZEED onchain wallet.</p>
+<p>This WILL NOT restore the LN channels! To restore the LN channels, you will still need to use the standard procedure explained at <a href="#umbrel">method 1</a> in this guide.</p>
+<hr style="height:2px">
+
+<h2 id="sparoow">Method 6 - Using Sparrow Wallet <a href="#sparrow">#</a></h2>
+<h3>IMPORTANT NOTES:</h3>
+<ul>
+<li>There is a limitation anyways. Umbrel now is using also Taproot type of addresses. Is not by default, but if you activated that option in Settings, your Umbrel wallet will generate Taproot format addresses. Keep in mind that not all other apps that can import xpub or full Blixt aezeed wallet could also display / read those addresses. That means, you will miss some sats in your balance displayed because those taproot addresses will be ignored. That doesn't means you lost your sats. It just that are not displayed, not shown, not "readable" by the app you use to import the wallet.</li>
+<li>This method will not restore your LN channels, only the onchain wallet! To restore funds from LN channels you still need to do the "normal procedure" explained in the point 1 in this guide.</li>
+<h3>PROCEDURE</h3>
+<ol>
+<li>>Go to <a href="https://guggero.github.io/cryptography-toolkit/#!/aezeed">Cryptography Toolkit</a> and download the HTML file onto your computer.</li>
+<li>Open that HTML file in "offline mode" (no internet) and select "aezeed Cipher Seed Scheme" from Tools. Then go to the 2nd tab "Decode Mnemonic".</li>
+<li>Paste your 24 words into the "Mnemonic" field.</li>
+<p><img src="/assets/images/shtf-cryptographic-tool.png" class="center"></p>
+<li>Select format BIP84 native segwit and wait a bit to be decoded.</li>
+<li>Copy the zprv displayed into the field "HD node root base 58"</li>
+<li>Open (already downloaded) Sparrow wallet app and select "new wallet"</li>
+<li>In the "Keystores" select "new imported software wallet"</li>
+<li>In the next window that will open, select "Master Private Key BIP32" and paste that zprv key you get it from the cryptography tool and click "import". It will show you that is a m/86'/0'/0 derivation path (as it should be, to restore all your addresses and txs used previously in Umbrel). But if you used Taproot addresses, then when you restore it in Sparrow, choose the derivation path m/86'/0'/0.</li>
+<li>Click on "Import Keystore" and it will go back to main window of the wallet app where you can see all the wallet config. Click on "apply" and will prompt you to set a password to encrypt your local wallet file.</li>
+<li>In the wallet settings tab, select “Taproot” script, if you know that you used taproot addresses. Otherwise leave it as it is. Can be changed also later, in case you do not see your old txs history. Also be sure the derivation path is m/86'/0'/0'</li>
+<p><img src="/assets/images/shtf-sparrow-p2tr.png" class="center"></p>
+<li>Sparrow app will start scanning all your keys and txs and it will be displayed after a while in the "Transactions" tab. Patience, it will take some time.</li>
+<li>For a faster, secure and private connection is better to connect your Sparrow wallet app to your node. Just follow the instructions in "Umbrel - connect wallet - sparrow" and you will use directly the blocks and indexes from your own node.</li>
+</ol>  
+<hr style="height:2px">  
+  
+<h2 id="raw-copy">Method 7 - Experimental copy of database files <a href="#raw-copy">#</a></h2>
+<p>This method was confirmed only by one Umbrel user that did it with success. But remember, he wasn't using the Raspberry Pi version of Umbrel, was on a machine with regular Linux and Umbrel installed on it.</p>
+<p>This procedure is ONLY for experimented Linux users! If you don't know to use Linux you better stay away.</p>
+<p>The procedure is simple. Are only these 2 files and they are located in:</p>
+<em>`<lnd folder>/data/chain/bitcoin/mainnet/wallet.db`</em>
+<em>`<lnd folder>/data/graph/mainnet/channel.db`</em>
+<p>You have to construct the data/... folders yourself and then copying the files to them, before starting up lnd.</p>
+<ul>
+<li>So, take another machine/drive and install Umbrel, fresh. Use your 24 words seed to restore the onchain AEZEED wallet. Leave it to start the sync a bit and construct the rest of the folders for LND. Then stop it.</li>
+<li>Go to the old drive and locate those 2 files.</li>
+<li>Copy them into the same path in the new node.</li>
+<li>Optional, if you have the blockchain data OK, files integrity is fine, you can copy also the blockchain so you can save time. If you think is corrupted, you better just forget it and let the sync to be done in normal/natural way.</li>
+<li>Start the node, leave it to sync and... voila, your old LN channels are there alive and not closed.</li>
+<li>If there is a problem in restarting the node, just run: sudo scripts/configure</li>
+</ul>
+<p>REMINDER: these files have to be the latest version that was online! If you use an older backup you can lose funds being punished for cheating with an older version of your channels. </p>
+<hr style="height:2px">
+
+<h2 id="experimental">Method 8 - Experimental - RPi node into new desktop machine <a href="#experimental">#</a></h2>
+<p>This method was not fully tested yet, using an old RPi device with working Umbrel and a new NUC/desktop/laptop with Linux OS + docker dependencies (preferably Debian to use the same libraries as UmbrelOS).</p>
+<p>The procedure is simple:</p>
+<ul>
+<li>install new machine with Debian OS + all dependencies required (<a href="https://github.com/getumbrel/umbrel#-installation">see Umbrel GitHub installation guide</a> for desktop Linux</li>
+<li>add the old USB SSD with UmbrelOS installation to new node and start copying the whole folder of Umbrel, in the same location path as before, into the new node drive.</li>
+<li>remove the USB drive after completion</li>
+<li>start Umbrel from that folder with command:</li>
+<pre><code>
+sudo ./scripts/start
+</code></pre>
+<li>If there is a problem in restarting the node, just run: sudo scripts/configure</li>
+</ul>
+<p>All should start fine and node will resume its sync and all your previous data should be there. Have patience for node to catch up with latest blocks and indexes.</p>
+<hr style="height:2px"> 
+  
+<h2 id="th">Method 9 - Thunderhub / Amboss SCB method into Blixt <a href="#th">#</a></h2>
+<p>Recently Amboss added a nice feature for node operators with registered node, to upload an SCB channels.backup file to your account. That file later can be recovered in case your node is dead.</p>
+<p><img src="/assets/images/shtf-th.png" class="center"></p>  
+<p>This option is linked to Thunderhub app, in Tools - Backup. So once you setup in Thunderhub to make backups, it can be linked to your Amboss account and have a copy on their servers.</p>
+<p><img src="/assets/images/shtf-th-backup.jpg" class="center"></p>    
+<p><img src="/assets/images/shtf-th-backup2.png" class="center"></p>  
+<p>There’s no risk of leaking / stealing funds from that file. Without your node wallet seed words, is useless.</p>
+<p>This backup file from Thunderhub also can be saved locally, in a safe place, out of the node. Amboss and Thunderhub are offering this option only as an extra way to backup.</p>
+<h3>Procedure to restore</h3>
+<p>So, your node is broken dead, but you have your 24 words seed. The backups in Amboss were done automatically, OK. You want a fast way to recover those funds, meanwhile your are building a new node.</p>
+<ul>
+<li>Open Blixt app in your mobile device</li>
+<li>Choose recover node</li>
+<li>Insert your 24 words seed (from your dead node)</li>
+<li>Blixt will take few minutes to sync through Neutrino and recover your nodeID</li>
+<li>In this phase you don’t have to choose to recover with channels backup, can be done later. You only need to be able to sign in Amboss and recover your SCB.</li>
+<li>Once is synced (see top spin icon), go to amboss.space and login, signing the key with your Blixt app. Yes, Blixt support LN-auth, like many other features.</li>
+<li>You are logged in your Amboss account, download the SCB file into your mobile device.</li>
+<li>In this moment you will need to wipe the data from your Blixt. The easiest way is to uninstall it and re-install it. Other way, in Android, Blixt app details, delete data and cache.</li>
+<li>Paste the HEX data from Amboss backup into a text file and name it channels.backup or whatever you want.</li>
+<li>Once Blixt is re-installed clean, start the restore procedure with inserting the seed + channels backup file. In that moment the recovering funds procedure is triggered. Will take a while until the blocks are synced through Neutrino and channels are closed. usually takes less than 5 min to sync and 44 to 144 blocks to unlock the funds from channels closure.</li>
+<li>PATIENCE! Keep the Blixt app active in the first phase of the recovering procedure, until the channels start being closed. You can check in Settings - LND logs and in top left drawer - Lightning Channels. If the channels appear there in “closing” state, then is all good and you could close Blixt app.</li>
+</ul>
+<h4>NOTES:</h4>
+<ul>
+<li>If you do not want to restore the funds in Blixt, you can use the same channels.backup file in Thunderhub, once your new node is ready and synced. The procedure is the same, with closing the old channels and funds recovered into your onchain wallet.</li>
+<li>You could use also from cli command:</li>
+<pre><code>
+lncli restorechanbackup --multi_backup <filename_location>
+</code></pre>
+</ul>
+<hr style="height:2px">
+  
+<h3>More tools, documentation, guides about restoring funds from a dead LND node:</h3>
+<ul>
+<li><a href="https://docs.lightning.engineering/lightning-network-tools/lnd/recovery-planning-for-failure">Lightning Engineering: Recovery - Planning for failure</a></li>
+<li><a href="https://github.com/lightningnetwork/lnd/blob/master/docs/recovery.md">LND Lightning node Recovery</a></li>
+<li><a href="https://node-recovery.com/">Lightning Network Node Recovery Tools</a></li>
+</ul>
+</body>
+</html>
+</article>
