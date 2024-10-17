@@ -13,7 +13,7 @@ title: Lightning Network Submarine Swaps
 
 <h3>Methods of how to use swap services to move sats between LN channels and onchain wallets</h3>
 <blockquote style="color:Tomato;"><em>
-Updated October 16, 2024
+Updated October 17, 2024
 </em></blockquote>
 <p>Nowadays, we have many Lightning Nodes, but still their operators don’t know how to use at fully potential.</p>
 <p>So I will try to explain in this guide, how you can use the submarine swaps in LN.</p>
@@ -34,7 +34,7 @@ Updated October 16, 2024
       <li>RTL or Thunderhub node management apps or LNbits Boltz extension</li>
       <li>CoinOS web wallet</li>
       <li>External swap services</li>
-      <li>Ghetto Swap or PeerSwap method between direct peers</li>
+      <li><a href="#ghetto-swap">Ghetto Swap</a> or PeerSwap method between direct peers</li>
       <li>Bluewallet LNDHUB</li>
     </ul>
   <li><a href="#scenario-b">Scenario B</a> - a regular user that buys sats from exchanges regularly. Methods used:</li>
@@ -96,15 +96,49 @@ Updated October 16, 2024
 <p>Here are some more detailed guides about swaps using these services:</p>
 <ul>
 <li><a href="https://stacker.news/items/333907/r/DarthCoin">Using Boltz and Robosats for LN ←→onchain swaps</a></li>
-<li><a href="https://stacker.news/items/695140/r/DarthCoin">Using SwapMarket</li>
+<li><a href="https://stacker.news/items/695140/r/DarthCoin">Using SwapMarket</a></li>
 </ul>
 
-<h3>4 - Ghetto Swap or PeerSwap- The friendly swap with your direct peers</h3>
-<p><a href="https://darthcoin.substack.com/p/the-ghetto-swap-method">I described the steps of the Ghetto swap in this guide here</a>.</p>
-<p>This is a special type of swap, recommended to be done only with your trusted peers.</p>
+<h3 id="ghetto-swap">4 - Ghetto Swap or PeerSwap- The friendly swap with your direct peers <a href="#ghetto-swap">#</a></h3>
+<h5>A - The "Ghetto Swap" method</h5>
+<p style="color:Tomato;"><strong>WARNING: Do not do this with unknown random people on internet!</strong></p>
 <p>Practically is an exchange of sats from LN to onchain, using keysend feature of your node, most used is Thunderhub for this procedure.</p>
 <p>You push the sats through a common channel to your peer, he will pay you back onto an onchain address you indicate. This transaction is known ONLY by you two. The keysend tx is not a LN invoice and if you have a common channel, you will not pay fees and also will not pass through any other hop node. You can do it also if you do not have a common channel, but that will cost you more because it will pass through some hops, as a regular LN payment.</p>
+<p>Ok, we have a use case scenario like this:</p>
+<ul>
+<li>a bunch of friends/ known peers in a ring group, with BTC/LN nodes ready synced and with funds in onchain node wallet.</li>
+<li>we want to have routing ring of nodes, with balanced channels and ready to send and receive LN txs and routing others txs.</li>
+</ul>
+<p><strong>SCENARIO A: Pushing tokens to peer and pay later back</strong></p>
+<ol>
+<li>Establish the amount of the channel, usually is better to start with 1M or 2M sats.</li>
+<li>Establish how will be transferred half of the amount of the channel to the other peer, onchain or LN. Each one preference is related with what will want to do with the funds after that (opening another channel - onchain, or just re-using them for payments - LN).</li>
+<li>One of the peers will use Thunderhub app to open a 2M sats channel, for example. If you use as node software Umbrel/myNode/RaspiBlitz, you can find Thunderhub in your AppStore of the bundle. TH is a powerful app to manage your node.</li>
+<p>Go to main TH page - quick action buttons - Open. It will open a small action box with another Open button.</p>
+<p><img src="/assets/images/th-ghetto-swap.png" class="center"></p>
+<p>Being a new peer, just paste in the box the nodeID of the peer. Put the amount in sats, 2 000 000 in channel size.</p>
+<p>In fee amount put a lower fee, based on the mempool, like 2-3-4-5 sat/vByte</p>
+<p>In advanced tab (you will need to click it to open the dialog), leave "public channel" and select "push tokens to partner" as "half".</p>
+<p>Click "Open channel" and done, wait that the tx will be fully confirmed (3 confirmations)</p>
+<li>As an open channel initiator you role is done. Now give to the other peer your BTC address onchain or LN invoice where to send your half amount of sats you pushed on his side, making them "his" sats.</li>
+<li>The other peer will just pay you the invoice and done.</li>
+<p><strong>SCENARIO B: Open channel and balance it with keysend</strong></p>
+<ol>
+<li>Follow the same steps from "Scenario A" except the point where you push tokens in the opening procedure. Let's say you want first to receive those half sats in your wallet before you push the tokens to the other side.</li>
+<li>So you will have a channel of 2M sats with all liquidity on your side.</li>
+<li>After you receive the sats from the other peer, half of the channel amount, you go to the main page in Thunderhub - Accounts - Lightning and click on Send. Then select "Is keysend".</li>
+<p><img src="/assets/images/th-swap-peer.png" class="center"></p>
+<li>Paste the nodeID/Public key of the other peer, click decode. Will appear another window with the name of the node (if is set). Put the amount of sats, in this case 1M sats (1 000 000) and click send. This operation will push 1M sats directly to your peer, with no invoice, no fees, directly through your common channel already opened and confirmed.</li>
+<p><img src="/assets/images/th-swap-peer-amount.png" class="center"></p>
+<li>Done! Now you will have a balanced channel with your peer.</li>
+</ol>
+<p>If you want a more detailed explanation video how to use Thunderhub in a node, <a href="https://www.youtube.com/watch?v=KItleddMYFU">here is a great video tutorial by BTC Sessions</a></p>
+<p><strong>NOTE</strong></p>
+<p>Another aspect that should be taken in consideration is the size of the channel you open and the commit fee.</p>
+<p>A small channel like 20k-50k-100k will be heavily affected by "commit fee". That means in time, if the miner fees goes high up, also the commit fee will "deduct" from your channel balance.</p>
+<p>More to read about commit fees variations <a href="https://bitcoin.stackexchange.com/questions/89232/why-is-my-spendable-msat-much-lower-than-msatoshi-to-us/89235#89235">here</a> and <a href="https://old.reddit.com/r/lightningnetwork/comments/cjtbjt/question_regarding_commit_fee/">here</a></p>
 
+<h5>B - The Peer Swap method</h5>
 <p>Another method to swap between peers is to use the <a href="https://www.peerswap.dev/">PeerSwap service</a>.</p>
 <p>PeerSwap enables Lightning Network nodes to balance their channels by facilitating atomic swaps with direct peers. PeerSwap enhances decentralization of the Lightning Network by enabling all nodes to be their own swap provider. No centralized coordinator, no 3rd party rent collector, and lowest cost channel balancing means small nodes can better compete with large nodes.</p>
 <p>PeerSwap currently has a working implementation for both CLN and LND nodes.</p>
