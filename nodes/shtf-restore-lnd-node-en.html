@@ -28,18 +28,18 @@ title: SHTF scenario - How to restore a dead LND node?
 <li>Restoring funds procedure is the LAST resort, so before starting it, please consult with others and try to have a correct diagnostic of what happen to your node. Maybe a simple restart is just enough.</li>
 </ul>
 <p>Below I will present you various methods to "restore" your dead LND node funds.</p>
-<p>If you have funds ONLY in onchain wallet and do not have funds in LN channels, just use the methods 2, 3, 4, 5.</p>
-<p>If you have funds in onchain wallet AND in LN channels use the methods: 1, 3, 6, 7, 8.</p>
+<p>If you have funds ONLY in onchain wallet and do not have funds in LN channels, just use the methods 2, 3, 4, 5, 6.</p>
+<p>If you have funds in onchain wallet AND in LN channels use the methods: 1, 3, 4, 7, 8, 9, 10.</p>
 <p><a href="#umbrel">1. Standard, normal way using a new instance of Umbrel node</a></p>
-<p><a href="#bluewallet">Using Bluewallet mobile app</a></p>
-<p><a href="#blixt">Using Blixt wallet mobile app</a></p>
-<p><a href="#zeus">Using Zeus LN wallet mobile app</a></p>
-<p><a href="#zap">Using Zap wallet desktop app</a></p>
-<p><a href="#sparrow">Using Sparrow wallet desktop app</a></p>
-<p><a href="#raw-copy">Using a copy of database files into another LND node instance</a></p>
-<p><a href="#experimental">Experimental full copy data from RPi node to desktop/NUC Linux machine</a>
-<p><a href="#th">Using Thunderhub / Amboss SCB backup to restore in Blixt</a>
-<p><a href="https://github.com/guggero/chantools">Using Guggero's Chantools for stuck channels</a></p>
+<p><a href="#bluewallet">2. Using Bluewallet mobile app</a></p>
+<p><a href="#blixt">3. Using Blixt wallet mobile app</a></p>
+<p><a href="#zeus">4. Using Zeus LN wallet mobile app</a></p>
+<p><a href="#zap">5. Using Zap wallet desktop app</a></p>
+<p><a href="#sparrow">6. Using Sparrow wallet desktop app</a></p>
+<p><a href="#raw-copy">7. Using a copy of database files into another LND node instance</a></p>
+<p><a href="#experimental">8. Experimental full copy data from RPi node to desktop/NUC Linux machine</a>
+<p><a href="#th">9. Using Thunderhub / Amboss SCB backup to restore in Blixt</a>
+<p><a href="https://github.com/guggero/chantools">10. Using Guggero's Chantools for stuck channels</a></p>
 <hr style="height:2px">
 
 <h2 id="umbrel">Method 1 - Standard, normal way using a new instance of Umbrel node <a href="#umbrel">#</a></h2>
@@ -146,9 +146,10 @@ cd ~/umbrel && ./bin/lncli restorechanbackup --multi_file /data/.lnd/channel.bac
 <ul>
 <li>There is a limitation anyways. Umbrel now is using also Taproot type of addresses. Is not by default, but if you activated that option in Settings, your Umbrel wallet will generate Taproot format addresses. Keep in mind that not all other apps that can import xpub or full Blixt aezeed wallet could also display / read those addresses. That means, you will miss some sats in your balance displayed because those taproot addresses will be ignored. That doesn't means you lost your sats. It just that are not displayed, not shown, not "readable" by the app you use to import the wallet.</li>
 <li>This method will not restore your LN channels, only the onchain wallet! To restore funds from LN channels you still need to do the "normal procedure" explained in the point 1 in this guide.</li>
+</ul>
 <h3>PROCEDURE</h3>
 <ol>
-<li>>Go to <a href="https://guggero.github.io/cryptography-toolkit/#!/aezeed">Cryptography Toolkit</a> and download the HTML file onto your computer.</li>
+<li>Go to <a href="https://guggero.github.io/cryptography-toolkit/#!/aezeed">Cryptography Toolkit</a> and download the HTML file onto your computer.</li>
 <li>Open that HTML file in "offline mode" (no internet) and select "aezeed Cipher Seed Scheme" from Tools. Then go to the 2nd tab "Decode Mnemonic".</li>
 <li>Paste your 24 words into the "Mnemonic" field.</li>
 <p><img src="/assets/images/shtf-cryptographic-tool.png" class="center"></p>
