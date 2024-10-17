@@ -5,6 +5,7 @@ title: Getting started with Alby Hub
 <article>
 <!DOCTYPE html>
 <html lang="en">
+<meta name="description" content="Bitcoin and Lightning guides: A simple step-by-step guide to install and use Alby Hub + Alby Go in a self-custodial way">
 <body>
 <a href="/wallets/getting-started-alby-hub-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a>
 <h3>A simple step-by-step guide to install and use Alby Hub + Alby Go in a self-custodial way, with low resources and basic knowledge.</h3>
@@ -72,10 +73,15 @@ make install
 </code></pre>
 <p>Once the LND is up and running, continue with <a href="https://docs.lightning.engineering/lightning-network-tools/lnd/macaroons">backing the macaroons</a> and TLS certificate required to connect Alby Hub, those will be necessary in this next step:</p>
 <p><img src="/assets/images/albyhub-LND.jpg" class="center"></p>
+<p>Go to /home/user/.lnd/ and open as text file the tls.cert. Copy the HEX code between "begin cerificate and end certificate. Paste it into Alby Hub - "TLS certificate HEX box."</p>
+<p>open Terminal and type:</p>
+
+<pre><code>xxd -p -c2000 ~/.lnd/data/chain/bitcoin/mainnet/admin.macaroon</code></pre>
+<p>You will obtain a HEX code for your macarroon file and paste it into the Alby Hub - "Admin Macaroon box".</p>  
 <blockquote>
-<p style="color:Tomato;"><em>LND address - your local LND instance, eg. http:/127.0.0.1:9735</em></p>
-<p style="color:Tomato;"><em>TLS Certificate - path to the LND TLS cert file, usually in lnd/data</em></p>
-<p style="color:Tomato;"><em>Admin Macaroon - your backed admin macaroon to authorize the connection</em></p>
+<p style="color:Tomato;"><em>LND address - your local LND instance, eg. 127.0.0.1:10009</em></p>
+<p style="color:Tomato;"><em>TLS Certificate - copy the HEX from your tls.cert file</em></p>
+<p style="color:Tomato;"><em>Admin Macaroon - convert in HEX your LND admin.macaroon</em></p>
 </blockquote>
 <h3>Cashu Mint backend</h3>
 <p>An interesting and damn simple connection as funding source. If you do not want to deal with all above LN nodes, channels management liquidity etc. this is one of the most straight forward and simple solutions.</p>
