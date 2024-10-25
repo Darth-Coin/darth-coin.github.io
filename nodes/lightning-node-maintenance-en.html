@@ -1,0 +1,151 @@
+---
+layout: default
+title: Lightning Node Maintenance
+---
+<article>
+<!DOCTYPE html>
+<html lang="en">
+<meta name="description" content="Bitcoin and Lightning Nodes guides: A simple guide about good practices for your LN node maintenance">
+<body>
+| <a href="https://darthcoin.substack.com/p/mantenimiento-nodos-lightning">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="https://asi0.substack.com/p/maintenance-pour-nud-lightning">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="https://darthcoin.substack.com/p/lightning-node-onderhoud">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+
+<h3>A simple guide about good practices for your LN node maintenance</h3>
+<blockquote style="color:Tomato;"><em>
+<p>All aspects here are presented from my point of view, after 25+ years in IT tech & support for end users, servers and enterprises. After 10+ years in Bitcoinlandia, testing several apps and solutions, in the last 2 years I start helping a lot of Umbrel users and observing their behavior in using a LN node.</p>
+<p>This guide was requested by one of my substack readers. So I delivered.</p>
+</em></blockquote>
+
+<h2>Introduction</h2>
+<p>As a LN node operator we have also big responsibilities for our peers and even friends, family that are connected to our node. That means we should care with attention our node machines. Running a node is a serious task and users should not consider it a game for fun.</p>
+<p>So a good maintenance and good care of your node machine is a MUST HAVE. I saw many new node operators that are not taking serious these aspects and that it affect all the rest of us not just them.</p>
+<p>Why is affecting all the rest?</p>
+<ul>
+<li>a peer node that is not reliable (99% available) can disrupt many payment paths.</li>
+<li>a not reliable node it affect all its peers scores as good nodes.</li>
+<li>a not reliable node will lock funds in dead channels, peers depends on those funds.</li>
+<li>I will explain here some good practices that a node operator should take in consideration to have a good reliable node. It doesn't really matter if you run a node for personal use or business use (merchants), what matter is how much you care about your node.</li>
+</ul>
+<p><img src="/assets/images/ln-node-backup.jpg" class="center"></p>
+<hr style="height:2px">
+
+<h3>KEY ASPECTS</h3>
+<ul>
+<li>Shut down /restart your node only when is necessary for some software updates, cleaning up databases, changes in configuration.</li>
+<li>Keep your node online as much as you can and is possible. Shutting down for a short period of time is OK, channels will be OK, nobody will close them if you announce the maintenance period to your peers.</li>
+<li>Use an UPS (Uninterruptible Power Supply) with enough battery life to keep your node machine + internet router online in case of power cuts. Or at least enough time for you to shut it down in a grace mode, if the power is off for more hours or days. Important is to protect your data from loss and corruption.</li>
+<li>If your budget and your use of node is very important for a business, than use a machine with RAID implementation. Not software, but hardware RAID.</li>
+<li>Hardware. Is very important to have reliable hardware, not toys. Toys are good to start learning, because are cheap, but are not reliable in the long run. So choose wisely your hardware, based on your "stage" (learning, advancing, production, enterprise).</li>
+<li>Make backups! Backups are like BTC price dips, you never know when are needed. So make them periodically.</li>
+<li>LND is writing all the time on channel.db and wallet.db and contain all important data. These are the most important files of your node. All the rest can be reconstructed easily anytime. But these 2 files cannot be back up in real time and also only the last version is valid.</li>
+<li>SCB backup is just like a lite export of channels.db, in a specific moment, that contain basic information about your channels, enough to be used to closed them and recover the funds in onchain.</li>
+<li>CLN implementation is using another type of files, in hsm.secret and is much easier to make copies of this database.</li>
+</ul>
+<hr style="height:2px">
+
+<h2>USE CASE PRACTICES</h2>
+<h3>A. Hardware</h3>
+<p>When you start with a new node, first thing you should ask yourself is: for what am I using this node? Then build your machine hardware based on necessity and move in time to another configuration only when is needed.</p>
+<h4>Learning / study machine</h4>
+<p>At this level could be any RaspberryPi machine, cheap, easy to install and assemble, low power consumption and cute. Don't rely too much on these tiny machines. For practicing and learning are very good, you will learn a lot. But are not 100% reliable.</p>
+<p>Also even if you go for a Rpi device, at least use min 8GB RAM memory and a good SSD drive. Also the power adapter is very important. A faulty one or not original will create a series of failures in cascade and you will not know why. Is because of that tiny power adapter.</p>
+<p>mSD cards are also failing a lot, so always have a spare one backup, ready installed and to be replaced the old one in case of failure. These are very sensible at power cuts.</p>
+<p>These tiny machines are famous for the rate of failures, for various reasons. So even if you are in "learning phase" is recommended to use an UPS. Will give you more piece of mind and good sleep at night.</p>
+
+<figure>
+    <img src="/assets/images/node-example1.jpg" class="center">
+    <figcaption>RPis need good ventilation :)</figcaption>
+</figure>
+
+<h4>Advanced machine</h4>
+<p>When you are ready and learned more about how to run a node, is time to raise your hardware level. Now you want a more reliable machine, that can handle more connections, more channels, faster payments and give you a piece of mind that your funds will not be locked in days or weeks in recovery mode because of a crash.</p>
+<p>If your budget is not so "generous" you can go for a good 2nd hand desktop machine. Nowadays many offices are selling their 1-2 year old machines for pennies. And some of them, even barebones are damn good machines for a node. Uusally are coming already with min 8GB RAM sometimes bargains with 16GB (!!!).</p>
+<h5>Why barebones?</h5>
+<ul>
+<li>because are relatively small (my one is same size as a RPi and is fanless)</li>
+<li>because on some of them you can add 2 SSD drives or even NVM drives (even much better than SSD)</li>
+<li>because they have better ventilation and some of them passive one (no noisy fans)</li>
+<li>because you get rid of the USB drive connection that a RPi device use it. That USB connection is the weakest point for a RPi node.</li>
+<li>because the hardware is more robust and durable than a RPi.</li>
+</ul>
+
+<figure>
+    <img src="/assets/images/mini-node.jpg" class="center">
+    <figcaption>My humble barebone node, internal drive, fanless</figcaption>
+</figure>
+
+<p>CPU it doesn't really matter, just add 2 good SSD drives for RAID and you are good!</p>
+<p>UPS is still a must have. Why? Because usually when a power cut happen, it came back with different voltage, spikes, ampers, or is just flickering etc. That could damage your machine power source. Usually the power source is the first one that fall, protecting the rest. But never knows. An UPS will keep a good and healthy flow of electricity to your machine and also keep online the internet connection.</p>
+<blockquote style="color:Tomato;"><em>
+<p>Remember: a node doesn't need to be fancy, it must be reliable.</p>
+</em></blockquote>
+<p>I would recommend here to find a good machine, with RAID chip on the motherboard, that can handle at least RAID 1 configuration at BIOS level. What does this mean? Means that you can build a RAID volume, directly in BIOS, from 2 drives, so data is written in the same time on both disks. So if one drive get "sick" or dead, you can still have your data safe on the twin drive, still functioning. You can shut down your machine, replace the sick drive and RAID system will rebuild the twin RAID system from the healthy one in few minutes. No data loss, no channels closed, no funds lost.</p>
+
+<h4>Enterprise machine</h4>
+<p>When you run a node for a serious business that depends 100% of that node, is time for you to think serious about having a 24/7/365 node machine. Just the node core part, not the apps you install on top. Having secured your core node, gives you more flexibility where and how you manage your enterprise apps and solutions.</p>
+
+<figure>
+    <img src="/assets/images/node-example2.jpg" class="center">
+    <figcaption>A personal rack servers with multiple nodes</figcaption>
+</figure>
+<p>I would recommend the following scenario for this:</p>
+<ul>
+<li>use a hosted node solution (<a href="https://voltage.cloud/">Voltage</a>, <a href="https://nodl.it/">Nodl</a>, <a href="https://nodana.io">Nodana</a>, dedicated node VPS) that is managed by professionals in nodes architecture, providing only the Core part (Bitcoin + LN node) with high availability and support.</li>
+<li>use any other machine, could be at home/office/remote VPS where you install your necessary apps to manage your node: BTCPay, LNbits, Thunderhub, RTL etc and point their configuration towards your remote LN node.</li>
+</ul>
+<p>That's all you need for a high available solution, with almost zero chance to lose funds, channels, peers, time, customers etc.</p>
+<hr style="height:2px">
+
+<h2>B. Data backup and restore</h2>
+<p>The most important thing is the wallet seed. This is the first thing you should save and keep safe, in a offline password manager for example (Keepass or Vaultwarden).</p>
+<h3>LND nodes database backups</h3>
+<p>For LND nodes there are two types of storing data, that can be recovered:</p>
+<ul>
+<li>SCB backups - an offline copy of the state of your channels, containing only the information enough to be used to close the channels (together with your seed) and recover the funds from channels back into your onchain wallet. Keep in mind: this channels.backup file can be used ONLY with your node seed! Make copy of this SCB file every time you open and/or close a channel. Or make scripts that can create this SCB file on local drive each time you open/close channels and then is rsync the file on a remote location. It doesn't have to be at every transaction you've done with your node.</li>
+<li>Last state of channels.db and wallet.db. These files COULD NOT be back up on the fly or even if you shut down the node and make a copy, are not useful, because once you start the node again it will be changed.</li>
+</ul>
+<p>By "last state" means are useful ONLY the state before recovering a dead node. When your machine is dead for hardware reasons or is not starting the software, but you can still access the files. Then make a copy of these 2 files on an external drive (could be big) and use them later after you rebuild the new node.</p>
+<p>You have 2 ways to restore/recover a LND node:</p>
+  <ol>
+    <li><p>WITHOUT channels state</p>
+        <p>To recover your funds WITHOUT the channels, you can use the SCB backup that will automatically close and recover funds in onchain wallet. This is the easiest way and <a href="/nodes/shtf-restore-lnd-node-en.html">I describe it in this guide</a> (see methods 2,3,4,5,6).</p>
+        <p>I am strongly suggest to use option 3 and meanwhile you are recovering the funds in Blixt, you can rebuild a new nodeID, new seed, new wallet, new identity with your old machine. Later you can just move the funds to your new node from Blixt or just use them, <a href="https://darthcoin.substack.com/p/node-liquidity-guide">as a private mobile node, as a companion little node for your home node</a>.</p>
+    </li>
+    <li><p>WITH channels state</p>
+        <p>To restore a node WITH the channels intact, as was on the last state, you will need to do some steps, to prepare the environment. <a href="/nodes/shtf-restore-lnd-node-en.html">Explained in this guide</a>, see methods 1, 3, 4, 7, 8, 9, 10.</p>
+        <p>If you node was crashed, but you can still access the files, this is the best lucky moment, you have 2 tasks to do:</p>
+        <ul>
+           <li>1. copy the wallet.db and channel.db form that "not starting" node somewhere else, out. channel.db could be big, so is not enough just a USB stick. Check first its size.</li>
+           <li>2. once you have those 2 files safe out, start building your entire node from scratch or if you have a previous copy, restore it entirely. BE AWARE! when you restore, if you can skip those 2 files, if not, you will have to overwrite them with the latest copy you've just taken out from that dead node. Always have to be the last state.</li>
+        </ul>
+        <p>When you rebuild the node software choose the option "restore from seed" so you could have the same nodeID and encryption keys from your previous node, being able to use same wallet.db and channel.db. If you use another seed/nodeID, those files are not usable, cannot be unlocked!</p>
+        <p>This is the part where you have to "reconstruct" the data folders. If you do not restore from a full copy that already contain those folders where the wallet and channel.db were before, you will need to install the node software from zero, let it to start, to rebuild the folders and sync db and then stop it. Copy the 2 files in their location and restart the node. Done.</p>
+        <p>Then you can restart your node. It will start catching up and re-use the 2 files nicely, all your channels will be there, will just take a while to catch up with blocks and sync.</p>
+    </li>
+  </ol>
+<h3>CLN nodes database backups</h3>
+<p>For these implementation nodes is much easier and is just a recursive copy of a simple small database file hsm_secret.</p>
+<p><a href="https://lightning.readthedocs.io/BACKUP.html">All the process is explained in this manual guide for CLN</a>.</p>
+<hr style="height:2px">
+
+<h2>C. Maintenance and software updates</h2>
+<p>OK, so many users asked about updates and how often to do it.</p>
+<p>The answer is simple: anytime is needed. Exactly, not all the time, but only when is needed.</p>
+<p>Why? Because not all the time is needed :) If something works just fine with no errors, a new version doesn't mean automatically better. New features or apps that you do not use them, doesn't mean you must update. Stability is more important then new stuff.</p>
+<h4>Recommendations:</h4>
+<<ul>
+  <li>don't jump into updating your node software impulsively, immediately it was released or if is not even fixing your node issues. Some updates are minor some are important.</li>
+  <li>Read carefully the release notes and see if the update is an advantage or is fixing an error you had with your node. If it doesn't affect you directly, there's no need to jump in and do the update. Wait for a more important release. Sometimes also quick release updates can contain bugs, not in time verified by devs. Shit can happen, they are humans too. So wait 1-2 days more and see what other impatient users say after they update.</li>
+  <li>OS updates are more important than node software updates. So check more often the OS updates and do them when are needed.</li>
+  <li>When you update the OS, always, first stop the node. Some requisites could be docker components or other modules that affect the node software. So the OS updates and shut down the machine. Yes, not simply restart, but shut down, leave it few seconds to clear the memory and start again. This is a good practice also to maintain the drive clusters in good shape and clean the memory form bad things.</li>
+  <li>Always, before updating the node software, update first the OS.</li>
+  <li>RPi users usually do not have to do OS updates, because the node software is builtin together with OS, usually is a modified version of Debian OS, adapted for RPi.</li>
+  <li>For non-RPi users, I am strongly recommending to use as OS a Debian linux. Is more robust, better checking files system, less fancy unnecessary desktop stuff, for a node OS you need to be minimalist, you are not using it all the time.</li>
+  <li>Don't complicate things with VMs, Ubuntu servers that only take out large amount of resources. A node do not need that. You need just the base to run a node.</li>
+</ul>
+<p>I think these are enough aspects for you, the new node operator that start now your journey into this fascinating world of nodes.</p>
+<p>I hope you are running the best node you can and I gave you enough information for running a node in good conditions. Happy Lightning!</p>
+</body>
+</html>
+</article>
