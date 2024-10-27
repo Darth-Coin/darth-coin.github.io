@@ -8,6 +8,179 @@ title: ¿Cómo configurar una IP estática para el nodo Umbrel?
     <html lang="es">
 
     <body>
+        <a rel="noopener noreferrer" target="_blank"
+            href="https://darthcoin.substack.com/p/how-to-set-static-ip-for-umbrel-node">English <img
+                src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="
+                vertical-align:bottom"></a>
+        <h1>¿Cómo configurar una IP estática para el nodo Umbrel?</h1>
+        <h3>Para un mejor acceso a tu panel de umbrel.local, configura una IP estática</h3>
+        <p>Veo que muchos usuarios tienen problemas para conectarse a umbrel.local y la mayoría son usuarios de Windows.
+        </p>
+        <p>Gente... por favor antes de empezar a manejar un nodo, DYOR y aprendan al menos lo básico sobre redes,
+            TCP/IP, IPs, LAN, WAN.</p>
+        <p>Gestionar un nodo es algo serio, ¡no es un juguete!</p>
+        <p>Además el equipo de Umbrel, NO es responsable de tus propios errores y falta de conocimiento sobre como
+            arreglar cosas simples y no relacionadas con el software de Umbrel.
+        </p>
+        <p>Intentaré poner aquí algunos pasos sencillos para que todo el mundo pueda probarlos antes de empezar a
+            flipar con que su nodo Umbrel está “roto”.</p>
+        <p>No tener acceso a tu nodo no significa realmente que tu nodo esté roto. Significa que el PC desde el que
+            accedes no puede verlo en tu LAN o en los parámetros que configuras tu LAN.
+        </p>
+        <p>Así que podrían existir 4 razones por la que tal vez su nodo no es accesible:</p>
+        <ol>
+            <li>IP asignada: La IP para el nodo no está fijada, o fue cambiada por su router DHCP, o no está en el mismo
+                rango
+                de su LAN regular.</li>
+            <li>Tu ordenador desde donde accedes, no conoce la nueva IP o no ha podido encontrar la IP relacionada con
+                umbrel.local. Algunas versiones de Windows actualizan esa información y a veces simplemente la bloquean.
+            </li>
+            <li>Problemas de hardware: Si tu HDD/SSD con datos tiene fallos de conexión, el SO Umbrel entrará en un
+                bucle`y no
+                podrá ser accesible.</li>
+            <li>Problemas de software: Es muy raro que UmbrelOS se bloquee. Así que en el 99% de los casos un reinicio y
+                una
+                buena cantidad de tiempo de espera para volver (resincronizar los bloques) lo arreglará. Así que sea
+                paciente y
+                después de reiniciar espere antes de hacer cualquier otra investigación.</li>
+        </ol>
+        <p>¿Cómo podríamos solucionar nosotros mismos estos problemas?</p>
+        <ol>
+            <li>¿Cómo establecer una IP fija para mi nodo?</li>
+            <p>Opción A - configurar en su router una IP fija para su nodo</p>
+            <ul>
+                <li>Entrar en la configuración de su router.</li>
+                <li>Encontrar el servidor DNS o DHCP (dependiendo de cada marca)</li>
+                <li>Establecer una IP fija, del rango de tu LAN y que no sea utilizada por otro dispositivo. Puedes
+                    ejecutar desde cualquier máquina Windows en símbolo del sistema arp -a y verás una lista de todos
+                    los
+                    ordenadores conectados en tu LAN, con sus IPs y direcciones MAC asignadas. Uno de ellos podría ser
+                    también su
+                    nodo si está encendido. También puedes ver la dirección MAC en la caja de tu Raspberry Pi.
+                </li>
+                <li>Asi que asigna una IP fija usando la direccion MAC de tu RPi en tu router.
+                </li>
+                <li>Hecho, a partir de ahora, cada vez que tu RPi se conecte a ese router, se le asignará la IP que le
+                    configures.</li>
+            </ul>
+            <p>Opción B - configura una IP fija en los ajustes de tu RPi</p>
+            <ul>
+                <li>Use Windows Powershell o Putty para entrar SSH en su Rpi.</li>
+                <li>Escriba <code>ssh umbrel@umbrel.local</code> o <code>ssh umbrel@yourRpi-IP`</code> si conoce esa IP
+                    asignada dinámicamente (vea el punto anterior con la lista de IPs en su LAN)</li>
+                <li>Te pedirá una contraseña, PERO NO LA VERÁS. Simplemente escribe tu contraseña de usuario para Umbrel
+                    y pulsa ENTER.</li>
+                <li>Una vez dentro, configura la dirección IP estática para la Raspberry Pi, la ruta de la pasarela y un
+                    servidor DNS. La configuración para el cliente DHCP (Pi) se encuentra en el archivo
+                    /etc/dhcpcd.conf:</li>
+            </ul>
+            <p>sudo nano /etc/dhcpcd.conf</p>
+            <p>El siguiente fragmento es un ejemplo de una configuración de muestra.</p>
+            <p>Cambie el valor de static routers y static domain_name_servers por la IP de su router (puerta de enlace
+                predeterminada, véase la opción A).</p>
+            <p>Tenga cuidado de dar a la Raspberry Pi una dirección que está FUERA del rango de direcciones que son
+                asignadas por el servidor DHCP. Puede obtener este rango buscando en la página de configuraciones del
+                router y comprobando el rango de direcciones DHCP. Esto significa, que si el rango DHCP va de
+                192.168.178.1 a 192.168.178.99 estás bien para ir con la IP 192.168.178.100 para tu Raspberry Pi.</p>
+            <p>Añade lo siguiente al archivo /etc/dhcpcd.conf:</p>
+            <code>#Configuración dirección IP estática (CAMBIE LOS VALORES PARA AJUSTARLOS A SU RED)<br>
+                interface eth0<br>
+                static ip_address=192.168.178.100/24<br>
+                static routers=192.168.178.1<br>
+                static domain_name_servers=192.168.178.1<br>
+            </code>
+            <p>Reiniciar la red utilizando el comando <code>sudo /etc/init.d/networking restart</code></p>
+            <li>Añade la IP del nodo en tu archivo hosts.</li>
+            <p>Ahora, una vez que sepas que tu Raspberry Pi tendrá una IP fija, puedes ir y añadirla también a tu
+                ordenador local,
+                para facilitar el acceso.</p>
+            <ul>
+                <li>Vaya al archivo hosts ubicado en: C\Windows\system32\drivers\etc\ Si no puedes verlo, ve a ver
+                    opciones de carpeta y selecciona “mostrar archivos y carpetas ocultos”.</li>
+                <li>Cópialo en tu escritorio y empieza a editarlo con el bloc de notas.</li>
+                <li>Añade la siguiente línea:</li>
+            </ul>
+            <p>192.168.x.x umbrel.local</p>
+            <p>(sustituya 192.168.x.x por la IP local asignada a su nodo)
+            </p>
+            <ul>
+                <li>Guarda el archivo y cópialo de nuevo sobre el original. Te pedirá confirmación, porque es un archivo
+                    de sistema. Confirma y listo.</li>
+                <li>Reinicia tu PC. A partir de ahora tu PC irá siempre a la IP asignada cuando escribas en tu navegador
+                    umbrel.local</li>
+            </ul>
+            <p>Para usuarios de Mac, <a rel="noopener noreferrer" target="_blank" title="Alphr"
+                    href="https://www.alphr.com/edit-hosts-file-mac-os-x/">sigue estos pasos para editar tu archivo
+                    hosts 68</a></p>
+            <p>Para los usuarios de Linux, estas instrucciones no son válidas, ellos ya saben qué hacer, si ya ejecutan
+                un Linux.</p>
+            <li>Problemas de hardware</li>
+            <ul>
+                <li>Normalmente, la mayoría de las veces, el disco duro externo se desconecta (por varias razones).</li>
+                <li>A veces, la fuente de alimentación falla, aunque sean milivoltios que no los detectas, esas pequeñas
+                    intrerrupciones podrían dañar algún hardware o no funcionar correctamente.</li>
+                <li>los cortes de luz son muy graves dañando discos o archivos en los discos. ¡Es muy recomendable hacer
+                    funcionar tu nodo con una batería de reserva que pueda mantener ENCENDIDO tu nodo varios minutos
+                    hasta que puedas apagarlo! NO HAGA FUNCIONAR SU NODO SIN BATERÍA SI SE ENCUENTRA EN MEDIO DE UNA
+                    TORMENTA ELÉCTRICA. EN EL 99% DE LOS CASOS, ¡SE QUEDARÁ SIN BATERÍA!</li>
+            </ul>
+            <p>Con el fin de solucionar lo que está sucediendo dentro de tu máquina de nodos, el equipo de Umbrel
+                necesitará ver el registro de depuración. Ese registro contiene información valiosa que puede “decir” si
+                hay un componente que falla. También puedes leerlo y ver si algo va mal y quizás una vista rápida te de
+                una pista y puedas arreglarlo tú mismo. Si no te sientes tan cómodo con los logs, simplemente envía a la
+                comunidad Umbrel el enlace del log y podremos echarle un vistazo.
+            </p>
+            <p>Entra por SSH en tu nodo.</p>
+            <p>Abre un terminal/comando prompt/powershell/putty en tu ordenador e introduce:</p>
+            <code>ssh umbrel@umbrel.local</code>
+            <p>La contraseña es tu contraseña personal de usuario para el dashboard de Umbrel. Cuando la escribas, no
+                verás lo que escribes, así que simplemente escribe y pulsa ENTER. Si no la cambias, será la contraseña
+                por defecto de Umbrel - moneyprintergobrrr
+                y luego escribe.</p>
+            <code>~/umbrel/scripts/debug --upload</code>
+            <p>Al final del debug log habrá un enlace e instrucciones de dónde publicarlo (en el grupo de Telegram o en
+                la Comunidad Umbrel).
+            </p>
+            <li>Problemas de software</li>
+            <p>La mayoría de las veces estos problemas vienen de:</p>
+            <ul>
+                <li>Los usuarios no tienen paciencia para esperar a que el nodo esté totalmente sincronizado y
+                    reiniciarlo o
+                    apagarlo o hacer cualquier otra tarea que no deberían hacer. ¡La paciencia es la clave para un
+                    operador de
+                    nodo!</li>
+                <li>Cortes de corriente o instalaciones anteriores que no acabaron bien.</li>
+                <li>La tarjeta microSD se daña. Estas tarjetas son muy sensibles. Ten siempre una copia a mano.</li>
+                <li>Actualizaciones que se cuelgan debido a sectores del disco que no están en buen estado.</li>
+                <li>Muchas otras razones por las que el sistema puede volverse inestable (es una simple Raspberry Pi, no
+                    un servidor completo, así que espere estos problemas).</li>
+            </ul>
+            <p>¿Qué hay que hacer?</p>
+            <ul>
+                <li>Ejecuta el debug log indicado en el punto 3.</li>
+                <li>Puedes reflashear la tarjeta microSD. En esta tarjeta está SOLO el SO, no los datos. Así que no se
+                    perderán datos de usuario.</li>
+                <li>Vuelve a aplicar la última actualización. Sí a veces, los archivos pueden corromperse y una
+                    reinstalación sólo podría escribir la versión correcta.</li>
+            </ul>
+            <p>¡LISTO! ¡A partir de ahora puede acceder a su nodo en su navegador con umbrel.local!</p>
+            <p>Opcional: Yo recomendaría para abrir su tablero de instrumentos Umbrel utilizando la dirección de cebolla
+                proporcionada (después de entrar con umbrel.local) y marcar esa dirección.</p>
+            <p>También RECUERDA:</p>
+            <ul>
+                <li>Cada aplicación Umbrel tendrá una dirección onion diferente así que guárdalas individualmente.</li>
+                <li>NUNCA compartas estas direcciones onion en internet con extraños.</li>
+                <li>Si creas un monedero LNbits, ten en cuenta que debes guardar la dirección del monedero en tus
+                    marcadores. Es la única manera de volver a ella.</li>
+                <li>Thunderhub app y Lightning Terminal no actualizan tu Umbrel dashboard, están codificadas con la
+                    contraseña por defecto. así que usa estas aplicaciones SOLO desde tu LAN o si accedes desde fuera
+                    usando la dirección onion, no la uses en ordenadores extraños, solo en el tuyo.</li>
+            </ul>
+            <p>Espero de verdad que esta guía ayude a tantas «almas perdidas» que se asustan por un simple acceso en
+                LAN.</p>
+        </ol>
+        <p><img src="https://substackcdn.com/image/fetch/w_1456,c_limit,f_webp,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F9617d3bd-144a-494f-9b18-3470b8b8ca6b_680x383.png"
+                class="center" /></p>
     </body>
 
     </html>
