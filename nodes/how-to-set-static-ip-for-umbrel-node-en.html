@@ -41,14 +41,10 @@ title: How to set static IP for Umbrel node?
 <h5>Option B - setup a fix IP in your RPi settings</h5>
 <ul>
 <li>use Windows Powershell or Putty to enter SSH into your Rpi</li>
-<li>type ```ssh umbrel@umbrel.local``` or ```ssh umbrel@yourRpi-IP``` if you know that dynamically assigned IP (see previous point listing IPs in your LAN)</li>
+<li>type <code>ssh umbrel@umbrel.local</code> or <code>ssh umbrel@yourRpi-IP</code> if you know that dynamically assigned IP (see previous point listing IPs in your LAN)</li>
 <li>will ask you for a password, BUT YOU WILL NOT SEE IT. Just type your user password for Umbrel and press ENTER.</li>
 <li>once you are in, configure the static IP address for the Pi, the gateway path and a DNS server. The configuration for the DHCP client (Pi) is located in the /etc/dhcpcd.conf file:</li>
-
-```
-sudo nano /etc/dhcpcd.conf
-```
-
+<code>sudo nano /etc/dhcpcd.conf</code>
 <p>The following snippet is an example of a sample configuration.</p>
 <p>Change the value of static routers and static domain_name_servers to the IP of your router (default gateway, see Option A).</p>
 <p>Be aware of giving the Raspberry Pi an address which is OUTSIDE the range of addresses which are assigned by the DHCP server. You can get this range by looking under the router configurations page and checking for the range of the DHCP addresses. This means, that if the DHCP range goes from 192.168.178.1 to 192.168.178.99 you’re good to go with the IP 192.168.178.100 for your Raspberry Pi.</p>
@@ -88,17 +84,11 @@ static domain_name_servers=192.168.178.1
 <p>In order to troubleshoot what is happening inside your node machine, Umbrel team will need to see the debug log. That log contain valuable information that can “tell” if there’s a component that fails. Also you can read it and see if something is wrong and maybe a quick view will give you a clue and fix it yourself. If you are not so comforbale with logs, just send to the Umbrel community the link of the log and we can take a look.</p>
 <p>Enter SSH into your node.</p>
 <p>Open a terminal/command prompt/powershell/putty on your computer and enter</p>
-
-```
-ssh umbrel@umbrel.local
-```
+<code>ssh umbrel@umbrel.local</code>
   
 <p>the password is your personal user password for Umbrel dashboard. When you type it, you won’t see what you type, so just type and press ENTER. If you do not change it, it is the Umbrel default password - moneyprintergobrrr</p>
 <p>and then type</p>
-
-```
-~/umbrel/scripts/debug --upload
-```
+<code>~/umbrel/scripts/debug --upload</code>
 
 <p>At the end of the debug log it will be a link and instructions where to post it (on Telegram group or on Umbrel Community).</p>
 
