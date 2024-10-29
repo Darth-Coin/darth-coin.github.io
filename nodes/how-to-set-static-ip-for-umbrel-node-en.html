@@ -1,0 +1,133 @@
+---
+layout: default
+title: How to set static IP for Umbrel node?
+---
+
+<article>
+<!DOCTYPE html>
+<html lang="en">
+<meta name="description" content="Bitcoin and Lightning guides: For better access to your Umbrel dashboard, set a static IP">
+<body>
+<a rel="noopener noreferrer" target="_blank" href="/nodes/how-to-set-static-ip-for-umbrel-node-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<h3>For better access to your umbrel.local dashboard, set a static IP</h3>
+<p>I see a lot of users having issues connecting to umbrel.local and most of them are Windows users.</p>
+<p>People… please before getting into running a node, DYOR and learn at least basics about networking, TCP/IP, IPs, LAN, WAN.</p>
+<p>Running a node is something serious, is not a toy!</p>
+<p>Also Umbrel team, is NOT responsible for your own mistakes and lack of knowledge about how to fix simple things and not related with Umbrel software.</p>
+<p>I will try to put here some simple steps so everybody can try them before start freaking out that their Umbrel node is “broken”.</p>
+<p>Not having access to your node doesn’t really means your node is broken. Means that the PC from where you access it can’t see it in your LAN or in the parameters you configure your LAN.</p>
+<p>So could be 4 reasons that maybe your node is not accessible:</p>
+<ol>
+<li>IP assigned. The IP for the node is not set fix, or was changed by your DHCP router, or is not in the same range of your regular LAN.</li>
+<li>Your computer from where you are accessing, doesn’t know the new IP or couldn’t find the IP related to umbrel.local. Some Windows versions update that information and sometimes simply block it.</li>
+<li>Hardware issues. If your HDD/SSD with data has connection failures, the Umbrel OS will enter into a loop`and cannot be accessible.</li>
+<li>Software issues. Very rare when UmbrelOS is stuck. So in 99% of cases a restart and a good amount of time waiting to come back (re-sync the blocks) will fix it. So be patient and after restart just wait before doing any further investigation.</li>
+</ol>
+<hr style="height:2px">
+
+<h3>How could we fix ourselves these issues?</h3>
+
+<h4>1. How to set a fix IP for my node?</h4>
+
+<h5>Option A - setup in your router a fix IP for your node</h5>
+<ul>
+<li>enter in your router configuration</li>
+<li>find DNS or DHCP server (depending on each brand)</li>
+<li>set a fix IP, from your LAN range and one that is not used by other device. You can run from any Windows machine in command prompt arp -a and will see a list of all computers connected in your LAN, with their assigned IPs and MAC address. One of those could be also your node if is ON. Also you can see the MAC address on the box of your Pi.</li>
+<li>so assign a fix IP using your RPi MAC address in your router</li>
+</ul>
+<p>Done, from now on, each time your RPi will be connected to that router, it will be assigned the IP you configure it.</p>
+
+<h5>Option B - setup a fix IP in your RPi settings</h5>
+<ul>
+<li>use Windows Powershell or Putty to enter SSH into your Rpi</li>
+<li>type ```ssh umbrel@umbrel.local``` or ```ssh umbrel@yourRpi-IP``` if you know that dynamically assigned IP (see previous point listing IPs in your LAN)</li>
+<li>will ask you for a password, BUT YOU WILL NOT SEE IT. Just type your user password for Umbrel and press ENTER.</li>
+<li>once you are in, configure the static IP address for the Pi, the gateway path and a DNS server. The configuration for the DHCP client (Pi) is located in the /etc/dhcpcd.conf file:</li>
+
+```
+sudo nano /etc/dhcpcd.conf
+```
+
+<p>The following snippet is an example of a sample configuration.</p>
+<p>Change the value of static routers and static domain_name_servers to the IP of your router (default gateway, see Option A).</p>
+<p>Be aware of giving the Raspberry Pi an address which is OUTSIDE the range of addresses which are assigned by the DHCP server. You can get this range by looking under the router configurations page and checking for the range of the DHCP addresses. This means, that if the DHCP range goes from 192.168.178.1 to 192.168.178.99 you’re good to go with the IP 192.168.178.100 for your Raspberry Pi.</p>
+<p>Add the following to the /etc/dhcpcd.conf file:</p>
+<pre><code>
+#Configuration static IP address (CHANGE THE VALUES TO FIT FOR YOUR NETWORK)
+interface eth0
+static ip_address=192.168.178.100/24
+static routers=192.168.178.1
+static domain_name_servers=192.168.178.1
+</code></pre>
+<p>Restart networking system sudo /etc/init.d/networking restart</p>
+</ul>
+
+<h4>2. Add node IP into your hosts file</h4>
+<p>Now, once you know that your Pi will have a fix IP, you can go and add it also to your local computer, for easy accessing.</p>
+<ul>
+<li>Go to the hosts file located into: C\Windows\system32\drivers\etc\ If you can’t see it, go to view folder options and select “show hidden files and folders”.</li>
+<li>copy it onto your desktop and start editing with notepad</li>
+<li>add the following line:
+<pre><code>
+192.168.x.x umbrel.local
+(replace 192.168.x.x with your local IP assigned for your node)
+</code></pre></li>
+<li>save the file and copy it back over the original. It will ask you to confirm, because it’s a system file. Confirm and done.</li>
+<li>restart your PC. From now on your PC will always go to the assigned IP when you type in your browser umbrel.local</li>
+</ul>
+<p>For Mac users, <a href="https://www.alphr.com/edit-hosts-file-mac-os-x/">follow these steps to edit your hosts file</a>.</p>
+<p>For Linux users, these instructions are not valid, they already know what to do, if they already run a Linux.</p>
+
+<h4>3. Hardware issues.</h4>
+<ul>
+<li>Usually, most of the times, the external hard drive get disconnected (for various reasons)</li>
+<li>sometimes, the power source it fails, even if are milivolts that you do not detect them, those little intrerruptions could damage some hardware or do not run properly.</li>
+<li>power cuts are very serious damaging drives or files on the drives. It is very recommended to run your node with a backup battery that can keep ON your node several minutes until you can shut it down! DO NOT RUN YOUR NODE WITHOUT BATTERY IF YOU ARE IN A MIDDLE OF A THUNDERSTORM. YOU WILL GET REKT 99% OF THE TIMES!</li>
+</ul>
+<p>In order to troubleshoot what is happening inside your node machine, Umbrel team will need to see the debug log. That log contain valuable information that can “tell” if there’s a component that fails. Also you can read it and see if something is wrong and maybe a quick view will give you a clue and fix it yourself. If you are not so comforbale with logs, just send to the Umbrel community the link of the log and we can take a look.</p>
+<p>Enter SSH into your node.</p>
+<p>Open a terminal/command prompt/powershell/putty on your computer and enter</p>
+
+```
+ssh umbrel@umbrel.local
+```
+  
+<p>the password is your personal user password for Umbrel dashboard. When you type it, you won’t see what you type, so just type and press ENTER. If you do not change it, it is the Umbrel default password - moneyprintergobrrr</p>
+<p>and then type</p>
+
+```
+~/umbrel/scripts/debug --upload
+```
+
+<p>At the end of the debug log it will be a link and instructions where to post it (on Telegram group or on Umbrel Community).</p>
+
+<h4>4. Software issues</h4>
+<p>Most of the times these issues come from:</p>
+<ul>
+<li>users do not have patience to wait until the node is fully synced and restarted or power off or do whatever any other tasks that should not do. Patience is the key for a node operator!</li>
+<li>power cuts or previous installations that didn’t end well</li>
+<li>mSD card get damaged. These cards are very sensitive. Always keep a copy at hand</li>
+<li>updates that hangs due to disk sectors that are not in a well state</li>
+<li>many other reasons that system can get unstable (it’s a simple Pi not a full server machine so expect these issues)</li>
+</ul>
+<p>What to do?</p>
+<ul>
+<li>run the debug log indicated at the point 3.</li>
+<li>you can reflash the mSD card. On this card is ONLY the OS, not the data. So no user data will be lost</li>
+<li>re-apply latest update. Yes sometimes, files can get corrupted and a reinstall could just write the correct version.</li>
+</ul>
+<p>DONE! From now on you can access you node in your browser with umbrel.local !</p>
+<p>Optional I would recommend to open your Umbrel dashboard using the onion address provided (after you enter with umbrel.local) and bookmark that address.</p>
+<h5>Also to REMEMBER:</h5>
+<ul>
+<li>each Umbrel app will have a different onion address so save them individually.</li>
+<li>NEVER share these onion addresses in the wild internet with strangers!</li>
+<li>If you create a LNbits app wallet, be aware to save that wallet address in your bookmarks. It is the only way to get back to it.</li>
+<li>Thunderhub app and Lightning Terminal do not update your Umbrel dashboard, are hardcoded with the default password. so use these apps ONLY from your LAN or if you access from outside using onion address, do not use it on strange computers, only yours.</li>
+</ul>
+<p>I really hope that this guide will help so many “lost souls” that get freaked out because of a simple access in LAN.</p>
+<p><img src="/assets/images/darth-checking-node.jpg" class="center" /></p>
+</body>
+</html>
+</article>
