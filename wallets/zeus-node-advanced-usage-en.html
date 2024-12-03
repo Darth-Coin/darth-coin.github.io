@@ -128,6 +128,27 @@ title: Zeus LN Node - Advanced Usage
     <li><a href="https://github.com/lightninglabs/chantools/blob/master/doc/zombierecovery.md">Recovering a zombie channel</a></li>
     </ul>
 <li>Once you have all channels closed and funds back to onchain wallet (also checking in Sparrow that all funds are confirmed) you can uninstall Zeus and start fresh, proceeding with the instructions from the previous scenario A “Getting started with opening channels”. Is much better to start with new set of keys and nodeID, database etc.</li>
+<li><p>SPECIAL CASE - You open a channel and accidentally took a too low fee like 1sat/vb and also you used all the funds, with nothing left to bump the fee.</p>
+<p>Now your opening channels is in limbo until the fee can be bumped.</p>
+<p>What options do you have?</p>
+<ul>
+  <li><p>If you already have another remaining UTXO in your onchain wallet use the Zeus option from Menu --> Tools --> Speed up transaction</p>
+      <p>Insert the tx output that looks like <i>"d0d3bfd9cb6aa167c691140e5477...long-string:0"</i> put the new fee and click to speed up.</p>
+      <p><a href="https://docs.zeusln.app/for-users/getting-started/tips">Read more here about outputs</a></p>
+  </li>
+  <li><p>Use Mempool Accelerator tool, is fast, convenient and you can pay over LN, keeping the same txid and do not complicate things.</p>
+<center>
+  <figure>
+    <img src="/assets/images/mempool-accelerator.jpg" class="center">
+    <figcaption>Open your opening tx in mempool.space page and click on "Accelerate" button</figcaption>
+</figure>
+</center>
+  </li>
+  <li><p>Add a new UTXO to your onchain wallet. It is recommended to always keep a max 100k sats UTXO for this cases, with which you can easily bump the tx using CPFP.</p>
+      <p>If this is a channel open and there's only one output (no change), then you can't bump it with CPFP. You either have to use a 3rd party accelerator or pull the funds into something like Sparrow and craft a replacement CPFP transaction, have it settle, then open the channel at the appropriate fee rate</p>
+  </li>
+</ul>
+</li>
 </ol>
 <hr style="height:2px">
 <h3>Zeus Resources Links:</h3>
