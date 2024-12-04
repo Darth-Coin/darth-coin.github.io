@@ -19,7 +19,7 @@ title: Nodo Zeus LN - Uso Avanzado
       </h3>
       <p>
         <a
-          href="https://darth-coin.github.io/wallets/getting-started-zeus-wallet-es.html">En la guía anterior</a>, escribí una presentación del nuevo nodo LN embebido de Zeus, pero
+          href="/wallets/getting-started-zeus-wallet-es.html">En la guía anterior</a>, escribí una presentación del nuevo nodo LN embebido de Zeus, pero
         como era demasiado extensa, no pude añadir también estos pasos avanzados para su uso.
       </p>
       <p>
@@ -52,6 +52,7 @@ title: Nodo Zeus LN - Uso Avanzado
             no arranca</a
           >
         </li>
+        <li><a href="#disaster">Caso de desastre: apertura y cierre de canales con tarifas bajas</a></li>
       </ul>
       <p>
         Tal vez en el futuro tendremos disponible la opción de exportar /
@@ -549,27 +550,71 @@ title: Nodo Zeus LN - Uso Avanzado
           empezar a abrir canales". Es mucho mejor comenzar con un nuevo
           conjunto de claves y nodeID, base de datos, etc.
         </li>
-<li><p>CASO ESPECIAL: abres un canal y, accidentalmente, cobraste una tarifa demasiado baja, como 1 sat/vb, y además usaste todos los fondos, sin nada para aumentar la tarifa.</p>
+        <li>Una vez que hayas cerrado todos los canales y los fondos hayan regresado a la billetera onchain (también verificando en Sparrow que todos los fondos estén confirmados), puedes desinstalar Zeus y comenzar de nuevo, siguiendo las instrucciones del escenario anterior A “Comenzando con la apertura de canales”. Es mucho mejor comenzar con un nuevo conjunto de claves y nodeID, base de datos, etc.</li>
+      </ol>ç
+
+<hr style="height:2px">
+<h3 id="disaster">D - CASO DE DESASTRE: abres un canal con una tarifa muy baja y te quedas atrapado en el limbo</h3>
+<p>¡NO HAGAS RBF EN CANALES PENDIENTES DE APERTURA! SOLO HAZ CPFP o mejor usa Mempool Accelerator.</p>
+<p>En caso de que tengas un canal zombi, que no se pueda abrir o cerrar normalmente desde la interfaz de usuario de node, tendrás que continuar usando las <a href="https://node-recovery.com/">herramientas de canal LND</a>. Lee atentamente todos los escenarios presentados en esa guía y elige el que sea apropiado para tu caso.</p>
+<p>¿Cómo termino probando un caso de desastre? <a href="https://github.com/ZeusLN/zeus/discussions/2174">Lee aquí</a> para que puedas evitar mis errores.</p>
+<p>A continuación se muestran los casos de uso más comunes:</p>
+<ul>
+<li><a href="https://github.com/lightningnetwork/lnd/discussions/8208">Recuperar un canal en el que por error hiciste un RBF en lugar de CPFP</a></li>
+<li><a href="https://github.com/lightninglabs/chantools/blob/master/doc/zombierecovery.md">Recuperar un canal zombie</a></li>
+</ul>
+
+<p>Entonces, abres un canal y, accidentalmente, cobraste una tarifa demasiado baja, como 1sat/vb, y también usaste todos los fondos, sin nada para aumentar la tarifa.</p>
 <p>Ahora, la apertura de tus canales está en el limbo hasta que se pueda aumentar la tarifa.</p>
 <p>¿Qué opciones tienes?</p>
 <ul>
-<li><p>Si ya tienes otra UTXO restante en tu billetera en cadena, usa la opción Zeus en Menú --> Herramientas --> Acelerar transacción</p>
-<p>Inserta la salida de la transacción que se ve como <i>"d0d3bfd9cb6aa167c691140e5477...long-string:0"</i>, coloca la nueva tarifa y haz clic para acelerar.</p>
-<p><a href="https://docs.zeusln.app/for-users/getting-started/tips">Lee más aquí sobre las salidas</a></p>
-</li>
-<li><p>Utiliza la herramienta Mempool Accelerator, es rápida, conveniente y puedes pagar a través de LN, manteniendo el mismo txid y sin complicar las cosas.</p>
+<li><p>La mejor opción: usa la <a href="https://mempool.space">herramienta Mempool Accelerator</a>, es rápida, conveniente y puedes pagar a través de LN, manteniendo el mismo txid y sin complicar las cosas.</p>
 <center>
 <figure>
 <img src="/assets/images/mempool-accelerator.jpg" class="center">
-<figcaption>Abre tu transacción de apertura en la página mempool.space y haz clic en el botón "Acelerar"</figcaption>
+<figcaption>Abre tu tx de apertura en la página mempool.space y haz clic en el botón "Acelerar"</figcaption>
 </figure>
 </center>
 </li>
-<li><p>Agrega una nueva UTXO a tu billetera en cadena. Se recomienda mantener siempre una UTXO de máximo 100k sats para estos casos, con la que puedes aumentar fácilmente la transacción usando CPFP.</p>
-<p>Si este es un canal abierto y solo hay una salida (sin cambios), entonces no puedes aumentarla con CPFP. Tienes que usar un acelerador de terceros o transferir los fondos a algo como Sparrow y crear una transacción CPFP de reemplazo, hacer que se liquide y luego abrir el canal con la tarifa adecuada</p>
+<li><p>Si ya tienes otra Para los UTXO restantes en tu billetera en cadena, usa la opción Zeus en Menú --> Herramientas --> Acelerar transacción</p>
+<p>Inserta la salida de la transacción que se ve como <i>"d0d3bfd9cb6aa167c691140e5477...long-string:0"</i>, coloca la nueva tarifa y haz clic para acelerar.</p>
+<p><a href="https://docs.zeusln.app/for-users/getting-started/tips">Lee más aquí sobre las salidas</a></p>
+</li>
+<li><p>Agrega un nuevo UTXO a tu billetera en cadena. Se recomienda mantener siempre un máximo de 100k sats UTXO para estos casos, con el que puedes aumentar fácilmente la transacción usando CPFP.</p>
+<p>Si este es un canal abierto y solo hay una salida (sin cambios), entonces no puedes aumentarla con CPFP. Tienes que usar un acelerador de terceros o <a href="https://docs.zeusln.app/for-users/embedded-node/backup-and-recovery#can-i-recover-my-zeus-onchain-wallet-into-other-wallet-applications">extraer los fondos a Sparrow</a> y crear una transacción CPFP de reemplazo, hacer que se liquide y luego abrir el canal con la tarifa adecuada</p>
+<p>RECUERDA: NO HAGAS RBF, ¡UTILIZA SOLO EL MÉTODO CPFP! De lo contrario, puedes terminar con un canal zombi.</p>
 </li>
 </ul>
-      </ol>
+<p><strong>SITUACIÓN EXTRA</strong>: estás usando el nodo integrado Zeus y accidentalmente realizaste un RBF y ahora el canal está en estado zombi, no se abre.</p>
+<p>Para este caso, deberás extraer el channel.db de tu dispositivo móvil a una PC y continuar con el <a href="https://github.com/lightninglabs/chantools/blob/master/doc/zombierecovery.md">método de recuperación de ChanTools para canales zombi</a>.</p>
+<h4 id="extract">Cómo extraer channel.db de un dispositivo móvil:</h4>
+<p>Este no es un procedimiento muy complicado, pero requiere algunos conocimientos básicos de la línea de comandos.</p>
+<p>Ten en cuenta que el archivo channel.db puede ser bastante grande, hasta 2 o 4 GB a veces, según tu actividad anterior. Este archivo contiene todos los datos y la actividad de tu nodo y también la información sobre las claves de tu billetera.</p>
+<p>Pasos a seguir:</p>
+<ul>
+<li>Instala en una PC las herramientas ADB y los controladores de tu dispositivo móvil. <a href="https://developer.android.com/tools/adb">Aquí tienes más instrucciones sobre este paso.</a></li>
+<li>Una vez que conectes tu móvil al PC con un cable USB, escribe en la terminal del PC estos comandos:
+<pre><code>
+adb devices
+#Mostrará tu dispositivo que está conectado
+adb root
+#Reinicia y confirma el acceso a root en el dispositivo
+adb shell
+#para darte acceso a los archivos ocultos
+</code></pre>
+
+<p>Ahora estás listo para copiar el archivo channel.db en el almacenamiento local de tu móvil o en la tarjeta mSD.</p>
+
+<pre><code>
+cp /data/media/0/Download/zeus/graph/channel.db /data/user/0/app.zeusln.zeus/files/data/graph/mainnet/channel.db
+</code></pre>
+
+<p>Esto copiará el archivo channl.db a la tarjeta mSD o al almacenamiento multimedia local de tu dispositivo. Desde allí, cópielo a su PC, a través de WiFi o mediante un cable USB para cambiar al método de transferencia de medios.</p>
+</li>
+<li>Continúe y lea atentamente las instrucciones del <a href="https://github.com/lightninglabs/chantools/blob/master/doc/zombierecovery.md">método de recuperación de zombies de ChanTools</a>. Sugiero construir todos los comandos en un archivo de texto y luego ejecutarlos en la pantalla de terminal de ChanTool. También deberá estar en contacto con el par con el que abrió el canal para que pueda hacer lo mismo de su lado.</li>
+</ul>
+<p>Espero que esta guía compleja le ahorre tiempo y días de esfuerzo para recuperar su nodo muerto, pero lo más importante es que EVITE terminar en esta situación (si lee esta guía ANTES de hacer cualquier cosa estúpida).</p>
+       
       <hr style="height: 2px" />
       <h3>Enlaces de Recursos de Zeus:</h3>
       <p>
