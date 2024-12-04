@@ -19,6 +19,7 @@ title: Zeus LN Node - Advanced Usage
 <li><a href="#getting-started">Getting started with opening channels</a></li>
 <li><a href="#migrate">Migrate your Zeus embedded node to another device</a></li>
 <li><a href="#broken-device">Old device is dead, database is broken, Zeus node is not starting</a></li>
+<li><a href="#disaster">Disaster case - opening/closing channels with low fee</li>
 </ul>
 <p>Maybe in the future we will have available the option to export / import the whole Zeus node data, without the need to close the LN channels, but right now is not possible this full recovery. I’ve tested this option but is more complicated (using Android adb tools with some CLI commands) and require some changes in Zeus code.</p>
 <p><img src="/assets/images/zeus-1.jpg" class="center"></p>
@@ -108,6 +109,7 @@ title: Zeus LN Node - Advanced Usage
 <li>Follow all the steps from previous scenario “Getting started with opening channels”. With sending the funds from the old Zeus (now imported in Sparrow) to the new Zeus node.</li>
 </ul>
 <p>Done, you’ve migrated your old Zeus node into a new device, with a new nodeID.</p>
+
 <hr style="height:2px">
 <p><img src="/assets/images/zeus-2.jpg" class="center"></p>
 <h2 id="broken-device">C - Old device or node is dead</h2>
@@ -122,37 +124,64 @@ title: Zeus LN Node - Advanced Usage
 <li>Optional you can go and set better neutrino peers, that do not require to restart, but could help with keeping alive the sync with good peers. See previous scenario A point 7.</li>
 <li>Go to Channels screen (from main screen, bottom right icon) and switch the central button to "closed / pending” channels. You will see there in few moments that was initiated the force closure of the old channels. Optional you can monitor their closing in <a href="https://mempool.space/">mempool.space</a> using the closing txid.</li>
 <li>In case the channels were closed with a low fee (this could happen sometimes, due to high fees fluctuation and the LND fee estimator didn’t take the right one), you can import your old Zeus seed into Sparrow (<a href="https://docs.zeusln.app/for-users/embedded-node/backup-and-recovery#can-i-recover-my-zeus-onchain-wallet-into-other-wallet-applications">see here the instructions</a>) and from Sparrow you bump the fee with CPFP (Child Pay For Parent). Otherwise just wait patiently for channels to be closed. IT COULD TAKE TIME ! Don't freak out, is normal. If there were pending HTLC from previous channels, it could take even 144 blocks or more.</li>
-<li><p>DISASTER CASE - DO NOT DO RBF ON PENDING OPENING CHANNELS!</p>
-    <p>In case you got a zombie channel, that cannot be opened or closed normally from node UI, you will have to proceed with using the <a href="https://node-recovery.com/">LND chantools</a>. Please read carefully all the scenarios presented in that guide and choose the one that is appropriate for your case.</p>
-    <p>How I end up testing a disaster case? <a href="https://github.com/ZeusLN/zeus/discussions/2174">Read here</a> so you can avoid my mistakes.</p>
-    <p>Here are the most common used cases:</p>
-    <ul>
-    <li><a href="https://github.com/lightningnetwork/lnd/discussions/8208">Recovering a channel that by mistake you did an RBF instead of CPFP</a></li>
-    <li><a href="https://github.com/lightninglabs/chantools/blob/master/doc/zombierecovery.md">Recovering a zombie channel</a></li>
-    </ul>
 <li>Once you have all channels closed and funds back to onchain wallet (also checking in Sparrow that all funds are confirmed) you can uninstall Zeus and start fresh, proceeding with the instructions from the previous scenario A “Getting started with opening channels”. Is much better to start with new set of keys and nodeID, database etc.</li>
-<li><p>SPECIAL CASE - You open a channel and accidentally took a too low fee like 1sat/vb and also you used all the funds, with nothing left to bump the fee.</p>
+</ol>
+
+<hr style="height:2px">
+<h2 id="disaster">D - DISASTER CASE - You open a channel with very low fee and is stuck in limbo</h2>
+<p>DO NOT DO RBF ON PENDING OPENING CHANNELS! DO ONLY CPFP or better use Mempool Accelerator.</p>
+<p>In case you got a zombie channel, that cannot be opened or closed normaly from node UI, you will have to proceed with using the <a href="https://node-recovery.com/">LND chantools</a>. Please read carefully all the scenarios presented in that guide and choose the one that is appropriate for your case.</p>
+<p>How I end up testing a disaster case? <a href="https://github.com/ZeusLN/zeus/discussions/2174">Read here</a> so you can avoid my mistakes.</p>
+<p>Here are the most common used cases:</p>
+<ul>
+<li><a href="https://github.com/lightningnetwork/lnd/discussions/8208">Recovering a channel that by mistake you did an RBF instead of CPFP</a></li>
+<li><a href="https://github.com/lightninglabs/chantools/blob/master/doc/zombierecovery.md">Recovering a zombie channel</a></li>
+</ul>
+
+<p>So you open a channel and accidentally took a too low fee like 1sat/vb and also you used all the funds, with nothing left to bump the fee.</p>
 <p>Now your opening channels is in limbo until the fee can be bumped.</p>
 <p>What options do you have?</p>
 <ul>
-  <li><p>If you already have another remaining UTXO in your onchain wallet use the Zeus option from Menu --> Tools --> Speed up transaction</p>
-      <p>Insert the tx output that looks like <i>"d0d3bfd9cb6aa167c691140e5477...long-string:0"</i> put the new fee and click to speed up.</p>
-      <p><a href="https://docs.zeusln.app/for-users/getting-started/tips">Read more here about outputs</a></p>
-  </li>
-  <li><p>Use Mempool Accelerator tool, is fast, convenient and you can pay over LN, keeping the same txid and do not complicate things.</p>
+<li><p>Best option - Use <a href="https://mempool.space">Mempool Accelerator tool</a>, is fast, convenient and you can pay over LN, keeping the same txid and do not complicate things.</p>
 <center>
   <figure>
     <img src="/assets/images/mempool-accelerator.jpg" class="center">
     <figcaption>Open your opening tx in mempool.space page and click on "Accelerate" button</figcaption>
 </figure>
 </center>
-  </li>
-  <li><p>Add a new UTXO to your onchain wallet. It is recommended to always keep a max 100k sats UTXO for this cases, with which you can easily bump the tx using CPFP.</p>
-      <p>If this is a channel open and there's only one output (no change), then you can't bump it with CPFP. You either have to use a 3rd party accelerator or pull the funds into something like Sparrow and craft a replacement CPFP transaction, have it settle, then open the channel at the appropriate fee rate</p>
-  </li>
-</ul>
 </li>
-</ol>
+<li><p>If you already have another remaining UTXO in your onchain wallet use the Zeus option from Menu --> Tools --> Speed up transaction</p>
+    <p>Insert the tx output that looks like <i>"d0d3bfd9cb6aa167c691140e5477...long-string:0"</i> put the new fee and click to speed up.</p>
+    <p><a href="https://docs.zeusln.app/for-users/getting-started/tips">Read more here about outputs</a></p>
+</li>
+<li><p>Add a new UTXO to your onchain wallet. It is recommended to always keep a max 100k sats UTXO for this cases, with which you can easily bump the tx using CPFP.</p>
+    <p>If this is a channel open and there's only one output (no change), then you can't bump it with CPFP. You either have to use a 3rd party accelerator or <a href="https://docs.zeusln.app/for-users/embedded-node/backup-and-recovery#can-i-recover-my-zeus-onchain-wallet-into-other-wallet-applications">pull the funds into Sparrow</a> and craft a replacement CPFP transaction, have it settle, then open the channel at the appropriate fee rate</p>
+    <p>REMEMBER: DO NOT DO RBF, USE ONLY CPFP METHOD ! Otherwiswe you can end up with a zombie channel.</p>
+</li>
+</ul>
+<p><strong>EXTRA SITUATION</strong> - Using Zeus embedded node and you accidentally did an RBF and now the channel is in a zombie state, not opening</p>
+<p>For this case you would need to extract the channel.db from your mobile device into a PC and proceed with <a href="https://github.com/lightninglabs/chantools/blob/master/doc/zombierecovery.md">ChanTools recovering method for zombie channels</a>.</p>
+<h4 id="extract">How to extract channel.db from a mobile:</h4>
+<p>This is not a very complicated procedure but require some basic knowledge of command line.</p>
+<p>Be aware that the file channel.db could be quite big up to 2-4GB sometimes, depending on your previous activity. This file contain all your node data and activity and also the info about your wallet keys.</p>
+<p>Steps to do:</p>
+<ul>
+  <li>Install on a PC the ADB Tools and your mobile device drivers. <a href="https://developer.android.com/tools/adb">Here you have more instructions about this step.</a></li>
+  <li>Once you connect your mobile to the PC with a USB cable, type in the PC terminal these commands:
+  <pre><code>
+    adb devices
+    #It will display your device that is connected
+    adb root
+    #restart and confirm the access to root on the device
+    adb shell
+    #to give you access to the hidden files
+    cp /data/media/0/Download/zeus/graph/channel.db /data/user/0/app.zeusln.zeus/files/data/graph/mainnet/channel.db
+    #This will copy the channl.db to your device mSD card or local media storage. From there copy it to your PC, over WiFi or through USB cable switching to transfer media method.
+  </code></pre>
+  </li>
+  <li>Proceed and read carefully the instructions from <a href="https://github.com/lightninglabs/chantools/blob/master/doc/zombierecovery.md">ChanTools zombie recovering method</a>. I suggest to construct all the commands into a text file and later execute them in the ChanTool terminal screen. You will need also to be in contact with the peer you opened the channel so they can do the same on their side.</li>
+</ul>
+
 <hr style="height:2px">
 <h3>Zeus Resources Links:</h3>
 <p><a href="https://zeusln.com/">Website</a> | <a href="https://docs.zeusln.app/">Docs</a> | <a href="https://github.com/ZeusLN/zeus">Github</a> | <a href="https://github.com/ZeusLN/zeus/releases">Releases</a> | <a href="https://t.me/zeusLN">Telegram</a> | <a href="https://nostr.at/npub1xnf02f60r9v0e5kty33a404dm79zr7z2eepyrk5gsq3m7pwvsz2sazlpr5">NOSTR</a> | <a href="https://x.com/ZeusLN">Twix</a> | <a href="https://blog.zeusln.com/">Blog</a></p>
