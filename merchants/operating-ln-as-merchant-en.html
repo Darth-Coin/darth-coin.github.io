@@ -1,0 +1,94 @@
+---
+layout: default
+title: Operating with Bitcoin LN as a merchant
+---
+<article>
+<!DOCTYPE html>
+<html lang="en">
+<meta name="description" content="Bitcoin and Lightning Nodes guides: How to add more privacy to your Lightning transactions as a merchant">
+<body>
+<a href="https://darthcoin.substack.com/p/operar-con-ln-como-comerciante">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="https://millobtc.substack.com/p/utilizzare-bitcoin-lightning-come">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<blockquote style="color:Tomato;"><em>
+<p>Originally posted on Substack on Oct 21, 2022</p>
+<p>Updated here on Dec 13, 2024</p>
+</em></blockquote>
+<h3>How to add more privacy to your Lightning received payments as a merchant</h3>
+<p>We all know that in Lightning Network as a receiver you will have to reveal to the payer (only) your destination nodeID. So I will try to give you some examples of how to operate with more anonymity as a receiver of sats through Lightning Network.</p>
+<p>Some will consider this aspect a “violation of privacy”. I would consider it the way around: how to set false traps for those who want to trace your funds (if they can).</p>
+<p>Many people today are obsessed with the word “privacy” but do not take in consideration the other important word: anonymity or pseudonymous.</p>
+<p>You can obtain more privacy by not revealing your true identity linked to a node, service, address, process etc.</p>
+<p><img src="/assets/images/bitcoin-private-merchant.jpg" class="center"></p>
+<p>As a sender through LN we all know that is very difficult or almost impossible to trace back a payment to original source. LN is operating the transactions using “onion routing”. Here is a very simple explanation of this process by Renè Pickhardt.</p>
+<p>So let’s suppose you are a small merchant, selling some products or services online or in a shop and you want to add a certain level of anonymity of your funds received. Or at least where are you holding the majority of your bitcoins received from LN payments.</p>
+<p>RECAP the LN payment process
+1 - merchant create LN invoice (from his LN wallet, linked to his node or not)</p>
+<p>2 - LN invoice created reveal to the payer the destination nodeID (but not the final routes)</p>
+<p>3 - customer pays the LN invoice and can see the destination nodeID</p>
+<p>4 - merchant could not see the original source of the payment, but can see only the last hop/peer that forward the payment to his wallet / node</p>
+<p>A reminder about how to run a good public routing node, I wrote several guides about:</p>
+<p>Build a simple LN routing node with Umbrel</p>
+<p>What software is available to run a LN node?</p>
+<p>Lightning node routing fees experiment</p>
+<p>Lightning Node Maintenance</p>
+<p>Recommendations for LN users</p>
+<p>Managing Lightning Node Liquidity</p>
+<p>So what options do we have as a LN tx receiver ?</p>
+<p>Anonymity options
+A. Run a “decoy node”
+As a merchant you will need INBOUND liquidity and good routes towards your destination node, in order to be able to receive properly the customers payments.</p>
+<p>But in the same time, you can’t force all your customers to use Tor to be able to pay your LN invoices generated from a Tor node. Because we know that LN invoices generated from a Tor node can be read ONLY from LN wallets using Tor network.</p>
+<p>So I would suggest to use a “decoy node” with good liquidity and routes and also for better connectivity to run in a hybrid mode (Tor + clearnet). The decoy node will have a direct private channel with your final node in the route, that will forward all payments. Use a big channel in between so you don’t have to close it many times.</p>
+<p>Do not link these nodes in any way with any of your real identity, use nyms if is necessary to communicate with other node operators, during the process of creating your public node liquidity. Also try not to use aliases for these nodes, just use the random nodeID.</p>
+<p>To this “public node” you can connect a simple LN node, with a private (unannounced) channel, big enough to move the funds received from customers payments.</p>
+<p>In this scenario we can have also multiple options:
+run both LN nodes on Tor, but offering only a separate service on clearnet to generate the LN invoices (could be a BTCPay server or LNbits). Here I wrote a guide about using LNbits suite as a merchant, on clearnet too.</p>
+<p>run a LN node on Tor but use a VPN tunnel from your BTCPay server or LNbits hosted on a clearnet VPS. Here I wrote another guide using various scenarios with LNbits. In this way you are not revealing the real location of your LN node.</p>
+<p>run a public LN node that receive all the payments, but to that node, connect another private LN node, using a fast mobile LN node as Blixt, Zeus, Mutiny, Phoenix, Electrum, Green or Breez. These mobile LN nodes will always use a private (unannounced) channel. With Blixt you can also use the keysend method to push funds from your “receiver” node towards your Blixt node. From there you can close the channel and/or use another channels towards any swap service (Deezy, Boltz, FixedFloat, RoboSats etc). I wrote another guide about this scenario here.</p>
+<p>B. Use only a private mobile LN node
+Yes, if you are a small merchant, that do not have time and money to spend on desktop nodes infrastructure, you can take payments directly with a mobile LN node.</p>
+<p>Yes, there are pros and cons about this option, but depending on your business specific, you can adapt and use it. Let’s consider you are a merchant that operates in a mobile market, you do not have a big volume of sales using BTC/LN and you do not have a place or resources where to allocate for a stable desktop node.</p>
+<p>You can use Blixt, Zeus, Mutiny, Phoenix, Electrum, Green or Breez for this scenario.</p>
+<p>Some aspects of these apps to mention:
+All of them are NON-CUSTODIAL, you control the keys and the funds 100%, all open source and free.</p>
+<p>All of them are LN nodes, in your own pocket, not mumbo-jumbo obscure processes and custodial funds/keys.</p>
+<p>All of them support LNURL and Lightning address (to send to). More details in this guide.</p>
+<p>Zeus and Breez offers a PoS app inside. Easy to manage as a merchant. Also support NFC.</p>
+<p>Electrum offers swaps LN ←&gt;onchain straight into the app, no external service required. It uses trampoline and normal LN channels. Electrum also is available on all desktop platforms.</p>
+<p>Blixt offers advanced LN channels management and advanced tools for power users (such as keysend). Blixt recently added the version for Mac desktop. Soon for Linux.</p>
+<p>Operations
+So how you should operate with these LN node apps in order to add more anonymity as receiver?</p>
+<p>All these LN nodes will have an anonymous nodeID, not linked to your real identity. There’s no KYC or identity verification in order to use these apps.</p>
+<p>In case you want to “refresh” your receiving merchant nodeID, I suggest some scenarios:</p>
+<p>You can anytime, close all your LN channels, take the BTC into another onchain wallet node and start a new LN node, fresh, new nodeID. This is the simplest method. Once you have a new nodeID, you can buy one or several inbound channels from any LSP (ZFR, LNBIG, Bitrefill, LNServer etc) but you would need to specify that you want a “private channel” not a public routing channel. Then you are ready to receive payments straight away, with a new nodeID!</p>
+<p>With Blixt you can use also the “migration process” to another new Blixt node. So if you emptied your previous LN channels using a swap service or simply you want to move your remaining balance to a new nodeID, you could just use the Dunder service offered by Blixt node. So you could move through LN all the remaining balance from one Blixt node to another and in the same time get some inbound liquidity. Later in the new Blixt you could add more inbound channels with previously mentioned LSPs.</p>
+<p>C. Use a “decoy” custodial Lightning wallet
+Yes, many are afraid of the “infamous” custodial wallets, but in some scenarios are a good tool to be used to obscure your real identity.</p>
+<p>There are many custodial LN wallets and services that are not KYC or do not request any identity verification process, maybe just an email address.</p>
+<p>For this scenario you could use: CoinOS, Blink, Wallet of Satoshi, Bluewallet, Alby, a friend or provider of LNbits wallet (an example is Rayito).</p>
+<p>Once you receive into these LN wallets, you could easily use any submarine swap service to take out the sats into your own private onchain wallet. Here is also another guide about using a “Lightning Cleaning Machine” method.</p>
+<p>Receiving into these wallets, will not reveal any of your real identity or node, will be just the provider public node.</p>
+<p>Swaping into onchain addresses also will not leave trace of your real identity.</p>
+<p>Some important aspects to mention about these apps:
+CoinOS offers a web PoS interface for merchants. Can be run on any device, without installing anything, being just a web-app. Offers also integrated swaps LN ←&gt; onchain, support all LNURL options, including a Lightning Address to receive. Is a very powerful tool for a small merchant that want to start accepting Bitcoin through LN.</p>
+<p>Alby is a browser extension with extensive functionalities as a LN wallet. It can be used as a custodial wallet but also can be connected to your own nodes or sources (LND, CLN, Eclair, LNBits, LNTXBOT, LNDhub). Supports all LNURL options + Lightning Address.</p>
+<p>Wallet of Satoshi is a simple mobile LN wallet, custodial. Supports some LNURL functionalities + offering a Lightning Address. Users is asked for an email address only in case that want to use the backup function. But if you want, you can use a new WoS every day, after you swap all funds from it into your private onchain wallet, without revealing any email or identity.</p>
+<p>Bluewallet is a good mobile app, onchain (non-custodial) and LN (custodial), using LNDhub wallets from Bluewallet servers. It can be used also with other private LNDhub accounts from your friends nodes or other providers, including from LNTXBOT. It offer swaps from your onchain wallet into LN wallet.</p>
+<p>LNbits is a powerful suite tool, that can be used from a friend’s node or provider, as I explained in these articles (The Bank of LNbits and LNbits for small merchants). DO NOT use the public demo LNbits instance (legend.lnbits.com) ! That one is only for testing, demos, familiarize with it, it is not recommended for real use cases. LNbits also have a dedicated extension for swaps, using Boltz.</p>
+<p>Rayito is a custody solution, based on LNbits, that offers a very easy to use LN wallet for small merchants. The app is in Spanish.</p>
+<p>D. Use a LN proxy
+Here is a simple web tool where you can use a proxy for your receiving LN invoice:</p>
+<p><a href="https://lnproxy.org/">https://lnproxy.org/</a></p>
+<p>With lnproxy, users can instead generate and give out wrapped invoices to obfuscate the identity of their lightning network nodes from their transaction counterparties.</p>
+<p>CONCLUSION
+So… as you can see, also as a merchant, you can obtain a different level of privacy through anonymity and obscure your final destination of your funds.</p>
+<p>Is it perfect? Maybe not. But I challenge you to do your own tests: try to trace yourself, using some of these methods and see if you can find yourself the origin and final destination of the funds transacted with these methods. Will be really hard, I tried myself many times, with many methods.</p>
+<p>These methods can be improved, no doubt, use your imagination and skills. I just wanted to offer you some tricks from where you can start.</p>
+<p>Just don’t be discouraged by those haters saying that Lightning Network is not providing any privacy and you should not use it. For more your dig into LN, more you will find how fascinating is and how many things you can do with it.</p>
+<p>Lightning Network, as a layer 2 over Bitcoin Network is a real game changer and a powerful tool in user’s hands.</p>
+<p>Here some examples of amazing things you can do with LN:</p>
+<p>Lightning Network is awesome - a collection of links with LN services</p>
+<p>Bitcoin Lightning Network Real Life Use Examples</p>
+</body>
+</html>
+</article>
