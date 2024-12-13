@@ -47,23 +47,24 @@ title: Operating with Bitcoin LN as a merchant
 <p>To this “public node” you can connect a simple LN node, with a private (unannounced) channel, big enough to move the funds received from customers payments.</p>
 <h5>In this scenario we can have also multiple options:</h5>
 <ul>
-<li>run both LN nodes on Tor, but offering only a separate service on clearnet to generate the LN invoices (could be a BTCPay server or LNbits). Here I wrote a guide about using LNbits suite as a merchant, on clearnet too.</li>
-<li>run a LN node on Tor but use a VPN tunnel from your BTCPay server or LNbits hosted on a clearnet VPS. Here I wrote another guide using various scenarios with LNbits. In this way you are not revealing the real location of your LN node.</li>
-<li>run a public LN node that receive all the payments, but to that node, connect another private LN node, using a fast mobile LN node as Blixt, Zeus, Mutiny, Phoenix, Electrum, Green or Breez. These mobile LN nodes will always use a private (unannounced) channel. With Blixt you can also use the keysend method to push funds from your “receiver” node towards your Blixt node. From there you can close the channel and/or use another channels towards any swap service (Deezy, Boltz, FixedFloat, RoboSats etc). I wrote another guide about this scenario here.</li>
+<li>run both LN nodes on Tor, but offering only a separate service on clearnet to generate the LN invoices (could be a <a href="https://btcpayserver.org/">BTCPay server</a> or <a href="https://lnbits.com/">LNbits</a>). Here I wrote a guide about <a href="https://darthcoin.substack.com/p/lnbits-for-small-merchants">using LNbits suite as a merchant</a>, on clearnet too.</li>
+<li>run a LN node on Tor but use a VPN tunnel from your BTCPay server or LNbits hosted on a clearnet VPS. <a href="https://darthcoin.substack.com/p/build-your-own-lnbits-app-server">Here I wrote another guide using various scenarios like this with LNbits</a>. In this way you are not revealing the real location of your LN node.</li>
+<li>run a public LN node that receive all the payments, but to that node, connect another private LN node, using a fast mobile LN node as <a href="/wallets/getting-started-blixt-wallet-en.html">Blixt</a>, <a href="/wallets/getting-started-zeus-wallet-en.html">Zeus</a>, <a href="https://phoenix.acinq.co/">Phoenix</a>, <a href="https://electrum.org/">Electrum</a>, <a href="/wallets/getting-started-greenwallet-en.html">Green</a> or <a href="https://breez.technology/">Breez</a>. These mobile LN nodes will always use a private (unannounced) channel. With Blixt and Zeus you can also use the keysend method to push funds from your “receiver” node towards your Blixt node. From there you can close the channel and/or <a href="/nodes/lightning-submarine-swaps-en.html">use another channels towards any swap service</a> (Deezy, Boltz, FixedFloat, RoboSats etc). <a href="https://darthcoin.substack.com/p/node-liquidity-guide">I wrote another guide about this scenario here</a>.</li>
+<li>Run a disposable LN node with instant setup from <a href="https://rizful.com/">Rizful</a>. Simple fast, anonymous and easy.</li>
 </ul>
 <hr style="height:2px">
 
 <h4>B. Use only a private mobile LN node</h4>
 <p>Yes, if you are a small merchant, that do not have time and money to spend on desktop nodes infrastructure, you can take payments directly with a mobile LN node.</p>
 <p>Yes, there are pros and cons about this option, but depending on your business specific, you can adapt and use it. Let’s consider you are a merchant that operates in a mobile market, you do not have a big volume of sales using BTC/LN and you do not have a place or resources where to allocate for a stable desktop node.</p>
-<p>You can use Blixt, Zeus, Mutiny, Phoenix, Electrum, Green or Breez for this scenario.</p>
+<p>You can use <a href="/wallets/getting-started-blixt-wallet-en.html">Blixt</a>, <a href="/wallets/getting-started-zeus-wallet-en.html">Zeus</a>, <a href="https://phoenix.acinq.co/">Phoenix</a>, <a href="https://electrum.org/">Electrum</a>, <a href="/wallets/getting-started-greenwallet-en.html">Green</a> or <a href="https://breez.technology/">Breez</a> for this scenario.</p>
 <h5>Some aspects of these apps to mention:</h5>
 <ul>
 <li>All of them are SELF-CUSTODY, you control the keys and the funds 100%, all open source and free.</li>
 <li>All of them are LN nodes, in your own pocket, not mumbo-jumbo obscure processes and custodial funds/keys.</li>
-<li>All of them support LNURL and Lightning address (to send to). More details in this guide.</li>
+<li>All of them support LNURL and Lightning address (to send to). <a href="/wallets/lightning-wallets-comparison-en.html">More details in this features comparison guide</a>.</li>
 <li>Zeus and Breez offers a PoS app inside. Easy to manage as a merchant. Also support NFC.</li>
-<li>Electrum offers swaps LN ←&gt;onchain straight into the app, no external service required. It uses trampoline and normal LN channels. Electrum also is available on all desktop platforms.</li>
+<li>Electrum offers swaps LN <-->onchain straight into the app, no external service required. It uses trampoline and normal LN channels. Electrum also is available on all desktop platforms.</li>
 <li>Blixt offers advanced LN channels management and advanced tools for power users (such as keysend). Blixt recently added the version for Mac desktop. Soon for Linux.</li>
 </ul>
 
@@ -72,26 +73,26 @@ title: Operating with Bitcoin LN as a merchant
 <p>All these LN nodes will have an anonymous nodeID, not linked to your real identity. There’s no KYC or identity verification in order to use these apps.</p>
 <p>In case you want to “refresh” your receiving merchant nodeID, I suggest some scenarios:</p>
 <ul>
-<li>You can anytime, close all your LN channels, take the BTC into another onchain wallet node and start a new LN node, fresh, new nodeID. This is the simplest method. Once you have a new nodeID, you can buy one or several inbound channels from any LSP (ZFR, LNBIG, Bitrefill, LNServer etc) but you would need to specify that you want a “private channel” not a public routing channel. Then you are ready to receive payments straight away, with a new nodeID!</li>
-<li>With Blixt you can use also the “migration process” to another new Blixt node. So if you emptied your previous LN channels using a swap service or simply you want to move your remaining balance to a new nodeID, you could just use the Dunder service offered by Blixt node. So you could move through LN all the remaining balance from one Blixt node to another and in the same time get some inbound liquidity. Later in the new Blixt you could add more inbound channels with previously mentioned LSPs.</li>
+<li>You can anytime, close all your LN channels, take the BTC into another onchain wallet node and start a new LN node, fresh, new nodeID. This is the simplest method. Once you have a new nodeID, you can buy one or several inbound channels from any LSP (<a href="https://lsps1.olympusln.com/">Olympus</a>, <a href="https://lnbig.com/#/">LNBIG</a>, <a href="https://megalithic.me/">Megalith</a>, <a href="https://www.bitrefill.com/thor-lightning-network-channels/">Bitrefill</a>, <a href="https://lnserver.com/">LNServer</a>, <a href="https://stacker.news/items/227488">FlashSats</a> etc) but you would need to specify that you want a “private channel” not a public routing channel. Then you are ready to receive payments straight away, with a new nodeID!</li>
+<li>With Blixt you can use also the <a href="https://blixtwallet.github.io/faq#blixt-restore">“migration process”</a> to another new Blixt node. So if you emptied your previous LN channels using a swap service or simply you want to move your remaining balance to a new nodeID, you could just use the <a href="https://darthcoin.substack.com/p/dunder-lsp-and-lightning-box-provider">Dunder service offered by Blixt node</a>. So you could move through LN all the remaining balance from one Blixt node to another and in the same time get some inbound liquidity. Later in the new Blixt you could add more <a href="/nodes/managing-lightning-node-liquidity-en.html">inbound channels with more LSPs</a>. <a href="https://docs.zeusln.app/for-users/embedded-node/backup-and-recovery#can-i-recover-my-zeus-onchain-wallet-into-other-wallet-applications">Same can be done with Zeus</a>, nodes opened in Blixt can be restored in Zeus and vice-versa.</li>
 </ul>
 <hr style="height:2px">
 
 <h4>C. Use a “decoy” custodial Lightning wallet</h4>
 <p>Yes, many are afraid of the “infamous” custodial wallets, but in some scenarios are a good tool to be used to obscure your real identity.</p>
 <p>There are many custodial LN wallets and services that are not KYC or do not request any identity verification process, maybe just an email address.</p>
-<p>For this scenario you could use: CoinOS, Blink, Wallet of Satoshi, Bluewallet, Alby, a friend or provider of LNbits wallet (an example is Rayito).</p>
-<p>Once you receive into these LN wallets, you could easily use any submarine swap service to take out the sats into your own private onchain wallet. Here is also another guide about using a “Lightning Cleaning Machine” method.</p>
+<p>For this scenario you could use: CoinOS, Blink, Wallet of Satoshi, Bluewallet, Alby, <a href="/beginner/getting-started-stack-sats-en.html">see more examples and details here</a>, a friend or provider of LNbits wallet <a href="/nodes/ln-bank-with-lnbits-en.html">as I described here</a>.</p>
+<p>Once you receive into these LN wallets, you could easily <a href="https://darth-coin.github.io/nodes/lightning-submarine-swaps-en.html">use any submarine swap service</a> to take out the sats into your own private onchain wallet. Here is also another guide about using a <a href="/wallets/lightning-cleaning-machine-en.html">“Lightning Cleaning Machine”</a> method.</p>
 <p>Receiving into these wallets, will not reveal any of your real identity or node, will be just the provider public node.</p>
 <p>Swaping into onchain addresses also will not leave trace of your real identity.</p>
 <h5>Some important aspects to mention about these apps:</h5>
 <ul>
-<li>CoinOS offers a web PoS interface for merchants. Can be run on any device, without installing anything, being just a web-app. Offers also integrated swaps LN ←&gt; onchain, support all LNURL options, including a Lightning Address to receive. Is a very powerful tool for a small merchant that want to start accepting Bitcoin through LN.</li>
-<li>Alby is a browser extension with extensive functionalities as a LN wallet. It can be used as a custodial wallet but also can be connected to your own nodes or sources (LND, CLN, Eclair, LNBits, LNTXBOT, LNDhub). Supports all LNURL options + Lightning Address.</li>
-<li>Wallet of Satoshi is a simple mobile LN wallet, custodial. Supports some LNURL functionalities + offering a Lightning Address. Users is asked for an email address only in case that want to use the backup function. But if you want, you can use a new WoS every day, after you swap all funds from it into your private onchain wallet, without revealing any email or identity.</li>
-<li>Bluewallet is a good mobile app, onchain (non-custodial) and LN (custodial), using LNDhub wallets from Bluewallet servers. It can be used also with other private LNDhub accounts from your friends nodes or other providers, including from LNTXBOT. It offer swaps from your onchain wallet into LN wallet.</li>
-<li>LNbits is a powerful suite tool, that can be used from a friend’s node or provider, as I explained in these articles (The Bank of LNbits and LNbits for small merchants). DO NOT use the public demo LNbits instance (legend.lnbits.com) ! That one is only for testing, demos, familiarize with it, it is not recommended for real use cases. LNbits also have a dedicated extension for swaps, using Boltz.</li>
-<li>Rayito is a custody solution, based on LNbits, that offers a very easy to use LN wallet for small merchants. The app is in Spanish.</li>
+<li><a href="https://coinos.io/">CoinOS</a> offers a web PoS interface for merchants. Can be run on any device, without installing anything, being just a web-app. Offers also integrated swaps LN ←&gt; onchain, support all LNURL options, including a Lightning Address to receive. Is a very powerful tool for a small merchant that want to start accepting Bitcoin through LN.</li>
+<li><a href="/wallets/getting-started-alby-hub-en.html">Alby</a> is a browser extension with extensive functionalities as a LN wallet. It can be used as a custodial wallet (of a friend) but also can be connected to your own nodes or sources (LND, CLN, LNBits, NWC, Blink, LNDhub). Supports NWC and all LNURL options + Lightning Address plus a simple mobile app and PoS.</li>
+<li><a href="https://www.walletofsatoshi.com/">Wallet of Satoshi</a> is a simple mobile LN wallet + PoS, custodial. Supports some LNURL functionalities + offering a Lightning Address. Users is asked for an email address only in case that want to use the backup function. But if you want, you can use a new WoS every day, after you swap all funds from it into your private onchain wallet, without revealing any email or identity.</li>
+<li><a href="https://bluewallet.io/">Bluewallet</a> is a good mobile app, onchain and LN (with integrated LDK node), using LNDhub wallets from Bluewallet servers. It can be used also with other private LNDhub accounts from your friends nodes or other providers, including from LNTXBOT. It offer swaps from your onchain wallet into LN wallet.</li>
+<li><a href="https://lnbits.com/">LNbits</a> is a powerful suite tool, that can be used from a friend’s node or provider, as I explained in these articles (<a href="/nodes/ln-bank-with-lnbits-en.html">The Bank of LNbits</a> and <a href="https://darthcoin.substack.com/p/lnbits-for-small-merchants">LNbits for small merchants</a>). DO NOT use the public demo LNbits instance (demo.lnbits.com) ! That one is only for testing, demos, familiarize with it, it is not recommended for real use cases. LNbits also have a dedicated extension for swaps, using Boltz.</li>
+<li><a href="https://lnvoltz.com">LN Voltz</a> is a custodial solution, based on LNbits, that offers a very easy to use LN wallet for small merchants. No KYC.</li>
 </ul>
 <hr style="height:2px">
   
@@ -109,8 +110,9 @@ title: Operating with Bitcoin LN as a merchant
 <p>Lightning Network, as a layer 2 over Bitcoin Network is a real game changer and a powerful tool in user’s hands.</p>
 <p>Here some examples of amazing things you can do with LN:</p>
 <ul>
-<li>Lightning Network is awesome - a collection of links with LN services</li>
-<li>Bitcoin Lightning Network Real Life Use Examples</li>
+<li><a href="https://darthcoin.substack.com/p/lightning-network-is-awesome">Lightning Network is awesome</a> - a collection of links with LN services</li>
+<li><a href="https://darth-coin.github.io/merchants/bitcoin-lightning-payments-irl-en.html">Bitcoin Lightning Network Real Life Use Examples</a></li>
+<li><a href="https://darth-coin.github.io/merchants/getting-started-bitcoin-small-merchants-en.html">Getting started with Bitcoin for Small Merchants</a></li>
 </ul>
 </body>
 </html>
