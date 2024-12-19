@@ -6,4 +6,4 @@ This website is a copy of all my guides posted on my <a href="https://darthcoin.
 
 Anybody is welcome to participate with translations and corrections.
 
-Each guide file must be HTML and the name to end in -en -es -fr -it -de -nl -hr -in to indicate the language, preserving the same english name for better tracking.
+Each guide file must be HTML and the name to end in -en -es -fr -it -de -nl -hr -hi to indicate the language, preserving the same english name for better tracking.
