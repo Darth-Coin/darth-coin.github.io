@@ -1,0 +1,189 @@
+---
+layout: default
+title: Premiers pas avec Lightning Address
+---
+<article>
+<!DOCTYPE html>
+<html lang="fr">
+<meta name="description" content="Guides Bitcoin et Lightning : Comment configurer votre propre adresse LN, gérer les adresses LN, tout cela expliqué pour les débutants">
+<body>
+<a href="/beginner/getting-started-ln-address-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/beginner/getting-started-ln-address-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/beginner/getting-started-ln-address-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/beginner/getting-started-ln-address-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/beginner/getting-started-ln-address-nl.html">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/beginner/getting-started-ln-address-hr.html">Hrvatski <img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/beginner/getting-started-ln-address-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<blockquote style="color:Tomato;"><em>
+<p>Publié à l'origine sur <a href="https://darthcoin.substack.com/p/getting-started-lightning-address">Substack</a> le 01 juin 2023</p>
+<p>Mis à jour ici le 22 novembre 2024</p>
+</em></blockquote>
+<h3>Quels portefeuilles, services, options, comment configurer votre propre adresse LN, gérer les adresses LN, tout cela expliqué pour les débutants</h3>
+<p><img src="/assets/images/darth-ln-address.jpg" class="center"></p>
+<p>Dernièrement <a href="https://nostr.at/nevent1qqsvzfe8l6w9zc6e5yv2gefzg0wsg70zsnrn67fvjkxmetzs3fpa7pgzyz724qpuk2w7z7ty2a02xgk9vnr9f98cx2j0knrw7djp8q0xx8nnjtet0p6">Je reçois</a> beaucoup de questions sur Lightning Address. Beaucoup de gens se poseront encore la question car c'est un nouveau terme, quelque chose qui n'a jamais été inventé, un nouveau concept, en particulier pour <a href="https://nostr.com/">NOSTR</a> et d'autres cas d'utilisation.</p>
+<p><img src="/assets/images/aprentice.png" class="center"></p>
+<p>Certains s'inquiètent des adresses de garde ou veulent simplement leur propre adresse LN sophistiquée.</p>
+<blockquote style="color:Tomato;"><em>
+<p>Glossaire :</p>
+<ul>
+<li>LN = Lightning Network</li>
+<li>sats = la plus petite unité de 1 BTC (1 BTC = 100 M sats)</li>
+<li>KYC = Know Your Customer (vérification de conneries)</li>
+<li>NOSTR = Protocole ouvert qui permet des réseaux sociaux mondiaux, décentralisés et résistants à la censure.</li>
+<li>NIP-05 = Mappage des clés Nostr aux identifiants Internet basés sur DNS</li>
+</ul>
+</em></blockquote>
+<p>Je vais donc essayer d'expliquer certains aspects de l'adresse Lightning, comment vous devez commencer, comment vous devez le faire en tant que nouvel utilisateur LN.</p>
+
+<h3>Qu'est-ce qu'une adresse Lightning ?</h3>
+<p>Une adresse LN n'est rien de plus qu'une adresse lisible par l'homme à partir d'une LNURL.</p>
+<p>Une LNURL est en fait une requête http pour une facture LN. Ainsi, pour avoir une LNURL/adresse LN, vous devez disposer d'un serveur Web qui exécute ces requêtes vers un nœud LN (votre nœud ou nœud de garde) et renvoie la facture LN au payeur.</p>
+<p>C'est pourquoi une LNURL/adresse LN auto-dépositaire n'est pas si facile à obtenir, en un seul clic, ou des portefeuilles qui en créent une instantanément pour vous. Quelqu'un doit configurer ce serveur de requête Web et ce doit être VOUS si vous souhaitez disposer de l'auto-gestion.</p>
+<p>En savoir plus sur <a href="https://lightningaddress.com/">LightningAddress.com</a></p>
+
+<h3>Le serveur Web LNURL peut être exécuté (il s'agit simplement d'un petit logiciel) :</h3>
+<ul>
+<li>Sur la même machine/appareil que votre nœud, en utilisant votre propre nom de domaine</li>
+<li>Sur une machine distincte, locale ou distante, pointant vers votre nœud, en utilisant votre propre nom de domaine</li>
+<li>Fédéré, en utilisant votre propre nom de domaine. Vous ne contrôlez pas totalement le serveur Web, mais le propriétaire du serveur vous donne la possibilité de recevoir des demandes d'adresse LNURL / LN et les paiements vont directement à votre nœud. Ce n'est PAS un service de garde, c'est juste un service de transfert. Ainsi, le propriétaire du service ne touche même pas à vos fonds, il échange simplement des informations sur les demandes Web.</li>
+<li>Gardien - vous recevez simplement une adresse LNURL / LN dédiée, avec LEUR nom de domaine. Les fonds sont conservés sous leur garde, mais certains pourraient proposer une transmission directe vers votre propre nœud, instantanément. Donc la garde est minimale.</li>
+</ul>
+
+<h3>Pourquoi utiliser différents types d'adresses LN ?</h3>
+<h3>Privées ou publiques ?</h3>
+<p>J'utilise personnellement de nombreuses adresses LN, publiques et privées, avec ou sans garde. Tout dépend du cas d'utilisation.</p>
+<p>Définissons ce qui est public et ce qui est privé (je vois que beaucoup de gens sont confus).</p>
+<p>Public = tout ce que vous feriez en public, en ligne, où de nombreuses personnes pourraient le voir, le lire, le copier, le suivre, etc. Cette « identité » doit être un pseudonyme, un alias, un faux nom, PAS votre vrai nom que vous utilisez dans votre vie privée. La vie publique, en particulier en ligne, doit être votre « leurre », votre visage public.</p>
+<p>Privé = uniquement les choses que vous faites en privé, dans votre famille, avec des amis proches, des personnes qui vous connaissent dans la vraie vie, en personne. Des choses que vous NE révélez PAS en public, sinon elles deviendraient… des informations publiques.</p>
+<p>NE JAMAIS associer des informations publiques à des informations privées. Mais en privé, vous pourriez avoir une interaction entre ces 2 identités en déplaçant des fonds entre elles de manière privée.</p>
+<p>Une adresse LN n'est PAS censée être votre moyen habituel de revenus !</p>
+<p>Une adresse LN publique est davantage destinée aux pourboires, aux petits dons, aux zaps Nostr, ou même si vous souhaitez recevoir un message via LN. Les gens pourraient vous envoyer un message privé attaché à 1 pourboire sat via l'adresse LN.</p>
+<p>Une adresse LN privée est davantage destinée à vos revenus privés, disons que vous avez une entreprise qui pourrait recevoir des paiements pour des factures, des articles, etc. Vous pouvez simplement informer votre client de payer à une adresse LN privée, en utilisant le nom de domaine de votre entreprise. Pas besoin de générer une facture LN pour chaque paiement qu'il doit vous faire.</p>
+<p>J'utilise les adresses publiques, de garde, pour les choses publiques, où ma véritable identité n'est pas révélée. Presque tous ces services de garde NE nécessitent PAS un KYC complet, donc ce n'est pas un gros problème de les utiliser. Il vous suffit de déplacer les fonds vers vos propres portefeuilles privés où vous considérez qu'il s'agit d'un montant raisonnable. </p>
+<p>J'utilise une adresse LN privée pour des choses PRIVÉES (entreprises privées, communication privée avec des personnes qui me connaissent vraiment, famille, amis, etc.), des choses qui ne sont PAS PUBLIQUES. </p>
+<p>Les gens devraient apprendre à faire la différence entre public et privé, bon sang ! Il semble que beaucoup ne le sachent toujours pas. </p>
+<blockquote style="color:Tomato;"><em>
+<p>Toute cette hystérie folle avec "utilisez une adresse LN auto-dépositaire pour vos zaps Nostr !" Je considère que c'est une connerie totale et inutile. Je m'en fous complètement que vous m'envoyiez un zap sur Nostr vers une adresse LN de garde publique. PERSONNE ne sait vraiment où iront ces satellites à la fin.</p>
+</em></blockquote>
+
+<h3>En détention ou en auto-détention ?</h3>
+<p>Pourquoi pas les deux ?</p>
+<p>Les prisons sont les prisons publiques.</p>
+<p>Votre leurre, votre déni plausible, votre visage public, votre cache / zone tampon. Soyons honnêtes, combien de sats recevrez-vous en une journée par exemple qui poserait un tel problème pour être en garde ? Si vous dépendez de ces sats reçus de quelques dons ou conseils sans signification sur NOSTR, alors vous êtes… short Bitcoin.</p>
+<p>Si vous recevez de gros montants, retirez-les chaque jour dans vos portefeuilles privés. Ce n'est pas grave. Considérez ces gardes publiques (en particulier celles qui ne sont pas KYC) comme une bonne opsec, cachant votre véritable destination de ces sats. Vous pouvez déplacer les sats à travers de nombreux portefeuilles LN différents, de là à un swap LN vers onchain vers votre portefeuille HODL et PERSONNE ne saura jamais où sont passés vos conseils nostr.</p>
+<p>Utilisez-en plusieurs. Ne concentrez jamais tout au même endroit, ne comptez jamais sur une seule adresse. Utilisez-en plusieurs, pour de nombreux types de revenus différents. Je pense que j'utilise 7 ou 8 banques publiques, certaines avec plus de trafic, certaines que je garde en réserve, certaines juste pour le plaisir, les tests, etc. Je retire périodiquement les fonds d'elles. Et c'est très bien.</p>
+<p>N'oubliez pas : utilisez toujours les <a href="/beginner/be-your-own-bank-en.html">3 niveaux de stockage</a> : HODL, cache, dépenses.</p>
+<p>Les banques privées sont celles qui ont une garde autonome.</p>
+<p>Vous pouvez même utiliser les banques privées pour transférer les fonds des banques publiques. Certaines solutions comme LNbits ont déjà des extensions qui transfèrent et divisent automatiquement tout paiement reçu vers une adresse LN. J'utilise également des banques privées leurres lorsque je le fais, afin que le dépositaire ne fasse pas de traçage basé sur la destination. Soyez inventif ici.</p>
+<p>Aussi les privés, utilisez-en plusieurs, chacun pour un cas d'utilisation ou un endroit où vous les publiez.</p>
+
+<h3>Comment réaliser une chose comme Lightning Address ?</h3>
+<p>Vous avez plusieurs façons comme je l'ai dit : fédéré, auto-dépositaire, dépositaire. Voyons chaque méthode et solution.</p>
+
+<h3>A - Serveur de pont fédéré</h3>
+<p>L'utilisation d'un serveur fédéré signifie que vous devrez posséder un nom de domaine et le contrôle total de ses enregistrements DNS, pour pouvoir le configurer et le lier au serveur LNURL. Vous devrez également disposer d'un nœud LN vers lequel vous indiquez où effectuer les paiements (cela peut être Tor, Clearnet ou Tailscale).</p>
+<p>Je recommande <a href="https://bridgeaddr.fiatjaf.com/">BridgeAddress</a> de <a href="https://nostr.at/npub180cvv07tjdrrgpa0j7j7tmnyl2yr6yr7l8j4s3evf6u64th6gkwsyjh6w6">Fiatjaf</a> (créateur de NOSTR), c'est la solution parfaite. Pourquoi ? Parce que :</p>
+<ul>
+<li>vous pouvez utiliser votre propre nom de domaine pour l'adresse.</li>
+<li>offre de nombreux types de connexion directement à votre nœud ou à d'autres sources de financement.</li>
+<li>facile à configurer, en 10 minutes maximum est fonctionnel (selon votre fournisseur DNS).</li>
+<li>peut être utilisé avec un nœud Tor ou ZeroTier / Tailscale.</li>
+</ul>
+<p>Cette méthode est bonne si vous exécutez simplement un nœud simple à la maison et que vous ne souhaitez pas configurer un serveur Web sur votre machine / IP, donc un tiers s'en chargera pour vous, mais les fonds sont toujours sous votre garde.</p>
+<p>Oui, vous avez besoin d'un peu de confiance en fiatjaf, pour gérer vos requêtes LNURL. Mais si vous ne savez pas qui est fiatjaf dans le monde Bitcoin, je ne sais pas ce que vous faites ici...</p>
+
+<h3>B - Service d'adresse LN fédérée</h3>
+<p>Ce type de serveurs fédérés sont ceux qui vous offrent un nom de domaine (parfois drôle) pour votre adresse LN mais les paiements vont directement à votre nœud, pas de garde.</p>
+<p><a href="https://payaddress.co/">PayAddress.co</a> | <a href="https://btcadresse.de/">BTCAdresse.de</a> | <a href="https://lnbitcoin.cz/">LNBitcoin.cz</a> | <a href="https://lnpay.cz/">LNPay.cz</a> | <a href="https://lnaddress.com/">LNAddress.com</a> | <a href="https://lnaddress.me/">LNAddress.me</a> | <a href="https://lnaddress.net/">LNAddress.net</a> | <a href="https://lightning.by/">Lightning.by</a> | <a href="https://lightning.re/">Lightning.re</a> | <a href="https://satspay.to/">SatsPay.to</a> | <a href="https://sats.rs/">Sats.rs</a></p>
+<p>Cette méthode est idéale pour être utilisée comme adresse leurre. Elle n'affiche pas votre domaine privé, mais transmet tout de même les satellites directement à votre nœud privé. Aucune garde.</p>
+
+<h3>C - Serveur entièrement en garde libre</h3>
+<p>Utilisez votre propre serveur Web LNURL avec votre propre nœud LN. Vous devez avoir des compétences techniques pour installer le logiciel sur votre nœud ou serveur Web, mais certains d'entre eux ont une documentation très bien expliquée sur leur page github.</p>
+<p>Et il existe de nombreuses implémentations. <a href="https://lightningaddress.com/#community">Veuillez consulter la page de documentation</a>.</p>
+<p>Mais je vais en mentionner quelques-uns ici :</p>
+<ul>
+<li><a href="https://github.com/nbd-wtf/satdress">https://github.com/nbd-wtf/satdress</a></li>
+<li><a href="https://github.com/SatSale/SatSale">https://github.com/SatSale/SatSale</a></li>
+<li><a href="https://github.com/niteshbalusu11/rustdress">https://github.com/niteshbalusu11/rustdress</a></li>
+<li><a href="https://github.com/yanascz/lnurld">https://github.com/yanascz/lnurld</a></li>
+<li><a href="https://github.com/hieblmi/go-host-lnaddr">https://github.com/hieblmi/go-host-lnaddr</a></li>
+<li><a href="https://github.com/bumi/lnme">https://github.com/bumi/lnme</a></li>
+<li><a href="https://github.com/Dolu89/ligess/">https://github.com/Dolu89/ligess/</a></li>
+<li><a href="https://github.com/GaloyMoney/galoy">https://github.com/GaloyMoney/galoy</a></li>
+<li><a href="https://github.com/conduition/lnaddrd">https://github.com/conduition/lnaddrd</a></li>
+<li><a href="https://github.com/AngusP/phoenixd-lnurl">https://github.com/AngusP/phoenixd-lnurl</a> - un serveur d'adresses LNURL/LN pour <a href="https://github.com/ACINQ/phoenixd"https://github.com/ACINQ/phoenixd"PhoenixD Server</a></li>
+</ul>
+
+<h3>D - Lightning Box</h3>
+<p>Un cas particulier dans cette catégorie serait <a href="https://github.com/hsjoberg/lightning-box">Blixt Lightning Box</a>. Il est toujours en développement mais sera bientôt publié. <a href="/wallets/getting-started-blixt-wallet-en.html">Blixt est un nœud LND mobile auto-dépositaire</a> doté de nombreuses fonctionnalités (comme <a href="https://github.com/hsjoberg/dunder-lsp">Dunder LSP</a> qui peut également être exécuté en mode auto-dépositaire ou proposé en tant que service) et qui tente de trouver un moyen pratique d'avoir une adresse LN auto-dépositaire que les utilisateurs peuvent configurer de deux manières :</p>
+<ul>
+<li>Mode pont : le serveur Blixt gérera toutes les demandes pour l'adresse LN userX@blixtwallet.com, conservera les sats jusqu'à ce que le nœud Blixt de l'utilisateur soit en ligne, puis lui transmettra les sats. Il ne s'agira que d'une courte période de détention.</li>
+<li>Auto-détention : les utilisateurs de Blixt peuvent installer la LN Box sur leurs propres serveurs et gérer leur propre domaine, puis transférer les satellites vers leurs propres nœuds mobiles Blixt. Cette option est très intéressante si vous utilisez cette LN Box pour votre famille et vos amis et qu'ils souhaitent utiliser votre nom de domaine pour leur adresse LN (voir le point B ci-dessus). Plus tard, il pourrait même être exécuté avec plusieurs noms de domaine en tant que service.</li>
+</ul>
+<p><a href="https://darthcoin.substack.com/p/dunder-lsp-and-lightning-box-provider">Voici un guide</a> sur la gestion de votre propre Lightning Box.</p>
+<p><img src="/assets/images/ln-box.jpg" class="center"></p>
+<p>Blixt prépare également une version pour ordinateur de bureau (il en existe déjà une pour macOS) et cela ouvrira une énorme opportunité d'utiliser le nœud Blixt de nombreuses façons avec un nœud mobile Blixt. Alors restez à l'écoute et apprenez d'abord à utiliser cette incroyable application mobile LN.</p>
+
+<h3>E - Nœud mobile Zeus LN</h3>
+<p>Avec la version v.0.8.0, Zeus propose une adresse Lightning auto-dépositaire appelée ZEUS PAY. Il s'agit de la toute première offre d'une adresse Lightning auto-dépositaire dans une application mobile.</p>
+<p>ZEUS PAY exploite les hachages de pré-image générés par l'utilisateur, les factures hodl et le système d'attestation <a href="https://github.com/supertestnet/zaplocker?ref=blog.zeusln.com">Zaplocker</a> Nostr pour permettre aux utilisateurs qui ne sont pas en ligne 24h/24 et 7j/7 de recevoir des paiements sur une adresse Lightning statique. Les utilisateurs doivent simplement se connecter à leurs portefeuilles ZEUS dans les 24 heures pour réclamer les paiements, sinon ils seront renvoyés à l'expéditeur.</p>
+<p>En outre, ZEUS PAY peut fonctionner comme une méthode d'intégration. Les utilisateurs ont la possibilité de demander automatiquement de nouveaux canaux à notre LSP, OLYMPUS by ZEUS, avec le service.</p>
+<p>Il s'agit d'une solution fantastique pour les travailleurs des services, les nomades, les dissidents et autres pour accepter des pourboires et des dons sans sacrifier la garde. Nous attendons avec impatience toutes les nouvelles personnes qui intègrent Bitcoin avec cette nouvelle fonctionnalité.</p>
+<p>ZEUS PAY est disponible, non seulement pour les utilisateurs de nœuds intégrés, mais également pour les utilisateurs LND distants. <a href="/wallets/getting-started-zeus-wallet-en.html">Voici un guide complet sur le nœud Zeus LN</a>.</p>
+
+<h3>F - Serveur LNbits</h3>
+<p>Un autre cas d'utilisation spécial est l'utilisation de LNbits comme fournisseur de serveur LNDHUB et LNURL. Là encore, il peut être utilisé de plusieurs manières : auto-dépositaire et dépositaire ou transitaire.</p>
+<p>a. Mode de garde/transitaire</p>
+<p>N'oubliez pas que cela ne doit être utilisé que comme solution temporaire ou comme transitaire (leurre) au cas où vous ne voudriez pas utiliser votre propre nom de domaine et votre propre nœud. Le serveur de démonstration public LNbits peut être à tout moment en mode maintenance, étant simplement un serveur de démonstration. Mais pour les petits paiements et les paiements temporaires, c'est OK.</p>
+<p>Vous pouvez donc créer un compte gratuit sur <a href="https://demo.lnbits.com/">Demo.LNbits.com</a> ou <a href="https://lnvoltz.com/">LN Voltz.com</a> (enregistrer/mettre en favoris votre nouveau compte créé) et <a href="https://github.com/lnbits/lnurlp#update-your-lnurl-pay-extension">configurer une LNURL-p</a> avec une adresse LN. Ce sera comme votrenomd'utilisateur@legend.lnbits.com.</p>
+<p>Ce qui est intéressant dans ce cas, c'est qu'avec les extensions <a href="https://github.com/lnbits/scrub">Scrub</a> et <a href="https://github.com/lnbits/splitpayments">Split</a>, vous pouvez transférer tous les sats reçus sur cette adresse LNURL / LN vers n'importe quelle autre adresse LNURL / LN externe que vous possédez, en votre propre garde.</p>
+<p>b. Instance auto-dépositaire</p>
+<p><img src="/assets/images/lnbits-cats.jpg" class="center"></p>
+<p>Ainsi, avec une instance LNbits auto-dépositaire, vous auriez votre propre nom de domaine pour votre adresse LN et en géreriez plusieurs pour les membres de votre famille ou vos amis.</p>
+<p><a href="https://github.com/lnbits/lnbits/wiki/LNbits-Documentation">Voici la documentation Wiki</a> sur la façon d'installer et de gérer vos propres LNbits.</p>
+<p>Si vous voulez plus de guides sur les cas d'utilisation de LNbits, j'en ai écrit plusieurs :</p>
+<ul>
+<li><a href="https://darthcoin.substack.com/p/getting-started-lnbits">Démarrage avec LNbits</a></li>
+<li><a href="https://darthcoin.substack.com/p/lnbits-nostr-market">Démarrez votre marché NOSTR avec LNbits</a></li>
+<li><a href="https://darthcoin.substack.com/p/lnbits-saas-a-solution-for-schools">LNbits SaaS - une solution pour les écoles et les événements</a></li>
+<li><a href="https://darthcoin.substack.com/p/lnbits-streamer-copilot">Comment utiliser le copilote de streamer LNbits</a></li>
+<li><a href="/merchants/private-banks-over-ln-en.html">Banques privées sur le réseau Lightning</a></li>
+<li><a href="https://darthcoin.substack.com/p/build-your-own-lnbits-app-server">Créez vos propres applications LNbits Serveur</a></li>
+<li><a href="https://darthcoin.substack.com/p/lnbits-for-small-merchants">LNbits pour les petits commerçants</a></li>
+<li><a href="https://darthcoin.substack.com/p/the-bank-of-lnbits">La Banque des LNbits</a></li>
+</ul>
+<p>Il existe de nombreuses façons de jouer avec ces outils, surtout si vous souhaitez avoir une adresse LN plus privée.</p>
+
+<h3>F - Custodial Lightning Address</h3>
+<p>Oui, les (in)fameuses adresses de garde que certaines personnes détestent. Moi non plus. J'ai appris à les utiliser à mon avantage, comme un leurre, comme un « visage public » qui pourrait encaisser tous les coups au visage avec vos zaps, tips, sats, etc. Comme un haut mur derrière lequel personne ne peut voir ce qu'il y a. Elles sont destinées aux petits montants qui sont ensuite transférés vers mes portefeuilles privés. Je les utilise partout où je dois utiliser le nym « DarthCoin ».</p>
+<p>Certaines d'entre elles sont très utiles et la plupart d'entre elles sont NON-KYC (chose importante). Ces services offrent de multiples fonctionnalités, pas seulement une adresse LN, et méritent d'être pris en compte.</p>
+<p>Voici quelques-uns que j'utilise et que je connais :</p>
+<ul>
+<li><a href="https://getalby.com/">GetAlby</a> - Extension de navigateur avec de multiples cas d'utilisation (vérification NIP-05, astuces/dons YouTube en 1 clic, compte lndhub importable dans Zeus/Bluewallet)</li>
+<li><a href="https://t.me/SatsMobiBot">Sats.Mobi</a> - Bot Telegram, pour les astuces, l'adresse LN, LNURL, le compte lndhub, POS, etc.</li>
+<li><a href="https://lnvoltz.com/wallet">Voltz LNbits Bank</a> - un compte LNbits entièrement sécurisé, pour les astuces, l'adresse LN, LNURL-p, LNURL-w, le compte lndhub, etc.</li>
+<li><a href="https://www.walletano.com/">Walletano</a> - portefeuille Web simple avec adresse LN et plusieurs comptes</li>
+<li><a href="https://coinos.io/">CoinOS</a> - portefeuille Web, POS, adresse LN, service d'échange, très bons services</li>
+<li><a href="https://zbd.gg/">ZBD</a> - portefeuille de joueurs avec extension de navigateur, adresse LN, copilote de streamer et plusieurs autres fonctionnalités utiles (jusqu'à un certain niveau NON-KYC)</li>
+<li><a href="https://fountain.fm/">Fountain</a> - application de podcasting avec adresse LN intégrée.</li>
+<li><a href="https://walletofsatoshi.com/">Wallet of Satoshi</a> - application de portefeuille LN mobile simple avec adresse LN</li>
+<li><a href="https://blink.sv/">Blink</a> - portefeuille LN mobile simple avec adresse LN (KYC avec un numéro de portable)</li>
+<li><a href="https://lifpay.me/">LifPay</a> - swaps intégrés, page Web PoS / don</li>
+<li><a href="https://acceptln.com/">AcceptLN</a> - Chaque adresse e-mail accepte désormais Bitcoin Lightning</li>
+<li><a href="https://widgets.twentyuno.net/">TwentyUno</a> - widget Web pour accepter les paiements</li>
+<li><a href="https://www.minibits.cash/">Minibits</a> - Portefeuille Cashu avec adresse Ln intégrée</li>
+<li><a href="https://app.cashu-address.com/">Adresse Cashu</a> - Recevez des paiements Lightning sur votre adresse Cashu. Inscrivez-vous et revendiquez votre nom d'utilisateur, ou utilisez n'importe quelle clé publique de Nostr.</li>
+</ul>
+<p>Pour plus de services de garde qui pourraient offrir une adresse LN, veuillez consulter ce site Web étonnant présentant de nombreux services Lightning - <a href="https://www.stacksats.how/">StackSats.how</a></p>
+<p>Pour ceux qui recherchent une solution simple et rapide pour utiliser une adresse LN pour leurs comptes NOSTR, je suggère de ne pas trop compliquer ces choses. Restez simple. Personne ne mourra pour un nombre insignifiant de sats reçus sous forme de zaps pour certains mèmes.</p>
+<p>J'utilise personnellement sur NOSTR une adresse LN GetAlby pour les zaps et un Stacker.News NIP-05 que je pourrais également utiliser à tout moment comme adresse LN (au cas où GetAlby serait en panne ou vice-versa). Je ne veux vraiment pas « vérifier mon identité » avec un domaine privé personnel sur NOSTR.</p>
+
+<p>Ah, si je devais gérer un compte professionnel sur NOSTR, avec une boutique NOSTR-market, oui, alors j'utiliserais un nom de domaine personnel pour l'adresse LN et NIP-05, car je devrais montrer une preuve de qui je suis à mes clients. Mais juste pour poster des mèmes et discuter avec d'autres sous mon pseudo DarthCoin, je n'utiliserai jamais mes domaines privés.</p>
+
+<p>Je ne préconise pas d'utiliser uniquement des services de garde, je souligne simplement que les gens devraient savoir comment tirer parti de ces services, dans des cas spécifiques.</p>
+
+<h3>Alors réfléchissez-y à deux fois : comment utiliseriez-vous toutes ces adresses Lightning ?</h3>
+<p>P.S. - Si vous connaissez ou trouvez d'autres services, logiciels, applications, solutions groupées qui proposent une adresse LN et qui ne sont pas mentionnés ici, faites-le moi savoir, je les ajouterai volontiers à ce guide. Je suis sûr que j'en ai oublié quelques-uns, mais je ne me souviens plus lesquels.</p>
+</body>
+</html>
+</article>
