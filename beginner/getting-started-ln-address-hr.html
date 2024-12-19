@@ -1,0 +1,187 @@
+---
+layout: default
+title: Prvi koraci s Lightning Addressom
+---
+<article>
+<!DOCTYPE html>
+<html lang="hr">
+<meta name="description" content="Vodiči za Bitcoin i Lightning: Kako postaviti vlastitu LN adresu, upravljanje LN adresama, sve ovo objašnjeno za početnike">
+<body>
+<a href="/beginner/getting-started-ln-address-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/beginner/getting-started-ln-address-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/beginner/getting-started-ln-address-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/beginner/getting-started-ln-address-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/beginner/getting-started-ln-address-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/beginner/getting-started-ln-address-nl.html">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/beginner/getting-started-ln-address-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<blockquote style="color:Tomato;"><em>
+<p>Izvorno objavljeno na <a href="https://darthcoin.substack.com/p/getting-started-lightning-address">Substack</a> 1. lipnja 2023.</p>
+<p>Ovdje ažurirano 22. studenog 2024.</p>
+</em></blockquote>
+<h3>Koji novčanici, usluge, opcije, kako postaviti vlastitu LN adresu, upravljanje LN adresama, sve ovo objašnjeno za početnike</h3>
+<p><img src="/assets/images/darth-ln-address.jpg" class="center"></p>
+<p>U posljednje vrijeme <a href="https://nostr.at/nevent1qqsvzfe8l6w9zc6e5yv2gefzg0wsg70zsnrn67fvjkxmetzs3fpa7pgzyz724qpuk2w7z7ty2a02xgk9vnr9f98cx2j0knrw7djp8q0xx8nnjtet0p6">I primiti</a> dosta pitanja o Lightning Addressu. Mnogi će ljudi i dalje pitati jer je to novi izraz, nešto što nikada nije izmišljeno, novi koncept, posebno za <a href="https://nostr.com/">NOSTR</a> i druge slučajeve upotrebe.</ p>
+<p><img src="/assets/images/aprentice.png" class="center"></p>
+<p>Neki su zabrinuti zbog skrbničkih ili jednostavno žele svoju otmjenu LN adresu.</p>
+<blockquote style="color:Tomato;"><em>
+<p>Glosar:</p>
+<ul>
+<li>LN = Lightning Network</li>
+<li>sat = najmanja jedinica od 1 BTC (1 BTC = 100M sat)</li>
+<li>KYC = Know Your Customer (sranje s provjerom)</li>
+<li>NOSTR = Otvoreni protokol koji omogućuje globalne, decentralizirane društvene mreže otporne na cenzuru.</li>
+<li>NIP-05 = Mapiranje Nostr ključeva u internetske identifikatore temeljene na DNS-u</li>
+</ul>
+</em></blockquote>
+<p>Zato ću pokušati objasniti neke aspekte o Lightning Addressu, kako biste trebali početi, kako biste to trebali učiniti kao novi LN korisnik.</p>
+
+<h3>Što je Lightning adresa?</h3>
+<p>LN adresa nije ništa više od ljudima čitljive adrese iz LNURL-a.</p>
+<p>LNURL je zapravo http zahtjev za LN fakturu. Dakle, da biste imali LNURL/LN adresu, morate imati web poslužitelj koji pokreće te zahtjeve prema LN čvoru (vašem čvoru ili skrbničkom čvoru) i prosljeđuje LN fakturu natrag platitelju.</p>
+<p>Zbog toga LNURL / LN adresu sa samostalnim nadzorom nije tako lako dobiti, u samo jednom kliku, ili novčanike koji je trenutno kreiraju za vas. Netko mora postaviti taj poslužitelj web zahtjeva, a to morate biti VI ako želite samostalno skrbništvo.</p>
+<p>Pročitajte više na <a href="https://lightningaddress.com/">LightningAddress.com</a></p>
+
+<h3>LNURL web poslužitelj može se pokrenuti (samo je mali dio softvera):</h3>
+<ul>
+<li>Na istom stroju/uređaju kao i vaš čvor, koristeći naziv vlastite domene</li>
+<li>Na zasebnom stroju, lokalnom ili udaljenom, koji pokazuje na vaš čvor, koristeći naziv vaše vlastite domene</li>
+<li>Federirani, koristeći svoj naziv domene. Ne kontrolirate u potpunosti web poslužitelj, ali vlasnik poslužitelja daje vam mogućnost da primate zahtjeve za LNURL / LN adresu i plaćanja idu ravno na vaš čvor. Ovo NIJE usluga skrbništva, već samo usluga otpremanja. Dakle, vlasnik usluge niti ne dira vaša sredstva, samo razmjenjuje informacije o web zahtjevima.</li>
+<li>Skrbništvo - samo dobivate namjensku LNURL / LN adresu, s NJIHOVIM nazivom domene. Sredstva se drže u njihovom nadzoru, ali neki mogu ponuditi izravno prosljeđivanje na vaš vlastiti čvor, trenutno. Dakle, pritvor je minimalan.</li>
+</ul>
+
+<h3>Zašto biste trebali koristiti različite vrste LN adresa?</h3>
+<h3>Privatno ili javno?</h3>
+<p>Osobno koristim mnoge LN adrese, javne i privatne, skrbničke i neskrbničke. Sve ovisno o slučaju upotrebe.</p>
+<p>Definirajmo što je javno, a što privatno (vidim da su mnogi ljudi zbunjeni).</p>
+<p>Javno = sve što biste radili u javnosti, na mreži, gdje bi mnogi ljudi to mogli vidjeti, pročitati, kopirati, pratiti itd. Ovaj "identitet" mora biti nimka, alias, lažno ime, NE vaše pravo ime koje koristite u privatnom životu. Javni život, posebno online, mora biti vaš “život mamac”, vaše javno lice.</p>
+<p>Privatno = samo ono što radite privatno, u svojoj obitelji, s bliskim prijateljima, ljudima koji vas poznaju u stvarnom životu, osobno. Stvari koje NE otkrivate u javnosti, inače su postale... javna informacija.</p>
+<p>NIKAD ne povezujte javne podatke s privatnim podacima. Ali privatno možete imati interakciju između ova dva identiteta premještajući sredstva između njih na privatan način.</p>
+<p>LN adresa NIJE zamišljena kao vaš uobičajeni način zarade!</p>
+<p>Javna LN adresa više je za savjete, male donacije, nostr zaps ili čak ako želite primiti poruku putem LN-a. Ljudi vam mogu poslati privatnu poruku priloženu uz 1 sat tip preko LN adrese.</p>
+<p>Privatna LN adresa je više za vaš privatni prihod, recimo da imate tvrtku koja bi mogla primati uplate za fakture, artikle itd. Mogli biste samo obavijestiti svog klijenta da plaća na privatnu LN adresu, koristeći naziv vaše poslovne domene. Nema potrebe za generiranjem LN fakture za svako plaćanje koje vam moraju izvršiti.</p>
+<p>Javne, skrbničke, koristim za javne stvari, gdje se moj pravi identitet ne otkriva. Gotovo svi ovi skrbnički NE zahtijevaju potpuni KYC, tako da njihova upotreba nije velika stvar. Samo morate prebaciti sredstva van, u svoje privatne novčanike gdje god smatrate da je to dobar iznos.</p>
+<p>Koristim privatnu LN adresu za PRIVATNE stvari (privatne tvrtke, privatnu komunikaciju s ljudima koji me stvarno poznaju, obitelj, prijatelji itd.), stvari koje NISU JAVNE.</p>
+<p>Ljudi bi trebali naučiti razlikovati javno i privatno, dovraga! Čini se da mnogi to još uvijek ne znaju.</p>
+<blockquote style="color:Tomato;"><em>
+<p>Sva ova luda histerija s "koristite samostalnu LN adresu za svoje nostr zaps!" Smatram to totalnim sranjem nepotrebnim. Stvarno me boli kurac što mi šalješ poruku o nostr na LN adresu javnog zatvora. NITKO zapravo ne zna kamo će ti satovi otići na kraju.</p>
+</em></blockquote>
+
+<h3>Skrbništvo ili samoskrbništvo?</h3>
+<p>Zašto ne oboje?</p>
+<p>Skrbnički su oni javni.</p>
+<p>Vaš mamac, vaša uvjerljiva mogućnost poricanja, vaše javno lice, vaše skriveno spremište/zaštitna zona. Recimo, budimo iskreni, koliko sati ćete primiti u jednom danu, na primjer, to bi bio toliki problem da budete skrbnički? Ako ovisite o tim satima dobivenim od nekih besmislenih donacija ili savjeta na NOSTR-u, onda ste ... kratki Bitcoin.</p>
+<p>Ako primate velike iznose, povucite ih u svoje privatne novčanike svaki dan. Ništa strašno. Razmislite o ovim javnim skrbništvima (posebno o onima koji nisu KYC) kao o dobrom opsecu, skrivajući vaše pravo odredište tih satova. Mogli biste premjestiti satove kroz mnogo različitih LN novčanika od tamo završavajući u swap LN za onchain na svoj HODL novčanik i NITKO nikada neće znati kamo su nestali vaši savjeti.</p>
+<p>Upotrijebite više njih. Nikada ne koncentrirajte sve na jednom mjestu, nikada ne računajte samo na jednu adresu. Koristite ih više, za mnogo različitih vrsta prihoda. Mislim da koristim 7 ili 8 javnih skrbništava, neke s više prometa, neke držim kao rezervu, neke samo za zabavu, testiranje itd. Povremeno iz njih premještam sredstva. I dobro je.</p>
+<p>Zapamtite: uvijek koristite <a href="/beginner/be-your-own-bank-en.html">3 razine čuvanja</a>: HODL, predmemorija, potrošnja.</p>
+<p>Samoosobne skrbi su one privatne.</p>
+<p>Možete čak koristiti privatne za prosljeđivanje sredstava iz javnih. Neka rješenja kao što je LNbits već imaju proširenja koja automatski prosljeđuju i dijele svaku primljenu uplatu na LN adresu. Također koristim privatne mamce kada radim, tako da skrbnik neće napraviti praćenje na temelju odredišta. Ovdje budite inventivni.</p>
+<p>Također i one privatne, upotrijebite više njih, svaku za slučaj upotrebe ili mjesto gdje ih objavljujete.</p>
+
+<h3>Kako postići nešto poput Lightning Address?</h3>
+<p>Imate mnogo načina kao što sam rekao: savezni, samostalni, skrbnički. Pogledajmo svaku metodu i rješenje.</p>
+
+<h3>A - Federated Bridge poslužitelj</h3>
+<p>Korištenje federalnog poslužitelja znači da ćete morati posjedovati naziv domene i potpunu kontrolu nad njegovim DNS zapisima, kako biste ga mogli konfigurirati i povezati s LNURL poslužiteljem. Također ćete morati imati LN čvor na koji pokazujete kamo ići plaćanja (može biti Tor ili clearnet ili Tailscale).</p>
+<p>Preporučam <a href="https://bridgeaddr.fiatjaf.com/">BridgeAddress</a> od <a href="https://nostr.at/npub180cvv07tjdrrgpa0j7j7tmnyl2yr6yr7l8j4s3evf6u64th6gkwsyjh6w6">Fiatjaf</a> ( NOSTR kreator), je savršeno rješenje. Zašto? Jer:</p>
+<ul>
+<li>za adresu možete koristiti vlastiti naziv domene.</li>
+<li>nudi puno vrsta povezivanja izravno s vašim čvorom ili drugim izvorima financiranja.</li>
+<li>jednostavan za postavljanje, funkcionalan je za najviše 10 minuta (ovisno o vašem DNS davatelju).</li>
+<li>može se koristiti s čvorom Tor ili ZeroTier / Tailscale.</li>
+</ul>
+<p>Ova metoda je dobra, ako kod kuće pokrećete samo jednostavan čvor i ne želite konfigurirati web poslužitelj na vašem računalu / IP-u, tako da će treća strana to riješiti umjesto vas, ali sredstva su još uvijek u vašem nadzoru .</p>
+<p>Da, potrebno vam je malo povjerenja u fiatjaf za obradu vaših LNURL zahtjeva. Ali ako ne znate tko je fiatjaf u Bitcoin svijetu, ne znam što radite ovdje...</p>
+
+<h3>B - Usluga federalne LN adrese</h3>
+<p>Ova vrsta federalnih poslužitelja je ona koja vam nudi naziv domene (ponekad smiješan) za vašu LN adresu, ali plaćanja idu ravno u vaš čvor, bez skrbništva.</p>
+<p><a href="https://payaddress.co/">PayAddress.co</a> | <a href="https://btcadresse.de/">BTCAdresse.de</a> | <a href="https://lnbitcoin.cz/">LNBitcoin.cz</a> | <a href="https://lnpay.cz/">LNPay.cz</a> | <a href="https://lnaddress.com/">LNAddress.com</a> | <a href="https://lnaddress.me/">LNAddress.me</a> | <a href="https://lnaddress.net/">LNAddress.net</a> | <a href="https://lightning.by/">Lightning.by</a> | <a href="https://lightning.re/">Lightning.re</a> | <a href="https://satspay.to/">SatsPay.to</a> | <a href="https://sats.rs/">Sats.rs</a></p>
+<p>Ovu je metodu dobro koristiti kao adresu mamac. Ne prikazuje vašu privatnu domenu, ali i dalje prosljeđuje satove izravno u vaš privatni čvor. Bez skrbništva.</p>
+
+<h3>C - Poslužitelj s punim vlastitim skrbništvom</h3>
+<p>Korištenje vlastitog LNURL web poslužitelja s vlastitim LN čvorom. Morate imati neke tehničke vještine da instalirate softver na svoj čvor ili web poslužitelj, ali neki od njih imaju vrlo dobro objašnjenu dokumentaciju na svojoj github stranici.</p>
+<p>I postoji mnogo implementacija. <a href="https://lightningaddress.com/#community">Pogledajte stranicu s dokumentacijom</a>.</p>
+<p>Ali ovdje ću spomenuti neke od njih:</p>
+<ul>
+<li><a href="https://github.com/nbd-wtf/satdress">https://github.com/nbd-wtf/satdress</a></li>
+<li><a href="https://github.com/SatSale/SatSale">https://github.com/SatSale/SatSale</a></li>
+<li><a href="https://github.com/niteshbalusu11/rustdress">https://github.com/niteshbalusu11/rustdress</a></li>
+<li><a href="https://github.com/yanascz/lnurld">https://github.com/yanascz/lnurld</a></li>
+<li><a href="https://github.com/hieblmi/go-host-lnaddr">https://github.com/hieblmi/go-host-lnaddr</a></li>
+<li><a href="https://github.com/bumi/lnme">https://github.com/bumi/lnme</a></li>
+<li><a href="https://github.com/Dolu89/ligess/">https://github.com/Dolu89/ligess/</a></li>
+<li><a href="https://github.com/GaloyMoney/galoy">https://github.com/GaloyMoney/galoy</a></li>
+<li><a href="https://github.com/conduition/lnaddrd">https://github.com/conduition/lnaddrd</a></li>
+<li><a href="https://github.com/AngusP/phoenixd-lnurl">https://github.com/AngusP/phoenixd-lnurl</a> - LNURL/LN adresni poslužitelj za <a href="https://github.com/ACINQ/phoenixd"https://github.com/ACINQ/phoenixd"PhoenixD Poslužitelj</a></li>
+</ul>
+  
+<h3>D - Kutija munje</h3>
+<p>Poseban slučaj u ovoj kategoriji bio bi <a href="https://github.com/hsjoberg/lightning-box">Blixt Lightning Box</a>. Još uvijek je u razvoju, ali će uskoro biti objavljen. <a href="/wallets/getting-started-blixt-wallet-en.html">Blixt je samostalni mobilni LND čvor</a> s mnogim značajkama (poput <a href="https://github. com/hsjoberg/dunder-lsp">Dunder LSP</a> koji bi se također mogao pokrenuti u samostalnom načinu rada ili ponuditi kao uslugu) i pokušava ublažiti prikladan način za self-custodial LN adresa koju korisnici mogu konfigurirati na dva načina:</p>
+<ul>
+<li>Način premošćivanja: Blixt poslužitelj obradit će sve zahtjeve za LN adresu userX@blixtwallet.com, zadržat će sats dok korisnikov Blixt čvor ne dođe na mrežu, a zatim će mu proslijediti sats. Bit će samo kratko vrijeme u pritvoru.</li>
+<li>Samostalna zaštita: korisnici Blixta mogli su instalirati LN Box na vlastite poslužitelje i rukovati vlastitom domenom, a zatim proslijediti satove vlastitim Blixt mobilnim čvorovima. Ova je opcija vrlo zanimljiva ako pokrenete ovaj LN Box za svoju obitelj i prijatelje i oni žele koristiti naziv vaše domene za svoju LN adresu (pogledajte točku B gore). Kasnije se čak može pokrenuti s više naziva domena kao usluga.</li>
+</ul>
+<p><a href="https://darthcoin.substack.com/p/dunder-lsp-and-lightning-box-provider">Ovdje imate vodič</a> o pokretanju vlastitog Lightning Boxa.< /p>
+<p><img src="/assets/images/ln-box.jpg" class="center"></p>
+<p>Blixt također priprema verziju za stolno računalo (već postoji jedna za macOS) i to će otvoriti veliku priliku za korištenje Blixt čvora na mnoge načine zajedno s Blixt mobilnim čvorom. Stoga ostanite s nama i prvo naučite kako koristiti ovu nevjerojatnu mobilnu LN aplikaciju.</p>
+
+<h3>E - mobilni čvor Zeus LN</h3>
+<p>S izdanjem v.0.8.0, Zeus nudi samostalnu munjevitu adresu koja se zove ZEUS PAY. Ovo je prva ponuda munjevite adrese za vlastito skrbništvo u mobilnoj aplikaciji.</p>
+<p>ZEUS PAY koristi hashove preslika koje generiraju korisnici, hodl fakture i <a href="https://github.com/supertestnet/zaplocker?ref=blog.zeusln.com">Zaplocker</a> Nostr atest shema koja korisnicima koji možda nisu na mreži 24/7 omogućuje primanje uplata na statičnu munjevitu adresu. Korisnici se samo trebaju prijaviti na svoje ZEUS novčanike u roku od 24 sata kako bi zatražili uplate, inače će biti vraćene pošiljatelju.</p>
+<p>Nadalje, ZEUS PAY može funkcionirati kao metoda ukrcavanja. Korisnici imaju mogućnost automatski zatražiti nove kanale od našeg LSP-a, OLYMPUS by ZEUS, uz uslugu.</p>
+<p>Ovo je fantastično rješenje za uslužne djelatnike, nomade, disidente i druge za prihvaćanje napojnica i donacija bez žrtvovanja skrbništva. Nestrpljivo se veselimo svim novim ljudima koji su se pridružili Bitcoinu s ovom novom funkcionalnošću.</p>
+<p>ZEUS PAY dostupan je ne samo korisnicima ugrađenih čvorova, već i udaljenim korisnicima LND-a. <a href="/wallets/getting-started-zeus-wallet-en.html">Ovdje je potpuni vodič o Zeus LN čvoru</a>.</p>
+
+<h3>F - LNbits poslužitelj</h3>
+<p>Još jedan poseban slučaj upotrebe je korištenje LNbits kao LNDHUB i LNURL poslužitelja. Opet, može se koristiti na više načina: samoskrbništvo i skrbništvo ili otpremništvo.</p>
+<p>a. Skrbnički/otpremni način</p>
+<p>Zapamtite da ovo treba koristiti samo kao privremeno rješenje ili kao prosljeđivač (mamac) u slučaju da ne želite koristiti svoje vlastito ime domene i čvor. Javni demo LNbits poslužitelj može biti u bilo kojem trenutku u načinu rada održavanja, budući da je samo pokazni poslužitelj. Ali za mala plaćanja i privremena je OK.</p>
+<p>Dakle, možete napraviti besplatan račun na <a href="https://demo.lnbits.com/">Demo.LNbits.com</a> ili <a href="https://lnvoltz.com /">LN Voltz.com</a> (spremite / označite svoj novi kreirani račun) i <a href="https://github.com/lnbits/lnurlp#update-your-lnurl-pay-extension">konfigurirajte LNURL-p</a> s LN adresom. Bit će kao vašekorisničkoime@legend.lnbits.com.</p>
+<p>Ono što je zanimljivo u ovom slučaju je da s <a href="https://github.com/lnbits/scrub">Scrub</a> i <a href="https://github.com/ lnbits/splitpayments">Split</a> proširenja možete proslijediti sve satove primljene na ovu LNURL / LN adresu na bilo koju drugu vanjsku LNURL / LN adresu koju imate, u sebi skrbništvo.</p>
+<p>b. Instanca samooskrbe</p>
+<p><img src="/assets/images/lnbits-cats.jpg" class="center"></p>
+<p>Dakle, uz samostalnu LNbits instancu, imali biste vlastiti naziv domene za svoju LN adresu i upravljali s više njih za članove svoje obitelji ili prijatelje.</p>
+<p><a href="https://github.com/lnbits/lnbits/wiki/LNbits-Documentation">Ovdje je Wiki dokumentacija</a> o tome kako instalirati i upravljati vlastitim LNbitovima.</p>
+<p>Ako želite više vodiča o slučajevima upotrebe LNbits, napisao sam nekoliko:</p>
+<ul>
+<li><a href="https://darthcoin.substack.com/p/getting-started-lnbits">Početak rada s LNbits</a></li>
+<li><a href="https://darthcoin.substack.com/p/lnbits-nostr-market">Pokrenite svoje NOSTR tržište s LNbits</a></li>
+<li><a href="https://darthcoin.substack.com/p/lnbits-saas-a-solution-for-schools">LNbits SaaS - rješenje za škole i događaje</a></li>
+<li><a href="https://darthcoin.substack.com/p/lnbits-streamer-copilot">Kako koristiti LNbits streamer kopilot</a></li>
+<li><a href="/merchants/private-banks-over-ln-en.html">Privatne banke putem Lightning mreže</a></li>
+<li><a href="https://darthcoin.substack.com/p/build-your-own-lnbits-app-server">Izradite vlastiti poslužitelj LNbits aplikacija</a></li>
+<li><a href="https://darthcoin.substack.com/p/lnbits-for-small-merchants">LNbits za male trgovce</a></li>
+<li><a href="https://darthcoin.substack.com/p/the-bank-of-lnbits">Banka LNbits</a></li>
+</ul>
+<p>Postoji mnogo načina da se poigrate s ovim alatima, posebno ako želite imati privatniju LN adresu.</p>
+
+<h3>F - Skrbnička adresa munje</h3>
+<p>Da, one (ne)slavne skrbničke koje neki ljudi mrze. ja ne Naučio sam kako ih koristiti u svoju korist, kao mamac, kao "javno lice" koje bi moglo primiti sve udarce u lice svojim potezima, savjetima, sitnicama što god. Kao visoki zid iza kojeg nitko ne vidi što je. To su mali iznosi koji se kasnije prosljeđuju u moje privatne novčanike. Koristim ih svugdje gdje moram upotrijebiti naziv "DarthCoin".</p>
+<p>Neki od njih su vrlo korisni, a većina NON-KYC (važna stvar). Ove usluge nude više značajki ne samo LN adresu i vrijedne su pažnje.</p>
+<p>Evo nekih koje koristim i znam:</p>
+<ul>
+<li><a href="https://getalby.com/">GetAlby</a> - Ekstenzija preglednika s višestrukim slučajevima upotrebe (NIP-05 potvrda, Youtube 1 klik savjeti/donacije, lndhub račun koji se može uvesti u Zeus/Bluewallet )</li>
+<li><a href="https://t.me/SatsMobiBot">Sats.Mobi</a> - Telegram bot, za savjete, LN adresu, LNURL, lndhub račun, POS itd.</li>
+<li><a href="https://lnvoltz.com/wallet">Voltz LNbits Bank</a> - potpuni skrbnički LNbits račun, za savjete, LN adresu, LNURL-p, LNURL-w, lndhub račun itd. </li>
+<li><a href="https://www.walletano.com/">Walletano</a> - jednostavan web novčanik s LN adresom i više računa</li>
+<li><a href="https://coinos.io/">CoinOS</a> - web novčanik, POS, LN adresa, swap usluga, vrlo dobre usluge</li>
+<li><a href="https://zbd.gg/">ZBD</a> - novčanik za igrače s proširenjem preglednika, LN adresom, kopilotom streamera i višestrukim drugim korisnim značajkama (sve dok određena razina nije NON-KYC)< /li>
+<li><a href="https://fountain.fm/">Fountain</a> - aplikacija za podcasting s integriranom LN adresom.</li>
+<li><a href="https://walletofsatoshi.com/">Wallet of Satoshi</a> - jednostavna aplikacija za mobilni LN novčanik s LN adresom</li>
+<li><a href="https://blink.sv/">Blink</a> - jednostavan mobilni LN novčanik s LN adresom (KYC s brojem mobitela)</li>
+<li><a href="https://lifpay.me/">LifPay</a> - integrirane zamjene, web PoS / stranica za donacije</li>
+<li><a href="https://acceptln.com/">AcceptLN</a> - Svaka adresa e-pošte sada prihvaća Bitcoin Lightning</li>
+<li><a href="https://widgets.twentyuno.net/">TwentyUno</a> - web widget za prihvaćanje plaćanja</li>
+<li><a href="https://www.minibits.cash/">Minibits</a> - Cashu novčanik s ugrađenom Ln adresom</li>
+<li><a href="https://app.cashu-address.com/">Cashu adresa</a> - primajte Lightning uplate na svoju Cashu adresu. Prijavite se i zatražite svoje korisničko ime ili upotrijebite bilo koji nostr javni ključ</li>
+</ul>
+<p>Za više skrbničkih usluga koje bi mogle ponuditi LN adresu, pogledajte ovu nevjerojatnu web stranicu koja predstavlja mnogo Lightning usluga - <a href="https://www.stacksats.how/">StackSats.how</a>< /p>
+<p>Za one koji traže jednostavno brzo rješenje za korištenje LN adrese za svoje NOSTR račune, predlažem da ne kompliciraju previše ove stvari. Neka bude jednostavno. Nitko neće umrijeti za besmislene satove primljene kao zamjene za neke memeove.</p>
+<p>Osobno koristim na NOSTR-u GetAlby LN adresu za zaps i Stacker.News NIP-05 da je također mogu prebaciti bilo kada kao LN adresu (u slučaju da GetAlby ne radi ili obrnuto). Stvarno ne želim "potvrditi svoj identitet" s osobnom privatnom domenom na NOSTR-u.</p>
+<p>Ah, kad bih vodio poslovni račun na NOSTR-u, s trgovinom na NOSTR-marketu, da, tada bih koristio naziv osobne domene za LN adresu i NIP-05, jer bih trebao pokazati neki dokaz tko sam Ja svojim kupcima. Ali samo za objavljivanje memeova i razgovor s drugima pod svojim imenom DarthCoin, nikada neću koristiti svoje privatne domene.</p>
+<p>Ne zagovaram korištenje samo skrbničkih usluga, samo ističem da bi ljudi trebali znati kako iskoristiti te usluge, u određenim slučajevima.</p>
+
+<h3>Zato razmislite ponovno - kako biste upotrijebili sve te Lightning adrese?</h3>
+<p>P.S. - Ako znate ili pronađete druge usluge, softver, aplikacije, paketna rješenja koja nude LN adresu, a nisu ovdje spomenuta, javite mi, rado ću ih dodati u ovaj vodič. Sigurna sam da sam neke propustila, ali trenutno se ne mogu sjetiti koja.</p>
+</body>
+</html>
+</article>
