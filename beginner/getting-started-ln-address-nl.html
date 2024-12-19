@@ -1,0 +1,188 @@
+---
+layout: default
+title: Aan de slag met Lightning Address
+---
+<article>
+<!DOCTYPE html>
+<html lang="nl">
+<meta name="description" content="Bitcoin- en Lightning-handleidingen: Hoe u uw eigen LN-adres instelt, LN-adressen beheert, dit alles uitgelegd voor beginners">
+<body>
+<a href="/beginner/getting-started-ln-address-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/beginner/getting-started-ln-address-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/beginner/getting-started-ln-address-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/beginner/getting-started-ln-address-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/beginner/getting-started-ln-address-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/beginner/getting-started-ln-address-hr.html">Hrvatski <img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/beginner/getting-started-ln-address-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<blockquote style="color:Tomato;"><em>
+<p>Oorspronkelijk geplaatst op <a href="https://darthcoin.substack.com/p/getting-started-lightning-address">Substack</a> op 01-06-2023</p>
+<p>Hier bijgewerkt op 22-11-2024</p>
+</em></blockquote>
+<h3>Welke wallets, services, opties, hoe je je eigen LN-adres instelt, LN-adressen beheren, dit alles uitgelegd voor beginners</h3>
+<p><img src="/assets/images/darth-ln-address.jpg" class="center"></p>
+<p>Onlangs <a href="https://nostr.at/nevent1qqsvzfe8l6w9zc6e5yv2gefzg0wsg70zsnrn67fvjkxmetzs3fpa7pgzyz724qpuk2w7z7ty2a02xgk9vnr9f98cx2j0knrw7djp8q0xx8nnjtet0p6">Ik krijg</a> behoorlijk wat vragen over Lightning Address. Veel mensen zullen nog steeds vragen omdat het een nieuwe term is, iets dat nooit is uitgevonden, een nieuw concept, vooral voor <a href="https://nostr.com/">NOSTR</a> en andere use cases.</p>
+<p><img src="/assets/images/aprentice.png" class="center"></p>
+<p>Sommigen maken zich zorgen over custodial ones of willen gewoon hun eigen fancy LN-adres.</p>
+<blockquote style="color:Tomato;"><em>
+<p>Woordenlijst:</p>
+<ul>
+<li>LN = Lightning Network</li>
+<li>sats = de kleinste eenheid van 1 BTC (1 BTC = 100M sats)</li>
+<li>KYC = Know Your Customer (verificatie-troep)</li>
+<li>NOSTR = Open Protocol dat wereldwijde, gedecentraliseerde en censuurbestendige sociale netwerken mogelijk maakt.</li>
+<li>NIP-05 = Mapping Nostr-sleutels voor DNS-gebaseerde internet-ID's</li>
+</ul>
+</em></blockquote>
+<p>Ik zal proberen om enkele aspecten van Lightning Address uit te leggen, hoe je moet beginnen, hoe je het moet doen als een nieuwe LN-gebruiker.</p>
+
+<h3>Wat is een Lightning Address?</h3>
+<p>Een LN-adres is niets meer dan een door mensen leesbaar adres van een LNURL.</p>
+<p>Een LNURL is eigenlijk een http-verzoek voor een LN-factuur. Om een ​​LNURL/LN-adres te hebben, moet u dus een webserver hebben die die verzoeken naar een LN-knooppunt (uw knooppunt of custodial node) stuurt en de LN-factuur terugstuurt naar de betaler.</p>
+<p>Daarom is een self-custodial LNURL/LN-adres niet zo eenvoudig te verkrijgen, met slechts één klik, of wallets die er direct een voor u aanmaken. Iemand moet die webverzoekserver instellen en dat moet JIJ zijn als je zelfbeheer wilt.</p>
+<p>Lees meer op <a href="https://lightningaddress.com/">LightningAddress.com</a></p>
+
+<h3>De LNURL-webserver kan worden uitgevoerd (is slechts een klein stukje software):</h3>
+<ul>
+<li>Op dezelfde machine/apparaat als je node, met je eigen domeinnaam</li>
+<li>Op een aparte machine, lokaal of extern, die naar je node wijst, met je eigen domeinnaam</li>
+<li>Gefedereerde, met je eigen domeinnaam. Je hebt niet de volledige controle over de webserver, maar de servereigenaar geeft je de mogelijkheid om verzoeken voor LNURL / LN-adres te ontvangen en betalingen gaan rechtstreeks naar je node. Dit is GEEN beheerservice, het is slechts een doorstuurservice. De eigenaar van de service raakt dus niet eens uw geld aan, het wisselt alleen informatie uit over webverzoeken.</li>
+<li>Bewaring - u ontvangt gewoon een speciaal LNURL / LN-adres, met HUN domeinnaam. De fondsen worden in hun bewaring gehouden, maar sommige kunnen direct doorsturen naar uw eigen node aanbieden. De bewaring is dus minimaal.</li>
+</ul>
+
+<h3>Waarom zou u verschillende soorten LN-adressen moeten gebruiken?</h3>
+<h3>Privé of openbaar?</h3>
+<p>Ik gebruik persoonlijk veel LN-adressen, openbare en privé-adressen, bewaring en niet-bewaring. Alles hangt af van het gebruiksscenario.</p>
+<p>Laten we definiëren wat openbaar is en wat privé (ik zie dat veel mensen het door elkaar halen).</p>
+<p>Openbaar = alles wat je in het openbaar, online zou doen, waar veel mensen het zouden kunnen zien, lezen, kopiëren, volgen etc. Deze "identiteit" moet een naam, een alias, een valse naam zijn, NIET je echte naam die je in je privéleven gebruikt. Het openbare leven, met name online, moet je "afleidingsleven" zijn, je publieke gezicht.</p>
+<p>Privé = alleen dingen die je privé doet, in je familie, met goede vrienden, mensen die je in het echte leven kennen, in persoon. Dingen die je NIET openbaar maakt, anders worden ze... openbare informatie.</p>
+<p>Koppel NOOIT openbare informatie aan privé-informatie. Maar privé zou je interactie kunnen hebben tussen deze 2 identiteiten en op een privé manier geld tussen hen kunnen verplaatsen.</p>
+<p>Een LN-adres is NIET bedoeld als je reguliere manier van inkomsten!</p>
+<p>Een openbaar LN-adres is meer voor fooien, kleine donaties, nostr zaps of zelfs als je een bericht via LN wilt ontvangen. Mensen zouden je een privébericht kunnen sturen dat is bijgevoegd bij 1 sat-fooi via het LN-adres.</p>
+<p>Een privé LN-adres is meer voor je privé-inkomsten, laten we zeggen dat je een bedrijf hebt dat betalingen voor facturen, artikelen enz. kan ontvangen. Je zou je klant gewoon kunnen informeren om te betalen naar een privé LN-adres, met behulp van de domeinnaam van je bedrijf. Het is niet nodig om een ​​LN-factuur te genereren voor elke betaling die ze aan je moeten doen.</p>
+<p>Ik gebruik openbare, custodial, voor openbare zaken, waarbij mijn echte identiteit niet wordt onthuld. Bijna al deze custodial vereisen GEEN volledige KYC, dus het is geen probleem om ze te gebruiken. Je hoeft alleen maar het geld over te maken naar je eigen privé wallets, waar je ook maar denkt dat het een goed bedrag is.</p>
+<p>Ik gebruik een privé LN adres voor PRIVÉ zaken (privé bedrijven, privé communicatie met mensen die mij echt kennen, familie, vrienden etc.), zaken die NIET PUBLIEK zijn.</p>
+<p>Mensen zouden verdomme moeten leren om het verschil te maken tussen openbaar en privé! Het lijkt erop dat velen het nog steeds niet weten.</p>
+<blockquote style="color:Tomato;"><em>
+<p>Al die gekke hysterie met "gebruik een self-custodial LN adres voor je nostr zaps!" Ik vind het totale onzin, onnodig. Het kan me echt geen reet schelen dat je me een zap op nostr stuurt naar een openbaar LN adres. NIEMAND weet echt waar die sats uiteindelijk naartoe gaan.</p>
+</em></blockquote>
+
+<h3>Custodial of self-custodial?</h3>
+<p>Waarom niet allebei?</p>
+<p>De bewaarders zijn de openbare.</p>
+<p>Uw lokaas, uw plausibele ontkenning, uw publieke gezicht, uw cache / bufferzone stash. Laten we eerlijk zijn, hoeveel sats ontvangt u bijvoorbeeld op één dag, wat zou zo'n probleem zijn om bewaarder te zijn? Als u afhankelijk bent van die sats die u ontvangt van een aantal betekenisloze donaties of tips op NOSTR, dan bent u ... short Bitcoin.</p>
+<p>Als u grote bedragen ontvangt, neem dan elke dag op naar uw privéwallets. Geen probleem. Beschouw deze openbare bewaarders (vooral die welke NON-KYC zijn) als een goede opsec, die uw echte bestemming van die sats verbergt. U kunt de sats van daaruit door veel verschillende LN-wallets verplaatsen en eindigen in een swap LN naar onchain naar uw HODL-wallet en NIEMAND zal ooit weten waar uw nostr-tips zijn gebleven.</p>
+<p>Gebruik er meerdere. Concentreer nooit alles op één plek, reken nooit alleen op één adres. Gebruik er meerdere, voor verschillende soorten inkomsten. Ik denk dat ik 7 of 8 openbare custodial gebruik, sommige met meer verkeer, sommige bewaar ik als back-up, sommige gewoon voor de lol, testen etc. Ik verplaats de fondsen er periodiek vanaf. En dat is prima.</p>
+<p>Onthoud: gebruik altijd de <a href="/beginner/be-your-own-bank-en.html">3 niveaus stashing</a>: HODL, cache, spending.</p>
+<p>Self-custodial zijn de private.</p>
+<p>Je kunt de private zelfs gebruiken om de fondsen van de publieke door te sturen. Sommige oplossingen zoals LNbits hebben al extensies die automatisch elke ontvangen betaling doorsturen en splitsen naar een LN-adres. Ik gebruik ook decoy private adressen wanneer ik dat doe, zodat de custodian geen tracering op basis van bestemming maakt. Wees hier inventief.</p>
+<p>Ook de privéservers, gebruik er meerdere, elk voor een use case of plek waar je ze publiceert.</p>
+
+<h3>Hoe bereik je zoiets als Lightning Address?</h3>
+<p>Je hebt veel manieren, zoals ik al zei: federated, self-custodial, custodial. Laten we elke methode en oplossing bekijken.</p>
+
+<h3>A - Federated Bridge-server</h3>
+<p>Als je een federated server gebruikt, moet je een domeinnaam bezitten en volledige controle hebben over de DNS-records, om deze te kunnen configureren en koppelen aan de LNURL-server. Ook moet je een LN-knooppunt hebben waarnaar je verwijst waar de betalingen naartoe moeten (dit kan Tor, clearnet of Tailscale zijn).</p>
+<p>Ik raad <a href="https://bridgeaddr.fiatjaf.com/">BridgeAddress</a> van <a href="https://nostr.at/npub180cvv07tjdrrgpa0j7j7tmnyl2yr6yr7l8j4s3evf6u64th6gkwsyjh6w6">Fiatjaf</a> (NOSTR-maker) aan, dat is de perfecte oplossing. Waarom? Omdat:</p>
+<ul>
+<li>u uw eigen domeinnaam kunt gebruiken voor het adres.</li>
+<li>biedt veel verbindingstypen rechtstreeks aan uw node of andere financieringsbronnen.</li>
+<li>eenvoudig in te stellen, in max. 10 min. is het functioneel (afhankelijk van uw DNS-provider).</li>
+<li>kan worden gebruikt met een Tor- of ZeroTier/Tailscale-node.</li>
+</ul>
+<p>Deze methode is goed als u thuis een eenvoudige node gebruikt en geen webserver op uw machine/IP wilt configureren, dus een derde partij zal dat voor u regelen, maar de fondsen zijn nog steeds in uw beheer.</p>
+<p>Ja, u hebt een beetje vertrouwen in fiatjaf nodig om uw LNURL-verzoeken te verwerken. Maar als je niet weet wie fiatjaf is in de Bitcoin-wereld, weet ik niet wat je hier doet...</p>
+
+<h3>B - Federated LN Address-service</h3>
+<p>Dit type Federated-servers zijn de servers die je een domeinnaam (soms grappig) voor je LN-adres aanbieden, maar de betalingen gaan rechtstreeks naar je node, geen bewaring.</p>
+<p><a href="https://payaddress.co/">PayAddress.co</a> | <a href="https://btcadresse.de/">BTCAdresse.de</a> | <a href="https://lnbitcoin.cz/">LNBitcoin.cz</a> | <a href="https://lnpay.cz/">LNPay.cz</a> | <a href="https://lnaddress.com/">LNAddress.com</a> | <a href="https://lnaddress.me/">LNAddress.me</a> | <a href="https://lnaddress.net/">LNAddress.net</a> | <a href="https://lightning.by/">Lightning.by</a> | <a href="https://lightning.re/">Lightning.re</a> | <a href="https://satspay.to/">SatsPay.to</a> | <a href="https://sats.rs/">Sats.rs</a></p>
+<p>Deze methode is goed te gebruiken als afleidingsadres. Geeft uw privédomein niet weer, maar stuurt de sats wel rechtstreeks door naar uw privéknooppunt. Geen bewaring.</p>
+
+<h3>C - Volledige self-custody-server</h3>
+<p>Uw eigen LNURL-webserver gebruiken met uw eigen LN-knooppunt. U moet over enige technische vaardigheden beschikken om de software op uw knooppunt of webserver te installeren, maar sommige hebben zeer goed uitgelegde documentatie op hun github-pagina.</p>
+<p>En er zijn veel implementaties beschikbaar. <a href="https://lightningaddress.com/#community">Raadpleeg de documentatiepagina</a>.</p>
+<p>Maar ik zal er hier een paar noemen:</p>
+<ul>
+<li><a href="https://github.com/nbd-wtf/satdress">https://github.com/nbd-wtf/satdress</a></li>
+<li><a href="https://github.com/SatSale/SatSale">https://github.com/SatSale/SatSale</a></li>
+<li><a href="https://github.com/niteshbalusu11/rustdress">https://github.com/niteshbalusu11/rustdress</a></li>
+<li><a href="https://github.com/yanascz/lnurld">https://github.com/yanascz/lnurld</a></li>
+<li><a href="https://github.com/hieblmi/go-host-lnaddr">https://github.com/hieblmi/go-host-lnaddr</a></li>
+<li><a href="https://github.com/bumi/lnme">https://github.com/bumi/lnme</a></li>
+<li><a href="https://github.com/Dolu89/ligess/">https://github.com/Dolu89/ligess/</a></li>
+<li><a href="https://github.com/GaloyMoney/galoy">https://github.com/GaloyMoney/galoy</a></li>
+<li><a href="https://github.com/conduition/lnaddrd">https://github.com/conduition/lnaddrd</a></li>
+<li><a href="https://github.com/AngusP/phoenixd-lnurl">https://github.com/AngusP/phoenixd-lnurl</a> - een LNURL/LN-adresserver voor <a href="https://github.com/ACINQ/phoenixd"https://github.com/ACINQ/phoenixd"PhoenixD Server</a></li>
+</ul>
+
+<h3>D - Lightning Box</h3>
+<p>Een speciaal geval in deze categorie zou <a href="https://github.com/hsjoberg/lightning-box">Blixt Lightning Box</a> zijn. Is nog in ontwikkeling, maar zal binnenkort worden uitgebracht. <a href="/wallets/getting-started-blixt-wallet-en.html">Blixt is een self-custodial mobiele LND-node</a> met veel functies (zoals <a href="https://github.com/hsjoberg/dunder-lsp">Dunder LSP</a> dat ook in een self-custodial modus kan worden uitgevoerd of als een service kan worden aangeboden) en probeert een handige manier te vinden om een ​​self-custodial LN-adres te hebben dat gebruikers op twee manieren kunnen configureren:</p>
+<ul>
+<li>Bridge-modus: Blixt-server verwerkt alle verzoeken voor het LN-adres userX@blixtwallet.com, houdt de sats vast totdat de Blixt-node van de gebruiker online komt en stuurt de sats er vervolgens naartoe. Zal slechts een korte periode in bewaring zijn.</li>
+<li>Zelfbewaring: Blixt-gebruikers kunnen de LN Box op hun eigen servers installeren en hun eigen domein beheren, en vervolgens de sats doorsturen naar hun eigen Blixt mobiele nodes. Deze optie is erg interessant als u deze LN Box voor uw familie en vrienden gebruikt en zij uw domeinnaam willen gebruiken voor hun LN-adres (zie punt B hierboven). Later zou het zelfs met meerdere domeinnamen als service kunnen worden uitgevoerd.</li>
+</ul>
+<p><a href="https://darthcoin.substack.com/p/dunder-lsp-and-lightning-box-provider">Hier heb je een handleiding</a> over het uitvoeren van je eigen Lightning Box.</p>
+<p><img src="/assets/images/ln-box.jpg" class="center"></p>
+<p>Blixt bereidt ook een versie voor desktop voor (heb er al een voor macOS) en dit zal een enorme kans bieden om Blixt node op veel manieren te gebruiken samen met een Blixt mobile node. Blijf dus op de hoogte en leer eerst hoe je deze geweldige mobiele LN-app gebruikt.</p>
+
+<h3>E - Zeus LN mobile node</h3>
+<p>Met de release v.0.8.0 biedt Zeus een self-custodial lightning-adres aan dat ZEUS PAY heet. Dit is het allereerste aanbod van een self-custodial lightning-adres in een mobiele app.</p>
+<p>ZEUS PAY maakt gebruik van door gebruikers gegenereerde preimage-hashes, hodl-facturen en het <a href="https://github.com/supertestnet/zaplocker?ref=blog.zeusln.com">Zaplocker</a> Nostr-attestatieschema om gebruikers die mogelijk niet 24/7 online zijn, betalingen te laten ontvangen op een statisch lightning-adres. Gebruikers hoeven alleen maar binnen 24 uur in te loggen op hun ZEUS-wallets om de betalingen te claimen, anders worden ze teruggestuurd naar de afzender.</p>
+<p>Bovendien kan ZEUS PAY fungeren als een onboardingmethode. Gebruikers hebben de mogelijkheid om automatisch nieuwe kanalen aan te vragen bij onze LSP, OLYMPUS by ZEUS, met de service.</p>
+<p>Dit is een fantastische oplossing voor servicemedewerkers, nomaden, dissidenten en anderen om fooien en donaties te accepteren zonder de voogdij op te offeren. We kijken reikhalzend uit naar alle nieuwe mensen die met deze nieuwe functionaliteit aan boord komen bij Bitcoin.</p>
+<p>ZEUS PAY is niet alleen beschikbaar voor embedded node-gebruikers, maar ook voor externe LND-gebruikers. <a href="/wallets/getting-started-zeus-wallet-en.html">Hier is een volledige gids over Zeus LN node</a>.</p>
+
+<h3>F - LNbits Server</h3>
+<p>Een ander speciaal gebruiksvoorbeeld is het gebruik van LNbits als LNDHUB- en LNURL-serverprovider. Nogmaals, kan op meerdere manieren worden gebruikt: self-custodial en custodial of forwarder.</p>
+<p>a. Custodial/forwarder mode</p>
+<p>Onthoud dat dit alleen als tijdelijke oplossing of als forwarder (afleiding) gebruikt moet worden als u uw eigen domeinnaam en node niet wilt gebruiken. De openbare demo LNbits-server kan op elk moment in onderhoudsmodus staan, aangezien het slechts een demonstratieserver is. Maar voor kleine betalingen en tijdelijke betalingen is het OK.</p>
+<p>U kunt dus een gratis account aanmaken op <a href="https://demo.lnbits.com/">Demo.LNbits.com</a> of <a href="https://lnvoltz.com/">LN Voltz.com</a> (sla uw nieuwe account op / markeer deze als bladwijzer) en <a href="https://github.com/lnbits/lnurlp#update-your-lnurl-pay-extension">configureer een LNURL-p</a> met een LN-adres. Het zal zijn als yourusername@legend.lnbits.com.</p>
+<p>Wat interessant is in dit geval is dat je met de <a href="https://github.com/lnbits/scrub">Scrub</a> en <a href="https://github.com/lnbits/splitpayments">Split</a> extensies alle sats die je ontvangt op dit LNURL/LN adres kunt doorsturen naar elk ander extern LNURL/LN adres dat je hebt, in eigen beheer.</p>
+<p>b. Zelfbewaarder</p>
+<p><img src="/assets/images/lnbits-cats.jpg" class="center"></p>
+<p>Dus met een zelfbewaarder LNbits-instantie zou je je eigen domeinnaam hebben voor je LN-adres en meerdere adressen beheren voor je familieleden of vrienden.</p>
+<p><a href="https://github.com/lnbits/lnbits/wiki/LNbits-Documentation">Hier is de Wiki-documentatie</a> over hoe je je eigen LNbits installeert en beheert.</p>
+<p>Als je meer handleidingen wilt over LNbits-use cases, heb ik er verschillende geschreven:</p>
+<ul>
+<li><a href="https://darthcoin.substack.com/p/getting-started-lnbits">Aan de slag met LNbits</a></li>
+<li><a href="https://darthcoin.substack.com/p/lnbits-nostr-market">Start je NOSTR-markt met LNbits</a></li>
+<li><a href="https://darthcoin.substack.com/p/lnbits-saas-a-solution-for-schools">LNbits SaaS - een oplossing voor scholen en evenementen</a></li>
+<li><a href="https://darthcoin.substack.com/p/lnbits-streamer-copilot">Hoe je LNbits streamer copilot gebruikt</a></li>
+<li><a href="/merchants/private-banks-over-ln-en.html">Private Banks via het Lightning Network</a></li>
+<li><a href="https://darthcoin.substack.com/p/build-your-own-lnbits-app-server">Bouw je eigen LNbits-apps Server</a></li>
+<li><a href="https://darthcoin.substack.com/p/lnbits-for-small-merchants">LNbits voor kleine handelaren</a></li>
+<li><a href="https://darthcoin.substack.com/p/the-bank-of-lnbits">De Bank van LNbits</a></li>
+</ul>
+<p>Er zijn veel manieren om met deze tools te spelen, vooral als je een meer privé LN-adres wilt hebben.</p>
+
+<h3>F - Custodial Lightning Address</h3>
+<p>Ja, de (in)beruchte custodial-exemplaren die sommige mensen haten. Ik niet. Ik heb geleerd hoe ik ze in mijn voordeel kan gebruiken, als afleiding, als een "publiek gezicht" dat alle klappen in het gezicht kan opvangen met je zaps, fooien, sats wat dan ook. Als een hoge muur waar niemand kan zien wat erachter zit. Deze zijn voor kleine bedragen die later worden doorgestuurd naar mijn privéwallets. Ik gebruik ze overal waar ik de naam "DarthCoin" moet gebruiken.</p>
+<p>Sommige zijn erg handig en de meeste zijn NON-KYC (belangrijk). Deze services bieden meerdere functies, niet alleen een LN-adres, en zijn de moeite waard om op te letten.</p>
+<p>Hier zijn er een paar die ik gebruik en die ik ken:</p>
+<ul>
+<li><a href="https://getalby.com/">GetAlby</a> - Browserextensie met meerdere use cases (NIP-05-verificatie, Youtube 1-klik-tips/donaties, lndhub-account importeerbaar in Zeus/Bluewallet)</li>
+<li><a href="https://t.me/SatsMobiBot">Sats.Mobi</a> - Telegram-bot, voor fooien, LN-adres, LNURL, lndhub-account, POS etc.</li>
+<li><a href="https://lnvoltz.com/wallet">Voltz LNbits Bank</a> - een volledige LNbits-account, voor fooien, LN-adres, LNURL-p, LNURL-w, lndhub-account etc.</li>
+<li><a href="https://www.walletano.com/">Walletano</a> - eenvoudige webwallet met LN-adres en meerdere accounts</li>
+<li><a href="https://coinos.io/">CoinOS</a> - webwallet, POS, LN-adres, swapservice, zeer goede services</li>
+<li><a href="https://zbd.gg/">ZBD</a> - gamerswallet met browserextensie, LN-adres, streamercopiloot en meerdere andere handige functies (tot een bepaald niveau NON-KYC is)</li>
+<li><a href="https://fountain.fm/">Fountain</a> - podcasting-app met geïntegreerd LN-adres.</li>
+<li><a href="https://walletofsatoshi.com/">Wallet of Satoshi</a> - eenvoudige mobiele LN-wallet-applicatie met LN-adres</li>
+<li><a href="https://blink.sv/">Blink</a> - eenvoudige mobiele LN-wallet met LN Adres (KYC met een mobiel nummer)</li>
+<li><a href="https://lifpay.me/">LifPay</a> - geïntegreerde swaps, web PoS / donatiepagina</li>
+<li><a href="https://acceptln.com/">AcceptLN</a> - Elk e-mailadres accepteert nu Bitcoin Lightning</li>
+<li><a href="https://widgets.twentyuno.net/">TwentyUno</a> - webwidget om betalingen te accepteren</li>
+<li><a href="https://www.minibits.cash/">Minibits</a> - Cashu-wallet met ingebouwd Ln-adres</li>
+<li><a href="https://app.cashu-address.com/">Cashu-adres</a> - Ontvang Lightning-betalingen op uw Cashu-adres. Meld je aan en claim je gebruikersnaam, of gebruik een openbare Nostr-sleutel</li>
+</ul>
+<p>Voor meer custodial services die een LN-adres kunnen bieden, raadpleeg je deze geweldige website met een heleboel Lightning-services - <a href="https://www.stacksats.how/">StackSats.how</a></p>
+<p>Voor degenen die op zoek zijn naar een eenvoudige snelle oplossing om een ​​LN-adres te gebruiken voor hun NOSTR-accounts, raad ik aan om deze dingen niet te ingewikkeld te maken. Houd het simpel. Niemand zal sterven voor een zinloze hoeveelheid sats die als zaps worden ontvangen voor sommige memes.</p>
+<p>Ik gebruik persoonlijk op NOSTR een GetAlby LN-adres voor zaps en een Stacker.News NIP-05 waar ik ook op elk moment naar kan overschakelen als LN-adres (voor het geval GetAlby down is of andersom). Ik wil echt niet "mijn identiteit verifiëren" met een persoonlijk privédomein op NOSTR.</p>
+<p>Ah, als ik een zakelijk account zou hebben op NOSTR, met een NOSTR-marktwinkel, ja, dan zou ik een persoonlijke domeinnaam gebruiken voor LN-adres en NIP-05, omdat ik mijn klanten zou moeten laten zien wie ik ben. Maar alleen om memes te posten en te chatten met anderen onder mijn nym DarthCoin, zal ik mijn privédomeinen nooit gebruiken.</p>
+<p>Ik pleit er niet voor om alleen bewaarservices te gebruiken, ik wijs er alleen op dat mensen moeten weten hoe ze in specifieke gevallen van deze services gebruik kunnen maken.</p>
+
+<h3>Dus denk nog eens goed na - hoe zou je al deze Lightning-adressen gebruiken?</h3>
+<p>P.S. - Als je andere services, software, applicaties of bundeloplossingen kent of vindt die een LN-adres bieden en hier niet worden genoemd, laat het me dan weten, ik zal ze graag aan deze gids toevoegen. Ik weet zeker dat ik er een paar gemist heb, maar ik kan me nu niet herinneren welke.</p>
+
+</body>
+</html>
+</article>
