@@ -1,0 +1,353 @@
+---
+layout: default
+title: Prvi koraci sa Zeus Mobile Node
+---
+<article>
+<!DOCTYPE html>
+<html lang="hr">
+<meta name="description" content="Vodiči za Bitcoin i Lightning: kako početi koristiti moćni LND čvor na svom mobilnom uređaju sa Zeus LN čvorom">
+<body>
+<a href="/wallets/getting-started-zeus-wallet-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/getting-started-zeus-wallet-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/getting-started-zeus-wallet-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/getting-started-zeus-wallet-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/getting-started-zeus-wallet-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/getting-started-zeus-wallet-nl.html">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/getting-started-zeus-wallet-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<em><blockquote style="color:Tomato;">
+<p>Izvorno objavljeno na <a href="https://darthcoin.substack.com/p/getting-started-zeus-mobile">Substack</a> 5. veljače 2024. Ažurirano ovdje 20. prosinca 2024.< /p>
+<p>Ovaj vodič je proslava 5 godina postojanja aplikacije Zeus LN, <a href="https://github.com/ZeusLN/zeus/releases/tag/v0.0.1">njegovog prvog izdanja v0.0.1 bio je 19. veljače 2019.</a>, 5 godina kontinuiranih poboljšanja i posvećenosti aplikaciji FOSS za samostalno skrbništvo za bitcoinere. Nevjerojatno putovanje za vrlo moćnu mobilnu aplikaciju, koja zaslužuje svoje mjesto na vrhu Bitcoin graditelja. Mogao bih reći da niste pravi bitcoiner ako na svom mobilnom uređaju nemate instaliran Zeus. Hvala Evanu Kaloudisu!</p>
+</em></blockquote>
+
+<h3>Kroz vodič kako početi koristiti moćni LND čvor na svom mobilnom uređaju s Zeus LN ugrađenim čvorom.</h3>
+<p>Ovaj vodič posvećujem svim onim novim korisnicima Lightning Networka (LN) koji žele započeti novo suvereno putovanje koristeći novčanik samoskrbničkog čvora na svojim mobilnim uređajima.</p>
+<p>Uzmimo da ste već prošli kroz svu tu plejadu skrbničkih LN novčanika, ali još niste spremni za početak pokretanja JAVNOG usmjeravajućeg LN čvora, samo želite složiti više satova preko LN-a na više samoskrbnički način i izvršite svoje redovite uplate preko LN.<p>
+<p><img src="/assets/images/zeus-intro-logo.jpg" class="center"></p>
+<p>Stiže Zeus, počevši s <a href="https://blog.zeusln.com/new-release-zeus-v0-8-0/">verzijom v0.8.0 najavljenom na njihovom blogu</a> , sada nudi ugrađeni LND čvor u aplikaciju. Do sada je Zeus bio aplikacija za upravljanje udaljenim čvorovima + LNDhub računi. Ali sada... čvor je u telefonu!</p>
+<p>Ako želite vidjeti više pojedinosti o Zeus udaljenom upravljanju čvorom, počnite s ovim vrlo dobrim <a href="https://www.youtube.com/watch?v=hmmehTnV3ys">video vodičem iz BTC Sessions </a>.</p>
+<p><img src="/assets/images/zeus-node-lagarde.jpg" class="center"></p>
+<h3>Kratki pregled glavnih značajki za Zeus čvor:</h3>
+<ul>
+<li><strong style="color:Tomato;">Privatni LND čvor</strong> - To znači da ovaj čvor NEĆE vršiti javno usmjeravanje drugih plaćanja kroz vaš čvor. Čvor i kanali su nenajavljeni (privatni, nisu vidljivi na javnom LN grafu). Primanje i plaćanje vršit će se putem vaših povezanih LSP peera. ZAPAMTITE: Zeus Embedded Node NEĆE raditi javno usmjeravanje!</li>
+<li><strong style="color:Tomato;">Trajna LND usluga</strong> - korisnik može aktivirati ovu značajku i održavati LND uslugu neprekidno aktivnom kao bilo koji uobičajeni LN čvor. Aplikacija ne mora biti otvorena, trajna usluga održava svu komunikaciju online.</li>
+<li><strong style="color:Tomato;">Neutrino blok filtri</strong> - blok sinkronizacija se vrši pomoću <a href="https://bitcoinops.org/en/topics/compact-block-filters/ ">filteri blokova i protokol Neutrino</a> (bez danih informacija o sredstvima naših korisnika u lancu). Podsjetnik: za visoke latencije/spore internetske veze ova sinkronizacija blokova na temelju neutrina ponekad može zakazati. Pokušaj prebacivanja na poslužitelj blizu neutrina mogao bi pomoći u vraćanju sinkronizacije. Bez ove sinkronizacije vaš LND čvor se ne bi mogao pokrenuti!</li>
+<li><strong style="color:Tomato;">Jednostavni Taproot kanali</strong> - Prilikom zatvaranja ovih kanala, korisnici imaju manje naknade i imaju više privatnosti jer se čini da im se sviđa bilo koja druga Taproot potrošnja kada ispituju svoje na -otisak lanca.</li>
+<li><strong style="color:Tomato;">Integrirani LSP</strong> - Olympus je novi LSP čvor za Zeus. Korisnici mogu odmah primati satove putem LN-a, bez prethodnog postavljanja LN kanala. Jednostavno ćete morati izraditi LN fakturu i platiti iz bilo kojeg drugog LN novčanika, uz uslugu kanala Zeus 0-conf. Pročitajte više o Zeus LSP ovdje. LSP također pruža dodatnu privatnost našim korisnicima pružajući im zamotane fakture koje skrivaju javne ključeve njihovih čvorova od platitelja.</li>
+<li><strong style="color:Tomato;">Knjiga kontakata</strong> - možete ručno spremiti kontakte ili ih uvesti iz NOSTR-a za jednostavno slanje uplata na vaša redovita odredišta.</li>
+<li><strong style="color:Tomato;">Potpuna podrška za LNURL, slanje i primanje LN adrese</strong> - sada možete postaviti svoju vlastitu LN adresu s vlastitim skrbništvom s @zeuspay.com. Podsjetnik: Zeus također možete koristiti za LN-auth na stranicama na kojima se možete prijaviti s LN autentifikacijom. Vrlo je praktičan.</li>
+<li><strong style="color:Tomato;">Prodajno mjesto</strong> - sada korisnici trgovaca mogu postaviti vlastite proizvode i prodavati izravno iz Zeusa, s integriranim PoS-om. Trenutno sadrži osnovne potrebe, ali će u budućnosti sadržavati proširene značajke.</li>
+<li><strong style="color:Tomato;">LND zapisnici</strong> - korisnik može u stvarnom vremenu čitati zapisnike LND usluge i koristiti ih za otklanjanje mogućih problema (uglavnom za loše veze)</li>
+<li><strong style="color:Tomato;">Automatizirano sigurnosno kopiranje</strong> - kanali LN čvora automatski se sigurnosno kopiraju na Olympusov poslužitelj. Ova automatizirana sigurnosna kopija kriptirana je vašim početnim vrijednostima novčanika čvora (bez početne vrijednosti je potpuno beskorisno). Korisnik također može ručno izvesti SCB (static channel backup) za oporavak od katastrofe.</li>
+</ul>
+<hr style="height:2px">
+
+<h3>Kako se uključiti u Zeus LN čvor (ugrađen LND)</h3>
+<p><img src="/assets/images/zeus-laser-eyes.gif" class="center"></p>
+<p>U ovom ću vodiču govoriti samo o ugrađenom LND čvoru, a ne o drugim načinima korištenja ove veličanstvene aplikacije (udaljeno upravljanje čvorom i LNDhub računi). Za ostale vrste povezivanja pogledajte <a href="https://docs.zeusln.app/category/getting-started">stranicu Zeus Docs</a>, koja je vrlo dobro objašnjena i nema potrebe za pisanjem namjenski vodič.</p>
+
+<h2 style="color:Orange;">1. KORAK - POČETNO POSTAVLJANJE</h2>
+<p>Zbog činjenice da je Zeus puni LND čvor, imat ću neke početne preporuke:</p>
+<ul>
+<li>Nemojte koristiti stari uređaj jer bi to moglo utjecati na korištenje ove moćne aplikacije. Posebno u razdoblju sinkronizacije aplikacija bi mogla intenzivno koristiti CPU i RAM. Nedostatak istih mogao bi čak onemogućiti korištenje aplikacije Zeus.</li>
+<li>Koristite barem Android 11 kao mobilni OS i ažurirajte ga što je više moguće. Za iOS isto, pokušajte koristiti mnogo višu verziju OS-a.</li>
+<li>Trebat će vam najmanje 1 GB prostora na disku za pohranu podataka. S vremenom bi mogla rasti još više, ali postoji funkcionalnost za sažimanje baze podataka na razinu MB.</li>
+<li>NEMA potrebe za korištenjem Zeusa s Tor ili Orbot uslugom. Molim vas, nemojte komplicirati stvari više nego što je potrebno. Tor vam u ovom slučaju neće ponuditi više privatnosti, već samo pogoršati stvari za početnu sinkronizaciju. Također budite oprezni s kojim VPN-ovima ga koristite i provjerite kašnjenje veze prema neutrino poslužiteljima. Imajte na umu da Neutrino blok filtar ne curi niti prati identitet vašeg uređaja, već samo poslužuje blokove. LN promet također je iza LSP-a s privatnim kanalima tako da je vrlo malo informacija vani, nema razloga za brigu o privatnosti.</li>
+<li>Imajte strpljenja za početnu sinkronizaciju, može potrajati nekoliko minuta. Pokušajte se spojiti na širokopojasnu internetsku vezu s dobrim kašnjenjem. Ako pokrećete vlastiti Bitcoin čvor, <a href="https://docs.lightning.engineering/lightning-network-tools/lnd/enable-neutrino-mode-in-bitcoin-core">možete aktivirati uslugu neutrino </a> i povežite svoj Zeus s vlastitim čvorom, čak i koristeći interni LAN, tako da ćete imati maksimalnu brzinu.</li>
+</ul>
+<p>Nakon što postavite vrstu veze "Ugrađeni čvor", aplikacija će neko vrijeme započeti sinkronizaciju. Strpljivo pričekajte da završite taj dio, a zatim uđite na glavnu stranicu postavki.</p>
+<p><img src="/assets/images/zeus-main-settings.jpg" class="center"></p>
+<p>Ukratko, zaronimo u svaki od odjeljaka postavki i razumijemo neke od glavnih značajki, prije nego počnete koristiti Zeus:</p>
+
+<h3 style="color:Orange;">A - POSTAVKE</h3>
+<p>Ovo je odjeljak s općim postavkama za cijelu aplikaciju</p>
+
+<h4 style="color:Yellow;">1 - pružatelj usluga munje (LSP)</h4>
+<p>Ovdje su predstavljene dvije LSP usluge:</p>
+<ul>
+<li><em style="color:Tomato;">Just in time kanali</em> - kada nemate nijedan otvoreni kanal ili dostupnu ulaznu likvidnost, ako je usluga aktivirana, otvorit će kanal na- letjeti za tebe. Ovu opciju možete onemogućiti ako ne želite otvarati više kanala ove vrste.</li>
+<li><em style="color:Tomato;">Zatražite kanale unaprijed</em> - možete kupiti ulazne kanale od Olympus LSP-a izravno u aplikaciji s više opcija i iznosa (za dolazne i odlazne).</ li>
+</ul>
+<p>LSP pomaže u povezivanju korisnika s Lightning mrežom otvaranjem kanala plaćanja njihovim čvorovima. <a href="https://medium.com/breez-technology/envisioning-lsps-in-the-lightning-economy-832b45871992">Pročitajte više o LSP-u ovdje</a>. ZEUS ima integriran novi LSP pod nazivom <a href="https://mempool.space/lightning/node/031b301307574bbe9b9ac7b79cbe1700e31e544513eae0b5d7497483083f99e581">OLYMPUS by ZEUS</a>, koji je dostupan svim korisnicima koji koriste novi ugrađeni čvor.</p>
+<p>U ovom odjeljku, prema zadanim postavkama je Olympus LSP (https://0conf.lnolymp.us), ali uskoro možete postaviti i drugi 0conf LSP koji podržava ovaj protokol.</p>
+<blockquote>
+<p style="color:Tomato;"><em>Imajte na umu:</em></p>
+<ul>
+<li style="color:Tomato;"><em>kada otvorite kanal s Olympus LSP koristeći omotane LN fakture također dobivate 100k ulazne likvidnosti! Ovo je stvarno dobra opcija u slučaju da trebate odmah primiti više satnica.</em></li>
+<li style="color:Tomato;"><em>Primjer: položite 400k sats da biste otvorili LSP kanal, a zatim LSP otvara kanal kapaciteta od 500ksat prema vašem Zeus čvoru i gura 400k sats koje položite prema vašoj strani .</em></li>
+<li style="color:Tomato;"><em>“Ulazna likvidnost” = više “prostora” na vašem kanalu za primanje.</em></li>
+</ul>
+</blockquote>
+<p>U budućnosti se nadamo da bismo mogli imati mnogo drugih LSP-ova koji bi se mogli integrirati u Zeus i koristiti alternativno svaki od njih. Samo je pitanje vremena kada će novi LSP-ovi prihvatiti otvoreni standard za ovu vrstu 0conf kanala.</p>
+<p>Ako ne želite otvarati nove kanale "u hodu", možete onemogućiti ovu opciju.</p>
+<p>U ovom istom odjeljku također imate opciju odabira za "zahtjev za jednostavne glavne kanale" kada će LSP otvoriti kanal prema vašem Zeus čvoru. Ovi jednostavni Taproot kanali nude bolju privatnost u lancu i niže naknade za zatvaranje kanala. Postoje samo dva razloga zašto ih ne biste željeli koristiti:</p>
+<ul>
+<li>Novi su i još uvijek može biti grešaka u LND-u kada ih koristite.</li>
+<li>Vaša druga strana ih ne podržava. Čak se i LND čvorovi za sada moraju izričito uključiti u njih.</li>
+</ul>
+
+<h4 style="color:Yellow;">2 - Postavke plaćanja</h4>
+<p>Ova značajka će vam ponuditi način da postavite svoje željene naknade za plaćanja, putem LN-a ili onchaina. Također omogućite opciju povećanja ili smanjenja vremenskog ograničenja za vaše fakture.</p>
+<p>Ako neka od vaših LN plaćanja ne uspiju, možete povećati naknadu kako biste pronašli bolju rutu. Također, ako obavljate onchain txs, možete postaviti određenu naknadu kako vaš tx ne bi mogao dugo ostati zaglavljen u mempoolu, u slučaju razdoblja visokih naknada.</p>
+
+<h4 style="color:Yellow;">3 - Postavke faktura</h4>
+<p>U ovom odjeljku nalaze se neke opcije za generiranje faktura:</p>
+<ul>
+<li>Postavite standardnu ​​bilješku koja će biti prikazana na fakturi koju generirate</li>
+<li>Vrijeme isteka u sekundama, u slučaju da želite određeno vrijeme, duže ili kraće za plaćanje vaše fakture</li>
+<li>Uključite savjete o ruti - pružite informacije za pronalaženje nereklamiranih ili privatnih kanala. To omogućuje usmjeravanje plaćanja na čvorove koji nisu javno vidljivi na mreži. Savjet za usmjeravanje pruža djelomičnu rutu između privatnog čvora primatelja i javnog čvora. Taj se savjet za usmjeravanje zatim uključuje u fakturu koju generira primatelj i dostavlja platitelju. Predlažem da se omogući prema zadanim postavkama, inače bi dolazna plaćanja mogla biti neuspješna (ruta nije pronađena).</li>
+<li>AMP faktura - Atomic Multi-path Payments nova su vrsta Lightning plaćanja koju implementira LND koja omogućuje primanje satnica bez posebne fakture, koristeći <a href="https://docs.lightning.engineering/lightning-network -tools/lnd/send-messages-with-keysend">keysend</a>. To je praktički statična šifra plaćanja. <a href="https://docs.lightning.engineering/lightning-network-tools/lnd/amp">Pročitajte više ovdje</a>.</li>
+<li>Prikaži prilagođeno polje predslike - koristite ovu opciju samo u vrlo određenim slučajevima kada stvarno želite koristiti prilagođena polja u predslici. <a href="https://bitcoin.stackexchange.com/questions/90797/how-can-i-generate-preimage-for-lightning-network-invoice-should-i">Pročitajte više ovdje</a>. </li>
+</ul>
+<p>Druga opcija u ovom odjeljku je kako postaviti vrstu onchain adrese koju želite koristiti: segwit ugniježđena, segwit, taproot.</p>
+<p><img src="/assets/images/zeus-invoice-set-type-address.jpg" class="center"></p>
+<p>Kliknite gornji gumb kotačića i pojavit će se skočni zaslon za odabir željene vrste adrese. Nakon što to postavite, sljedeći put kada pritisnete gumb za primanje za onchain, generirat će se odabrana vrsta adrese. Možete ga promijeniti bilo kada.</p>
+
+<h4 style="color:Yellow;">4 - Postavke kanala</h4>
+<p>U ovom odjeljku unaprijed postavljate neke značajke otvaranja kanala kao što su:</p>
+<ul>
+<li>broj potvrda</li>
+<li>Najavi kanal (prema zadanim postavkama isključeno), to znači da će to biti nenajavljeni kanali</li>
+<li>Jednostavni glavni korijenski kanali</li>
+<li>Prikaži gumb za kupnju kanala</li>
+</ul>
+
+<h4 style="color:Yellow;">5 - Postavke privatnosti</h4>
+<p>Ovdje ćete pronaći neke osnovne postavke za dodatnu privatnost pomoću aplikacije Zeus:</p>
+<ul>
+<li>Blokiraj istraživač za otvaranje pojedinosti o prijenosu (mempool.space, blockstream.info ili prilagođeni osobni)</li>
+<li>Čitanje međuspremnika - uključi/isključi ako želite da Zeus čita međuspremnik vašeg uređaja</li>
+<li>Način vrebanja - uključite/isključite prekidač ako želite sakriti određene osjetljive podatke iz svoje aplikacije Zeus. Dobra je opcija kada pravite demonstracije ili snimke zaslona.</li>
+<li>Prijedlog naknade za Mempool - aktivirajte ovu opciju ako želite koristiti preporučene razine naknada s <a href="https://mempool.space/">mempool.space</a></li>
+</ul>
+
+<h4 style="color:Yellow;">6 - Sigurnost</h4>
+<p>Ovaj odjeljak ima samo dvije opcije za osiguranje aplikacije pri otvaranju: postavljanje lozinke ili PIN-a.</p>
+<p>Nakon što postavite PIN za otvaranje aplikacije, moći ćete postaviti i "PIN pod prisilom". Ovaj tajni dodatni PIN će se koristiti SAMO u slučaju situacije prisile, ako ste ugroženi. Ako stavite ovaj PIN, konfiguracija će biti potpuno WIPE OUT. Zato bolje ažurirajte sigurnosne kopije. Automatsko sigurnosno kopiranje UKLJUČENO je prema zadanim postavkama, ali dobro je imati i vlastito sigurnosno kopiranje izvan uređaja.</p>
+
+<h4 style="color:Yellow;">7 - Valuta</h4>
+<p>Omogućite ili onemogućite opciju za prikaz pretvorbe fiat valute u korištenju aplikacije Zeus. Trenutno podržava više od 30 svjetskih fiat valuta.</p>
+
+<h4 style="color:Yellow;">8 - Jezik</h4>
+<p>Možete se prebacivati ​​između više jezika prijevoda, koje je pregledala zajednica Zeus s izvornim govornicima.</ul>
+
+<h4 style="color:Yellow;">9 - Prikaz</h4>
+<p>U ovom odjeljku možete personalizirati svoj Zeus zaslon, odabirom različitih tema boja, zadanog zaslona (tipkovnica ili ravnoteža), prikazati pseudonim vašeg čvora, aktivirati velike gumbe tipkovnice, prikazati više decimalnih mjesta.</p>
+
+<h4 style="color:Yellow;">10 - Prodajno mjesto</h4>
+<p>Ovo je posebna značajka za omogućavanje/onemogućavanje integriranog PoS sustava u Zeusu. Možete pokrenuti samostalni PoS ili biti povezan sa Square PoS sustavom. Trenutačno podržava osnovne funkcionalnosti kao PoS, ali dovoljno za dobar početak i mogao bi pomoći onim malim trgovcima (barovi/restorani, trgovine) da počnu prihvaćati BTC na izvorni način.</p>
+<p>Unutar ovih postavki pronaći ćete razne opcije za postavljanje vašeg PoS-a:</p>
+<ul>
+<li>Vrsta plaćanja potvrde: samo LN, 0-conf, 1-conf</li>
+<li>Omogući/onemogući savjete za zaposlenike koji upravljaju PoS-om</li>
+<li>Prikaži/sakrij tipkovnicu</li>
+<li>Postotak poreza koji se primjenjuje na kartu</li>
+<li>Stvorite proizvode i kategorije proizvoda</li>
+<li>Jednostavan popis svih prodaja</li>
+</ul>
+<p>Evo demo videa uživo kako koristiti Zeus PoS:</p>
+<centar>
+<video width="320" height="640" kontrole>
+ <source src="/assets/media/zeus-pos.mp4" type="video/mp4">
+</video>
+</center>
+
+<h3 style="color:Orange;">B - rezervni novčanik</h3>
+<p>Ugrađeni čvor u ZEUS-u temelji se na LND-u i koristi <a href="https://github.com/lightningnetwork/lnd/blob/master/aezeed/README.md">aezeed početni format</a> . Ovo se razlikuje od tipičnog <a href="https://github.com/bitcoin/bips/blob/master/bip-0039.mediawiki">BIP39 formata</a> koji vidite u većini Bitcoin novčanika, iako može izgledaju slično. Aezeed uključuje neke dodatne podatke uključujući datum rođenja novčanika koji će pomoći da se ponovno skeniranje tijekom oporavka provede učinkovitije.</p>
+<p>Format ključa aezeed trebao bi biti kompatibilan sa sljedećim mobilnim novčanicima: Blixt, BlueWallet i Breez. Imajte na umu da samo početno stanje neće biti dovoljno za povrat svih vaših salda ako imate otvorene kanale ili kanale koji čekaju zatvaranje!</p>
+<p>Saznajte više o procesu izrade sigurnosne kopije i vraćanja na <a href="https://docs.zeusln.app/for-users/embedded-node/backup-and-recovery">stranici Zeus Docs</a>. </p>
+<p>SAVJET ZA NAPAJANJE: Kada spremate svoje sjeme, spremite i pubkey čvora! Ponekad ga je dobro imati pri ruci, zajedno sa svojim početnim sadržajem i SCB (Static Channels Backup) u slučaju da trebate potvrditi oporavak.</p>
+<p>SCB je neophodan samo ako imate otvorene LN kanale. U slučaju da imate samo onchain sredstva, nije potrebno.</p>
+<p>Ako vidite da nakon dugo vremena još uvijek ne prikazuje staru povijest txs, idite na Ugrađeni čvor - Ravni i onemogućite opciju za korištenje popisa odabranih ravnopravnih (prema zadanim postavkama je btcd.lnolymp.us). To će pokrenuti ponovno pokretanje i spojit će se na prvi dostupni neutrinski čvor s boljim vremenskim odzivom. Ili upotrijebite dolje spomenute druge dobro poznate neutrinske vršnjake.</p>
+<p>Ako želite vidjeti više opcija oporavka za LND čvor, <a href="/nodes/shtf-restore-lnd-node-hr.html">pročitajte moj prethodni vodič</a>, gdje možete pronađite korake kako uvesti aezeed seed u Sparrow novčanik ili druge metode.</p>
+
+<h3 style="color:Orange;">C - Ugrađeni čvor</h3>
+<p>U ovom odjeljku pronaći ćemo neke osnovne alate za upravljanje integriranim čvorom:</p>
+<ol>
+<li><em style="color:Tomato;">Oporavak od katastrofe</em> - Automatizirano i ručno sigurnosno kopiranje za LN kanale. Pročitajte više o tome kako koristiti ovu značajku na stranici Zeus Docs.</li>
+<li><em style="color:Tomato;">Express Graph Sync</em> - Zeus aplikacija će preuzeti LN grafikon podataka trača s namjenskog poslužitelja, za bržu i bolju sinkronizaciju, nudeći najbolje načine plaćanja. Možete odabrati i brisanje podataka prethodnog grafikona pri pokretanju.</li>
+<li><em style="color:Tomato;">Pravnjaci</em> - odjeljak za upravljanje ravnopravnim neutrino i 0-conf ravnopravnim uređajima. Ako imate problema s početnom sinkronizacijom, kanali ne dolaze na mrežu, to je zato što vaš uređaj ima veliku latenciju s konfiguriranim neutrino peerom. Pokušajte promijeniti popis preferiranih ravnopravnih računala ili dodajte svog određenog ravnopravnog računala za koje znate da ima bolju latenciju za sinkronizaciju. Dobro poznati neutrinski poslužitelji su:</li>
+<ul>
+ <li>btcd1.lnolymp.us | btcd2.lnolymp.us - za regiju SAD</li>
+ <li>sg.lnolymp.us - za regiju Azije</li>
+ <li>btcd-mainnet.lightning.computer - za regiju SAD</li>
+ <li>uswest.blixtwallet.com (Seattle) - za regiju SAD</li>
+ <li>europe.blixtwallet.com (Njemačka) - za regiju EU</li>
+ <li>asia.blixtwallet.com - za regiju Azije</li>
+ <li>node.eldamar.icu - za regiju SAD</li>
+ <li>noad.sathoarder.com - za regiju SAD</li>
+ <li>bb1.breez.technology | bb2.breez.technology - za regiju SAD</li>
+ <li>neutrino.shock.network - regija SAD</li>
+</ul>
+<li><em style="color:Tomato;">LND zapisnici</em> - vrlo koristan alat za otklanjanje grešaka u problemima vašeg LN čvora i dubinsku kontrolu onoga što se događa s više tehničke razine.</li>
+<li><em style="color:Tomato;">Napredne postavke</em> - više alata za kontrolu upotrebe vašeg LND čvora:</li>
+<ul>
+<li><em style="color:Tomato;">Način pronalaženja puta</em> - bimodalni ili apriori, načini za pronalaženje bolje rute za vaša LN plaćanja i također resetiranje prethodnih informacija o usmjeravanju. Pročitajte ove vrlo dobre vodiče o pronalaženju putanje: <a href="https://docs.lightning.engineering/lightning-network-tools/lnd/pathfinding">Pronalaženje putanje</a> - autori Docs Lightning Engineering i <a href="https://voltage.cloud/blog/lightning-network-faq/understanding-payment-pathfinding-between-nodes-on-lightning-network/">LN Payment Pathfinding</a> - prema naponu</li >
+<li><em style="color:Tomato;">Trajni LND</em> - aktivirajte ovaj način rada ako želite da LND usluga neprekidno radi u pozadini i da vaš čvor bude na mreži 24/7. Ovo je vrlo korisno ako Zeus koristite kao PoS u maloj trgovini ili ako primate mnogo LN savjeta preko LN adrese.</li>
+<li><em style="color:Tomato;">Ponovno skeniraj novčanik</em> - ova će opcija pri ponovnom pokretanju pokrenuti potpuno skeniranje svih onchain prijenosa vašeg novčanika. Aktivirajte ga samo u slučaju da vam nedostaje neki txs u novčaniku. Zadatak ponovnog skeniranja će potrajati, nekoliko minuta, stoga budite strpljivi i uvijek provjeravajte zapisnike da vidite više pojedinosti o napretku.</li>
+<li><em style="color:Tomato;">Kompaktna baza podataka</em> - ova je opcija vrlo korisna ako vaša Zeus aplikacija zauzima puno prostora na uređaju (pogledajte pojedinosti o aplikaciji u postavkama uređaja). Ako imate puno aktivnosti koristeći Zeus, preporučio bih da ovo zbijanje radite češće. Kada vidite da imate više od 1-1,5 GB podataka za aplikaciju Zeus, izvršite sažimanje. Ponovno će se pokrenuti i trebat će neko vrijeme, pa budite strpljivi.</li>
+<li><em style="color:Tomato;">Izbriši Neutrino datoteke</em> - ova opcija za brisanje neutrino datoteka (s ponovnim pokretanjem) uvelike će smanjiti korištenje pohrane podataka. Smanjenje upotrebe podataka također ima veliki utjecaj na potrošnju baterije, smanjujući potrošnju baterije, posebno ako Zeus koristite u trajnom načinu rada.</li>
+</ul>
+</ol>
+
+<h3 style="color:Orange;">D - Podaci o čvoru</h3>
+<p>U ovom odjeljku pronaći ćete više pojedinosti o statusu vašeg Zeus čvora kao:</p>
+<ul>
+<li>Alias ​​- kratki ID čvora</li>
+<li>Javni ključ - puni javni ključ za vaš čvor potreban drugim čvorovima da pronađu taj put do vašeg čvora. Upamtite da ovaj pubkey NIJE vidljiv na običnim LN Explorerima (Mempool, Amboss, 1ML itd.). Ovaj pubkey je dostupan SAMO preko vaših povezanih LN peerova i kanala.</li>
+<li>Verzija LN implementacije</li>
+<li>Verzija aplikacije Zeus</li>
+<li>Status sinkronizirano s lancem i sinkronizirano s grafikonom - vrlo važni, pokazuju točan status vašeg čvora. Ako ovo dvoje ne prikazuje "true", to znači da se vaš čvor još uvijek sinkronizira ili ima problema sa sinkronizacijom. Stoga se predlaže da pogledate svoje LND zapisnike ili pričekate još malo.</li>
+<li>Visina bloka i hash - prikazuje zadnji blok i hash koje je vaš čvor vidio i sinkronizirao.</li>
+</ul>
+
+<h3 style="color:Orange;">E - Informacije o mreži</h3>
+<p>Ovaj odjeljak prikazuje više pojedinosti o općem statusu za Lightning mrežu, izdvojenih iz vaših sinkroniziranih podataka grafikona: broj dostupnih javnih kanala, broj čvorova, broj zombi kanala (izvan mreže ili mrtvih), promjer grafikona, prosjek i maks. izlazni stupanj za graf.</p>
+<p>Ovi podaci mogu biti korisni za otklanjanje pogrešaka ili samo za statistiku.</p>
+
+<h3 style="color:Orange;">F - Adresa munje</h3>
+<p>U ovom odjeljku korisnik može postaviti svoju LN adresu za samostalnu skrbništvo @zeuspay.com.</p>
+<p>ZEUS PAY koristi hashove preslika koje su generirali korisnici, hodl fakture i Zaplocker Nostr shemu atestiranja kako bi omogućio korisnicima koji možda nisu online 24/7 primanje uplata na statičnu munjevitu adresu. Korisnici se samo trebaju prijaviti na svoje ZEUS novčanike u roku od 24 sata kako bi preuzeli uplate, inače će biti vraćene pošiljatelju.</p>
+<p>Ako aktivirate “trajni način rada” sve uplate na vašu LN adresu bit će trenutno primljene.</p>
+<p>Saznajte kako funkcionira <a href="https://github.com/supertestnet/zaplocker#how-it-works">Zaplocker</a> plaćanja i više o <a href="https://docs .zeusln.app/lightning-address/fees">ZeusPay naknade ovdje</a>.</p>
+
+<h3 style="color:Orange;">G - Onchain adrese</h3>
+<p>U ovom odjeljku možete pregledati svoje generirane onchain adrese radi bolje kontrole novčića</p>
+
+<h3 style="color:Orange;">H - Kontakti</h3>
+<p>U Zeusu v 0.8.0 predstavljena je nova knjiga kontakata koju možete koristiti za brzo slanje uplata svojim prijateljima i obitelji, također uz mogućnost uvoza vaših kontakata iz Nostr.</p>
+<p>Jednostavno unesite svoju Nostr npub ili čovjeku čitljivu NIP-05 adresu i ZEUS će tražiti Nostr za sve vaše kontakte. Odatle možete poslati brzu uplatu kontaktu ili uvesti sve ili odabrati kontakte u svoj lokalni imenik kontakata./<
+<p>Evo kratkog videa kako konfigurirati i koristiti svoje Zeus kontakte:</p>
+<centar>
+<video width="320" height="640" kontrole>
+ <izvor src="/assets/media/zeus-contacts.mp4" type="video/mp4">
+</video>
+</center>
+
+<h3 style="color:Orange;">I - Alati</h3>
+<p>Ovdje imamo različite pododjeljke s više alata:</p>
+<ol>
+<li><em style="color:Tomato;">Računi</em> - ovdje možete uvesti vanjske račune/novčanike, hladne novčanike, vruće novčanike, za kontrolu ili upotrebu kao vanjski izvor financiranja za vaše kanale Zeus čvora. Ova je značajka još uvijek eksperimentalna.</li>
+<li>
+<p><em style="color:Tomato;">Ubrzajte transakciju</em> - Ova značajka može biti korisna kada imate zaglavljeni prijenos u mempoolu i želite povećati naknadu. Morat ćete dati izlaz za prijenos iz podataka o prijenosu i odabrati željenu novu naknadu koju želite koristiti. Mora biti veći od prethodnog i zahtijeva da imate više sredstava u svom onchain novčaniku.</p>
+<p><img src="/assets/images/zeus-fees-bump.jpg" class="center"></p>
+<p>Morate otići na svoj prijenos na čekanju i kopirati izlaznu točku txID-a. Zatim dođite do ovog odjeljka i zalijepite ga, a zatim odaberite novu naknadu koju želite koristiti za povećanje. U tom će se trenutku otvoriti novi zaslon s preporučenim naknadama ili možete postaviti prilagođeni. Upamtite MORA biti viši od prethodnog.</p>
+<p>Uvijek je bolje držati UTXO s najviše 100 tisuća satova u svom Zeus onchain novčaniku, kako biste ga mogli koristiti za povećanje naknada kada je to potrebno.</p>
+</li>
+<li><em style="color:Tomato;">Potpiši ili potvrdi</em> - s ovom značajkom možeš potpisati određenu poruku pomoću ključeva novčanika. Također se može koristiti za provjeru poruke kako bi se dokazalo da dolazi iz određenih ključeva novčanika.</li>
+<li><em style="color:Tomato;">Konverter valuta</em> - jednostavan alat za izračunavanje pretvorbe tečaja između BTC-a i drugih fiat valuta.</li>
+</ol>
+
+<h3 style="color:Orange;">J - roba i podrška</h3>
+<p>Ovdje ćete pronaći više informacija i poveznica o Zeusu, online trgovini, sponzorima, društvenim medijima.</p>
+
+<h3 style="color:Orange;">K - Pomoć</h3>
+<p>U ovom posljednjem odjeljku pronaći ćete poveznice na stranicu s dokumentacijom o Zeusu, probleme s Githubom (ako želite objaviti grešku ili zatražiti izravno razvojnim programerima aplikacije), podršku putem e-pošte.</p>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">2. KORAK - POČNITE KORISTITI ZEUS ČVOR</h2>
+<p>Zapamtite, Zeus se uglavnom koristi kao LN novčanik, za jednostavna i brza plaćanja putem LN-a. Naravno, sadrži i onchain novčanik, ali taj bi trebao služiti isključivo za otvaranje/zatvaranje LN kanala, a ne za redovno plaćanje kave.</p>
+<p>Pročitajte moj drugi vodič o <a href="/beginner/be-your-own-bank-hr.html">kako postati vlastita banka koristeći 3 razine zalihe</a>.</p> >
+<p>U ovom trenutku korisnik ima 2 načina da počne koristiti Zeus:</p>
+<ul>
+<li>Odmah preko LN-a, koristeći 0-conf kanal od Olympus LSP</li>
+<li>Prvo uplatite u onchain novčanik, a zatim otvorite normalni LN kanal s željenim peerom.</li>
+</ul>
+
+<h3 style="color:Orange;">Metoda A - korištenje Olympus LSP</h3>
+<p>Ovo je vrlo jednostavan i neposredan način uključivanja novog LN korisnika u Zeus. To može biti potpuno novi korisnik bitcoina koji nema nikakvih satnica, kojeg je upisao prijatelj, ili novi trgovac koji počinje sa svojim prvim LN plaćanjem.</p>
+<p>Prema zadanim postavkama, Zeus će koristiti vlastiti LSP, Olympus. Ali kasnije se možete prebaciti i na druge LSP-ove koji podržavaju ovaj 0-conf protokol za otvaranje kanala.</p>
+<p>Jednostavnim kreiranjem fakture na svom Zeusu (stavite iznos i kliknite na gumb "zahtjev"), moći ćete odmah primiti te satove.</p>
+<p>Faktura koju generirate bit će <a href="https://docs.zeusln.app/lsp/wrapped-invoices">zapakirana</a> i prikazat će vam se naknade povezane s uslugom ako plaćeni su. Ova zamotana faktura sadrži savjete o ruti prema vašem Zeus čvoru, kako bi LSP mogao pronaći vaš novi čvor i otvoriti kanal s novim sredstvima koja polažete.</p>
+<p><img src="/assets/images/zeus-wrapped-invoice.jpg" class="center"></p>
+<p><img src="/assets/images/zeus-wrapped.jpg" class="center"></p>
+<p>Kako biste dobili LN kanal od LSP-a sa sredstvima koja želite primiti prvi put, ovu fakturu morate platiti iz drugog LN novčanika i pričekajte nekoliko trenutaka dok LSP ne otvori kanal prema vašem Zeus čvoru, oduzmite naknadu i gurnite preostali iznos uplate na svoju stranu kanala.</p>
+<p>Sve što trebate učiniti je platiti fakturu generiranu za vas u ZEUS-u s drugim Lightning novčanikom i vaš će se kanal odmah otvoriti. <a href="https://docs.zeusln.app/lsp/fees">Pogledajte Zeus LSP naknade</a>.</p>
+<p>Još jedna prednost plaćanja za kanal je usmjeravanje bez naknade. To znači da prilikom usmjeravanja plaćanja, prvi skok kroz OLYMPUS by ZEUS ne naplaćuje naknade za usmjeravanje. Imajte na umu da će vam ZEUS-ovi skokovi izvan OLYMPUS-a i dalje naplaćivati.</p>
+<p>Kada je kanal spreman, kliknite desni gumb na dnu ekrana koji prikazuje Zeusove kanale.</p>
+<p><img src="/assets/images/zeus-channels-button.png" class="center"></p>
+<p>Vidjet ćete kanal poput ovog, koji prikazuje vašu stranu ravnoteže kanala:</p>
+<p><img src="/assets/images/zeus-channels-screen.jpg" class="center"></p>
+<p>Za više što ćete potrošiti iz ovog kanala, imat ćete više ulazne likvidnosti. Za više sati koje ćete primiti u ovaj kanal, imat ćete manje ulaznog likvidnog prostora.</p>
+<p>Ovdje je lijepa jednostavna vizualna demonstracija (od Renea Pickhardta) o tome kako LN kanali rade:</p>
+<centar>
+<video width="640" height="320" kontrole>
+ <izvor src="/assets/media/ln-explained.mp4" type="video/mp4">
+</video>
+</center>
+<p>U ovom trenutku, s obzirom na demo ekran za kanale, kliknite na naziv kanala i vidjet ćete više detalja o njemu.</p>
+<p>Imate jedan kanal s Olympusom, ukupnog kapaciteta od 490 000 sati, s ravnotežom od 378 tisuća sati na vašoj strani i 88 tisuća sati na strani Olympusa. To znači da možete primiti najviše 88k sati više na istom kanalu.</p>
+<p>Ako trebate primiti više od 88 tisuća sati (dostupna ulazna likvidnost u ovom slučaju), recimo da će dodatnih 500 tisuća sati, jednostavnim stvaranjem nove LN fakture s tim iznosom, pokrenuti novi zahtjev za kanal Olympus LSP-u. Dakle, dobit ćete drugi kanal.</p>
+<p>Zato, kako biste izbjegli plaćanje više naknada za otvaranje više kanala, preporuča se da prvi put otvorite veći kanal, recimo 1-2M sat. Nakon što je otvoren, možete zamijeniti na onchain dio tih satnica, recimo 50%, koristeći bilo koju vanjsku uslugu zamjene opisanu u ovom vodiču.</p>
+<p>Jednom kada zamijenite taj kanal, recimo 50% i vratite satove u svoj Zeus onchain novčanik, spremni ste prijeći na sljedeću metodu otvaranja novog kanala - s onchain salda.</p>
+
+<h3 style="color:Orange;">Metoda B - Upotreba vašeg onchain salda</h3>
+<p>Ovom metodom možete otvoriti kanale prema bilo kojem drugom LN čvoru, uključujući isti Olympus LSP. Ali ako već imate kanal s Olympusom, preporučuje se da imate i s drugim čvorom, za veću pouzdanost i također možete koristiti MPP (multi-part payment).</p>
+<p><img src="/assets/images/zeus-mpp.jpg" class="center"></p>
+<p>Iznad je primjer plaćanja LN fakture pomoću MPP-a. Kao što vidite na dnu ekrana imate "postavke" i otvara se padajuća stranica s više pojedinosti o uplati koju namjeravate izvršiti. Na tom zaslonu, ako imate najmanje 2 otvorena kanala, MPP značajka bit će UKLJUČENA prema zadanim postavkama. Također možete aktivirati AMP (atomic multi-path) i postaviti određene dijelove koje želite. Ovo je moćna značajka!</p>
+<p>Za privatni čvor kao što je Zeus, preporučio bih da imate 2-3 dobra kanala (maksimalno 4-5), s dobrim LSP-ovima i dobrom likvidnošću za pokrivanje svih vaših potreba za plaćanjem ili primanjem satelita preko LN-a. <a href="/nodes/managing-lightning-node-liquidity-hr.html">Pogledajte više savjeta o likvidnosti LN čvora u ovom vodiču</a>. Također ovdje je još jedan <a href="https://bitcoin.design/guide/how-it-works/liquidity/">opći vodič o LN likvidnosti</a> od Bitcoin Design tima.</p>
+<p>Odabir pravih kolega, znam, nije lak zadatak, čak ni za iskusne korisnike. <a href="https://github.com/ZeusLN/zeus/discussions/2265">Dat ću vam neke mogućnosti za početak</a>, ovo su ravnopravni čvorovi koje sam osobno testirao koristeći Zeus (pokušao sam povezujte se samo na LND čvorove kako biste izbjegli probleme s nekompatibilnošću)</p>
+<p>Ovdje je i popis ravnopravnih čvorova zajamčenih za Zeusa. Ako znate dobre, slobodno ih dodajte na taj popis.</p>
+<p>Možete otvoriti kanal u Zeusu tako da odete na prikaz kanala klikom na ikonu kanala u donjem desnom kutu glavnog prikaza, a zatim pritisnete ikonu + u gornjem desnom kutu.</p>
+<p><img src="/assets/images/zeus-open-chan-olympus.jpg" class="center"></p>
+<p>Ako želite otvoriti kanal s određenim čvorom, kliknite (A) gornji kut za skeniranje QR čvora ID čvora (na Mempoolu, Ambossu, 1ML možete dobiti taj QR) i svi detalji o ravnopravnom uređaju bit će popunjeni. </p>
+<p style="color:Yellow;">PODSJETNIK</p>
+<ul>
+<li>Zeusov ugrađeni čvor ne koristi Tor uslugu! Stoga vas molimo da ne pokušavate otvoriti kanale s čvorovima koji su pod Torom! Činite više štete sebi nego dodajete više privatnosti. Tor za LN ne nudi više privatnosti, ali dodaje više problema.</li>
+<li>mudro birajte svoje kolege, bolje je da budete dobri LSP-ovi, dobri čvorovi za usmjeravanje, a ne nasumični pleb čvorovi koji bi mogli zatvoriti vaše kanale i ne bi mogli ponuditi dobru likvidnost. <a href="/nodes/managing-lightning-node-liquidity-en.html">Ovdje sam napisao poseban vodič</a> o likvidnosti i primjeru čvorova.</li>
+</ul>
+<p>Ako izravno kliknete na gumb "Otvori kanal za Olympus" popunit ćete potrebna polja za otvaranje kanala za <a href="https://mempool.space/lightning/node/031b301307574bbe9b9ac7b79cbe1700e31e544513eae0b5d7497483083f99e581">OLYMPUS by ZEUS</a>.</p>
+<p>Za razliku od plaćenih LSP kanala, vaš će kanal zahtijevati on-chain potvrdu, koristeći vaša onchain sredstva (možete odabrati iz svojih UTXO-ova u otvorenom prikazu kanala); neće se odmah otvoriti. Prvo provjerite stvarne mempool naknade i prilagodite ih u skladu s tim, ovisno o tome koliko brzo želite otvoriti taj kanal.</p>
+<p>Prije nego što pritisnete gumb za otvaranje kanala, kliznite napredne opcije prema dolje:</p>
+<p><img src="/assets/images/zeus-chan-details.jpg" class="center"></p>
+<p>Također ćete morati provjeriti je li kanal nenajavljen (privatan). Prema zadanim postavkama opcija je isključena za najavljene kanale. Ne preporučuje se aktiviranje ove opcije za Zeus ugrađeni čvor, korisna je samo kada Zeus koristite sa svojim udaljenim čvorom, kao javni čvor za usmjeravanje.</p>
+<p>Za razliku od plaćenih LSP kanala, otvaranjem kanala ovom metodom nećete imati koristi od usmjeravanja bez naknade.</p>
+<p>I gotovo, samo kliknite gumb "Otvori kanal", pričekajte da rudari potvrde tx. Nakon što je kanal otvoren, možete obavljati transakcije kako želite sa satovima sa svojih kanala.</p>
+<p>Imajte na umu da će ovi kanali imati sav saldo na VAŠOJ strani, tako da nećete imati ulaznu likvidnost. Kao što sam već rekao, zamijenite ili potrošite nešto sati kupujući stvari preko LN-a da biste "napravili više prostora" za primanje.</p>
+<p>Razmišljajte o svojim LN kanalima kao o čaši vode. Ulijete malo vode (sat) u praznu čašu (vaš kanal) dok je ne napunite. Ne možete sipati više vode dok je ne popijete (trošenje / zamjena). Kada je čaša gotovo prazna, ulijte još vode (sat) u nju pomoću swap ina. <a href="/nodes/lightning-submarine-swaps-hr.html">Ovdje pročitajte više o vanjskim uslugama zamjene</a >.</p>
+<p>Postoje i druge LSP usluge koje vam prodaju ulazne kanale: LNBig ili Bitrefill. Mislim da ima još ovakvih usluga, ali trenutno ih se ne mogu sjetiti.</p>
+<p>Dakle, ako vam treba praktički prazan LN kanal (ravnoteža je 100% na ravnopravnoj strani od početka), za primanje više uplata nego što možete podnijeti na svojim postojećim popunjenim kanalima, ovo bi mogla biti vrlo dobra opcija. Platit ćete određenu naknadu za otvaranje ovih kanala i dobit ćete puno ulaznog prostora.</p>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">SAVJETI I TRIKOVI</h3>
+<h4 style="color:Yellow;">Ograničenja ulazne rezerve</h4>
+<p>Trenutno, zbog nekih ograničenja LN koda, nije moguće točno primiti koliko je prikazano u "Dolaznom". Uvijek imajte na umu da biste trebali izdavati svoje fakture s nešto manjim iznosom, odnosno iznosom “Lokalne rezerve kanala”.</p>
+<p><img src="/assets/images/zeus-chan-reserves.jpg" class="center"></p>
+<p>Kao što možete vidjeti na gornjoj slici, "ulazni" prikazuje da još uvijek mogu primiti 5101 sat, ali zapravo je u ovom trenutku nemoguće primiti više. I možete vidjeti da je to isti iznos kao i “Lokalna rezerva”.</p>
+<p>Dakle, imajte na umu, kada izdajete fakture za primanje, pogledajte i likvidnost svojih kanala i oduzmite lokalnu pričuvu od tog iznosa, ako želite povećati iznos potraživanja do granica.</p>
+
+<h4 style="color:Yellow;">Brzi savjet za nove korisnike koji počinju sa Zeus čvorom:</h4>
+<p>1. Ispravno uhvatite svoje nove kanale.</p>
+<p>Na primjer, ako znate da ćete za tjedan dana dobiti recimo 1M sats, otvorite kanal od 2M sats i zamijenite u onchain novčanik ili na drugi (privremeni) skrbnički LN račun 50-60% vaše izlazne likvidnosti. Uvijek budite spremni s više likvidnosti. Jednom kada vam zatreba više likvidnosti natrag u vaše Zeus kanale, možete je vratiti sa skrbničkih računa.</p>
+<p>Ako znate da ćete slati recimo 500 tisuća satova tjedno, otvorite kanal od 1 milijuna sati. Na taj način i dalje ćete imati rezervu dok je ponovno ne popunite.</p>
+<p>2. Ako ste trgovac i uvijek ćete primati više nego što redovito trošite, kupite namjenski ulazni kanal. Je najjeftiniji način. Plaćate minimalnu naknadu i dobivate "prazan" kanal.</p>
+<p>3. Ne otvarajte male besmislene kanale od 50-100-300-500k sat. Napunit ćete ih za nekoliko dana, čak i ako ih koristite samo za zapušenje. Otvorite veće i drugačije, NE samo jedan kanal.</p>
+<p>Jednom kada otvorite veći kanal, uvijek možete upotrijebiti eksterne podmornice za premještanje satova u svoje onchain novčanike (uključujući povratak na Zeus onchain). Održavanje ravnoteže između ulazne i izlazne likvidnosti je dobro, a također možete "ponovno upotrijebiti" te satove za otvaranje više kanala ako želite.</p>
+
+<h4 style="color:Yellow;">Umotana faktura</h4>
+<p>Ako želite dodati više privatnosti prilikom primanja, možete upotrijebiti metodu "zamotane fakture". Podsjetnik: da biste to mogli učiniti, potreban vam je kanal s Olympus LSP. Zamotane fakture će "sakriti" konačno odredište (vaš Zeus čvor) i prikazati vaš LSP čvor kao odredište platitelju.</p>
+<p>Kako biste dobili zamotanu fakturu, idite na glavni zaslon tipkovnice, unesite iznos i pritisnite zahtjev. Prikazat će normalan QR kod za vašu fakturu. Sada kliknite gornji desni gumb “X” i bit ćete preusmjereni na više opcija za fakturu.</p>
+<p><img src="/assets/images/zeus-wrapped-invoice2.jpg" class="center"></p>
+<p>Sada ćete morati aktivirati tu opciju na vrhu "Omogući LSP" i pritisnuti gumb "Izradi fakturu". Ta će opcija stvoriti zamotanu fakturu i zapamtite, naplatit će malu naknadu.</p>
+
+<h4 style="color:Yellow;">Plaćajte Keysendom</h4>
+<p>Keysend je vrlo podcijenjena značajka LN-a i korisnici bi je trebali koristiti češće.</p>
+<p><a href="https://docs.lightning.engineering/lightning-network-tools/lnd/send-messages-with-keysend">Keysend</a> omogućuje korisnicima u Lightning mreži slanje plaćanja na drugi , izravno na njihov javni ključ, sve dok njihov čvor ima javne kanale i ima omogućeno slanje ključeva. Keysend ne zahtijeva od primatelja uplate izdavanje fakture.</p>
+<p>Pa kako to možete učiniti sa Zeusom?</p>
+<p>Jednostavno skenirajte ili kopirajte ID odredišnog čvora (ili upotrijebite Zeus kontakte da biste spremili redovite odredišne ​​čvorove kao kontakte), a zatim na glavnom zaslonu Zeusa kliknite gumb "Pošalji". Na tom zaslonu zatim zalijepite nodeID ili odaberite iz svojih kontakata.</p>
+<p>Unesite broj sati, poruku ako je potrebno (da, možete je koristiti i kao tajni chat preko LN-a) i kliknite na gumb "Pošalji". Gotovo!</p>
+<p><img src="/assets/images/zeus-keysend.jpg" class="center"></p>
+<p>Ako imate izravan kanal s odredišnim peerom, neće biti uključenih naknada.</p>
+<p>Ako nemate izravan kanal s odredišnim peerom, tada će plaćanje putem slanja ključa platiti naknade kao normalno plaćanje fakture LN-a, usmjereno na regulirani put kao i svako drugo plaćanje. Samo da, zapamtite, neće ostati nikakav trag kao LN faktura.</p>
+<hr style="height:2px">
+
+<p>Preporučam da pročitate daljnji vodič <a href="/wallets/zeus-node-advanced-usage-hr.html">Napredna upotreba Zeusa</a> s više uputa i slučajeva upotrebe.
+<p>I… to je to! Od sada Zeus Node koristite samo kao obični BTC/LN novčanik na svom mobitelu. Korisničko sučelje je prilično jednostavno i jednostavno za korištenje, intuitivno za bilo koju vrstu korisnika, mislim da ne moram unositi više pojedinosti o tome kako izvršiti i primiti plaćanja.</p>
+<p>Za kraj, evo usporedne tablice privatnosti:</p>
+<p><img src="/assets/images/privacy-chart-mobile-nodes.jpg" class="center"></p>
+<hr style="height:2px">
+
+<h3 style="color:Yellow;">Veze Zeus resursa:</h3>
+<p><a href="https://zeusln.com/">Web stranica</a> | <a href="https://docs.zeusln.app/">Dokumenti</a> | <a href="https://github.com/ZeusLN/zeus">Github</a> | <a href="https://github.com/ZeusLN/zeus/releases">Izdanja</a> | <a href="https://t.me/zeusLN">Telegram</a> | <a href="https://nostr.at/npub1xnf02f60r9v0e5kty33a404dm79zr7z2eepyrk5gsq3m7pwvsz2sazlpr5">NOSTR</a> | <a href="https://x.com/ZeusLN">Twix</a> | <a href="https://blog.zeusln.com/">Blog</a></p>
+</body>
+</html>
+</article>
