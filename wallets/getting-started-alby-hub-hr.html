@@ -1,0 +1,152 @@
+---
+layout: default
+title: Prvi koraci s Alby Hub
+---
+<article>
+<!DOCTYPE html>
+<html lang="hr">
+<meta name="description" content="Vodiči za Bitcoin i Lightning: Jednostavan vodič korak po korak za instalaciju i korištenje Alby Hub + Alby Go na samostalan način">
+<body>
+<a href="/wallets/getting-started-alby-hub-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/getting-started-alby-hub-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/getting-started-alby-hub-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/getting-started-alby-hub-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/getting-started-alby-hub-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/getting-started-alby-hub-nl.html">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/getting-started-alby-hub-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<blockquote style="color:Tomato;"><em>
+<p>Izvorno objavljeno 26. rujna 2024. Ovdje ažurirano 20. prosinca 2024.</p>
+</em></blockquote>
+
+<h3>Jednostavan vodič korak po korak za instalaciju i korištenje Alby Hub + Alby Go na samostalan način, s malim resursima i osnovnim znanjem.</h3>
+<p>Prije svega, odgovorimo na ovo pitanje koje su mi postavljali mnogi početnici: Što je Alby Hub?</p>
+<p>Alby Hub je jednostavno sučelje LN čvora, s lijepim NWC funkcionalnostima za povezivanje raznih LN usluga i korištenje "on-the-go". Sam po sebi NIJE LN čvor, ali nudi alate za upravljanje LN čvorom iza. Kao LNbits ili Zeus.</p>
+<p>Da, znam, <a href="https://guides.getalby.com/user-guide/v/alby-account-and-browser-extension/alby-hub/getting-started">Alby tim već imate lijepu stranicu s dokumentacijom o tome</a>, njihov Github repozitorij također je dobro dokumentiran (odatle sam i ja bio inspiriran), ali s ovim mini vodičem želim ove informacije prenijeti na više ljudi, posebno mojim čitateljima kojima će možda biti malo komplicirano čitati sve te upute. Također je moj vodič posvećen određenoj postavci o kojoj malo tko govori: postavci naprednog načina rada.</p>
+<p>Također <a href="https://www.youtube.com/watch?v=2Z1BzwxdP4I">BTC Session napravio je lijep video vodič</a>, ali i taj ide jednostavnim putem korištenja Alby Cloud, a ne "napredni" način upravljanja vlastitim LN čvorom iza Alby Huba.</p>
+<p>Započnimo s objašnjenjem načina na koje možete pokrenuti Alby Hub:</p>
+<ul>
+<li>pomoću Alby Clouda, migracija vašeg postojećeg skrbničkog Alby računa</li>
+<li>upotrebom VPS-a/usluge hostinga s Alby Hubom, usmjeravanjem na vaš kućni/udaljeni LN čvor</li>
+<li>upotrebom novog računa, pokretanje Alby Huba na vašem lokalnom računalu, zajedno s vašim vlastitim LN čvorom. Ova se metoda također može pokrenuti kao samostalna LN aplikacija ili kao poslužitelj, ovisno o vašoj svakodnevnoj upotrebi.</li>
+</ul>
+<p>Testirao sam (gotovo) sve izvore financiranja za Alby Hub i napravit ću klasifikaciju. Također moram napomenuti da ga možete pokrenuti kao "privatni čvor" (bez usmjeravanja) ili kao javni čvor (usmjeravanje) s nekim složenijim koracima. U ovom vodiču govorit ću samo o "privatnom" načinu, načinu koji mogu koristiti svi početnici koji nisu toliko upoznati sa složenošću pokretanja javno izloženog čvora (domene, SSL certifikati, priključci usmjerivača itd.).</p >
+
+<p><img src="/assets/images/alby-intro.png" class="center"></p>
+
+<h3>OSNOVNI ZAHTJEVI</h3>
+<p>Smatramo da ste jednostavan korisnik, koji nemate nikakav (stolni) LN čvor, ništa, samo želite pokrenuti na samostalan način jednostavan LN čvor za svoje osobne potrebe i možda kasnije dati neke podračune svojoj obitelji i prijateljima.</p>
+<ul>
+<li>jednostavno računalo, čak i s 4 GB RAM-a, preporučeni Linux OS. Alby Hub također radi na Windows strojevima, ali to neću preporučiti.</li>
+<li>neko osnovno znanje o pokretanju nekih naredbenih redaka u Linux terminalu. Zapravo je samo kopiraj/zalijepi.</li>
+<li>mobilni telefon za povezivanje Alby Go.</li>
+</ul>
+
+<h2>KORACI POSTAVLJANJA</h2>
+<h3 style="color:Orange;">1. KORAK - Pripremite OS</h3>
+<p>Instalirajte Linux na to računalo, preporučio bih DebianOS (stabilniji je, ako želite taj stroj posvetiti samo Alby HUB + LN čvoru), ali radi na bilo kojoj drugoj distribuciji Linuxa, čak i ako imate normalan Linux Mint radna površina bi mogla savršeno dobro funkcionirati. Dakle, koristite bilo koji drugi Linux koji želite.</p>
+
+<h3 style="color:Orange;">2. KORAK - PRIPREMITE ALBY IZVOR FINANCIRANJA</h3>
+<p>Počnite ovdje: <a href="https://albyhub.com/">https://albyhub.com/</a> i odaberite "uradi sam". Tada ćete biti preusmjereni na prijavu s postojećim Alby računom (ako ga želite migrirati na samostalni) ili izradite novi, kako biste pokrenuli zaseban s novom instancom samostalnog skrbništva.</p>
+<p><img src="/assets/images/alby-login.png" class="center"></p>
+<p>Samo izradite novi i dobit ćete kod pozivnice za pokretanje vašeg Alby Huba.</p>
+<p>Idite na <a href="https://guides.getalby.com/user-guide/v/alby-account-and-browser-extension/alby-hub/alby-hub-flavors/desktop">“ Desktop setup”</a> upute i preuzmite izvršnu datoteku za OS koji koristite. Ne morate ništa instalirati, samo pokrenite izvršnu datoteku.</p>
+<p>Kada pokrenete aplikaciju Alby Hub, od vas će se tražiti da unesete pozivni kod. Ako već imate Alby račun (skrbnički), možete ga dobiti tamo, ali imajte na umu da ćete sve migrirati na svoj novi Alby Hub koji sami hostirate. Predlažem da počnete s novom Alby registracijom i nakon što vas se pita koju vrstu računa želite, možete odabrati samodomaćeni i dobiti taj pozivni kod, koji ćete kasnije morati unijeti u postavke svog Alby Huba. Kasnije možete promijeniti ili personalizirati LN adresu i <a href="https://guides.getalby.com/user-guide/v/alby-account-and-browser-extension/alby-account/use-your-lightning -address/own-domain">čak i za to koristite vlastitu domenu</a>.</p>
+<p>Alby Hub nudi razne izvore financiranja koje možete odabrati prvi put kada ga pokrenete. Vrlo jednostavno GUI sučelje koje vam pomaže da se trenutno povežete s vašim LN čvorom (izvorom financiranja).</p>
+<p>Podsjetnik: ovdje govorimo SAMO o korištenju načina rada "privatni čvor", a ne o javnom.</p>
+<p>Nakon što pokrenete Alby Hub, od vas će se prikazati ovaj zaslon na kojem morate odabrati "Napredno podešavanje" ako ne želite koristiti opciju Alby Cloud:</p>
+
+<p><img src="/assets/images/albyhub-advanced-setup.jpg" class="center"></p>
+<p>Tada ćete biti upitani da odaberete jedan od pozadinskih izvora financiranja:</p>
+
+<p><img src="/assets/images/albyhub-backend.jpg" class="center"></p>
+
+<h3>LDK pozadina</h3>
+<p>Najjednostavniji i izravni. Ako odaberete taj, automatski će instalirati instancu LDK čvora i odmah započeti, otvarajući jedan ili više kanala s ponuđenim LSP-ovima ili bilo kojim drugim čvorom koji želite. LDK neće koristiti toliko resursa jer je lagana LN implementacija. Također ne treba raditi pored punog bitcoin jezgrenog čvora, koristi javne Esplora poslužitelje. Ako želite pokrenuti svoj osobni Esplora poslužitelj, imate i tu opciju, ali morate više kopati po CLI konfiguracijama.</p>
+<h3>Phoenixd backend</h3>
+<p>Još jedan jednostavan i jasan izvor financiranja za Alby Hub. Samo što će ovaj koristiti likvidnost “zidanog vrta” od Acinqa i za to će naplatiti naknade od 1%. Ako se ne želite baviti upravljanjem kanalima, ovo je savršeno rješenje.</p>
+<p>Instalacija phoenixd-a prilično je jednostavna, samo slijedite ove jednostavne naredbene retke: <a href="https://phoenix.acinq.co/server/get-started">https://phoenix.acinq.co/server /započnite</a></p>
+<p>Kada se phoneixd pokrene i pokrene, idite na Alby Hub i unesite potrebni autorizacijski kod za taj lokalni poslužitelj:</p>
+
+<p><img src="/assets/images/albyhub-phoenixd.jpg" class="center"></p>
+
+<h3>LND pozadina</h3>
+<p>Složeniji i snažniji izvor financiranja, koji zahtijeva prethodnu instalaciju prije nego što ga želite povezati sa svojim Alby Hubom. Bilo bi lijepo kada bi Albyjev tim uključio automatiziranu instalaciju LND-a poput LDK-a.</p>
+<p>Ono što bih preporučio je instaliranje LND instance u <a href="https://docs.lightning.engineering/lightning-network-tools/lnd/enable-neutrino-mode-in-bitcoin-core"> “neutrino mode”</a> na istom računalu na kojem ćete pokrenuti Alby Hub. Na ovaj način ne morate pokretati i težak bitcoin core node, s punim blokovima koji će pojesti gotovo sve resurse stroja. I ne brinite, "neutrino mod" nije "briga o privatnosti", neutrino isporučuje samo filtere podataka blokova, ne čita nikakve xpub ili adrese, IP itd. Također ga koriste Zeus (ugrađen), Blixt, povjetarac.</p>
+<p><strong>Instaliranje lnd-a iz izvora</strong></p>
+<p>Kada su preliminarni koraci dovršeni, za instalaciju lnd, lncli i svih povezanih ovisnosti pokrenite sljedeće naredbe:</p>
+<pre><code>git klon https://github.com/lightningnetwork/lnd
+cd lnd
+napraviti instalaciju
+</code></pre>
+<p>Gornja naredba će instalirati trenutnu glavnu granu lnd. Ako želite instalirati označeno izdanje lnd-a (budući da glavna grana ponekad može biti nestabilna), tada <a href="https://github.com/lightningnetwork/lnd/releases">posjetite stranicu izdanja kako biste locirali najnovije izdanje. Pod pretpostavkom da je naziv izdanja v0.x.x</a>, tada možete kompajlirati ovo izdanje iz izvora s malom preinakom gornje naredbe:</p>
+<pre><code>git klon https://github.com/lightningnetwork/lnd
+cd lnd
+git checkout v0.x.x
+napraviti instalaciju
+</code></pre>
+<p><a href="https://docs.lightning.engineering/lightning-network-tools/lnd/run-lnd">Za više pojedinosti o instaliranju i konfiguriranju LND instance pročitajte ovdje.</a></ p>
+<p>U tom dokumentu također ćete pronaći sljedeću konfiguraciju lnd.conf za neutrinski način rada:</p>
+<pre><code>
+<p>bitcoin.node=neutrino
+<p>feeurl=https://nodes.lightning.computer/fees/v1/btc-fee-estimates.json</p>
+</code></pre>
+<p>Kada se LND pokrene, nastavite s <a href="https://docs.lightning.engineering/lightning-network-tools/lnd/macaroons">pouzdanjem makarona</a> i potreban je TLS certifikat za povezivanje Alby Huba bit će potrebni u sljedećem koraku:</p>
+
+<p><img src="/assets/images/albyhub-LND.jpg" class="center"></p>
+
+<p>otvorite terminal i upišite:</p>
+
+<pre><code>xxd -ps -u -c 1000 /home/user/.lnd/tls.cert</code></pre>
+<p>Dobit ćete HEX kod za svoj TLS certifikat i zalijepiti ga u Alby Hub - "TLS Certificate box".</p>
+
+<pre><code>xxd -ps -u -c 1000 /path/to.macaroon</code></pre>
+<p>Dobit ćete HEX kod za svoju datoteku makarona i zalijepiti je u Alby Hub - "Administrator Macaroon box".</p>
+<blockquote>
+<p style="color:Tomato;"><em>LND adresa - vaša lokalna LND instanca, npr. 127.0.0.1:10009</em></p>
+<p style="color:Tomato;"><em>TLS certifikat - pretvorite u HEX svoju tls.cert datoteku</em></p>
+<p style="color:Tomato;"><em>Administrator Macaroon - pretvorite u HEX svoj LND admin.macaroon</em></p>
+</blockquote>
+
+<h3>Pozadina Cashu Mint</h3>
+<p>Zanimljiva i prokleto jednostavna veza kao izvor financiranja. Ako se ne želite baviti svim gore navedenim LN čvorovima, likvidnošću upravljanja kanalima itd. ovo je jedno od najdirektnijih i najjednostavnijih rješenja.</p>
+<p>DA, skrbnički je, ali ako radite s malim iznosima, samo za donacije, nostr zaps, male uplate itd., ovo je dovoljno.</p>
+<p><img src="/assets/images/albyhub-cashu.jpg" class="center"></p>
+<p>Prema zadanim postavkama nudi se Minibits.cash mint, ali možete koristiti bilo koji drugi mint koji želite (pogledajte više ovdje: <a href="https://bitcoinmints.com/">https://bitcoinmints.com< /a>), ili svoju vlastitu kovnicu ako je imate.</p>
+<p>Jedini zabrinjavajući dio u vezi s ovim izvorom financiranja je to što ne postoji način da se naprave sigurnosne kopije tokena ili ključeva za ovaj izvor financiranja. Ne još, siguran sam da Alby tim radi na tome. Dakle, ako vaš Alby Hub bude uhvaćen, nemate sigurnosnu kopiju sredstava (ili je nisam mogao sam pronaći do sada).</p>
+
+<h3>Greenlight / Breez SDK pozadina</h3>
+<p>Ovo je Greenlight izvorna metoda financiranja, temeljena na kodu pozivnice i Breez API ključu. <a href="https://blockstream.com/lightning/greenlight/">Možete ih zatražiti ovdje</a>. Greenlight je čvor "Lightning-as-a-service", gdje korisnik drži ključeve, ali ne upravlja likvidnošću kanala i poslužiteljem.</p>
+<p><img src="/assets/images/albyhub-greenlight.jpg" class="center"></p>
+<p><img src="/assets/images/albyhub-breez.jpg" class="center"></p>
+
+<h3 style="color:Orange;">3. KORAK - POČNITE KORISTITI SVOJ ALBY HUB</h3>
+<p>Aaa i to je to! Nakon što povežete izvor financiranja, spremni ste koristiti svoj Alby Hub, povezujući ga s raznim LN aplikacijama s NWC-om, povezujući se s <a href="https://blog.getalby.com/alby-go-the- easiest-mobile-app-to-use-bitcoin-on-the-go/">Alby Go kao mobilni novčanik</a>, stvorite ograničene račune ili se čak ponašajte kao "ujak Jim" s posebnim implementacija <a href="https://blog.getalby.com/provide-easy-to-use-wallets-to-friends-and-family-with-alby-hub/">“Alby Jim”</a >.</p>
+<p>Samo idite na AlbyHub Apps, odaberite Alby Go i tada će se prikazati QR kod za skeniranje (jest NWC veza). Otvorite aplikaciju Alby Go na svom mobitelu i skenirajte taj QR kako biste dodali novi novčanik. Možete koristiti Alby Go s mnogo različitih izvora financiranja koji podržavaju NWC, kao što možete vidjeti u ovoj demonstraciji koju sam napravio.</p>
+<p>Ovdje sam napisao brzi vodič o <a href="https://stacker.news/items/816432/r/DarthCoin">korištenju "LN čvora za putovanja"</a> s jednokratnim Rizful LN čvorom + Alby Go, za postavljanje je potrebno samo 5 minuta.</p>
+
+<slika>
+ <img src="/assets/images/alby-go-multiple-accounts.JPG" class="center">
+ <figcaption>Kao što vidite, imam povezan svoj AlbyHub račun, ali i druga dva vanjska računa koji koriste NWC</figcaption>
+</figure>
+
+<p>Raznovrsnost veza s aplikacijama je nevjerojatna i jednostavna za postavljanje s priloženim uputama u sučelju.</p>
+
+<p><img src="/assets/images/alby-apps.jpg" class="center"></p>
+<p>Također možete dodati svoj AlbyHub novčanik u proširenje preglednika za stolno računalo Alby, zajedno s mnogim drugim izvorima, za jednostavan pristup i pretraživanje izravno iz preglednika vašeg stolnog računala. Upamtite također da svaki račun u proširenju Alby može biti zasebna NOSTR prijava, sa svojim vlastitim ključevima (generiranim ili uvezenim).</p>
+
+<slika>
+ <img src="/assets/images/alby-extension.JPG" class="center">
+ <figcaption>Evo primjera koliko vrsta računa možete uvesti u proširenje Alby</figcaption>
+</figure>
+
+<h2>VIŠE RESURSA:</h2>
+<ul>
+<li><a href="https://github.com/getAlby/hub?tab=readme-ov-file#deploy-it-yourself">Implementirajte ga sami</a> - Alby Github upute ako želite pokrenite ga kao poslužitelj</li>
+<li><a href="https://stacker.news/items/698497/r/DarthCoin">Vrlo lijep vodič o konfiguriranju i povezivanju Alby Huba s računom Stacker News</a></li>
+<li><a href="https://nodana.io/services/alby-hub">Pokrenite svoj Alby Hub s Nodanom (usluga hostinga)</a></li>
+<li><a href="https://medium.com/@michael.leigh.stewart/setting-up-a-lightning-network-node-with-alby-hub-alby-cloud-4895e97624f8">Pokrenite Alby Hub s Alby Cloudom (usluga hostinga)</a></li>
+<li><a href="https://blog.getalby.com/provide-easy-to-use-wallets-to-friends-and-family-with-alby-hub/">Izradite podračune za svoje članovi obitelji ili prijatelji na vašem Alby Hubu</a></li>
+</ul>
+</body>
+</html>
+</article>
