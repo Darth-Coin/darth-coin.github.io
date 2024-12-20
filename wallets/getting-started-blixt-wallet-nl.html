@@ -1,0 +1,293 @@
+---
+layout: default
+title: Aan de slag met Blixt Mobile Node
+---
+<article>
+<!DOCTYPE html>
+<html lang="nl">
+<meta name="description" content="Bitcoin- en Lightning-handleidingen: aan de slag met Blixt Wallet Mobile Node">
+<body>
+<a href="/wallets/getting-started-blixt-wallet-en.html"><img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/getting-started-blixt-wallet-es.html"><img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/getting-started-blixt-wallet-de.html"><img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/getting-started-blixt-wallet-fr.html"><img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> | 
+<a href="/wallets/getting-started-blixt-wallet-it.html"><img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/getting-started-blixt-wallet-hr.html"><img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/getting-started-blixt-wallet-hi.html"><img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<blockquote style="color:Tomato;"><em>
+<p>Oorspronkelijk geplaatst op <a href="https://darthcoin.substack.com/p/getting-started-with-blixt-mobile">Substack</a> op 22 nov. 2022</p>
+<p>Hier bijgewerkt op 20 dec. 2024</p>
+</em></blockquote>
+
+<h3>Hoe u een krachtige LN-node op uw mobiel kunt gebruiken, self-custodial, open source, eenvoudige stapsgewijze handleiding.</h3>
+<p>Deze handleiding is bedoeld voor alle nieuwe gebruikers die Bitcoin Lightning Network (LN) op een GRATIS OPEN SOURCE, VOLLEDIGE NON-CUSTODIAL manier willen gaan gebruiken.</p>
+<p>Met <a href="https://blixtwallet.com/">Blixt Wallet</a>, een volledige LN-node op uw mobiel, waar u ook bent zijn.</p>
+<p>Als u Bitcoin Lightning Network nog nooit hebt gebruikt, lees dan voordat u begint <a href="/beginner/ln-airport-analogy-nl.html">deze eenvoudige uitleg over Lightning Network (LN)</a>.</p>
+
+<h3>BELANGRIJKE ASPECTEN:</h3>
+<ol>
+<li>
+<p>Blixt is een privéknooppunt, GEEN routingknooppunt! Houd dat in gedachten.</p>
+<p>Dat betekent dat alle LN-kanalen in Blixt onaangekondigd worden doorgegeven aan de LN-grafiek (zogenaamde privékanalen). Dat betekent dat DIT knooppunt GEEN ROUTING van andere betalingen via het Blixt-knooppunt zal uitvoeren.</p>
+<p>Dit Blixt-knooppunt is NIET voor routing, ik herhaal. Is voornamelijk om uw eigen LN-kanalen te kunnen beheren en uw LN-betalingen privé te kunnen doen, wanneer u dat nodig hebt.</p>
+<p>Deze Blixt-node moet online zijn en ALLEEN gesynchroniseerd zijn VOORDAT u uw transacties gaat doen. Daarom ziet u bovenaan een pictogram dat de synchronisatiestatus aangeeft. Het duurt slechts enkele ogenblikken, afhankelijk van hoe lang u het offline hebt gehouden.</p>
+</li>
+<li>Blixt gebruikt LND (aezeed) als wallet-backend, dus probeer geen andere typen bitcoin-wallets erin te importeren. <a href="https://coldbit.com/what-types-of-mnemonic-seeds-are-used-in-bitcoin/">Hier hebt u de typen wallet-mnemonic seeds uitgelegd</a>. En hier is <a href="https://walletsrecovery.org/">een uitgebreidere lijst van alle typen wallets</a>. Dus als je eerder een LND-knooppunt had, kun je de seed en de backup.channels importeren in Blixt, <a href="/nodes/shtf-restore-lnd-node-nl.html">zoals uitgelegd in deze handleiding</a>.</li>
+<li>Belangrijke links voor Blixt - zie ze aan het einde van deze handleiding, voeg ze toe aan je bladwijzers:</li>
+</ol>
+<p><img src="/assets/images/blixt-darth-moms.jpg" class="center"></p>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">Blixt - Eerste contact</h3>
+<p>Dus... Darths moeder besloot om LN te gaan gebruiken met Blixt. Moeilijke beslissing, maar verstandig. Blixt is alleen voor slimme mensen en mensen die echt meer willen leren, diepgaand gebruik van LN.</p>
+<p>Darth waarschuwt zijn moeder:</p>
+
+<blockquote style="color:Tomato;"><em>
+<p>"Mam, als je Blixt LN Node gaat gebruiken, moet je eerst weten wat Lightning Network is en hoe het werkt, op zijn minst op basisniveau. <a href="https://blixtwallet.github.io/faq#what-is-ln">Hier heb ik een eenvoudige lijst met bronnen over Lightning Network samengesteld</a>. Lees ze eerst."</p>
+</em></blockquote>
+
+<p>Darths moeder las de bronnen en deed haar eerste stap: installeer Blixt op haar gloednieuwe Android-apparaat. Blixt is ook beschikbaar voor iOS en macOS (desktop). Maar die zijn niet voor Darths moeder... Desalniettemin wordt aanbevolen om een ​​nieuwere versie van Android te gebruiken, ten minste 9 of 10 voor betere compatibiliteit en ervaring. Het uitvoeren van een volledige LN-node op een mobiel apparaat is geen gemakkelijke taak en kan wat ruimte (minimaal 600 MB) en geheugen in beslag nemen.</p>
+<p>Zodra u Blixt opent, geeft het scherm "Welcome" u enkele opties:</p>
+
+<p><img src="/assets/images/blixt-welcome-start.jpg" class="center"></p>
+
+<p>In de rechterbovenhoek ziet u 3 stippen die een menu activeren met:</p>
+<ul>
+<li>"enable Tor" - gebruiker kan starten met Tor-netwerk, met name als hij een oude LND-node wil herstellen die alleen met Tor-peers draaide.</li>
+<li>"Set Bitcoin node" - als de gebruiker rechtstreeks verbinding wil maken met zijn eigen node om de blokken via Neutrino te synchroniseren, kan hij dit direct doen vanaf het welkomstscherm. Deze optie is ook goed als je internetverbinding of Tor niet zo stabiel is om verbinding te maken met de standaard bitcoin node (node.blixtwallet.com).</li>
+<li>Binnenkort wordt de taal daar toegevoegd, zodat de gebruiker direct kan beginnen met een taal die comfortabel is. Als je wilt bijdragen aan dit open source project met vertalingen in andere talen, <a href="https://explore.transifex.com/blixt-wallet/blixt-wallet/">meld je dan hier aan</a>.</li>
+</ul>
+
+<h3>OPTIE A - Nieuwe wallet aanmaken</h3>
+<p>Als u ervoor kiest om “een nieuwe wallet te maken”, wordt u direct doorgestuurd naar het hoofdscherm van Blixt Wallet.</p>
+<p>Dit is uw “cockpit” en ook de “Main LN Wallet”, dus wees u ervan bewust dat u alleen het saldo van uw LN wallet ziet. De onchain wallet wordt apart weergegeven (zie C).</p>
+
+<p><img src="/assets/images/blixt-main-screen.jpg" class="center"></p>
+
+<p>A - Blixt blokkeert sync indicator icoon. Dit is het belangrijkste voor een LN node: gesynchroniseerd worden met het netwerk. Als dat icoon er nog steeds werkt, betekent dit dat uw node NIET KLAAR IS! Dus wees geduldig, vooral voor de eerste initiële synchronisatie. Het kan 6-8 minuten duren, afhankelijk van uw apparaat en internetverbinding.</p>
+<p>U kunt erop klikken en de status van de synchronisatie bekijken:</p>
+
+<p><img src="/assets/images/blixt-initial-sync.jpg" class="center"></p>
+
+<p>U kunt ook op de knop "Show LND Log" (LND-logboek weergeven) (A) klikken als u meer technische details van het LND-logboek in realtime wilt zien en lezen. Dit is erg handig voor het debuggen en om meer te leren over hoe LN werkt.</p>
+<p>B - Hier hebt u toegang tot alle Blixt-instellingen, en dat zijn er nogal wat! Blixt biedt veel uitgebreide functies en opties om uw LN-knooppunt als een professional te beheren. Al deze opties worden gedetailleerd uitgelegd in de “<a href="https://blixtwallet.github.io/features#blixt-options">Blixt Features Page</a> - Options Menu”.</p>
+<p>C - Hier heb je het “Magic Drawer” menu, <a href="https://blixtwallet.github.io/features#blixt-drawer">ook hier gedetailleerd uitgelegd</a>. Hier is de “Onchain Wallet” (B), Lightning Channels (C), Contacts, Channels status icoon (A), Keysend (D).</p>
+
+<p><img src="/assets/images/blixt-drawer.jpg" class="center"></p>
+
+<p>D - Is het helpmenu, met links naar FAQ/Guides pagina, contact developer, Github pagina en Telegram support group.</p>
+<p>E - Geef je eerste BTC adres op, waar je je eerste testing sats kunt storten. DIT IS OPTIONEEL! Als u rechtstreeks op dat adres stort, opent u een LN-kanaal naar Blixt Node. Dat betekent dat u uw gestorte sats in een andere onchain-transactie (tx) ziet gaan om dat LN-kanaal te openen. U kunt dat controleren in de Blixt onchain-wallet (zie punt C) door te klikken op het TX-menu rechtsboven.</p>
+
+<p><img src="/assets/images/blixt-onchain-tx-logs.jpg" class="center"></p>
+
+<p>Zoals u kunt zien in het Onchain-transactielogboek, zijn de stappen zeer gedetailleerd en geven ze aan waar de sats naartoe gaan (storten, openen, sluiten kanaal).</p>
+<p>AANBEVELING:</p>
+<p>Na het testen van verschillende situaties kwamen we tot de conclusie dat het veel efficiënter is om kanalen te openen tussen 1 en 5 M sats. Kleinere kanalen raken snel uitgeput en betalen een hoger percentage aan kosten vergeleken met grotere kanalen.</p>
+<p>F - Geef uw belangrijkste Lightning-walletbalans aan. Dit is NIET uw totale Blixt-walletbalans, het vertegenwoordigt alleen de sats die u in Lightning-kanalen hebt, beschikbaar om te verzenden. Zoals eerder aangegeven, is de Onchain-wallet apart. Houd dit aspect in gedachten. De Onchain-wallet is om een ​​belangrijke reden apart: het wordt voornamelijk gebruikt voor het openen/sluiten van LN-kanalen.</p>
+<p>Oké, dus nu heeft Darth's moeder wat sats gestort op dat Onchain-adres dat op het hoofdscherm wordt weergegeven. Het wordt aanbevolen om, wanneer u dat doet, uw Blixt-app een tijdje online en actief te houden, totdat de BTC-transactie door de miners in het eerste blok is opgenomen.</p>
+<p>Daarna kan het 20-30 minuten duren voordat het volledig is bevestigd en het kanaal open is en u het in de Magic Drawer - Lightning Channels als actief ziet. Ook de kleine gekleurde stip boven op de lade, als deze groen is, geeft aan dat uw LN-kanaal online is en klaar om te worden gebruikt om sats via LN te verzenden.</p>
+<p>Het adres en het welkomstbericht verdwijnen. Het is nu niet meer nodig om een ​​automatisch kanaal te openen. U kunt de optie ook deactiveren in het menu Instellingen.</p>
+<p>Het is tijd om verder te gaan en andere functies en opties te testen om LN-kanalen te openen.</p>
+<p>Laten we nu een ander kanaal openen met een andere node-peer. De Blixt-community heeft <a href="https://github.com/hsjoberg/blixt-wallet/issues/1033">een lijst met goede nodes samengesteld om te gebruiken met Blixt</a>.</p>
+<p><strong>Procedure om een ​​LN-kanaal te openen in Blixt</strong></p>
+<p>Dit is heel eenvoudig, neem slechts een paar stappen en een beetje geduld:</p>
+<ul>
+<li>Ga naar de <a href="https://github.com/hsjoberg/blixt-wallet/issues/1033">Blixt Community</a>-lijst met peers</li>
+<li>Selecteer een node en klik op de naamtitellink, de Amboss-pagina wordt geopend</li>
+<li>Klik om de QR-code voor het URI-adres van de node weer te geven</li>
+</ul>
+
+<p><img src="/assets/images/blixt-nodeid-qr.jpg" class="center"></p>
+
+<p>Open Blixt en ga naar de bovenste lade - Lightning Channels en klik op de knop "+"</p>
+
+<p><img src="/assets/images/blixt-open-channel.jpg" class="center"></p>
+
+<p>Klik nu op (A) camera om de QR-code van de Amboss-pagina te scannen en de node-details worden ingevuld. Voeg het aantal sats toe voor het kanaal dat u wilt en selecteer vervolgens het tarief voor de tx. U kunt het automatisch laten (B) voor een snellere bevestiging of het handmatig aanpassen door de knop te verschuiven. U kunt ook lang op het nummer drukken en het naar wens bewerken.</p>
+<p>Voer niet minder dan 1 sat/vbyte in! Meestal is het beter om de <a href="https://mempool.space/">mempool-kosten</a> te raadplegen voordat je een kanaal opent en een geschikt tarief te selecteren.</p>
+<p>Klaar, klik nu op de knop "open kanaal" en wacht op 3 bevestigingen, dat duurt meestal 30 minuten (1 blok ongeveer elke 10 minuten).</p>
+<p>Zodra het is bevestigd, zie je het kanaal actief in je sectie "Lightning Channels".</p>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">Blixt - Second Contact</h3>
+<p>Oké, nu hebben we een LN-kanaal met alleen UITGAANDE liquiditeit. Dat betekent dat we alleen kunnen VERZENDEN, we kunnen nog steeds geen sats via LN ONTVANGEN.</p>
+
+<p><img src="/assets/images/darth-read-guides.jpg" class="center"></p>
+
+<p>Waarom? Heb je de in het begin aangegeven handleidingen gelezen? Nee? Ga terug en lees ze. Het is erg belangrijk om te begrijpen hoe LN-kanalen werken.</p>
+<p><img src="/assets/images/blixt-channel-liquidity.jpg" class="center"></p>
+<p>Zoals je in dit voorbeeld kunt zien, heeft het kanaal dat met de eerste storting is geopend, niet te veel INBOUND-liquiditeit ("Kan ontvangen"), maar wel veel OUTBOUND-liquiditeit ("Kan verzenden").</p>
+<p>Dus welke opties heb je als je meer sats via LN wilt ontvangen?</p>
+<ul>
+<li>Geef wat sats uit van een bestaand kanaal. Ja, LN is een betalingsnetwerk van Bitcoin, dat voornamelijk wordt gebruikt om je sats sneller, goedkoper, privé en gemakkelijk uit te geven. LN is GEEN hodling-manier, daarvoor heb je de onchain-wallet.</li>
+<li>Ruil wat sats terug in je onchain-wallet met behulp van een submarine swap-service. Op deze manier geef je je sats niet uit, maar geef je ze terug aan je eigen onchain wallet. Hier kun je in detail enkele methoden zien, in de <a href="https://blixtwallet.github.io/guides">Blixt Guides Page</a>.</li>
+<li><p>Open een INBOUND-kanaal van een willekeurige LSP-provider. Hier is een videodemo over hoe je LNBig LSP kunt gebruiken om een ​​inbound-kanaal te openen.</p>
+
+<center>
+<video width="320" height="640" controls>
+<source src="/assets/media/blixt-lnbig.mp4" type="video/mp4">
+</video>
+</center>
+
+<p>Dat betekent dat je een kleine vergoeding betaalt voor een LEEG kanaal (aan jouw kant) en dat je meer sats in dat kanaal kunt ontvangen. Als je een handelaar bent die meer ontvangt dan uitgeeft, is dat een goede optie. Ook als je sats koopt via LN, met Robosats of een andere LN-beurs.</p></li>
+<li>Open een Dunder-kanaal, met een Blixt-knooppunt of een andere Dunder LSP-provider. Een Dunder-kanaal is een eenvoudige manier om wat INBOUND-liquiditeit te krijgen, maar tegelijkertijd stort je wat sats in dat kanaal. Is ook goed omdat het het kanaal opent met een <a href="https://en.bitcoin.it/wiki/UTXO">UTXO</a> die niet van je Blixt-wallet is. Dat voegt wat privacy toe. Is ook goed omdat, als je geen sats in een onchain-wallet hebt, om een ​​normaal LN-kanaal te openen, maar je hebt ze in een andere LN-wallet, je gewoon vanuit die andere wallet kunt betalen via LN de opening en de storting (aan jouw kant) van dat Dunder-kanaal. <a href="https://github.com/hsjoberg/dunder-lsp">Meer details over hoe Dunder werkt en hoe je je eigen server kunt runnen hier</a>.</li>
+</ul>
+
+<p><img src="/assets/images/blixt-dunder-channels.jpg" class="center"></p>
+
+<p>Hier zijn de stappen om het openen van een Dunder-kanaal te activeren:</p>
+<ul>
+<li>Ga naar Instellingen, activeer in het gedeelte "Experimenten" het vakje voor "Dunder LSP inschakelen".</li>
+<li>Zodra je dat hebt gedaan, ga je terug naar het gedeelte "Lightning Network" en zie je dat de optie "Dunder LSP-server instellen" is verschenen. Daar staat standaard "https://dunder.blixtwallet.com", maar je kunt dit wijzigen met elk ander Dunder LSP-provideradres. <a href="https://github.com/hsjoberg/blixt-wallet/issues/1033">Hier is een Blixt-communitylijst</a> met knooppunten die Dudner LSP-kanalen voor je Blixt kunnen leveren.</li>
+<li>Nu kun je naar het hoofdscherm gaan en op de knop "Ontvangen" klikken. Volg dan deze procedure <a href="https://blixtwallet.github.io/guides#guide-lsp">die in deze handleiding wordt uitgelegd</a>.</li>
+</ul>
+<p>OK, nadat het Dunder-kanaal is bevestigd (duurt een paar minuten), heb je uiteindelijk 2 LN-kanalen: één die aanvankelijk is geopend met de automatische piloot (kanaal A) en één met meer inkomende liquiditeit, geopend met Dunder (kanaal B).</p>
+
+<p><img src="/assets/images/blixt-channels-screen.jpg" class="center"></p>
+
+<p>Goed, nu ben je klaar om te gaan, om genoeg sats via LN te verzenden en ontvangen!</p>
+<p>GELUKKIGE BITCOIN LIGHTNING!</p>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">Blixt - Derde contact</h3>
+<p>Onthoud, in hoofdstuk één "Eerste contact" waren er 2 opties in het Welkomstscherm:</p>
+<ul>
+<li>Optie A - Nieuwe wallet aanmaken</li>
+<li>Optie B - Wallet herstellen</li>
+</ul>
+<p>Laten we het nu hebben over hoe je een Blixt-wallet of een andere LND-gecrashte node kunt herstellen. Dit is wat technischer, maar let op. Dat is niet zo moeilijk.</p>
+
+<h3>OPTIE B - Herstel wallet</h3>
+<p>In het verleden heb ik een speciale handleiding geschreven over <a href="/nodes/shtf-restore-lnd-node-nl.html">hoe je een gecrashte Umbrel-node kunt herstellen</a>, waarin ik ook de methode noemde om Blixt te gebruiken als snel herstelproces, met behulp van het seed + channel.backup-bestand van Umbrel.</p>
+<p>Ik heb ook een handleiding geschreven over hoe je je Blixt-node kunt herstellen of je Blixt naar een ander apparaat kunt migreren, <a href="https://blixtwallet.github.io/faq#blixt-restore">hier</a>.</p>
+
+<p><img src="/assets/images/blixt-restore.jpg" class="center"></p>
+
+<p>Maar laten we dit proces in eenvoudige stappen uitleggen. Zoals je in de afbeelding hierboven kunt zien, zijn er 2 dingen die je moet doen om je vorige Blixt/LND-knooppunt te herstellen:</p>
+<ul>
+<li>het bovenste vak is waar je alle 24 woorden van je seed (oude/dode knooppunt) moet invullen</li>
+<li>onder zijn er twee knopopties om het channel.backup-bestand in te voegen/uploaden, eerder opgeslagen vanaf je oude Blixt/LND-knooppunt. Het kan van een lokaal bestand zijn (je uploadt het eerder naar je apparaat) of van een Google Drive/iCloud-locatie op afstand. Blixt heeft deze optie om je kanaalback-up rechtstreeks op een Google/iCloud-station op te slaan. Zie meer details op <a href="https://blixtwallet.github.io/features#blixt-options">Blixt Features Page</a>.</li>
+</ul>
+<p>Desalniettemin, als je eerder geen open LN-kanalen had, hoef je geen channels.backup-bestand te uploaden. Voer gewoon de 24 woorden seed in en klik op de herstelknop.</p>
+<p>Vergeet niet om Tor te activeren via het bovenste 3-puntsmenu, zoals we hebben uitgelegd in het gedeelte Optie A. Dat is het geval wanneer je ALLEEN Tor-peers had en niet via clearnet (domein/IP) kon worden gecontacteerd. Anders is het niet nodig.</p>
+<p>Een andere handige functie is om een ​​specifieke Bitcoin-node in te stellen via dat bovenste menu. Standaard synchroniseert het blokken van node.blixtwallet.com (neutrino-modus), maar je kunt elke andere Bitcoin-node instellen die neutrino-synchronisatie biedt.</p>
+<p>Dus zodra je die opties hebt ingevuld en op de herstelknop hebt geklikt, zal Blixt eerst de blokken via Neutrino synchroniseren, zoals we hebben uitgelegd in het hoofdstuk Eerste contact. Wees dus geduldig en bekijk het herstelproces in het hoofdscherm door op het synchronisatiepictogram te klikken.</p>
+
+<p><img src="/assets/images/blixt-restore-process.jpg" class="center"></p>
+
+<p>Zoals u in dit voorbeeld kunt zien, zijn de bitcoinblokken 100% gesynchroniseerd (A) en is het herstelproces in gang (B). Dat betekent dat de LN-kanalen die u eerder had, worden gesloten en de fondsen worden teruggezet in uw Blixt onchain-wallet.</p>
+<p>Dit proces kost tijd! Wees dus geduldig en probeer uw Blixt actief en online te houden. De eerste synchronisatie kan 6-8 minuten duren en de sluitende kanalen kunnen 10-15 minuten duren. Zorg er dus voor dat het apparaat goed is opgeladen.</p>
+<p>Zodra dit proces is gestart, kunt u in de Magic Drawer - Lightning Channels de status van elk van uw vorige kanalen controleren, waarbij wordt aangegeven dat deze de status "in afwachting van sluiten" hebben. Zodra elk kanaal is gesloten, kunt u de sluitende tx in de onchain-wallet zien (zie Magic Drawer - Onchain) en het tx-menulogboek openen.</p>
+
+<p><img src="/assets/images/blixt-closed-channels.jpg" class="center"></p>
+
+<p>Het is ook goed om te controleren en toe te voegen als ze er niet zijn, uw eerdere peers die u had in uw oude LN-knooppunt. Ga dus naar het menu Instellingen, naar "Lightning Network" en ga naar de optie "Show Lightning Peers".</p>
+
+<p><img src="/assets/images/blixt-add-peers.jpg" class="center"></p>
+
+<p>In het gedeelte ziet u de peers waarmee u op dat moment bent verbonden en u kunt er meer toevoegen, het is beter om die toe te voegen waarmee u eerder kanalen had. Ga gewoon naar de <a href="https://amboss.space/">Amboss-pagina</a>, zoek naar de aliassen of nodeID's van je peer nodes en scan hun node-URI.</p>
+
+<p><img src="/assets/images/blixt-add-peers-amboss.jpg" class="center"></p>
+
+<p>Zoals je kunt zien in de afbeelding hierboven, zijn er 3 aspecten:</p>
+<p>A - vertegenwoordigt de clearnet node-adres-URI (domein/IP)</p>
+<p>B - vertegenwoordigt de Tor onion node-adres-URI (.onion)</p>
+<p>C - is de QR-code om te scannen met je Blixt-camera of de kopieerknop.</p>
+<p>Deze node-adres-URI moet je toevoegen aan je peers-lijst. Wees je er dus van bewust dat alleen de node alias naam of nodeID niet genoeg is.</p>
+<p>Nu kun je naar Magic Drawer (bovenste linker menu) - Lightning Channels gaan, en je kunt zien op welke maturity block height de fondsen worden teruggestort naar je onchain adres.</p>
+
+<p><img src="/assets/images/blixt-channel-status.jpg" class="center"></p>
+
+<p>Dat bloknummer 764272 is wanneer de fondsen bruikbaar zijn in je bitcoin onchain adres. En het kan tot 144 blokken duren vanaf het eerste bevestigingsblok totdat ze worden vrijgegeven. <a href="https://mempool.space/">Controleer dat dus in de mempool</a>.</p>
+<p>En dat is alles. Wacht gewoon geduldig tot alle kanalen gesloten zijn en het geld terug in je onchain wallet staat.</p>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">Blixt - Fourth Contact</h3>
+<p>Dit hoofdstuk gaat over maatwerk en hoe u Blixt Node beter leert kennen. Ik zal niet alle beschikbare functies beschrijven, er zijn er te veel en ze zijn al uitgelegd op de <a href="https://blixtwallet.github.io/features">Blixt-functiespagina</a>.</p>
+<p>Maar ik zal er een paar noemen die nodig zijn om verder te gaan met het gebruik van uw Blixt en een geweldige ervaring te hebben.</p>
+
+<h3>A - Naam (NameDesc)</h3>
+
+<p><img src="/assets/images/blixt-name-desc.jpg" class="center"></p>
+
+<p><a href="https://github.com/lightning/blips/blob/master/blip-0011.md">De NamDesc</a> is een standaard voor het doorgeven van de "ontvangernaam" in BOLT11-facturen.</p>
+<p>Dit kan elke naam zijn en kan op elk moment worden gewijzigd.</p>
+<p>Deze optie is erg handig in verschillende gevallen, wanneer u een naam samen met de factuurbeschrijving, zodat de ontvanger een hint kan krijgen van wie die sats heeft ontvangen. Dit is volledig optioneel en ook in het betalingsscherm moet de gebruiker het vakje aanvinken om de aliasnaam te verzenden.</p>
+<p>Hier is een voorbeeld van hoe het eruit zou zien als u <a href="https://chat.blixtwallet.com/">chat.blixtwallet.com</a></p> gebruikt
+
+<p><img src="/assets/images/blixt-chat.png" class="center"></p>
+
+<p>Dit is een ander voorbeeld van het verzenden naar een andere wallet-app die NameDesc ondersteunt:</p>
+
+<p><img src="/assets/images/blixt-sbw-namedesc.jpg" class="center"></p>
+
+<h3>B - Lightning Box</h3>
+<p>Beginnend met de nieuwe v0.6.9-420 <a href="https://github.com/hsjoberg/blixt-wallet/releases/tag/v0.6.9-420">onlangs aangekondigd</a>, introduceerde Blixt een nieuwe krachtige functie voor Lightning Address in Blixt.</p>
+<p>Deze nieuwe functie is optioneel en staat niet standaard AAN!</p>
+<p>Op dit moment wordt de standaard LN Box uitgevoerd door de Blixt-server en biedt een @blixtwallet.com LN-adres. Maar IEDEREEN met een LND-openbaar knooppunt kan de Lightning Box-server uitvoeren en een LN-adres aanbieden voor zijn eigen domein, self-custody.</p>
+<p>Op dit moment stuurt de Blixt-server alleen de betalingen door die naar LN-adressen @blixtwallet.com worden verzonden naar de Blixt-gebruikers die hun LN-adres hebben ingesteld. Gebruikers moeten hun Blixt node wallet in "persistent mode" zetten om deze betalingen te ontvangen op hun @blixtwallet.com LN-adressen.</p>
+<p>Zie in de release notes de video demo over hoe je je LN-adres in Blixt instelt.</p>
+<p>Dit LN-adres geïmplementeerd in de Blixt wallet app, is als een chat via LN, direct en leuk, en ondersteunt ook <a href="https://github.com/lnurl/luds/blob/luds/18.md">LUD-18</a> (het toevoegen van een aliasnaam aan een betaling). Je kunt al je reguliere LN-adressen die je vaak gebruikt toevoegen aan je contactenlijst en deze bij de hand hebben om te chatten. Nu kan Blixt worden beschouwd als een volledige LN-chat-app 😂😂.</p>
+<p>Een andere handige functie is de volledige ondersteuning voor LUD-18 (dat ook <a href="https://stacker.news/r/DarthCoin">Stacker.News</a> en anderen ondersteunen).</p>
+
+<p><img src="/assets/images/blixt-main-screen2.jpg" class="center"></p>
+
+<p>Zoals je kunt zien in de schermafbeelding hierboven, werd bij het verzenden vanaf een Stacker News-account het logo + LN-adres + bericht mooi weergegeven. Hetzelfde geldt voor het verzenden vanaf Blixt, u kunt uw Blixt LN-adres toevoegen of gewoon de aliasnaam (eerder ingesteld in de Blixt-instellingen) of zelfs beide.</p>
+<p>Deze optie van LUD-18 kan ook handig zijn voor abonnementsservices, waarbij de gebruiker een specifieke alias kan verzenden (is NIET uw node-alias of uw echte naam!) en op basis daarvan kunt u worden geregistreerd of een specifiek bericht terugkrijgen of wat dan ook. Het koppelen van een aliasnaam (<a href="https://github.com/lnurl/luds/blob/luds/18.md">LUD-18</a>) + opmerking (<a href="https://github.com/lnurl/luds/blob/luds/12.md">LUD-12</a>) aan een LN-betaling kan meerdere use cases hebben!</p>
+<p>Hier is de code voor <a href="https://github.com/hsjoberg/lightning-box">Lightning Box</a> als u het voor uzelf, voor uw familie en vrienden, op uw eigen node uitvoert.</p>
+<p>Hier kunt u ook de <a href="https://github.com/hsjoberg/dunder-lsp">LSP Dunder-server</a> uitvoeren voor mobiele Blixt-nodes en liquiditeit bieden voor Blixt-gebruikers als u een goede openbare LN-node hebt (werkt alleen met LND).</p>
+
+<h3>C - Back-up LN-kanalen en seed words</h3>
+<p>Dit is een zeer belangrijke functie!</p>
+<p>Na het openen of sluiten van een LN-kanaal moet u een back-up maken. Dit kan handmatig worden gedaan door een klein bestand op te slaan op een lokaal apparaat (meestal downloadmap) of door een Google Drive- of iCloud-account te gebruiken.</p>
+
+<p><img src="/assets/images/blixt-backup.jpg" class="center"></p>
+
+<p>Ga naar Blixt-instellingen - Wallet-sectie. Daar hebt u de opties om alle belangrijke gegevens voor uw Blixt-wallet op te slaan:</p>
+<ul>
+<li>“Show mnemonic” - toont de 24 woorden seed om ze op te schrijven</li>
+<li>“Remove mnemonic from device” - dit is optioneel en gebruik het alleen als je de seed woorden echt van je apparaat wilt verwijderen. Dit wist NIET je wallet, alleen de seed. Maar wees gewaarschuwd! Er is geen manier om ze te herstellen als je ze niet eerst hebt opgeschreven.</li>
+<li>“Export channel backup” - deze optie slaat een klein bestand op je lokale apparaat op, meestal in de map “downloads”, van waaruit je het kunt halen en buiten je apparaat kunt verplaatsen, voor veilige bewaring.</li>
+<li>“Verify channel backup” - dit is een goede optie als je Google Drive of iCloud gebruikt om de integriteit van de back-up op afstand te controleren.</li>
+<li>“Google Drive channel backup” - slaat het back-upbestand op in je persoonlijke Google Drive. Het bestand is gecodeerd en wordt opgeslagen in een aparte repository dan je gebruikelijke Google-bestanden. Er zijn dus geen zorgen dat het door iedereen kan worden gelezen. Hoe dan ook, dat bestand is totaal nutteloos zonder de seed-woorden, dus niemand kan je geld uit dat bestand halen.</li>
+</ul>
+<p>Ik zou het volgende aanbevelen voor deze sectie:</p>
+<ul>
+<li>Gebruik een wachtwoordbeheerder om je seed- en back-upbestand veilig op te slaan. KeePass of Bitwarden zijn daar erg goed voor en kunnen worden gebruikt op multiplatform en zelf gehost of offline.</li>
+<li>MAAK DE BACK-UP ELKE KEER dat je een kanaal opent of sluit. Dat bestand wordt bijgewerkt met de kanaalinfo. Het is niet nodig om dit te doen na elke transactie die je hebt gedaan op LN. De kanaalback-up slaat die info niet op, maar alleen de status van het kanaal.</li>
+</ul>
+
+<p><img src="/assets/images/blixt-always-backup.jpg" class="center"></p>
+
+<h3>Conclusie</h3>
+<p>Oké, er zijn nog veel meer geweldige functies die Blixt biedt, ik laat je ze één voor één ontdekken en veel plezier.</p>
+<p>Deze app wordt echt onderschat, vooral omdat hij niet wordt ondersteund door VC-financiering, maar door de community wordt aangestuurd en met liefde en passie voor Bitcoin en Lightning Network is gebouwd.</p>
+<p>Deze mobiele LN-node, Blixt, is een zeer krachtige tool in handen van veel gebruikers, als ze weten hoe ze hem goed moeten gebruiken. Stel je voor dat je met een LN-node in je eigen zak over de wereld loopt en niemand zal het weten.</p>
+<p>En dan hebben we het nog niet eens over alle andere rijke functies die erbij horen, die maar weinig of geen andere wallet-apps kunnen bieden.</p>
+<p>Ondertussen zijn hier alle links over deze geweldige Bitcoin Lightning Node:</p>
+<ul>
+<li><a href="https://blixtwallet.com/">Officiële webpagina van Blixt</a></li>
+<li><a href="https://github.com/hsjoberg/blixt-wallet/">Blixt Github-pagina</a></li>
+<li><a href="https://blixtwallet.github.io/features">Blixt-functiespagina</a> - één voor één elke functie en functionaliteit uitleggen.</li>
+<li><a href="https://blixtwallet.github.io/faq">Blixt FAQ-pagina</a> - Lijst met vragen en antwoorden en probleemoplossing van Blixt</li>
+<li><a href="https://blixtwallet.github.io/guides">Blixt Guides-pagina</a> - demo's, videotutorials, extra handleidingen en use cases voor Blixt</li>
+<li>Downloaden: <a href="https://play.google.com/store/apps/details?id=com.blixtwallet">Android Play Store</a> | <a href="https://testflight.apple.com/join/EXvGhRzS">iOS</a> | <a href="https://github.com/hsjoberg/blixt-wallet/releases">APK direct downloaden</a></li>
+<li><a href="https://t.me/blixtwallet">Telegram-groep voor directe ondersteuning</a></li>
+<li><a href="https://twitter.com/BlixtWallet">Twitter</a></li>
+<li><a href="https://geyser.fund/project/blixt">Geyser crowdfundingpagina</a> - doneer sats zoals je wilt om het project te ondersteunen</li>
+<li><a href="https://chat.blixtwallet.com/">LNURL Chat Blixt</a> - anonieme LN-chat</li>
+<li><a href="https://lightning.video/06fdf68f99e246a6ec6ba1470677b9e632faaad4aa0ca9773c38714b682a4ac1">Blixt presentatie - promo video</a></li
+<li><a href="https://lightning.video/eeb744202ad3f14c18bf6d719970ebd9c53f0f13b79c94d299c6be623fba64b6">Blixt Girls Calendar</a> - promo video (u kunt uw 1e gebruik van LN testen)</li>
+<li><a href="https://github.com/BlixtWallet/blixtwallet.github.io/tree/master/assets/flyer">Afdrukbare A4 flyer met eerste stappen met Blixt, in verschillende talen</a>.</li>
+<li><a href="https://blixt-wallet-git-master-hsjoberg.vercel.app/">Blixt biedt ook een volledig functionele demo</a> rechtstreeks op zijn website of op een speciale versieweb, om een ​​volledige testervaring te hebben voordat u het in de echte wereld gaat gebruiken.</li>
+</ul>
+<hr style="height:2px">
+
+<h3>DISCLAIMER:</h3>
+<blockquote style="color:Tomato;"><em>
+<p>Ik word op geen enkele manier betaald of ondersteund door de ontwikkelaars van deze app. Ik heb deze handleiding geschreven omdat ik zag dat de interesse in deze wallet-app toeneemt en nieuwe gebruikers nog steeds niet begrijpen hoe ze ermee moeten beginnen. Ook om Hampus (de hoofdontwikkelaar) te helpen met documentatie over het gebruik van deze node wallet.</p>
+<p>Ik heb geen andere interesse in het promoten van deze LN-app, behalve om de acceptatie van Bitcoin en LN te bevorderen. Dit is de enige manier!</p>
+</em></blockquote>
+</body>
+</html>
+</article>
