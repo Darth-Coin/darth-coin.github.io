@@ -1,0 +1,102 @@
+---
+layout: default
+title: Créez votre portefeuille froid HODL BTC
+---
+<article>
+<!DOCTYPE html>
+<html lang="fr">
+<meta name="description" content="Guides Bitcoin et Lightning : créer votre propre portefeuille froid Bitcoin">
+<body>
+<a href="/wallets/tails-hodl-cold-wallet-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/tails-hodl-cold-wallet-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/tails-hodl-cold-wallet-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/tails-hodl-cold-wallet-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/tails-hodl-cold-wallet-nl.html">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/tails-hodl-cold-wallet-hr.html">Hrvatski <img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/tails-hodl-cold-wallet-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<blockquote style="color:Tomato;"><em>
+<p>Publié à l'origine sur <a href="https://darthcoin.substack.com/p/build-your-hodl-btc-cold-wallet">Substack</a> le 30 décembre 2021</p>
+<p>Mis à jour ici le 20 décembre 2024</p>
+</em></blockquote>
+
+<h2>Comment utiliser TailsOS sur une clé USB, avec Electrum et KeePass, en créant votre propre portefeuille froid.</h2>
+<p>De nombreux nouveaux utilisateurs de BTC m'ont demandé d'écrire ce guide, sur la façon de créer votre propre portefeuille froid et de ne pas utiliser de portefeuille matériel. Je vais donc décrire ici comment utiliser <a href="https://tails.boum.org/install/download/index.en.html">TailsOS</a> sur une clé USB, avec <a href="https://electrum.org/">Electrum</a> et <a href="https://keepass.info/">KeePass</a> (qui dispose également d'un générateur de mot de passe intégré).</p>
+<p>Cette méthode de stockage est destinée aux utilisateurs qui sont à l'aise avec l'utilisation d'ordinateurs, de systèmes et qui ont déjà des connaissances de base sur Bitcoin.</p>
+<p>Cette méthode n'est PAS destinée à ceux qui sont très novices dans cette technologie et qui ne sont pas très technophiles. Pour ceux-là, je recommande d'acheter simplement un portefeuille matériel et d'oublier cette méthode.</p>
+<p>Aspects importants concernant les portefeuilles froids :</p>
+<ul>
+<li>un portefeuille froid doit toujours avoir au moins une copie (même sous une autre forme de sauvegarde) et être stocké dans un autre lieu géographique. On ne sait jamais ce qui pourrait arriver.</li>
+<li>un portefeuille froid n'est PAS votre portefeuille d'utilisation quotidienne ! <a href="/beginner/be-your-own-bank-fr.html">Comme je l'ai expliqué ici dans son guide</a>, vous devez conserver votre réserve dans trois niveaux de portefeuilles. Tout portefeuille froid/HODL, quel que soit le format dans lequel vous le conservez, doit être stocké dans un endroit sûr, que personne d'autre ne connaît et ne l'utilise. Pour effectuer un dépôt dans ce même portefeuille, vous n'avez besoin que de quelques adresses BTC et/ou d'une clé MPK/Xpub importées dans une application de portefeuille « en lecture seule ». En lecture seule signifie que les clés privées ne toucheront jamais le monde en ligne, vous ne pouvez effectuer un dépôt que dans ce portefeuille et vérifier le solde. <a href"=https://darthcoin.substack.com/p/deposit-only-bitcoin-wallets">Voici un guide</a> sur la façon d'utiliser les portefeuilles « en lecture seule ».</li>
+<li>un portefeuille froid n'est accessible que lorsque vous avez vraiment besoin de déplacer des fonds à partir de là (affaire urgente) ou que vous souhaitez mettre à niveau le système de portefeuille, le micrologiciel, le système d'exploitation, etc.</li>
+<li>testez toujours la procédure de récupération AVANT de mettre des fonds dans ce portefeuille. Plusieurs fois jusqu'à ce que vous soyez à l'aise avec le processus et que vous soyez sûr de pouvoir restaurer votre portefeuille en cas de SHTF. La pratique est la clé de la maîtrise.</li>
+</ul>
+<h3>Pourquoi je recommande cette méthode, appelons-la « portefeuille Tails » ?</h3>
+
+<p><img src="/assets/images/tails.png" class="center"></p>
+
+<p>Il existe de nombreuses raisons pour lesquelles nous pouvons citer :</p>
+<ul>
+<li>est très bon marché (le seul coût est la/les clé(s) USB). Alors pourquoi ne pas accumuler plus de sats au lieu d'acheter (pour certains) des portefeuilles matériels coûteux ?</li>
+<li>TailsOS est un système d'exploitation Linux Debian puissant, portable, avec Tor intégré et de nombreuses autres applications utiles.</li>
+<li>n'attire pas l'attention. Personne ne saura que dans une simple clé USB normale, vous pouvez transporter les clés de vos portefeuilles HODL. Au lieu de vous promener avec un Trezor, un grand livre, une carte froide, etc., maintenant tout le monde reconnaîtra que ceux-ci « transportent du BTC », vous pourriez donc être une cible par défaut. Dans le passé, j'ai vu des utilisateurs dans une cafétéria sortir leur Trezor et le connecter à un ordinateur portable, juste pour payer la facture. FAUX, totalement faux.</li>
+<li>Le même système d'exploitation USB peut être utilisé comme système de nettoyage d'urgence pour d'autres tâches. Disons que vous voyagez et que vous avez besoin d'un ordinateur propre à utiliser. TailsOS est idéal pour cela, démarrez-le simplement et vous avez un système d'exploitation propre en lecture seule. Accéder de manière sécurisée à vos données personnelles, portefeuilles BTC, etc. Et est livré avec de nombreux outils simples et utiles.</li>
+<li>Il peut stocker plusieurs portefeuilles, peut être copié et stocké dans de nombreux emplacements différents. Il peut également être utilisé pour stocker davantage de données personnelles (documents numérisés, gestionnaire de mots de passe, éléments privés), le tout crypté, à l'abri des regards ennemis.</li>
+<li>Offre un accès facile et rapide à tout moment à vos portefeuilles froids, sans aucun logiciel supplémentaire susceptible de provoquer des logiciels malveillants, du phishing, des ordinateurs infectés. TailsOS est TOUJOURS PROPRE, quel que soit l'ordinateur que vous utilisez. De nombreux utilisateurs perdent le contrôle de leur portefeuille parce qu'ils les utilisent sur des ordinateurs infectés et négligent la sécurité.</li>
+</ul>
+
+<h3>Commençons</h3>
+<h3 style="color:Orange;">A. Créez et préparez votre portefeuille Tails</h3>
+<ol>
+<li><p>Téléchargez <a href="https://tails.boum.org/install/download/index.en.html">TailsOS</a>, le live USB et utilisez <a href="https://rufus.ie/">Rufus</a> pour créer la clé USB bootable avec l'image ISO de TailsOS. Rufus effacera et formatera cette clé USB.</p>
+<p>Vous pouvez également utiliser la suite personnalisée <a href="https://github.com/DesobedienteTecnologico/dtails">DTails</a> (incluant plus d'applications et d'outils).</p></li>
+<li>Démarrez avec cette clé USB (modifiez les paramètres dans le BIOS de l'ordinateur pour démarrer avec la clé USB ou appuyez sur F12 pour certains systèmes), puis sélectionnez EXÉCUTER/Exécuter, pas installer, hors ligne. Ce système d'exploitation en direct inclut déjà l'application de portefeuille Electrum BTC et KeePass (gestionnaire de mots de passe).</li>
+<li>Si vous prévoyez de réutiliser ce TailsOS LiveUSB, vous pouvez également créer une partition active cachée, qui sera cryptée, pour sauvegarder des informations importantes, comme le fichier de base de données KeePass, la sauvegarde du portefeuille Electrum. Voici les instructions d'utilisation de <a href="https://tails.boum.org/doc/persistent_storage/index.en.html">« Partition persistante »</a> et un didacticiel vidéo <a href="https://www.youtube.com/watch?v=nRztIE_hRzM">ici</a>. Mettez un mot de passe fort pour ouvrir cet espace de partition persistante et NE L'OUBLIEZ PAS !</li>
+<li>Une fois que vous avez terminé la création de la partition persistante, ouvrez l'application KeePass et créez une nouvelle base de données de mots de passe. Enregistrez une copie sur une autre clé USB et utilisez également l'espace crypté persistant de Tails. Dans cette base de données, vous commencez à enregistrer tous vos portefeuilles (mots clés, XPUB, adresses BTC, MPK) et autres informations personnelles. N'oubliez pas de faire des copies de ce fichier dans d'autres endroits sûrs. <a href="https://www.youtube.com/watch?v=1Vm68e-Jn7I">Voici un guide</a> sur la façon d'utiliser KeePass et de synchroniser sur plusieurs appareils.</li>
+<li>Si vous souhaitez utiliser une version plus récente d'Electrum et non la version Tails déjà installée, vous pouvez télécharger l'AppImage (pour Linux) directement depuis la page Electrum <a href="https://electrum.org/#download">https://electrum.org/#download</a></li>
+<li>et l'enregistrer dans votre partition persistante. Il vous suffit de le lancer, pas besoin de l'installer. Mais n'importe quelle version d'Electrum de Tails suffit pour créer un portefeuille hors ligne. La dernière version n'est nécessaire que si vous souhaitez utiliser Tails pour diffuser une transaction à partir de ce portefeuille froid.</li>
+<li>Ouvrez l'application Electrum et créez un nouveau portefeuille. Enregistrez les mots clés dans votre fichier KeePass. Une fois créé, allez dans le menu Electrum - informations sur le portefeuille - copiez la MPK (clé publique principale) et enregistrez-la dans votre base de données KeePass (où vous avez également enregistré la clé). Allez dans le menu - activez la vue des adresses, puis allez dans l'onglet Adresses et copiez 3-4-5 adresses et placez-les dans votre fichier Keepass. Elles seront utilisées ultérieurement pour le test de la procédure de restauration.</li>
+</ol>
+
+<figure>
+<img src="/assets/images/keepass.jpg" class="center">
+<figcaption>Mot de passe de nouvelle entrée KeeePass</figcaption>
+</figure>
+
+<p>TERMINÉ ! Vous venez de créer votre portefeuille froid dans TailsOS. Fermez toutes les applications et arrêtez votre TailsOS.</p>
+<p>EN OPTION, vous pouvez télécharger et enregistrer dans votre partition persistante l'application <a href="https://sparrowwallet.com/">portefeuille Sparrow</a> si vous souhaitez utiliser un type d'adresse plus avancé et prenant en charge Taproot, <a href="/wallets/move-btc-taproot-address-fr.html">comme je l'ai expliqué dans ce guide</a>. Presque les mêmes procédures à suivre pour créer un portefeuille, enregistrer la sauvegarde et les clés que pour l'application Electrum.</p>
+
+<h3 style="color:Orange;">B. Tester la procédure de restauration du portefeuille</h3>
+<ol>
+<li>Redémarrez TailsOS, déverrouillez la partition persistante, pour pouvoir ouvrir votre fichier de base de données KeePass.</li>
+<li>Ouvrez l'application Electrum, sélectionnez restaurer le portefeuille, j'ai déjà une graine, puis suivez les instructions étape par étape. Sélectionnez segwit native et également le bouton d'option pour la graine BIP39. <a href="https://electrum.readthedocs.io/en/latest/">Voir plus de détails sur l'utilisation de l'application Electrum</a> ici.</li>
+<li>Ouvrez votre KeePass et l'entrée pour les détails de votre portefeuille Electrum.</li>
+<li>Mettez les mots clés à restaurer et vérifiez-les un par un.</li>
+<li>Une fois le processus de restauration terminé, le portefeuille est chargé, allez dans le menu - activez « Afficher les adresses », puis allez dans l'onglet Adresses et vérifiez les 3-4 premières adresses générées qui sont les mêmes que celles que vous avez enregistrées dans votre fichier KeePass. Si elles sont identiques, vous venez de restaurer correctement votre portefeuille. En option, vous pouvez également vérifier le MPK s'il est identique, voir menu - informations sur le portefeuille.</li>
+</ol>
+<p>C'est fait ! Vous êtes maintenant prêt à partir, vous pouvez déposer des fonds dans votre portefeuille froid. Vous pouvez utiliser le MPK dans une application de surveillance uniquement ou simplement en utilisant quelques adresses BTC de votre portefeuille.</p>
+
+<h3 style="color:Orange;">C. Faites des sauvegardes et des copies de ce portefeuille !</h3>
+<p>OK, maintenant que vous avez testé la procédure de restauration, que vous avez déposé des fonds dans ce portefeuille, il est temps de faire des copies de sécurité.</p>
+<ol>
+<li>Ouvrez TailsOS, ouvrez le portefeuille Electrum</li>
+<li>Allez dans le menu Fichier - Sauvegarder le portefeuille. Enregistrez cette copie du fichier de portefeuille dans votre partition persistante et également sur une autre clé USB cryptée en tant que copie avec une copie de votre fichier de base de données KeePass. Voici quelques guides sur la façon de crypter une clé USB, avec <a href="https://www.digitalcitizen.life/encrypt-files-usb-memory-stick-bitlocker-go/">Windows</a> et avec <a href="https://www.howtoforge.com/tutorial/encrypt-usb-drive-on-ubuntu/">Linux</a>.</li>
+<li>La copie de ce portefeuille Electrum est également cryptée avec votre mot de passe Electrum que vous avez mis lorsque vous avez créé ce portefeuille pour la première fois. Ce mot de passe est également utilisé lorsque vous devez diffuser un tx, pour le processus de signature. Gardez donc à l'esprit qu'il est très important de l'enregistrer également dans votre fichier KeePass.</li>
+<li>Vous pouvez donc maintenant ouvrir ce fichier de portefeuille avec l'application Electrum, sans avoir à restaurer à partir de la graine, il vous sera simplement demandé de l'ouvrir avec votre mot de passe Electrum pour décrypter le fichier. La graine ne sera nécessaire qu'au cas où ce fichier serait corrompu ou perdu. Ce fichier contient également tous les txs que vous avez effectués, les étiquettes, l'historique et peut devenir plus volumineux avec le temps.</li>
+<li>Dans la copie de la clé USB (cryptée), vous pouvez également stocker de nombreux autres fichiers, comme un fichier image qui intègre une graine à l'aide de la <a href="https://openstego.com/">stéganographie</a>, des documents privés, tout ce qui est numérique et qui est important pour vous. Faites plus de copies de ce "stockage privé hors ligne" et enregistrez-les à différents endroits. En option, vous pouvez les placer dans un récipient en métal, à l'abri des champs électromagnétiques, de l'eau, du soleil, de la chaleur, etc.</li>
+</ol>
+
+<figure>
+<img src="/assets/images/recipients.jpg" class="center">
+<figcaption>Outil de survie EDC en métal étanche pour l'extérieur</figcaption>
+</figure>
+
+<p>Voici un lien pour acheter ces <a href="https://www.amazon.de/gp/product/B07D5DVXCD/">récipients</a> et <a href="https://www.amazon.de/gp/product/B07HPS8GQM">clé USB</a>.</p>
+
+<h3 style="color:Orange;">D. Utilisez-le comme un portefeuille « en lecture seule »</h3>
+<p><a href="/wallets/deposit-only-btc-wallets-fr.html">Voici un guide plus détaillé</a> sur la façon d'importer et d'utiliser le MPK de ce portefeuille froid dans une application pour un portefeuille de dépôt uniquement.</p>
+<p>Fait amusant :</p>
+<p>J'ai plusieurs destinataires comme ceux-ci cachés dans des endroits de forêt profonde / montagne, facile (pour moi) de les récupérer dans n'importe quel cas SHTF. Même s'ils sont trouvés par quelqu'un d'autre (j'en doute vraiment), ils ne sont pas accessibles en raison du cryptage dur. Je suis très à l'aise avec ce cryptage et l'endroit secret où ils sont cachés. Mais c'est à chaque individu de décider où et comment sauvegarder ces copies. Cela peut également être dans un stockage en ligne, il suffit que le fichier KeePass soit stocké et en option une copie de votre fichier de portefeuille Electrum (pas plus de quelques centaines de Ko de données).</p>
+
+</body>
+</html>
+</article>
