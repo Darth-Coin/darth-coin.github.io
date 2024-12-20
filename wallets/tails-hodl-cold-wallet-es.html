@@ -1,0 +1,101 @@
+---
+layout: default
+title: Crea tu billetera fría HODL BTC
+---
+<article>
+<!DOCTYPE html>
+<html lang="es">
+<meta name="description" content="Guías sobre Bitcoin y Lightning: Cómo crear tu propia billetera fría de Bitcoin">
+<body>
+<a href="/wallets/tails-hodl-cold-wallet-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/tails-hodl-cold-wallet-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/tails-hodl-cold-wallet-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/tails-hodl-cold-wallet-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/tails-hodl-cold-wallet-nl.html">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/tails-hodl-cold-wallet-hr.html">Hrvatski <img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/tails-hodl-cold-wallet-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<blockquote style="color:Tomato;"><em>
+<p>Publicado originalmente en <a href="https://darthcoin.substack.com/p/build-your-hodl-btc-cold-wallet">Substack</a> el 30 de diciembre de 2021</p>
+<p>Actualizado aquí el 20 de diciembre de 2024</p>
+</em></blockquote>
+
+<h2>Cómo usar TailsOS en una memoria USB, con Electrum y KeePass, para crear tu propia billetera fría.</h2>
+<p>Muchos usuarios nuevos de BTC me pidieron que escribiera esta guía sobre cómo crear tu propia billetera fría y no usar una billetera de hardware. Aquí describiré cómo usar <a href="https://tails.boum.org/install/download/index.en.html">TailsOS</a> en una memoria USB, con <a href="https://electrum.org/">Electrum</a> y <a href="https://keepass.info/">KeePass</a> (también tienen un generador de contraseñas incorporado).</p>
+<p>Este método de almacenamiento es para aquellos usuarios que se sienten cómodos con el uso de computadoras, sistemas y que ya tienen un conocimiento básico sobre Bitcoin.</p>
+<p>Este método NO ES para aquellos que son muy nuevos en esta tecnología y no son tan técnicos. A ellos les recomiendo simplemente comprar una billetera de hardware y olvidarse de este método.</p>
+<p>Aspectos importantes sobre las billeteras frías:</p>
+<ul>
+<li>Una billetera fría siempre debe tener al menos una copia (incluso en otra forma de respaldo) y almacenada en otro lugar geográfico. Nunca se sabe lo que podría pasar.</li>
+<li>¡Una billetera fría NO es la billetera que usas todos los días! <a href="/beginner/be-your-own-bank-es.html">Como expliqué aquí en su guía</a>, debes mantener tu dinero en tres niveles de billeteras. Cualquier billetera fría/HODL en cualquier formato en el que la guardes, debe almacenarse en un lugar seguro, que nadie más conozca y que no use. Para depositar en esa misma billetera, solo necesitas algunas direcciones BTC y/o una clave MPK/Xpub importada a una aplicación de billetera "solo para ver". Solo para ver significa que las claves privadas nunca tocarán el mundo en línea, solo puedes depositar en esa billetera y verificar el saldo. <a href"=https://darthcoin.substack.com/p/deposit-only-bitcoin-wallets">A continuación, se incluye una guía</a> sobre cómo usar billeteras "solo para ver".</li>
+<li>Solo se puede acceder a una billetera fría cuando realmente necesita mover fondos desde allí (asunto urgente) o desea actualizar el sistema de la billetera, el firmware, el sistema operativo, etc.</li>
+<li>Siempre pruebe el procedimiento de recuperación ANTES de colocar fondos en esa billetera. Muchas veces, hasta que se sienta cómodo con el proceso y esté seguro de que podrá restaurar su billetera en caso de SHTF. La práctica es la clave para la competencia.</li>
+</ul>
+<h3>¿Por qué recomiendo este método, llamémoslo "billetera Tails"?</h3>
+
+<p><img src="/assets/images/tails.png" class="center"></p>
+
+<p>Existen muchas razones entre las que podemos mencionar:</p>
+<ul>
+<li>es muy barato (el único costo es el/los pendrive/s USB). Entonces, ¿por qué no acumular más sats en lugar de comprar (para algunos) costosos monederos de hardware?</li>
+<li>TailsOS es un sistema operativo Debian Linux potente, portátil, con Tor integrado y muchas otras aplicaciones útiles.</li>
+<li>no está llamando la atención. Nadie sabrá que en un simple USB normal puedes llevar las claves de tus monederos HODL. En lugar de andar por ahí con un Trezor, ledger, cold card, etc., ahora todo el mundo reconocerá que esos "llevan BTC", por lo que podrías ser un objetivo por defecto. En el pasado vi a usuarios en una cafetería que sacaban su Trezor y lo conectaban a una computadora portátil, solo para pagar la cuenta. INCORRECTO, totalmente equivocado.</li>
+<li>El mismo sistema operativo USB se puede usar como sistema limpio de emergencia para otras tareas. Digamos que estás de viaje y necesitas un ordenador limpio para usar. TailsOS es genial para eso, solo tienes que iniciarlo y tendrás un sistema operativo limpio en vivo de solo lectura. Acceda de forma segura a sus datos personales, billeteras BTC, etc. Y viene con muchas herramientas útiles y sencillas.</li>
+<li>Puede almacenar múltiples billeteras, se puede copiar y almacenar en muchas ubicaciones diferentes. También se puede usar para almacenar más datos personales (documentos escaneados, administrador de contraseñas, cosas privadas), todo encriptado, a salvo de miradas enemigas.</li>
+<li>Ofrece acceso fácil y rápido en cualquier momento a sus billeteras frías, sin ningún software adicional susceptible de malware, phishing, computadoras infectadas. TailsOS SIEMPRE está LIMPIO sin importar qué computadora use. Muchos usuarios están perdiendo el control de la billetera porque las usan en computadoras infectadas y son descuidados con la seguridad.</li>
+</ul>
+
+<h3>Comencemos</h3>
+<h3 style="color:Orange;">A. Crea y prepara tu billetera Tails</h3>
+<ol>
+<li><p>Descarga <a href="https://tails.boum.org/install/download/index.en.html">TailsOS</a>, USB en vivo y usa <a href="https://rufus.ie/">Rufus</a> para crear la unidad USB de arranque con la imagen ISO de TailsOS. Rufus borrará y formateará esa unidad USB.</p>
+<p>Opcionalmente, puedes usar la <a href="https://github.com/DesobedienteTecnologico/dtails">suite DTails</a> personalizada (incluye más aplicaciones y herramientas).</p></li>
+<li>Arranca con esa unidad USB (cambia la configuración en el BIOS de la computadora para iniciar con la unidad USB o presiona F12 para algunos sistemas) y selecciona EJECUTAR/Ejecutar, no instalar, sin conexión. Este sistema operativo en vivo ya incluye la aplicación de billetera Electrum BTC y KeePass (administrador de contraseñas).</li>
+<li>Si planea reutilizar este LiveUSB TailsOS, también puede crear una partición activa oculta, que se cifrará, para guardar información importante, como el archivo de base de datos de KeePass, la copia de seguridad de la billetera Electrum. Aquí encontrará instrucciones sobre cómo usar <a href="https://tails.boum.org/doc/persistent_storage/index.en.html">“Partición persistente”</a> y un video tutorial <a href="https://www.youtube.com/watch?v=nRztIE_hRzM">aquí</a>. Coloque una contraseña segura para abrir ese espacio de partición persistente y ¡NO LA OLVIDE!</li>
+<li>Una vez que haya terminado con la creación de la partición persistente, abra la aplicación KeePass y cree una nueva base de datos de contraseñas. Guarde una copia en otra memoria USB y también use el espacio cifrado persistente de Tails. En esa base de datos, comienzas a guardar todas tus billeteras (palabras semilla, XPUB, direcciones BTC, MPK) y otra información personal. No olvides hacer copias de este archivo en otros lugares seguros. <a href="https://www.youtube.com/watch?v=1Vm68e-Jn7I">Aquí hay una guía</a> sobre cómo usar KeePass y sincronizar entre dispositivos.</li>
+<li>Si quieres usar una versión más reciente de Electrum y no la versión de Tails ya instalada, puedes descargar la AppImage (para Linux) directamente desde la página de Electrum <a href="https://electrum.org/#download">https://electrum.org/#download</a></li>
+<li>y guardarla en tu partición persistente. Solo necesitas iniciarla, no es necesario instalarla. Pero cualquier versión de Electrum de Tails es suficiente para crear una billetera sin conexión. La última versión es necesaria solo si desea utilizar Tails para transmitir una transacción desde esa billetera fría.</li>
+<li>Abra la aplicación Electrum y cree una nueva billetera. Guarde las palabras clave en su archivo KeePass. Una vez creada, vaya al menú Electrum - información de la billetera - copie la MPK (clave pública maestra) y guárdela en su base de datos KeePass (donde también guardó la clave clave). Vaya al menú - active la vista de direcciones, luego vaya a la pestaña Direcciones y copie 3-4-5 direcciones y colóquelas en su archivo Keepass. Más tarde se utilizarán para probar el procedimiento de restauración.</li>
+</ol>
+
+<figure>
+<img src="/assets/images/keepass.jpg" class="center">
+<figcaption>Contraseña de nueva entrada de KeePass</figcaption>
+</figure>
+
+<p>¡LISTO! Acabas de crear tu billetera fría en TailsOS. Cierra todas las aplicaciones y apaga tu TailsOS.</p>
+<p>OPCIONAL, puedes descargar y guardar en tu partición persistente la aplicación de la <a href="https://sparrowwallet.com/">billetera Sparrow</a> si quieres usar un tipo de dirección más avanzado y compatible con Taproot, <a href="/wallets/move-btc-taproot-address-es.html">como expliqué en esta guía</a>. Los procedimientos a seguir para crear la billetera, guardar la copia de seguridad y las claves son casi los mismos que para la aplicación Electrum.</p>
+
+<h3 style="color:Orange;">B. Prueba el procedimiento de restauración de la billetera</h3>
+<ol>
+<li>Vuelve a iniciar TailsOS, desbloquea la partición persistente para poder abrir tu archivo de base de datos de KeePass.</li>
+<li>Abre la aplicación Electrum, selecciona restaurar billetera, ya tengo la semilla y luego sigue las instrucciones paso a paso. Selecciona segwit native y también el botón de opción para la semilla BIP39. <a href="https://electrum.readthedocs.io/en/latest/">Consulta más detalles sobre el uso de la aplicación Electrum</a> aquí.</li>
+<li>Abre tu KeePass y la entrada para los detalles de tu billetera Electrum.</li>
+<li>Coloca las palabras semilla para restaurar y verifícalas una por una.</li>
+<li>Una vez que el proceso de restauración esté hecho, la billetera esté cargada, ve al menú - activa "ver direcciones", luego ve a la pestaña Direcciones y verifica las primeras 3-4 direcciones generadas que sean las mismas que guardaste en tu archivo KeePass. Si son las mismas, acabas de realizar una restauración correcta de tu billetera. Opcionalmente, también puedes verificar el MPK si es el mismo, ve al menú - información de la billetera.</li>
+</ol>
+<p>¡Listo! Ahora estás listo, puedes depositar fondos en tu billetera fría. Puedes usar el MPK en una aplicación solo para ver o simplemente usando algunas direcciones BTC de tu billetera.</p>
+
+<h3 style="color:Orange;">C. ¡Haz copias de seguridad de esa billetera!</h3>
+<p>Bien, ahora que probaste el procedimiento de restauración, depositaste algunos fondos en esa billetera, es hora de hacer copias de seguridad.</p>
+<ol>
+<li>Abre TailsOS, abre la billetera Electrum</li>
+<li>Ve al menú Archivo - Copia de seguridad de la billetera. Guarda esa copia del archivo de la billetera en tu partición persistente y también en otro USB cifrado como una copia junto con una copia de tu archivo de base de datos de KeePass. Aquí hay algunas guías sobre cómo cifrar una unidad USB, con <a href="https://www.digitalcitizen.life/encrypt-files-usb-memory-stick-bitlocker-go/">Windows</a> y con <a href="https://www.howtoforge.com/tutorial/encrypt-usb-drive-on-ubuntu/">Linux</a>.</li>
+<li>La copia de esa billetera Electrum también está cifrada con la contraseña Electrum que colocaste cuando creaste esa billetera por primera vez. Esa contraseña también se usa cuando tienes que transmitir una transacción, para el proceso de firma. Por lo tanto, ten en cuenta que es muy importante, guárdala también en tu archivo KeePass.</li>
+<li>Entonces, ahora puedes abrir ese archivo de billetera con la aplicación Electrum, sin tener que restaurar desde la semilla, solo te pedirá que lo abras con tu contraseña Electrum para descifrar el archivo. La semilla será necesaria solo en caso de que este archivo se corrompa o se pierda. Este archivo también contiene todas las transacciones que ha realizado, las etiquetas, el historial y, con el tiempo, puede hacerse más grande.</li>
+<li>En la copia de la unidad USB (encriptada) también puede almacenar muchos otros archivos, como un archivo de imagen que incorpore una semilla mediante <a href="https://openstego.com/">esteganografía</a>, documentos privados, cualquier cosa digital que sea importante para usted. Haga más copias de este "almacenamiento privado sin conexión" y guárdelas en diferentes ubicaciones. Opcionalmente, puedes colocarlos en un recipiente de metal, protegido de los campos electromagnéticos, el agua, el sol, el calor, etc.</li>
+</ol>
+
+<figure>
+<img src="/assets/images/recipients.jpg" class="center">
+<figcaption>Electrónica de supervivencia EDC de metal para exteriores, resistente al agua</figcaption>
+</figure>
+
+<p>Aquí tienes un enlace para comprar esos <a href="https://www.amazon.de/gp/product/B07D5DVXCD/">recipientes</a> y la <a href="https://www.amazon.de/gp/product/B07HPS8GQM">memoria USB</a>.</p>
+
+<h3 style="color:Orange;">D. Úselo como una billetera "solo para ver"</h3>
+<p><a href="/wallets/deposit-only-btc-wallets-es.html">Aquí hay una guía más detallada</a> sobre cómo importar y usar el MPK de esta billetera fría en una aplicación para billeteras solo para depósitos.</p>
+<p>Dato curioso:</p>
+<p>Tengo varios destinatarios como estos escondidos en lugares profundos del bosque o la montaña, fáciles (para mí) de recuperar en cualquier caso de SHTF. Incluso si alguien más los encuentra (realmente lo dudo), no se puede acceder a ellos debido al cifrado estricto. Me siento muy cómodo con ese cifrado y el lugar secreto donde están escondidos. Pero depende de cada individuo dónde y cómo guardar esas copias. También podría ser en un almacenamiento en línea, es suficiente con que se almacene el archivo KeePass y, opcionalmente, una copia del archivo de su billetera electrum (no más de unos pocos cientos de kb de datos).</p>
+</body>
+</html>
+</article>
