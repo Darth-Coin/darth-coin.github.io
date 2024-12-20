@@ -1,0 +1,102 @@
+---
+layout: default
+title: Maak uw HODL BTC cold wallet aan
+---
+<article>
+<!DOCTYPE html>
+<html lang="nl">
+<meta name="description" content="Bitcoin- en Lightning-handleidingen: uw eigen Bitcoin-coldwallet bouwen">
+<body>
+<a href="/wallets/tails-hodl-cold-wallet-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/tails-hodl-cold-wallet-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/tails-hodl-cold-wallet-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/tails-hodl-cold-wallet-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/tails-hodl-cold-wallet-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/tails-hodl-cold-wallet-hr.html">Hrvatski <img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/tails-hodl-cold-wallet-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<blockquote style="color:Tomato;"><em>
+<p>Oorspronkelijk geplaatst op <a href="https://darthcoin.substack.com/p/build-your-hodl-btc-cold-wallet">Substack</a> op 30 dec. 2021</p>
+<p>Hier bijgewerkt op 20 dec. 2024</p>
+</em></blockquote>
+
+<h2>Hoe je TailsOS gebruikt op een USB-stick, met Electrum en KeePass, en je eigen cold wallet bouwt.</h2>
+<p>Veel nieuwe BTC-gebruikers hebben me gevraagd om deze handleiding te schrijven, over hoe je je eigen cold wallet kunt maken en geen hardware wallet kunt gebruiken. Ik zal hier beschrijven hoe je <a href="https://tails.boum.org/install/download/index.en.html">TailsOS</a> op een USB-stick kunt gebruiken, met <a href="https://electrum.org/">Electrum</a> en <a href="https://keepass.info/">KeePass</a> (hebben ook een ingebouwde wachtwoordgenerator).</p>
+<p>Deze opslagmethode is voor gebruikers die vertrouwd zijn met het gebruik van computers, systemen en al een basiskennis hebben over Bitcoin.</p>
+<p>Deze methode IS NIET voor mensen die nog niet zo bekend zijn met deze technologie en niet zo technisch zijn. Voor hen raad ik aan om gewoon een hardware wallet te kopen en deze methode te vergeten.</p>
+<p>Belangrijke aspecten over cold wallets:</p>
+<ul>
+<li>een cold wallet moet altijd minstens een kopie hebben (zelfs in een andere vorm van back-up) en op een andere geografische locatie worden opgeslagen. Je weet nooit wat er kan gebeuren.</li>
+<li>een cold wallet is NIET je dagelijkse gebruikswallet! <a href="/beginner/be-your-own-bank-nl.html">Zoals ik hier in zijn gids uitlegde</a>, moet je je stash in drie wallet-niveaus bewaren. Elke cold/HODL-wallet, ongeacht het formaat waarin je hem bewaart, moet op een veilige plek worden bewaard, die niemand anders kent en mag je niet gebruiken. Om geld te storten op diezelfde wallet, heb je maar een paar BTC-adressen en/of een MPK/Xpub-sleutel nodig die je hebt geïmporteerd in een "watch-only" wallet-app. Watch-only betekent dat de privésleutels nooit de online wereld zullen raken, je kunt alleen geld storten op die wallet en het saldo controleren. <a href"=https://darthcoin.substack.com/p/deposit-only-bitcoin-wallets">Hier is een handleiding</a> hoe je "watch-only" wallets gebruikt.</li>
+<li>een cold wallet is alleen toegankelijk als je echt geld van daaruit moet verplaatsen (dringende kwestie) of als je het walletsysteem, firmware, OS etc. wilt upgraden.</li>
+<li>test altijd de herstelprocedure VOORDAT je geld in die wallet stopt. Vaak totdat je vertrouwd bent met het proces en je zeker weet dat je je wallet kunt herstellen in geval van SHTF. Oefening baart kunst.</li>
+</ul>
+<h3>Waarom ik deze methode aanbeveel, laten we het "Tails wallet" noemen?</h3>
+
+<p><img src="/assets/images/tails.png" class="center"></p>
+
+<p>Er zijn veel redenen die we kunnen noemen:</p>
+<ul>
+<li>is spotgoedkoop (de enige kosten zijn de USB-stick(s). Dus waarom zou je niet meer sats stapelen in plaats van (voor sommigen) dure hardware wallets te kopen?</li>
+<li>TailsOS is een sterk Debian Linux-systeem OS, draagbaar, met ingebouwde Tor en veel andere nuttige apps.</li>
+<li>krijgt geen aandacht. Niemand zal weten dat je in een simpele normale USB de sleutels van je HODL wallets kunt dragen. In plaats van rond te lopen met een Trezor, ledger, cold card etc., zal nu iedereen herkennen dat die "BTC dragen", dus je zou standaard een doelwit kunnen zijn. In het verleden zag ik gebruikers in een cafetaria hun Trezor pakken en deze aansluiten op een laptop, alleen om de rekening te betalen. VERKEERD, totaal verkeerd.</li>
+<li>Hetzelfde USB OS kan worden gebruikt als noodopschoonsysteem voor andere taken. Stel dat je op reis bent en een schone computer nodig hebt om te gebruiken. TailsOS is daar geweldig voor, start er gewoon mee op en je hebt een alleen-lezen live schoon OS. Veilige toegang tot uw persoonlijke gegevens, BTC-wallets etc. En wordt geleverd met veel eenvoudige, handige tools.</li>
+<li>Het kan meerdere wallets opslaan, kan worden gekopieerd en opgeslagen op veel verschillende locaties. Het kan ook worden gebruikt voor het opslaan van meer persoonlijke gegevens (gescande documenten, wachtwoordbeheerder, privé-spullen), allemaal gecodeerd, veilig voor vijandelijke ogen.</li>
+<li>Biedt altijd eenvoudige en snelle toegang tot uw cold wallets, zonder extra software die vatbaar is voor malware, phishing en geïnfecteerde computers. TailsOS is ALTIJD SCHOON, ongeacht welke computer u gebruikt. Veel gebruikers verliezen de controle over hun wallet omdat ze ze gebruiken op geïnfecteerde computers en slordig zijn met beveiliging.</li>
+</ul>
+
+<h3>Laten we beginnen</h3>
+<h3 style="color:Orange;">A. Maak en bereid uw Tails Wallet voor</h3>
+<ol>
+<li><p>Download <a href="https://tails.boum.org/install/download/index.en.html">TailsOS</a>, live USB en gebruik <a href="https://rufus.ie/">Rufus</a> om de opstartbare USB-drive met TailsOS ISO-image te maken. Rufus wist en formatteert die USB-drive.</p>
+<p>Optioneel kunt u de aangepaste <a href="https://github.com/DesobedienteTecnologico/dtails">DTails suite</a> gebruiken (inclusief meer apps en tools).</p></li>
+<li>Start op met die USB-drive (wijzig de instellingen in het BIOS van de computer om te starten met de USB-drive of druk op F12 voor sommige systemen) en selecteer RUN/Execute, niet install, offline. Dit live OS bevat al de Electrum BTC wallet app en KeePass (wachtwoordbeheerder).</li>
+<li>Als u van plan bent om dit LiveUSB TailsOS opnieuw te gebruiken, kunt u ook een verborgen actieve partitie maken, die gecodeerd zal worden, om belangrijke informatie op te slaan, zoals het KeePass databasebestand, Electrum wallet backup. Hier zijn instructies over hoe u <a href="https://tails.boum.org/doc/persistent_storage/index.en.html">"Persistent Partition"</a> gebruikt en een video tutorial <a href="https://www.youtube.com/watch?v=nRztIE_hRzM">hier</a>. Voer een sterk wachtwoord in om die persistente partitieruimte te openen en VERGEET HET NIET!</li>
+<li>Zodra u klaar bent met het maken van de persistente partitie, opent u de KeePass app en maakt u een nieuwe wachtwoordendatabase. Sla een kopie op een ander USB-geheugen op en gebruik ook persistente gecodeerde ruimte van Tails. In die database begin je met het opslaan van al je wallets (seed words, XPUB, BTC-adressen, MPK) en andere persoonlijke informatie. Vergeet niet om kopieën van dit bestand te maken op andere veilige plekken. <a href="https://www.youtube.com/watch?v=1Vm68e-Jn7I">Hier is een handleiding</a> hoe je KeePass kunt gebruiken en synchroniseren tussen apparaten.</li>
+<li>Als je een nieuwste versie van Electrum wilt gebruiken en niet de reeds geïnstalleerde Tails-versie, kun je de AppImage (voor Linux) rechtstreeks downloaden van de Electrum-pagina <a href="https://electrum.org/#download">https://electrum.org/#download</a></li>
+<li>en opslaan in je permanente partitie. Je hoeft het alleen maar te starten, je hoeft het niet te installeren. Maar elke versie van Electrum van Tails is voldoende om een ​​offline wallet te maken. De nieuwste versie is alleen nodig als u Tails wilt gebruiken om een ​​transactie uit te zenden vanuit die cold wallet.</li>
+<li>Open de Electrum-app en maak een nieuwe wallet. Sla de seedwoorden op in uw KeePass-bestand. Ga na het maken naar het Electrum-menu - wallet-informatie - kopieer de MPK (Master Public Key) en sla deze op in uw KeePass-database (waar u ook de seed hebt opgeslagen). Ga naar het menu - activeer adressen weergeven, ga vervolgens naar het tabblad Adressen en kopieer 3-4-5 adressen en zet ze in uw Keepass-bestand. Deze worden later gebruikt voor de test van de herstelprocedure.</li>
+</ol>
+
+<figure>
+<img src="/assets/images/keepass.jpg" class="center">
+<figcaption>KeeePass nieuw wachtwoord</figcaption>
+</figure>
+
+<p>GEREED! U hebt zojuist uw cold wallet in TailsOS gemaakt. Sluit alle apps en sluit TailsOS af.</p>
+<p>OPTIONEEL u kunt de <a href="https://sparrowwallet.com/">Sparrow wallet</a> app downloaden en opslaan in uw persistente partitie als u een geavanceerder en een Taproot ondersteunend type adres wilt gebruiken, <a href="/wallets/move-btc-taproot-address-nl.html">zoals ik heb uitgelegd in deze handleiding</a>. Bijna dezelfde procedures om te volgen voor het maken van een wallet, het opslaan van een back-up en sleutels als voor de Electrum app.</p>
+
+<h3 style="color:Orange;">B. Test de procedure voor het herstellen van de wallet</h3>
+<ol>
+<li>Start TailsOS opnieuw, ontgrendel de persistente partitie, om uw KeePass databasebestand te kunnen openen.</li>
+<li>Open de Electrum app, selecteer restore wallet, I already have seed en volg vervolgens de instructies stap voor stap. Selecteer segwit native en ook de optieknop voor BIP39 seed. <a href="https://electrum.readthedocs.io/en/latest/">Zie hier meer details over het gebruik van de Electrum</a> app.</li>
+<li>Open je KeePass en de invoer voor je Electrum wallet details.</li>
+<li>Plaats de seed words om te herstellen en controleer ze een voor een.</li>
+<li>Zodra het herstelproces is voltooid, is de wallet geladen, ga je naar het menu - activeer "view addresses", ga dan naar het tabblad Addresses en controleer de eerste 3-4 gegenereerde adressen die hetzelfde zijn als die je hebt opgeslagen in je KeePass-bestand. Als ze hetzelfde zijn, heb je zojuist een correcte restauratie van je wallet uitgevoerd. Optioneel kun je ook de MPK controleren als deze hetzelfde is, zie menu - wallet information.</li>
+</ol>
+<p>Klaar! Nu ben je klaar om te gaan, je kunt geld storten op je cold wallet. Je kunt de MPK gebruiken in een watch-only app of gewoon een paar BTC-adressen uit je wallet gebruiken.</p>
+
+<h3 style="color:Orange;">C. Maak back-ups en kopieën van die wallet!</h3>
+<p>OK, nu je de herstelprocedure hebt getest, stort je wat geld op die wallet, het is tijd om beveiligingskopieën te maken.</p>
+<ol>
+<li>Open TailsOS, open Electrum wallet</li>
+<li>Ga naar menu Bestand - Back-up wallet. Sla die wallet-bestandskopie op in je persistente partitie en ook op een andere gecodeerde USB als een kopie samen met een kopie van je KeePass-databasebestand. Hier zijn enkele handleidingen over het coderen van een USB-station, met <a href="https://www.digitalcitizen.life/encrypt-files-usb-memory-stick-bitlocker-go/">Windows</a> en met <a href="https://www.howtoforge.com/tutorial/encrypt-usb-drive-on-ubuntu/">Linux</a>.</li>
+<li>De kopie van die Electrum wallet is ook gecodeerd met je Electrum-wachtwoord dat je hebt ingevoerd toen je de wallet voor het eerst aanmaakte. Dat wachtwoord wordt ook gebruikt wanneer u een tx moet uitzenden, voor het ondertekeningsproces. Houd er dus rekening mee dat het erg belangrijk is, sla het ook op in uw KeePass-bestand.</li>
+<li>Nu kunt u dat wallet-bestand gewoon openen met de Electrum-app, zonder dat u hoeft te herstellen vanuit seed, het zal u alleen vragen om het te openen met uw Electrum-wachtwoord om het bestand te decoderen. Seed is alleen nodig als dit bestand beschadigd raakt of verloren gaat. Dit bestand bevat ook alle txs die u hebt gemaakt, labels, geschiedenis en kan in de loop van de tijd groter worden.</li>
+<li>In de USB-stickkopie (gecodeerd) kunt u ook veel andere bestanden opslaan, zoals een afbeeldingsbestand dat een seed insluit met behulp van <a href="https://openstego.com/">steganografie</a>, privédocumenten, alles wat digitaal is en belangrijk voor u is. Maak meer kopieën van deze "privé offline opslag" en sla ze op verschillende locaties op. Optioneel kun je ze in een metalen houder doen, beschermd tegen EMF, water, zon, hitte etc.</li>
+</ol>
+
+<figure>
+<img src="/assets/images/recipients.jpg" class="center">
+<figcaption>Outdoor Metal EDC Survival Waterproof</figcaption>
+</figure>
+
+<p>Hier is een link om die <a href="https://www.amazon.de/gp/product/B07D5DVXCD/">ontvangers</a> en <a href="https://www.amazon.de/gp/product/B07HPS8GQM">USB-geheugen</a> te kopen.</p>
+
+<h3 style="color:Orange;">D. Gebruik het als een "watch-only" wallet</h3>
+<p><a href="/wallets/deposit-only-btc-wallets-nl.html">Hier is een meer gedetailleerde handleiding</a> hoe je de MPK van deze cold wallet importeert en gebruikt in een app voor een deposit only wallet.</p>
+<p>Leuk weetje:</p>
+<p>Ik heb verschillende ontvangers zoals deze verborgen in diepe bossen/berggebieden, makkelijk (voor mij) om ze te herstellen in elk SHTF-geval. Zelfs als ze door iemand anders worden gevonden (ik betwijfel het echt) kunnen ze niet worden geopend vanwege harde encryptie. Ik ben erg vertrouwd met die encryptie en de geheime plaats waar ze verborgen zijn. Maar het is aan elk individu waar en hoe die kopieën worden opgeslagen. Het kan ook in een online opslag zijn, is voldoende dat KeePass-bestand wordt opgeslagen en optioneel een kopie van je electrum wallet-bestand (niet meer dan een paar honderd kb aan gegevens).</p>
+
+</body>
+</html>
+</article>
