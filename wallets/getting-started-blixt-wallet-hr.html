@@ -1,0 +1,293 @@
+---
+layout: default
+title: Prvi koraci s Blixt Mobile Node
+---
+<article>
+<!DOCTYPE html>
+<html lang="hr">
+<meta name="description" content="Vodiči za Bitcoin i Lightning: Prvi koraci s mobilnim čvorom Blixt Wallet">
+<body>
+<a href="/wallets/getting-started-blixt-wallet-en.html"><img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/getting-started-blixt-wallet-es.html"><img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/getting-started-blixt-wallet-de.html"><img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/getting-started-blixt-wallet-fr.html"><img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> | 
+<a href="/wallets/getting-started-blixt-wallet-it.html"><img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/getting-started-blixt-wallet-nl.html"><img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/getting-started-blixt-wallet-hi.html"><img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<blockquote style="color:Tomato;"><em>
+<p>Izvorno objavljeno na <a href="https://darthcoin.substack.com/p/getting-started-with-blixt-mobile">Substack</a> 22. studenog 2022.</p>
+<p>Ovdje ažurirano 20. prosinca 2024.</p>
+</em></blockquote>
+
+<h3>Kako početi koristiti moćni LN čvor na svom mobilnom telefonu, samostalni, otvoreni izvor, jednostavan vodič korak po korak.</h3>
+<p>Ovaj vodič namijenjen je svim onim novim korisnicima koji žele početi koristiti Bitcoin Lightning Network (LN) na BESPLATAN OTVORENI IZVOR, POTPUNO BEZ SKRBNIŠTVA.</p>
+<p>Upotrebom <a href="https://blixtwallet.com/">Blixt Wallet</a>, punog LN čvora na vašem mobitelu, gdje god se nalazili.</p>
+<p>Ako nikada niste koristili Bitcoin Lightning Network, prije nego počnete, <a href="/beginner/ln-airport-analogy-hr.html">pročitajte ovo jednostavno objašnjenje analogije o Lightning Network (LN)</a> .</p>
+
+<h3>VAŽNI ASPEKTI:</h3>
+<ol>
+<li>
+ <p>Blixt je privatni čvor, NIJE čvor za usmjeravanje! Imajte to na umu.</p>
+ <p>To znači da će svi LN kanali u Blixtu biti nenajavljeni na LN grafu (takozvani privatni kanali). To znači da OVAJ ČVOR NEĆE USPJEŠAVATI plaćanja drugih putem Blixt čvora.</p>
+ <p>Ovaj Blixt čvor NIJE za usmjeravanje, ponavljam. Uglavnom je to da biste mogli upravljati vlastitim LN kanalima i obavljati svoja LN plaćanja privatno, kad god vam zatreba.</p>
+ <p>Ovaj Blixt čvor je neophodan da bude na mreži i sinkroniziran SAMO PRIJE nego počnete obavljati svoje transakcije. Zato ćete na vrhu vidjeti ikonu koja označava status sinkronizacije. Traje samo nekoliko trenutaka, ovisno o tome koliko ste ga vremena držali izvan mreže.</p>
+</li>
+<li>Blixt koristi LND (aezeed) kao pozadinu novčanika, stoga ne pokušavajte u njega uvesti druge vrste bitcoin novčanika. <a href="https://coldbit.com/what-types-of-mnemonic-seeds-are-used-in-bitcoin/">Ovdje ste objasnili vrste mnemoničkih sjemenki novčanika</a>. A ovdje je <a href="https://walletsrecovery.org/">opširniji popis svih vrsta novčanika</a>. Dakle, ako ste prethodno imali LND čvor, možete uvesti početnu vrijednost i backup.channels u Blixt, <a href="/nodes/shtf-restore-lnd-node-hr.html">kako je objašnjeno u ovom vodiču </a>.</li>
+<li>Blixt važne veze - pogledajte ih na kraju ovog vodiča, označite ih kao oznake:</li>
+</ol>
+<p><img src="/assets/images/blixt-darth-moms.jpg" class="center"></p>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">Blixt - prvi kontakt</h3>
+<p>Dakle… Darthova mama odlučila je početi koristiti LN s Blixtom. Teška odluka, ali mudra. Blixt je samo za pametne ljude i one koji stvarno žele naučiti više, duboko korištenje LN-a.</p>
+<p>Darth upozorava svoju mamu:</p>
+
+<blockquote style="color:Tomato;"><em>
+<p>“Mama, ako počneš koristiti Blixt LN čvor, morat ćeš prvo znati što je Lightning Network i kako funkcionira, barem na osnovnoj razini. <a href="https://blixtwallet.github.io/faq#what-is-ln">Ovdje sam sastavio jednostavan popis resursa o Lightning Network</a>. Prvo ih pročitajte.”</p>
+</em></blockquote>
+
+<p>Darthova mama pročitala je resurse i napravila svoj prvi korak: instalirala Blixt na svoj potpuno novi Android uređaj. Blixt je također dostupan za iOS i macOS (stolno računalo). Ali oni nisu za Darthovu mamu… Ipak, preporučuje se korištenje novije verzije Androida, barem 9 ili 10 za bolju kompatibilnost i iskustvo. Pokretanje punog LN čvora na mobilnom uređaju nije lak zadatak i može zauzeti malo prostora (najmanje 600 MB) i memorije.</p>
+<p>Kada otvorite Blixt, zaslon "Dobrodošli" će vam dati neke opcije:</p>
+
+<p><img src="/assets/images/blixt-welcome-start.jpg" class="center"></p>
+
+<p>U gornjem desnom kutu vidjet ćete 3 točkice koje aktiviraju izbornik s:</p>
+<ul>
+<li>"omogući Tor" - korisnik može započeti s Tor mrežom, posebno ako želi vratiti stari LND čvor koji je radio s Tor samo ravnopravnim uređajima.</li>
+<li>“Postavi Bitcoin čvor” - ako se korisnik želi izravno spojiti na vlastiti čvor, kako bi sinkronizirao blokove putem Neutrina, to može učiniti odmah sa zaslona dobrodošlice. Ova je opcija također dobra u slučaju da vaša internetska veza ili Tor, nije toliko stabilna da se povežete sa zadanim bitcoin čvorom (node.blixtwallet.com).</li>
+<li>Uskoro će tamo biti dodan jezik, tako da korisnik može odmah početi s jezikom koji mu je udoban. Ako želite doprinijeti ovom projektu otvorenog koda s prijevodima na druge jezike, <a href="https://explore.transifex.com/blixt-wallet/blixt-wallet/">pridružite se ovdje</a>.< /li>
+</ul>
+
+<h3>OPCIJA A - Stvorite novi novčanik</h3>
+<p>Ako odaberete “kreiranje novog novčanika”, bit ćete preusmjereni ravno na glavni ekran Blixt novčanika.</p>
+<p>Ovo je vaš "kokpit", a također je i "Glavni LN novčanik", stoga imajte na umu da će vam pokazati samo stanje vašeg LN novčanika. Onchain novčanik zasebno je prikazan (pogledajte C).</p>
+
+<p><img src="/assets/images/blixt-main-screen.jpg" class="center"></p>
+
+<p>A - Blixt blokira ikonu indikatora sinkronizacije. Ovo je najvažnija stvar za LN čvor: biti sinkroniziran s mrežom. Ako ta ikona još uvijek radi, znači da vaš čvor NIJE SPREMAN! Zato imajte strpljenja, posebno za prvu početnu sinkronizaciju. Može potrajati do 6-8 minuta, ovisno o vašem uređaju i internetskoj vezi.</p>
+<p>Možete ga kliknuti i vidjeti status sinkronizacije:</p>
+
+<p><img src="/assets/images/blixt-initial-sync.jpg" class="center"></p>
+
+<p>Također možete kliknuti na gumb "Prikaži LND zapisnik" (A) ako želite vidjeti i pročitati više tehničkih detalja LND dnevnika, u stvarnom vremenu. Vrlo je koristan za otklanjanje pogrešaka i učenje više o tome kako LN radi.</p>
+<p>B - Ovdje možete pristupiti svim Blixt postavkama, a ima ih mnogo! Blixt nudi mnogo bogatih značajki i opcija za upravljanje vašim LN čvorom kao profesionalac. Sve te opcije detaljno su objašnjene u “<a href="https://blixtwallet.github.io/features#blixt-options">Stranici značajki Blixta</a> - Izbornik opcija”.</p>
+<p>C - Ovdje imate izbornik "Magic Drawer", <a href="https://blixtwallet.github.io/features#blixt-drawer">ovdje je također detaljno objašnjen</a>. Ovdje je "Onchain Wallet" (B), Lightning Channels (C), Contacts, Channels icon status (A), Keysend (D).</p>
+
+<p><img src="/assets/images/blixt-drawer.jpg" class="center"></p>
+
+<p>D - je izbornik za pomoć, s vezama na stranicu s često postavljanim pitanjima / vodičima, kontakt razvojnog programera, Github stranicu i grupu za podršku Telegrama.</p>
+<p>E - Navedite svoju prvu BTC adresu, gdje možete uplatiti svoje prve probne satove. OVO JE OPCIONALNO! Ako položite izravno na tu adresu, otvara se LN kanal prema Blixt čvoru. To znači da ćete vidjeti svoje položene satove, kako idu u drugu onchain transakciju (tx), za otvaranje tog LN kanala. To možete provjeriti u Blixt onchain novčaniku (pogledajte točku C), klikom na gornji desni izbornik TX.</p>
+
+<p><img src="/assets/images/blixt-onchain-tx-logs.jpg" class="center"></p>
+
+<p>Kao što možete vidjeti u zapisniku transakcija Onchain, koraci su vrlo detaljni koji pokazuju kamo idu satovi (uplata, otvaranje, zatvaranje kanala).</p>
+<p>PREPORUKA:</p>
+<p>Nakon testiranja nekoliko situacija, došli smo do zaključka da je mnogo učinkovitije otvoriti kanale između 1 i 5 milijuna sati. Manji kanali obično se brzo potroše i plaćaju veći postotak naknada u usporedbi s većim kanalima.</p>
+<p>F - Navedite svoj glavni saldo u Lightning novčaniku. Ovo NIJE vaš ukupni saldo Blixt novčanika, on predstavlja samo satove koje imate na Lightning kanalima, dostupne za slanje. Kao što je ranije navedeno, Onchain novčanik je odvojen. Imajte na umu ovaj aspekt. Onchain novčanik je odvojen iz važnog razloga: koristi se uglavnom za otvaranje/zatvaranje LN kanala.</p>
+<p>U redu, sada je Darthova mama uplatila nešto satnica na tu onchain adresu prikazanu na glavnom zaslonu. Preporuča se da kada to učinite, svoju Blixt aplikaciju ostavite online i aktivnom neko vrijeme, dok rudari ne preuzmu BTC tx u prvi blok.</p>
+<p>Nakon toga može potrajati do 20-30 minuta dok se potpuno ne potvrdi i kanal bude otvoren te ćete ga vidjeti u Čarobnoj ladici - Lightning Channels kao aktivnog. Također mala točka u boji na vrhu ladice, ako je zelena, značit će da je vaš LN kanal na mreži i spreman za korištenje za slanje satelita putem LN-a.</p>
+<p>Prikazana adresa i poruka dobrodošlice će nestati. Sada više nije potrebno otvarati automatski kanal. Također možete deaktivirati opciju u izborniku Postavke.</p>
+<p>Vrijeme je da krenete dalje, testirate druge značajke i opcije za otvaranje LN kanala.</p>
+<p>Sada, otvorimo još jedan kanal s drugim ravnopravnim čvorom. Blixt zajednica sastavila je <a href="https://github.com/hsjoberg/blixt-wallet/issues/1033">popis dobrih čvorova za početak korištenja s Blixtom</a>.</p>
+<p><strong>Procedura za otvaranje LN kanala u Blixtu</strong></p>
+<p>Ovo je vrlo jednostavno, poduzmite samo nekoliko koraka i malo strpljenja:</p>
+<ul>
+<li>Stigao na <a href="https://github.com/hsjoberg/blixt-wallet/issues/1033">Blixt zajednicu</a> popis istovrsnih korisnika</li>
+<li>Odaberite čvor i kliknite vezu naslova njegovog naziva, otvorit će se njegova Amboss stranica</li>
+<li>Kliknite za prikaz QR koda za URI adresu čvora</li>
+</ul>
+
+<p><img src="/assets/images/blixt-nodeid-qr.jpg" class="center"></p>
+
+<p>Otvorite Blixt i idite na gornju ladicu - Lightning Channels i kliknite na gumb “+”</p>
+
+<p><img src="/assets/images/blixt-open-channel.jpg" class="center"></p>
+
+<p>Sada kliknite (A) kameru za skeniranje QR koda sa stranice Amboss i pojedinosti o čvoru bit će ispunjene. Dodajte količinu satova za kanal koji želite, a zatim odaberite stopu naknade za prijenos. Možete ga ostaviti automatski (B) za bržu potvrdu ili ga prilagoditi ručno klizanjem gumba. Također možete dugo pritisnuti broj i urediti ga kako želite.</p>
+<p>Ne stavljajte manje od 1 sat/vbyte ! Obično je bolje provjeriti <a href="https://mempool.space/">mempool naknade</a> prije otvaranja kanala i odabrati prikladnu naknadu.</p>
+<p>Gotovo, sada samo kliknite gumb "otvori kanal" i pričekajte 3 potvrde, što obično traje 30 minuta (1 blok otprilike svakih 10 minuta).</p>
+<p>Kada bude potvrđen, vidjet ćete kanal aktivan u svom odjeljku "Lightning Channels".</p>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">Blixt - drugi kontakt</h3>
+<p>U redu, sada imamo LN kanal sa samo OUTBOUND likvidnošću. To znači da možemo samo SLATI, ali još uvijek ne možemo PRIMATI satove preko LN-a.</p>
+
+<p><img src="/assets/images/darth-read-guides.jpg" class="center"></p>
+
+<p>Zašto? Jeste li pročitali vodiče navedene na početku? Ne? Vratite se i pročitajte ih. Vrlo je važno razumjeti kako LN kanali rade.</p>
+<p><img src="/assets/images/blixt-channel-liquidity.jpg" class="center"></p>
+<p>Kao što možete vidjeti u ovom primjeru, kanal otvoren s prvim depozitom, nema previše INBOUND likvidnosti ("Može primati"), ali ima puno IZLAZNE likvidnosti ("Može slati").</p>
+<p>Dakle, koje opcije imate ako želite primati više satova putem LN-a?</p>
+<ul>
+<li>Potrošite nešto sati s postojećeg kanala. Da, LN je platna mreža Bitcoina, koja se uglavnom koristi za brže, jeftinije, privatno i jednostavno trošenje vaših satnica. LN NIJE hodling način, za to imate onchain novčanik.</li>
+<li>Zamijenite neke satove, natrag u svoj onchain novčanik, koristeći podmorničku uslugu zamjene. Na taj način ne trošite svoje satove, već ih vraćate u vlastiti onchain novčanik. Ovdje možete detaljno vidjeti neke metode, na <a href="https://blixtwallet.github.io/guides">stranici s vodičima za Blixt</a>.</li>
+<li><p>Otvorite INBOUND kanal bilo kojeg LSP pružatelja usluga. Ovdje je video demo o tome kako koristiti LNBig LSP za otvaranje ulaznog kanala.</p>
+
+<centar>
+<video width="320" height="640" kontrole>
+ <izvor src="/assets/media/blixt-lnbig.mp4" type="video/mp4">
+</video>
+</center>
+
+<p>To znači da ćete platiti malu naknadu za PRAZAN kanal (na vašoj strani) i moći ćete primati više sati na taj kanal. Ako ste trgovac koji prima više nego troši, to je dobra opcija. Također ako kupujete satove preko LN-a, koristeći Robosats ili bilo koju drugu LN razmjenu.</p></li>
+<li>Otvorite Dunder kanal, s Blixt čvorom ili bilo kojim drugim Dunder LSP pružateljem. Dunderov kanal je jednostavan način da dobijete nešto INBOUND likvidnosti, ali u isto vrijeme u taj kanal uplaćujete nešto satova. Također je dobar jer će otvoriti kanal s <a href="https://en.bitcoin.it/wiki/UTXO">UTXO</a> koji nije iz vašeg Blixt novčanika. To dodaje malo privatnosti. Također je dobro jer, ako nemate satove u onchain novčaniku, za otvaranje normalnog LN kanala, ali ih imate u drugom LN novčaniku, možete samo platiti iz tog drugog novčanika kroz LN otvaranje i depozit (na vašem strana) tog kanala Dunder. <a href="https://github.com/hsjoberg/dunder-lsp">Više detalja o tome kako Dunder funkcionira i kako pokrenuti vlastiti poslužitelj ovdje</a>.</li>
+</ul>
+
+<p><img src="/assets/images/blixt-dunder-channels.jpg" class="center"></p>
+
+<p>Ovdje su koraci za aktiviranje otvaranja Dunder kanala:</p>
+<ul>
+<li>Idite na Postavke, u odjeljku "Eksperimenti" aktivirajte okvir za "Omogući Dunder LSP".</li>
+<li>Kad to učinite, vratite se na odjeljak “Lightning Network” i vidjet ćete da se pojavila opcija “Postavi Dunder LSP poslužitelj”. Tamo je prema zadanim postavkama postavljeno “https://dunder.blixtwallet.com”, ali to možete promijeniti bilo kojom drugom adresom Dunder LSP pružatelja usluga. <a href="https://github.com/hsjoberg/blixt-wallet/issues/1033">Ovdje je popis Blixt zajednice</a> s čvorovima koji mogu pružiti Dudner LSP kanale za vaš Blixt.</li>
+<li>Sada možete otići na glavni zaslon i kliknuti gumb "Primi". Zatim slijedite ovaj postupak <a href="https://blixtwallet.github.io/guides#guide-lsp">objašnjen u ovom vodiču</a>.</li>
+</ul>
+<p>U redu, nakon što se Dunderov kanal potvrdi (potrajat će nekoliko minuta), završit ćete s 2 LN kanala: jedan koji je inicijalno otvoren s autopilotom (kanal A) i jedan s više ulazne likvidnosti, otvoren s Dunderom (kanal B ).</p>
+
+<p><img src="/assets/images/blixt-channels-screen.jpg" class="center"></p>
+
+<p>Dobro, sada možete, možete slati i primati dovoljno satelita putem LN-a!</p>
+<p>SRETNO BITCOIN MUNJENJE!</p>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">Blixt - treći kontakt</h3>
+<p>Zapamtite, u prvom poglavlju “Prvi kontakt” bile su 2 opcije na ekranu dobrodošlice:</p>
+<ul>
+<li>Opcija A - Stvorite novi novčanik</li>
+<li>Opcija B - Vratite novčanik</li>
+</ul>
+<p>Razgovarajmo sada o tome kako vratiti Blixt novčanik ili bilo koji drugi LND srušeni čvor. Ovo je malo više tehnički, ali obratite pozornost. Nije li tako teško.</p>
+
+<h3>OPCIJA B - Vratite novčanik</h3>
+<p>U prošlosti sam napisao namjenski vodič o <a href="/nodes/shtf-restore-lnd-node-hr.html">kako vratiti srušeni Umbrel čvor</a>, gdje sam također spomenuo metoda korištenja Blixta kao brzog postupka vraćanja, koristeći seed + channel.backup datoteku iz Umbrela.</p>
+<p>Također sam napisao vodič kako vratiti svoj Blixt čvor ili premjestiti svoj Blixt na drugi uređaj, <a href="https://blixtwallet.github.io/faq#blixt-restore">ovdje</a>. </p>
+
+<p><img src="/assets/images/blixt-restore.jpg" class="center"></p>
+
+<p>Ali objasnimo ovaj postupak u jednostavnim koracima. Kao što možete vidjeti na gornjoj slici, postoje 2 stvari koje biste trebali učiniti da vratite svoj prethodni Blixt/LND čvor:</p>
+<ul>
+<li>gornji okvir je mjesto gdje morate ispuniti sve 24 riječi iz vašeg sjemena (stari / mrtvi čvor)</li>
+<li>dolje su dvije opcije gumba za umetanje/učitavanje datoteke channel.backup, prethodno spremljene s vašeg starog Blixt/LND čvora. Može biti iz lokalne datoteke (prethodno ste je prenijeli na svoj uređaj) ili može biti s udaljene lokacije Google disk/iCloud. Blixt ima ovu opciju za spremanje sigurnosne kopije kanala izravno na Google / iCloud disk. Pogledajte više pojedinosti na <a href="https://blixtwallet.github.io/features#blixt-options">stranici sa značajkama Blixta</a>.</li>
+</ul>
+<p>Ipak, da spomenemo, ako prethodno niste imali otvorene LN kanale, nema potrebe za učitavanjem bilo koje datoteke channels.backup. Jednostavno umetnite početnu vrijednost od 24 riječi i pritisnite gumb za vraćanje.</p>
+<p>Ne zaboravite aktivirati Tor iz izbornika s gornje 3 točke, kao što smo objasnili u odjeljku Opcija A. To je slučaj kada ste imali SAMO Tor peere i niste mogli biti kontaktirani preko clearneta (domena/IP). Inače nije potrebno.</p>
+<p>Još jedna korisna značajka je postavljanje određenog Bitcoin čvora iz tog gornjeg izbornika. Prema zadanim postavkama sinkronizira blokove s node.blixtwallet.com (neutrino mod), ali možete postaviti bilo koji drugi Bitcoin čvor koji pruža neutrino sinkronizaciju.</p>
+<p>Dakle, nakon što ispunite te opcije i pritisnete gumb za vraćanje, Blixt će prvi pokrenuti sinkronizaciju blokova kroz Neutrino kao što smo objasnili u poglavlju Prvi kontakt. Stoga budite strpljivi i gledajte proces vraćanja na glavnom zaslonu klikom na ikonu sinkronizacije.</p>
+
+<p><img src="/assets/images/blixt-restore-process.jpg" class="center"></p>
+
+<p>Kao što možete vidjeti u ovom primjeru, on pokazuje da su bitcoin blokovi 100% sinkronizirani (A) i da je proces oporavka u tijeku (B). To znači da će LN kanali koje ste prethodno imali biti zatvoreni, a sredstva vraćena u vaš Blixt onchain novčanik.</p>
+<p>Ovaj proces zahtijeva vrijeme! Dakle, budite strpljivi i pokušajte zadržati svoj Blixt aktivnim i online. Početna sinkronizacija može trajati do 6-8 minuta, a zatvaranje kanala može potrajati do 10-15 minuta. Zato je bolje da uređaj bude dobro napunjen.</p>
+<p>Nakon što je ovaj proces započeo, možete provjeriti u Čarobnoj ladici - Lightning Channels, status svakog od vaših prethodnih kanala, pokazujući da su u statusu "na čekanju za zatvaranje". Nakon što se svaki kanal zatvori, mogli biste vidjeti zatvaranje tx-a u onchain novčaniku (pogledajte Magic Drawer - Onchain) i otvoriti zapisnik izbornika tx-a.</p>
+
+<p><img src="/assets/images/blixt-closed-channels.jpg" class="center"></p>
+
+<p>Također bi bilo dobro provjeriti i dodati, ako nisu tamo, vaše prethodne vršnjake koje ste imali u svom starom LN čvoru. Dakle, idite na izbornik postavki, dolje do “Lightning Network” i unesite opciju “Show Lightning Peers”.</p>
+
+<p><img src="/assets/images/blixt-add-peers.jpg" class="center"></p>
+
+<p>Unutar odjeljka vidjet ćete vršnjake s kojima ste povezani u tom trenutku i možete ih dodati više, bolje dodati one koje ste prije imali. Samo idite na <a href="https://amboss.space/">Amboss stranicu</a>, potražite pseudonime svojih ravnopravnih čvorova ili ID čvora i skenirajte njihov URI čvora.</p>
+
+<p><img src="/assets/images/blixt-add-peers-amboss.jpg" class="center"></p>
+
+<p>Kao što možete vidjeti na gornjoj slici, postoje 3 aspekta:</p>
+<p>A - predstavlja URI adrese Clearnet čvora (domena/IP)</p>
+<p>B - predstavlja URI adrese Tor onion čvora (.onion)</p>
+<p>C - je QR kod za skeniranje Blixt kamerom ili gumbom za kopiranje.</p>
+<p>URI adrese ovog čvora morate ga dodati na svoj popis ravnopravnih korisnika. Stoga imajte na umu da nije dovoljan samo pseudonim čvora ili nodeID.</p>
+<p>Sada možete ići na Magic Drawer (gore lijevi izbornik) - Lightning Channels, i možete vidjeti na kojoj će visini bloka dospijeća sredstva biti vraćena na vašu onchain adresu.</p>
+
+<p><img src="/assets/images/blixt-channel-status.jpg" class="center"></p>
+
+<p>Taj blok broj 764272 je kada će sredstva biti upotrebljiva na vašoj bitcoin onchain adresi. Moglo bi proći do 144 bloka od 1. bloka potvrde do puštanja. <a href="https://mempool.space/">Provjerite to u mempoolu</a>.</p>
+<p>I to je to. Samo strpljivo pričekajte dok se svi kanali ne zatvore i sredstva vrate u vaš onchain novčanik.</p>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">Blixt - četvrti kontakt</h3>
+<p>Ovo poglavlje govori o prilagodbi i boljem upoznavanju vašeg Blixt čvora. Neću opisivati ​​sve dostupne značajke, previše ih je i već su objašnjene na <a href="https://blixtwallet.github.io/features">stranici sa značajkama Blixta</a>.</p>
+<p>Ali ja ću istaknuti neke od onih koje su potrebne da biste nastavili koristiti svoj Blixt i imali sjajno iskustvo.</p>
+
+<h3>A - Ime (NameDesc)</h3>
+
+<p><img src="/assets/images/blixt-name-desc.jpg" class="center"></p>
+
+<p><a href="https://github.com/lightning/blips/blob/master/blip-0011.md">NamDesc</a> je standard za prenošenje "ime primatelja" u fakturama BOLT11. </p>
+<p>Ovo može biti bilo koje ime i može se promijeniti bilo kada.</p>
+<p>Ova opcija je jako korisna u raznim slučajevima, kada želite poslati ime zajedno s opisom fakture, tako da primatelj može imati naznaku tko je primio te satove. Ovo je potpuno opcionalno i također na ekranu za plaćanje, korisnik mora označiti okvir koji označava slanje pseudonima.</p>
+<p>Ovo je primjer kako bi izgledalo kada koristite <a href="https://chat.blixtwallet.com/">chat.blixtwallet.com</a></p>
+
+<p><img src="/assets/images/blixt-chat.png" class="center"></p>
+
+<p>Ovo je još jedan primjer slanja u drugu aplikaciju novčanika koja podržava NameDesc:</p>
+
+<p><img src="/assets/images/blixt-sbw-namedesc.jpg" class="center"></p>
+
+<h3>B - Kutija munje</h3>
+<p>Počevši s novom v0.6.9-420 <a href="https://github.com/hsjoberg/blixt-wallet/releases/tag/v0.6.9-420">nedavno najavljenom</a>, Blixt predstavio novu snažnu značajku za Lightning Address u Blixtu.</p>
+<p>Ova nova značajka je izborna opcija, nije UKLJUČENA prema zadanim postavkama!</p>
+<p>Trenutno zadani LN Box pokreće Blixt poslužitelj i nudi @blixtwallet.com LN adresu. Ali SVAKO s LND javnim čvorom može pokrenuti Lightning Box poslužitelj i ponuditi LN adresu za vlastitu domenu, samostalno skrbništvo.</p>
+<p>Trenutno poslužitelj Blixta samo prosljeđuje uplate poslane na LN adrese @blixtwallet.com korisnicima Blixta koji su postavili svoju LN adresu. Korisnici moraju staviti svoj novčanik Blixt čvora u "stalni način rada" kako bi primali ove uplate na svoje @blixtwallet.com LN adrese.</p>
+<p>Pogledajte u bilješkama o izdanju video demo o tome kako postaviti svoju LN adresu u Blixtu.</p>
+<p>Ova LN adresa implementirana u aplikaciju Blixt wallet je poput chata preko LN-a, trenutna i zabavna, također podržava <a href="https://github.com/lnurl/luds/blob/luds/18.md" >LUD-18</a> (dodavanje pseudonima uplati). Na popis kontakata možete dodati sve svoje redovne LN adrese koje često koristite i imati ih pri ruci za razgovor. Sada se Blixt može smatrati potpunom LN aplikacijom za chat 😂😂.</p>
+<p>Još jedna korisna značajka je puna podrška za LUD-18 (koju također <a href="https://stacker.news/r/DarthCoin">Stacker.News</a> i drugi podržavaju).< /p>
+
+<p><img src="/assets/images/blixt-main-screen2.jpg" class="center"></p>
+
+<p>Kao što možete vidjeti na gornjoj snimci zaslona, ​​slanje s računa Stacker News lijepo je prikazalo logotip + LN adresu + poruku. Isti način funkcionira i za slanje s Blixta, možete priložiti svoju Blixt LN adresu ili jednostavno dodati pseudonim (prethodno postavljen u postavkama Blixta) ili čak oboje.</p>
+<p>Ova opcija iz LUD-18 mogla bi biti korisna i za usluge pretplate, gdje korisnik može poslati određeni pseudonim (NIJE pseudonim vašeg čvora ili vaše pravo ime!) i na temelju toga možete biti registrirani ili primiti određenu poruku ili bilo što drugo. Prilaganje pseudonima (<a href="https://github.com/lnurl/luds/blob/luds/18.md">LUD-18</a>)+ komentar (<a href="https:/ /github.com/lnurl/luds/blob/luds/12.md">LUD-12</a>) na LN plaćanje može imati više slučajeva upotrebe!</p>
+<p>Ovdje je kod za <a href="https://github.com/hsjoberg/lightning-box">Lightning Box</a> ako ga pokrenete za sebe, za svoju obitelj i prijatelje, sami čvor.</p>
+<p>Ovdje također možete pokrenuti <a href="https://github.com/hsjoberg/dunder-lsp">LSP Dunder poslužitelj</a> za Blixt mobilne čvorove i ponuditi likvidnost za Blixt korisnike ako imate dobar javni LN čvor (radi samo s LND-om).</p>
+
+<h3>C - Rezervni LN kanali i početne riječi</h3>
+<p>Ovo je vrlo važna značajka!</p>
+<p>Nakon otvaranja ili zatvaranja LN kanala trebali biste napraviti sigurnosnu kopiju. To se može učiniti ručno spremanjem male datoteke na lokalni uređaj (obično mapa za preuzimanje) ili korištenjem Google Drive ili iCloud računa.</p>
+
+<p><img src="/assets/images/blixt-backup.jpg" class="center"></p>
+
+<p>Idite na Blixt postavke - odjeljak Novčanik. Tamo imate opcije za spremanje svih važnih podataka za vaš Blixt novčanik:</p>
+<ul>
+<li>"Prikaži mnemotehniku" - prikazat će početnu vrijednost od 24 riječi za zapisivanje</li>
+<li>"Ukloni mnemotehniku ​​s uređaja" - ovo nije obavezno i ​​koristite ga samo ako stvarno želite ukloniti početne riječi sa svog uređaja. Ovo NEĆE obrisati vaš novčanik, samo sjeme. Ali budite svjesni! Ne postoji način da ih vratite ako ih prethodno niste zapisali.</li>
+<li>"Izvezi sigurnosnu kopiju kanala" - ova će opcija spremiti malu datoteku na vaš lokalni uređaj, obično u mapu "preuzimanja", odakle je možete uzeti i premjestiti izvan uređaja radi sigurnog čuvanja.</li>
+<li>"Provjeri sigurnosnu kopiju kanala" - ovo je dobra opcija ako koristite Google disk ili iCloud za provjeru integriteta sigurnosne kopije napravljene na daljinu.</li>
+<li>“ Sigurnosna kopija kanala Google diska” - spremit će datoteku sigurnosne kopije na vaš osobni Google disk. Datoteka je šifrirana i pohranjena u odvojenom spremištu od vaših uobičajenih Google datoteka. Dakle, nema problema koje bi bilo tko mogao pročitati. U svakom slučaju, ta je datoteka potpuno beskorisna bez početnih riječi, tako da nitko ne može uzeti vaša sredstva samo iz te datoteke.</li>
+</ul>
+<p>Za ovaj odjeljak bih preporučio sljedeće:</p>
+<ul>
+<li>koristite upravitelj lozinki za sigurno pohranjivanje vaše početne i sigurnosne datoteke. KeePass ili Bitwarden su vrlo dobri za to i mogu se koristiti na više platformi i samostalno ili izvan mreže.</li>
+<li>URADITE SIGURNOSNO KOPIRANJE SVAKI PUT kada otvorite ili zatvorite kanal. Ta se datoteka ažurira informacijama o kanalima. Nema potrebe da to radite nakon svake transakcije koju ste izvršili na LN-u. Sigurnosna kopija kanala ne pohranjuje te podatke, pohranjuje samo status kanala.</li>
+</ul>
+
+<p><img src="/assets/images/blixt-always-backup.jpg" class="center"></p>
+
+<h3>Zaključak</h3>
+<p>U redu, postoje mnoge druge nevjerojatne značajke koje Blixt nudi, dopustit ću vam da ih otkrijete jednu po jednu i zabavite se.</p>
+<p>Ova je aplikacija stvarno podcijenjena, uglavnom zato što nije podržana nikakvim financiranjem VC-a, pokreće je zajednica, izgrađena je s ljubavlju i strašću za Bitcoin i Lightning Network.</p>
+<p>Ovaj mobilni LN čvor, Blixt je vrlo moćan alat u rukama mnogih korisnika, ako ga znaju dobro koristiti. Zamislite, hodate svijetom s LN čvorom u vlastitom džepu i nitko to neće znati.</p>
+<p>I da ne govorimo o svim drugim bogatim značajkama koje dolaze, a koje bi vrlo malo ili niti jedna druga aplikacija novčanika mogla ponuditi.</p>
+<p>U međuvremenu, ovdje su sve veze o ovom nevjerojatnom Bitcoin Lightning Nodeu:</p>
+<ul>
+<li><a href="https://blixtwallet.com/">Službena web stranica Blixta</a></li>
+<li><a href="https://github.com/hsjoberg/blixt-wallet/">Blixt Github stranica</a></li>
+<li><a href="https://blixtwallet.github.io/features">Stranica sa značajkama Blixta</a> - objašnjava jednu po jednu svaku značajku i funkcionalnost.</li>
+<li><a href="https://blixtwallet.github.io/faq">Stranica s čestim pitanjima o Blixtu</a> - Popis pitanja i odgovora i rješavanje problema s Blixtom</li>
+<li><a href="https://blixtwallet.github.io/guides">Stranica s vodičima za Blixt</a> - demonstracije, video upute, dodatni vodiči i slučajevi korištenja za Blixt</li>
+<li>Preuzimanje: <a href="https://play.google.com/store/apps/details?id=com.blixtwallet">Android Play Store</a> | <a href="https://testflight.apple.com/join/EXvGhRzS">iOS</a> | <a href="https://github.com/hsjoberg/blixt-wallet/releases">Izravno preuzimanje APK-a</a></li>
+<li><a href="https://t.me/blixtwallet">Telegram grupa za izravnu podršku</a></li>
+<li><a href="https://twitter.com/BlixtWallet">Twitter</a></li>
+<li><a href="https://geyser.fund/project/blixt">Geyser stranica za grupno financiranje</a> - donirajte sat koliko god želite kako biste podržali projekt</li>
+<li><a href="https://chat.blixtwallet.com/">LNURL Chat Blixt</a> - anonimni LN chat</li>
+<li><a href="https://lightning.video/06fdf68f99e246a6ec6ba1470677b9e632faaad4aa0ca9773c38714b682a4ac1">Blixt prezentacija - promo video</a></li
+<li><a href="https://lightning.video/eeb744202ad3f14c18bf6d719970ebd9c53f0f13b79c94d299c6be623fba64b6">Blixt Girls Calendar</a> - promo video (možete testirati svoju prvu upotrebu LN-a)</li>
+<li><a href="https://github.com/BlixtWallet/blixtwallet.github.io/tree/master/assets/flyer">A4 letak za ispis s prvim koracima uz korištenje Blixta, na raznim jezicima</a>. </li>
+<li><a href="https://blixt-wallet-git-master-hsjoberg.vercel.app/">Blixt također nudi potpuni funkcionalni demo</a> izravno na svojoj web stranici ili na namjenskoj verziji weba, imati potpuno iskustvo testiranja, prije početka korištenja u stvarnom svijetu.</li>
+</ul>
+<hr style="height:2px">
+
+<h3>ODRICANJE ODGOVORNOSTI:</h3>
+<blockquote style="color:Tomato;"><em>
+<p>Razvojni programeri ove aplikacije me ne plaćaju niti podržavaju na bilo koji način. Napisao sam ovaj vodič jer sam vidio da je interes za ovu aplikaciju za novčanik u porastu i da novi korisnici još uvijek ne razumiju kako započeti s njom. Također za pomoć Hampusu (glavni razvojni programer) s dokumentacijom o korištenju ovog novčanika čvora.</p>
+<p>Nemam nikakav drugi interes za promicanje ove LN aplikacije, osim poticanja usvajanja Bitcoina i LN-a. Ovo je jedini način!</p>
+</em></blockquote>
+</body>
+</html>
+</article>
