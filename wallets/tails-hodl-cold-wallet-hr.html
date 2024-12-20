@@ -1,0 +1,102 @@
+---
+layout: default
+title: Izgradite svoj HODL BTC hladni novčanik
+---
+<article>
+<!DOCTYPE html>
+<html lang="hr">
+<meta name="description" content="Bitcoin i Lightning vodiči: Izgradnja vlastitog Bitcoin hladnog novčanika">
+<body>
+<a href="/wallets/tails-hodl-cold-wallet-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/tails-hodl-cold-wallet-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/tails-hodl-cold-wallet-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/tails-hodl-cold-wallet-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/tails-hodl-cold-wallet-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/tails-hodl-cold-wallet-nl.html">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/tails-hodl-cold-wallet-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<blockquote style="color:Tomato;"><em>
+<p>Izvorno objavljeno na <a href="https://darthcoin.substack.com/p/build-your-hodl-btc-cold-wallet">Substack</a> 30. prosinca 2021.</p>
+<p>Ovdje ažurirano 20. prosinca 2024.</p>
+</em></blockquote>
+
+<h2>Kako koristiti TailsOS na USB sticku, s Electrumom i KeePassom, stvarajući vlastiti hladni novčanik.</h2>
+<p>Mnogi novi korisnici BTC-a zamolili su me da napišem ovaj vodič o tome kako stvoriti vlastiti hladni novčanik, a ne koristiti hardverski novčanik. Stoga ću ovdje opisati kako koristiti <a href="https://tails.boum.org/install/download/index.en.html">TailsOS</a> na USB sticku, s <a href=" https://electrum.org/">Electrum</a> i <a href="https://keepass.info/">KeePass</a> (također imaju ugrađeni generator zaporki).</p>
+<p>Ova metoda pohranjivanja je za one korisnike koji se znaju koristiti računalima, sustavima i već imaju osnovno znanje o Bitcoinu.</p>
+<p>Ova metoda NIJE za one koji su tek upoznati s ovom tehnologijom i nisu baš tehničari. Onima preporučujem da kupe hardverski novčanik i zaborave na ovu metodu.</p>
+<p>Važni aspekti o hladnim novčanicima:</p>
+<ul>
+<li>hladni novčanik uvijek mora imati barem kopiju (čak iu drugom obliku sigurnosne kopije) i pohranjenu na drugom geografskom mjestu. Nikad ne znaš što bi se moglo dogoditi.</li>
+<li>hladni novčanik NIJE novčanik za vašu svakodnevnu upotrebu! <a href="/beginner/be-your-own-bank-hr.html">Kao što sam objasnio ovdje u njegovom vodiču</a>, svoju zalihu biste trebali držati u tri razine novčanika. Svaki hladni/HODL novčanik u kojem god formatu ga držali, mora biti pohranjen na sigurnom mjestu, da nitko drugi ne zna i da ga ne koristi. Za uplatu u taj isti novčanik potrebno vam je samo nekoliko BTC adresa i/ili MPK/Xpub ključ uvezen u aplikaciju za novčanik "samo za gledanje". Samo gledanje znači da privatni ključevi nikada neće dodirnuti online svijet, možete samo položiti u taj novčanik i provjeriti stanje. <a href"=https://darthcoin.substack.com/p/deposit-only-bitcoin-wallets">Ovdje je vodič</a> kako koristiti novčanike "samo za gledanje".</li>
+<li>hladnom novčaniku se može pristupiti samo kada stvarno trebate premjestiti sredstva od tamo (hitna stvar) ili želite nadograditi sustav novčanika, firmware, OS itd.</li>
+<li>uvijek testirajte postupak oporavka PRIJE nego stavite bilo kakva sredstva u taj novčanik. Mnogo puta dok vam proces ne bude ugodan i dok ne budete sigurni da ćete moći vratiti svoj novčanik u slučaju SHTF-a. Praksa je ključ vještine.</li>
+</ul>
+<h3>Zašto preporučujem ovu metodu, nazovimo je "Tails novčanik"?</h3>
+
+<p><img src="/assets/images/tails.png" class="center"></p>
+
+<p>Mnogo je razloga koje možemo spomenuti:</p>
+<ul>
+<li>prilično je jeftin (jedini trošak je USB stick/s). Pa zašto ne složiti više satnica umjesto kupnje (za neke) skupih hardverskih novčanika?</li>
+<li>TailsOS je snažan sustav Debian Linux OS, prenosiv, s ugrađenim Torom i mnogim drugim korisnim aplikacijama.</li>
+<li>ne privlači pozornost. Nitko neće znati da u običnom normalnom USB-u možete nositi ključeve svojih HODL novčanika. Umjesto da hodate okolo s Trezorom, knjigom, hladnom karticom itd., sada će svi prepoznati da oni "nose BTC", tako da biste mogli biti meta prema zadanim postavkama. U prošlosti sam vidio korisnike u kantini kako povlače svoj Trezor i spajaju ga na prijenosno računalo, samo da bi platili račun. POGREŠNO, potpuno pogrešno.</li>
+<li>Isti USB OS može se koristiti kao sustav za hitno čišćenje za druge zadatke. Recimo da putujete i trebate čisto računalo za korištenje. TailsOS je izvrstan za to, samo se dignite s njim i imate živi čisti OS samo za čitanje. Pristup na siguran način vašim osobnim podacima, BTC novčanicima itd. I dolazi s puno jednostavnih korisnih alata.</li>
+<li>Može pohraniti više novčanika, može se kopirati i pohraniti na mnogo različitih lokacija. Može se koristiti i za pohranu više osobnih podataka (skeniranih dokumenata, upravitelja lozinkama, privatnih stvari), sve šifrirano, sigurno od neprijateljskih očiju.</li>
+<li>Nudi jednostavan i brz pristup vašim hladnim novčanicima u bilo koje vrijeme, bez dodatnog softvera osjetljivog na zlonamjerni softver, krađu identiteta, zaražena računala. TailsOS je UVIJEK ČIST bez obzira koje računalo koristite. Mnogi korisnici gube kontrolu nad novčanikom jer ih koriste na zaraženim računalima i nemaru su sigurnosti.</li>
+</ul>
+
+<h3>Započnimo</h3>
+<h3 style="color:Orange;">A. Izradite i pripremite svoj Tails novčanik</h3>
+<ol>
+<li><p>Preuzmite <a href="https://tails.boum.org/install/download/index.en.html">TailsOS</a>, živi USB i koristite <a href="https ://rufus.ie/">Rufus</a> za izradu USB diska za podizanje sustava s TailsOS ISO slikom. Rufus će obrisati i formatirati taj USB pogon.</p>
+<p>Dodatno možete koristiti prilagođeni <a href="https://github.com/DesobedienteTecnologico/dtails">DTails paket</a> (uključuje više aplikacija i alata).</p></li>
+<li>Pokrenite s tog USB pogona (promijenite postavke u BIOS-u računala za pokretanje s USB pogonom ili pritisnite F12 za neke sustave) i odaberite RUN/Execute, not install, offline. Ovaj operativni sustav uživo već uključuje aplikaciju Electrum BTC novčanik i KeePass (upravitelj zaporkama).</li>
+<li>Ako planirate ponovno koristiti ovaj LiveUSB TailsOS, možete stvoriti i skrivenu aktivnu particiju, koja će biti šifrirana, za spremanje važnih informacija, kao što je KeePass datoteka baze podataka, sigurnosna kopija electrum novčanika. Evo uputa za korištenje <a href="https://tails.boum.org/doc/persistent_storage/index.en.html">“Trajne particije”</a> i video vodiča <a href="https ://www.youtube.com/watch?v=nRztIE_hRzM">ovdje</a>. Stavite jaku lozinku da otvorite taj postojani particijski prostor i NEMOJTE JE ZABORAVITI!</li>
+<li>Nakon što ste gotovi s trajnim stvaranjem particije, otvorite aplikaciju KeePass i izradite novu bazu podataka zaporki. Spremite kopiju na drugu USB memoriju i također koristite trajni šifrirani prostor iz Tailsa. U toj bazi podataka počinjete spremati sve svoje novčanike (seed words, XPUB, BTC adrese, MPK) i druge osobne informacije. Ne zaboravite napraviti kopije ove datoteke na drugim sigurnim mjestima. <a href="https://www.youtube.com/watch?v=1Vm68e-Jn7I">Ovdje je vodič</a> za korištenje KeePass i sinkronizaciju između uređaja.</li>
+<li>Ako želite koristiti najnoviju verziju Electruma, a ne već instaliranu verziju Tailsa, možete preuzeti AppImage (za linux) izravno sa stranice Electruma <a href="https://electrum.org/#download" >https://electrum.org/#download</a></li>
+<li>i spremite ga na svoju trajnu particiju. Samo ga trebate pokrenuti, nema potrebe da ga instalirate. Ali bilo koja verzija Electruma iz Tailsa dovoljna je za stvaranje offline novčanika. Najnovija verzija je potrebna samo ako želite koristiti Tails za emitiranje transakcije iz tog hladnog novčanika.</li>
+<li>Otvorite aplikaciju Electrum i izradite novi novčanik. Spremite početne riječi u svoju KeePass datoteku. Nakon što je kreiran, idite na izbornik Electrum - informacije o novčaniku - kopirajte MPK (Master Public Key) i spremite ga u svoju KeePass bazu podataka (gdje ste također spremili seed). Idite na izbornik - aktivirajte prikaz adresa, zatim idite na karticu Adrese i kopirajte 3-4-5 adresa i stavite ih u svoju Keepass datoteku. Kasnije će se koristiti za testiranje postupka vraćanja.</li>
+</ol>
+
+<slika>
+ <img src="/assets/images/keepass.jpg" class="center">
+ <figcaption>KeeePass nova lozinka za ulaz</figcaption>
+</figure>
+
+<p>GOTOVO! Upravo ste kreirali svoj hladni novčanik u TailsOS-u. Zatvorite sve aplikacije i isključite svoj TailsOS.</p>
+<p>OPCIONALNO možete preuzeti i spremiti na svoju trajnu particiju aplikaciju <a href="https://sparrowwallet.com/">Sparrow wallet</a> ako želite koristiti napredniju vrstu koja podržava Taproot adresu, <a href="/wallets/move-btc-taproot-address-hr.html">kao što sam objasnio u ovom vodiču</a>. Gotovo iste procedure koje treba slijediti za stvaranje novčanika, spremanje sigurnosne kopije i ključeva kao za aplikaciju Electrum.</p>
+
+<h3 style="color:Orange;">B. Testirajte postupak vraćanja novčanika</h3>
+<ol>
+<li>Ponovo pokrenite TailsOS, otključajte trajnu particiju da biste mogli otvoriti svoju KeePass datoteku baze podataka.</li>
+<li>Otvorite aplikaciju Electrum, odaberite vraćanje novčanika, već imam početnu vrijednost i zatim slijedite upute korak po korak. Odaberite izvorni segwit i također gumb opcije za BIP39 početnu vrijednost. <a href="https://electrum.readthedocs.io/en/latest/">Ovdje pogledajte više pojedinosti o korištenju aplikacije Electrum</a>.</li>
+<li>Otvorite svoj KeePass i unos za podatke vašeg Electrum novčanika.</li>
+<li>Stavite početne riječi za vraćanje i provjerite ih jednu po jednu.</li>
+<li>Nakon što je proces vraćanja završen, novčanik se učitava, idite na izbornik - aktivirajte "pregled adresa", zatim idite na karticu Adrese i provjerite prve 3-4 generirane adrese koje su iste koje ste spremili u svojoj KeePass datoteci. Ako su isti, upravo ste ispravno obnovili svoj novčanik. Opcionalno možete provjeriti i MPK ako je isti, pogledajte izbornik - informacije novčanika.</li>
+</ol>
+<p>Gotovo! Sada ste spremni, možete uplatiti sredstva u svoj hladni novčanik. MPK možete koristiti u aplikaciji samo za sat ili samo pomoću nekoliko BTC adresa iz svog novčanika.</p>
+
+<h3 style="color:Orange;">C. Napravite sigurnosne kopije i kopije tog novčanika!</h3>
+<p>U redu, sada kada testirate proceduru vraćanja, položite nešto sredstava u taj novčanik, vrijeme je da napravite sigurnosne kopije.</p>
+<ol>
+<li>Otvorite TailsOS, otvorite Electrum novčanik</li>
+<li>Idite na izbornik File - Backup wallet. Spremite tu kopiju datoteke novčanika na svoju trajnu particiju i također na drugi šifrirani USB kao kopiju zajedno s kopijom vaše KeePass datoteke baze podataka. Evo nekoliko vodiča za šifriranje USB pogona s <a href="https://www.digitalcitizen.life/encrypt-files-usb-memory-stick-bitlocker-go/">Windows</a> i s <a href="https://www.howtoforge.com/tutorial/encrypt-usb-drive-on-ubuntu/">Linux</a>.</li>
+<li>Kopija tog Electrum novčanika također je šifrirana vašom Electrum lozinkom koju ste postavili kada prvi put kreirate taj novčanik. Ta se lozinka također koristi kada morate emitirati tx, za proces potpisivanja. Dakle, imajte na umu da je vrlo važno, spremite ga također u svoju KeePass datoteku.</li>
+<li>Dakle, sada jednostavno možete otvoriti tu datoteku novčanika s Electrum aplikacijom, bez potrebe za vraćanjem iz sjemena, samo će vas tražiti da je otvorite sa svojom Electrum lozinkom za dešifriranje datoteke. Seed će biti potreban samo u slučaju da se ova datoteka ošteti ili izgubi. Ova datoteka također sadrži sve tx-ove koje ste napravili, oznake, povijest i s vremenom može postati veća.</li>
+<li>U kopiju USB pogona (kriptiranu) možete pohraniti i mnoge druge datoteke, poput slikovne datoteke koja ugrađuje početnu vrijednost pomoću <a href="https://openstego.com/">steganografije</a>, privatne dokumente, bilo što digitalno što vam je važno. Napravite više kopija ove "privatne izvanmrežne pohrane" i spremite ih na različite lokacije. Po želji ih možete staviti u metalnu posudu, zaštićenu od EMF-a, vode, sunca, topline itd.</li>
+</ol>
+
+<slika>
+ <img src="/assets/images/recipients.jpg" class="center">
+ <figcaption>Outdoor Metal EDC Survival Waterproof</figcaption>
+</figure>
+
+<p>Ovdje je poveznica za kupnju tih <a href="https://www.amazon.de/gp/product/B07D5DVXCD/">primatelja</a> i <a href="https://www. amazon.de/gp/product/B07HPS8GQM">USB memorija</a>.</p>
+
+<h3 style="color:Orange;">D. Koristite ga kao novčanik "samo za sat"</h3>
+<p><a href="/wallets/deposit-only-btc-wallets-hr.html">Ovdje je detaljniji vodič</a> kako uvesti i koristiti MPK ovog hladnog novčanika u aplikaciju za polog samo novčanik.</p>
+<p>Zabavna činjenica:</p>
+<p>Imam nekoliko primatelja poput ovih skrivenih u dubokim šumama/planinskim mjestima, koje je lako (za mene) vratiti u bilo kojem SHTF slučaju. Čak i ako ih pronađe netko drugi (stvarno sumnjam), ne može im se pristupiti zbog hard enkripcije. Vrlo mi je ugodno to šifriranje i tajno mjesto gdje su skriveni. No, svaki odlučuje gdje će i kako spremiti te kopije. Također može biti u mrežnoj pohrani, dovoljna je KeePass datoteka za pohranjivanje i opcionalna kopija vaše Electrum wallet datoteke (ne više od nekoliko stotina kb podataka).</p>
+
+</body>
+</html>
+</article>
