@@ -1,0 +1,102 @@
+---
+layout: default
+title: Erstellen Sie Ihre HODL BTC Cold Wallet
+---
+<article>
+<!DOCTYPE html>
+<html lang="de">
+<meta name="description" content="Anleitungen zu Bitcoin und Lightning: Erstellen Sie Ihr eigenes Bitcoin Cold Wallet">
+<body>
+<a href="/wallets/tails-hodl-cold-wallet-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/tails-hodl-cold-wallet-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/tails-hodl-cold-wallet-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/tails-hodl-cold-wallet-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/tails-hodl-cold-wallet-nl.html">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/tails-hodl-cold-wallet-hr.html">Hrvatski <img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/tails-hodl-cold-wallet-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<blockquote style="color:Tomato;"><em>
+<p>Ursprünglich gepostet auf <a href="https://darthcoin.substack.com/p/build-your-hodl-btc-cold-wallet">Substack</a> am 30. Dez. 2021</p>
+<p>Hier aktualisiert am 20. Dez. 2024</p>
+</em></blockquote>
+
+<h2>So verwenden Sie TailsOS auf einem USB-Stick mit Electrum und KeePass und erstellen Ihre eigene Cold Wallet.</h2>
+<p>Viele neue BTC-Benutzer haben mich gebeten, diesen Leitfaden darüber zu schreiben, wie Sie Ihre eigene Cold Wallet erstellen und keine Hardware-Wallet verwenden können. Daher beschreibe ich hier, wie man <a href="https://tails.boum.org/install/download/index.en.html">TailsOS</a> auf einem USB-Stick mit <a href="https://electrum.org/">Electrum</a> und <a href="https://keepass.info/">KeePass</a> (hat auch einen integrierten Passwortgenerator) verwendet.</p>
+<p>Diese Speichermethode ist für Benutzer gedacht, die mit der Verwendung von Computern und Systemen vertraut sind und bereits über Grundkenntnisse zu Bitcoin verfügen.</p>
+<p>Diese Methode ist NICHT für Benutzer geeignet, die mit dieser Technologie noch nicht vertraut sind und nicht so technisch versiert sind. Diesen empfehle ich, einfach eine Hardware-Wallet zu kaufen und diese Methode zu vergessen.</p>
+<p>Wichtige Aspekte zu Cold Wallets:</p>
+<ul>
+<li>Eine Cold Wallet muss immer mindestens eine Kopie haben (auch in einer anderen Form als Backup) und an einem anderen geografischen Ort gespeichert sein. Man weiß nie, was passieren könnte.</li>
+<li>Eine Cold Wallet ist NICHT Ihre täglich genutzte Wallet! <a href="/beginner/be-your-own-bank-de.html">Wie ich hier in seinem Leitfaden erklärt habe</a>, sollten Sie Ihren Vorrat in drei Wallet-Ebenen aufbewahren. Jede Cold/HODL-Wallet, in welchem ​​Format auch immer Sie sie aufbewahren, muss an einem sicheren Ort aufbewahrt werden, den niemand sonst kennt, und darf nicht verwendet werden. Um auf dieselbe Wallet einzuzahlen, benötigen Sie nur wenige BTC-Adressen und/oder einen MPK/Xpub-Schlüssel, der in eine „Watch-Only“-Wallet-App importiert wurde. „Watch-Only“ bedeutet, dass die privaten Schlüssel niemals die Online-Welt berühren, Sie können nur auf diese Wallet einzahlen und den Kontostand überprüfen. <a href"=https://darthcoin.substack.com/p/deposit-only-bitcoin-wallets">Hier ist eine Anleitung</a> zur Verwendung von „Watch-Only“-Wallets.</li>
+<li>Auf ein Cold Wallet kann nur zugegriffen werden, wenn Sie wirklich Geld von dort abheben müssen (dringende Angelegenheit) oder wenn Sie das Wallet-System, die Firmware, das Betriebssystem usw. aktualisieren möchten.</li>
+<li>Testen Sie das Wiederherstellungsverfahren immer, BEVOR Sie Geld in dieses Wallet einzahlen. So oft, bis Sie mit dem Vorgang vertraut sind und sicher sind, dass Sie Ihr Wallet im SHTF-Fall wiederherstellen können. Übung ist der Schlüssel zur Kompetenz.</li>
+</ul>
+<h3>Warum empfehle ich diese Methode, nennen wir sie „Tails Wallet“?</h3>
+
+<p><img src="/assets/images/tails.png" class="center"></p>
+
+<p>Es gibt viele Gründe, die wir nennen können:</p>
+<ul>
+<li>ist spottbillig (die einzigen Kosten sind die USB-Sticks). Warum also nicht mehr Sats stapeln, anstatt (für manche) teure Hardware-Wallets zu kaufen?</li>
+<li>TailsOS ist ein leistungsstarkes, portables Debian-Linux-Betriebssystem mit integriertem Tor und vielen anderen nützlichen Apps.</li>
+<li>erhält keine Aufmerksamkeit. Niemand wird wissen, dass Sie auf einem einfachen normalen USB-Stick die Schlüssel zu Ihren HODL-Wallets mitführen können. Anstatt mit einem Trezor, Ledger, Cold Card usw. herumzulaufen, wird jetzt jeder erkennen, dass diese „BTC tragen“, sodass Sie standardmäßig ein Ziel sein könnten. In der Vergangenheit habe ich Benutzer in einer Cafeteria gesehen, die ihren Trezor herausholten und ihn an einen Laptop anschlossen, nur um die Rechnung zu bezahlen. FALSCH, völlig falsch.</li>
+<li>Dasselbe USB-Betriebssystem kann als Notfall-Clean-System für andere Aufgaben verwendet werden. Nehmen wir an, Sie sind auf Reisen und benötigen einen sauberen Computer. TailsOS ist dafür großartig, booten Sie einfach damit und Sie haben ein schreibgeschütztes, sauberes Live-Betriebssystem. Sicherer Zugriff auf Ihre persönlichen Daten, BTC-Wallets usw. Und mit vielen einfachen, nützlichen Tools.</li>
+<li>Es können mehrere Wallets gespeichert, kopiert und an vielen verschiedenen Orten gespeichert werden. Es kann auch zum Speichern persönlicherer Daten (gescannte Dokumente, Passwortmanager, private Dinge) verwendet werden, alles verschlüsselt und sicher vor feindlichen Augen.</li>
+<li>Bietet jederzeit einfachen und schnellen Zugriff auf Ihre Cold Wallets, ohne zusätzliche Software, die anfällig für Malware, Phishing und infizierte Computer ist. TailsOS ist IMMER SAUBER, egal welchen Computer Sie verwenden. Viele Benutzer verlieren die Kontrolle über ihre Wallets, weil sie sie auf infizierten Computern verwenden und es mit der Sicherheit nicht so genau nehmen.</li>
+</ul>
+
+<h3>Lass uns anfangen</h3>
+<h3 style="color:Orange;">A. Erstellen und bereiten Sie Ihr Tails Wallet vor</h3>
+<ol>
+<li><p>Laden Sie <a href="https://tails.boum.org/install/download/index.en.html">TailsOS</a> herunter, aktivieren Sie den USB-Stick und verwenden Sie <a href="https://rufus.ie/">Rufus</a>, um das bootfähige USB-Laufwerk mit dem TailsOS-ISO-Image zu erstellen. Rufus löscht und formatiert das USB-Laufwerk.</p>
+<p>Optional können Sie die angepasste <a href="https://github.com/DesobedienteTecnologico/dtails">DTails-Suite</a> verwenden (enthält weitere Apps und Tools).</p></li>
+<li>Booten Sie mit diesem USB-Laufwerk (ändern Sie die Einstellungen im BIOS des Computers, um mit dem USB-Laufwerk zu starten, oder drücken Sie bei einigen Systemen F12) und wählen Sie AUSFÜHREN/Ausführen, nicht „Installieren, offline“. Dieses Live-Betriebssystem enthält bereits die Electrum BTC Wallet-App und KeePass (Passwort-Manager).</li>
+<li>Wenn Sie dieses LiveUSB TailsOS wiederverwenden möchten, können Sie auch eine versteckte aktive Partition erstellen, die verschlüsselt wird, um wichtige Informationen wie die KeePass-Datenbankdatei und das Electrum Wallet-Backup zu speichern. Hier finden Sie Anweisungen zur Verwendung von <a href="https://tails.boum.org/doc/persistent_storage/index.en.html">„Persistent Partition“</a> und ein Video-Tutorial <a href="https://www.youtube.com/watch?v=nRztIE_hRzM">hier</a>. Geben Sie ein sicheres Passwort ein, um diesen persistenten Partitionsspeicherplatz zu öffnen, UND VERGESSEN SIE ES NICHT!</li>
+<li>Wenn Sie mit der Erstellung der persistenten Partition fertig sind, öffnen Sie die KeePass-App und erstellen Sie eine neue Passwortdatenbank. Speichern Sie eine Kopie auf einem anderen USB-Speicher und verwenden Sie auch den persistenten verschlüsselten Speicherplatz von Tails. In dieser Datenbank beginnen Sie, alle Ihre Wallets (Seed-Wörter, XPUB, BTC-Adressen, MPK) und andere persönliche Informationen zu speichern. Vergessen Sie nicht, Kopien dieser Datei an anderen sicheren Orten zu erstellen. <a href="https://www.youtube.com/watch?v=1Vm68e-Jn7I">Hier ist eine Anleitung</a>, wie Sie KeePass verwenden und geräteübergreifend synchronisieren.</li>
+<li>Wenn Sie eine aktuelle Version von Electrum und nicht die bereits installierte Tails-Version verwenden möchten, können Sie das AppImage (für Linux) direkt von der Electrum-Seite <a href="https://electrum.org/#download">https://electrum.org/#download</a></li>
+<li>herunterladen und in Ihrer persistenten Partition speichern. Sie müssen es nur starten, es muss nicht installiert werden. Aber jede Version von Electrum von Tails reicht aus, um ein Offline-Wallet zu erstellen. Die neueste Version wird nur benötigt, wenn Sie Tails verwenden möchten, um eine Transaktion aus dieser Cold Wallet zu übertragen.</li>
+<li>Öffnen Sie die Electrum-App und erstellen Sie eine neue Wallet. Speichern Sie die Seed-Wörter in Ihrer KeePass-Datei. Sobald sie erstellt ist, gehen Sie zum Electrum-Menü – Wallet-Informationen – kopieren Sie den MPK (Master Public Key) und speichern Sie ihn in Ihrer KeePass-Datenbank (wo Sie auch den Seed gespeichert haben). Gehen Sie zum Menü – aktivieren Sie „Adressen anzeigen“, gehen Sie dann zur Registerkarte „Adressen“ und kopieren Sie 3-4-5 Adressen und fügen Sie sie in Ihre Keepass-Datei ein. Wird später zum Testen des Wiederherstellungsverfahrens verwendet.</li>
+</ol>
+
+<figure>
+<img src="/assets/images/keepass.jpg" class="center">
+<figcaption>KeeePass-Passwort für neuen Zugang</figcaption>
+</figure>
+
+<p>FERTIG! Sie haben gerade Ihre Cold Wallet in TailsOS erstellt. Schließen Sie alle Apps und fahren Sie Ihr TailsOS herunter.</p>
+<p>OPTIONAL können Sie die <a href="https://sparrowwallet.com/">Sparrow Wallet</a>-App herunterladen und in Ihrer persistenten Partition speichern, wenn Sie einen fortgeschritteneren und Taproot unterstützenden Adresstyp verwenden möchten, <a href="/wallets/move-btc-taproot-address-de.html">wie ich in diesem Handbuch erklärt habe</a>. Zum Erstellen einer Wallet, Speichern von Backups und Schlüsseln sind fast dieselben Verfahren zu befolgen wie für die Electrum-App.</p>
+
+<h3 style="color:Orange;">B. Testen Sie das Wiederherstellen der Wallet-Prozedur</h3>
+<ol>
+<li>Starten Sie TailsOS erneut, entsperren Sie die persistente Partition, um Ihre KeePass-Datenbankdatei öffnen zu können.</li>
+<li>Öffnen Sie die Electrum-App, wählen Sie „Wallet wiederherstellen, ich habe bereits einen Seed“ und folgen Sie dann Schritt für Schritt den Anweisungen. Wählen Sie Segwit Native und auch die Optionsschaltfläche für den BIP39-Seed. <a href="https://electrum.readthedocs.io/en/latest/">Weitere Einzelheiten zur Verwendung der Electrum-App finden Sie hier</a>.</li>
+<li>Öffnen Sie Ihr KeePass und den Eintrag für Ihre Electrum-Wallet-Details.</li>
+<li>Geben Sie die wiederherzustellenden Seed-Wörter ein und überprüfen Sie sie nacheinander.</li>
+<li>Sobald der Wiederherstellungsvorgang abgeschlossen ist und das Wallet geladen ist, gehen Sie zum Menü – aktivieren Sie „Adressen anzeigen“, gehen Sie dann zur Registerkarte „Adressen“ und überprüfen Sie die ersten 3–4 generierten Adressen, die mit denen übereinstimmen, die Sie in Ihrer KeePass-Datei gespeichert haben. Wenn sie identisch sind, haben Sie gerade eine korrekte Wiederherstellung Ihres Wallets durchgeführt. Optional können Sie auch den MPK überprüfen, wenn er identisch ist, siehe Menü – Wallet-Informationen.</li>
+</ol>
+<p>Fertig! Jetzt können Sie loslegen und Geld in Ihr Cold Wallet einzahlen. Sie können das MPK in einer Nur-Uhr-App oder einfach mit einigen BTC-Adressen aus Ihrem Wallet verwenden.</p>
+
+<h3 style="color:Orange;">C. Erstellen Sie Backups und Kopien dieses Wallets!</h3>
+<p>OK, jetzt, da Sie das Wiederherstellungsverfahren getestet und etwas Geld in dieses Wallet eingezahlt haben, ist es Zeit, Sicherheitskopien zu erstellen.</p>
+<ol>
+<li>Öffnen Sie TailsOS, öffnen Sie das Electrum-Wallet</li>
+<li>Gehen Sie zum Menü Datei - Wallet sichern. Speichern Sie diese Wallet-Dateikopie in Ihrer persistenten Partition und auch auf einem anderen verschlüsselten USB-Stick als Kopie zusammen mit einer Kopie Ihrer KeePass-Datenbankdatei. Hier sind einige Anleitungen zum Verschlüsseln eines USB-Laufwerks mit <a href="https://www.digitalcitizen.life/encrypt-files-usb-memory-stick-bitlocker-go/">Windows</a> und mit <a href="https://www.howtoforge.com/tutorial/encrypt-usb-drive-on-ubuntu/">Linux</a>.</li>
+<li>Die Kopie dieser Electrum-Wallet ist auch mit Ihrem Electrum-Passwort verschlüsselt, das Sie beim ersten Erstellen dieser Wallet eingeben. Dieses Passwort wird auch verwendet, wenn Sie eine TX für den Signiervorgang senden müssen. Denken Sie also daran, dass es sehr wichtig ist, und speichern Sie es auch in Ihrer KeePass-Datei.</li>
+<li>Jetzt können Sie diese Wallet-Datei einfach mit der Electrum-App öffnen, ohne sie vom Seed wiederherstellen zu müssen. Sie werden lediglich aufgefordert, sie mit Ihrem Electrum-Passwort zu öffnen, um die Datei zu entschlüsseln. Der Seed wird nur benötigt, falls diese Datei beschädigt wird oder verloren geht. Diese Datei enthält auch alle von Ihnen erstellten Txs, Beschriftungen, den Verlauf und kann mit der Zeit größer werden.</li>
+<li>In der USB-Laufwerkkopie (verschlüsselt) können Sie auch viele andere Dateien speichern, z. B. eine Bilddatei, die einen Seed mithilfe von <a href="https://openstego.com/">Steganografie</a> einbettet, private Dokumente und alles Digitale, das für Sie wichtig ist. Erstellen Sie mehrere Kopien dieses „privaten Offline-Speichers“ und speichern Sie sie an verschiedenen Orten. Optional können Sie sie in einen Metallbehälter legen, der vor EMF, Wasser, Sonne, Hitze usw. geschützt ist.</li>
+</ol>
+
+<figure>
+<img src="/assets/images/recipients.jpg" class="center">
+<figcaption>Outdoor Metal EDC Survival Waterproof</figcaption>
+</figure>
+
+<p>Hier ist ein Link zum Kauf dieser <a href="https://www.amazon.de/gp/product/B07D5DVXCD/">Behälter</a> und des <a href="https://www.amazon.de/gp/product/B07HPS8GQM">USB-Speichers</a>.</p>
+
+<h3 style="color:Orange;">D. Verwenden Sie es als „Nur-Watch“-Wallet</h3>
+<p><a href="/wallets/deposit-only-btc-wallets-de.html">Hier ist eine ausführlichere Anleitung</a>, wie Sie den MPK dieses Cold Wallets in eine App für ein Nur-Einzahlungs-Wallet importieren und verwenden.</p>
+<p>Lustige Tatsache:</p>
+<p>Ich habe mehrere Empfänger wie diese in tiefen Wäldern/Bergen versteckt, die (für mich) in jedem SHTF-Fall leicht wiederherzustellen sind. Selbst wenn sie von jemand anderem gefunden werden (was ich wirklich bezweifle), kann aufgrund der harten Verschlüsselung nicht darauf zugegriffen werden. Ich bin mit dieser Verschlüsselung und dem geheimen Ort, an dem sie versteckt sind, sehr zufrieden. Aber es ist jedem selbst überlassen, wo und wie er diese Kopien speichert. Es könnte auch in einem Online-Speicher sein, es reicht aus, dass die KeePass-Datei gespeichert wird und optional eine Kopie Ihrer Electrum-Wallet-Datei (nicht mehr als ein paar hundert KB Daten).</p>
+
+</body>
+</html>
+</article>
