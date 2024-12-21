@@ -1,0 +1,135 @@
+---
+layout: default
+title: Aan de slag met Green Wallet LN
+---
+<article>
+<!DOCTYPE html>
+<html lang="nl">
+<meta name="description" content="Bitcoin- en Lightning-handleidingen: stapsgewijze handleiding over hoe u Green Wallet met Lightning kunt gebruiken">
+<body>
+
+<a href="/wallets/getting-started-greenwallet-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/getting-started-greenwallet-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/getting-started-greenwallet-de.html">Deustch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/getting-started-greenwallet-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/getting-started-greenwallet-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/getting-started-greenwallet-hr.html">Hrvatski <img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/getting-started-greenwallet-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<blockquote style="color:Tomato;"><em>
+<p>Oorspronkelijk geplaatst op <a href="https://darthcoin.substack.com/p/green-wallet-getting-started">Substack</a> op 3 dec. 2023</p>
+<p>Hier bijgewerkt op 15 nov. 2024</p>
+</em></blockquote>
+
+<h3 style="color:Orange;">Een stapsgewijze handleiding over hoe je Green wallet met Lightning kunt gebruiken, een goede optie voor nieuwe gebruikers om Lightning te leren kennen.</h3>
+<p>Veel van mijn lezers vroegen me om deze handleiding te schrijven, ook al is de meeste documentatie te vinden op de Blockstream-website. Dus ik heb wat fragmenten uit hun documenten gehaald, een aantal van mijn observaties en aanbevelingen toegevoegd en ze samengevoegd in deze korte handleiding om hem bij de hand te hebben voor nieuwe gebruikers.</p>
+<p>De langverwachte Lightning-wallet op Blockstream Green is gearriveerd. Op het moment dat ik deze gids schrijf, IS HET NOG IN DE BETA-FASE, maar als je de functionaliteiten wilt testen, is het klaar om te worden gebruikt op het Bitcoin-mainnet.</p>
+<p><img src="/assets/images/green-intro.png" class="center"></p>
+<p>Aan het einde van deze gids vind je alle links om het te downloaden, dus ik weet zeker dat je eerst de BELANGRIJKE stappen hebt gelezen die je moet volgen.</p>
+
+<h3 style="color:Orange;">INLEIDING</h3>
+<p>De Green Wallet is een multi-accountapplicatie, waarmee je meerdere Bitcoin-accounts kunt gebruiken (singlesig, multisig, watch-only, HW-connect) en nu is ook het Lightning-account geïntroduceerd.</p>
+<p>Wat is het verschil tussen wallets en accounts?</p>
+
+<h3 style="color:Orange;">Wallets</h3>
+<p>Met een Green Wallet kun je je geld veilig en gemakkelijk opslaan en uitgeven. I is self-custodial, wat betekent dat het de sleutels opslaat of beheert om toegang te krijgen tot uw bitcoin, dus u heeft de controle.</p>
+<p>Om te beginnen met het verzenden en ontvangen van fondsen op Blockstream Green, moet u ten minste één wallet aanmaken, maar u kunt er meerdere aanmaken of importeren.</p>
+<p><img src="/assets/images/green-accounts.png" class="center"></p>
+<p>Voor elke wallet die u aanmaakt, moet u een back-up maken van uw primaire sleutel. De back-up bestaat uit een herstelzin van 12 of 24 woorden.</p>
+<p>Elke wallet is toegankelijk via een pincode of biometrie en kan zelfs worden geëxporteerd naar meerdere apparaten.</p>
+
+<h3 style="color:Orange;">Accounts</h3>
+<p>Een account is een subsectie van wallets waarmee u fondsen kunt scheiden op basis van uw behoeften, voor meer veiligheid of directe betalingen. U kunt meerdere extra accounts in elke wallet beheren.</p>
+<p><img src="/assets/images/green-main-account.jpg" class="center"></p>
+<p>Accounts zijn gekoppeld aan de primaire sleutel waarin ze zijn gemaakt. De herstelzinback-up van uw primaire sleutel ontgrendelt toegang tot alle accounts in die wallet. Als u de toegang tot uw wallet verliest, verliest u ook de toegang tot alle accounts in de wallet.</p>
+
+<h3 style="color:Orange;">Wat is het doel van het gebruiken van meerdere accounts?</h3>
+<p>Enkele voordelen van het gebruik van meerdere accounts zijn:</p>
+<p><strong>Directe transacties</strong></p>
+<p>Vul uw directe account in om direct goedkope transacties te verzenden naar iedereen op het Lightning Network, met onze unieke self-custody-oplossing voor Bitcoin Lightning-betalingen.</p>
+<p><strong>Verhoogde beveiliging</strong></p>
+<p>U kunt een 2FA-beveiligd account aanmaken, waarbij het uitgeven van geld vereist dat u authenticeert met een afzonderlijke 2FA naar keuze uit Authenticator-app, e-mail, sms of oproep.</p>
+<p><strong>Gemakkelijker boekhouden</strong></p>
+<p>Het onderhouden van meerdere accounts kan handig zijn als u verschillende inkomstenstromen of budgetten wilt bijhouden zonder dat u voor elk saldo een nieuwe herstelzin hoeft op te schrijven en op te slaan.</p>
+<p><strong>Sterkere privacy</strong></p>
+<p>Uw accountsaldo toont de totale waarde van alle UTXO's op uw account. Wanneer u een transactie uitvoert, kan uw Blockstream Green-app transactie-uitvoer combineren om het vereiste bedrag aan fondsen te verzenden. Het combineren van UTXO's kan uw privacy in gevaar brengen, omdat het meerdere adressen aan dezelfde afzender koppelt.</p>
+<p>Door afzonderlijke accounts binnen dezelfde wallet aan te maken, kunt u bepalen welke UTXO's worden gecombineerd en welke niet. Blockstream Green zal nooit UTXO's van twee verschillende accounts combineren, zelfs niet als ze deel uitmaken van dezelfde wallet.</p>
+<p>In Blockstream Green worden uw fondsen opgeslagen in accounts, die weer in wallets worden opgeslagen. Met accounts kunt u uw fondsen gemakkelijk scheiden in één wallet. U kunt bijvoorbeeld één account gebruiken voor dagelijkse uitgaven en een andere voor veilig stapelen met 2FA-beveiliging.</p>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">LAAT ONS BEGINNEN</h3>
+<p>Om het uit te proberen en te testen, moet u de "experimentele" functies activeren en een "Lightning Account" openen. Dit is eigenlijk een CLN-knooppunt met behulp van Greenlight, waarbij de sleutels op uw apparaat blijven staan.</p>
+<p>De eerste stap is het maken van een eenvoudige Bitcoin-wallet, single sig, waarvan de sleutels voor uw Lightning Account (knooppunt) worden afgeleid.</p>
+<p>U hoeft geen BTC te storten in deze onchain-wallet en later een LN-kanaal te openen (zoals u gewend bent bij gewone LN-knooppunten). Het Lightning-knooppunt kan direct sats ontvangen van een LN-factuur. Greenlight (Blockstream backend node hosting) biedt alle liquiditeit en kanaalbeheer als de belangrijkste LSP.</p>
+<p>Voor een gewone nieuwe gebruiker is dit een zeer eenvoudige manier om te beginnen met Lightning zonder al het gedoe van het runnen van een volledige LN-node en het beheren van de liquiditeit, kanalen etc.</p>
+<p>Nadat u een Bitcoin-hoofdwallet hebt aangemaakt, gaat u naar App-instellingen (bovenste linkerlade op het hoofdscherm) en activeert u "Experimentele functies".</p>
+<p><img src="/assets/images/green-experimental.jpg" class="center"></p>
+<p>Zodra u dat hebt gedaan, gaat u terug naar het scherm Accounts en klikt u op de knop "Nieuw account maken" rechtsboven. Klik vervolgens onderaan op "Geavanceerde functies". U zult zien dat u nu een "Lightning Account" kunt aanmaken.</p>
+
+<h4 style="color:Yellow;">Enkele aspecten om te onthouden:</h4>
+<ul>
+<li>Dit LN-account heeft een maximale capaciteit van 4M sats.</li>
+<li>Green gebruikt splicing om de kanaalcapaciteit uit te breiden (hetzelfde als Phoenix).</li>
+<li>U wordt gevraagd om de nodesleutels op uw apparaat te versleutelen met UW apparaat-PIN. Let op, sommige gebruikers hebben geprobeerd een nieuwe PIN te gebruiken, maar dit is in feite uw apparaatbeveiligings-PIN. Het is NIET de Green app PIN, die je normaal gesproken instelt voor het openen.</li>
+<li>Bewaar de LN nose seed voor een backup!</li>
+<li>Bewaar de nodeID voor een backup en later gebruik!</li>
+<li>De node liquidity wordt ALLEEN aangeboden via Blockstream Greenlight LSP (vergelijkbaar met Phoenix), maar de sleutels blijven op je apparaat.</li>
+<li>Green ondersteunt LNURL volledig, behalve LUD-18 en 02. En het werkt behoorlijk goed.</li>
+</ul>
+
+<h4 style="color:Yellow;">Hoe werkt Liquidity in de Green LN wallet?</h4>
+<p>Laten we voor nieuwe gebruikers even uitleggen hoe de liquiditeit in Green werkt, zodat ze het vanaf het begin duidelijk in hun hoofd hebben.</p>
+<p>Green reserveert dus een maximale capaciteit van 4M sats voor deze LN-rekening. Dat betekent dat je in eerste instantie maximaal 4M sats kunt storten of tijdens het hele gebruik van Green, via kleinere bedragen totdat je die maximale limiet bereikt.</p>
+<p>Wanneer je in de LN-account bent, klik je op het menu in de rechterbovenhoek en open je de optie "Node Info". Je ziet dan je LN-node-ID en ook de beschikbare liquiditeit.</p>
+<blockquote>
+<p style="color:Tomato;"><em>Je kunt die nodeID-info beter opslaan samen met je LN-seedwoorden die gescheiden zijn van je belangrijkste Bitcoin-wallet!</em></p>
+</blockquote>
+<p></p>Stel dat je in eerste instantie 50k sats hebt gestort.</p>
+<p><img src="/assets/images/green-deposit.jpg" class="center"></p>
+<p>Zoals je kunt zien, staat er op het saldo 47199 sats (vertegenwoordigt de vergoeding van 50k - 2500 sats - sommige tests Ik deed) en eronder staat 28174 sats "ontvangstcapaciteit". Dat betekent dat ik nog steeds 28174 sats kan ontvangen ZONDER een extra vergoeding van 2500 sats te betalen om de capaciteit van dat kanaal uit te breiden, door middel van splicing.</p>
+<p>Dit is een mooie manier die Green gebruikers aanbiedt om 40-50% meer inkomende capaciteit te hebben bovenop wat ze al hebben gestort.</p>
+<p>Nu komt het interessante gedeelte. Stel dat je meer stort dan die extra capaciteit van 28174 sats, je stort 900k sats. Op dat moment wordt het kanaal uitgebreid met behulp van de splicing LN-functie, je betaalt een extra vergoeding van 2500 sats en nu heb je een groter kanaal. Maar is nog steeds vol en je krijgt nog steeds een kleinere inkomende liquiditeit bovenop.</p>
+<p><img src="/assets/images/green-capacity.jpg" class="center"></p>
+<p>Onthoud dat je niet verder kunt gaan dan 4M sats. Ik denk dat dit een beperking is voor de bètafase en dat je niet te roekeloos moet zijn. Maar 4M sats voor een mobiele LN-wallet is meer dan genoeg.</p>
+<p>Wat gebeurt er als je die 900k sats nu omwisselt? Stel dat je ze naar een onchain-wallet wilt verplaatsen. Prima, <a href="/nodes/lightning-submarine-swaps-nl.html">gebruik een willekeurige swapservice</a> om die sats te verplaatsen, maar niet allemaal, laat gewoon minstens 1% in het kanaal zitten.</p>
+<p>Op dat moment houd je een bijna leeg kanaal over, klaar om meer sats via LN te ontvangen, zonder die extra kosten van 2500 sats voor elke storting te betalen. Daarom wordt aanbevolen om te beginnen met een grotere initiële storting, zodat u slechts één keer die vergoeding betaalt, in plaats van elke keer dat u stort.</p>
+<p>Op dit moment kon ik een manier vinden om rechtstreeks naar de hoofd Bitcoin-wallet te wisselen, u moet een externe service gebruiken.</p>
+<p>Maar de swap-infunctie werkt prima.</p>
+<p><img src="/assets/images/green-swap.jpg" class="center"></p>
+<p>Klik op het hoofdscherm van het LN-account op de knop "Ontvangen" en in dat scherm, voordat u het bedrag invoert, ziet u onderaan "Onchain-adres weergeven". Er wordt een nieuw BTC-adres gegenereerd om te storten.</p>
+<p>In het volgende scherm krijgt u het BTC-adres en ook een waarschuwing met de minimale en maximale limiet voor die storting. Er wordt ook een vergoeding voor het splitsen in rekening gebracht.</p>
+<p>Zoals u kunt zien, is de maximale storting beperkt tot 900k sats. Ik weet niet precies waarom deze limiet, maar ik veronderstel dat dit specifiek is voor de bètafase en misschien ook voor een beter kanaalbeheer en om misbruik te voorkomen. Maar het is meer dan genoeg voor het moment.</p>
+<p>Dus deze onchain-storting zal praktisch je kanaalcapaciteit uitbreiden met de hoeveelheid sats die je hebt gestort + wat je al binnen had + een beetje meer inbound-capaciteit.</p>
+
+<h3 style="color:Orange;">OBSERVATIES</h3>
+<p>Een ander zeer interessant aspect dat genoemd moet worden, is dat deze LN-wallet meer privacy biedt wanneer u sats via LN ONTVANGT. Waarom? Omdat het ingepakte facturen gebruikt.</p>
+<p>Ik heb een test gedaan, een factuur in Green gemaakt en deze vervolgens gedecodeerd in LN-decoder om mogelijke tracering van de LN-factuur te zien. U kunt zien dat dit eindigt als "bestemmingsknooppunt" een BreezC-knooppunt, waarvan ik veronderstel dat het de LSP voor Greenlight is, met behulp van de nieuwe C= specificaties.</p>
+<p>Op deze manier wordt uw Green-nodeID niet onthuld in een betaling, wat meer privacy biedt.</p>
+<p>Ik heb ook de noodherstelprocedure getest, waarbij de hele app werd gewist en hersteld vanaf seed, het hoofdaccount van de bitcoin-wallet en het LN-account. Alles werkte zoals ontworpen, het herstelde direct de LN-kanaalfondsen, zonder de noodzaak om het kanaal te sluiten.</p>
+
+<h3 style="color:Orange;">CONCLUSIE</h3>
+<p>Ik denk dat dit een mooie, eenvoudige en elegante manier is voor nieuwe gebruikers om Lightning te gaan gebruiken zonder enige complicaties, met zelfbeheer van hun sleutels.</p>
+<p>Deze wallet is een goed alternatief voor al die bewaarrekeningen, waarvan sommige zelfs KYC en closed source zijn. Het heeft nog steeds wat beperkingen, maar voor een niet zo technische gebruiker is het een erg goede optie.</p>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">BRONNENLINKS:</h3>
+<p>Green is gratis, open source software, die geïnstalleerd kan worden vanuit Google Play Store, Apple Store, F-Droid en ook rechtstreeks vanuit de Github repository (<a href="/beginner/bitcoiners-mobile-device-nl.html">je kunt Obtainium gebruiken voor updates</a>)</p>
+<ul>
+<li><a href="https://blockstream.com/green/">Blockstream Green Website</a> | <a href="https://github.com/Blockstream/green_qt/">Github</a> | <a href="https://help.blockstream.com/">Documentatie</a></li>
+<li><a href="https://www.youtube.com/watch?v=gkxIbihwfEc">Uitgebreide uitleg over hoe Green LN werkt</a> (YT-video)</li>
+<li>Downloadlinks: <a href="https://play.google.com/store/apps/details?id=com.greenaddress.greenbits_android_wallet">Google Play Store</a> | <a href="https://apps.apple.com/us/app/green-bitcoin-wallet/id1402243590">Apple Store</a> | <a href="https://f-droid.org/en/packages/com.greenaddress.greenbits_android_wallet">F-Droid</a> | <a href="https://github.com/Blockstream/green_qt/releases">Github-repo</a></li>
+<li><a href="https://t.me/blockstream_green">Telegram-ondersteuning</a></li>
+<li><a href="https://help.blockstream.com/hc/en-us/articles/18788578831897">Wat zijn de financieringskosten bij ontvangst op mijn Instant Lightning-account?</a></li>
+<li><a href="https://help.blockstream.com/hc/en-us/articles/23020279153177-How-does-the-shortcut-to-my-lightning-account-work-and-how-do-I-create-it-">Hoe werkt de snelkoppeling naar mijn Lightning-account?</a></li>
+<li><a href="https://darthcoin.substack.com/p/lightning-wallets-comparison">Lightning Wallets Vergelijkingsgids</a></li>
+</ul>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">DISCLAIMER</h3>
+<blockquote>
+<p style="color:Tomato;"><em>Ik word niet betaald door Blockstream of een ander team/bedrijf. Ik ondersteun gewoon gratis hun open-sourceoplossingen met gidsen. We MOETEN elkaar helpen als we verder willen met de acceptatie van Bitcoin. Zij schrijven code, ik schrijf gidsen.</em></p>
+<p style="color:Tomato;"><em>Ik schrijf gidsen en documentatie, vertalingen voor veel andere Bitcoin-oplossingen, gratis. Mijn leven is gewijd aan Bitcoin als geheel, als een weg vooruit naar een betere wereld.</em></p>
+<p><em><a href="https://darthcoin.substack.com/p/what-you-did-for-bitcoin">Vraag niet wat Bitcoin voor jou heeft gedaan, vraag wat JIJ voor Bitcoin hebt gedaan!</a></em></p>
+</blockquote>
+</body>
+</html>
+</article>
