@@ -1,0 +1,86 @@
+---
+layout: default
+title: Premjestite svoj BTC na Taproot adresu
+---
+<article>
+<!DOCTYPE html>
+<html lang="hr">
+<meta name="description" content="Vodiči za Bitcoin i Lightning: Kako premjestiti svoju staru zalihu BTC-a na novu adresu tipa Taproot">
+<body>
+<a href="/wallets/move-btc-taproot-address-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/move-btc-taproot-address-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/move-btc-taproot-address-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/move-btc-taproot-address-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/move-btc-taproot-address-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/move-btc-taproot-address-nl.html">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/move-btc-taproot-address-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<blockquote style="color:Tomato;"><em>
+<p>Izvorno objavljeno na <a href="https://darthcoin.substack.com/p/move-your-btc-to-taproot-address">Substack</a> 19. prosinca 2021.</p>
+<p>Ovdje ažurirano 20. prosinca 2024.</p>
+</em></blockquote>
+
+<h3>Scenarij jednostavnog vodiča za premještanje vašeg starog BTC skladišta na nove Taproot novčanike tipa adrese</h3>
+<p>Dakle... svi su uzbuđeni što je Taproot aktiviran, radi, rudari se, ali rijetki ga počinju koristiti. Istina je da sve aplikacije novčanika još uvijek ne mogu slati ili primati na taproot adresu.</p>
+<p><img src="/assets/images/btc-taproot.jpg" class="center"></p>
+
+<h2 style="color:Orange;">UVOD</h2>
+<p>Prije nego počnemo vidjeti kako možete premjestiti svoje satove na Taproot adresu, trebali bismo spomenuti zašto je dobro riješiti se starih vrsta BTC adresa:</p>
+<ul>
+<li>ako još uvijek imate svoj BTC na naslijeđenoj adresi (počinje s 1) koja će biti vrlo skupa za korištenje, od sada će premještanje satova na lanac biti sve teže i teže i skuplje. Budućnost je Lightning Network kao "protokol plaćanja", a onchain će ostati kao "hodling protokol".</li>
+<li>ako još uvijek imate svoj BTC u umotanoj segwit adresi (počnite s 3), nije tako skupo koristiti ga na lancu, ali još uvijek nosi veliku težinu, a neke aplikacije novčanika još uvijek imaju problema s slanjem ili primanjem na te adrese. Također su mnoge burze koristile te adrese i to bi u nekom trenutku moglo završiti s curenjem privatnosti.</li>
+<li>ako imate svoju zalihu u matičnoj vrsti adrese segwit (bech 32), također je dobro premjestiti svoje satove u vrstu Taproot, kako biste imali koristi od budućeg razvoja za Lightning i privatnost.</li>
+<li>imate mnogo malih UTXO-ova (promjena) od prošlih tx-ova i teško ih je potrošiti, sada je vrijeme za konsolidaciju i miješanje rezultata za bolju buduću upotrebu.</li>
+<li>Promjena XPUB-a također je dobar način da izgubite trag svojim prošlim tx-ovima.</li>
+<li>Privatnost: sve stare vrste BTC adresa u prošlosti su na neki način "praćene". Neki su koristili coinjoin ili tehnike miješanja, ali nisu svi bili toliko učinkoviti da ih koriste. Sada imate priliku "očistiti" svoje satove i pripremiti se za budućnost.</li>
+</ul>
+
+<h4 style="color:Yellow;">Pročitajte više o Taprootu ovdje:</h4>
+<ul>
+<li><a href="https://kraken.docsend.com/view/9e9y7may8526z934">Taproot - nadogradnja za sva vremena</a></li>
+<li><a href="https://bitcoinmagazine.com/technical/taproot-coming-what-it-and-how-it-will-benefit-bitcoin">Taproot dolazi - kakve će koristi imati</a> </li>
+<li><a href="https://taproot.watch/about">Taproot Watch - o tome</a></li>
+<li><a href="https://youtu.be/1gRCVLgkyAE">Uvod u radionicu Taproot i Schnorr</a></li>
+</ul>
+<p><a href="/beginner/be-your-own-bank-hr.html">Kao što sam objasnio u ovom vodiču</a>, o tome kako čuvati svoju zalihu BTC-a u tri razine novčanika, sada pogledajmo primjer kako ih prebaciti u novčanik koji podržava Taproot. Pogledat ćemo jednostavan i gdje većina korisnika drži svoje BTC.</p>
+
+<h2 style="color:Orange;">SCENARIJ UPOTREBE</h2>
+<p>Recimo da imate različite Electrum novčanike, s naslijeđenim i segwit adresama i UTXO-ovima (promijenite ili jednostavno HODL). Također možete imati HWW (Trezor, Ledger itd.) koji se može povezati s aplikacijom Electrum, kako biste napravili bolju kontrolu novčića.</p>
+<p>Za ovu "migraciju" koristit ćemo <a href="https://www.sparrowwallet.com/">Sparrow wallet desktop aplikaciju</a>. To je vrlo dobra aplikacija za novčanik s mnogo značajki i jedna od prvih koja podržava Taproot adrese.</p>
+<p>Možete ga povezati sa svojim vlastitim BTC / Electrum čvorom radi veće privatnosti, ali ako nemate čvor, nema problema, možete koristiti jedan od ponuđenih javnih poslužitelja čvorova (također iza Tora). Možete koristiti, na primjer, Blockstream poslužitelj.</p>
+<p>Koristit ćemo jednostavan scenarij s jednim potpisom.</p>
+<h3>Početni koraci za pripremu vašeg Taproot novčanika</h3>
+<ul>
+<li>instalirajte ili pokrenite samostalnu aplikaciju Sparrow za desktop</li>
+<li>stvorite novi novčanik i odaberite Taproot i odaberite "novi ili uvezeni softverski novčanik"</li>
+<p><img src="/assets/images/btc-taproot-new-wallet.png" class="center"></p>
+<p><img src="/assets/images/btc-taproot-seed.png" class="center"></p>
+<li>sljedeći ekrani bit će za generiranje riječi za novu početnu vrijednost, njihovo spremanje i ponovno pisanje za potvrdu jesu li OK</li>
+<li>Nakon što završite s postupkom, otvorite svoj upravitelj lozinki (preporučujem KeePass ili Bitwarden) i dodajte sve pojedinosti svog novog kreiranog novčanika: seed, xpub, putanja derivacije, 3-4 BTC adrese, lozinka za šifriranje datoteke novčanika. Možete čak dodati/umetnuti sigurnosnu kopiju datoteke vašeg sparrow walleta (idite na izbornik Sparrow, File - Export wallet). ČUVAJTE TU BAZU PODATAKA UPRAVITELJA LOZINKAMA NA SIGURNOM MJESTU!</li>
+<li>PRIJE nego što premjestite sredstva u ovaj novostvoreni novčanik, IZVRŠITE TEST VRAĆANJA. Samo zatvorite ovaj novostvoreni novčanik i ponovno pokrenite isti postupak, ali ovaj put odaberite vraćanje iz sjemena koje već imate. Ako generirate istih prvih 5-6-10 BTC adresa, onda ste spremni, imate prave riječi i sigurni ste da ih možete vratiti.</li>
+</ul>
+
+<h3 style="color:Yellow;">Uvezite svoje Electrum novčanike u Sparrow</h3>
+<p>Kako bismo mogli imati glatki prijelaz i lakše konstruirati transakciju miješanja, uvest ćemo vaše stare Electrum novčanike u Sparrow.</p>
+<p>Isti postupak kao i prije, samo što ćemo na 2. ekranu odabrati "electrum keystore", gdje možemo samo dodati datoteku Electrum novčanika, bez potrebe za seedom ili bilo čim drugim.</p>
+<p>Ako još uvijek niste spremili tu datoteku, nema problema, samo pregledajte svoju instalacijsku mapu Electrum ili mjesto gdje držite datoteku novčanika i od tamo ćete je uvesti. Pritisnite "uvezi" u Sparrow i pitat će vas za lozinku za šifriranje. Vaša je Electrum lozinka za otvaranje te datoteke. Gotovo, trebat će nekoliko trenutaka dok Sparrow ne želi i uveze sve tx-ove i UTXO-e.</p>
+<p>U redu, recimo da imate 10 UTXO-a u svom starom Electrum novčaniku s različitim iznosom za svaki.</p>
+<p>Učinimo ga raznolikijim: sve ćemo to podijeliti u 20 UTXO-a, s različitim količinama, ne jednakim, kako bi izgledalo kao coinjoin.</p>
+
+<h3 style="color:Yellow;">Konstruirajte transakciju za migraciju na Taproot</h3>
+<p>U Sparrowu idite na uvezeni Electrum novčanik - Pošalji. Odaberite minimalnu naknadu, na primjer 1sat/vB i optimiziran način "privatnosti".</p>
+<p><img src="/assets/images/btc-taproot-tx.png" class="center"></p>
+<p>Idite na svoj novostvoreni Taproot novčanik u Sparrowu (pogledajte gornje kartice) i u Adrese kopirajte jednu po jednu prvih 20 generiranih adresa.</p>
+<p>Vratite se na Electrum uvezeni novčanik i u okvir "plati", zalijepite jednu po jednu i kliknite gumb "dodaj" za svaku odredišnu adresu glavnog korijena. Možete staviti naljepnicu ako želite. Za svako odredište stavite drugačiji iznos. Raširite ga kao nasumični broj.</p>
+<p>Na posljednjem samo kliknite gumb "max" i samo ćete dodati preostale dostupne satove.</p>
+<p>Zgodan grafikon pojavit će se nakon što se vaša transakcija napravi.</p>
+<p><img src="/assets/images/btc-taproot-distribution.jpg" class="center"></p>
+<p>Kliknite "kreiraj transakciju" i na sljedećem će ekranu biti potpisivanje (pomoću vaše lozinke novčanika), a također i zgodna značajka: "Vrijeme zaključavanja". Ovo je doista zanimljivo u slučaju da želite zaključati te UTXO-e na duže vrijeme HODL, tako da se ne mogu potrošiti do određenog bloka ili datuma (na primjer, novčanik za vašu djecu, da biste mogli trošiti iz tog novčanika samo kada imaju 18-20 godina). Vrlo je dobra značajka za zaštitu novčanika od trošenja.</p>
+<p><img src="/assets/images/btc-taproot-locktime.jpg" class="center"></p>
+<p>Završite proces potpisivanja i emitirajte transakciju u mempool. Nakon što ga rudari uzmu iz mempoola, možete ga vidjeti u block exploreru ovako:</p>
+<p><img src="/assets/images/btc-taproot-explorer.jpg" class="center"></p>
+<p>Gotovo! Sada pričekajte 6 potvrda i vidjet ćete svoj BTC u svojim novim adresama Taproot novčanika.</p>
+<p>Neobavezno, možete kopirati txID i otići na <a href="https://kycp.org/">https://kycp.org/</a> i vidjeti kakva je razina "privatnosti". Ako želite više privatnosti, ponovite postupak s još više ulaza i izlaza, iz istog novčanika ili miješanjem s drugim novostvorenim taproot novčanikom. Sparrow wallet izvrsna je aplikacija za miješanje i jednostavna za korištenje.</p>
+<p>Više detalja i vodiča <a href="https://sparrowwallet.com/docs/mixing-whirlpool.html">kako koristiti Sparrow miješanje ovdje</a>.</p>
+</body>
+</html>
+</article>
