@@ -1,0 +1,135 @@
+---
+layout: default
+title: Prvi koraci s Green Wallet LN
+---
+<article>
+<!DOCTYPE html>
+<html lang="hr">
+<meta name="description" content="Vodiči za Bitcoin i Lightning: postupni vodič o tome kako početi koristiti zeleni novčanik s Lightningom">
+<body>
+
+<a href="/wallets/getting-started-greenwallet-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/getting-started-greenwallet-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/getting-started-greenwallet-de.html">Deustch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/getting-started-greenwallet-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/getting-started-greenwallet-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/getting-started-greenwallet-nl.html">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/getting-started-greenwallet-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<blockquote style="color:Tomato;"><em>
+<p>Izvorno objavljeno na <a href="https://darthcoin.substack.com/p/green-wallet-getting-started">Substack</a> 3. prosinca 2023.</p>
+<p>Ovdje ažurirano 15. studenog 2024.</p>
+</em></blockquote>
+
+<h3 style="color:Orange;">Vodič korak po korak o tome kako početi koristiti zeleni novčanik s Lightningom, dobra opcija za nove korisnike da se uključe u Lightning.</h3>
+<p>Mnogi moji čitatelji tražili su od mene da napišem ovaj vodič, iako se većina dokumentacije može pronaći na web stranici Blockstream. Stoga sam uzeo neke izvatke iz njihovih dokumenata, dodao neka svoja zapažanja i preporuke i spojio ih u ovaj kratki vodič kako bi bio pri ruci novim korisnicima.</p>
+<p>Stigao je dugo očekivani Lightning novčanik na Blockstream Greenu. U trenutku pisanja ovog vodiča, JOŠ JE U BETA FAZI, ali ako želite testirati njegove funkcionalnosti, spreman je za korištenje na Bitcoin glavnoj mreži.</p>
+<p><img src="/assets/images/green-intro.png" class="center"></p>
+<p>Na kraju ovog vodiča naći ćete sve veze za preuzimanje pa sam siguran da ste prvo pročitali VAŽNE korake koje biste trebali učiniti.</p>
+
+<h3 style="color:Orange;">UVOD</h3>
+<p>Zeleni novčanik je aplikacija za više računa, gdje možete početi koristiti više Bitcoin računa (singlesig, multisig, watch-only, HW-connect), a sada je predstavljen i Lightning račun.</p>
+<p>Koja je razlika između novčanika i računa?</p>
+
+<h3 style="color:Orange;">Novčanici</h3>
+<p>Zeleni novčanik omogućuje vam sigurno i praktično pohranjivanje i trošenje sredstava. I je samostalan, što znači da pohranjuje ili upravlja ključevima za pristup vašem bitcoinu, tako da vi imate kontrolu.</p>
+<p>Da biste počeli slati i primati sredstva na Blockstream Greenu, morate izraditi barem jedan novčanik, ali možete stvoriti ili uvesti više njih.</p>
+<p><img src="/assets/images/green-accounts.png" class="center"></p>
+<p>Za svaki novčanik koji izradite morate napraviti sigurnosnu kopiju primarnog ključa. Sigurnosna kopija sastoji se od izraza za oporavak od 12 ili 24 riječi.</p>
+<p>Svakom novčaniku može se pristupiti putem PIN-a ili biometrije, pa čak i izvesti na više uređaja.</p>
+
+<h3 style="color:Orange;">Računi</h3>
+<p>Račun je pododjeljak novčanika koji vam omogućuje odvajanje sredstava na temelju vaših potreba, radi veće sigurnosti ili trenutnih plaćanja. Možete upravljati s više dodatnih računa u svakom novčaniku.</p>
+<p><img src="/assets/images/green-main-account.jpg" class="center"></p>
+<p>Računi su vezani uz primarni ključ u kojem su stvoreni. Sigurnosna kopija izraza za oporavak vašeg primarnog ključa otključava pristup svim računima unutar tog novčanika. Ako izgubite pristup svom novčaniku, izgubit ćete pristup svim računima unutar novčanika.</p>
+
+<h3 style="color:Orange;">Koja je svrha korištenja višestrukih računa?</h3>
+<p>Neke od prednosti korištenja višestrukih računa uključuju:</p>
+<p><strong>Trenutne transakcije</strong></p>
+<p>Nadopunite svoj trenutni račun za slanje trenutnih jeftinih transakcija svima na Lightning mreži, s našim jedinstvenim rješenjem za samostalno skrbništvo za Bitcoin Lightning plaćanja.</p>
+<p><strong>Povećana sigurnost</strong></p>
+<p>Možete izraditi račun zaštićen 2FA, pri čemu trošenje sredstava zahtijeva autentifikaciju pomoću zasebnog 2FA po vašem izboru između aplikacije Autentifikator, e-pošte, SMS-a ili poziva.</p>
+<p><strong>Lakše računovodstvo</strong></p>
+<p>Održavanje više računa može biti korisno ako želite pratiti različite tokove prihoda ili proračune bez potrebe da zapisujete i pohranjujete novu frazu za oporavak za svaki saldo.</p>
+<p><strong>Jača privatnost</strong></p>
+<p>Stanje vašeg računa pokazuje ukupnu vrijednost svih UTXO-a na vašem računu. Kada izvršite transakciju, vaša aplikacija Blockstream Green može kombinirati izlaze transakcije kako bi poslala traženi iznos sredstava. Kombiniranje UTXO-a može ugroziti vašu privatnost jer povezuje više adresa s istim pošiljateljem.</p>
+<p>Stvaranjem zasebnih računa unutar istog novčanika možete kontrolirati koji se UTXO-i kombiniraju, a koji ne. Blockstream Green nikada neće kombinirati UTXO s dva različita računa, čak i ako su dio istog novčanika.</p>
+<p>U Blockstream Greenu vaša su sredstva pohranjena unutar računa, koji su pohranjeni unutar novčanika. Računi vam omogućuju prikladno odvajanje sredstava u jedan novčanik. Na primjer, možete koristiti jedan račun za dnevnu potrošnju, a drugi za sigurno slaganje uz 2FA zaštitu.</p>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">POČNIMO</h3>
+<p>Da biste se igrali i testirali, trebali biste aktivirati "eksperimentalne" značajke i otvoriti "Lightning račun", zapravo CLN čvor koji koristi Greenlight, gdje ključevi ostaju na vašem uređaju.</p>
+<p>Prvi korak je stvaranje jednostavnog Bitcoin novčanika, single sig, iz kojeg će se izvesti ključevi za vaš Lightning račun (čvor).</p>
+<p>Ne morate uplatiti BTC u ovaj onchain novčanik, a zatim kasnije otvoriti LN kanal (kao što ste navikli činiti s uobičajenim LN čvorovima). Lightning čvor mogao bi odmah primiti satove izravno s LN fakture. Greenlight (Blockstream backend node hosting) pruža svu likvidnost i upravljanje kanalima kao glavni LSP.</p>
+<p>Za redovnog novog korisnika, ovo je vrlo jednostavan način da započne s Lightningom bez muke oko pokretanja punog LN čvora i upravljanja likvidnošću, kanalima itd.</p>
+<p>Nakon što stvorite glavni Bitcoin novčanik, idite na Postavke aplikacije (gornja lijeva ladica na glavnom zaslonu) i aktivirajte “Eksperimentalne značajke”.</p>
+<p><img src="/assets/images/green-experimental.jpg" class="center"></p>
+<p>Nakon što to učinite, vratite se na zaslon Računi i kliknite gumb "Izradi novi račun" u gornjem desnom kutu. Zatim na dnu kliknite na "Napredne značajke". Vidjet ćete da sada možete stvoriti “Lightning račun”.</p>
+
+<h4 style="color:Yellow;">Neki aspekti koje treba zapamtiti:</h4>
+<ul>
+<li>Ovaj LN račun imat će maksimalan kapacitet od 4 milijuna satova.</li>
+<li>Green koristi spajanje kako bi proširio kapacitet kanala (isto kao Phoenix).</li>
+<li>Od vas će se tražiti da šifrirate ključeve čvorova na svom uređaju VAŠIM PIN-om uređaja. Imajte na umu da su neki korisnici pokušali upotrijebiti novi PIN, ali to je zapravo sigurnosni PIN vašeg uređaja. To NIJE zeleni PIN aplikacije koji obično postavljate za otvaranje.</li>
+<li>Sačuvajte LN nos za rezervnu kopiju!</li>
+<li>Spremite nodeID za sigurnosnu kopiju i kasnije korištenje!</li>
+<li>Likvidnost čvora nudi se SAMO putem Blockstream Greenlight LSP (slično Phoenixu), ali ključevi ostaju na vašem uređaju.</li>
+<li>Zelena u potpunosti podržava LNURL, osim LUD-18 i 02. I radi prilično dobro.</li>
+</ul>
+
+<h4 style="color:Yellow;">Kako Likvidnost funkcionira u Green LN novčaniku?</h4>
+<p>Objasnimo malo, za nove korisnike, kako funkcionira likvidnost u Greenu kako bi im bilo jasno od početka.</p>
+<p>Dakle, Green izdvaja maksimalno 4M sat kapaciteta za ovaj LN račun. To znači da možete uplatiti maksimalno 4M sat na početku ili tijekom cijelog korištenja Greena, kroz manje iznose dok ne dosegnete to maksimalno ograničenje.</p>
+<p>Kada ste unutar LN računa, ako kliknete na izbornik u gornjem desnom kutu i otvorite opciju "Informacije o čvoru", vidjet ćete svoj ID LN čvora i prikaz dostupne likvidnosti.</p>
+<blockquote>
+<p style="color:Tomato;"><em>Bolje da spremite tu informaciju o ID-u čvora zajedno sa svojim LN početnim riječima koje su odvojene od vašeg glavnog Bitcoin novčanika!</em></p>
+</blockquote>
+<p></p>Recimo da ste u početku položili 50k sat.</p>
+<p><img src="/assets/images/green-deposit.jpg" class="center"></p>
+<p>Kao što možete vidjeti, na balansu stoji 47199 sat (predstavlja naknadu od 50k - 2500 sats - neki testovi koje sam napravio), a ispod piše 28174 sats "kapacitet primanja". To znači da i dalje mogu primati 28174 sat BEZ plaćanja dodatnih 2500 sats naknade za proširenje kapaciteta tog kanala, putem spajanja.</p>
+<p>Ovo je lijep način koji Green nudi korisnicima da imaju 40-50% više ulaznog kapaciteta povrh onoga što su već položili.</p>
+<p>Sada dolazi zanimljivi dio. Recimo da položite više od tog dodatnog kapaciteta od 28174 sat, položite 900k sat. U tom trenutku kanal se proširuje pomoću značajke spajanja LN, plaćate dodatnu naknadu od 2500 sat i sada imate veći kanal. Ali još uvijek je pun i još uvijek ćete dobiti manju ulaznu likvidnost na vrhu.</p>
+<p><img src="/assets/images/green-capacity.jpg" class="center"></p>
+<p>Zapamtite da ne možete ići dalje od 4 milijuna sati. Mislim da je ovo ograničenje za beta fazu i nemojte biti previše nepromišljeni. Ali 4 milijuna sati za mobilni LN novčanik više je nego dovoljno.</p>
+<p>Što će se dogoditi ako sada zamijenite tih 900 tisuća sati? Recimo da ih želite premjestiti u onchain novčanik. U redu, <a href="/nodes/lightning-submarine-swaps-hr.html">upotrijebite bilo koju uslugu zamjene</a> za uklanjanje tih satelita, ali ne sve, samo ostavite u kanalu barem 1%.< /p>
+<p>U tom trenutku ostat ćete s gotovo praznim kanalom, spremni primiti više satova preko LN-a, bez plaćanja onih dodatnih naknada od 2500 satova za svaki depozit. Zato se preporučuje započeti s većim početnim depozitom, tako da ćete tu naknadu platiti samo jednom, umjesto svaki put kada položite.</p>
+<p>Za sada bih mogao pronaći način za izmjenu izravno u glavni Bitcoin novčanik, morate koristiti vanjsku uslugu.</p>
+<p>Ali funkcija zamjene radi sasvim dobro.</p>
+<p><img src="/assets/images/green-swap.jpg" class="center"></p>
+<p>Kliknite na glavnom zaslonu LN računa gumb "Primi" i na tom zaslonu, prije nego što unesete iznos, vidjet ćete na dnu "Prikaži onchain adresu". Generirati će novu BTC adresu za polog.</p>
+<p>Na sljedećem ekranu dobit ćete BTC adresu i također upozorenje u kojem piše da je minimalno i maksimalno ograničenje za taj depozit. Također će se primijeniti naknada za spajanje.</p>
+<p>Kao što vidite, maksimalni depozit ograničen je na 900 tisuća sat. Ne znam zašto točno ovo ograničenje, ali pretpostavljam da je specifično za beta fazu i također možda zbog boljeg upravljanja kanalima i izbjegavanja zlouporabe. Ali za sada je više nego dovoljno.</p>
+<p>Tako da će ovaj onchain depozit praktički proširiti kapacitet vašeg kanala s količinom sat-ova koje ste položili + onim što ste već imali unutra + malo više ulaznog kapaciteta.</p>
+
+<h3 style="color:Orange;">OPAŽANJA</h3>
+<p>Još jedan vrlo zanimljiv aspekt koji treba spomenuti je da ovaj LN novčanik nudi više privatnosti kada PRIMATE satove preko LN-a. Zašto? Zato što koristi omotane fakture.</p>
+<p>Napravio sam test, stvorio sam fakturu u zelenom i zatim je dekodirao u LN dekoderu da vidim moguće praćenje LN fakture. Možete vidjeti da završava kao "odredišni" čvor BreezC čvor, za koji sam pretpostavio da je LSP za Greenlight, koristeći nove C= specifikacije.</p>
+<p>Tako da se na ovaj način vaš Green nodeID ne otkriva u plaćanju, što nudi veću privatnost.</p>
+<p>Testirao sam i proceduru oporavka od katastrofe, brišući cijelu aplikaciju i vraćajući je iz sjemena, glavni račun bitcoin novčanika i LN račun. Sve je radilo kako je planirano, vraćajući sredstva LN kanala odmah, bez potrebe za zatvaranjem kanala.</p>
+
+<h3 style="color:Orange;">ZAKLJUČAK</h3>
+<p>Mislim da je ovo lijep, jednostavan i elegantan način za nove korisnike da počnu koristiti Lightning bez ikakvih komplikacija, uz samostalno čuvanje svojih ključeva.</p>
+<p>Ovaj je novčanik dobra alternativa svim tim skrbničkim računima, neki od njih čak i KYC i zatvoreni izvor. Još uvijek ima neka ograničenja, ali za korisnika koji nije tako tehnički vrlo dobra opcija.</p>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">VEZE RESURSA:</h3>
+<p>Green je besplatan softver otvorenog koda koji se može instalirati iz Google Play Storea, Apple Storea, F-Droida i izravno iz Github repozitorija (<a href="/beginner/bitcoiners-mobile-device-hr.html ">možete koristiti Obtainium za ažuriranja</a>)</p>
+<ul>
+<li><a href="https://blockstream.com/green/">Blockstream Green Web stranica</a> | <a href="https://github.com/Blockstream/green_qt/">Github</a> | <a href="https://help.blockstream.com/">Dokumentacija</a></li>
+<li><a href="https://www.youtube.com/watch?v=gkxIbihwfEc">Detaljno objašnjenje kako Green LN radi</a> (YT video)</li>
+<li>Veze za preuzimanje: <a href="https://play.google.com/store/apps/details?id=com.greenaddress.greenbits_android_wallet">Trgovina Google Play</a> | <a href="https://apps.apple.com/us/app/green-bitcoin-wallet/id1402243590">Apple Store</a> | <a href="https://f-droid.org/en/packages/com.greenaddress.greenbits_android_wallet">F-Droid</a> | <a href="https://github.com/Blockstream/green_qt/releases">Github repo</a></li>
+<li><a href="https://t.me/blockstream_green">Podrška za Telegram</a></li>
+<li><a href="https://help.blockstream.com/hc/en-us/articles/18788578831897">Kolike su naknade za financiranje prilikom primanja na moj račun Instant Lightning?</a></li>
+<li><a href="https://help.blockstream.com/hc/en-us/articles/23020279153177-How-does-the-shortcut-to-my-lightning-account-work-and-how- do-I-create-it-">Kako radi prečac do mog Lightning računa?</a></li>
+<li><a href="https://darthcoin.substack.com/p/lightning-wallets-comparison">Vodič za usporedbu Lightning novčanika</a></li>
+</ul>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">ODRICANJE ODGOVORNOSTI</h3>
+<blockquote>
+<p style="color:Tomato;"><em>Ne plaća me Blockstream niti bilo koji drugi tim/tvrtka. Samo besplatno podržavam njihova rješenja otvorenog koda s vodičima. MORAMO pomoći jedni drugima ako želimo ići naprijed s usvajanjem Bitcoina. Oni pišu kod, ja pišem vodiče.</em></p>
+<p style="color:Tomato;"><em>Pišem vodiče i dokumentaciju, prijevode za mnoga druga Bitcoin rješenja, besplatno. Moj je život posvećen Bitcoinu u cjelini, kao putu naprijed za bolji svijet.</em></p>
+<p><em><a href="https://darthcoin.substack.com/p/what-you-did-for-bitcoin">Ne pitajte što je Bitcoin učinio za vas, pitajte što ste VI učinili za Bitcoin !</a></em></p>
+</blockquote>
+</body>
+</html>
+</article>
