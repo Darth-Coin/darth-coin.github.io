@@ -1,0 +1,162 @@
+---
+layout: default
+title: Bitcoin-Einführung mit E-Cash
+---
+<article>
+<!DOCTYPE html>
+<html lang="de">
+<meta name="description" content="Bitcoin- und Lightning-Anleitungen: Wie wir Bitcoin für Menschen zugänglicher machen können, die sich den Einstieg in einen UTXO nicht leisten können">
+<body>
+<a href="/wallets/bitcoin-and-privacy-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/bitcoin-and-privacy-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/bitcoin-and-privacy-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/bitcoin-and-privacy-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/bitcoin-and-privacy-nl.html">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/bitcoin-and-privacy-hr.html">Hrvatski <img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/bitcoin-and-privacy-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<blockquote style="color:Tomato;"><em>
+<p>Ursprünglich gepostet auf <a href="https://darthcoin.substack.com/p/bitcoin-adoption-using-ecash">Substack</a> am 09.02.2024. Hier aktualisiert am 20.12.2024</p>
+</em></blockquote>
+
+<h3>Ein Anwendungsszenario für Ecash über Bitcoin LN unter Verwendung von Cashu-Mints. Wie wir die Akzeptanz von Bitcoin bei Menschen steigern können, die es sich nicht leisten können, mit einem UTXO zu beginnen.</h3>
+<p>In letzter Zeit habe ich mit vielen Leuten gesprochen, die mir Fragen dazu gestellt haben, wie man mit Bitcoin beginnt, aber auf einfache Weise, von Null an und mit sehr begrenzten Ressourcen (Geld, Wissen, Infrastruktur).</p>
+<p>Ich habe sogar einen speziellen Leitfaden für sie geschrieben <a href="/beginner/getting-started-stack-sats-de.html">„Stacking Sats – Die Reise des Anfängers“</a>, in dem erklärt wird, wie man auf niedrigem Niveau mit einfachen Custodial-Wallet-Apps beginnt und langsam die Leiter hinauf zu den Self-Custody-Apps klettert. Aber das ist nicht genug. Manche Leute finden sogar diese „Reise“ schwierig.</p>
+<p>Dieser Leitfaden ist NICHT für diese Neulinge, sondern für all die „Onkel Jim“s da draußen, die bereit sind, zu einer stärkeren Akzeptanz von Bitcoin beizutragen. Und dieses Mal wird ein Anwendungsfall erklärt, wie man diese Neulinge mit Ecash und Cashu Mints über Lightning Network (LN) an Bord holt.</p>
+<p>Um es klar zu sagen: Ecash ersetzt NICHT LN (wie ich andere sagen hörte)! Ecash ist nur ein zusätzliches Protokoll, das mit LN kommunizieren kann.</p>
+<p>In einer früheren Anleitung habe ich auch erklärt, wie diese „Onkel Jim“s <a href="/merchants/private-banks-over-ln-de.html">„Privatbanken über Lightning Network“</a> betreiben könnten und welche Infrastruktur sie benötigen. Dieser Leitfaden ist also eine Erweiterung des vorherigen und konzentriert sich auf die Verwendung von Cashu-Mints.</p>
+<p><img src="/assets/images/bitcoin-coins.jpg" class="center"></p>
+
+<h2 style="color:Orange;">WAS SIND ECASH CASHU MINTS?</h2>
+
+<em><blockquote style="color:Tomato;">
+<p>Cashu ist ein kostenloses und Open-Source-Cash-System von Chaumian, das für Bitcoin entwickelt wurde. Cashu bietet nahezu perfekte Privatsphäre für Benutzer von Bitcoin-Verwahranwendungen. Niemand muss wissen, wer Sie sind, wie viel Geld Sie haben und mit wem Sie Transaktionen durchführen.</p>
+<p>Cashu ist ein neues Ecash-Protokoll für Bitcoin-Verwahranwendungen, das eng in das Lightning-Netzwerk integriert ist. Ein Ecash-System besteht aus zwei Teilen, dem Mint und dem Ecash-Wallet. Ecash-Transaktionen sind nicht nachvollziehbar, sofort und gebührenfrei. Cashu wurde für Bitcoin entwickelt. Wallets verwenden den Lightning-Knoten der Münzprägeanstalt, um Bitcoin-Zahlungen im Austausch gegen E-Cash zu tätigen oder zu empfangen.</p>
+<p>Eine Cashu-Münzprägeanstalt weiß nicht, wer Sie sind, wie hoch Ihr Kontostand ist oder mit wem Sie Transaktionen durchführen. Benutzer einer Münzprägeanstalt können E-Cash privat austauschen, ohne dass jemand weiß, wer die beteiligten Parteien sind. Bitcoin-Zahlungen werden ausgeführt, ohne dass jemand bestimmte Benutzer zensieren kann.</p>
+<p>Quelle - <a href="https://docs.cashu.space/">Cashu.space</a></p>
+<p><a href="https://nuts-and-bolts.gandlaf.com/">So funktioniert Ecash - Folien</a> - von Gandlaf (sehr schöne und klare animierte Folien)</p>
+</em></blockquote>
+
+<p>Vereinfacht ausgedrückt können Sie Ecash Cashu als digitale Geschenkkarten betrachten, mit zusätzlicher Privatsphäre und kryptografischem Nachweis der (Sats-)Reserven.</p>
+<p>Stellen Sie sich vor, diese Token sind wie kleinere Teile (Münzen), die aus einer größeren Bitcoin-Reserve geprägt werden. Derjenige, der diese Token prägt, ist der Bankier, und dieser Bankier verteilt sie unter seinen Kunden.</p>
+<p>Aber denken Sie daran: DER BANKER HAT DIE VERWAHRUNG DER SATS! Um diese Münzprägeanstalten nutzen zu können, muss der Benutzer also immer noch ein gewisses Vertrauen in den Münzpräger (Bankier) haben. Der Bankier kann nicht mehr Sats (Teilreserve) erstellen, als er in Verwahrung hat, kann aber die Münzprägeanstalt schließen und Benutzer können ihre Sats nicht mehr einlösen.</p>
+<p>Die Gefahr des Rug-Pull besteht also immer noch! Seien Sie also vorsichtig, lassen Sie nicht all Ihre Ersparnisse in diesen Münzprägeanstalten und verwenden Sie auch nur vertrauenswürdige Münzprägeanstalten.</p>
+<p>Deshalb werden wir in diesem Leitfaden über ein Szenario sprechen, in dem „der Bankier“ und die Benutzer aus einer lokalen Gemeinschaft stammen, in der sie ein gewisses Vertrauen zueinander haben.</p>
+
+<h3 style="color:Yellow;">WARUM SOLLTE MAN ETWAS WIE ECASH VERWENDEN?</h3>
+<p>Die aktuelle Situation mit Bitcoin (BTC) und Lightning Network (LN) ist nicht günstig, da Milliarden von Menschen an Bord sind, die nicht gut vorbereitet sind, und diese Situation wird noch komplizierter, bis wir praktischere und einfachere Lösungen finden.</p>
+<p>Ja, einige alte Bitcoin-Benutzer werden keinen Vorteil darin sehen, dieses Ecash zu verwenden, außer dass es dem bestehenden LN-Protokoll etwas mehr Privatsphäre verleiht. Für diejenigen, die bereits viel Liquidität in LN-Kanälen und verschiedene UTXOs in Cold Storage haben, wird dieser Anwendungsfall nicht allzu viele Vorteile bringen, außer wenn sie Ecash als eine Form der Verbindung ihrer Einkommensquellen verwenden möchten. Aber das ist eine andere Geschichte.</p>
+<p>Aber für viele neue Bitcoin-Benutzer ist es ziemlich schwierig, mit einem UTXO direkt in der Kette zu beginnen und von dort aus anspruchsvolle LN-Knoten, öffentliche oder sogar private Knoten, zu betreiben. Die Verwaltung der LN-Liquidität ist für viele neue Benutzer nicht so einfach. Ja, sie können eine große Anzahl von LN-Wallets/-Konten verwenden, aber diese könnten trotzdem viele persönliche Informationen preisgeben und leicht geschlossen werden oder den Zugriff auf die Gelder der Benutzer einschränken.</p>
+<h4>Einige wichtige Aspekte, die zu berücksichtigen sind:</h4>
+<ul>
+<li>Die Verwendung von Ecash ist NICHT die ultimative Art, Bitcoin zu verwenden! Denken Sie daran, dass dies eher für die Einarbeitung neuer Benutzer geeignet ist, bis diese sich wohlfühlen und mehr wissen. Ja, die Verwendung von Ecash für tägliche Zahlungen ist sehr nützlich und günstig, aber bewahren Sie bitte NICHT alle Ihre Sats in einem Cashu-Wallet auf!</li>
+<li>Zwischen Benutzern derselben Münzprägeanstalt fallen KEINE GEBÜHREN an. Sie können Sats unter derselben Münzprägeanstalt hin und her senden, ohne LN oder Onchain zu verwenden. Denken Sie daran, dass Sie nur digitale IOU-Signaturen austauschen. Dies könnte ein großer Vorteil für Mitglieder lokaler Gemeinschaften sein, die untereinander Transaktionen durchführen.</li>
+<li>Benutzer können jedes andere LN-Wallet (aus der Münzanstalt) direkt von ihren E-Cash-Wallets aus bezahlen, aber das ist eine reguläre LN-Zahlung und beinhaltet die regulären LN-Gebühren.</li>
+<li>Benutzer können die Sats aus der Münzanstalt JEDERZEIT in jedes seiner anderen LN-Wallets einlösen. Aber diese Einlösung ist mit einigen Gebühren verbunden, wie bei einer regulären LN-Zahlung. Diese Einlösung reduziert die Menge an Sats, die der Bankier in seiner „Bank“ (Knoten) hat. Als Knotenbetreiber müssen Sie also eine gute Liquidität und ein ausreichendes Guthaben auf beiden Seiten (eingehend und ausgehend) aufrechterhalten.</li>
+<li>Benutzer können Swaps zwischen mehreren Münzanstalten (Banken) durchführen, aber auch das ist mit einigen Gebühren über LN verbunden. Swaps sind eigentlich LN-Zahlungen zwischen zwei Knoten oder zwei Münzanstalten. Auch wenn die Mints vom selben LN-Knoten stammen, könnten Gebühren anfallen.</li>
+<li>Der „Banker“ könnte Sats aus dem regulären LN-Routing verdienen, wenn die Benutzer auf andere ihrer regulären LN-Wallets auszahlen. In Ihren LNbits könnten Sie auch eine Gebühr festlegen, die für die Wallets der Benutzer (einschließlich der Mints) erhoben wird.</li>
+<li>Ecash Mint ist IMMER verwahrt! Sobald die Benutzer anfangen, Sats in die Mint einzuzahlen, sitzen diese Sats buchstäblich in den Knotenkanälen des „Bankers“.</li>
+<li>Wenn der Banker die Mint löscht, können Benutzer ihre Sats nicht mehr einlösen.</li>
+<li>Wenn der Benutzer sein Backup von seinen Ecash-Wallets verliert, kann niemand mehr diese Token einlösen, nicht einmal der Banker weiß, wie viel jeder Benutzer haben kann. Machen Sie also bitte Ihre Backups! Jede App bietet diese Option.</li>
+<li>Der Bankier wird NIEMALS wissen, wer wen bezahlt und kann auch nicht genau sehen, wie viele Token zwischen den Benutzern ausgegeben wurden. Dies ist sehr gut für die Privatsphäre. Hier ist ein Ecash-Workshop von Supertestnet, der all diese Aspekte erklärt.</li>
+</ul>
+<center>
+<iframe width="640" height="480" src="https://www.youtube.com/embed/xfYmwc-gnK8" title="Cashu-Workshop" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</center>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">Anwendungsszenario</h2>
+<h3 style="color:Yellow;">Lokaler Händler</h3>
+<p>Nehmen wir an einen lokalen Lebensmittelladenbesitzer, der seinen Kunden helfen möchte, Bitcoin für ihre Einkäufe zu verwenden. Einkaufen:</p>
+<ul>
+<li>Er/sie muss seine Lieferanten weiterhin mit Fiat-Währung bezahlen, bis auch diese anfangen, BTC zu akzeptieren.</li>
+<li>Die Kunden HABEN KEINE SATS, sind aber bereit, welche zu verwenden oder sogar zu stapeln.</li>
+<li>Der Ladenbesitzer ist bereit, Leuten, die BTC in seinem Laden verwenden, Rabatte anzubieten.</li>
+<li>Der Ladenbesitzer weiß, was zu tun ist. Dies ist eine ernsthafte Aufgabe und erfordert gute Kenntnisse über Bitcoin, LN, Liquidität, die Verwaltung von Knoten usw. Er/sie wird der lokale „Bankier“ sein, der auch die Aufgabe hat, seinen Kunden beizubringen, wie diese auf Bitcoin und Cashu ecash basierende Lösung verwendet wird.</li>
+</ul>
+
+<h3 style="color:Yellow;">SCHRITTE ALS „BANKER“</h3>
+<ol>
+<li>Lesen und lernen Sie, wie E-Cash-Mints funktionieren. Testen Sie sie vor der Verwendung. Beginnen Sie hier:</li>
+<ul>
+<li><a href="https://cashu.space/">https://cashu.space/</a> | <a href="https://docs.cashu.space/">https://docs.cashu.space/</a></li>
+<li>LNbits – <a href="https://lnbits.com/">Webseite</a> | <a href="https://github.com/lnbits/lnbits">Github</a> | <a href="https://github.com/lnbits/lnbits/wiki">Dokumentation</a> | <a href="https://saas.lnbits.com/">SaaS-Instanz</a> – einfaches Erstellen und Verwalten von Cashu-Mints (ich habe mehrere Anleitungen zu LNbits mit mehreren Anwendungsfällen geschrieben).</li>
+<li>Wallets – <a href="https://www.enuts.cash/">eNuts</a> | <a href="https://www.minibits.cash/">Minibits</a> | <a href="https://wallet.cashu.me/">Cashu.me</a> | <a href="https://wallet.nutstash.app/">Nutstash.app</a> | <a href="https://docs.cashu.space/wallets">Mehr…</a></li>
+<li>Tutorial <a href="https://cashu.how/">Cashu.how</a></li>
+</ul>
+<li>Betreiben Sie einen guten öffentlichen LN-Knoten mit guter Liquidität und Wartung. Dies ist eine ernste Aufgabe. Ignorieren Sie den Wartungsaspekt nicht. Sie sind jetzt Bankier. Ich habe mehrere Anleitungen zum Ausführen von Routing-Knoten geschrieben, bitte lesen Sie sie:</li>
+<ul>
+<li><a href="/nodes/bitcoin-ln-node-software-de.html">Welche Software könnte ich für einen LN-Knoten ausführen?</a></li>
+<li><a href="/nodes/managing-lightning-node-liquidity-de.html">Verwaltung der Lightning-Knoten-Liquidität</a></li>
+<li><a href="/nodes/lightning-node-maintenance-de.html">Wartung von Lightning-Knoten</a></li>
+<li><a href="/merchants/private-banks-over-ln-de.html">Private Banken über das Lightning Network</a></li>
+<li><a href="/nodes/recommendations-ln-node-operators-de.html">Empfehlungen für LN-Benutzer</a></li>
+<li><a href="https://darthcoin.substack.com/p/lightning-routing-fees-experiment">Experiment mit Lightning Routing Fees</a></li>
+<li><a href="https://darthcoin.substack.com/p/umbrel-bitcoin-ln-node">Erste Schritte mit Umbrel als LN-Knoten</a></li>
+<li><a href="/nodes/lightning-submarine-swaps-de.html">Lightning Network Submarine Swaps</a></li>
+<li>und viele mehr… auf meiner Substack- und Github-Seite</li>
+</ul>
+<li>
+<p>Installieren Sie LNbits auf Ihrem LN-Knoten. Eine leistungsstarke App-Suite mit vielen Erweiterungen, die für Händler und Kunden nützlich sind. In LNbits können Sie mit der Erstellung der Cashu-Münzen beginnen, praktisch könnten Sie mehrere „Banken“ erstellen. Mit nur 2 Klicks und der Auswahl einer für die Münzprägeanstalt bestimmten LNbits-Wallet können Sie eine „Bank“-Cashu-Münzprägeanstalt haben, die alle Token verwaltet.</p>
+<p><img src="/assets/images/ecash-mint.png" class="center"></p>
+<p>Wie Sie sehen, könnte ich einen sehr beschreibenden Namen verwenden, der in der Benutzer-Wallet als Name der Münzprägeanstalt (Bank) angezeigt wird.</p>
+<p><img src="/assets/images/ecash-mint-lnbits-ext.png" class="center"></p>
+<p>Sie können verschiedene Münzprägeanstalten mit verschiedenen Zielen und Anwendungsfällen haben und sie bestimmten LNbits-Wallets zuweisen.</p>
+<p>Bitte denken Sie daran, dass diese nur zu Test- und Demozwecken dienen. Verwenden Sie sie NICHT als reguläre E-Cash-Münzprägeanstalt!</p>
+<p>Installieren und führen Sie Cashu-Wallets aus, um sich mit der Verwendung von E-Cash und Münzprägeanstalten vertraut zu machen. Indem Sie den für jede Bank angezeigten QR-Code scannen, können Sie ihn in den Apps Minibits oder eNuts oder einfach im Browser mit Cashu.me oder Nutstash.app öffnen.</p>
+</li>
+<li>
+<p>Erstellen Sie einige Token in Ihren Münzstätten (Banken). Indem Sie (von einer beliebigen LN-Wallet) beispielsweise 100.000 Sats in eine Münzstätte einzahlen, erstellen Sie die gleiche Menge an Ecash-Token.</p>
+<p>!!! Denken Sie daran, dass Sie Ihren Münzstättenlink in eine dieser Wallets importiert haben müssen, wenn Sie diese Ecash-Token an andere Benutzer weitergeben/verteilen möchten. Jeder Import in eine andere Wallet-App hat seinen eigenen Münzstättenbetrag, kann jedoch mit anderen Benutzern unter derselben Münzstätte OHNE GEBÜHREN kommunizieren.</p>
+<p><img src="/assets/images/ecash-scenario.jpg" class="center"></p>
+<p>Dies könnte ein Schema für ein Szenario sein, in dem der Bankier 3 verschiedene Münzstätten für unterschiedliche Ziele erstellt hat. Es kann nur eins oder viele andere sein, es liegt an Ihnen, wie Sie sie organisieren.</p>
+<p>Als „Banker“ öffnen Sie also Ihre Münzprägeanstalt in einer dieser Geldbörsen. Sie wird LEER sein, keine Token. Wenn Sie beispielsweise 10.000 Sats in die Münzprägeanstalt einzahlen, werden 10.000 Token erstellt, die zur Verteilung an Ihre Kunden bereit sind.</p>
+</li>
+<li>
+<p>Machen Sie eine Ankündigung unter Ihren Shop-Kunden. Sie könnten mit ihrer Fiat-Währung den gewünschten E-Cash-Betrag direkt von Ihnen kaufen.</p>
+<p>Wie?</p>
+<p>Sie müssen die Minibits- oder eNuts-Wallet-Apps auf ihren Geräten installieren und Sie können ihnen dann direkt die E-Cash-Token aus Ihrer eigenen Minibits-/eNuts-/Cashu.me-Wallet senden, wo Sie mit dem „Prägen“ dieser neuen Token beginnen.</p>
+<p>Jetzt können sie mit diesen neuen E-Cash-Token in Ihrem Shop oder untereinander Transaktionen durchführen oder sie sogar an eine andere LN-Wallet senden (Auszahlung).</p>
+</li>
+<li>
+<p>Wenn der Benutzer alle von Ihnen gekauften Token ausgibt, hat er zwei Möglichkeiten:</p>
+<ul>
+<li>mehr Token mit Fiat-Währung von Ihnen (dem Bankier) kaufen</li>
+<li>einfach Sats aus einer anderen LN-Wallet in seine Cashu-Wallet einzahlen, indem Sie Ihre oder eine andere Münzprägung verwenden. Wenn sie dieselbe Münzprägeanstalt wie Sie wählen, können sie in Ihrem Geschäft erneut gebührenfrei handeln.</li>
+</ul>
+</li>
+<li>
+<p>Sie könnten Ihre Kunden dazu anregen, die Token bei Ihnen zu kaufen, indem Sie ihnen in Ihrem Geschäft einen guten Rabatt und einen guten Kurs für Fiat/BTC anbieten. Wenn Sie praktisch mehr BTC auf dem Markt kaufen und diese dann als E-Cash an Ihre Kunden verkaufen, erhalten Sie Ihre Sats zurück, wenn diese zurückkommen und sie im Geschäft ausgeben. Genau wie bei normalen Geschenkkarten.</p>
+<p>Dann verwenden Sie diese Fiat-Währung, um mehr BTC zu kaufen und Ihre Lieferanten zu bezahlen. Alle sind glücklich.</p>
+</li>
+</ol>
+<p>Mit LNbits ist es auch möglich, physische NFC-Karten zu erstellen, die mit Sats vorgeladen sind, indem Sie die Erweiterung BoltCards verwenden. Als Banker können Sie diese Geschenkkarten verkaufen und Ihre Kunden werden in Ihr Geschäft kommen, um sie zu verwenden.</p>
+<p>Hier ist ein Beispiel dafür, wie Kinder mit vorinstallierten NFC-Karten in einem brasilianischen Geschäft Lebensmittel bezahlen. <a href="/merchants/bitcoin-lightning-payments-irl-de.html">Weitere Beispiele finden Sie hier.</a></p>
+
+<center>
+<video width="640" height="480" controls>
+  <source src="/assets/media/lnbits-pay-nfc.mp4" type="video/mp4">
+</video>
+</center>
+
+<h3 style="color:Yellow;">SCHRITTE ALS MINT-BENUTZER</h3>
+<p>Als Benutzer müssen Sie nicht viel tun:</p>
+<ul>
+<li>Installieren Sie eines dieser Cashu-Wallets – Minibits | eNuts oder beides…</li>
+<li>Speichern Sie Ihre Backup-Informationen an einem sicheren Ort</li>
+<li>Erhalten Sie die Ecash-Token von Ihrem lokalen Münzpräger (Bankier) oder lösen Sie sie ein</li>
+<li>Beginnen Sie mit Transaktionen mit Ihren Token oder lösen Sie sie in einem Ihrer selbstverwahrten Wallets ein, falls Sie zu viele angesammelt haben.</li>
+</ul>
+<p>In jeder App können Sie auch die Details zu jeder Münzprägeanstalt sehen (wenn Sie mehrere Münzprägeanstalten verwenden), Backups erstellen, zwischen Münzprägeanstalten tauschen und weitere technische Details zu den Tokens erfahren.</p>
+<p>Die Tauschgeschäfte zwischen Münzprägeanstalten könnten auch eine sehr nette und einfache Form von Coinjoin sein…</p>
+<p><img src="/assets/images/ecash-wallets.jpg" class="center"></p>
+<p>Hier ist auch ein sehr gutes Video-Tutorial zur Verwendung der Minibits-Wallet von BTC Sessions:</p>
+<center>
+<iframe width="640" height="480" src="https://www.youtube.com/embed/igJF8ccMnbQ" title="Minibits BTC Wallet: Nahezu perfekte Privatsphäre und niedrige Gebühren – VOLLSTÄNDIGES TUTORIAL" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</center>
+<h3 style="color:Orange;">FAZIT</h3>
+<p>Wie Sie sehen, könnte dies eine weitere Möglichkeit sein, mehr Menschen für die Verwendung von Bitcoin zu gewinnen, ohne alle technischen Details hinter UTXO, Knoten, Liquidität, Kanälen, Routing-Gebühren usw. zu kennen. Für viele werden all diese Aspekte ein Ärgernis sein und sie werden einfach nicht anfangen wollen, Bitcoin zu verwenden.</p>
+<p>Aber mit einfachen Lösungen wie E-Cash, NFC-Karten und lokalen Banken von „Onkel Jim“ könnte ein Anfang für all diese einfachen Benutzer.</p>
+<p>Später, wenn sie mehr über Bitcoin erfahren, können sie ihre Sats in selbstverwaltete Wallets verschieben und große Mengen an Sats sicher aufbewahren.</p>
+</body>
+</html>
+</article>
