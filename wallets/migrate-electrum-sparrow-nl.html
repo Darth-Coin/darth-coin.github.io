@@ -1,0 +1,70 @@
+---
+layout: default
+title: Migreer Electrum naar Sparrow
+---
+<article>
+<!DOCTYPE html>
+<html lang="nl">
+<meta name="description" content="Bitcoin- en Lightning-handleidingen: Hoe u uw oude Electrum BTC-wallet importeert of migreert naar Sparrow Wallet">
+<body>
+<a href="/wallets/migrate-electrum-sparrow-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/migrate-electrum-sparrow-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/migrate-electrum-sparrow-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/migrate-electrum-sparrow-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> | 
+<a href="/wallets/migrate-electrum-sparrow-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/migrate-electrum-sparrow-hr.html">Hrvatski <img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/migrate-electrum-sparrow-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<blockquote style="color:Tomato;"><em>
+<p>Oorspronkelijk geplaatst op <a href="https://darthcoin.substack.com/p/electrum-to-sparrow">Substack</a> op 20 feb. 2022</p>
+<p>Hier bijgewerkt op 20 dec. 2024</p>
+</em></blockquote>
+
+<h3>Een walkthrough over hoe je je oude Electrum BTC-wallet importeert of migreert naar Sparrow Wallet</h3>
+<p>Veel gebruikers vragen mij hoe ze Electrum seed BIP39 kunnen gebruiken in een andere wallet-app. Dus nu zal ik het uitleggen, hoe ik het doe.</p>
+<p>Dus, laten we aannemen dat je je cold wallets aanmaakt, met behulp van mijn vorige gidsen of dat je gewoon een oude BIP39 seed hebt en deze nu wilt gebruiken in de Sparrow wallet.</p>
+<p><img src="/assets/images/electrum-sparrow-1.jpg" class="center"></p>
+<p>Er zijn twee methoden om een ​​eerder aangemaakte Bitcoin wallet in Electrum te importeren in de Sparrow app:</p>
+<ul>
+<li>De eenvoudige - met behulp van het Electrum backup wallet bestand.</li>
+<li>De geavanceerde - converteer BIP39 seed naar BIP84 met zijn afleidingspad.</li>
+</ul>
+<p>Gebruikte bronnen:</p>
+<ul>
+<li>Electrum wallet: <a href="https://electrum.org/#download">download</a> pagina en <a href="https://electrum.readthedocs.io/en/latest/">documentatie</a> pagina</li>
+<li>Sparrow wallet: <a href="https://www.sparrowwallet.com/">download</a> pagina en <a href="https://www.sparrowwallet.com/docs/">documentatie</a> pagina</li>
+<li><a href="https://guggero.github.io/cryptography-toolkit">Cryptography Tools pagina</a></li>
+</ul>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">A. Importeer het Electrum wallet-bestand in Sparrow</h2>
+<ol>
+<li>Zodra u de Electrum wallet hebt aangemaakt en alles goed werkt, gaat u naar het menu Bestand - Back-up opslaan. U wordt gevraagd waar u het wilt opslaan, klik op het vakje en selecteer waar. Bewaar het veilig!</li>
+<li>Dit bestand is gecodeerd! U moet dus uw Electrum-wachtwoord gebruiken om het te openen/gebruiken in Sparrow. Is dat wachtwoord dat u (twee keer) hebt ingevoerd toen u de Electrum-wallet aanmaakte. Het is NIET de extra wachtwoordzin, voor het geval u er een hebt gebruikt samen met de seed van 12 woorden. Is het wachtwoord dat wordt gebruikt om uw Electrum-wallet te openen.</li>
+<li>Open de Sparrow-app. Selecteer import wallet en selecteer Electrum. Blader naar het vorige bestand dat is opgeslagen in punt 1. U wordt gevraagd om het wachtwoord van de wallet in te voeren.</li>
+</ol>
+<p><img src="/assets/images/electrum-sparrow-2.png" class="center"></p>
+<p>Volg gewoon de stappen en Sparrow begint met het importeren van alle vorige UTXO's, transacties, enz. U wordt gevraagd om een ​​wachtwoord voor die wallet in te stellen. Dat is ook het encrypteren van een lokaal wallet-bestand en kan later worden opgeslagen op een veilige locatie (wachtwoordbeheerder - KeePass), gebruik het menu Bestand - Exporteren optie.</p>
+<p>Klaar!</p>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">B. Geavanceerde seedconversie van BIP39 naar BIP84</h2>
+<ol>
+<li>Je hebt de 12 woorden BIP39 seed en om te verifiëren dat je deze correct converteert, is het beter om een ​​aantal van de eerste gegenereerde BTC-adressen, afleidingspad, MPK (master public key), Base private key bij de hand te hebben.</li>
+<li>Ga naar https://guggero.github.io/cryptography-toolkit/#!/hd-wallet (je kunt de pagina opslaan en offline gebruiken, voor de veiligheid).</li>
+<li>Plaats je 12 woorden seed BIP39 van Electrum</li>
+<p><img src="/assets/images/electrum-sparrow-3.png" class="center"></p>
+<li>Selecteer BIP39 en selecteer in HD node root key BTC native segwit BIP84 (of het formaat dat je in Electrum gegenereerd hebt, legacy of segwit). In het volgende schermblok ziet u de conversie in BIP84</li>
+<p><img src="/assets/images/electrum-sparrow-4.png" class="center"></p>
+<li>Selecteer het type munt native segwit. Sla dat afleidingspad en alle getoonde details op in uw wachtwoordbeheerder. Kopieer nu de uitvoer van "Derived key base58".</li>
+<li>Open de Sparrow-app. Selecteer in het menu Bestand - Nieuwe portemonnee. Kies een naam.</li>
+<p><img src="/assets/images/electrum-sparrow-5.png" class="center"></p>
+<li>In het volgende scherm kun je de afgeleide sleutel base58 plakken en importeren.</li>
+</ol>
+<p><img src="/assets/images/electrum-sparrow-6.png" class="center"></p>
+<p>Volg de schermen en je zult zien hoe de vorige UTXO's en transacties worden geïmporteerd. Nee, je kunt ze gaan verifiëren, het zouden dezelfde BTC-adressen moeten zijn van de vorige segwit native (bech32) Electrum-wallet.</p>
+<p><img src="/assets/images/electrum-sparrow-7.jpg" class="center"></p>
+<p>Klaar! Nu heb je je eerdere Electrum bech32 wallet geïmporteerd in Sparrow.</p>
+<p>Mijn advies is om al je oude BIP39 HODL wallets te migreren naar Taproot (P2TR) type wallets. <a href="/wallets/move-btc-taproot-address-nl.html">Lees hier de gids hierover</a>.</p>
+</body>
+</html>
+</article>
