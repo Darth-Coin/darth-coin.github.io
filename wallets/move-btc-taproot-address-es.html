@@ -1,0 +1,86 @@
+---
+layout: default
+title: Mueva su BTC a la dirección Taproot
+---
+<article>
+<!DOCTYPE html>
+<html lang="es">
+<meta name="description" content="Guías sobre Bitcoin y Lightning: Cómo migrar tu antiguo stock de BTC a una nueva dirección de tipo Taproot">
+<body>
+<a href="/wallets/move-btc-taproot-address-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/move-btc-taproot-address-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/move-btc-taproot-address-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/move-btc-taproot-address-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/move-btc-taproot-address-nl.html">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/move-btc-taproot-address-hr.html">Hrvatski <img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/move-btc-taproot-address-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<blockquote style="color:Tomato;"><em>
+<p>Publicado originalmente en <a href="https://darthcoin.substack.com/p/move-your-btc-to-taproot-address">Substack</a> el 19 de diciembre de 2021</p>
+<p>Actualizado aquí el 20 de diciembre de 2024</p>
+</em></blockquote>
+
+<h3>Escenario de guía simple para migrar su antiguo stock de BTC a nuevas billeteras con tipo de dirección Taproot</h3>
+<p>Entonces... todos están emocionados de que Taproot esté activado, esté funcionando, esté minado, pero pocos comienzan a usarlo. Es cierto, no todas las aplicaciones de billetera aún pueden enviar o recibir a direcciones Taproot.</p>
+<p><img src="/assets/images/btc-taproot.jpg" class="center"></p>
+
+<h2 style="color:Orange;">INTRODUCCIÓN</h2>
+<p>Antes de comenzar a ver cómo puedes mover tus sats a una dirección Taproot, deberíamos mencionar por qué es bueno deshacerse de los tipos antiguos de direcciones BTC:</p>
+<ul>
+<li>Si aún tienes tus BTC en una dirección heredada (que comienza con 1) que será muy costosa de usar, de ahora en adelante, mover sats en la cadena será cada vez más difícil y costoso. El futuro es Lightning Network como "protocolo de pago" y onchain seguirá siendo un "protocolo de retención".</li>
+<li>Si todavía tienes tus BTC en una dirección segwit encapsulada (comienza con 3), no es tan costoso usarlo en onchain, pero aún tienen un gran peso y algunas aplicaciones de billetera aún tienen dificultades para enviarlos o recibirlos. Además, muchos exchanges usaban esas direcciones y eso podría terminar en una fuga de privacidad en algún momento.</li>
+<li>Si tienes tu stock en una dirección de tipo segwit nativo (bech 32), también es bueno mover tus sats al tipo Taproot, para beneficiarte del desarrollo futuro para Lightning y la privacidad.</li>
+<li>Tienes muchos UTXO pequeños (cambio) de transacciones pasadas y es difícil gastarlos, ahora es momento de consolidar y mezclar los resultados para un mejor uso futuro.</li>
+<li>Cambiar también el XPUB es una buena manera de perder el rastro de tus transacciones pasadas.</li>
+<li>Privacidad: todos los tipos antiguos de direcciones BTC en el pasado fueron "rastreados" de alguna manera. Algunos usaban técnicas de coinjoin o mezcla, pero no todos eran tan eficientes para usarlas. Ahora tienes la oportunidad de "limpiar" tus satélites y estar preparado para el futuro.</li>
+</ul>
+
+<h4 style="color:Yellow;">Lee más sobre Taproot aquí:</h4>
+<ul>
+<li><a href="https://kraken.docsend.com/view/9e9y7may8526z934">Taproot: una actualización para la historia</a></li>
+<li><a href="https://bitcoinmagazine.com/technical/taproot-coming-what-it-and-how-it-will-benefit-bitcoin">Taproot está llegando: ¿cómo se beneficiará?</a></li>
+<li><a href="https://taproot.watch/about">Taproot Watch: información</a></li>
+<li><a href="https://youtu.be/1gRCVLgkyAE">Taller de Taproot y Schnorr Introducción</a></li>
+</ul>
+<p><a href="/beginner/be-your-own-bank-es.html">Como expliqué en esta guía</a>, sobre cómo mantener seguro su alijo de BTC en tres niveles de billeteras, ahora veamos un ejemplo de cómo cambiarlos a una billetera compatible con Taproot. Veremos una simple y dónde la mayoría de los usuarios guardan sus BTC.</p>
+
+<h2 style="color:Orange;">ESCENARIO DE CASO DE USO</h2>
+<p>Digamos que tiene varias billeteras Electrum, con direcciones heredadas y segwit y UTXO (cambio o simplemente HODL). También puede tener un HWW (Trezor, Ledger, etc.) que se pueda conectar a la aplicación Electrum, para hacer un mejor control de las monedas.</p>
+<p>Usaremos la <a href="https://www.sparrowwallet.com/">aplicación de escritorio de billetera Sparrow</a> para esta "migración". Es una aplicación de billetera muy buena con muchas funciones y una de las primeras en soportar direcciones Taproot.</p>
+<p>Puedes conectarla a tu propio nodo BTC/Electrum para mayor privacidad, pero si no tienes un nodo, no hay problema, puedes usar uno de los servidores de nodo públicos provistos (también detrás de Tor). Puedes usar, por ejemplo, el servidor Blockstream.</p>
+<p>Usaremos un escenario simple con una sola firma.</p>
+<h3>Pasos iniciales para preparar tu billetera Taproot</h3>
+<ul>
+<li>Instala o ejecuta la aplicación de escritorio independiente Sparrow</li>
+<li>Crea una nueva billetera y selecciona Taproot y selecciona "billetera de software nueva o importada"</li>
+<p><img src="/assets/images/btc-taproot-new-wallet.png" class="center"></p>
+<p><img src="/assets/images/btc-taproot-seed.png" class="center"></p>
+<li>Las siguientes pantallas serán para generar las palabras para una nueva semilla, guardarlas y escribirlas nuevamente para confirmar que están bien</li>
+<li>Una vez que termines el proceso, abre tu administrador de contraseñas (recomiendo KeePass o Bitwarden) y agrega todos los detalles de tu nueva billetera creada: semilla, xpub, ruta de derivación, direcciones de 3-4 BTC, contraseña de cifrado del archivo de la billetera. Incluso puede agregar/insertar una copia de seguridad de su archivo de billetera Sparrow (vaya al menú Sparrow, Archivo - Exportar billetera). ¡GUARDE LA BASE DE DATOS DEL ADMINISTRADOR DE CONTRASEÑAS EN UN LUGAR SEGURO!</li>
+<li>ANTES de mover los fondos a esta billetera recién creada, HAGA LA PRUEBA DE RESTAURACIÓN. Simplemente cierre esta billetera recién creada e inicie el mismo proceso nuevamente, pero esta vez, elija restaurar desde la semilla que ya tiene. Si genera las mismas primeras 5-6-10 direcciones BTC, entonces está listo, tiene las palabras correctas y está seguro de que puede restaurarlas.</li>
+</ul>
+
+<h3 style="color:Yellow;">Importa tus billeteras Electrum a Sparrow</h3>
+<p>Para poder tener una transición fluida y construir más fácilmente la transacción de mezcla, importaremos tus antiguas billeteras Electrum a Sparrow.</p>
+<p>El mismo proceso que antes, solo que elegiremos en la segunda pantalla el "almacén de claves de Electrum", donde podemos simplemente agregar el archivo de la billetera Electrum, sin necesidad de semillas ni nada más.</p>
+<p>Si aún no guardaste ese archivo, no hay problema, simplemente navega hasta la carpeta de instalación de Electrum o donde guardas el archivo de la billetera y lo importarás desde allí. Haz clic en "importar" a Sparrow y te pedirá la contraseña de cifrado. Es tu contraseña de Electrum para abrir ese archivo. Listo, pasarán unos minutos hasta que Sparrow pueda importar todas las transacciones y UTXO.</p>
+<p>Bien, digamos que tienes 10 UTXO en tu antigua billetera Electrum con diferentes montos cada una.</p>
+<p>Hagámoslo más diverso: dividiremos todos esos UTXO en 20, con diferentes montos, no iguales, para que parezca una unión de monedas.</p>
+
+<h3 style="color:Yellow;">Construye la transacción para la migración a Taproot</h3>
+<p>En Sparrow, ve a la billetera Electrum importada - Enviar. Selecciona la tarifa mínima, por ejemplo 1sat/vB y el modo "privacidad" optimizado.</p>
+<p><img src="/assets/images/btc-taproot-tx.png" class="center"></p>
+<p>Ve a tu billetera Taproot recién creada en Sparrow (mira las pestañas superiores) y en Direcciones copia una por una las primeras 20 direcciones generadas.</p>
+<p>Vuelve a la billetera importada de Electrum y en ese cuadro "pagar a", pega una por una y haz clic en el botón "agregar" para cada dirección de destino de Taproot. Puedes poner una etiqueta si lo deseas. Para cada destino, pon una cantidad diferente. Distribuye el valor como un número aleatorio.</p>
+<p>En el último, simplemente haz clic en el botón "máximo" y se agregarán los sats restantes disponibles.</p>
+<p>Aparecerá un gráfico agradable una vez que se construya tu transacción.</p>
+<p><img src="/assets/images/btc-taproot-distribution.jpg" class="center"></p>
+<p>Haz clic en "crear transacción" y la siguiente pantalla estará a punto de firmarla (usando la contraseña de tu billetera) y también una característica agradable: "Tiempo de bloqueo". Esto es realmente interesante en caso de que quieras bloquear esos UTXO por un tiempo prolongado (HODL), para que no se puedan gastar hasta el bloque o la fecha especificados (por ejemplo, una billetera de hodling para tus hijos, para que puedan gastar desde esa billetera solo cuando tengan entre 18 y 20 años). Es una característica muy buena para proteger una billetera para gastar.</p>
+<p><img src="/assets/images/btc-taproot-locktime.jpg" class="center"></p>
+<p>Termina el proceso de firma y transmite la transacción al mempool. Una vez que los mineros la tomen del mempool, podrás verla en el explorador de bloques de esta manera:</p>
+<p><img src="/assets/images/btc-taproot-explorer.jpg" class="center"></p>
+<p>¡Listo! Ahora espera 6 confirmaciones y verás tus BTC en las nuevas direcciones de tu billetera Taproot.</p>
+<p>Opcional, puedes copiar el txID e ir a <a href="https://kycp.org/">https://kycp.org/</a> y ver cómo es el nivel de "privacidad". Si desea más privacidad, repita el proceso con más entradas y salidas, desde la misma billetera o mezclándolas con otra billetera raíz recién creada. La billetera Sparrow es una excelente aplicación para mezclar y es fácil de usar.</p>
+<p>Más detalles y guías sobre cómo usar la mezcla de Sparrow aquí</a>.</p>
+</body>
+</html>
+</article>
