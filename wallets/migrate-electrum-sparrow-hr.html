@@ -1,0 +1,71 @@
+---
+layout: default
+title: Preselite Electrum na Sparrow
+---
+<article>
+<!DOCTYPE html>
+<html lang="hr">
+<meta name="description" content="Vodiči za Bitcoin i Lightning: Kako uvesti ili premjestiti svoj stari Electrum BTC novčanik u Sparrow novčanik">
+<body>
+<a href="/wallets/migrate-electrum-sparrow-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/migrate-electrum-sparrow-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/migrate-electrum-sparrow-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/migrate-electrum-sparrow-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> | 
+<a href="/wallets/migrate-electrum-sparrow-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/migrate-electrum-sparrow-nl.html">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> | 
+<a href="/wallets/migrate-electrum-sparrow-hr.html">Hrvatski <img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/migrate-electrum-sparrow-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<blockquote style="color:Tomato;"><em>
+<p>Izvorno objavljeno na <a href="https://darthcoin.substack.com/p/electrum-to-sparrow">Substack</a> 20. veljače 2022.</p>
+<p>Ovdje ažurirano 20. prosinca 2024.</p>
+</em></blockquote>
+
+<h3>Upute o tome kako uvesti ili premjestiti svoj stari Electrum BTC novčanik u Sparrow novčanik</h3>
+<p>Mnogi me korisnici pitaju kako koristiti Electrum seed BIP39 u drugim aplikacijama novčanika. Sada bih objasnio kako to radim.</p>
+<p>Dakle, uzmimo u obzir da ste kreirali svoje hladne novčanike, koristeći moje prethodne vodiče ili jednostavno imate staro BIP39 sjeme i sada ga želite koristiti u Sparrow novčaniku.</p>
+<p><img src="/assets/images/electrum-sparrow-1.jpg" class="center"></p>
+<p>Postoje dvije metode za uvoz prethodno kreiranog Bitcoin novčanika u Electrumu u aplikaciju Sparrow:</p>
+<ul>
+<li>Jednostavan - pomoću Electrum sigurnosne kopije datoteke novčanika.</li>
+<li>Napredni - pretvorite početnu vrijednost BIP39 u BIP84 s njegovom putanjom derivacije.</li>
+</ul>
+<p>Korišćeni resursi:</p>
+<ul>
+<li>Electrum novčanik: stranica za <a href="https://electrum.org/#download">preuzimanje</a> i <a href="https://electrum.readthedocs.io/en/latest/" >dokumentacija</a> stranica</li>
+<li>Sparrow wallet: <a href="https://www.sparrowwallet.com/">stranica za preuzimanje</a> i <a href="https://www.sparrowwallet.com/docs/">dokumentacija </a> stranica</li>
+<li><a href="https://guggero.github.io/cryptography-toolkit">Stranica s alatima za kriptografiju</a></li>
+</ul>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">A. Uvezite datoteku novčanika Electrum u Sparrow</h2>
+<ol>
+<li>Nakon što izradite novčanik Electrum i sve radi dobro, idite na izbornik Datoteka - Spremi sigurnosnu kopiju. Pitat će vas za mjesto gdje ga želite spremiti, kliknite na okvir i odaberite gdje. Čuvajte ga!</li>
+<li>Ova datoteka je šifrirana! Dakle, morat ćete koristiti svoju lozinku za Electrum da biste ga otvorili/koristili u Sparrowu. Je li to lozinka koju ste stavili (dva puta) kada ste kreirali Electrum novčanik. To NIJE dodatna šifra, u slučaju da ste je upotrijebili zajedno s 12 riječi. Je lozinka koja se koristi za otvaranje vašeg Electrum novčanika.</li>
+<li>Otvorite aplikaciju Sparrow. Odaberite uvoz novčanika i odaberite Electrum. Potražite prethodnu datoteku spremljenu u točki 1. Tražit će vas da unesete lozinku novčanika.</li>
+</ol>
+<p><img src="/assets/images/electrum-sparrow-2.png" class="center"></p>
+<p>Samo slijedite korake i Sparrow će početi uvoziti sve prethodne UTXO-ove, transakcije itd. Od vas će se tražiti da postavite lozinku za taj novčanik. To također šifrira datoteku lokalnog novčanika i kasnije se može spremiti na sigurno mjesto (upravitelj zaporkama - KeePass), koristite opciju izbornika Datoteka - Izvezi.</p>
+<p>Gotovo!</p>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">B. Napredna konverzija sjemena iz BIP39 u BIP84</h2>
+<ol>
+<li>Imate početnu vrijednost BIP39 od 12 riječi i za provjeru jeste li je ispravno konvertirali bolje je imati pri ruci neke od prvih generiranih BTC adresa, putanju derivacije, MPK (glavni javni ključ), osnovni privatni ključ.</li>
+<li>Idite na https://guggero.github.io/cryptography-toolkit/#!/hd-wallet (možete spremiti stranicu i koristiti je izvan mreže, radi sigurnosti).</li>
+<li>Stavite svoje početno mjesto od 12 riječi BIP39 iz Electruma</li>
+<p><img src="/assets/images/electrum-sparrow-3.png" class="center"></p>
+<li>Odaberite BIP39 i u korijenskom ključu HD čvora odaberite BTC izvorni segwit BIP84 (ili format koji imate u generiranom Electrumu, legacy ili segwit). U sljedećem bloku zaslona vidjet ćete konverziju u BIP84</li>
+<p><img src="/assets/images/electrum-sparrow-4.png" class="center"></p>
+<li>Odaberite izvorni segwit vrste novčića. Spremite taj put derivacije i sve prikazane pojedinosti u svom upravitelju lozinki. Sada kopirajte taj izlaz "Izvedeni ključ base58".</li>
+<li>Otvorite aplikaciju Sparrow. Odaberite iz izbornika Datoteka - Novi novčanik. Odaberite ime.</li>
+<p><img src="/assets/images/electrum-sparrow-5.png" class="center"></p>
+<li>Zatim na sljedećem ekranu možete zalijepiti izvedenu bazu ključeva58 i uvesti je.</li>
+</ol>
+<p><img src="/assets/images/electrum-sparrow-6.png" class="center"></p>
+<p>Pratite zaslone i vidjet ćete kako ide uvoz prethodnih UTXO-a i transakcija. Ne, možete ih provjeriti, to bi trebale biti iste BTC adrese iz prethodnog segwit izvornog (bech32) Electrum novčanika.</p>
+<p><img src="/assets/images/electrum-sparrow-7.jpg" class="center"></p>
+<p>Gotovo! Sada ste uvezli svoj prethodni Electrum bech32 novčanik u Sparrow.</p>
+<p>Moj savjet je, migrirajte sve svoje stare BIP39 HODL novčanike na Taproot (P2TR) novčanike. <a href="/wallets/move-btc-taproot-address-hr.html">Ovdje pročitajte vodič o tome</a>.</p>
+</body>
+</html>
+</article>
