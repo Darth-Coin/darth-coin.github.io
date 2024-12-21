@@ -1,0 +1,86 @@
+---
+layout: default
+title: Verplaats uw BTC naar het Taproot-adres
+---
+<article>
+<!DOCTYPE html>
+<html lang="nl">
+<meta name="description" content="Bitcoin- en Lightning-handleidingen: Hoe u uw oude BTC-voorraad naar een nieuw Taproot-type adres kunt migreren">
+<body>
+<a href="/wallets/move-btc-taproot-address-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/move-btc-taproot-address-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/move-btc-taproot-address-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/move-btc-taproot-address-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/move-btc-taproot-address-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/move-btc-taproot-address-hr.html">Hrvatski <img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/move-btc-taproot-address-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<blockquote style="color:Tomato;"><em>
+<p>Oorspronkelijk geplaatst op <a href="https://darthcoin.substack.com/p/move-your-btc-to-taproot-address">Substack</a> op 19 dec. 2021</p>
+<p>Hier bijgewerkt op 20 dec. 2024</p>
+</em></blockquote>
+
+<h3>Eenvoudig handleidingscenario om je oude BTC-voorraad te migreren naar nieuwe Taproot-adrestype wallets</h3>
+<p>Dus... iedereen is enthousiast dat Taproot is geactiveerd, werkt, wordt gemined, maar weinigen gaan het gebruiken. Het is waar, niet alle wallet-apps kunnen nog steeds verzenden of ontvangen naar taproot-adressen.</p>
+<p><img src="/assets/images/btc-taproot.jpg" class="center"></p>
+
+<h2 style="color:Orange;">INLEIDING</h2>
+<p>Voordat we beginnen te kijken hoe je je sats naar een Taproot-adres kunt verplaatsen, moeten we vermelden waarom het goed is om oude typen BTC-adressen te verwijderen:</p>
+<ul>
+<li>als je je BTC nog steeds op een legacy-adres hebt staan ​​(begint met 1) dat erg duur zal zijn om te gebruiken, zal het verplaatsen van sats op de blockchain vanaf nu steeds moeilijker en duurder worden. De toekomst is Lightning Network als "betaalprotocol" en onchain zal blijven als "hodling protocol".</li>
+<li>als je nog steeds je BTC in een ingepakt segwit-adres hebt (begin met 3), is het niet zo duur om het onchain te gebruiken, maar het is nog steeds een zwaargewicht en sommige wallet-apps hebben nog steeds moeite om ernaar te verzenden of te ontvangen. Ook gebruikten veel exchanges die adressen en dat zou op een gegeven moment kunnen leiden tot privacylekken.</li>
+<li>Als je je stash in native segwit (bech 32) hebt, is het ook goed om je sats naar Taproot te verplaatsen, om te profiteren van toekomstige ontwikkelingen voor Lightning en privacy.</li>
+<li>Je hebt veel kleine UTXO's (change) van eerdere transacties en het is moeilijk om ze uit te geven, nu is het tijd om de outputs te consolideren en te mixen voor een beter toekomstig gebruik.</li>
+<li>Ook de XPUB veranderen is een goede manier om het spoor van je eerdere transacties te verliezen.</li>
+<li>Privacy: alle oude typen BTC-adressen in het verleden werden op de een of andere manier "getraceerd". Sommigen gebruikten coinjoin of mixtechnieken, maar niet allemaal waren zo pro-efficiënt in het gebruik daarvan. Nu heb je de mogelijkheid om je sats te "cleanen" en je voor te bereiden op de toekomst.</li>
+</ul>
+
+<h4 style="color:Yellow;">Lees hier meer over Taproot:</h4>
+<ul>
+<li><a href="https://kraken.docsend.com/view/9e9y7may8526z934">Taproot - Een upgrade voor de eeuwigheid</a></li>
+<li><a href="https://bitcoinmagazine.com/technical/taproot-coming-what-it-and-how-it-will-benefit-bitcoin">Taproot komt eraan - hoe zal het profiteren</a></li>
+<li><a href="https://taproot.watch/about">Taproot Watch - about</a></li>
+<li><a href="https://youtu.be/1gRCVLgkyAE">Taproot en Schnorr Workshop Intro</a></li>
+</ul>
+<p><a href="/beginner/be-your-own-bank-nl.html">Zoals ik in deze gids heb uitgelegd</a>, over hoe je je BTC-voorraad veilig houdt in drie niveaus van wallets, laten we nu eens kijken naar een voorbeeld van hoe je ze omschakelt naar een Taproot-ondersteunende wallet. We zullen een eenvoudige bekijken en waar de meeste gebruikers hun BTC bewaren.</p>
+
+<h2 style="color:Orange;">GEBRUIKSCASESCENARIO</h2>
+<p>Stel dat je verschillende Electrum-wallets hebt, met legacy- en segwit-adressen en UTXO's (change of gewoon HODL-adressen). Je kunt ook een HWW (Trezor, Ledger etc.) hebben die kan worden verbonden met de Electrum-app, om een ​​betere controle over munten te krijgen.</p>
+<p>We gebruiken de <a href="https://www.sparrowwallet.com/">Sparrow wallet desktop-app</a> voor deze "migratie". Is een hele goede wallet app met veel functies en een van de eerste die Taproot adressen ondersteunt.</p>
+<p>Je kunt het verbinden met je eigen BTC/Electrum node voor meer privacy, maar als je geen node hebt, geen probleem, je kunt een van de openbare node servers gebruiken die worden aangeboden (ook achter Tor). U kunt bijvoorbeeld de Blockstream-server gebruiken.</p>
+<p>We gebruiken een eenvoudig scenario met een enkele handtekening.</p>
+<h3>Eerste stappen om uw Taproot-wallet voor te bereiden</h3>
+<ul>
+<li>installeer of voer de standalone Sparrow-desktop-app uit</li>
+<li>maak een nieuwe wallet en selecteer Taproot en selecteer "nieuwe of geïmporteerde softwarewallet"</li>
+<p><img src="/assets/images/btc-taproot-new-wallet.png" class="center"></p>
+<p><img src="/assets/images/btc-taproot-seed.png" class="center"></p>
+<li>de volgende schermen zijn om de woorden voor een nieuwe seed te genereren, ze op te slaan en ze opnieuw te schrijven om te bevestigen dat ze OK zijn</li>
+<li>Zodra u het proces hebt voltooid, opent u uw wachtwoordbeheerder (ik raad KeePass of Bitwarden aan) en voegt u alle details van uw nieuwe wallet toe: seed, xpub, afleidingspad, 3-4 BTC-adressen, encryptiewachtwoord van het walletbestand. U kunt zelfs een back-up van uw sparrow walletbestand toevoegen/invoegen (ga naar Sparrow-menu, Bestand - Wallet exporteren). BEWAAR DIE WACHTWOORDBEHEERDERSDATABASE OP EEN VEILIGE PLEK!</li>
+<li>VOER DE HERSTELTEST UIT VOORDAT u de fondsen naar deze nieuw aangemaakte wallet verplaatst. Sluit deze nieuw aangemaakte wallet en start hetzelfde proces opnieuw, maar kies deze keer om te herstellen vanaf de seed die u al hebt. Als u dezelfde eerste 5-6-10 BTC-adressen genereert, dan bent u klaar, hebt u de juiste woorden en weet u zeker dat u ze kunt herstellen.</li>
+</ul>
+
+<h3 style="color:Yellow;">Importeer je Electrum wallets in Sparrow</h3>
+<p>Om een ​​soepele overgang te kunnen hebben en de mixtransactie gemakkelijker te kunnen maken, importeer je je oude Electrum wallets in Sparrow.</p>
+<p>Hetzelfde proces als hiervoor, alleen kiezen we in het 2e scherm de "electrum keystore", waar we gewoon het Electrum wallet bestand kunnen toevoegen, geen seed of iets anders nodig.</p>
+<p>Als je dat bestand nog steeds niet hebt opgeslagen, geen probleem, blader gewoon naar je Electrum folder installatie of waar je het wallet bestand bewaart en je importeert het van daaruit. Klik op "import" in Sparrow en je wordt gevraagd om het encryptie wachtwoord. Het is je Electrum wachtwoord om dat bestand te openen. Klaar, het zal even duren voordat Sparrow alle txs en UTXO's kan importeren.</p>
+<p>Oké, laten we zeggen dat je 10 UTXO's in je oude Electrum-wallet hebt met elk een ander bedrag.</p>
+<p>Laten we het wat diverser maken: we splitsen ze allemaal op in 20 UTXO's, met een ander bedrag, niet gelijk, zodat het lijkt op een coinjoin.</p>
+
+<h3 style="color:Yellow;">Constructeer de transactie voor migratie naar Taproot</h3>
+<p>Ga in Sparrow naar geïmporteerde Electrum-wallet - Verzenden. Selecteer minimumtarief, bijvoorbeeld 1sat/vB en "privacy"-modus geoptimaliseerd.</p>
+<p><img src="/assets/images/btc-taproot-tx.png" class="center"></p>
+<p>Ga naar je nieuw aangemaakte Taproot-wallet in Sparrow (zie bovenste tabbladen) en kopieer in Adressen één voor één de eerste 20 gegenereerde adressen.</p>
+<p>Ga terug naar de geïmporteerde Electrum-wallet en plak in dat "pay to"-vakje één voor één en klik op de "add"-knop voor elk taproot-bestemmingsadres. Je kunt een label toevoegen als je wilt. Zet voor elke bestemming een ander bedrag. Verspreid het als een willekeurig getal.</p>
+<p>Klik bij de laatste op de knop "max" en de resterende beschikbare sats worden toegevoegd.</p>
+<p>Er verschijnt een mooie grafiek zodra uw transactie is samengesteld.</p>
+<p><img src="/assets/images/btc-taproot-distribution.jpg" class="center"></p>
+<p>Klik op "create transaction" en het volgende scherm gaat over het ondertekenen ervan (met uw wallet-wachtwoord) en ook een leuke functie: "Locktime". Dit is erg interessant als u die UTXO's voor een lange tijd HODL wilt vergrendelen, zodat ze pas kunnen worden uitgegeven op het opgegeven blok of de opgegeven datum (bijvoorbeeld een hodling wallet voor uw kinderen, zodat ze alleen vanaf die wallet kunnen uitgeven als ze 18-20 jaar oud zijn). Is een erg goede functie om een ​​wallet te beschermen tegen uitgaven.</p>
+<p><img src="/assets/images/btc-taproot-locktime.jpg" class="center"></p>
+<p>Voltooi het proces van ondertekenen en zend de transactie uit naar de mempool. Zodra deze door de miners uit de mempool is gehaald, kunt u deze in de block explorer zien zoals deze:</p>
+<p><img src="/assets/images/btc-taproot-explorer.jpg" class="center"></p>
+<p>Klaar! Wacht nu op 6 bevestigingen en u zult uw BTC in uw nieuwe Taproot wallet-adressen zien.</p>
+<p>Optioneel kunt u de txID kopiëren en naar <a href="https://kycp.org/">https://kycp.org/</a> gaan om te kijken hoe het "privacy"-niveau is. Als je meer privacy wilt, herhaal je het proces met nog meer inputs en outputs, van dezelfde wallet of door te mixen met een andere nieuw aangemaakte taproot wallet. Sparrow wallet is een geweldige app om te mixen en makkelijk te gebruiken.</p>
+<p>Meer details en handleidingen <a href="https://sparrowwallet.com/docs/mixing-whirlpool.html">hoe je Sparrow mixen gebruikt hier</a>.</p>
+</body>
+</html>
+</article>
