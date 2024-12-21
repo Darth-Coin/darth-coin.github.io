@@ -1,0 +1,70 @@
+---
+layout: default
+title: इलेक्ट्रम को स्पैरो में स्थानांतरित करें
+---
+<article>
+<!DOCTYPE html>
+<html lang="hi">
+<meta name="description" content="बिटकॉइन और लाइटनिंग गाइड: अपने पुराने इलेक्ट्रम बीटीसी वॉलेट को स्पैरो वॉलेट में कैसे आयात या माइग्रेट करें">
+<body>
+<a href="/wallets/migrate-electrum-sparrow-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/migrate-electrum-sparrow-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/migrate-electrum-sparrow-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/migrate-electrum-sparrow-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> | 
+<a href="/wallets/migrate-electrum-sparrow-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/migrate-electrum-sparrow-nl.html">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> | 
+<a href="/wallets/migrate-electrum-sparrow-hr.html">Hrvatski <img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<blockquote style="color:Tomato;"><em>
+<p>मूल रूप से <a href="https://darthcoin.substack.com/p/electrum-to-sparrow">Substack</a> पर 20 फरवरी, 2022 को पोस्ट किया गया</p>
+<p>यहाँ 20 दिसंबर, 2024 को अपडेट किया गया</p>
+</em></blockquote>
+
+<h3>अपने पुराने इलेक्ट्रम BTC वॉलेट को स्पैरो वॉलेट में कैसे आयात या माइग्रेट करें, इस बारे में विस्तृत जानकारी</h3>
+<p>कई उपयोगकर्ता मुझसे पूछ रहे हैं कि इलेक्ट्रम सीड BIP39 को दूसरे वॉलेट ऐप में कैसे इस्तेमाल किया जाए। तो अब मैं इसे समझाऊंगा, मैं यह कैसे करता हूँ।</p>
+<p>तो, मान लीजिए कि आप मेरे पिछले गाइड का उपयोग करके अपना कोल्ड वॉलेट बनाते हैं या आपके पास बस एक पुराना BIP39 बीज है और अब आप इसे स्पैरो वॉलेट में उपयोग करना चाहते हैं।</p>
+<p><img src="/assets/images/electrum-sparrow-1.jpg" class="center"></p>
+<p>इलेक्ट्रम में पहले से बनाए गए बिटकॉइन वॉलेट को स्पैरो ऐप में आयात करने के दो तरीके हैं:</p>
+<ul>
+<li>सरल तरीका - इलेक्ट्रम बैकअप वॉलेट फ़ाइल का उपयोग करना।</li>
+<li>उन्नत तरीका - BIP39 बीज को उसके व्युत्पन्न पथ के साथ BIP84 में परिवर्तित करना।</li>
+</ul>
+<p>उपयोग किए गए संसाधन:</p>
+<ul>
+<li>इलेक्ट्रम वॉलेट: <a href="https://electrum.org/#download">डाउनलोड</a> पेज और <a href="https://electrum.readthedocs.io/en/latest/">दस्तावेज़ीकरण</a> पेज</li>
+<li>स्पैरो वॉलेट: <a href="https://www.sparrowwallet.com/">डाउनलोड</a> पेज और <a href="https://www.sparrowwallet.com/docs/">दस्तावेज़ीकरण</a> पेज</li>
+<li><a href="https://guggero.github.io/cryptography-toolkit">क्रिप्टोग्राफी टूल पेज</a></li>
+</ul>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">A. स्पैरो में इलेक्ट्रम वॉलेट फ़ाइल आयात करें</h2>
+<ol>
+<li>एक बार जब आप इलेक्ट्रम वॉलेट बना लेते हैं और सब ठीक से काम करता है, तो मेनू फ़ाइल - बैकअप सहेजें पर जाएँ। यह आपसे उस स्थान के बारे में पूछेगा जहाँ इसे सहेजना है, बॉक्स पर क्लिक करें और चुनें कि कहाँ सहेजना है। इसे सुरक्षित रखें!</li>
+<li>यह फ़ाइल एन्क्रिप्टेड है! इसलिए आपको इसे स्पैरो में खोलने/उपयोग करने के लिए अपने इलेक्ट्रम पासवर्ड का उपयोग करना होगा। क्या यह वह पासवर्ड है जिसे आपने इलेक्ट्रम वॉलेट बनाते समय (दो बार) डाला था। यह अतिरिक्त पासफ़्रेज़ नहीं है, यदि आपने 12 शब्दों के बीज के साथ एक का उपयोग किया है। क्या यह पासवर्ड आपके इलेक्ट्रम वॉलेट को खोलने के लिए उपयोग किया जाता है।</li>
+<li>स्पैरो ऐप खोलें। वॉलेट आयात करें और इलेक्ट्रम चुनें। बिंदु 1 में सहेजी गई पिछली फ़ाइल ब्राउज़ करें। यह आपसे वॉलेट पासवर्ड डालने के लिए कहेगा।</li>
+</ol>
+<p><img src="/assets/images/electrum-sparrow-2.png" class="center"></p>
+<p>बस चरणों का पालन करें और स्पैरो सभी पिछले UTXO, लेनदेन आदि को आयात करना शुरू कर देगा। आपको उस वॉलेट के लिए पासवर्ड सेट करने के लिए कहा जाएगा। यह स्थानीय वॉलेट फ़ाइल को भी एन्क्रिप्ट कर रहा है और बाद में इसे सुरक्षित स्थान (पासवर्ड मैनेजर - KeePass) में सहेजा जा सकता है, मेनू फ़ाइल - निर्यात विकल्प का उपयोग करें।</p>
+<p>हो गया!</p>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">बी. BIP39 से BIP84 में उन्नत बीज रूपांतरण</h2>
+<ol>
+<li>आपके पास 12 शब्दों का BIP39 बीज है और यह सत्यापित करने के लिए कि आपने इसे सही तरीके से रूपांतरित किया है, बेहतर होगा कि आपके पास पहले जनरेट किए गए कुछ BTC पते, व्युत्पत्ति पथ, MPK (मास्टर सार्वजनिक कुंजी), बेस निजी कुंजी हों।</li>
+<li>https://guggero.github.io/cryptography-toolkit/#!/hd-wallet पर जाएं (आप पृष्ठ को सहेज सकते हैं और सुरक्षा के लिए इसे ऑफ़लाइन उपयोग कर सकते हैं)।</li>
+<li>Electrum से अपना 12 शब्दों का बीज BIP39 डालें</li>
+<p><img src="/assets/images/electrum-sparrow-3.png" class="center"></p>
+<li>BIP39 चुनें और HD नोड रूट कुंजी में BTC नेटिव सेगविट BIP84 (या आपके पास मौजूद प्रारूप जिसे आपने इलेक्ट्रम जनरेट किया है, लीगेसी या सेगविट) चुनें। अगले स्क्रीन ब्लॉक में आपको BIP84 में रूपांतरण दिखाई देगा</li>
+<p><img src="/assets/images/electrum-sparrow-4.png" class="center"></p>
+<li>कॉइन टाइप नेटिव सेगविट चुनें। उस व्युत्पत्ति पथ और दिखाए गए सभी विवरणों को अपने पासवर्ड मैनेजर में सेव करें। अब, उस "व्युत्पन्न कुंजी बेस58" आउटपुट को कॉपी करें।</li>
+<li>स्पैरो ऐप खोलें। मेनू से फ़ाइल - नया वॉलेट चुनें। नाम चुनें।</li>
+<p><img src="/assets/images/electrum-sparrow-5.png" class="center"></p>
+<li>फिर अगली स्क्रीन में आप व्युत्पन्न कुंजी बेस58 को पेस्ट कर सकते हैं और इसे आयात कर सकते हैं।</li>
+</ol>
+<p><img src="/assets/images/electrum-sparrow-6.png" class="center"></p>
+<p>स्क्रीन का अनुसरण करें और आप देखेंगे कि पिछले UTXO और लेनदेन को कैसे आयात किया जा रहा है। नहीं, आप जाकर उन्हें सत्यापित कर सकते हैं, यह पिछले सेगविट नेटिव (bech32) इलेक्ट्रम वॉलेट से समान BTC पते होने चाहिए।</p>
+<p><img src="/assets/images/electrum-sparrow-7.jpg" class="center"></p>
+<p>हो गया! अब आपने अपने पहले के इलेक्ट्रम बेच32 वॉलेट को स्पैरो में आयात कर लिया है।</p>
+<p>मेरी सलाह है, अपने सभी पुराने BIP39 HODL वॉलेट को टैपरूट (P2TR) प्रकार के वॉलेट में माइग्रेट करें। <a href="/wallets/move-btc-taproot-address-hi.html">इसके बारे में गाइड यहाँ पढ़ें</a>.</p>
+</body>
+</html>
+</article>
