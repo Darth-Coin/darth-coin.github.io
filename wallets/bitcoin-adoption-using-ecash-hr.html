@@ -1,0 +1,163 @@
+---
+layout: default
+title: Usvajanje Bitcoina korištenjem ecash
+---
+<article>
+<!DOCTYPE html>
+<html lang="hr">
+<meta name="description" content="Vodiči za Bitcoin i Lightning: Kako možemo donijeti više usvajanja Bitcoina ljudima koji si ne mogu priuštiti početak s UTXO-om">
+<body>
+<a href="/wallets/bitcoin-adoption-using-ecash-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/bitcoin-adoption-using-ecash-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/bitcoin-adoption-using-ecash-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/bitcoin-adoption-using-ecash-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/bitcoin-adoption-using-ecash-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/bitcoin-adoption-using-ecash-nl.html">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/bitcoin-adoption-using-ecash-en.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<blockquote style="color:Tomato;"><em>
+<p>Izvorno objavljeno na <a href="https://darthcoin.substack.com/p/bitcoin-adoption-using-ecash">Substack</a> 9. veljače 2024. Ažurirano ovdje 20. prosinca 2024. </p>
+</em></blockquote>
+
+<h3>Scenarij korištenja za Ecash preko Bitcoin LN, korištenjem Cashu kovnica. Kako možemo donijeti više usvajanja Bitcoina ljudima koji si ne mogu priuštiti početak s UTXO-om.</h3>
+<p>U zadnje vrijeme sam razgovarao s mnogo ljudi koji su mi postavljali pitanja o tome kako započeti s Bitcoinom, ali na jednostavan način, od nulte razine i s vrlo ograničenim resursima (novac, znanje, infrastruktura).</p>
+<p>Čak sam za njih napisao namjenski vodič <a href="/beginner/getting-started-stack-sats-hr.html">"Stacking Sats - The noobs journey"</a> objašnjavajući kako započeti od niže na razini s osnovnim skrbničkim aplikacijama novčanika i polako se penjite ljestvama prema aplikacijama za samoskrbništvo. Ali nije dovoljno. Neki ljudi čak i to "putovanje" smatraju teškim.</p>
+<p>Ovaj vodič NIJE za one noobove, već za sve one "ujake Jime" koji su voljni pomoći u većem usvajanju Bitcoina. I ovaj put ćemo objasniti slučaj upotrebe kako uključiti te noobove, koristeći Ecash s Cashu kovnicama, preko Lightning Network (LN).</p>
+<p>Budimo jasni: Ecash NE zamjenjuje LN (kao što sam čuo da drugi govore)! Ecash je samo dodatni protokol koji može komunicirati s LN-om.</p>
+<p>U prethodnom vodiču također sam objasnio kako ti “Uncle Jim” mogu pokrenuti <a href="/merchants/private-banks-over-ln-hr.html">“Private banks over Lightning Network”</a > i koja im je infrastruktura potrebna. Dakle, ovaj će vodič biti proširenje prethodnog, s fokusom na korištenje Cashu kovnica.</p>
+<p><img src="/assets/images/bitcoin-coins.jpg" class="center"></p>
+
+<h2 style="color:Orange;">ŠTO JE ECASH CASHU MINTS?</h2>
+
+<em><blockquote style="color:Tomato;">
+<p>Cashu je besplatan Chaumian ecash sustav otvorenog koda izgrađen za Bitcoin. Cashu nudi gotovo savršenu privatnost za korisnike skrbničkih Bitcoin aplikacija. Nitko ne mora znati tko ste, koliko sredstava imate i s kim obavljate transakcije.</p>
+<p>Cashu je novi ecash protokol za skrbničke Bitcoin aplikacije koji je čvrsto integriran u Lightning mrežu. Ecash sustav sastoji se od dva dijela, kovnice i ecash novčanika. Transakcije e-gotovine ne mogu se pratiti, trenutne su i ne zahtijevaju naknade. Cashu je izgrađen za Bitcoin. Novčanici koriste Lightning čvor kovnice novca za izvršavanje ili primanje Bitcoin plaćanja u zamjenu za e-gotovinu.</p>
+<p>Kovnica novca Cashu ne zna tko ste, koliki vam je saldo ili s kim obavljate transakcije. Korisnici kovnice mogu privatno mijenjati ecash, a da nitko ne može znati tko su uključene strane. Plaćanja u bitcoinima izvršavaju se bez da itko može cenzurirati određene korisnike.</p>
+<p>Izvor - <a href="https://docs.cashu.space/">Cashu.space</a></p>
+<p><a href="https://nuts-and-bolts.gandlaf.com/">Kako Ecash radi slajdove</a> - autor Gandlaf (vrlo lijepi i jasni animirani slajdovi)</p>
+</em></blockquote>
+
+<p>Dakle, jednostavnije rečeno, ecash Cashu smatrajte digitalnim darovnim karticama, s dodatnom privatnošću i kriptografskim dokazom (sat) pričuva.</p>
+<p>Razmislite o tome da su ti tokeni poput manjih dijelova (kovanica) iskovanih iz veće rezerve bitcoina. Tko kuje te tokene je bankar i ovaj ih bankar distribuira među svojim klijentima.</p>
+<p>Ali imajte na umu: BANKAR IMA SKRBNIŠTVO NAD SATS! Dakle, da bi koristio ove kovnice, korisnik ipak mora imati određeno povjerenje u kovnicu (bankar). Bankar ne može stvoriti više satova (frakcijske rezerve) nego što ima na čuvanju, ali i dalje može zatvoriti kovnicu i korisnici više ne mogu otkupiti svoje satove.</p>
+<p>Dakle, opasnost od povlačenja tepiha i dalje postoji! Stoga budite svjesni, nemojte ostavljati svu svoju životnu ušteđevinu u ovim kovnicama i također koristite samo provjerene kovnice.</p>
+<p>Zato ćemo u ovom vodiču govoriti o scenariju u kojem su "bankar" i korisnici iz lokalne zajednice, gdje međusobno imaju određeno povjerenje.</p>
+
+<h3 style="color:Yellow;">ZAŠTO BI KORISTIO STVAR KAO ŠTO JE ECASH?</h3>
+<p>Situacija s Bitcoinom (BTC) i Lightning Networkom (LN) trenutno nije povoljna s uključivanjem milijardi ljudi koji nisu dobro pripremljeni i ova će se situacija komplicirati sve dok ne pronađemo praktičnija i lakša rješenja. </p>
+<p>Da, neki stari korisnici bitcoina neće vidjeti nikakvu prednost korištenja ovog ecasha, osim dodavanja malo više privatnosti povrh postojećeg LN protokola. Onima koji već imaju dosta likvidnosti u LN kanalima i raznim UTXO-ima u hladnjačama, ovaj slučaj upotrebe im neće donijeti previše prednosti, osim ako žele koristiti ecash kao oblik coin-a koji će im se pridružiti izvorima prihoda. Ali to je druga priča.</p>
+<p>Ali za mnoge nove korisnike Bitcoina prilično je teško započeti s UTXO-om izravno na lancu i odatle pokrenuti sofisticirane LN čvorove, javne ili čak privatne čvorove. Upravljanje LN likvidnošću nije tako lako za mnoge nove korisnike. Da, mogu koristiti veliki broj skrbničkih LN novčanika/računa, ali oni također mogu propuštati puno osobnih podataka i lako se mogu zatvoriti ili ograničiti pristup sredstvima korisnika.</p>
+
+<h4 style="color:Yellow;">Neki važni aspekti koje treba uzeti u obzir:</h4>
+<ul>
+<li>Korištenje Ecasha NIJE ultimativni način korištenja Bitcoina! Imajte na umu da je ovo prikladnije za uključivanje novih korisnika, dok im se ne olakša i steknu više znanja. Da, korištenje svakodnevnih plaćanja ecash-om vrlo je korisno i jeftino, ali molimo vas da NE držite sve svoje sitne iznose u Cashu novčaniku!</li>
+<li>Između korisnika iste kovnice, NEMA NAKNADA. Možete slati natrag i naprijed pod istom kovnicom, bez korištenja LN-a ili onchaina, zapamtite da samo razmjenjujete IOU digitalne potpise. To bi mogla biti velika prednost za članove lokalnih zajednica koji međusobno ostvaruju transakcije.</li>
+<li>Korisnici mogu platiti bilo koji drugi LN novčanik (izvan kovnice), izravno iz svojih ecash novčanika, ali to će biti redovno LN plaćanje i uključivat će redovne LN naknade.</li>
+<li>Korisnik može iskoristiti satove iz kovnice, BILO KADA, na bilo koji drugi LN novčanik. Ali to otkupljenje će uključivati ​​neke naknade kao redovno LN plaćanje. Ovo otkupljenje će smanjiti količinu sat-ova koje će bankar imati u svojoj "banci" (čvoru). Dakle, kao pokretač čvora morat ćete održavati dobru likvidnost i dovoljnu ravnotežu na obje strane (ulaznu i izlaznu).</li>
+<li>Korisnik može vršiti zamjene između više kovnica (banki), ali to će također uključivati ​​neke naknade preko LN-a. Swapovi su zapravo LN plaćanja između dva čvora ili dva minta. Čak i ako su kovnice iz istog LN čvora, to može uključivati ​​naknade.</li>
+<li>"Bankar" bi mogao zaraditi satove od redovnog LN usmjeravanja, kada korisnici isplaćuju novac na druge svoje redovne LN novčanike. U svojim LNbitovima također možete postaviti naknadu koja će se naplaćivati ​​za korisničke novčanike (uključujući kovnice).</li>
+<li>Ecash mint je UVIJEK čuvanje! Jednom kada korisnici počnu polagati satove u kovnicu, ti satovi doslovno sjedaju u kanale "bankarskih" čvorova.</li>
+<li>Ako bankar izbriše kovnicu, korisnici više ne mogu otkupiti svoje satove.</li>
+<li>Ako korisnik izgubi rezervnu kopiju iz svojih ecash novčanika, nitko više ne može iskoristiti te tokene, čak ni bankar ne zna koliko svaki korisnik može imati. Stoga napravite sigurnosnu kopiju! Svaka aplikacija nudi ovu opciju.</li>
+<li>Bankar NIKADA neće znati tko kome plaća i također ne može vidjeti koliko je točno tokena potrošeno između korisnika. Ovo je vrlo dobro za privatnost. Ovdje je Ecash radionica koju predstavlja Supertestnet, objašnjavajući sve te aspekte.</li>
+</ul>
+<centar>
+<iframe width="640" height="480" src="https://www.youtube.com/embed/xfYmwc-gnK8" title="Cashu radionica" frameborder="0" allow="akcelerometar; automatska reprodukcija; međuspremnik -write; encrypted-media; slika u slici" referrerpolicy="strict-origin-when-cross-origin" dopusti cijeli zaslon></iframe>
+</center>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">SCENARIJ UPOTREBE</h2>
+<h3 style="color:Yellow;">TRGOVAC U LOKALNOJ ZAJEDNICI</h3>
+<p>Razmotrimo vlasnika lokalne trgovine mješovitom robom koji želi pomoći svojim kupcima da počnu koristiti Bitcoin za kupnju:</p>
+<ul>
+<li>Još uvijek mora plaćati svojim dobavljačima fiat valutom, dok i oni ne počnu prihvaćati BTC.</li>
+<li>kupci NEMAJU SATS, ali su voljni početi koristiti ili čak gomilati neke.</li>
+<li>vlasnik trgovine voljan je ponuditi popuste ljudima koji koriste BTC u njegovoj trgovini</li>
+<li>vlasnik trgovine zna što će učiniti, ovo je ozbiljan zadatak i zahtijeva dobro znanje o Bitcoinu, LN-u, likvidnosti, upravljanju čvorovima itd. On/on će biti lokalni "bankar" koji će također imati dužnost educirati svoje klijente kako koristiti ovo rješenje temeljeno na Bitcoinu i Cashu ecashu.</li>
+</ul>
+
+<h3 style="color:Yellow;">KORACI KAO "BANKAR"</h3>
+<ol>
+<li>Pročitajte i naučite kako funkcioniraju kovnice e-gotovine. Testirati prije upotrebe. Započnite ovdje:</li>
+<ul>
+<li><a href="https://cashu.space/">https://cashu.space/</a> | <a href="https://docs.cashu.space/">https://docs.cashu.space/</a></li>
+<li>LNbits - <a href="https://lnbits.com/">Web stranica</a> | <a href="https://github.com/lnbits/lnbits">Github</a> | <a href="https://github.com/lnbits/lnbits/wiki">Dokumentacija</a> | <a href="https://saas.lnbits.com/">SaaS instanca</a> - jednostavna za izradu i upravljanje Cashu kovnicama (napisao sam nekoliko vodiča o LNbits, s nekoliko slučajeva upotrebe).</li>
+<li>Novčanici - <a href="https://www.enuts.cash/">eNuts</a> | <a href="https://www.minibits.cash/">Minibits</a> | <a href="https://wallet.cashu.me/">Cashu.me</a> | <a href="https://wallet.nutstash.app/">Nutstash.app</a> | <a href="https://docs.cashu.space/wallets">Više…</a></li>
+<li>Udžbenik <a href="https://cashu.how/">Cashu.how</a></li>
+</ul>
+<li>Vodite dobar javni LN čvor, s dobrom likvidnošću i održavanjem. Ovo je ozbiljan zadatak, nemojte zanemariti aspekt održavanja, sada ste bankar. Napisao sam nekoliko vodiča o pokretanju čvorova usmjeravanja, pročitajte ih:</li>
+<ul>
+<li><a href="/nodes/bitcoin-ln-node-software-hr.html">Koji softver mogu pokrenuti za LN čvor?</a></li>
+<li><a href="/nodes/managing-lightning-node-liquidity-hr.html">Upravljanje likvidnošću Lightning Node</a></li>
+<li><a href="/nodes/lightning-node-maintenance-hr.html">Održavanje Lightning čvora</a></li>
+<li><a href="/merchants/private-banks-over-ln-hr.html">Privatne banke preko Lightning Network</a></li>
+<li><a href="/nodes/recommendations-ln-node-operators-hr.html">Preporuke za LN korisnike</a></li>
+<li><a href="https://darthcoin.substack.com/p/lightning-routing-fees-experiment">Eksperiment s naknadama za Lightning Routing</a></li>
+<li><a href="https://darthcoin.substack.com/p/umbrel-bitcoin-ln-node">Početak rada s Umbrelom kao LN čvorom</a></li>
+<li><a href="/nodes/lightning-submarine-swaps-hr.html">Lightning Network zamjene podmornica</a></li>
+<li>i još mnogo toga… na mojoj stranici substack i github</li>
+</ul>
+<li>
+<p>Na vrhu vašeg LN čvora instalirajte LNbits. Snažan paket aplikacija s mnogim proširenjima korisnim za trgovce i kupce. U LNbitsu možete početi stvarati Cashu kovnice, praktički možete kreirati razne "banke". Uz samo 2 klika i odabirom LNbits novčanika namijenjenog kovnici novca, možete imati "bankarsku" kovnicu novca koja će upravljati svim tokenima.</p>
+<p><img src="/assets/images/ecash-mint.png" class="center"></p>
+<p>Kao što vidite, mogao bih upotrijebiti vrlo opisno ime, koje će se pojaviti u korisničkom novčaniku kao ime kovnice (banke).</p>
+<p><img src="/assets/images/ecash-mint-lnbits-ext.png" class="center"></p>
+<p>Možete imati razne kovnice, s različitim odredištima, slučajevima upotrebe i dodijeljene određenim LNbits novčanicima.</p>
+<p>Imajte na umu da su ovo samo za testiranje i demo, NEMOJTE ih koristiti kao uobičajenu kovnicu za e-cash!</p>
+<p>Instalirajte i pokrenite Cashu novčanike kako biste se upoznali s korištenjem e-gotovine i kovnica novca. Skeniranjem QR koda prikazanog za svaku banku možete ga otvoriti u Minibits ili eNuts aplikacijama ili samo u pregledniku s Cashu.me ili Nutstash.app.</p>
+</li>
+<li>
+<p>Stvorite neke žetone u svojim kovnicama (bankama). Samo deponiranjem (iz bilo kojeg LN novčanika) recimo 100.000 satova u kovnicu, stvorit ćete istu količinu tokena e-gotovine.</p>
+<p>!!! Imajte na umu da ako želite dijeliti/distribuirati te ecash tokene drugim korisnicima, morate uvesti svoju mint vezu u jedan od tih novčanika. Svaki uvoz u različitu aplikaciju za novčanik imat će vlastiti mint iznos, ali može komunicirati s drugim korisnicima pod istim mintom, BEZ NAKNADA.</p>
+<p><img src="/assets/images/ecash-scenario.jpg" class="center"></p>
+<p>Ovo bi mogla biti shema za scenarij u kojem je bankar stvorio 3 različite kovnice novca, za različita odredišta. To može biti samo jedan ili više drugih, na vama je kako ćete ih organizirati.</p>
+<p>Dakle, kao "bankar", otvorite svoju kovnicu u jedan od tih novčanika. Bit će PRAZAN, bez žetona. Deponiranjem recimo 10.000 satova u kovnicu, stvorit će se 10.000 tokena, spremnih za distribuciju među vašim kupcima.</p>
+</li>
+<li>
+<p>Obavijestite kupce svoje trgovine. Mogli su kupovati svojom fiat valutom, željeni iznos e-gotovine, izravno od vas.</p>
+<p>Kako?</p>
+<p>Morat će instalirati aplikacije Minibits ili eNuts wallet na svoje uređaje, a vi ćete im jednostavno moći poslati izravno ecash tokene iz vlastitog Minibits / eNuts / Cashu.me novčanika gdje počinjete "kovati" te nove tokene .</p>
+<p>Sada mogu započeti transakcije s tim novim ecash tokenima, u vašoj trgovini ili međusobno, ili ih čak poslati u bilo koji drugi LN novčanik (isplata).</p>
+</li>
+<li>
+<p>Ako korisnik potroši sve svoje tokene koje je kupio od vas, ima dvije mogućnosti:</p>
+<ul>
+<li>kupiti više tokena s fiat valutom od vas (bankara)</li>
+<li>samo položite satove iz bilo kojeg drugog LN novčanika u njegov Cashu novčanik, koristeći svoju kovnicu ili bilo koju drugu kovnicu. Ako odaberu istu vašu kovnicu novca, mogli bi ponovno izvršiti transakciju uz besplatnu naknadu u vašoj trgovini.</li>
+</ul>
+</li>
+<li>
+<p>Mogli biste potaknuti svoje kupce da kupe od vas tokene nudeći im dobar popust u vašoj trgovini i dobru cijenu za fiat/BTC. Praktično, ako kupite više BTC-a na tržištu, a zatim ih prodate svojim kupcima kao e-gotovinu, dobit ćete natrag svoje satove kada se vrate i potroše ih u trgovini. Točno kao obične darovne kartice.</p>
+<p>Tada koristite tu fiat valutu da kupite više BTC-a i platite svojim dobavljačima. Svi su sretni.</p>
+</li>
+</ol>
+<p>S LNbits je također moguće izraditi fizičke NFC kartice, unaprijed učitane sa satovima, koristeći proširenje BoltCards. Kao bankar možete prodavati ove darovne kartice i vaši će kupci dolaziti u vašu trgovinu da ih koriste.</p>
+<p>Ovo je primjer kako djeca koriste NFC kartice s unaprijed učitanim satovima i plaćaju namirnice u trgovini u Brazilu. <a href="/merchants/bitcoin-lightning-payments-irl-en.html">Više primjera pogledajte ovdje.</a></p>
+
+<center>
+<video width="640" height="480" controls>
+  <source src="/assets/media/lnbits-pay-nfc.mp4" type="video/mp4">
+</video>
+</center>
+
+<h3 style="color:Yellow;">KORACI KOJE TREBA UČINITI KAO MINT KORISNIK</h3>
+<p>Kao korisnik ne morate učiniti previše:</p>
+<ul>
+<li>instalirajte jedan od onih novčanika Cashu - Minibits | eNuts ili oboje...</li>
+<li>spremite sigurnosnu kopiju podataka na sigurno mjesto</li>
+<li>primite ili otkupite ecash tokene od svog lokalnog kovničara (bankara)</li>
+<li>počnite obavljati transakcije sa svojim tokenima ili ih otkupite u bilo koji od svojih novčanika sa vlastitim skrbništvom u slučaju da ste nakupili previše.</li>
+</ul>
+<p>U svakoj aplikaciji također možete vidjeti detalje svake kovnice (ako koristite više kovnica), izraditi sigurnosne kopije, zamijeniti kovnice i više tehničkih detalja o tokenima.</p>
+<p>Zamjene između kovnica također bi mogle biti vrlo lijep i jednostavan oblik coinjoin-a...</p>
+<p><img src="/assets/images/ecash-wallets.jpg" class="center"></p>
+<p>Ovdje je i vrlo dobar video vodič o tome kako koristiti Minibits novčanik putem BTC Sessions:</p>
+<centar>
+<iframe width="640" height="480" src="https://www.youtube.com/embed/igJF8ccMnbQ" title="Minibits BTC novčanik: gotovo savršena privatnost i niske naknade - CIJELI TUTORIAL" frameborder="0 "accelerometer; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</center>
+<h3 style="color:Orange;">ZAKLJUČAK</h3>
+<p>Kao što vidite, ovo bi mogao biti još jedan način da se više ljudi uključi u korištenje Bitcoina, čak i bez poznavanja svih tehničkih detalja koji stoje iza UTXO-a, čvorova, likvidnosti, kanala, naknada za usmjeravanje itd. Za mnoge će svi ovi aspekti biti gnjavaža i jednostavno neće htjeti početi koristiti Bitcoin.</p>
+<p>Ali s jednostavnim rješenjima, kao što su ecash, NFC kartice, lokalne banke “ujak Jim” mogle bi biti početak za sve te jednostavne korisnike.</p>
+<p>Kasnije, nakon što saznaju više o Bitcoinu, mogu premjestiti svoje satove u novčanike sa vlastitim skrbništvom i sigurno držati velike količine satova.</p>
+</body>
+</html>
+</article>
