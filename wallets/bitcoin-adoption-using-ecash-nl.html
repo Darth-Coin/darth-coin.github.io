@@ -1,0 +1,163 @@
+---
+layout: default
+title: Bitcoin-acceptatie met behulp van ecash
+---
+<article>
+<!DOCTYPE html>
+<html lang="nl">
+<meta name="description" content="Bitcoin- en Lightning-gidsen: hoe we meer Bitcoin-acceptatie kunnen brengen bij mensen die het zich niet kunnen veroorloven om met een UTXO te beginnen">
+<body>
+<a href="/wallets/bitcoin-adoption-using-ecash-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/bitcoin-adoption-using-ecash-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/bitcoin-adoption-using-ecash-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/bitcoin-adoption-using-ecash-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/bitcoin-adoption-using-ecash-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/bitcoin-adoption-using-ecash-hr.html">Hrvatski <img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/bitcoin-adoption-using-ecash-en.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<blockquote style="color:Tomato;"><em>
+<p>Oorspronkelijk geplaatst op <a href="https://darthcoin.substack.com/p/bitcoin-adoption-using-ecash">Substack</a> op 09 feb. 2024. Hier bijgewerkt op 20 dec. 2024</p>
+</em></blockquote>
+
+<h3>Een use case scenario voor Ecash over Bitcoin LN, met behulp van Cashu mints. Hoe we meer Bitcoin-acceptatie kunnen brengen naar mensen die het zich niet kunnen veroorloven om met een UTXO te beginnen.</h3>
+<p>Laatst sprak ik met veel mensen die me vragen stelden over hoe je met Bitcoin kunt beginnen, maar dan op de makkelijke manier, vanaf nul en met zeer beperkte middelen (geld, kennis, infrastructuur).</p>
+<p>Ik heb zelfs een speciale gids voor ze geschreven <a href="/beginner/getting-started-stack-sats-nl.html">“Stacking Sats - The noobs journey”</a> waarin wordt uitgelegd hoe je op een laag niveau kunt beginnen met basis-custodial wallet-apps en langzaam de ladder opklimt, richting de self-custody-apps. Maar dat is niet genoeg. Sommige mensen vinden het zelfs moeilijk om die “reis” te maken.</p>
+<p>Deze gids is NIET voor die noobs, maar voor al die “Uncle Jim”s die bereid zijn om te helpen voor meer acceptatie van Bitcoin. En deze keer zal ik een use case uitleggen hoe je die noobs aan boord krijgt, met behulp van Ecash met Cashu-munten, via Lightning Network (LN).</p>
+<p>Laten we duidelijk zijn: Ecash vervangt LN NIET (zoals ik anderen hoorde zeggen)! Ecash is gewoon een extra protocol dat kan communiceren met LN.</p>
+<p>In een eerdere handleiding heb ik ook uitgelegd hoe deze "Uncle Jim"s <a href="/merchants/private-banks-over-ln-nl.html">"Private banks over Lightning Network"</a> konden runnen en welke infrastructuur ze nodig hebben. Deze gids is dus een uitbreiding van de vorige, met de focus op het gebruik van Cashu-munten.</p>
+<p><img src="/assets/images/bitcoin-coins.jpg" class="center"></p>
+
+<h2 style="color:Orange;">WAT IS ECASH CASHU MINTS?</h2>
+
+<em><blockquote style="color:Tomato;">
+<p>Cashu is een gratis en open-source Chaumian ecash-systeem dat is gebouwd voor Bitcoin. Cashu biedt bijna perfecte privacy voor gebruikers van Bitcoin-bewaardersapplicaties. Niemand hoeft te weten wie u bent, hoeveel geld u heeft en met wie u transacties uitvoert.</p>
+<p>Cashu is een nieuw ecash-protocol voor Bitcoin-bewaardersapplicaties dat nauw is geïntegreerd in het Lightning-netwerk. Een Ecash-systeem bestaat uit twee delen, de munt en de ecash-wallet. Ecash-transacties zijn niet te traceren, direct en vereisen geen kosten. Cashu is gebouwd voor Bitcoin. Wallets gebruiken de Lightning node van de munt om Bitcoin-betalingen te doen of te ontvangen in ruil voor ecash.</p>
+<p>Een Cashu-munt weet niet wie u bent, wat uw saldo is of met wie u transacties doet. Gebruikers van een munt kunnen ecash privé uitwisselen zonder dat iemand weet wie de betrokken partijen zijn. Bitcoinbetalingen worden uitgevoerd zonder dat iemand specifieke gebruikers kan censureren.</p>
+<p>Bron - <a href="https://docs.cashu.space/">Cashu.space</a></p>
+<p><a href="https://nuts-and-bolts.gandlaf.com/">Hoe Ecash werkt slides</a> - door Gandlaf (zeer mooie en duidelijke geanimeerde slides)</p>
+</em></blockquote>
+
+<p>Dus in eenvoudigere bewoordingen, beschouw ecash Cashu als digitale cadeaubonnen, met extra privacy en cryptografisch bewijs van (sats) reserves.</p>
+<p>Bedenk dat deze tokens kleinere onderdelen (munten) zijn die worden geslagen uit een grotere reserve aan bitcoin. Wie deze tokens slaat, is de bankier en deze bankier verdeelt ze onder zijn klanten.</p>
+<p>Maar onthoud: DE BANKIER HEEFT DE BEWARING VAN DE SATS! Om deze munten te kunnen gebruiken, moet de gebruiker nog steeds vertrouwen hebben in de munter (bankier). De bankier kan niet meer sats (fractionele reserve) creëren dan hij in bewaring heeft, maar kan de munt nog steeds sluiten en gebruikers kunnen hun sats niet meer inwisselen.</p>
+<p>Dus het gevaar van rug-pull bestaat nog steeds! Wees dus op uw hoede, laat niet al uw spaargeld in deze munten staan ​​en gebruik ook alleen vertrouwde munten.</p>
+<p>Daarom zullen we in deze gids een scenario bespreken waarin "de bankier" en de gebruikers uit een lokale gemeenschap komen, waar ze een bepaald vertrouwen in elkaar hebben.</p>
+
+<h3 style="color:Yellow;">WAAROM ZOU JE ZOIETS ALS ECASH GEBRUIKEN?</h3>
+<p>De situatie met Bitcoin (BTC) en Lightning Network (LN) is op dit moment niet gunstig met het onboarden van miljarden mensen, die niet goed voorbereid zijn en deze situatie zal ingewikkelder worden totdat we meer praktische en gemakkelijkere oplossingen kunnen vinden.</p>
+<p>Ja, sommige oude bitcoiners zullen geen enkel voordeel zien in het gebruik van deze ecash, behalve het toevoegen van wat meer privacy bovenop het bestaande LN-protocol. Voor degenen die al veel liquiditeit hebben in LN-kanalen en verschillende UTXO's in cold storage, zal dit gebruiksscenario hen niet al te veel voordelen opleveren, behalve als ze ecash willen gebruiken als een vorm van coinjoin hun inkomstenbronnen. Maar dat is een ander verhaal.</p>
+<p>Maar voor veel nieuwe Bitcoin-gebruikers is het vrij moeilijk om direct onchain met een UTXO te beginnen en van daaruit geavanceerde LN-knooppunten, openbare of zelfs privéknooppunten te runnen. Het beheren van LN-liquiditeit is niet zo eenvoudig voor veel nieuwe gebruikers. Ja, ze kunnen een groot aantal LN-wallets/accounts gebruiken, maar die kunnen ook nog steeds veel persoonlijke informatie lekken en gemakkelijk worden gesloten of de toegang tot gebruikersfondsen beperken.</p>
+
+<h4 style="color:Yellow;">Enkele belangrijke aspecten om te overwegen:</h4>
+<ul>
+<li>Ecash gebruiken is NIET de ultieme manier om Bitcoin te gebruiken! Houd er rekening mee dat dit geschikter is om nieuwe gebruikers aan boord te krijgen, totdat ze zich op hun gemak voelen en meer kennis hebben. Ja, het gebruik van dagelijkse ecash-betalingen is erg handig en goedkoop, maar bewaar NIET al je sats in een Cashu-wallet!</li>
+<li>Er zijn GEEN KOSTEN tussen gebruikers van dezelfde munt. Je kunt sats heen en weer sturen onder dezelfde munt, zonder LN of onchain te gebruiken, onthoud dat je alleen digitale handtekeningen van IOU uitwisselt. Dit kan een groot voordeel zijn voor leden van lokale gemeenschappen die met elkaar transacties uitvoeren.</li>
+<li>Gebruikers kunnen elke andere LN-wallet (buiten de munt) rechtstreeks vanuit hun ecash-wallets betalen, maar dat is een gewone LN-betaling en brengt de gewone LN-kosten met zich mee.</li>
+<li>Gebruiker kan de sats buiten de munt, ALTIJD, inwisselen naar een van zijn andere LN-wallets. Maar die inwisseling brengt wel wat kosten met zich mee, net als een gewone LN-betaling. Deze inwisseling vermindert het aantal sats dat de bankier in zijn "bank" (node) heeft. Dus als node-runner moet je een goede liquiditeit en voldoende saldo aan beide kanten (inkomend en uitgaand) aanhouden.</li>
+<li>Gebruiker kan swaps maken tussen meerdere mints (banken), maar dat brengt ook wat kosten met zich mee via LN. Swaps zijn eigenlijk LN-betalingen tussen twee nodes of twee mints. Zelfs als de mints van dezelfde LN-node komen, kunnen er kosten aan verbonden zijn.</li>
+<li>De "bankier" kan sats verdienen via reguliere LN-routering, wanneer de gebruikers uitbetalen naar andere van hun reguliere LN-wallets. In je LNbits kun je ook een vergoeding instellen die in rekening wordt gebracht voor de wallets van de gebruikers (inclusief de mints).</li>
+<li>Ecash mint is ALTIJD bewaarder! Zodra de gebruikers sats in de mint storten, zitten die sats letterlijk in de nodekanalen van de "bankier".</li>
+<li>Als de bankier de mint verwijdert, kunnen gebruikers hun sats niet meer inwisselen.</li>
+<li>Als de gebruiker zijn back-up van zijn ecash-wallet verliest, kan niemand die tokens meer inwisselen, zelfs de bankier weet niet hoeveel elke gebruiker kan hebben. Maak dus alsjeblieft je back-ups! Elke app biedt deze optie.</li>
+<li>De bankier zal NOOIT weten wie wie betaalt en kan ook niet precies zien hoeveel tokens er tussen gebruikers zijn uitgegeven. Dit is erg goed voor de privacy. Hier is een Ecash Workshop gepresenteerd door Supertestnet, die al deze aspecten uitlegt.</li>
+</ul>
+<center>
+<iframe width="640" height="480" src="https://www.youtube.com/embed/xfYmwc-gnK8" title="Cashu workshop" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</center>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">USE CASE SCENARIO</h2>
+<h3 style="color:Yellow;">LOKALE COMMUNITY MERCHANT</h3>
+<p>Laten we een lokale supermarkteigenaar beschouwen die zijn klanten wil helpen om Bitcoin te gebruiken voor hun boodschappen:</p>
+<ul>
+<li>Hij/zij moet zijn leveranciers nog steeds betalen met fiat-valuta, totdat ook deze BTC gaan accepteren.</li>
+<li>de klanten HEBBEN GEEN SATS, maar zijn bereid om er een aantal te gebruiken of zelfs te stapelen.</li>
+<li>de winkeleigenaar is bereid om kortingen te bieden aan mensen die BTC in zijn winkel gebruiken</li>
+<li>de winkeleigenaar weet wat hij/zij gaat doen, dit is een serieuze taak en vereist goede kennis van Bitcoin, LN, liquiditeit, het beheren van nodes etc. Hij/zij zal de lokale "bankier" zijn die ook de plicht zal hebben om zijn/haar klanten te leren hoe ze deze oplossing op basis van Bitcoin en Cashu kunnen gebruiken ecash.</li>
+</ul>
+
+<h3 style="color:Yellow;">STAPPEN OM TE DOEN ALS DE "BANKER"</h3>
+<ol>
+<li>Lees en leer hoe ecash-muntjes werken. Test voor gebruik. Begin hier:</li>
+<ul>
+<li><a href="https://cashu.space/">https://cashu.space/</a> | <a href="https://docs.cashu.space/">https://docs.cashu.space/</a></li>
+<li>LNbits - <a href="https://lnbits.com/">Webpagina</a> | <a href="https://github.com/lnbits/lnbits">Github</a> | <a href="https://github.com/lnbits/lnbits/wiki">Documentatie</a> | <a href="https://saas.lnbits.com/">SaaS-instantie</a> - eenvoudig Cashu-munten maken en beheren (ik heb verschillende handleidingen over LNbits geschreven, met verschillende use cases).</li>
+<li>Wallets - <a href="https://www.enuts.cash/">eNuts</a> | <a href="https://www.minibits.cash/">Minibits</a> | <a href="https://wallet.cashu.me/">Cashu.me</a> | <a href="https://wallet.nutstash.app/">Nutstash.app</a> | <a href="https://docs.cashu.space/wallets">Meer…</a></li>
+<li>Tutorial <a href="https://cashu.how/">Cashu.how</a></li>
+</ul>
+<li>Run een goede openbare LN-node, met goede liquiditeit en onderhoud. Dit is een serieuze taak, negeer het onderhoudsaspect niet, u bent nu een bankier. Ik heb verschillende handleidingen geschreven over het uitvoeren van routing nodes, lees ze:</li>
+<ul>
+<li><a href="/nodes/bitcoin-ln-node-software-nl.html">Welke software kan ik uitvoeren voor een LN node?</a></li>
+<li><a href="/nodes/managing-lightning-node-liquidity-nl.html">Beheer van Lightning Node Liquidity</a></li>
+<li><a href="/nodes/lightning-node-maintenance-nl.html">Lightning Node Maintenance</a></li>
+<li><a href="/merchants/private-banks-over-ln-nl.html">Private banks via het Lightning Network</a></li>
+<li><a href="/nodes/recommendations-ln-node-operators-nl.html">Aanbevelingen voor LN-gebruikers</a></li>
+<li><a href="https://darthcoin.substack.com/p/lightning-routing-fees-experiment">Experiment met Lightning Routing Fees</a></li>
+<li><a href="https://darthcoin.substack.com/p/umbrel-bitcoin-ln-node">Aan de slag met Umbrel als LN-node</a></li>
+<li><a href="/nodes/lightning-submarine-swaps-nl.html">Lightning Network Submarine Swaps</a></li>
+<li>en nog veel meer… op mijn substack en github-pagina</li>
+</ul>
+<li>
+<p>Installeer LNbits boven op uw LN-knooppunt. Een krachtige app-suite met veel extensies die handig zijn voor een handelaar en voor de klanten. In LNbits kunt u beginnen met het maken van de Cashu-munten, in de praktijk kunt u verschillende "banken" maken. Met slechts 2 klikken en het selecteren van een LNbits-wallet die speciaal is bedoeld voor de mint, kunt u een "bank" Cashu-mint hebben die alle tokens beheert.</p>
+<p><img src="/assets/images/ecash-mint.png" class="center"></p>
+<p>Zoals u kunt zien, zou ik een zeer beschrijvende naam kunnen gebruiken, die in de gebruikerswallet zal verschijnen als de naam van de mint (bank).</p>
+<p><img src="/assets/images/ecash-mint-lnbits-ext.png" class="center"></p>
+<p>U kunt verschillende mints hebben, met verschillende bestemmingen, use cases en toegewezen aan specifieke LNbits-wallets.</p>
+<p>Houd er rekening mee dat deze alleen bedoeld zijn voor testen en demo's, GEBRUIK ze NIET als een gewone ecash-mint!</p>
+<p>Installeer en voer Cashu-wallets uit om vertrouwd te raken met het gebruik van ecash en mints. Door de QR-code te scannen die voor elke bank wordt weergegeven, kunt u deze openen in de Minibits- of eNuts-apps of gewoon in de browser met Cashu.me of Nutstash.app.</p>
+</li>
+<li>
+<p>Maak wat tokens in uw mints (banken). Door bijvoorbeeld 100.000 sats (vanuit een willekeurige LN-wallet) in een mint te storten, creëert u hetzelfde aantal ecash-tokens.</p>
+<p>!!! Houd er rekening mee dat als u die ecash-tokens wilt delen/distribueren met andere gebruikers, u uw mint-link in een van die wallets moet hebben geïmporteerd. Elke import in een andere wallet-app heeft zijn eigen mint-bedrag, maar kan communiceren met andere gebruikers onder dezelfde mint, ZONDER KOSTEN.</p>
+<p><img src="/assets/images/ecash-scenario.jpg" class="center"></p>
+<p>Dit zou een schema kunnen zijn voor een scenario waarin de bankier 3 verschillende mints heeft gemaakt, voor verschillende bestemmingen. Het kan er maar één zijn of meerdere anderen, het is aan jou hoe je ze organiseert.</p>
+<p>Dus, als een "bankier", open je munt in een van die wallets. Het zal LEEG zijn, geen tokens. Door bijvoorbeeld 10.000 sats te storten in de munt, zal het 10k tokens creëren, klaar om te worden verdeeld onder je klanten.</p>
+</li>
+<li>
+<p>Maak een aankondiging onder je winkelklanten. Ze konden met hun fiat-valuta, het gewenste bedrag aan ecash, rechtstreeks bij jou kopen.</p>
+<p>Hoe?</p>
+<p>Ze moeten de Minibits- of eNuts-wallet-apps op hun apparaten installeren en jij kunt ze dan rechtstreeks de ecash-tokens sturen vanuit je eigen Minibits-/eNuts-/Cashu.me-wallet, waar je die nieuwe tokens begint te "minten".</p>
+<p>Nu kunnen ze transacties uitvoeren met die nieuwe ecash-tokens, in jouw winkel of tussen elkaar, of ze zelfs naar een andere LN-wallet sturen (uitbetalen).</p>
+</li>
+<li>
+<p>Als de gebruiker al zijn bij jou gekochte tokens uitgeeft, heeft hij 2 opties:</p>
+<ul>
+<li>meer tokens kopen met fiat-valuta van jou (de bankier)</li>
+<li>gewoon sats storten van een andere LN-wallet in zijn Cashu-wallet, met behulp van jouw mint of een andere mint. Als ze dezelfde munt van jou kiezen, kunnen ze opnieuw gratis transacties uitvoeren in jouw winkel.</li>
+</ul>
+</li>
+<li>
+<p>Je kunt je klanten stimuleren om bij jou tokens te kopen door ze een goede korting in jouw winkel en een goede koers voor fiat/BTC te bieden. In de praktijk geldt: als je meer BTC op de markt koopt en ze vervolgens als ecash aan je klanten verkoopt, krijg je je sats terug als ze terugkomen en ze in de winkel uitgeven. Precies zoals bij gewone cadeaubonnen.</p>
+<p>Dan gebruik je die fiatvaluta om meer BTC te kopen en je leveranciers te betalen. Iedereen is blij.</p>
+</li>
+</ol>
+<p>Met LNbits is het ook mogelijk om fysieke NFC-kaarten te maken, vooraf geladen met sats, met behulp van de extensie BoltCards. Als bankier kun je deze cadeaubonnen verkopen en je klanten komen naar je winkel om ze te gebruiken.</p>
+<p>Hier is een voorbeeld van hoe kinderen NFC-kaarten gebruiken die vooraf zijn geladen met sats en waarmee ze boodschappen betalen in een winkel in Brazilië. <a href="/merchants/bitcoin-lightning-payments-irl-en.html">Zie hier meer voorbeelden.</a></p>
+
+<center>
+<video width="640" height="480" controls>
+  <source src="/assets/media/lnbits-pay-nfc.mp4" type="video/mp4">
+</video>
+</center>
+
+<h3 style="color:Yellow;">STAPPEN DIE U ALS MINT-GEBRUIKER MOET DOEN</h3>
+<p>Als gebruiker hoeft u niet veel te doen:</p>
+<ul>
+<li>installeer een van die Cashu-wallets - Minibits | eNuts of beide…</li>
+<li>bewaar uw back-upgegevens op een veilige plek</li>
+<li>ontvang of wissel de ecash-tokens in bij uw lokale minter (bankier)</li>
+<li>begin met transacties met uw tokens of wissel ze in bij een van uw self-custody wallets als u er te veel hebt verzameld.</li>
+</ul>
+<p>In elke app kunt u ook de details van elke mint zien (als u meerdere mints gebruikt), back-ups maken, swaps tussen mints en meer technische details over de tokens.</p>
+<p>De swaps tussen mints kunnen ook een hele leuke en gemakkelijke vorm van coinjoin zijn…</p>
+<p><img src="/assets/images/ecash-wallets.jpg" class="center"></p>
+<p>Hier is ook een hele goede videotutorial over het gebruik van de Minibits wallet van BTC Sessions:</p>
+<center>
+<iframe width="640" height="480" src="https://www.youtube.com/embed/igJF8ccMnbQ" title="Minibits BTC Wallet: Bijna perfecte privacy en lage kosten - VOLLEDIGE TUTORIAL" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</center>
+<h3 style="color:Orange;">CONCLUSIE</h3>
+<p>Zoals u kunt zien, zou dit een andere manier kunnen zijn om meer mensen aan te zetten tot het gebruik van Bitcoin, zonder zelfs maar alle technische details achter de UTXO, knooppunten, liquiditeit, kanalen, routeringskosten enz. te kennen. Voor velen zullen al deze aspecten een gedoe zijn en ze zullen gewoon niet willen beginnen met het gebruiken van Bitcoin.</p>
+<p>Maar met eenvoudige oplossingen, zoals ecash, NFC-kaarten, "oom Jim" lokale banken, zou een start kunnen zijn voor al deze eenvoudige gebruikers.</p>
+<p>Later, als ze meer leren over Bitcoin, kunnen ze hun sats verplaatsen naar meer self-custody wallets en veilig grote hoeveelheden sats bewaren.</p>
+</body>
+</html>
+</article>
