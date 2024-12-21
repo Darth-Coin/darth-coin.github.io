@@ -1,0 +1,119 @@
+---
+layout: default
+title: Početak rada s Walletanom
+---
+<article>
+<!DOCTYPE html>
+<html lang="hr">
+<meta name="description" content="Vodiči za Bitcoin i Lightning: Prvi koraci s aplikacijom Walletano, rješenjem za skrbništvo i samostalno skrbništvo u pokretu">
+<body>
+<a href="/wallets/getting-started-walletano-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/getting-started-walletano-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/getting-started-walletano-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/getting-started-walletano-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/getting-started-walletano-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/getting-started-walletano-nl.html">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/getting-started-walletano-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+
+<h3 style="color:Orange;">Ovo je jednostavna prezentacija i vodič kroz korake kako početi koristiti jednostavnu web i PWA aplikaciju za slaganje satova</h3>
+<blockquote style="color:Tomato;"><em>
+<p><a href="https://www.walletano.com/">Walletano</a> je web-bazirana aplikacija (PWA) koja pruža jednostavan i praktičan način za upravljanje vašim Bitcoin i Lightning Network novčanicima. Bilo da ste kupac koji traži besprijekoran doživljaj novčanika, trkač LND čvorova koji traži mogućnosti samostalnog skrbništva ili webmaster/vlasnik tvrtke koji želi transformirati korporativne e-adrese u Lightning adrese, Walletano vas pokriva!</p >
+</em></blockquote>
+<p><img src="/assets/images/walletano-intro.JPG" class="center"></p>
+
+<h3 style="color:Orange;">Uvod</h3>
+<p>Već neko vrijeme nailazim na ovu zanimljivu aplikaciju, testirajući je u nekim prilikama. Nisam previše pričao o tome jer sam prvo pokušavao razumjeti koncept i vidjeti kako ide.</p>
+<p>Ali danas bih vam želio predstaviti ovu vrlo jednostavnu LN aplikaciju koja vam nudi oba načina korištenja vašeg satsa: skrbnički i samoskrbnički (ili bolje reći neskrbnički). Stoga vas molimo da pročitate ovaj vodič do kraja PRIJE nego ga počnete koristiti! Ovdje postoji kvaka i vidio sam neke početnike kako griješe.</p>
+<p>OK, mogli biste reći:</p>
+<blockquote style="color:Tomato;"><em>
+"ali Darth, zašto govoriš o skrbničkim aplikacijama? Nije li to protiv Bitcoin etosa?"
+</em></blockquote>
+<p>Moj odgovor je jednostavan: nemojte biti paranoični s "samostalnim skrbništvom". Rekao sam mnogo puta, ponekad se skrbnički račun može vrlo lako koristiti kao MAMAN, pogotovo ako ne koristi KYC provjeru.</p>
+<p>Također, skrbnički LN račun može se koristiti na mnogo različitih načina za upravljanje likvidnošću vaših samoskrbničkih čvorova, kao što sam <a href="/nodes/nodes.html">objasnio u brojnim vodičima</a>.</ p>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">Za koga je Walletano koristan?</h3>
+<h4 style="color:Yellow;">1. Za tvrtke</h4>
+<p>Vidim da se Walletano uglavnom fokusira na tvrtke koje žele ponuditi prilagođenu LN adresu kao i korporativnu e-poštu. Ovo je vrlo zanimljiva značajka za tvrtke koje počnu plaćati svoje zaposlenike u BTC-u i mogu to učiniti s Walletano vrlo jednostavno i putem LN adrese.</p>
+<p>"Walletano-Email-to-Lightning" prilično je jednostavno implementirati bilo koji webmaster tvrtke, <a href="https://github.com/Walletano/Walletano-Email-to-Lightning">slijedeći upute iz njihovo Github spremište</a>.</p>
+
+<h4 style="color:Yellow;">2. Za obične korisnike, početnike općenito</h4>
+<p>Walletano je prokleto jednostavan za pokretanje i jednostavan za postavljanje. Postavljanje jednim klikom, bez dugotrajnog procesa registracije ili zamornih obrazaca. Jednostavno preuzmite aplikaciju ili pristupite našoj web platformi i spremni ste za rad. Ako novi LN korisnik ne može započeti s vlastitim LN čvorom i samo želi početi slagati nekoliko količina satova, ovo bi mogla biti izvrsna opcija. <a href="https://darth-coin.github.io/beginner/getting-started-stack-sats-en.html">Kao što sam opisao u ovom vodiču</a>, kako slagati satove kao početnik s mnogo LN aplikacija.</p>
+<p>U nastavku ću objasniti scenarij korak po korak kako koristiti Walletano i obratite pozornost na to.</p>
+
+<h4 style="color:Yellow;">3. Node runners</h4>
+<p>Kao pokretač LN čvora možete ga koristiti za dvije stvari:</p>
+<ul>
+<li>Nudi račune za obitelj i prijatelje. Da, možete povezati svoj LN čvor u aplikaciji Walletano i stvoriti više zasebnih računa koje može koristiti vaša obitelj, u lijepom i jednostavnom PWA sučelju.</li>
+<li>Upravljanje likvidnošću vašeg LN čvora zamjenom sredstava između vašeg čvora i skrbničkog računa Walletano. Također možete koristiti Walletano za razmjene između LN<-->onchain (napomena: čini se da još ne podržava slanje na Taproot adrese).</li>
+</ul>
+<p><a href="https://github.com/Walletano/WalletanoNodes">Na njihovom Github repozitoriju objasnili ste API i korake koje treba slijediti za povezivanje vašeg LN čvora s korisničkim sučeljem Walletano</a>.< /p>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">Glavne značajke Walletana</h3>
+<ul>
+<li>⚡️ Novčanik temeljen na webu: pristupite svojim novčanicima bilo kada i bilo gdje putem naše web aplikacije jednostavne za korištenje.</li>
+<li>⚡️ Transakcije munjevite: uživajte u trenutnim, jeftinim transakcijama koristeći Lightning Network.</li>
+<li>⚡️ Mogućnosti skrbništva i samostalnog skrbništva: odaberite razinu kontrole koja vam najviše odgovara.</li>
+<li>⚡️ PWA: naša napredna web-aplikacija osigurava besprijekorno iskustvo na svim uređajima.</li>
+<li>⚡️ Upravljanje višestrukim novčanicima: jednostavno upravljajte višestrukim novčanicima s unificiranim i intuitivnim dizajnom.</li>
+<li>⚡️ Orijentirano na privatnost: nisu potrebna korisnička imena ili adrese e-pošte, čime se osigurava da vaši osobni podaci ostaju povjerljivi.</li>
+<li>⚡️ Pretvorite poslovne adrese e-pošte: Pretvorite svoje poslovne adrese e-pošte u Lightning adrese bez napora.</li>
+<li>⚡️ Podrška za Lightning adrese: Stvorite personalizirane Lightning adrese (npr. vi@walletano.com) ili integrirajte vlastite korporativne Lightning adrese (npr. vi@vašadomena.com).</li>
+<li>⚡️ Podrška za LNURL: Besprijekorna interakcija s uslugama omogućenim za LNURL za poboljšanu funkcionalnost i svestranost.</li>
+<li>⚡️ Integrirane izmjene između LN-a i onchaina</li>
+</ul>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">Scenarij korištenja</h3>
+<p>Recimo da ste novi u Bitcoin Lightning Networku i samo želite početi skupljati nekoliko satova primljenih iz mnogih izvora slaganja (SN, nostr, donacije, podcasti itd.). I još uvijek nemate znanje i instrumente za pokretanje vlastitog LN čvora.</p>
+<p>Ili samo želite akumulirati satove na privremenoj lokaciji dok ne budete imali određenu količinu da je premjestite u veći UTXO za dugoročno slaganje i također želite koristiti skrbnički DECOY da ne otkrijete svoj posljednji skok izravno cijelom svijetu, javno.</p>
+<p>Stiže Walletano, jednostavna web i PWA aplikacija, koja se može koristiti anonimno gdje god želite.</p>
+<h3>MOLIMO VAS obratite pozornost na ove korake!</h3>
+<p>Vidio sam korisnike koji su izgubili pristup jer nisu slijedili točne korake i također nisu ispravno spremili pristup računu.</p>
+<p>Da, malo je zbunjujući proces uključivanja, ali kada ga dobijete, ima smisla, jer je bez unosa prijave, korisnika, lozinke ili bilo kakvih osobnih podataka.</p>
+<ol>
+<li>Idite na <a href="https://www.walletano.com/">https://www.walletano.com/</a>. Predlažem da to učinite iz preglednika stolnog računala i da vaš mobilni uređaj bude spreman za skeniranje i povezivanje računa.</li>
+<li>Kliknite na "Idi na novčanik" (da, postoji zabuna za noobs) jer u tom trenutku Walletano stvara novi novčanik, bez ikakvog unosa od strane korisnika. I evo pogreške koju su učinili mnogi novi korisnici: zatvorili su web stranicu bez povezivanja svog novog novčanika sa svojim mobilnim uređajem (PWA. I izgubili ste pristup ako ga ne spremite.</li>
+<li>
+<p>Sada idite u gornju lijevu ladicu i odaberite "Postavke". Kliknite na opciju "Poveži novčanik". Dobit ćete QR kod za skeniranje svojim mobilnim uređajem. Po želji možete kopirati vezu i spremiti je u upravitelj lozinki. Veza je u ovom formatu:</p>
+
+<pre><code>
+https://www.walletano.com/wallet/wallet.html?def=claimwallet&wltid={number}&claimhash={long-string-hash}
+</code></pre>
+
+<p>OVO je vaš pričuvni kôd! Molimo vas da ga spremite na sigurno mjesto (upravitelj zaporki).</p>
+<p><img src="/assets/images/walletano-mobile.JPG" class="center"></p>
+</li>
+<li>Sada na svom mobilnom telefonu možete upotrijebiti opciju preglednika da ga "instalirate" kao widget aplikaciju (PWA). U Firefoxu, na primjer, kliknite na 3 točkice gore desno i odaberite "Dodaj na početni zaslon".</li>
+<li>U slučaju da odlučite pokrenuti novi novčanik izravno s mobilnog telefona, dobit ćete ovaj zaslon prvi put kada ga pokrenete.</li>
+<p><img src="/assets/images/walletano-mobile-restore.png" class="center"></p>
+<li>Spremite taj niz naveden na ovom zaslonu, ako pokrenete postavljanje Walletano računa s mobilnog uređaja. Ako ste pokrenuli račun iz preglednika stolnog računala i skenirali ga svojim mobitelom, automatski se sprema.</li>
+<li>Ako poništite svoj preglednik, uvijek ga možete oporaviti s one veze koja je prije spomenuta.</li>
+</ol>
+
+<h3 style="color:Orange;">DODATNE INFORMACIJE</h3>
+<p>Slagač na SN prijavio je da je imao problema sa slanjem satova iz Walletana. <a href="https://stacker.news/items/745138/r/DarthCoin">Ovdje pročitajte cijelu raspravu</a>.</p>
+<p>Jednostavno rješenje je dodavanje adrese e-pošte za oporavak za vaš Walletano račun. Čini se da je to dodatna mjera za slučajeve oporavka i ne dopušta vam premještanje sredstava prije nego što potvrdite e-poštu.</p>
+<p>Predlažem da za ovo koristite namjensku adresu e-pošte ili pseudonim, ali zadržite to zabilježeno u svom upravitelju zaporki zajedno s pojedinostima računa Walletano.</p>
+<p>I to je to. Sada možete personalizirati svoje prikazano korisničko sučelje, boje, imena, stvoriti više novčanika, prilagoditi svoju LN adresu. Imajte na umu da svaki račun koji stvorite u toj sesiji može imati različitu LN adresu.</p>
+<p>U istoj sesiji možete upravljati skrbničkim i samoskrbničkim računima i vrlo jednostavno prelaziti s jednog na drugi.</p>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">Zaključak i resursi</h3>
+<p>Kao što vidite, početak korištenja LN-a nije tako kompliciran, jedini "komplicirani" dio je spremanje vaših sigurnosnih nizova, ali uz malo pažnje i strpljenja, možete to učiniti, čak i ako niste toliko tehničari. </p>
+<p>Nadam se da će ovaj kratki vodič biti od pomoći mnogim početnicima i da će imati neometano putovanje koristeći Bitcoin Lightning Network.</p>
+<p>Ovo je samo jedna od mnogih LN aplikacija koje bi ljudi trebali početi koristiti, i to ne samo jedna, već više njih. Raširite svoje zalihe na mnoga mjesta i naučite kako ih sve koristiti. Svaka aplikacija će imati svoju primjenu u određenoj situaciji, čak i da sada toga ne shvaćate.</p>
+
+<h3 style="color:Orange;">Više izvora o Walletanu:</h3>
+<ul>
+<li><a href="https://www.walletano.com/">Web stranica</a> | <a href="https://www.walletano.com/main/faq.html">Stranica s često postavljanim pitanjima</a> | <a href="https://github.com/Walletano">Github spremišta</a> | <a href="https://t.me/WalletanoCH">Podrška za Telegram</a></li>
+<li><a href="https://x.com/walletano">Twix</a> | <a href="https://nostr.at/npub12eqwteq2c2w9trgt95d3w4cky0quprprp42xefy8snw8tdexq5gsp9c5ek">Nostr</a> | <a href="https://stacker.news/walletano">Stacker vijesti</a></li>
+</ul>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">ODRICANJE ODGOVORNOSTI:</h3>
+<p>Nisam plaćen niti sam dio ovih projekata. Vodiče pišem isključivo zato što želim pomoći početnicima da se lako uključe. Prvo testiram novčanike i rješenja da vidim isplati li se. Sam, ne pokušavajući ništa promovirati. Svi moji vodiči su besplatni i otvorenog koda, svatko ih može koristiti kako želi.</p>
+</body>
+</html>
+</article>
