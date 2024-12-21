@@ -1,0 +1,140 @@
+---
+layout: default
+title: Bluewallet - connettiti alle fonti di finanziamento LN
+---
+<article>
+<!DOCTYPE html>
+<html lang="it">
+<meta name="description" content="Guide Bitcoin e Lightning: collegamento di Bluewallet a varie fonti di finanziamento">
+<body>
+<a href="/wallets/bluewallet-funding-sources-en.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/bluewallet-funding-sources-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/bluewallet-funding-sources-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/bluewallet-funding-sources-fr.html">Français <img src="/assets/images/flag-FR.png" alt="Fr" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/bluewallet-funding-sources-nl.html">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/bluewallet-funding-sources-hr.html">Hrvatski <img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/bluewallet-funding-sources-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<em><blockquote style="color:Tomato;">
+<p>Questo articolo è stato pubblicato originariamente su <a href="https://darthcoin.substack.com/p/bluewallet-connect-to-ln-funding">Substack</a> il 25 febbraio 2023 e <a href="https://mempool.space/tx/27fc9f50844667ef38fd5648d7198722b55bdc41e19966cdd63563469749c340">ha registrato OP_RETURN</a> all'altezza del blocco <a href="https://mempool.space/block/00000000000000000003384de72ac0c8b2bc6ac2cbd1d7a21045b3d4c9538ad3">#778230</a></p>
+<p>Aggiornato il 07 ott 2024</p>
+</em></blockquote>
+
+<h3>Come usare Bluewallet con molte fonti di account lndhub diverse e attivare il nodo LN incorporato (LDK).</h3>
+<p>Il 23 feb 2023, <a href="https://bluewallet.io/sunsetting-lndhub/">il team di Bluewallet ha annunciato</a> che avrebbe chiuso il suo server di custodia LNDHUB (lndhub.io).</p>
+<p>Ho visto che molti utenti non hanno prestato attenzione al testo di quell'annuncio e si sono spaventati, come se il mondo fine... Troppo rumore per niente.</p>
+<h4>Cosa significa per gli utenti regolari di Bluewallet (BW)?</h4>
+<ul>
+<li>Non troppo. Sì, colpisce direttamente solo coloro che utilizzano esclusivamente lndhub.io come fonte di finanziamento per i loro portafogli BW LN.</li>
+<li>L'app BW NON SI CHIUDE (come molti hanno fatto impazzire), l'app può ancora essere utilizzata normalmente, non ha nulla a che fare con lndhub.io.</li>
+<li>SE utilizzi lndhub.io nella tua app BW, dovrai spostare i fondi su un altro portafoglio LN, fino al 30 aprile. Altrimenti li perderai. Lndhub.io era solo una fonte di finanziamento per gli utenti BW regolari che NON gestiscono il proprio nodo con un server lndhub. Tutto qui.</li>
+<li>Se non hai riscattato i tuoi sats da quell'account lndhub, <a href="https://bluewallet.io/docs/recover-lndhub/">hai ancora la possibilità di seguire le istruzioni di questo post di Bluewallet</a>.</li>
+</ul>
+<p><img src="/assets/images/bluewallet-intro.png" class="center"></p>
+
+<h3 style="color:Yellow;">Quali opzioni hai come utente Bluewallet?</h3>
+<p>Abbiamo quattro categorie qui:</p>
+<ul>
+<li>quelli che non gestiscono/hanno un nodo LN (modalità facile)</li>
+<li>quelli che gestiscono il proprio nodo LN (modalità avanzata)</li>
+<li>spostarsi completamente su un altro portafoglio LN (caso estremo)</li>
+<li>oppure utilizzare la nuova opzione (nascosta) per il nodo LDK in Bluewallet</li>
+</ul>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">A. Utenti che non hanno/non possono gestire il proprio nodo LN</h2>
+<p>Prima di tutto: non agitarti, hai ancora tempo per spostare i tuoi fondi. Non è la fine del mondo. Ora è il momento di analizzare le opzioni e pensare se è il momento giusto per avviare il tuo nodo LN o continuare a utilizzare fonti di finanziamento di custodia per il tuo portafoglio LN.</p>
+<p>Se non riesci ancora a gestire il tuo nodo LN, ecco alcune alternative su cui spostare i tuoi fondi da quell'account lndhub.io/server Bluewallet.</p>
+<p><strong>Ricorda:</strong> questi sono comunque servizi di custodia! Se sei d'accordo, vai avanti e configura i tuoi account. Non tenere troppi fondi in quegli account. Utilizzali solo quanto basta per ricevere piccole somme o effettuare piccoli pagamenti e poi spostare i fondi sui tuoi portafogli (onchain o LN).</p>
+<p>Va bene usare servizi di custodia come questi, a patto che non si venga colpiti da una folle verifica KYC o gestiti da un noto "zio Jim". Eccone alcuni:</p>
+<ul>
+<li><a href="https://t.me/SatsMobiBot">SatsMobi</a> - Bot Telegram LN, che offre funzionalità avanzate (LNURL, indirizzo LN, account lndhub, LN-auth, PoS, carte NFC, NIP-57 nostr zaps e molto altro).</li>
+<li><a href="https://getalby.com/">Alby</a> o <a href="/wallets/getting-started-alby-hub-it.html">Alby Hub</a> - Estensione browser LN, LNURL, indirizzo LN, account lndhub, LN-auth, NIP5, NIP57 e molte altre funzionalità.</li>
+<li><a href="https://darthcoin.substack.com/p/getting-started-lnbits">LNbits</a> - potente sistema di contabilità LN, che offre funzionalità avanzate ed estensioni per molti casi d'uso, indirizzi LNURL e LN infiniti, autenticazione LN, account. Può essere eseguito sul tuo server e nodo LN o temporaneamente puoi usare l'istanza demo.</li>
+<li>Server BTCPay: potente server LN dedicato ai commercianti che includono una banca LN, basato su un lndhub. Quindi puoi connettere facilmente la tua app Bluewallet.</li>
+<li>Forse ci sono altri provider lndhub non annunciati pubblicamente, di sicuro. Praticamente chiunque può eseguire un server lndhub e fornire account per familiari e amici <a href="/merchants/private-banks-over-ln-it.html">come ho descritto in questa guida</a>.</li>
+</ul>
+
+<h3 style="color:Yellow;">Passaggi per spostare i tuoi fondi da BW lndhub.io a un altro account LN</h3>
+<p>Scegli uno o tutti i servizi lndhub sopra menzionati e apri un account. È semplicissimo. Ognuno di questi fornisce guide informative su come generare il tuo account lndhub e collegarlo a BW.</p>
+<h4><a href="https://t.me/SatsMobiBot">SatsMobiBot</a> - caso d'uso</h4>
+<p>Vai su Telegram e avvia la chat con @SatsMobiBot, /start, crea l'account collegato al tuo account Telegram. È meglio impostare prima il tuo alias in Telegram, aggiungendo un @username.</p>
+<p>Digita /link e otterrai un codice QR e un URL come:</p>
+<p><code>lndhub://admin:<string></string>@https://seven.gwoq.com/lndhub/ext/</code></p>
+<p>Salva queste informazioni dal tuo Telegram, ad esempio un gestore di password come KeePass.</p>
+<p>Copia l'URL o scansiona quel QR e apri ora il tuo Bluewallet. Vai a creare un nuovo portafoglio LN e incolla l'URL o scansiona il codice QR fornito in SatsMobiBot.</p>
+<p>Fatto! Salva il nuovo account lndhub, assegna un nome come desiderato e inizia a usarlo come portafoglio LN.</p>
+<p>Ora nello stesso account LN importato da SatsMobiBot, crea una fattura con un importo dal tuo vecchio account BW lndhub.</p>
+<p>Supponiamo che tu abbia 100k sats in quell'account BW lndhub.io. Dovrai sempre considerare l'1% come riserva per le commissioni. Quindi più pezzi del 99% del saldo rimanente, non tutti in una volta. In questo caso creeremo una fattura di 99k sats nel nuovo account lndhub creato. Copiala e vai al vecchio BW lndhub.io, incollala e pagala.</p>
+<p>Quindi rimarrai con 1k sats - commissioni. Crea un'altra fattura nel nuovo account lndhub del 99% del saldo. E pagala dal vecchio account lndhub.io. Ripeti il ​​processo finché non ritieni di averne abbastanza da lasciare alcuni sat al team BW come donazione per i loro servizi.</p>
+<p>Ora puoi rimuovere il vecchio account LN dalla tua app BW e iniziare a usare quello nuovo.</p>
+<p>Ricorda: questo SatsMobiBot fornisce anche molti altri servizi utili come:</p>
+<ul>
+<li>LNURL / Indirizzo Lightning - username@sats.mobi o indirizzo LNURL/LN anonimo
+<li>NIP05 - verifica NOSTR</li>
+<li>NIP57 - indirizzo zap NOSTR</li>
+<li>Negozi, acquista sat con fiat, funzionalità di chat di gruppo, faucet, tipjar</li>
+<li>Scrub - preleva automaticamente sat su qualsiasi indirizzo esterno</li>
+<li>Collega una carta NFC</li>
+</ul>
+
+<h3 style="color:Yellow;"><a href="https://getalby.com/">Estensione Alby</a> - caso d'uso</h3>
+<p>Questa è un'estensione del browser. Quindi dovrai creare l'account da un computer desktop. Di nuovo, è un servizio di custodia, ma offre anche la connessione al tuo nodo se ne gestisci uno.</p>
+<p>Quindi vai semplicemente alla loro pagina web, installa l'estensione del browser, crea un account e vai alle impostazioni per cercare i dettagli di lndhub, da collegare alla tua app BW.</p>
+<p>Puoi anche usare il tuo Alby Hub, self-hosted con più account per familiari e amici, <a href="/wallets/getting-started-alby-hub-it.html">come ho descritto in questa guida</a>.</p>
+<p><img src="/assets/images/bluewallet-alby-account.png" class="center"></p>
+<p>Scansiona quel codice QR con la tua app BW (creando un nuovo account LN) e fatto, puoi usarlo come qualsiasi altro portafoglio LN.</p>
+<p>Tieni presente che con questo account puoi accedere con LN-auth, usarlo in NOSTR come NIP-05 o tip zap indirizzo o semplicemente come pagina di donazione come <a href="https://getalby.com/p/darthcoin">https://getalby.com/darthcoin</a>.</p>
+
+<h3 style="color:Yellow;">LNbits - caso d'uso</h3>
+<p>LNbits è un potente software suite che può essere eseguito su un nodo LN. Se vuoi usarlo solo come fonte di finanziamento temporanea LN, puoi usare il server demo pubblico <a href="https://demo.lnbits.com">https://demo.lnbits.com</a> o usare LN Bank <a href="https://lnvoltz.com">LN Voltz</a> (banca della comunità brasiliana LNbits).</p>
+<p>Ricorda: questo è solo un server di custodia demo! Per favore, non abusarne! Va bene spostare i tuoi fondi lì per un certo periodo di tempo, ma non considerarlo come la tua principale fonte di finanziamento. Successivamente, puoi semplicemente spostare i tuoi fondi da lì ai tuoi portafogli LN o ai portafogli onchain. Puoi anche usare l'estensione LNbits Boltz o Deezy per scambiare i tuoi fondi con qualsiasi indirizzo onchain o usare l'estensione Scrub per inoltrare automaticamente i fondi ricevuti a un nodo/indirizzo LN di autocustodia.</p>
+<p>Se usi la demo o qualsiasi altra istanza LNbits ospitata pubblicamente, puoi esportare il tuo account lndhub, andando all'estensione lndhub e scansionando o copiando e incollando l'URL lndhub nella tua app Bluewallet come un nuovo account LN.</p>
+<p>Allo stesso modo, puoi seguire i passaggi spiegati nel punto precedente su LightningTipBot.</p>
+<p>Facoltativamente puoi eseguire la tua istanza LNbits, anche senza eseguire un nodo LN ma scegliendo una fonte di finanziamento esterna (<a href="https://github.com/lnbits/lnbits/wiki/LNbits-Documentation#funding-sources">vedi la documentazione LNbits</a>).</p>
+<p>Puoi creare un account gratuito su LNpay.co o Alby ad esempio e collegalo come fonte di finanziamento per la tua istanza self-hosted LNbits. Puoi anche usare SatsMobiBot come fonte di finanziamento per la tua istanza LNbits. Ciò significa che utilizzerai la liquidità di quei server per la tua istanza LNbits! È abbastanza folle ma funziona incredibilmente come soluzione temporanea. Ma la migliore e più semplice è usare un nodo Phoenixd come fonte di finanziamento. È molto facile da configurare e non c'è bisogno di gestione della liquidità.</p>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">B. Utenti che hanno il proprio nodo LN</h2>
+<p>Se sei in questa categoria, ecco le opzioni che hai:</p>
+<ul>
+<li>installa il repository BW lndhub sul tuo nodo LN. Umbrel, myNode, Citadel lo hanno già integrato, devi solo installarlo dal loro app store. Quindi connettiti al tuo server lndhub e crea infiniti account lndhub (ospitati) nelle tue app Bluewallet. <a href="https://darthcoin.substack.com/p/umbrel-lndhub-bluewallet">Qui ho scritto una guida a riguardo</a>.</li>
+<li>installa le <a href="https://github.com/BlueWallet/LndHub">librerie lndhub dal team BW Github</a>. Quindi fornisci a te stesso e/o alla tua famiglia e ai tuoi amici diversi account lndhub che possono essere utilizzati nell'app Bluewallet.</li>
+<li>Altri metodi che utilizzano LNbits sul tuo nodo., <a href="https://darthcoin.substack.com/p/umbrel-node-lnbits">qui c'è una guida</a>. Questa opzione è descritta anche nella <a href="/merchants/private-banks-over-ln-it.html">mia altra guida su come diventare una banca LN</a> per la tua comunità. Questa è una delle migliori opzioni perché in questo modo aiuti più persone intorno a te e offri anche buoni servizi LN ai tuoi familiari e amici, in un modo più privato per usare LN.</li>
+<li>Usa gli account Lightning dal terminale Lightning, se gestisci un nodo LND. <a href="https://docs.lightning.engineering/lightning-network-tools/lightning-terminal/accounts">Ecco la documentazione</a>.</li>
+</ul>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">C. Passa a un'altra app portafoglio LN</h2>
+<p>Sì, questa è la più semplice. Ma se sei un nuovo utente LN, passare a un'altra nuova app portafoglio LN a volte è frustrante, finché non impari.</p>
+<p>Non preoccuparti, non c'è niente di sbagliato nell'abbandonare l'app Bluewallet, se vuoi davvero fare il passo successivo verso un livello più avanzato.</p>
+<p>Fare questa mossa significa che vuoi optare per una soluzione di auto-custodia e questo è sempre ben accetto nello spazio Bitcoin. Maggiore autocustodia significa maggiore sovranità, maggiore libertà finanziaria.</p>
+<p>Quali opzioni hai?</p>
+<ul>
+<li><a href="/nodes/private-ln-nodes-it.html">Nodi LN mobili non-custodial: guida importante qui, sui nodi privati</a>.</li>
+<li>Più portafogli LN, scegli con attenzione da <a href="/wallets/lightning-wallets-comparison-it.html">questa guida di confronto</a> o segui questa <a href="/beginner/getting-started-stack-sats-it.html">altra guida per principianti</a>.</li>
+</ul>
+<p>Ricorda: non scegliere un'app portafoglio LN solo perché qualcun altro te l'ha "consigliata". Scegli l'app wallet più adatta al tuo caso d'uso, alle tue abitudini, alla quantità di spesa su LN ecc.</p>
+<p>Chiunque "raccomandi" un'app wallet non conosce te o il tuo caso particolare di utilizzo di LN, o semplicemente vuole promuovere un'app in particolare.</p>
+<p>NON usare MAI una sola app wallet LN, usane sempre almeno 2-3 per avere un bilanciamento del carico e un backup. Distribuisci la tua scorta LN su alcune di esse e sii pronto a usarle in qualsiasi momento.</p>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">D. Attiva il nodo LDK nascosto in Bluewallet</h2>
+<p>Sì, hai sentito molto bene, Bluewallet ha ora un nodo LDK integrato come portafoglio Lightning. E questo è positivo.</p>
+<p>Ma ricorda, è ancora in versione beta, quindi procedi con cautela. Come attivarlo?</p>
+<p><img src="/assets/images/bluewallet-ldk-node.jpg" class="center"></p>
+<p>Tocca "+" per aggiungere un portafoglio, quindi tocca il pulsante Lightning 10 volte.</p>
+<p>Ed ecco, puoi creare un portafoglio tramite LDK.</p>
+<p>Salva le parole iniziali in un posto sicuro e ora puoi iniziare ad aprire canali, con il nodo LSP di Bluewallet. Per farlo, clicca sul pulsante "funding wallet" e seleziona qualsiasi portafoglio onchain che hai già configurato nel tuo Bluewallet che abbia fondi sufficienti per aprire un canale LN. Dovresti mantenere quel portafoglio onchain sempre collegato al tuo nodo LDK, non rimuoverlo dalla tua app Bluewallet. In caso di chiusura di un canale, i fondi torneranno al portafoglio onchain che stava finanziando il canale.</p>
+<p>Fatto, ora puoi usare il tuo Bluewallet LDK come qualsiasi altro portafoglio LN normale, in una modalità di auto-custodia.</p>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">CONCLUSIONE</h2>
+<p>Come puoi vedere, il mondo non sta finendo solo perché il team BW ha annunciato che il loro server di custodia lndhub terminerà per fornire un po' di liquidità LN di custodia per gli utenti principianti.</p>
+<p>Questo è il mondo di Lightning Network, in continuo cambiamento e miglioramento.</p>
+<p>Vedo questa chiusura come una buona cosa per il mondo BTC/LN. Ciò farà riflettere più persone e le farà preparare a gestire i propri nodi LN, possedere server lndhub e fornire più servizi semi-affidabili alla propria comunità.</p>
+<p>Per favore NON IMPAZZIRE! È una buona cosa che ciò accada.</p>
+<p>Tutto il potere di Bitcoin rimane in AUTO-CUSTODIA. Quindi impara come farlo.</p>
+<p>Spero davvero che questa guida ti dia più informazioni e determinazione per gestire il tuo nodo LN e fornire questo tipo di servizi alla tua famiglia e ai tuoi amici che non sono così esperti con questa tecnologia. Per favore, aiutali. Questo è il futuro.</p>
+</body>
+</html>
+</article>
