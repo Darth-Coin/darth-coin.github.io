@@ -1,0 +1,71 @@
+---
+layout: default
+title: Migrazione dell'elettro al passero
+---
+<article>
+<!DOCTYPE html>
+<html lang="it">
+<meta name="description" content="Guide Bitcoin e Lightning: come importare o migrare il tuo vecchio portafoglio Electrum BTC in Sparrow Wallet">
+<body>
+<a href="/wallets/migrate-electrum-sparrow-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/migrate-electrum-sparrow-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/migrate-electrum-sparrow-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/migrate-electrum-sparrow-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> | 
+<a href="/wallets/migrate-electrum-sparrow-nl.html">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> | 
+<a href="/wallets/migrate-electrum-sparrow-hr.html">Hrvatski <img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/migrate-electrum-sparrow-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<blockquote style="color:Tomato;"><em>
+<p>Pubblicato originariamente su <a href="https://darthcoin.substack.com/p/electrum-to-sparrow">Substack</a> il 20 febbraio 2022</p>
+<p>Aggiornato qui il 20 dicembre 2024</p>
+</em></blockquote>
+
+<h3>Una guida su come importare o migrare il tuo vecchio portafoglio Electrum BTC in Sparrow Wallet</h3>
+<p>Molti utenti mi chiedono come usare Electrum seed BIP39 in altre app wallet. Quindi ora spiegherei come lo faccio.</p>
+<p>Quindi, consideriamo che tu crei i tuoi cold wallet, usando le mie guide precedenti o che tu abbia semplicemente un vecchio seed BIP39 e ora desideri utilizzarlo nel portafoglio Sparrow.</p>
+<p><img src="/assets/images/electrum-sparrow-1.jpg" class="center"></p>
+<p>Ci sono due metodi per importare un portafoglio Bitcoin creato in precedenza in Electrum, nell'app Sparrow:</p>
+<ul>
+<li>Quello semplice: usare il file di backup del portafoglio Electrum.</li>
+<li>Quello avanzato: convertire il seed BIP39 in BIP84 con il suo percorso di derivazione.</li>
+</ul>
+<p>Risorse utilizzate:</p>
+<ul>
+<li>Portafoglio Electrum: pagina <a href="https://electrum.org/#download">download</a> e <a href="https://electrum.readthedocs.io/en/latest/">pagina di documentazione</a></li>
+<li>Portafoglio Sparrow: pagina <a href="https://www.sparrowwallet.com/">download</a> e pagina <a href="https://www.sparrowwallet.com/docs/">documentazione</a></li>
+<li><a href="https://guggero.github.io/cryptography-toolkit">pagina Strumenti di crittografia</a></li>
+</ul>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">A. Importa il file del portafoglio Electrum in Sparrow</h2>
+<ol>
+<li>Una volta creato il portafoglio Electrum e se tutto funziona correttamente, vai al menu File - Salva backup. Ti chiederà dove salvarlo, clicca sulla casella e seleziona dove. Tienilo al sicuro!</li>
+<li>Questo file è crittografato! Quindi dovrai usare la tua password Electrum per aprirla/usarla in Sparrow. È la password che hai inserito (due volte) quando hai creato il portafoglio Electrum? NON è la passphrase aggiuntiva, nel caso in cui ne avessi usata una insieme al seed di 12 parole. È la password usata per aprire il tuo portafoglio Electrum.</li>
+<li>Apri l'app Sparrow. Seleziona importa portafoglio e seleziona Electrum. Cerca il file precedente salvato nel punto 1. Ti chiederà di inserire la password del portafoglio.</li>
+</ol>
+<p><img src="/assets/images/electrum-sparrow-2.png" class="center"></p>
+<p>Segui semplicemente i passaggi e Sparrow inizierà a importare tutti gli UTXO precedenti, le transazioni ecc. Ti verrà chiesto di impostare una password per quel portafoglio. Questo sta anche crittografando il file del portafoglio locale e in seguito può essere salvato in una posizione sicura (gestore password - KeePass), utilizzare il menu File - opzione Esporta.</p>
+<p>Fatto!</p>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">B. Conversione avanzata dei seed da BIP39 a BIP84
+
+<ol>
+<li>Hai il seed BIP39 di 12 parole e per verificare di averlo convertito correttamente è meglio avere a portata di mano alcuni dei primi indirizzi BTC generati, il percorso di derivazione, MPK (chiave pubblica master), chiave privata di base.</li>
+<li>Vai su https://guggero.github.io/cryptography-toolkit/#!/hd-wallet (puoi salvare la pagina e usarla offline, per sicurezza).</li>
+<li>Metti il ​​tuo seed BIP39 di 12 parole da Electrum</li>
+<p><img src="/assets/images/electrum-sparrow-3.png" class="center"></p>
+<li>Seleziona BIP39 e nella chiave radice del nodo HD seleziona BTC native segwit BIP84 (o il formato che hai in Electrum generato, legacy o segwit). Nel blocco della schermata successiva vedrai la conversione in BIP84</li>
+<p><img src="/assets/images/electrum-sparrow-4.png" class="center"></p>
+<li>Seleziona il tipo di moneta native segwit. Salva quel percorso di derivazione e tutti i dettagli mostrati nel tuo gestore password. Ora, copia quell'output "Derived key base58".</li>
+<li>Apri l'app Sparrow. Seleziona dal menu File - Nuovo portafoglio. Scegli un nome.</li>
+<p><img src="/assets/images/electrum-sparrow-5.png" class="center"></p>
+<li>Quindi nella schermata successiva puoi incollare la chiave derivata base58 e importarla.</li>
+</ol>
+<p><img src="/assets/images/electrum-sparrow-6.png" class="center"></p>
+<p>Segui le schermate e vedrai come importare gli UTXO e le transazioni precedenti. Ora puoi andare a verificarli, dovrebbero essere gli stessi indirizzi BTC del precedente portafoglio Electrum nativo segwit (bech32).</p>
+<p><img src="/assets/images/electrum-sparrow-7.jpg" class="center"></p>
+<p>Fatto! Ora hai importato il tuo portafoglio Electrum bech32 in Sparrow.</p>
+<p>Il mio consiglio è di migrare tutti i tuoi vecchi portafogli BIP39 HODL in portafogli di tipo Taproot (P2TR). <a href="/wallets/move-btc-taproot-address-it.html">Leggi qui la guida a riguardo</a>.</p>
+</body>
+</html>
+</article>
