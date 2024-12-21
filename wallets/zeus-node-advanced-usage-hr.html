@@ -1,0 +1,224 @@
+---
+layout: default
+title: Zeus LN čvor - napredna upotreba
+---
+<article>
+<!DOCTYPE html>
+<html lang="hr">
+<meta name="description" content="Vodiči za Bitcoin i Lightning: napredno korištenje Zeus LN čvora, savjeti i trikovi">
+<body>
+<a href="/wallets/zeus-node-advanced-usage-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/zeus-node-advanced-usage-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/zeus-node-advanced-usage-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/zeus-node-advanced-usage-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/zeus-node-advanced-usage-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/zeus-node-advanced-usage-nl.html">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/zeus-node-advanced-usage-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<blockquote style="color:Tomato;"><em>
+<p>Ažurirano 3. prosinca 2024.</p>
+</em></blockquote>
+
+<h3 style="color:Orange;">Kako koristiti Zeusov ugrađeni LN čvor, otvaranje kanala, SHTF situacije, migracija na druge uređaje, okruženje visokih naknada, zaglavljeni kanali pri otvaranju, prisilno zatvaranje kanala, povrat sredstava.</h3>
+<p><a href="/wallets/getting-started-zeus-wallet-hr.html">U prethodnom vodiču</a> napisao sam prezentaciju novog Zeus ugrađenog LN čvora, ali nisam mogao biti prevelik t dodajte i ove napredne korake za korištenje.</p>
+<p>Ovaj vodič je za napredne korisnike i samo za SHTF slučajeve, nakon što se također posavjetujete s <a href="https://t.me/zeusLN">Zeus podrškom za chat</a>. Vodič je nastao nakon što sam se stavio u situaciju korisnika, koji koristi Zeusov ugrađeni LN čvor i namjerno radi neke pogreške, kako bih pronašao rješenja za popravljanje situacija. Ovo je bilo nepromišljeno testiranje na glavnoj mreži!</p>
+<p>Ovaj vodič pišem da NE ČINITE OVE GREŠKE ili da ih izbjegnete. Već sam potrošio mnogo sati na naknade i prisilno zatvaranje kanala radeći sve te testove.</p>
+<p>Vodič sadrži 3 različita scenarija:</p>
+<ul>
+<li><a href="#getting-started">Početak otvaranja kanala</a></li>
+<li><a href="#migrate">Premjestite svoj Zeus ugrađeni čvor na drugi uređaj</a></li>
+<li><a href="#broken-device">Stari uređaj je mrtav, baza podataka je pokvarena, Zeus čvor se ne pokreće</a></li>
+<li><a href="#disaster">Slučaj katastrofe - otvaranje/zatvaranje kanala uz nisku naknadu</a></li>
+</ul>
+<p>Možda ćemo u budućnosti imati dostupnu opciju za izvoz/uvoz podataka cijelog Zeus čvora, bez potrebe za zatvaranjem LN kanala, ali trenutno nije moguć ovaj potpuni oporavak. Testirao sam ovu opciju, ali je složenija (upotrebom Android adb alata s nekim CLI naredbama) i zahtijeva neke promjene u Zeus kodu.</p>
+<p><img src="/assets/images/zeus-1.jpg" class="center"></p>
+
+<h2 style="color:Orange;" id="getting-started">A - Prvi koraci s otvaranjem kanala</h2>
+<p>Ovo je opći postupak koji se koristi kao redovita metoda za dobivanje ulazne i izlazne likvidnosti za vaš novi Zeus LN čvor. Mnogi novi korisnici to ne shvaćaju od početka pa ću pokušati objasniti korak po korak.</p>
+<p>Također se preporučuje da pročitate <a href="https://bitcoin.design/guide/how-it-works/liquidity/">ovaj važan vodič o LN likvidnosti.</a></p>
+<p>Zahvaljujući Renè Pickhardtu, evo video snimke koja objašnjava kako funkcionira usmjeravanje kanala i likvidnost:</p>
+<video width="640" height="320" kontrole>
+ <source src="/assets/media/ln-explained.mp4" type="video/mp4" class="center">
+</video>
+<ol>
+<li>Instalirajte najnoviju verziju Zeusa, preporučujemo da koristite <a href="https://github.com/ImranR98/Obtainium/releases">Obtainium</a>, a NE iz trgovine aplikacija. <a href="/beginner/bitcoiners-mobile-device-hr.html">Pročitajte ovaj vodič</a> ako još uvijek razmišljate o korištenju iPhonea.</li>
+<li>Stvorite novi Zeusov ugrađeni čvor u svom novom uređaju</li>
+<li>Pričekajte da se potpuno sinkronizira. Idite na Postavke → Informacije o čvoru i pogledajte je li sinkroniziran s lancem i sinkroniziran s grafom.</li>
+<li>U ovoj fazi preporučujem da pravilno pripremite svoj Zeus čvor:</li>
+<ul>
+<li><p>Postavite dobre ravnopravne neutrine. Testirajte zadane da biste vidjeli ping odgovor. Ovisno o vašoj lokaciji, neki od njih će imati dugotrajan odgovor. Ako je ping veći od 150-200ms, bolje ga uklonite s popisa i dodajte dobre. <a href="https://bitnodes.io/nodes/?q=NODE_COMPACT_FILTERS">Ovdje je popis s jednakim neutrinima širom svijeta</a>. Napravite vlastiti popis na temelju pinga i odaberite opciju da koristite samo ravnopravne korisnike s popisa, a ne nasumične.</p>
+ <p>Za korisnike iz SAD-a, zadani btcd.lnolymp.us trebao bi dobro funkcionirati.</p>
+ <p>Za korisnike iz EU, node.blixtwallet.com trebao bi imati dobar ping.</p>
+ <p>Ili upotrijebite vlastiti Bitcoin čvor ako ga imate. <a href="https://docs.lightning.engineering/lightning-network-tools/lnd/enable-neutrino-mode-in-bitcoin-core">Morate samo aktivirati Neutrino</a> u svom čvoru i otvorite port 8333 na svom ruteru. Bez brige, ništa ne curi iz vašeg čvora, samo isporučujete blok filtre svom Zeusu. Ako želite, možete podijeliti svoju IP adresu neutrino čvora s drugim prijateljima koji također koriste Zeus.</p>
+</li>
+<li>Stavite Zeusa u trajni način rada. Idite na Postavke - Ugrađeno - Napredno - odaberite "stalni način". Kada počnete otvarati kanale, ova je opcija vrlo korisna jer će održavati LND uslugu aktivnom, a čak i ako zatvorite aplikaciju, usluga će i dalje raditi u pozadini i održavat će veze živima.</li>
+<li>Aktivirajte EGS (ekspresnu sinkronizaciju grafikona) i također aktivirajte reset EGS pri pokretanju. Ovo bi moglo malo usporiti pokretanje Zeusa, ali uvijek imate svježu ažuriranu sinkronizaciju grafikona.</li>
+<li>Aktivirajte LSP, zadano je https://0conf.lnolymp.us</li>
+<li>Na istom zaslonu aktivirajte jednostavne glavne kanale. Kasnije će biti korisno.</li>
+</ul>
+<li>Idite na Postavke → Faktura - kliknite gornju desnu ikonu opcije i odaberite "Taproot vrsta adrese". Standardno je segwit. Taproot nije obavezan samo ako želite otvoriti Simple Taproot kanale.</li>
+<li>Idite na glavni zaslon, povucite udesno karticu onchain i kliknite na primanje. Generirati će novu Taproot adresu.</li>
+<li>Uzmimo da nemate drugih sredstava u drugim LN novčanicima, samo iz onchain izvora. Pošaljite na tu adresu sve satove koje želite koristiti za otvaranje kanala. Stavite pristojnu naknadu, ne prenisku i pričekajte da dobijete 6 potvrda.</li>
+<li>Nakon što potvrdite sredstva, otvorite svoj prvi kanal na dobro poznatom čvoru, LSP. Nemojte otvarati s nasumičnim nepoznatim čvorovima, odaberite dobar, <a href="https://github.com/ZeusLN/zeus/discussions/2265">na primjer jedan s ovog popisa.</a></li>
+<li>Nemojte koristiti sva svoja sredstva! Uvijek ostavite UTXO od 50-100k za rezervu sidra. U slučaju da se mempool naknade drastično povećaju, bolje je imati rezervni UTXO kako biste mogli povećati naknade.</li>
+</ol>
+
+<h3 style="color:Yellow;">OPCIJA A - prvo trebate više ulazne likvidnosti</h3>
+<p>Ovo je opcija u slučaju da želite više koristiti Zeus za primanje (posebno ako koristite LN adresu zeuspay.com) tako da ćete započeti s "praznim" kanalom ili također možete odabrati koliko želite imati kao izlazna likvidnost.</p>
+<p>Za ovo možemo koristiti <a href="https://lsps1.olympusln.com/">novu uslugu LSP Olympus za kupnju kanala</a>.</p>
+<p><img src="/assets/images/zeus-buy-channels.png" class="center"></p>
+<p>Možete ih platiti putem onchaina ili LN-a, sredstvima iz istog Zeus novčanika ili bilo kojeg drugog novčanika u kojem imate sredstava. Nakon što se plati, Olympus LSP će otvoriti kanal prema vašem Zeus nodeID-u (pogledajte Zeus postavke - Node ID) s iznosima koje odaberete. Nakon što pritisnete “Create Order” također možete odabrati želite li privatni ili javni kanal. Za Zeus ugrađene čvorove bolje je ostati privatni.</p>
+<p>Ako je ovo vaš prvi kanal i vaš Zeus se nikada nije povezivao s Olympusom, trebali biste prvo dodati <a href="https://mempool.space/lightning/node/031b301307574bbe9b9ac7b79cbe1700e31e544513eae0b5d7497483083f99e581">Olympus čvor kao LN peer</a>.</p>
+<p>Idite na zaslon "Kanali" i pritisnite gumb "+" u gornjem desnom kutu. Otvorit će se modalni zaslon za otvaranje novog kanala. Sada kliknite gornji gumb za prebacivanje na "Poveži ravnopravnog korisnika" (pogledajte sliku ispod).</p>
+<p><img src="/assets/images/zeus-peer-olympus.jpg" class="center"></p>
+<p>Možete pritisnuti gumb "peer to Olympus" ili skenirati QR kod <a href="https://mempool.space/lightning/node/031b301307574bbe9b9ac7b79cbe1700e31e544513eae0b5d7497483083f99e581">Olympusa čvor</a> iz bilo kojeg LN Explorera, da dodate svoj pubključ čvora u obrazac. Pritisnite Poveži ravnopravnu osobu, a zatim idite na dovršetak procesa kupnje kanala.</p>
+<p>Tijekom ovog procesa, bolje je držati svoj Zeus na mreži koristeći trajni LND način (pogledajte u Postavke - Ugrađeno - Napredne postavke).</p>
+<p>Završite postupak kanala kupnje i gotovo! Za nekoliko trenutaka vaš će kanal biti spreman za prijem. Ako popunite taj kanal, uvijek možete zamijeniti iz njega npr. 50-80% koristeći eksternu zamjenu za onchain ili prelazak na druge privremene LN novčanike dok vam ne zatreba ta likvidnost.</p>
+
+<h3 style="color:Yellow;">OPCIJA B - Napredno otvaranje kanala</h3>
+<p>Procedura otvaranja kanala. Uzmimo u obzir da ćete koristiti 2,1 milijuna satova i da ste ih sve već prebacili na novi Zeus. A s ovih 2 milijuna sati želite otvoriti 3 kanala: <a href="https://mempool.space/lightning/node/031b301307574bbe9b9ac7b79cbe1700e31e544513eae0b5d7497483083f99e581">Olympus</a>, <a href="https://mempool.space/lightning/node/0230a5bca558e6741460c13dd34e636da28e52afd91cf93db87ed1b0392a7466eb">Blixt</a>, <a href="https://megalithic.me/">Megalitski LSP</a>.</p>
+<ol>
+<li>Počinjemo otvarati 1M kanal za Blixt čvor ili bilo koji drugi dobar čvor koji želite. Odabrao sam Blixt jer znam da je LND čvor i također podržava Simple Taproot Channels. To možete postaviti na početnom zaslonu kanala, u "Naprednim opcijama".</li>
+<li>Pričekajte da kanal potvrdi i također da bude spreman novi UTXO (6 konf.).</li>
+<li><p>Zamijenite (50%) 500k za <a href="https://www.blink.sv/">Blink</a> / <a href="https://getalby.com /">Alby</a> / <a href="https://coinos.io/">CoinOS</a> / <a href="https://www.walletano.com/">Walletano</ a> / <a href="https://lifpay.me/">Lifpay</a> / <a href="https://t.me/satsmobiBot">Sats.Mobi</a> / <a href="https: //www.walletofsatoshi.com/">Wallet of Satoshi</a> / prijatelj LNbits / BTCpay instanca ili LNDHUB račun ili bilo koji drugi jednostavni skrbnički (non-KYC) privremeni LN račun.</p>
+ <p>Zašto skrbništvo za ovu fazu? Budući da je lakše i brže, bez zamaranja likvidnošću kanala, zamjenama itd., potrebno vam je samo privremeno spremište.</p>
+ <p>Može biti u malim serijama ili sve odjednom, ali sve mora biti na istom odredištu. Ideja je ponovno upotrijebiti dio satelita s već otvorenih kanala za otvaranje novog kanala s Olympus LSP.</p>
+</li>
+<li>Sada, s ostatkom od 1 milijuna satova koje još imate u svom Zeus onchain novčaniku, otvorite drugi kanal za Voltage ili bilo koji drugi dobar čvor koji prihvaća privatne kanale, <a href="https://github.com/ZeusLN/ zeus/discussions/2265">pogledajte primjere ovdje</a>.</li>
+<li>Ponavljajte korak od točke 13, dok ne budete imali skoro 1M sat na privremenom LN skrbničkom računu (ili bilo kojem drugom LN novčaniku koji imate).</li>
+<li><p>Kad dobijete oko 1M satova na privremenom LN računu, otvorite 1M kanal s Olympus LSP.</p>
+ <p>Kako to učiniti? Jednostavno pritisnite gumb za primanje na glavnom ekranu Zeusa i stavite 1M sat. Na vrhu će se pojaviti poruka da će "ova transakcija koristiti LSP i naplatit će neke naknade" (oko 10.000 sati).</p>
+</li>
+<li>Platite tu generiranu fakturu sa svog privremenog LN skrbničkog računa. Plaćat će se Olympus LSP-u i LSP će otvoriti kanal prema vašem Zeus čvoru, gurajući sve satove na vašu stranu. Odbit će naknadu od ukupnog iznosa koji ste poslali, ali će vam također dati plus od 100 tisuća ulazne likvidnosti, tako da će vaš kanal imati ukupno 1,1 milijuna satova s ​​990 tisuća sati na vašoj strani, spremnih za potrošnju.</ li>
+</ol>
+<p>Sada imate 3 dobra kanala, jedan s 1M izlaznom likvidnošću, 2 s 500k ulaznom i izlaznom likvidnošću. Dakle, spremni ste za slanje i primanje.</p>
+<p><strong>Zašto 3 kanala s različitim kolegama?</strong></p>
+<ul>
+<li>želite pouzdanost, ako jedan peer ode s mreže ili ima problema ili visokih naknada, uvijek možete koristiti alternativne rute.</li>
+<li>možete koristiti MPP (multi-part payment), što znači da se vaša uplata može poslati (koristeći opciju MPP na ekranu plaćanja), kroz više kanala, s manjim dijelovima. To bi moglo pomoći ako ruta ne može pronaći stazu s dovoljno velikom likvidnošću i može uzeti s manjim dijelovima.</li>
+<li>MPP je također dobar za veću privatnost u plaćanju.</li>
+<li>Ako se jedan kanal skoro isprazni, još uvijek možete imati druge dvije alternative.</li>
+</ul>
+<p><strong>Napravite sigurnosnu kopiju kanala!</strong></p>
+<p>Sada je vrijeme da napravite punu sigurnosnu kopiju svog čvora. Svaki put kada otvorite ili zatvorite kanal preporučuje se napraviti potpunu sigurnosnu kopiju.</p>
+<p><em>Idite na Postavke - Ugrađeni čvor - Oporavak od katastrofe.</em></p>
+<ul>
+<li>provjerite jesu li omogućene automatske sigurnosne kopije</li>
+<li>izvršite i izvoz podataka u međuspremnik. Ovo će stvoriti poseban šifrirani niz. Kopirajte ga u vanjsku datoteku i čuvajte na sigurnom. Ovo je sigurnosna kopija vaših LN kanala koja se kasnije može koristiti za povrat vaših sredstava s LN kanala.</li>
+<li>napravite i sigurnosnu kopiju na Olympus poslužitelj. To će zadržati kopiju ovog niza na LSP poslužitelju. Također se može koristiti za oporavak u slučaju da ste izgubili svoju osobnu datoteku.</li>
+</ul>
+<p>Gotovo. Osim toga, ako želite više ulaza u svoj novi Olympus kanal, samo se preselite na privremene LN račune ili bilo koje druge <a href="https://stacker.news/items/163372/r/DarthCoin">eksterne usluge zamjene< /a> (zamjena u vaše vlastite onchain adrese), s iznosom koji očekujete primiti putem ovog kanala. Na primjer, ako koristite LN adresu koju daje Zeus (zeuspay.com), trebat će vam neka ulazna likvidnost u ovaj kanal s Olympusom.</p>
+<hr style="height:2px">
+
+<p><img src="/assets/images/zeus-ungovernable.jpg" class="center"></p>
+
+<h2 style="color:Orange;" id="migrate">B - Migracija Zeus LN čvora na novi uređaj</h2>
+<p>Ovaj postupak će zahtijevati zatvaranje starih kanala.</p>
+<p>Ako još uvijek imate svoj stari uređaj i Zeus koji dobro radi, ali želite migrirati na drugi novi uređaj, puno je bolje početi ispočetka, s novim ID-om čvora, novim setom ključeva. Također za manje stresa u procesu zatvaranja kanala, mali UTXO-ovi, puno napuhane txs povijesti koja bi mogla napuniti vaš novčanik.</p>
+<ul>
+<li>Spremite svoje početno mjesto čvora Zeus</li>
+<li><a href="https://docs.zeusln.app/for-users/embedded-node/backup-and-recovery#can-i-recover-my-zeus-onchain-wallet-into-other- wallet-applications">Koristite ovaj postupak za uvoz vašeg LND aezeeda iz starog Zeusa u Sparrow</a></li>
+<li>Coop zatvorite sve svoje kanale u Zeusu i pričekajte dok se svi ne potvrde, vidjet ćete i txs u Sparrow</li>
+<li>Deinstalirajte Zeus sa starog uređaja.</li>
+<li>Slijedite sve korake iz prethodnog scenarija “Početak otvaranja kanala”. Uz slanje sredstava iz starog Zeusa (sada uvezenog u Sparrow) u novi Zeus čvor.</li>
+</ul>
+<p>Gotovo, migrirali ste svoj stari Zeus čvor na novi uređaj, s novim ID-om čvora.</p>
+<hr style="height:2px">
+
+<p><img src="/assets/images/zeus-2.jpg" class="center"></p>
+
+<h2 style="color:Orange;" id="broken-device">C - Stari uređaj ili čvor je mrtav</h2>
+<p>Recimo da ste imali problema sa sinkronizacijom, kanali su nasilno zatvoreni, baza podataka oštećena, aplikacija ne reagira ispravno itd. Sranja se mogu događati cijelo vrijeme i u nekim je situacijama bolje krenuti ispočetka, čisto, svježe. U svakom slučaju, prije poduzimanja ovih koraka posavjetujte se s razvojnim programerima i iskusnijim korisnicima u <a href="https://t.me/zeusLN">Zeus Telegram grupi</a>. Kako biste bili sigurni da se ništa drugo ne može učiniti, bolje je imati drugo mišljenje za ispravnu dijagnostiku vaših problema.</p>
+<p>Pretpostavljamo da već imate sigurnosnu kopiju seeda i sigurnosnog niza kanala. Pretpostavljamo da ne možete zatvoriti postojeće kanale, baza podataka je oštećena ili je uređaj mrtav, aplikacija se više ne može otvoriti ili ispravno funkcionirati.</p>
+<p>Dakle, potpuno deinstalirajte Zeus i instalirajte ga svježom, novom, najnovijom inačicom.</p>
+<ol>
+<li>Otvorite Zeus i na zaslonu stvaranja novog čvora, ali odaberite RESTORE.</li>
+<li>Umetnite početnu vrijednost od 24 riječi i također zalijepite niz rezervnih kanala.</li>
+<li>Strpljivo pričekajte potpunu sinkronizaciju i provedite postupak oporavka! Trajat će nekoliko minuta.</li>
+<li>Pokušajte održati aplikaciju živom koliko god možete, barem u početnoj fazi zatvaranja kanala. U ovom trenutku ne možete aktivirati trajni način jer će zahtijevati ponovno pokretanje aplikacije, a ne želite da se to dogodi u procesu oporavka. U budućim verzijama ovaj trajni način rada bit će UKLJUČEN prema zadanim postavkama za proces oporavka.</li>
+<li>Neobavezno možete ići i postaviti bolje ravnopravne neutrino, koji ne zahtijevaju ponovno pokretanje, ali bi mogli pomoći u održavanju sinkronizacije s dobrim ravnopravnim uređajima. Pogledajte prethodni scenarij A točku 7.</li>
+<li>Idite na zaslon Kanali (s glavnog zaslona, ​​donja desna ikona) i prebacite središnji gumb na kanale "zatvoreno/na čekanju". Tamo ćete za nekoliko trenutaka vidjeti da je pokrenuto prisilno zatvaranje starih kanala. Opcionalno možete pratite njihovo zatvaranje u <a href="https://mempool.space/">mempool.space</a> pomoću txid-a za zatvaranje.</li>
+<li>U slučaju da su kanali zatvoreni uz nisku naknadu (to se ponekad može dogoditi, zbog visokih fluktuacija naknada i LND procjenitelj naknada nije uzeo pravu), možete uvesti svoje staro Zeusovo sjeme u Sparrow (<a href="https://docs.zeusln.app/for-users/embedded-node/backup-and-recovery#can-i-recover-my-zeus-onchain-wallet-into-other-wallet-applications"> pogledajte ovdje upute</a>), a od Sparrowa naknadu plaćate CPFP-om (dijete plaća za roditelja). Inače samo strpljivo pričekajte da se kanali zatvore. TO MOŽE POTRAJATI! Nemoj se nervirati, normalno je. Ako je bilo HTLC-a na čekanju s prethodnih kanala, moglo bi biti potrebno čak 144 bloka ili više.</li>
+<li>Nakon što zatvorite sve kanale i sredstva vratite u onchain novčanik (također provjeravate u Sparrowu jesu li sva sredstva potvrđena), možete deinstalirati Zeus i početi ispočetka, nastavljajući s uputama iz prethodnog scenarija A “Početak otvaranja kanala” . Puno je bolje započeti s novim skupom ključeva i ID-om čvora, bazom podataka itd.</li>
+</ol>
+<hr style="height:2px">
+
+<h3 style="color:Orange;" id="disaster">D - SLUČAJ KATASTROFE - Otvorili ste kanal uz vrlo nisku naknadu i zaglavili ste u neizvjesnosti</h3>
+<p style="color:Tomato;">NE RADITE RBF NA KANALIMA NA ČEKANJU OTVARANJA! RADITE SAMO CPFP ili bolje koristite Mempool Accelerator.</p>
+<p>U slučaju da imate zombi kanal koji se ne može normalno otvoriti ili zatvoriti iz korisničkog sučelja čvora, morat ćete nastaviti s korištenjem <a href="https://node-recovery.com/">LND chantools< /a>. Pažljivo pročitajte sve scenarije predstavljene u tom vodiču i odaberite onaj koji odgovara vašem slučaju.</p>
+<p>Kako ću završiti s testiranjem slučaja katastrofe? <a href="https://github.com/ZeusLN/zeus/discussions/2174">Pročitajte ovdje</a> kako biste izbjegli moje pogreške.</p>
+<p>Ovdje su najčešće korišteni slučajevi:</p>
+<ul>
+<li><a href="https://github.com/lightningnetwork/lnd/discussions/8208">Oporavak kanala za koji ste greškom napravili RBF umjesto CPFP</a></li>
+<li><a href="https://github.com/lightninglabs/chantools/blob/master/doc/zombierecovery.md">Oporavak zombi kanala</a></li>
+</ul>
+
+<p>Dakle, otvorili ste kanal i slučajno uzeli prenisku naknadu kao što je 1sat/vb, a također ste iskoristili sva sredstva, bez ičega što bi povećalo naknadu.</p>
+<p>Sada su vaši početni kanali u neizvjesnosti dok se naknada ne poveća.</p>
+<p>Koje opcije imate?</p>
+<ul>
+<li><p>Najbolja opcija - koristite <a href="https://mempool.space">alat Mempool Accelerator</a>, brz je, praktičan i možete plaćati preko LN-a, zadržavajući isti txid i ne zakomplicirati stvari.</p>
+<centar>
+ <slika>
+ <img src="/assets/images/mempool-accelerator.jpg" class="center">
+ <figcaption>Otvorite početni tx na stranici mempool.space i kliknite gumb "Ubrzaj"</figcaption>
+</figure>
+</center>
+</li>
+<li><p>Ako već imate još jedan preostali UTXO u svom onchain novčaniku, upotrijebite opciju Zeus iz Izbornika --> Alati --> Ubrzaj transakciju</p>
+ <p>Umetnite tx izlaz koji izgleda kao <i>"d0d3bfd9cb6aa167c691140e5477...long-string:0"</i> stavite novu naknadu i kliknite za ubrzanje.</p>
+ <p><a href="https://docs.zeusln.app/for-users/getting-started/tips">Ovdje pročitajte više o rezultatima</a></p>
+</li>
+<li><p>Dodajte novi UTXO u svoj onchain novčanik. Preporuča se da uvijek zadržite najviše 100k sats UTXO za ove slučajeve, s kojima možete lako povećati prijenos pomoću CPFP-a.</p>
+ <p>Ako je ovo kanal otvoren i postoji samo jedan izlaz (bez promjene), onda ga ne možete podići s CPFP-om. Morate koristiti akcelerator treće strane ili <a href="https://docs.zeusln.app/for-users/embedded-node/backup-and-recovery#can-i-recover-my-zeus-onchain -wallet-into-other-wallet-applications">povucite sredstva u Sparrow</a> i izradite zamjensku transakciju s CPFP metodom, postavite je, zatim otvorite kanal uz odgovarajuću stopu naknade</p>
+ <p>ZAPAMTITE: NE RADITE RBF, KORISTITE SAMO CPFP METODU! Inače možete završiti sa zombi kanalom.</p>
+</li>
+</ul>
+
+<h4 style="color:Yellow;">Što je CPFP transakcija?</h4>
+<p>Evo jednostavnog videa koji objašnjava CPFP - transakciju "dijete plaća za roditelja"</p>
+<centar>
+<video width="640" height="480" kontrole>
+ <izvor src="https://video.nostr.build/af33075758e38640a10814e06e14f6521f38a581e2f4aa852b8554c5e8591b1c.mp4" type="video/mp4">
+</video>
+</center>
+<p>Ovdje je video vodič za korištenje CPFP-a sa Sparrow novčanikom</p>
+<centar>
+<iframe width="640" height="480" src="https://www.youtube.com/embed/7EmshGDXi04" title="Bitcoin Replace By Fee &amp; Child Pays For Parent Tutorial koristeći Sparrow Wallet" frameborder=" 0"accelerometer; autoplay; encrypted-media; slika u slici" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</center>
+<p><strong>EKSTRA SITUACIJA</strong> - Korištenje Zeus ugrađenog čvora i slučajno ste napravili RBF i sada je kanal u zombi stanju, ne otvara se</p>
+<p>U ovom slučaju trebate ekstrahirati channel.db sa svog mobilnog uređaja na računalo i nastaviti s <a href="https://github.com/lightninglabs/chantools/blob/master/doc/zombierecovery. md">ChanTools metoda oporavka za zombi kanale</a>.</p>
+
+<h4 style="color:Yellow;" id="extract">Kako izdvojiti channel.db s mobitela:</h4>
+<p>Ovo nije jako kompliciran postupak, ali zahtijeva neko osnovno poznavanje naredbenog retka.</p>
+<p>Imajte na umu da datoteka channel.db ponekad može biti prilično velika do 2-4 GB, ovisno o vašoj prethodnoj aktivnosti. Ova datoteka sadrži sve podatke i aktivnosti vašeg čvora, kao i informacije o ključevima vašeg novčanika.</p>
+<p>Koraci koje treba učiniti:</p>
+<ul>
+ <li>Instalirajte na računalo ADB alate i upravljačke programe svog mobilnog uređaja. <a href="https://developer.android.com/tools/adb">Ovdje imate više uputa o ovom koraku.</a></li>
+ <li>Nakon što povežete svoj mobitel s računalom pomoću USB kabela, upišite ove naredbe u terminal računala:
+<pre><code>
+ adb uređaji
+ #Prikazat će vaš uređaj koji je povezan
+ adb korijen
+ #restart i potvrdite pristup rootu na uređaju
+ adb ljuska
+ #da vam omogući pristup skrivenim datotekama
+</code></pre>
+
+ <p>Sada ste spremni za kopiranje datoteke channel.db u lokalnu pohranu vašeg mobitela ili mSD karticu.</p>
+
+<pre><code>
+ cp /data/media/0/Download/zeus/graph/channel.db /data/user/0/app.zeusln.zeus/files/data/graph/mainnet/channel.db
+</code></pre>
+
+ <p>Ovo će kopirati channl.db na mSD karticu vašeg uređaja ili lokalnu pohranu medija. Odatle ga kopirajte na svoje računalo, putem WiFi-a ili putem USB kabela prebacivanjem na način prijenosa medija.</p>
+ </li>
+ <li>Nastavite i pažljivo pročitajte upute za <a href="https://github.com/lightninglabs/chantools/blob/master/doc/zombierecovery.md">ChanTools metodu oporavka od zombija</a>. Predlažem da konstruirate sve naredbe u tekstualnu datoteku i kasnije ih izvršite na zaslonu terminala ChanTool. Također ćete morati biti u kontaktu s vršnjakom kojem ste otvorili kanal kako bi oni mogli učiniti isto sa svoje strane.</li>
+</ul>
+<p>Nadam se da će vam ovaj složeni vodič uštedjeti vrijeme i dane muke da oporavite svoj mrtvi čvor, ali najvažnije je da IZBJEGATE završiti u ovoj situaciji (ako pročitate ovaj vodič PRIJE NEGO što učinite bilo kakvu glupost).</p>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">Veze Zeus resursa:</h3>
+<p><a href="https://zeusln.com/">Web stranica</a> | <a href="https://docs.zeusln.app/">Dokumenti</a> | <a href="https://github.com/ZeusLN/zeus">Github</a> | <a href="https://github.com/ZeusLN/zeus/releases">Izdanja</a> | <a href="https://t.me/zeusLN">Telegram</a> | <a href="https://nostr.at/npub1xnf02f60r9v0e5kty33a404dm79zr7z2eepyrk5gsq3m7pwvsz2sazlpr5">NOSTR</a> | <a href="https://x.com/ZeusLN">Twix</a> | <a href="https://blog.zeusln.com/">Blog</a></p>
+</body>
+</html>
+</article>
