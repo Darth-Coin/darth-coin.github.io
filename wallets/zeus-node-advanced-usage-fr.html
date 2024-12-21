@@ -1,0 +1,224 @@
+---
+layout: default
+title: Nœud Zeus LN – Utilisation avancée
+---
+<article>
+<!DOCTYPE html>
+<html lang="fr">
+<meta name="description" content="Guides Bitcoin et Lightning : Utilisation avancée du nœud Zeus LN, trucs et astuces">
+<body>
+<a href="/wallets/zeus-node-advanced-usage-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/zeus-node-advanced-usage-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/zeus-node-advanced-usage-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/zeus-node-advanced-usage-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/zeus-node-advanced-usage-nl.html">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/zeus-node-advanced-usage-hr.html">Hrvatski <img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/zeus-node-advanced-usage-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<blockquote style="color:Tomato;"><em>
+<p>Mis à jour le 03 décembre 2024</p>
+</em></blockquote>
+
+<h3 style="color:Orange;">Comment utiliser le nœud LN intégré Zeus, ouvrir des canaux, situations SHTF, migration vers d'autres appareils, environnement à frais élevés, ouverture de canaux bloquée, fermeture forcée de canaux, récupération de fonds.</h3>
+<p><a href="/wallets/getting-started-zeus-wallet-fr.html">Dans le guide précédent</a>, j'ai écrit une présentation du nouveau nœud LN intégré Zeus, mais étant trop volumineux, je n'ai pas pu ajouter également ces étapes avancées pour l'utiliser.</p>
+<p>Ce guide est destiné aux utilisateurs avancés et uniquement aux cas SHTF, après avoir également consulté le <a href="https://t.me/zeusLN">support de chat Zeus</a>. Ce guide a été créé après m'être mis dans la situation d'un utilisateur, utilisant le nœud LN intégré Zeus et faisant délibérément quelques erreurs, pour trouver des solutions pour résoudre les situations. C'était des tests imprudents sur le réseau principal !</p>
+<p>J'écris ce guide pour que VOUS NE FASSIEZ PAS CES ERREURS ou que vous les évitiez. J'ai déjà dépensé beaucoup de sats en frais et en fermeture forcée de canaux en faisant tous ces tests.</p>
+<p>Le guide contient 3 scénarios différents :</p>
+<ul>
+<li><a href="#getting-started">Démarrage avec l'ouverture de canaux</a></li>
+<li><a href="#migrate">Migrer votre nœud intégré Zeus vers un autre appareil</a></li>
+<li><a href="#broken-device">L'ancien appareil est mort, la base de données est cassée, le nœud Zeus ne démarre pas</a></li>
+<li><a href="#disaster">Cas de catastrophe - ouverture/fermeture de canaux avec des frais bas</a></li>
+</ul>
+<p>Peut-être qu'à l'avenir nous aurons la possibilité d'exporter/importer l'intégralité des données du nœud Zeus, sans avoir besoin de fermer les canaux LN, mais pour l'instant, cette récupération complète n'est pas possible. J'ai testé cette option mais elle est plus compliquée (en utilisant les outils adb Android avec certaines commandes CLI) et nécessite quelques modifications dans le code Zeus.</p>
+<p><img src="/assets/images/zeus-1.jpg" class="center"></p>
+
+<h2 style="color:Orange;" id="getting-started">A - Premiers pas avec l'ouverture de canaux</h2>
+<p>Il s'agit d'une procédure générale, utilisée comme méthode régulière pour obtenir des liquidités entrantes et sortantes pour votre nouveau nœud Zeus LN. Beaucoup de nouveaux utilisateurs ne le comprennent pas dès le début, je vais donc essayer de l'expliquer étape par étape.</p>
+<p>Il est également recommandé de lire <a href="https://bitcoin.design/guide/how-it-works/liquidity/">cet important guide sur la liquidité LN.</a></p>
+<p>Merci à Renè Pickhardt, voici une vidéo expliquant comment fonctionnent le routage des canaux et la liquidité :</p>
+<video width="640" height="320" controls>
+<source src="/assets/media/ln-explained.mp4" type="video/mp4" class="center">
+</video>
+<ol>
+<li>Installez la dernière version de Zeus, nous vous recommandons fortement d'utiliser <a href="https://github.com/ImranR98/Obtainium/releases">Obtainium</a> et NON depuis l'App Store. <a href="/beginner/bitcoiners-mobile-device-fr.html">Veuillez lire ce guide</a> si vous envisagez toujours d'utiliser un iPhone.</li>
+<li>Créez un nouveau nœud Zeus intégré dans votre nouvel appareil</li>
+<li>Attendez qu'il soit complètement synchronisé. Allez dans Paramètres → Informations sur le nœud et voyez s'il est synchronisé avec la chaîne et synchronisé avec le graphique.</li>
+<li>À ce stade, je vous recommande de préparer correctement votre nœud Zeus :</li>
+<ul>
+<li><p>Définissez de bons pairs neutrino. Testez ceux par défaut pour voir la réponse au ping. Selon votre emplacement, certains d'entre eux auront un temps de réponse long. Si le ping est supérieur à 150-200 ms, il vaut mieux le supprimer de la liste et en ajouter de bons. <a href="https://bitnodes.io/nodes/?q=NODE_COMPACT_FILTERS">Voici une liste des pairs neutrino du monde entier</a>. Créez votre propre liste en fonction du ping et sélectionnez l'option permettant d'utiliser uniquement les pairs de la liste, et non au hasard.</p>
+<p>Pour les utilisateurs américains, le btcd.lnolymp.us par défaut devrait fonctionner correctement.</p>
+<p>Pour les utilisateurs de l'UE, node.blixtwallet.com devrait avoir un bon ping.</p>
+<p>Ou utilisez votre propre nœud Bitcoin si vous en exécutez un. <a href="https://docs.lightning.engineering/lightning-network-tools/lnd/enable-neutrino-mode-in-bitcoin-core">Il vous suffit d'activer Neutrino</a> dans votre nœud et d'ouvrir le port 8333 dans votre routeur. Ne vous inquiétez pas, rien ne fuit de votre nœud, vous ne faites que livrer des filtres de blocage à votre Zeus. Si vous le souhaitez, vous pouvez partager l'IP de votre nœud Neutrino avec d'autres amis qui utilisent également Zeus.</p>
+</li>
+<li>Mettez Zeus en mode persistant. Allez dans Paramètres - Intégré - Avancé - sélectionnez « mode persistant ». Lorsque vous commencerez à ouvrir des canaux, cette option est très utile, car elle maintiendra le service LND en vie et même si vous fermez l'application, le service fonctionnera toujours en arrière-plan et maintiendra les connexions en vie.</li>
+<li>Activez EGS (synchronisation graphique express) et activez également la réinitialisation EGS au démarrage. Cela peut ralentir un peu le démarrage de Zeus, mais vous disposez toujours d'une synchronisation graphique actualisée.</li>
+<li>Activez LSP, la valeur par défaut est https://0conf.lnolymp.us</li>
+<li>Dans le même écran, activez les canaux simples à racine pivotante. Cela sera utile plus tard.</li>
+</ul>
+<li>Allez dans Paramètres → Facture - cliquez sur l'icône d'option en haut à droite et sélectionnez « Type d'adresse à racine pivotante ». La valeur par défaut est segwit. Taproot n'est facultatif que si vous souhaitez ouvrir des canaux Taproot simples.</li>
+<li>Accédez à l'écran principal, faites glisser vers la droite l'onglet onchain et cliquez sur recevoir. Cela générera une nouvelle adresse Taproot.</li>
+<li>Considérons que vous n'avez pas d'autres fonds dans d'autres portefeuilles LN, uniquement à partir de sources onchain. Envoyez à cette adresse tous les sats que vous souhaitez utiliser pour ouvrir des canaux. Mettez des frais décents, pas trop bas et attendez d'avoir 6 confirmations.</li>
+<li>Une fois que vous avez confirmé les fonds, ouvrez votre premier canal sur un nœud bien connu, LSP. N'ouvrez pas avec des nœuds inconnus aléatoires, choisissez-en un bon, <a href="https://github.com/ZeusLN/zeus/discussions/2265">par exemple un de cette liste.</a></li>
+<li>N'utilisez pas tous vos fonds ! Laissez toujours un UTXO d'environ 50-100k pour la réserve d'ancres. Dans le cas où les frais de mempool augmenteraient considérablement, il est préférable d'avoir une réserve UTXO pour pouvoir augmenter les frais.</li>
+</ol>
+
+<h3 style="color:Yellow;">OPTION A - Vous avez d'abord besoin de plus de liquidités entrantes</h3>
+<p>C'est l'option au cas où vous voudriez utiliser davantage Zeus pour la réception (surtout si vous utilisez l'adresse LN zeuspay.com), vous commencerez donc avec un canal « vide » ou vous pourrez également choisir le montant que vous souhaitez avoir en liquidités sortantes.</p>
+<p>Pour cela, nous pouvons utiliser le <a href="https://lsps1.olympusln.com/">nouveau service LSP Olympus pour acheter des canaux</a>.</p>
+<p><img src="/assets/images/zeus-buy-channels.png" class="center"></p>
+<p>Vous pouvez les payer via onchain ou LN, avec des fonds provenant du même portefeuille Zeus ou de tout autre portefeuille dans lequel vous avez des fonds. Ensuite, une fois le paiement effectué, Olympus LSP ouvrira un canal vers votre identifiant de nœud Zeus (voir dans Paramètres Zeus - ID de nœud) avec les montants que vous choisissez. Une fois que vous avez cliqué sur « Créer une commande », vous pouvez également choisir si vous souhaitez un canal privé ou public. Pour les nœuds intégrés Zeus, il est préférable de rester privé.</p>
+<p>S'il s'agit de votre premier canal et que votre Zeus n'a jamais été connecté à Olympus, vous devez d'abord ajouter le <a href="https://mempool.space/lightning/node/031b301307574bbe9b9ac7b79cbe1700e31e544513eae0b5d7497483083f99e581">nœud Olympus en tant que pair LN</a>.</p>
+<p>Accédez à l'écran « Canaux » et appuyez sur le bouton « + » dans le coin supérieur droit. Cela ouvrira l'écran modal pour ouvrir un nouveau canal. Cliquez maintenant sur le bouton supérieur pour passer à « Connecter un pair » (voir l'image ci-dessous).</p>
+<p><img src="/assets/images/zeus-peer-olympus.jpg" class="center"></p>
+<p>Vous pouvez cliquer sur le bouton « Peer to Olympus » ou scanner le code QR du <a href="https://mempool.space/lightning/node/031b301307574bbe9b9ac7b79cbe1700e31e544513eae0b5d7497483083f99e581">nœud Olympus</a> depuis n'importe quel explorateur LN, pour ajouter sa clé publique de nœud dans le formulaire. Cliquez sur Connecter un pair, puis terminez le processus d'achat de canal.</p>
+<p>Pendant ce processus, il est préférable de garder votre Zeus en ligne en utilisant le mode LND persistant (voir dans Paramètres - Intégré - Paramètres avancés).</p>
+<p>Terminez le processus d'achat de canal et c'est fait ! Dans quelques instants, votre canal sera prêt à recevoir. Si vous remplissez ce canal, vous pouvez toujours en échanger 50 à 80 % en utilisant un échange externe vers la chaîne ou en passant à d'autres portefeuilles LN temporaires jusqu'à ce que vous ayez besoin de récupérer cette liquidité.</p>
+
+<h3 style="color:Yellow;">OPTION B - Ouverture avancée de canaux</h3>
+<p>Procédure d'ouverture des canaux. Considérons que vous utiliserez 2,1 millions de satellites et que vous les avez déjà tous déplacés vers le nouveau Zeus. Et avec ces 2M de satellites, vous souhaitez ouvrir 3 canaux : <a href="https://mempool.space/lightning/node/031b301307574bbe9b9ac7b79cbe1700e31e544513eae0b5d7497483083f99e581">Olympus</a>, <a href="https://mempool.space/lightning/node/0230a5bca558e6741460c13dd34e636da28e52afd91cf93db87ed1b0392a7466eb">Blixt</a>, <a href="https://megalithic.me/">Megalithic LSP</a>.</p>
+<ol>
+<li>Nous commençons à ouvrir un canal de 1 M vers le nœud Blixt, ou tout autre autre bon nœud que vous souhaitez. J'ai choisi Blixt car je sais qu'il s'agit d'un nœud LND et qu'il prend également en charge les canaux Simple Taproot. Vous pouvez définir cela dans l'écran d'ouverture du canal, dans « Options avancées ».</li>
+<li>Attendez que le canal confirme et que le nouvel UTXO soit prêt (6 conf).</li>
+<li><p>Échangez environ (50 %) 500 000 contre <a href="https://www.blink.sv/">Blink</a> / <a href="https://getalby.com/">Alby</a> / <a href="https://coinos.io/">CoinOS</a> / <a href="https://www.walletano.com/">Walletano</a> / <a href="https://lifpay.me/">Lifpay</a> / <a href="https://t.me/satsmobiBot">Sats.Mobi</a> / <a href="https://www.walletofsatoshi.com/">Wallet of Satoshi</a> / une instance LNbits / BTCpay d'un ami ou Compte LNDHUB ou tout autre compte LN temporaire simple de garde (non KYC).</p>
+<p>Pourquoi un compte de garde pour cette phase ? Parce que c'est plus simple et plus rapide, sans se soucier de la liquidité des canaux, des swaps, etc., il vous suffit d'un référentiel temporaire.</p>
+<p>Il peut s'agir de petits lots ou de tout à la fois, mais doit être tout dans la même destination. L'idée est de réutiliser une partie des sats des canaux déjà ouverts pour ouvrir un nouveau canal avec Olympus LSP.</p>
+</li>
+<li>Maintenant, avec le reste des 1M de sats que vous avez encore dans votre portefeuille Zeus onchain, ouvrez un autre canal sur Voltage ou tout autre bon nœud qui accepte les canaux privés, <a href="https://github.com/ZeusLN/zeus/discussions/2265">voir des exemples ici</a>.</li>
+<li>Répétez l'étape à partir du point 13, jusqu'à ce que vous ayez presque 1M de sats dans un compte de garde LN temporaire (ou tout autre portefeuille LN que vous possédez).</li>
+<li><p>Une fois que vous avez environ 1M de sats dans le compte LN temporaire, ouvrez un canal de 1M avec Olympus LSP.</p>
+<p>Comment faire ? Il suffit d'appuyer sur le bouton de réception depuis l'écran principal de Zeus et de mettre 1M de sats. Un message apparaîtra en haut, indiquant que « cette transaction utilisera le LSP et entraînera des frais » (environ 10 000 sats).</p>
+</li>
+<li>Payez cette facture générée à partir de votre compte de dépôt LN temporaire. Elle sera versée au LSP Olympus et le LSP ouvrira un canal vers votre nœud Zeus, poussant tous les sats de votre côté. Cela déduira les frais du montant total que vous avez envoyé, mais vous donnera également un plus de 100 000 liquidités entrantes, de sorte que votre canal aura au total 1,1 M de sats avec 990 000 sats de votre côté, prêts à être dépensés.</li>
+</ol>
+<p>Vous avez maintenant 3 bons canaux, un avec 1 M de liquidités sortantes, 2 avec 500 000 liquidités entrantes et sortantes. Vous êtes donc prêt à envoyer et à recevoir.</p>
+<p><strong>Pourquoi 3 canaux avec des pairs différents ?</strong></p>
+<ul>
+<li>Vous voulez de la fiabilité, si un pair est hors ligne ou rencontre des problèmes ou des frais élevés, vous pouvez toujours utiliser des itinéraires alternatifs.</li>
+<li>Vous pouvez utiliser MPP (paiement en plusieurs parties), ce qui signifie que votre paiement peut être envoyé (en utilisant l'option MPP dans l'écran de paiement), via plusieurs canaux, avec des parties plus petites. Cela peut être utile si la route ne peut pas trouver un chemin avec une liquidité suffisamment importante et peut accepter des parties plus petites.</li>
+<li>MPP est également bon pour plus de confidentialité dans un paiement.</li>
+<li>Si un canal est presque épuisé, vous pouvez toujours avoir les deux autres alternatives.</li>
+</ul>
+<p><strong>Faites la sauvegarde des canaux !</strong></p>
+<p>Il est maintenant temps de faire une sauvegarde complète de votre nœud. Chaque fois que vous ouvrez ou fermez un canal, il est recommandé de faire une sauvegarde complète.</p>
+<p><em>Accédez à Paramètres - Nœud intégré - Récupération après sinistre.</em></p>
+<ul>
+<li>Assurez-vous que les sauvegardes automatiques sont activées</li>
+<li>Faites également une exportation des données dans le presse-papiers. Cela créera une chaîne cryptée spéciale. Copiez-la dans un fichier externe et conservez-la en lieu sûr. Il s'agit de votre sauvegarde des canaux LN qui pourrait être utilisée ultérieurement pour récupérer vos fonds des canaux LN.</li>
+<li>Faites également la sauvegarde sur le serveur Olympus. Cela conservera une copie de cette chaîne sur le serveur LSP. Elle peut également être utilisée pour récupérer au cas où vous auriez perdu votre fichier personnel.</li>
+</ul>
+<p>Terminé. De plus, si vous souhaitez plus de liquidités entrantes dans votre nouveau canal Olympus, déplacez-vous simplement vers les comptes LN temporaires ou tout autre <a href="https://stacker.news/items/163372/r/DarthCoin">services d'échange externes</a> (échange vers vos propres adresses onchain), avec le montant que vous vous attendez à recevoir via ce canal. Par exemple, si vous utilisez l'adresse LN fournie par Zeus (zeuspay.com), vous aurez besoin d'une certaine liquidité entrante dans ce canal avec Olympus.</p>
+<hr style="height:2px">
+
+<p><img src="/assets/images/zeus-ungovernable.jpg" class="center"></p>
+
+<h2 style="color:Orange;" id="migrate">B - Migrer le nœud Zeus LN vers un nouvel appareil</h2>
+<p>Cette procédure nécessitera la fermeture des anciens canaux.</p>
+<p>Si votre ancien appareil et Zeus fonctionnent toujours correctement, mais que vous souhaitez migrer vers un autre nouvel appareil, il est préférable de repartir à zéro, avec un nouvel ID de nœud et un nouvel ensemble de clés. Également pour moins de stress dans le processus de fermeture des canaux, les petits UTXO, beaucoup d'historique de transactions gonflé qui pourraient surcharger votre portefeuille.</p>
+<ul>
+<li>Sauvegardez votre graine de nœud Zeus</li>
+<li><a href="https://docs.zeusln.app/for-users/embedded-node/backup-and-recovery#can-i-recover-my-zeus-onchain-wallet-into-other-wallet-applications">Utilisez cette procédure pour importer votre LND aezeed de l'ancien Zeus dans Sparrow</a></li>
+<li>Fermez en coopération tous vos canaux dans Zeus et attendez qu'ils soient tous confirmés, vous verrez également les transactions dans Sparrow</li>
+<li>Désinstallez Zeus de l'ancien appareil.</li>
+<li>Suivez toutes les étapes du scénario précédent « Démarrage avec l'ouverture de canaux ». Avec l'envoi des fonds de l'ancien Zeus (maintenant importé dans Sparrow) vers le nouveau nœud Zeus.</li>
+</ul>
+<p>C'est fait, vous avez migré votre ancien nœud Zeus vers un nouvel appareil, avec un nouvel ID de nœud.</p>
+<hr style="height:2px">
+
+<p><img src="/assets/images/zeus-2.jpg" class="center"></p>
+
+<h2 style="color:Orange;" id="broken-device">C - L'ancien appareil ou nœud est mort</h2>
+<p>Disons que vous avez eu des problèmes de synchronisation, que les canaux ont été fermés de force, que la base de données est corrompue, que l'application ne répond pas correctement, etc. Des problèmes peuvent survenir tout le temps et dans certaines situations, il est préférable de tout recommencer, proprement, à zéro. Dans tous les cas, avant de suivre ces étapes, consultez les développeurs et les utilisateurs plus expérimentés du <a href="https://t.me/zeusLN">groupe Zeus Telegram</a>. Afin d'être sûr que rien d'autre ne peut être fait, il est préférable d'avoir un deuxième avis pour un diagnostic correct de vos problèmes.</p>
+<p>Nous supposons que vous avez déjà sauvegardé la graine et la chaîne de sauvegarde des canaux. Nous supposons que vous ne pouvez pas fermer les canaux existants, que la base de données est corrompue ou que l'appareil est mort, que l'application ne peut plus être ouverte ou fonctionner correctement.</p>
+<p>Désinstallez donc Zeus complètement et installez-en une nouvelle, dernière version.</p>
+<ol>
+<li>Ouvrez Zeus et dans l'écran de création d'un nouveau nœud, mais sélectionnez RESTORE.</li>
+<li>Insérez votre graine de 24 mots et collez également la chaîne de sauvegarde des canaux.</li>
+<li>Attendez patiemment que la synchronisation soit complète et effectuez le processus de récupération ! Cela prendra plusieurs minutes.</li>
+<li>Essayez de garder l'application en vie autant que possible, au moins dans la phase initiale de fermeture des canaux. À ce moment, vous ne pouvez pas activer le mode persistant car cela nécessitera de redémarrer l'application et vous ne voulez pas que cela se produise dans le processus de récupération. Dans les versions futures, ce mode persistant sera activé par défaut pour le processus de récupération.</li>
+<li>Vous pouvez également définir de meilleurs pairs neutrinos, qui ne nécessitent pas de redémarrage, mais qui pourraient aider à maintenir la synchronisation avec de bons pairs. Voir le scénario précédent A point 7.</li>
+<li>Accédez à l'écran Canaux (depuis l'écran principal, icône en bas à droite) et basculez le bouton central sur les canaux « fermés / en attente ». Vous verrez dans quelques instants que la fermeture forcée des anciens canaux a été initiée. En option, vous pouvez surveiller leur fermeture dans <a href="https://mempool.space/">mempool.space</a> en utilisant le txid de fermeture.</li>
+<li>Si les canaux ont été fermés avec des frais peu élevés (cela peut arriver parfois, en raison de la forte fluctuation des frais et que l'estimateur de frais LND n'a pas pris le bon), vous pouvez importer votre ancienne graine Zeus dans Sparrow (<a href="https://docs.zeusln.app/for-users/embedded-node/backup-and-recovery#can-i-recover-my-zeus-onchain-wallet-into-other-wallet-applications">voir ici les instructions</a>) et depuis Sparrow, vous augmentez les frais avec CPFP (L'enfant paie pour le parent). Sinon, attendez simplement patiemment que les canaux soient fermés. CELA PEUT PRENDRE DU TEMPS ! Ne paniquez pas, c'est normal. S'il y avait des HTLC en attente des canaux précédents, cela pourrait prendre même 144 blocs ou plus.</li>
+<li>Une fois que tous les canaux sont fermés et que les fonds sont de retour dans le portefeuille en chaîne (en vérifiant également dans Sparrow que tous les fonds sont confirmés), vous pouvez désinstaller Zeus et recommencer à zéro, en suivant les instructions du scénario précédent A « Commencer à ouvrir des canaux ». Il est bien préférable de commencer avec un nouvel ensemble de clés et un nouvel ID de nœud, une base de données, etc.</li>
+</ol>
+<hr style="height:2px">
+
+<h3 style="color:Orange;" id="disaster">D - CAS DE CATASTROPHE - Vous ouvrez un canal avec des frais très bas et vous êtes bloqué dans les limbes</h3>
+<p style="color:Tomato;">NE FAITES PAS DE RBF SUR LES CANAUX EN ATTENTE D'OUVERTURE ! FAITES UNIQUEMENT CPFP ou mieux, utilisez Mempool Accelerator.</p>
+<p>Si vous avez un canal zombie, qui ne peut pas être ouvert ou fermé normalement depuis l'interface utilisateur du nœud, vous devrez continuer à utiliser les <a href="https://node-recovery.com/">outils de chant LND</a>. Veuillez lire attentivement tous les scénarios présentés dans ce guide et choisir celui qui convient à votre cas.</p>
+<p>Comment finir par tester un cas de catastrophe ? <a href="https://github.com/ZeusLN/zeus/discussions/2174">Lisez ici</a> pour éviter mes erreurs.</p>
+<p>Voici les cas les plus courants :</p>
+<ul>
+<li><a href="https://github.com/lightningnetwork/lnd/discussions/8208">Récupérer un canal pour lequel vous avez fait par erreur un RBF au lieu d'un CPFP</a></li>
+<li><a href="https://github.com/lightninglabs/chantools/blob/master/doc/zombierecovery.md">Récupérer un canal zombie</a></li>
+</ul>
+
+<p>Vous avez donc ouvert un canal et pris accidentellement des frais trop bas comme 1sat/vb et vous avez également utilisé tous les fonds, sans rien pour augmenter les frais.</p>
+<p>Maintenant, vos canaux d'ouverture sont en suspens jusqu'à ce que les frais puissent être </p>
+<p>Quelles sont vos options ?</p>
+<ul>
+<li><p>Meilleure option : utilisez l'outil <a href="https://mempool.space">Mempool Accelerator</a>, il est rapide, pratique et vous pouvez payer via LN, en gardant le même txid et sans compliquer les choses.</p>
+<center>
+<figure>
+<img src="/assets/images/mempool-accelerator.jpg" class="center">
+<figcaption>Ouvrez votre tx d'ouverture dans la page mempool.space et cliquez sur le bouton "Accélérer"</figcaption>
+</figure>
+</center>
+</li>
+<li><p>Si vous avez déjà un autre UTXO restant dans votre portefeuille onchain, utilisez l'option Zeus dans Menu --> Outils --> Accélérer la transaction</p>
+<p>Insérez la sortie tx qui ressemble à <i>"d0d3bfd9cb6aa167c691140e5477...long-string:0"</i> indiquez les nouveaux frais et cliquez pour accélérer.</p>
+<p><a href="https://docs.zeusln.app/for-users/getting-started/tips">Lisez-en plus ici sur les sorties</a></p>
+</li>
+<li><p>Ajoutez un nouvel UTXO à votre portefeuille onchain. Il est recommandé de toujours conserver un UTXO max. de 100 000 sat pour ces cas, avec lequel vous pouvez facilement augmenter le tx à l'aide de CPFP.</p>
+<p>S'il s'agit d'un canal ouvert et qu'il n'y a qu'une seule sortie (aucun changement), vous ne pouvez pas l'augmenter avec CPFP. Vous devez soit utiliser un accélérateur tiers, soit <a href="https://docs.zeusln.app/for-users/embedded-node/backup-and-recovery#can-i-recover-my-zeus-onchain-wallet-into-other-wallet-applications">retirer les fonds dans Sparrow</a> et créer une transaction de remplacement avec la méthode CPFP, la régler, puis ouvrir le canal au taux de frais approprié</p>
+<p>N'OUBLIEZ PAS : NE FAITES PAS DE RBF, UTILISEZ UNIQUEMENT LA MÉTHODE CPFP ! Sinon, vous risquez de vous retrouver avec un canal zombie.</p>
+</li>
+</ul>
+
+<h4 style="color:Yellow;">Qu'est-ce qu'une transaction CPFP ?</h4>
+<p>Voici une vidéo simple expliquant la transaction CPFP - « Child Pay For Parent »</p>
+<center>
+<video width="640" height="480" controls>
+<source src="https://video.nostr.build/af33075758e38640a10814e06e14f6521f38a581e2f4aa852b8554c5e8591b1c.mp4" type="video/mp4">
+</video>
+</center>
+<p>Voici un didacticiel vidéo expliquant comment utiliser CPFP avec le portefeuille Sparrow</p>
+<center>
+<iframe width="640" height="480" src="https://www.youtube.com/embed/7EmshGDXi04" title="Remplacer Bitcoin par des frais &amp; Tutoriel sur le paiement des parents par l'enfant à l'aide du portefeuille Sparrow" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</center>
+<p><strong>SITUATION SUPPLÉMENTAIRE</strong> - Vous utilisez le nœud intégré Zeus et vous avez accidentellement effectué un RBF et maintenant le canal est dans un état zombie, ne s'ouvre pas</p>
+<p>Dans ce cas, vous devez extraire le fichier channel.db de votre appareil mobile vers un PC et procéder à la <a href="https://github.com/lightninglabs/chantools/blob/master/doc/zombierecovery.md">méthode de récupération ChanTools pour les canaux zombies</a>.</p>
+
+<h4 style="color:Yellow;" id="extract">Comment extraire channel.db d'un mobile :</h4>
+<p>Ce n'est pas une procédure très compliquée mais nécessite quelques connaissances de base en ligne de commande.</p>
+<p>Soyez conscient que le fichier channel.db peut être assez volumineux jusqu'à 2 à 4 Go parfois, en fonction de votre activité antérieure. Ce fichier contient toutes les données et activités de votre nœud ainsi que les informations sur vos clés de portefeuille.</p>
+<p>Étapes à suivre :</p>
+<ul>
+<li>Installez sur un PC les outils ADB et les pilotes de votre appareil mobile. <a href="https://developer.android.com/tools/adb">Voici plus d'instructions sur cette étape.</a></li>
+<li>Une fois que vous avez connecté votre mobile au PC avec un câble USB, tapez dans le terminal du PC ces commandes :
+<pre><code>
+adb devices
+#Il affichera votre appareil qui est connecté
+adb root
+#redémarrez et confirmez l'accès à la racine sur l'appareil
+adb shell
+#pour vous donner accès aux fichiers cachés
+</code></pre>
+
+<p>Vous êtes maintenant prêt à copier le fichier channel.db sur votre stockage local mobile ou sur votre carte mSD.</p>
+
+<pre><code>
+cp /data/media/0/Download/zeus/graph/channel.db /data/user/0/app.zeusln.zeus/files/data/graph/mainnet/channel.db
+</code></pre>
+  
+  <p>Cela copiera le fichier channl.db sur la carte mSD de votre appareil ou sur le stockage multimédia local. De là, copiez-le sur votre PC, via le Wi-Fi ou via un câble USB pour passer à la méthode de transfert multimédia.</p>
+</li>
+<li>Continuez et lisez attentivement les instructions de la <a href="https://github.com/lightninglabs/chantools/blob/master/doc/zombierecovery.md">méthode de récupération des zombies ChanTools</a>. Je suggère de construire toutes les commandes dans un fichier texte et de les exécuter plus tard dans l'écran du terminal ChanTool. Vous devrez également être en contact avec le pair avec lequel vous avez ouvert le canal afin qu'il puisse faire de même de son côté.</li>
+</ul>
+<p>J'espère que ce guide complexe vous fera économiser des sats et des jours de lutte pour récupérer votre nœud mort, mais surtout pour ÉVITER de vous retrouver dans cette situation (si vous lisez ce guide AVANT de faire une bêtise).</p>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">Liens vers les ressources Zeus :</h3>
+<p><a href="https://zeusln.com/">Site Web</a> | <a href="https://docs.zeusln.app/">Docs</a> | <a href="https://github.com/ZeusLN/zeus">Github</a> | <a href="https://github.com/ZeusLN/zeus/releases">Releases</a> | <a href="https://t.me/zeusLN">Telegram</a> | <a href="https://nostr.at/npub1xnf02f60r9v0e5kty33a404dm79zr7z2eepyrk5gsq3m7pwvsz2sazlpr5">NOSTR</a> | <a href="https://x.com/ZeusLN">Twix</a> | <a href="https://blog.zeusln.com/">Blog</a></p>
+</body>
+</html>
+</article>
