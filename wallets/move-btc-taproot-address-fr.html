@@ -1,0 +1,86 @@
+---
+layout: default
+title: Déplacez votre BTC vers l'adresse Taproot
+---
+<article>
+<!DOCTYPE html>
+<html lang="fr">
+<meta name="description" content="Guides Bitcoin et Lightning : Comment migrer votre ancienne réserve de BTC vers une nouvelle adresse de type Taproot">
+<body>
+<a href="/wallets/move-btc-taproot-address-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/move-btc-taproot-address-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/move-btc-taproot-address-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/move-btc-taproot-address-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/move-btc-taproot-address-nl.html">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/move-btc-taproot-address-hr.html">Hrvatski <img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/move-btc-taproot-address-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<blockquote style="color:Tomato;"><em>
+<p>Publié à l'origine sur <a href="https://darthcoin.substack.com/p/move-your-btc-to-taproot-address">Substack</a> le 19 décembre 2021</p>
+<p>Mis à jour ici le 20 décembre 2024</p>
+</em></blockquote>
+
+<h3>Scénario de guide simple pour migrer votre ancienne réserve de BTC vers de nouveaux portefeuilles de type adresse Taproot</h3>
+<p>Alors... tout le monde est ravi que Taproot soit activé, fonctionne, soit exploité, mais peu de gens commencent à l'utiliser. Il est vrai que toutes les applications de portefeuille ne sont pas encore en mesure d'envoyer ou de recevoir des données à l'adresse Taproot.</p>
+<p><img src="/assets/images/btc-taproot.jpg" class="center"></p>
+
+<h2 style="color:Orange;">INTRODUCTION</h2>
+<p>Avant de commencer à voir comment vous pouvez déplacer vos sats vers l'adresse Taproot, nous devons mentionner pourquoi il est bon de se débarrasser des anciens types d'adresses BTC :</p>
+<ul>
+<li>si vous avez toujours vos BTC dans une adresse héritée (commençant par 1) qui sera très coûteuse à utiliser, à partir de maintenant, déplacer des sats sur la chaîne sera de plus en plus difficile et coûteux. L'avenir est à Lightning Network comme « protocole de paiement » et onchain restera comme « protocole de détention ».</li>
+<li>Si vous avez toujours votre BTC dans une adresse segwit encapsulée (commencez par 3), ce n'est pas si cher de l'utiliser onchain, mais cela porte toujours un poids lourd et certaines applications de portefeuille ont encore du mal à envoyer ou à recevoir vers celles-ci. De plus, de nombreux échanges ont utilisé ces adresses et cela pourrait finir par entraîner une fuite de confidentialité à un moment donné.</li>
+<li>Si vous avez votre réserve dans un type d'adresse segwit natif (bech 32), il est également judicieux de déplacer vos sats vers le type Taproot, pour bénéficier du développement futur de Lightning et de la confidentialité.</li>
+<li>Vous avez de nombreux petits UTXO (change) provenant de transactions passées et il est difficile de les dépenser, il est maintenant temps de consolider et de mélanger les sorties pour une meilleure utilisation future.</li>
+<li>Changer également le XPUB est un bon moyen de perdre la trace de vos transactions passées.</li>
+<li>Confidentialité : tous les anciens types d'adresses BTC dans le passé étaient d'une manière ou d'une autre « tracés ». Certains utilisaient des techniques de coinjoin ou de mixage, mais tous n'étaient pas aussi efficaces pour les utiliser. Vous avez maintenant la possibilité de « nettoyer » vos sats et de vous préparer pour l'avenir.</li>
+</ul>
+
+<h4 style="color:Yellow;">Lisez-en plus sur Taproot ici :</h4>
+<ul>
+<li><a href="https://kraken.docsend.com/view/9e9y7may8526z934">Taproot - Une mise à niveau pour les âges</a></li>
+<li><a href="https://bitcoinmagazine.com/technical/taproot-coming-what-it-and-how-it-will-benefit-bitcoin">Taproot arrive - quels avantages</a></li>
+<li><a href="https://taproot.watch/about">Taproot Watch - à propos</a></li>
+<li><a href="https://youtu.be/1gRCVLgkyAE">Atelier Taproot et Schnorr Intro</a></li>
+</ul>
+<p><a href="/beginner/be-your-own-bank-fr.html">Comme je l'ai expliqué dans ce guide</a>, à propos de la façon dont vous conservez votre réserve de BTC dans trois niveaux de portefeuilles, voyons maintenant un exemple de la façon dont vous les basculez vers un portefeuille prenant en charge Taproot. Nous examinerons un cas simple et où la plupart des utilisateurs conservent leur BTC.</p>
+
+<h2 style="color:Orange;">SCÉNARIO DE CAS D'UTILISATION</h2>
+<p>Disons que vous avez plusieurs portefeuilles Electrum, avec des adresses héritées et segwit et des UTXO (changer ou simplement HODL). Vous pouvez également avoir un HWW (Trezor, Ledger etc) qui peut être connecté à l'application Electrum, pour un meilleur contrôle des pièces.</p>
+<p>Nous utiliserons <a href="https://www.sparrowwallet.com/">l'application de bureau du portefeuille Sparrow</a> pour cette "migration". C'est une très bonne application de portefeuille avec de nombreuses fonctionnalités et l'une des premières à prendre en charge les adresses Taproot.</p>
+<p>Vous pouvez le connecter à votre propre nœud BTC / Electrum pour plus de confidentialité, mais si vous n'avez pas de nœud, pas de problème, vous pouvez utiliser l'un des serveurs de nœuds publics fournis (également derrière Tor). Vous pouvez utiliser par exemple le serveur Blockstream.</p>
+<p>Nous utiliserons un scénario simple avec une signature unique.</p>
+<h3>Étapes initiales pour préparer votre portefeuille Taproot</h3>
+<ul>
+<li>installez ou exécutez l'application de bureau Sparrow autonome</li>
+<li>créez un nouveau portefeuille et sélectionnez Taproot et sélectionnez « nouveau portefeuille logiciel ou portefeuille logiciel importé »</li>
+<p><img src="/assets/images/btc-taproot-new-wallet.png" class="center"></p>
+<p><img src="/assets/images/btc-taproot-seed.png" class="center"></p>
+<li>les écrans suivants consisteront à générer les mots pour une nouvelle graine, à les enregistrer et à les réécrire pour confirmer qu'ils sont OK</li>
+<li>Une fois le processus terminé, ouvrez votre gestionnaire de mots de passe (je recommande KeePass ou Bitwarden) et ajoutez tous les détails de votre nouveau portefeuille créé : graine, xpub, chemin de dérivation, 3-4 adresses BTC, mot de passe de cryptage du fichier portefeuille. Vous pouvez même ajouter/insérer une sauvegarde de fichier de votre fichier portefeuille sparrow (allez dans le menu Sparrow, Fichier - Exporter le portefeuille). CONSERVEZ CETTE BASE DE DONNÉES DU GESTIONNAIRE DE MOTS DE PASSE DANS UN ENDROIT SÛR !</li>
+<li>AVANT de déplacer les fonds vers ce portefeuille nouvellement créé, FAITES LE TEST DE RESTAURATION. Fermez simplement ce portefeuille nouvellement créé et relancez le même processus, mais cette fois, choisissez de restaurer à partir de la graine que vous avez déjà. Si vous générez les mêmes 5-6-10 premières adresses BTC, alors vous êtes prêt, vous avez les bons mots et vous êtes sûr de pouvoir les restaurer.</li>
+</ul>
+
+<h3 style="color:Yellow;">Importez vos portefeuilles Electrum dans Sparrow</h3>
+<p>Afin de pouvoir effectuer une transition en douceur et de faciliter la construction de la transaction de mixage, nous allons importer vos anciens portefeuilles Electrum dans Sparrow.</p>
+<p>Même processus que précédemment, sauf que nous choisirons dans le 2ème écran le "electrum keystore", où nous pourrons simplement ajouter le fichier de portefeuille Electrum, pas besoin de seed ou autre chose.</p>
+<p>Si vous n'avez toujours pas enregistré ce fichier, pas de problème, parcourez simplement votre dossier d'installation Electrum ou l'endroit où vous conservez le fichier de portefeuille et vous l'importerez à partir de là. Cliquez sur "importer" dans Sparrow et il vous sera demandé le mot de passe de cryptage. C'est votre mot de passe Electrum pour ouvrir ce fichier. Terminé, il faudra quelques instants avant que Sparrow puisse importer toutes les transactions et UTXO.</p>
+<p>Ok, disons que vous avez 10 UTXO dans votre ancien portefeuille Electrum avec un montant différent pour chacun.</p>
+<p>Rendons-le plus diversifié : nous allons diviser tout cela en 20 UTXO, avec des montants différents, pas égaux, pour que cela ressemble à un coinjoin.</p>
+
+<h3 style="color:Yellow;">Construisez la transaction pour la migration vers Taproot</h3>
+<p>Dans Sparrow, allez dans le portefeuille Electrum importé - Envoyer. Sélectionnez des frais minimum, par exemple 1sat/vB et le mode « confidentialité » optimisé.</p>
+<p><img src="/assets/images/btc-taproot-tx.png" class="center"></p>
+<p>Accédez à votre portefeuille Taproot nouvellement créé dans Sparrow (voir les onglets supérieurs) et dans Adresses, copiez une par une les 20 premières adresses générées.</p>
+<p>Revenez au portefeuille importé Electrum et dans cette case « payer à », collez une par une et cliquez sur le bouton « ajouter » pour chaque adresse de destination Taproot. Vous pouvez mettre une étiquette si vous le souhaitez. Pour chaque destination, mettez un montant différent. Répartissez-le sous forme de nombre aléatoire.</p>
+<p>Sur le dernier, cliquez simplement sur le bouton « max » et il ajoutera simplement les sats restants disponibles.</p>
+<p>Un joli graphique s'affichera une fois votre transaction construite.</p>
+<p><img src="/assets/images/btc-taproot-distribution.jpg" class="center"></p>
+<p>Cliquez sur « créer une transaction » et l'écran suivant sera sur le point de la signer (en utilisant le mot de passe de votre portefeuille) et également une fonctionnalité intéressante : « Locktime ». C'est vraiment intéressant au cas où vous voudriez verrouiller ces UTXO pendant une longue période HODL, afin qu'ils ne puissent pas être dépensés avant le bloc ou la date spécifiés (par exemple, un portefeuille de stockage pour vos enfants, pour pouvoir dépenser à partir de ce portefeuille uniquement lorsqu'ils ont 18-20 ans). C'est une très bonne fonctionnalité pour protéger un portefeuille pour les dépenses.</p>
+<p><img src="/assets/images/btc-taproot-locktime.jpg" class="center"></p>
+<p>Terminez le processus de signature et diffusez la transaction au mempool. Une fois qu'elle est extraite du mempool par les mineurs, vous pouvez la voir dans l'explorateur de blocs comme ceci :</p>
+<p><img src="/assets/images/btc-taproot-explorer.jpg" class="center"></p>
+<p>C'est fait ! Attendez maintenant 6 confirmations et vous verrez votre BTC dans vos nouvelles adresses de portefeuille Taproot.</p>
+<p>En option, vous pouvez copier le txID et aller sur <a href="https://kycp.org/">https://kycp.org/</a> et voir quel est le niveau de « confidentialité ». Si vous souhaitez plus de confidentialité, répétez le processus avec encore plus d'entrées et de sorties, à partir du même portefeuille ou en le mélangeant avec un autre portefeuille taproot nouvellement créé. Sparrow Wallet est une excellente application pour le mixage et facile à utiliser.</p>
+<p>Plus de détails et de guides <a href="https://sparrowwallet.com/docs/mixing-whirlpool.html">comment utiliser le mixage Sparrow ici</a>.</p>
+</body>
+</html>
+</article>
