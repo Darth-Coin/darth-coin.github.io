@@ -1,0 +1,140 @@
+---
+layout: default
+title: Bluewallet - Verbindung zu LN-Finanzierungsquellen herstellen
+---
+<article>
+<!DOCTYPE html>
+<html lang="de">
+<meta name="description" content="Bitcoin- und Lightning-Anleitungen: Bluewallet mit verschiedenen Finanzierungsquellen verbinden">
+<body>
+<a href="/wallets/bluewallet-funding-sources-en.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/bluewallet-funding-sources-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/bluewallet-funding-sources-fr.html">Français <img src="/assets/images/flag-FR.png" alt="Fr" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/bluewallet-funding-sources-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/bluewallet-funding-sources-nl.html">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/bluewallet-funding-sources-hr.html">Hrvatski <img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/bluewallet-funding-sources-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<em><blockquote style="color:Tomato;">
+<p>Dieser Artikel wurde ursprünglich am 25. Februar 2023 auf <a href="https://darthcoin.substack.com/p/bluewallet-connect-to-ln-funding">Substack</a> veröffentlicht und <a href="https://mempool.space/tx/27fc9f50844667ef38fd5648d7198722b55bdc41e19966cdd63563469749c340">OP_RETURN</a> auf Blockhöhe <a registriert. href="https://mempool.space/block/00000000000000000003384de72ac0c8b2bc6ac2cbd1d7a21045b3d4c9538ad3">#778230</a></p>
+<p>Aktualisiert am 07. Okt. 2024</p>
+</em></blockquote>
+
+<h3>So verwenden Sie Bluewallet mit vielen verschiedenen lndhub-Kontoquellen und aktivieren den eingebetteten LN-Knoten (LDK).</h3>
+<p>Am 23. Feb. 2023 gab das <a href="https://bluewallet.io/sunsetting-lndhub/">Bluewallet-Team bekannt</a>, dass es seinen LNDHUB-Server (lndhub.io) abschalten wird.</p>
+<p>Ich habe gesehen, dass viele Benutzer den Text dieser Ankündigung nicht beachtet haben und ausgeflippt sind, wie die ganze Welt wird enden … Zu viel Lärm um nichts.</p>
+<h4>Was bedeutet das für normale Bluewallet (BW)-Benutzer?</h4>
+<ul>
+<li>Nicht zu viel. Ja, es betrifft direkt nur diejenigen, die ausschließlich lndhub.io als Finanzierungsquelle für ihre BW LN-Wallets verwenden.</li>
+<li>Die BW-App wird NICHT ABGESCHALTET (wie viele auch ausflippten), die App kann weiterhin wie gewohnt verwendet werden, es hat nichts mit lndhub.io zu tun.</li>
+<li>WENN Sie lndhub.io in Ihrer BW-App verwenden, müssen Sie die Gelder bis zum 30. April auf ein anderes LN-Wallet übertragen. Andernfalls verlieren Sie sie. Lndhub.io war nur eine Finanzierungsquelle für normale BW-Benutzer, die KEINEN eigenen Knoten mit einem lndhub-Server betreiben. Das ist alles.</li>
+<li>Wenn Sie Ihre Sats nicht von diesem lndhub-Konto eingelöst haben, <a href="https://bluewallet.io/docs/recover-lndhub/">haben Sie immer noch die Möglichkeit, den Anweisungen in diesem Bluewallet-Beitrag zu folgen</a>.</li>
+</ul>
+<p><img src="/assets/images/bluewallet-intro.png" class="center"></p>
+
+<h3 style="color:Yellow;">Welche Optionen haben Sie als Bluewallet-Benutzer?</h3>
+<p>Wir haben hier vier Kategorien:</p>
+<ul>
+<li>diejenigen, die keinen LN-Knoten ausführen/haben (einfacher Modus)</li>
+<li>diejenigen, die ihren eigenen LN-Knoten ausführen (erweiterter Modus)</li>
+<li>komplett zu einem anderen LN-Wallet wechseln (Extremfall)</li>
+<li>oder die neue (versteckte) Option für den LDK-Knoten verwenden in Bluewallet</li>
+</ul>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">A. Benutzer, die keinen eigenen LN-Knoten haben/nicht betreiben können</h2>
+<p>Zunächst einmal: Keine Panik, Sie haben noch Zeit, Ihre Gelder zu verschieben. Das ist nicht das Ende der Welt. Jetzt ist es an der Zeit, die Optionen zu analysieren und zu überlegen, ob der richtige Zeitpunkt ist, Ihren eigenen LN-Knoten zu starten oder einfach weiterhin Depotfinanzierungsquellen für Ihr LN-Wallet zu verwenden.</p>
+<p>Wenn Sie Ihren eigenen LN-Knoten immer noch nicht betreiben können, finden Sie hier einige Alternativen, wohin Sie Ihre Gelder von diesem lndhub.io-Konto/Bluewallet-Server verschieben können.</p>
+<p><strong>Denken Sie daran:</strong> Dies sind immer noch Depotdienste! Wenn Sie damit einverstanden sind, können Sie Ihre Konten einrichten. Bewahren Sie nicht zu viele Gelder auf diesen Konten auf. Verwenden Sie sie nur so weit, dass Sie kleine Beträge erhalten oder kleine Zahlungen tätigen, und verschieben Sie die Gelder dann in Ihre eigenen Wallets (Onchain oder LN).</p>
+<p>Es ist in Ordnung, Depotdienste wie diese zu verwenden, solange Sie nicht von einer verrückten KYC-Verifizierung betroffen sind oder von einem bekannten „Onkel Jim“ geleitet werden. Hier sind einige:</p>
+<ul>
+<li><a href="https://t.me/SatsMobiBot">SatsMobi</a> - Telegram LN-Bot mit umfangreichen Funktionen (LNURL, LN-Adresse, lndhub-Konto, LN-Authentifizierung, PoS, NFC-Karten, NIP-57-Nostr-Zaps und viele mehr).</li>
+<li><a href="https://getalby.com/">Alby</a> oder <a href="/wallets/getting-started-alby-hub-de.html">Alby Hub</a> - LN-Browsererweiterung, LNURL, LN-Adresse, lndhub-Konto, LN-Authentifizierung, NIP5, NIP57 und viele weitere Funktionen.</li>
+<li><a href="https://darthcoin.substack.com/p/getting-started-lnbits">LNbits</a> - leistungsstarkes LN-Buchhaltungssystem mit umfangreichen Funktionen und Erweiterungen für viele Anwendungsfälle, endlose LNURL und LN-Adressen, LN-Auth, Konten. Kann auf Ihrem eigenen Server und LN-Knoten ausgeführt werden oder Sie können vorübergehend die Demo-Instanz verwenden.</li>
+<li>BTCPay Server – leistungsstarker LN-Server speziell für Händler, die eine LN-Bank einbinden, basierend auf einem lndhub. So können Sie Ihre Bluewallet-App ganz einfach verbinden.</li>
+<li>Vielleicht gibt es dort sicher noch andere, nicht öffentlich angekündigte lndhub-Anbieter. Praktisch jeder kann einen lndhub-Server betreiben und Konten für Familie und Freunde bereitstellen, <a href="/merchants/private-banks-over-ln-de.html">wie ich in diesem Handbuch beschrieben habe</a>.</li>
+</ul>
+
+<h3 style="color:Yellow;">Schritte zum Überweisen Ihrer Gelder von BW lndhub.io auf ein anderes LN-Konto</h3>
+<p>Wählen Sie einen oder alle der oben genannten lndhub-Dienste aus und eröffnen Sie ein Konto. Das ist kinderleicht. Jeder dieser Dienste bietet Anleitungen zum Erstellen Ihres lndhub-Kontos und zum Verknüpfen mit BW.</p>
+<h4><a href="https://t.me/SatsMobiBot">SatsMobiBot</a> – Anwendungsfall</h4>
+<p>Gehen Sie zu Telegram und starten Sie den Chat mit @SatsMobiBot, /start, erstellen Sie das mit Ihrem Telegram-Konto verknüpfte Konto. Es ist besser, zuerst Ihren Alias ​​in Telegram einzurichten, indem Sie einen @Benutzernamen hinzufügen.</p>
+<p>Geben Sie /link ein und Sie erhalten einen QR-Code und eine URL wie:</p>
+<p><code>lndhub://admin:<string></string>@https://seven.gwoq.com/lndhub/ext/</code></p>
+<p>Speichern Sie diese Informationen aus Ihrem Telegram, z. B. mit einem Passwortmanager wie KeePass.</p>
+<p>Kopieren Sie die URL oder scannen Sie den QR und öffnen Sie jetzt Ihr Bluewallet. Gehen Sie zu „Neues LN-Wallet erstellen“ und fügen Sie die URL ein oder scannen Sie den in SatsMobiBot bereitgestellten QR-Code.</p>
+<p>Fertig! Speichern Sie das neue lndhub-Konto, geben Sie einen gewünschten Namen ein und verwenden Sie es als LN-Wallet.</p>
+<p>Erstellen Sie nun im selben importierten SatsMobiBot-LN-Konto eine Rechnung mit einem Betrag aus Ihrem alten BW lndhub-Konto.</p>
+<p>Nehmen wir an, Sie hatten 100.000 Sats auf diesem BW lndhub.io-Konto. Sie müssen immer 1 % als Rücklage für Gebühren berücksichtigen. Also mehrere Teile von 99 % des verbleibenden Guthabens, nicht alles auf einmal. In diesem Fall erstellen wir eine Rechnung über 99.000 Sats im neu erstellten lndhub-Konto. Kopieren Sie sie, gehen Sie zum alten BW lndhub.io, fügen Sie sie ein und bezahlen Sie sie.</p>
+<p>Sie haben also 1.000 Sats – Gebühren. Erstellen Sie eine weitere Rechnung im neuen lndhub-Konto über 99 % des Guthabens. Und bezahlen Sie sie vom alten lndhub.io-Konto. Wiederholen Sie den Vorgang, bis Sie genug davon haben, um dem BW-Team einige Sats als Spende für seine Dienste zu hinterlassen.</p>
+<p>Jetzt können Sie das alte LN-Konto aus Ihrer BW-App entfernen und das neue verwenden.</p>
+<p>Denken Sie daran: Dieser SatsMobiBot bietet auch viele andere nützliche Dienste wie:</p>
+<ul>
+<li>LNURL / Lightning-Adresse – Benutzername@sats.mobi oder anonyme LNURL/LN-Adresse
+<li>NIP05 – NOSTR-Verifizierung</li>
+<li>NIP57 – NOSTR-Zap-Adresse</li>
+<li>Shops, Sats mit Fiat kaufen, Gruppenchat-Funktionen, Faucet, Tipjar</li>
+<li>Scrub – Sats automatisch an jede externe Adresse abheben</li>
+<li>Eine NFC-Karte verknüpfen</li>
+</ul>
+
+<h3 style="color:Yellow;"><a href="https://getalby.com/">Alby-Erweiterung</a> – Anwendungsfall</h3>
+<p>Dies ist eine Browsererweiterung. Sie müssen das Konto also von einem Desktop-Computer aus erstellen. Auch hier handelt es sich um einen Depotservice, der aber auch eine Verbindung zu Ihrem eigenen Knoten bietet, wenn Sie einen betreiben.</p>
+<p>Gehen Sie also einfach auf deren Webseite, installieren Sie die Browsererweiterung, erstellen Sie ein Konto und suchen Sie in den Einstellungen nach den Details des lndhub, die mit Ihrer BW-App verknüpft werden sollen.</p>
+<p>Sie können auch Ihren eigenen Alby Hub verwenden, der selbst gehostet wird und mehrere Konten für Familie und Freunde hat, <a href="/wallets/getting-started-alby-hub-de.html">wie ich in diesem Handbuch beschrieben habe</a>.</p>
+<p><img src="/assets/images/bluewallet-alby-account.png" class="center"></p>
+<p>Scannen Sie diesen QR-Code mit Ihrer BW-App (erstellen Sie ein neues LN-Konto) und fertig, Sie können es wie jedes andere LN-Wallet verwenden.</p>
+<p>Denken Sie daran, dass Sie sich mit diesem Konto mit LN-Auth anmelden und es in NOSTR als NIP-05 oder Tip Zap verwenden können Adresse oder einfach als Spendenseite wie <a href="https://getalby.com/p/darthcoin">https://getalby.com/darthcoin</a>.</p>
+
+<h3 style="color:Yellow;">LNbits – Anwendungsfall</h3>
+<p>LNbits ist eine leistungsstarke Suite-Software, die auf einem LN-Knoten ausgeführt werden kann. Wenn Sie sie nur als vorübergehende LN-Finanzierungsquelle verwenden möchten, können Sie den öffentlichen Demo-Server <a href="https://demo.lnbits.com">https://demo.lnbits.com</a> oder die LN Bank <a href="https://lnvoltz.com">LN Voltz</a> (brasilianische Community-LNbits-Bank) verwenden.</p>
+<p>Denken Sie daran: Dies ist nur ein Demo-Depotserver! Bitte missbrauchen Sie ihn nicht! Es ist in Ordnung, Ihre Gelder für eine bestimmte Zeit dorthin zu verschieben, aber betrachten Sie es nicht als Ihre Hauptfinanzierungsquelle. Verschieben Sie Ihre Gelder später einfach von dort in Ihre eigenen LN-Wallets oder Onchain-Wallets. Sie können sogar die LNbits-Erweiterung Boltz oder Deezy verwenden, um Ihre Gelder an eine beliebige Onchain-Adresse zu transferieren, oder die Scrub-Erweiterung verwenden, um die empfangenen Gelder automatisch an einen selbstverwahrten LN-Knoten/eine selbstverwahrte LN-Adresse weiterzuleiten.</p>
+<p>Wenn Sie die Demo oder eine andere öffentlich gehostete LNbits-Instanz verwenden, können Sie Ihr lndhub-Konto exportieren, indem Sie zur lndhub-Erweiterung gehen und die lndhub-URL scannen oder kopieren und als neues LN-Konto in Ihre Bluewallet-App einfügen.</p>
+<p>Dasselbe können Sie auch tun, indem Sie die im vorherigen Punkt zu LightningTipBot erläuterten Schritte ausführen.</p>
+<p>Optional können Sie Ihre eigene LNbits-Instanz ausführen, auch ohne einen LN-Knoten auszuführen, aber indem Sie eine externe Finanzierungsquelle auswählen (<a href="https://github.com/lnbits/lnbits/wiki/LNbits-Documentation#funding-sources">siehe die LNbits-Dokumentation</a>).</p>
+<p>Sie können beispielsweise ein kostenloses Konto bei LNpay.co oder Alby erstellen und verknüpfen Sie es als Finanzierungsquelle für Ihre selbstgehostete LNbits-Instanz. Sie können sogar den SatsMobiBot als Finanzierungsquelle für Ihre LNbits-Instanz verwenden. Das bedeutet, dass Sie die Liquidität dieser Server für Ihre eigene LNbits-Instanz verwenden! Ist ziemlich verrückt, funktioniert aber als vorübergehende Lösung erstaunlich gut. Aber die beste und einfachste Lösung ist, einen Phoenixd-Knoten als Finanzierungsquelle zu verwenden. Funktioniert sehr einfach einzurichten und erfordert kein Liquiditätsmanagement.</p>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">B. Benutzer, die ihren eigenen LN-Knoten haben</h2>
+<p>Wenn Sie in diese Kategorie fallen, haben Sie folgende Optionen:</p>
+<ul>
+<li>Installieren Sie das BW lndhub-Repository auf Ihrem eigenen LN-Knoten. Umbrel, myNode, Citadel haben dies bereits integriert, Sie müssen es nur aus ihrem App Store installieren. Verbinden Sie sich dann mit Ihrem eigenen lndhub-Server und erstellen Sie endlose lndhub-Konten (gehostet) in Ihren Bluewallet-Apps. <a href="https://darthcoin.substack.com/p/umbrel-lndhub-bluewallet">Hier habe ich eine Anleitung dazu geschrieben</a>.</li>
+<li>Installieren Sie die <a href="https://github.com/BlueWallet/LndHub">lndhub-Bibliotheken vom BW-Team Github</a>. Stellen Sie sich und/oder Ihrer Familie und Ihren Freunden dann mehrere lndhub-Konten zur Verfügung, die in der Bluewallet-App verwendet werden können.</li>
+<li>Andere Methoden, die LNbits auf Ihrem Knoten verwenden., <a href="https://darthcoin.substack.com/p/umbrel-node-lnbits">hier ist eine Anleitung</a>. Diese Option wird auch in <a href="/merchants/private-banks-over-ln-de.html">meiner anderen Anleitung zum Aufbau einer LN-Bank</a> für Ihre Community beschrieben. Dies ist eine der besten Optionen, da Sie auf diese Weise mehr Menschen in Ihrer Umgebung helfen und auch Ihren Familienmitgliedern und Freunden gute LN-Dienste anbieten, und zwar auf eine privatere Art und Weise, LN zu nutzen.</li>
+<li>Verwenden Sie Lightning-Konten vom Lightning-Terminal, wenn Sie einen LND-Knoten betreiben. <a href="https://docs.lightning.engineering/lightning-network-tools/lightning-terminal/accounts">Hier ist die Dokumentation</a>.</li>
+</ul>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">C. Wechseln Sie zu einer anderen LN-Wallet-App</h2>
+<p>Ja, das ist die einfache Möglichkeit. Aber wenn Sie ein neuer LN-Benutzer sind, ist der Wechsel zu einer anderen neuen LN-Wallet-App manchmal frustrierend, bis Sie sie gelernt haben.</p>
+<p>Keine Sorge, es ist nichts falsch daran, von der Bluewallet-App wegzugehen, wenn Sie wirklich den nächsten Schritt auf ein fortgeschritteneres Niveau machen möchten.</p>
+<p>Dieser Schritt bedeutet, dass Sie sich für eine Lösung mit mehr Selbstverwahrung entscheiden möchten, und das ist im Bitcoin-Bereich immer willkommen. Mehr Selbstverwahrung bedeutet mehr Souveränität, bedeutet mehr finanzielle Freiheit.</p>
+<p>Welche Optionen haben Sie?</p>
+<ul>
+<li><a href="/nodes/private-ln-nodes-en.html">Mobile nicht verwahrte LN-Knoten: wichtiger Leitfaden hier zu privaten Knoten</a>.</li>
+<li>Weitere LN-Wallets, wählen Sie mit Bedacht aus <a href="/wallets/lightning-wallets-comparison-de.html">diesem Vergleichsleitfaden</a> oder folgen Sie diesem <a href="/beginner/getting-started-stack-sats-de.html">weiteren Leitfaden für Anfänger</a>.</li>
+</ul>
+<p>Denken Sie daran: Wählen Sie keine LN-Wallet-App, nur weil Ihnen jemand anderes sie „empfohlen“ hat. Wählen Sie die Wallet-App, die am besten zu Ihrem Anwendungsfall, Ihren Gewohnheiten, Ihrem Ausgabenvolumen über LN usw. passt.</p>
+<p>Jeder, der eine Wallet-App „empfiehlt“, kennt Sie oder Ihren speziellen Anwendungsfall für LN nicht oder möchte einfach eine bestimmte App anpreisen.</p>
+<p>Verwenden Sie NIEMALS nur eine LN-Wallet-App, verwenden Sie immer mindestens 2-3, um eine Lastverteilung und ein Backup zu haben. Verteilen Sie Ihren LN-Vorrat auf einige davon und seien Sie jederzeit bereit, sie zu verwenden.</p>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">D. Aktivieren Sie den versteckten LDK-Knoten in Bluewallet</h2>
+<p>Ja, Sie haben richtig gehört, Bluewallet hat jetzt einen integrierten LDK-Knoten als Lightning-Wallet. Und das ist gut.</p>
+<p>Aber denken Sie daran, es ist noch in der Betaphase, also gehen Sie vorsichtig vor. Wie wird es aktiviert?</p>
+<p><img src="/assets/images/bluewallet-ldk-node.jpg" class="center"></p>
+<p>Tippen Sie auf das „+“, um Wallet hinzuzufügen, und tippen Sie dann 10 Mal auf die Lightning-Schaltfläche.</p>
+<p>Voilà, Sie können dann ein Wallet über LDK erstellen.</p>
+<p>Speichern Sie die Seed-Wörter an einem sicheren Ort und jetzt können Sie mit dem Öffnen von Kanälen mit dem Bluewallet LSP-Knoten beginnen. Klicken Sie dazu auf die Schaltfläche „Wallet finanzieren“ und wählen Sie ein beliebiges Onchain-Wallet aus, das Sie bereits in Ihrem Bluewallet konfiguriert haben und das über genügend Guthaben verfügt, um einen LN-Kanal zu öffnen. Sie sollten diese Onchain-Wallet immer mit Ihrem LDK-Knoten verknüpft lassen und sie nicht aus Ihrer Bluewallet-App entfernen. Im Falle der Schließung eines Kanals fließen die Gelder zurück in die Onchain-Wallet, die den Kanal finanziert hat.</p>
+<p>Fertig, jetzt können Sie Ihr Bluewallet LDK wie jedes andere reguläre LN-Wallet verwenden, in einem eher selbstverwalteten Modus.</p>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">FAZIT</h2>
+<p>Wie Sie sehen, geht die Welt nicht unter, nur weil das BW-Team angekündigt hat, dass sein Custodial-lndhub-Server geschlossen wird, um Neulingen etwas Custodial-LN-Liquidität bereitzustellen.</p>
+<p>Dies ist die Lightning Network-Welt, die sich ständig verändert und verbessert.</p>
+<p>Ich sehe diese Schließung als eine gute Sache für die BTC/LN-Welt. Das wird mehr Menschen zum Nachdenken bringen und sie dazu bringen, ihre eigenen LN-Knoten und eigenen lndhub-Server zu betreiben und mehr halbverwahrte, vertrauenswürdige Dienste für ihre Community bereitzustellen.</p>
+<p>Bitte NICHT AUSRASTEN! Es ist gut, dass das passiert.</p>
+<p>Die gesamte Bitcoin-Macht bleibt in SELBSTVERWAHRUNG. Also lernen Sie, wie das geht.</p>
+<p>Ich hoffe wirklich, dass dieser Leitfaden Ihnen mehr Einblick und Entschlossenheit gibt, Ihren eigenen LN-Knoten zu betreiben und diese Art von Diensten für Ihre eigene Familie und Freunde bereitzustellen, die mit dieser Technologie nicht so vertraut sind. Bitte helfen Sie ihnen. Das ist die Zukunft.</p>
+</body>
+</html>
+</article>
