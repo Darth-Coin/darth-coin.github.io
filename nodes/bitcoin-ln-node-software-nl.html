@@ -1,0 +1,274 @@
+---
+layout: default
+title: Welke Bitcoin LN-nodesoftware kan ik gebruiken?
+---
+<article>
+<!DOCTYPE html>
+<html lang="nl">
+<meta name="description" content="Bitcoin- en Lightning-handleidingen: de beschikbare software die u kunt gebruiken voor het runnen van een Bitcoin Lightning Network-knooppunt">
+<body>
+<a href="/nodes/bitcoin-ln-node-software-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/bitcoin-ln-node-software-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/bitcoin-ln-node-software-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/bitcoin-ln-node-software-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/bitcoin-ln-node-software-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/bitcoin-ln-node-software-hr.html">Hrvatski <img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/bitcoin-ln-node-software-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<blockquote style="color:Tomato;"><em>
+<p>Oorspronkelijk geplaatst op <a href="https://darthcoin.substack.com/p/what-bitcoin-ln-node-software-can">Substack</a> op 31 okt. 2021. Hier bijgewerkt op 13 okt. 2024.</p>
+</em></blockquote>
+
+<h3 style="color:Orange;">Een eenvoudige handleiding met de beschikbare software die u kunt gebruiken voor het uitvoeren van een Bitcoin Lightning Network-knooppunt en hun belangrijkste functionaliteiten</h3>
+<blockquote style="color:Tomato;"><em>
+<p>Vandaag is het 31 okt. 2021 en vieren we 13 jaar sinds Satoshi Nakamoto de Bitcoin Whitepaper uitbracht. Om deze speciale dag te eren, publiceer ik deze gids over Bitcoin en Lightning nodes, om nieuwe gebruikers te helpen meer keuzes te maken om een ​​node te runnen.</p>
+</em></blockquote>
+<p>OK, dus nu ben je een bitcoiner die zijn reis in het diepe Bitcoin-konijnenhol is begonnen en dieper wilt gaan met het runnen van een BTC/LN-node. Je weet al hoe je een BTC/LN-wallet moet gebruiken/beheren, je weet hoe je wat BTC van exchanges kunt krijgen, je weet dat het niet goed is om je BTC op bewaardiensten achter te laten, het is tijd voor jou om de verantwoordelijkheid in eigen hand te nemen. Goed…</p>
+<figure>
+<img src="/assets/images/bitcoin-paper-abstract.jpg" class="center">
+<figcaption>Abstract van Satoshi Bitcoin Papers (31 oktober 2019)</figcaption>
+</figure>
+<p>Of u bent gewoon een kleine handelaar, u hebt een bedrijf dat Bitcoin wil gaan accepteren via Lightning Network-betalingen, zonder enige tussenpersoon, zoals <a href="https://bitcoin.org/bitcoin.pdf">Bitcoin Papers vermeldde in het Abstract</a>:</p>
+<blockquote style="color:Tomato;"><em>
+Een puur peer-to-peer-versie van elektronisch geld zou het mogelijk maken om online betalingen rechtstreeks van de ene partij naar de andere te sturen zonder via een financiële instelling te gaan.
+</em></blockquote>
+<p>Enkele andere bronnen over waarom je Bitcoin nodes moet runnen en wat ze zijn:</p>
+<ul>
+<li><a href="https://bitcoin.org/en/full-node#what-is-a-full-node">Wat is een full Bitcoin node</a> - Bitcoin.org</li>
+<li><a href="https://blog.lopp.net/securing-your-financial-sovereignty/">Je financiële soevereiniteit veiligstellen</a> - Jameson Lopp</li>
+<li><a href="https://www.inbitcoinwetrust.net/here-is-the-main-reason-why-you-must-run-a-bitcoin-full-node-686f8e863de2">Belangrijkste reden waarom je een node zou moeten runnen</a> - In Bitcoin We Trust</li>
+<li><a href="https://en.bitcoin.it/wiki/Clearing_Up_Misconceptions_About_Full_Nodes#Myth:_The_number_of_these_nodes_matters_and.2For_is_too_low">Mythen en misvattingen over Bitcoin-nodes</a> - Bitcoin Wiki</li>
+<li><a href="https://blog.lopp.net/tor-only-bitcoin-lightning-guide/">Tor only Bitcoin Lightning-gids</a> - Jameson Lopp</li>
+<li><a href="https://www.ministryofnodes.com.au/ubuntu-node-box-guide-2020">Ubuntu Node Box-gids</a> - Ministry of Nodes</li>
+<li><a href="https://bitcoin.page/">Bitcoin Resources-pagina</a></li>
+<li><a href="https://lightning.how/">Lightning Network Resource Pagina</a></li>
+<li><a href="https://www.lightning-network.tech/">Uitgebreide Lightning Network Node Operator Resources - door Aljaz Ceru</a></li>
+</ul>
+<p>Laten we snel een aantal van de beste oplossingen bekijken die nu beschikbaar zijn. Het idee is om VOLLEDIG onafhankelijk te zijn en zelf je geld en betalingen te beheren, zonder tussenpersoon.</p>
+<p>Het hangt allemaal af van de specifieke kenmerken van je bedrijfsactiviteit, infrastructuur, budget, hoe technisch onderlegd je bent, het niveau van "onafhankelijkheid" dat je wilt hebben.</p>
+<p>Nog een aspect om te noemen: elk type knooppunt dat een specifieke implementatiecode voor Lightning Network gebruikt: <a href="https://github.com/LightningNetwork/lnd">LND</a>, <a href="https://github.com/ElementsProject/lightning">Core Lightning</a>, <a href="https://github.com/ACINQ/eclair">Eclair</a>, <a href="https://lightningdevkit.org/blog/ldk-an-sdk-for-the-lightning-network/">LDK</a>, <a href="https://github.com/rust-bitcoin/rust-lightning">Rust</a>, <a href="https://github.com/spesmilo/electrum/">Electrum</a>.</p>
+<p>Een Bitcoin node moet 24/7 online en betrouwbaar zijn. Wees dus voorbereid om het "levend" te houden en goed verbonden met internet. Uw node is uw eigen bank.</p>
+<p>Voordat we ingaan op de verscheidenheid aan desktop nodes, kunnen we vermelden dat er ook versies zijn voor mobiele apparaten, die SPV-synchronisatie zijn, een klein deel van de headers van de blokken van een vertrouwde volledige node-server en een niet-bewarende LN-node op uw mobiele apparaat bewaren.</p>
+<p>Als u geen PUBLIEKE routingnode wilt uitvoeren, maar alleen voor uw eigen gebruik, met kleine betalingen, is het uitvoeren van een PRIVÉ LN-node op uw mobiel met deze wallet-apps meer dan voldoende:</p>
+<ul>
+<li><a href="/wallets/getting-started-blixt-wallet-nl.html">Blixt-wallet</a> (Neutrino, LND-node) - iOS, Android, macOS en binnenkort Linux</li>
+<li><a href="https://breez.technology/">Breez</a> (Neutrino, LND-node) - iOS, Android</li>
+<li><a href="/wallets/getting-started-zeus-wallet-nl.html">Zeus LN portemonnee</a> (Neutrino, LND node) - iOS, Android, macOS</li>
+<li><a href="/wallets/getting-started-greenwallet-nl.html">Groene LN-portemonnee</a> (Greenlight, GDK-knooppunt) - iOS, Android</li>
+<li><a href="https://planb.network/en/tutorials/wallet/phoenix">Phoenix portemonnee</a> (Electrum SPV, Eclair node) - iOS, Android</li>
+<li><a href="https://bitkit.to/">Bitkit-portemonnee</a> (Electrum SPV LDK-knooppunt) - iOS, Android</li>
+<li><a href="https://standardsats.github.io/">Valet</a> (Electrum SPV, Immortan-knooppunt) - Android</li>
+<li><a href="https://electrum.org/">Electrum</a> (Electrum SPV, Electrum node) - iOS, Android</li>
+<li><a href="/wallets/bluewallet-funding-sources-nl.html">Bluewallet</a> (Electrum SPV, LDK node) - iOS, Android</li>
+</ul>
+<hr style="height:2px">
+
+<h3>Umbrel Node - DIY en The Bitcoin Machine</h3>
+<h5>Beschrijving:</h5>
+<ul>
+<li>Dit is een gratis, eenvoudigste en snelste manier om een ​​DIY node te maken, met je eigen hardware (RPi-apparaat of normale pc-box/Linux) en is ook helemaal gratis en <a href="https://blog.getumbrel.com/alles-wat-je-moet-weten-over-umbrels-nieuwe-licentie-f9807203a57e">open source</a>.</li>
+<li>Wordt nu ook aangeboden als <a href="https://thebitcoinmachines.com/">Bitcoin Machine</a>, plug-and-play, klaar om te worden gebruikt als een persoonlijke server, met veel applicaties die al zijn opgenomen en gesynchroniseerde blokken.</li>
+<li>Is nu een Tor-only node, met de nieuwste Bitcoin node en LND node, met een eenvoudig webdashboard om je Bitcoin en Lightning node te beheren, instellingen / systeemstatus / back-up / seed, Apps Store om apps toe te voegen/verwijderen, verbinding maken met wallets-menu.</li>
+<li>Zodra de blockchain-gegevens zijn geïnstalleerd en gesynchroniseerd, kun je het gaan gebruiken als je eigen bank, door veel wallet-apps en betalingsverwerker-plug-ins te verbinden met de meegeleverde apps bovenop de LND node. Sommige apps zoals BTCPay en LNBits, als je ze in clearnet wilt gebruiken, vereisen wat aanpassingen in de configuratie om "zichtbaar" te zijn buiten het Tor-netwerk. Handleidingen zijn inbegrepen.</li>
+</ul>
+<h5>Gebruikte software, beschikbare / inbegrepen applicaties:</h5>
+<ul>
+<li>OS Rasp DebianOS aangepast voor dockerized apps (voor RaspPi-gebruikers)</li>
+<li>elke OS Linux-distributie + Docker (aanbevolen Debian voor niet-RPi-gebruikers)</li>
+<li>Bitcoin Core + LND-knooppunt als basisknooppuntsoftware + Electrs (Electrum Server)</li>
+<li>Daarnaast kunt u CLN-knooppunt installeren en gebruiken</li>
+<li>AppStore: BTC RPC Ecplorer, Mempool, RTL (Ride The Lightning), Thunderhub, Lightning Terminal, BTCPay Server, LNBits, Whirlpool, Sphinx Relay, Bluewallet LNDHUB, Specter, LNMarkets, Kristall Bull, VaultWarden, NextCloud, Synapse Matrix / Element, SqueakNode, PhotoPrism, Pi-Hole, SimpleTorrent, Home Assistant, Node-RED, code-server, Gitea en nog veel meer meer</li>
+</ul>
+<h5>Bronnen:</h5>
+<ul>
+<li><a href="https://umbrel.com/">Officiële pagina</a> - <a href="https://github.com/getumbrel/umbrel">GitHub-pagina</a> - <a href="https://community.getumbrel.com/">Communityforum</a> - <a href="https://t.me/getumbrel">Telegram-groep</a> - <a href="https://blog.getumbrel.com/">Blog</a></li>
+<li><a href="https://darthcoin.substack.com/p/umbrel-bitcoin-ln-node">Handleiding om aan de slag te gaan met Umbrel</a>, waarin uitgebreid wordt uitgelegd hoe je begint, hoe je het installeert en hoe je het beheert.</li>
+</ul>
+<hr style="height:2px">
+
+<h3>myNodeBTC - DIY en Premium</h3>
+<h5>Beschrijving:</h5>
+<ul>
+<li>myNode is een speciaal apparaat dat toegang biedt tot het Bitcoin- en Lightning Network, samen met een aantal andere functies.</li>
+<li>complete node-oplossing met veel functionaliteiten, u kunt de machine al geïnstalleerd kopen of u kunt de software downloaden en deze zelf bouwen met uw eigen hardware.</li>
+<li>Wordt aangeboden in 3 versies: One, Premium, Community Edition (gratis DIY) en u kunt ook een RPi-machine bestellen die al is geïnstalleerd en gesynchroniseerd (<a href="https://mynodebtc.com/products/one">myNode One</a>)</li>
+<li>Het kan op Tor of clearnet draaien zoals de gebruiker beslist en het wordt geleverd met een eenvoudig webdashboard waar de gebruiker apps en de status van node-services kan beheren.</li>
+<li>Zodra het is geïnstalleerd en gesynchroniseerd, kan de gebruiker verbinding maken met verschillende wallet-apps en betalings- oplossingen.</li>
+</ul>
+<h5>Gebruikte software, beschikbare / meegeleverde applicaties:</h5>
+<ul>
+<li>OS Rasp DebianOS aangepast voor dockerized apps (voor RaspPi-gebruikers)</li>
+<li>elke OS Linux-distributie + VM-implementatie</li>
+<li>Bitcoin Core + LND-knooppunt als basisknooppuntsoftware + Electrs (Electrum Server)</li>
+<li>AppStore: BTC RPC Ecplorer, Mempool, RTL (Ride The Lightning), Thunderhub, Lightning Terminal, BTCPay Server, LNBits, Whirlpool, Dojo, JoinBox, Sphinx Relay, Bluewallet LNDHUB, Specter, CKBunker, Caravan, PyBlock, Remote Access VPN en nog veel meer</li>
+</ul>
+<h5>Bronnen:</h5>
+<ul>
+<li><a href="https://www.mynodebtc.com/">Officiële pagina</a> - <a href="https://github.com/mynodebtc/mynode/">GitHub-pagina</a> - <a href="https://mynode.community/">Communityforum</a> - <a href="https://t.me/mynode_btc">Telegram-groep</a></li>
+<li><a href="https://mynodebtc.github.io/">Volledige documentatiehandleidingen</a></li>
+<li><a href="https://youtube.com/playlist?list=PLCRbH-IWlcW0KP8DxyWWrqahGafZyV2HR">Videotutorials</a> - Ministry of nodes-serie</li>
+</ul>
+<hr style="height:2px">
+
+<h3>RaspiBlitz - DIY</h3>
+<h5>Beschrijving:</h5>
+<ul>
+<li>DIY Bitcoin & Lightning Node op een RaspberryPi apparaten</li>
+<li>Is voornamelijk bedoeld om te leren hoe u uw eigen knooppunt gedecentraliseerd vanuit huis kunt runnen - omdat: Niet uw knooppunt, niet uw regels. Ontdek en ontwikkel het groeiende ecosysteem van het Lightning Network door er volledig deel van uit te maken. Bouw het als onderdeel van een <a href="https://github.com/rootzoll/raspiblitz/blob/v1.7/WORKSHOP.md">workshop</a> of als een weekendproject zelf.</li>
+<li>Het draait standaard op Tor, maar wordt ook geleverd met een service zoals IP2Tor voor toegang vanaf clearnet</li>
+<li>Hardwarewinkels: <a href="https://shop.fulmo.org/">Fulmo</a>, <a href="https://diynodes.com/">DIY Nodes</a>, <a href="https://lightninginabox.co/product/raspiblitz-raspberry-pi-lightning-node/">LightningInABox</a></li>
+</ul>
+<h5>Gebruikte software, beschikbare / meegeleverde applicaties:</h5>
+<ul>
+<li>OS Rasp DebianOS</li>
+<li>Bitcoin Core + LND of C-Lightning node als basis node software + Electrs</li>
+<li>Core Lightning node optioneel</li>
+<li>Apps/Plugins: BTC RPC Ecplorer, Mempool, RTL (Ride The Lightning), Thunderhub, Lightning Terminal, BTCPay Server, LNBits, JoinMarket, BoS, Circuit Breaker, Specter, PyBlock, Kindle Display, Suez, ChanTools, StackingSats, CLBoss, Spark, Sphinx Relay, Telegraf en nog veel meer</li>
+</ul>
+<h5>Bronnen:</h5>
+<ul><a href="https://raspiblitz.org/">Officiële pagina</a> - <a href="https://github.com/rootzoll/raspiblitz">GitHub</a> - <a href="https://mynode.community/">Community Forum</a> - <a href="https://t.me/raspiblitz">Telegram Group</a></ul>
+<li><a href="https://github.com/rootzoll/raspiblitz/raw/v1.7/home.admin/assets/slides_lnbits_vouchers_and_merchant_onboarding.pdf">Volledige documentatiehandleidingen</a> (pdf) of <a href="https://www.youtube.com/watch?v=0Bt3tHULAnw">YouTube-video</a></li>
+<li><a href="https://github.com/openoms/raspiblitz/tree/amd64/alternative.platforms">Raspiblitz installeren op elke pc x64</a></li>
+<li>Videotutorials: <a href="https://www.youtube.com/watch?v=QXUGg45CWLo">Deep dive</a>, <a href="https://www.youtube.com/watch?v=qecxEvVL8ok">Windows</a>, <a href="https://www.youtube.com/watch?v=77BBQWg1n8w">Mac</a>, <a href="https://www.youtube.com/watch?v=udlUotNZOw0">Linux</a></li>
+</ul>
+<hr style="height:2px">
+
+<h3>Embassy Start9 - DIY en Premium HW + SW</h3>
+<h5>Beschrijving:</h5>
+<ul>
+<li>Plug'n'play machine, betaalde licentie voor OS als u zelf aan de slag wilt</li>
+<li>Eenvoudig te configureren en te gebruiken met de webinterface, eenvoudige verbindingen met wallet-apps</li>
+<li>Embassy is een elegante, plug'n'play persoonlijke server voor het uitvoeren van zelfgehoste software. Het staat stil op uw plank en draait de hele dag en nacht - uw eigen privécloud.</li>
+<li>Het draait standaard op het Tor-netwerk, waardoor de privacy van de gebruiker wordt beschermd</li>
+</ul>
+<h5>Gebruikte software, beschikbare / meegeleverde applicaties:</h5>
+<ul>
+<li> OS Rasp DebianOS als basis-OS</li>
+<li>Bitcoin Core + LND of C-Lightning node als basis-nodesoftware + Electrs</li>
+<li>Apps/services/plug-ins: Matrix, BTCPay Server, BitWarden, File Browser, Sphinx Relay, Mastodon, CUPS, BAR, RTL, Thunderhub, Spark, Photoview, Bitcoin Proxy en nog veel meer.</li>
+</ul>
+<h5>Bronnen:</h5>
+<ul>
+<li><a href="https://start9.com/">Officiële pagina</a> - <a href="https://github.com/Start9Labs/">GitHub</a> - <a href="https://matrix.to/#/!lMnRwPWnyQvOfAoEnD:matrix.start9labs.com">Community Matrix</a> - <a href="https://t.me/start9_labs">Telegram Group</a></li>
+<li><a href="https://docs.start9.com/">Volledige documentatiehandleidingen</a></li>
+<li><a href="https://docs.start9.com/latest/diy/diy-x86">Installeer Embassy op elke pc x86</a></li>
+<li><a href="https://www.youtube.com/channel/UCGEw4HJDvOn3Oy8ykR36P7Q">Videotutorials</a></li>
+</ul>
+<hr style="height:2px">
+
+<h3>NODL - Premium Personal Bitcoin Assistant</h3>
+<h5>Beschrijving:</h5>
+<ul>
+<li>Plug'n'play Bitcoin Node-machine, eenvoudig te configureren en te gebruiken</li>
+<li>Draait op Tor, volledig aanpasbaar, open source</li>
+<li>Wordt geleverd in 3 versies: One, Dojo, Cloud, Rack</li>
+</ul>
+<h5>Gebruikte software, beschikbare / meegeleverde applicaties:</h5>
+<ul>
+<li>OS Debian Linux als basis-OS</li>
+<li>Bitcoin Core + LND-node als basis-nodesoftware + Electrs</li>
+<li>Apps/services/plug-ins: BTCPay Server, RTL, Thunderhub, Whirlpool, Dojo, BTC RPC Explorer.</li>
+</ul>
+<h5>Bronnen:</h5>
+<ul>
+<li><a href="https://www.nodl.it/">Officiële pagina</a> - <a href="https://shop.nodl.it/en/">Shop</a> - <a href="https://t.me/nodl_it">Telegram Group</a></li>
+<li><a href="https://docs.nodl.it/">Volledige documentatiehandleidingen</a></li>
+</ul>
+<hr style="height:2px">
+
+<h3>BTCPay Server - DIY en Plug'n'Play machines</h3>
+<h5>Beschrijving:</h5>
+<ul>
+<li>Zelf gehoste, open-source Bitcoin-betaalprocessor. Het is veilig, privé, censuurbestendig en gratis.</li>
+<li>DIY op uw eigen pc Linux, of koop Plug'n'Play machine beschikbaar, eenvoudig te installeren en configureren, ook gehoste versies beschikbaar</li>
+<li>Het primaire doel van BTCPay Server is om afhankelijkheden van vertrouwde derden te verwijderen. De apps zijn gebouwd in applicaties die centrale autoriteiten overbodig maken en gebruikers een eenvoudige manier bieden om <a href="https://docs.btcpayserver.org/UseCase/">het gebruik van de software</a> uit te breiden. Gebruikers kunnen zelf allerlei aanpasbare applicaties hosten die direct werken.</li>
+<li>Directe, peer-to-peer Bitcoin-betalingen, geen transactiekosten (behalve de netwerkkosten, geen verwerkingskosten, geen tussenpersoon, geen KYC, niet-bewaarplichtig (volledige controle over de privésleutel), verbeterde privacy en beveiliging, Tor-ondersteuning, pull-betalingen</li>
+<li>Gebruikersbeheer, winkelbeheer</li>
+</ul>
+<h5>Gebruikte software, beschikbare / meegeleverde applicaties:</h5>
+<ul>
+<li>OS Debian Linux als basisbesturingssysteem of Rasp DebianOS</li>
+<li>Bitcoin Core + LND of C-Lightning of Eclair-knooppunt + Electrum Server</li>
+<li>Apps/services: BTCPay Server, RTL, PayJoin, Wordpress, Pi-Hole, JoinMarket</li>
+<li>Eenvoudig te integreren betaalknoppen, kassa-app, Crowdfunding-app, betalingsverzoeken, interne, full-node-afhankelijke wallet met <a href="https://docs.btcpayserver.org/HardwareWalletIntegration/">hardware wallet-integratie</a>, Payjoin-ondersteuning, Lightning Network-apps, boekhouding</li>
+<li>Plugins voor Woocommerce, Shopify, Drupal, Magento, PrestaShop</li>
+</ul>
+<h5>Bronnen:</h5>
+<ul>
+<li><a href="https://btcpayserver.org/">Officiële pagina</a> - <a href="https://github.com/btcpayserver">GitHub</a> - <a href="https://t.me/btcpayserver">Telegram Group</a> - <a href="http://blog.btcpayserver.org/">Blog</a></li>
+<li><a href="http://docs.btcpayserver.org/">Volledige documentatiehandleidingen</a> - <a href="https://docs.btcpayserver.org/UseCase/">Gebruiksscenario's</a></li>
+<li><a href="https://www.youtube.com/channel/UCpG9WL6TJuoNfFVkaDMp9ug">YouTube-kanaal</a></li>
+</ul>
+<h5>Winkels/hostingmachines klaar voor gebruik:</h5>
+<ul>
+<li><a href="https://lightninginabox.co/shop/">LightningInABox</a>, <a href="https://shop.nodl.it/en/">NODL</a>, <a href="https://bitcoinpos.ch/">BitcoinPOS</a>, <a href="https://coincharge.io/en/coincharge-products/">CoinCharge</a>, <a href="https://voltage.cloud/">Voltage.Cloud</a></li>
+<li><a href="https://github.com/CypherpunkPay/CypherpunkPay">CypherPunkPay</a> - een lite-versie van BTCPay Server</li>
+</ul>
+<hr style="height:2px">
+
+<h3>DIY Simple Home Nodes</h3>
+<h5>Beschrijving:</h5>
+<ul>
+<li>Node-software die u op uw eigen normale pc kunt installeren, voor testdoeleinden of gewoon om een ​​eenvoudige Bitcoin & Lightning-node voor persoonlijk gebruik te hebben</li>
+<li>Geen geavanceerde technische vaardigheden nodig</li>
+<li>Beperkt in opties en extra applicaties, maar genoeg om op een self-custody manier transacties te kunnen uitvoeren via het Lightning Network</li>
+<li>Kan verschillende wallet-apps verbinden met uw eigen node</li>
+</ul>
+<h5>Software gebruikt:</h5>
+<ul>
+<li>Windows OS, Linux OS, MacOS</li>
+<li>Bitcoin Core, Knots, LND, Eclair, Core Lightning, LDK, Eclair</li>
+</ul>
+<h5>Bronnen:</h5>
+<ul>
+<li><a href="https://minibolt.minibolt.info/">MiniBolt DYI LND of CLN-knooppunt</a></li>
+<li><a href="https://github.com/ArmanTheParman/Parmanode">ParmanNode</a> - eenvoudige online commando-installatie</li>
+<li><a href="https://github.com/lightning-power-users/node-launcher">Node Launcher</a> - Windows, Mac-knooppunt met LND</li>
+<li><a href="https://phoenix.acinq.co/server">PhoenixD Server</a> - een eenvoudig knooppunt met Eclair</li>
+<li><a href="https://stopanddecrypt.medium.com/running-bitcoin-lightning-nodes-over-the-tor-network-2021-edition-489180297d5">Standaard LND node</a> - Linux node machine met Tor</li>
+<li><a href="https://github.com/fort-nix/nix-bitcoin/">NixBitcoin</a> - verzameling Nix-pakketten en NixOS-modules voor het eenvoudig installeren van volledig uitgeruste Bitcoin-nodes met de nadruk op beveiliging.</li>
+<li><a href="https://cypherpunkpay.org/">CypherPunkPay</a> - een lite-versie van BTCPay Server</li>
+</ul>
+<hr style="height:2px">
+
+<h3>Gehoste Node-oplossing</h3>
+<h5>Beschrijving:</h5>
+<ul>
+<li>U hebt niet de mogelijkheid om uw eigen node-machine zelf te hosten of u hebt een veiligere en betrouwbaardere oplossing nodig</li>
+<li>U hebt geen volledige controle over de machine, maar u hebt nog steeds controle over de software</li>
+<li>Heeft hogere kosten voor onderhoud en services</li>
+<li>Geen technische vaardigheden vereist</li>
+</ul>
+<h5>Gebruikte software:</h5>
+<ul>
+<li>Meestal Linux OS-basis</li>
+<li>LND, Core Lightning, LDK, PhoenixD, BTCPay Server, Wordpress/Woocommerce</li>
+</ul>
+<h5>Bronnen:</h5>
+<ul>
+<li><a href="https://coincharge.io/en/coincharge-products/">CoinCharge</a> Hosted BTCPay Server</li>
+<li><a href="https://voltage.cloud/">Voltage Cloud</a> - Hosted LN-knooppunten en apps</li>
+<li><a href="https://blockstream.com/lightning/greenlight/">GreenLight Blockstream</a></li>
+<li><a href="https://nodana.io/">Nodana</a> - LND, PhoenixD, Alby Hub, LNbits en meer</li>
+<li><a href="https://albyhub.com/">Alby Cloud</a> - Voer uw eigen Alby Hub-instantie uit in de cloud</li>
+</ul>
+<hr style="height:2px">
+
+<h3>Ronin Dojo Node</h3>
+<h5>Beschrijving:</h5>
+<ul>
+<li>Volledig op privacy gerichte nodes, alleen Tor</li>
+<li>ALLEEN onchain Bitcoin node, GEEN Lightning nodes</li>
+<li>Geen technische vaardigheden vereist</li>
+<li>Plug'n'play-apparaat</li>
+</ul>
+<h5>Gebruikte software:</h5>
+<ul>
+<li>Linux OS-basis</li>
+<li>Bitcoin Core</li>
+<li>Whirlpool coinjoin</li>
+</ul>
+<h5>Bronnen:</h5>
+<p><a href="https://ronindojo.io/">RoninDojo web</a> | <a href="https://shop.ronindojo.io/">Dojo Shop Nodes</a> | <a href="https://wiki.ronindojo.io/en/home">Wiki-documentatie</a></p>
+</body>
+</html>
+</article>
