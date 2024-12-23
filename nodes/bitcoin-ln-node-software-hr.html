@@ -1,0 +1,274 @@
+---
+layout: default
+title: Koji softver za Bitcoin LN čvor mogu pokrenuti?
+---
+<article>
+<!DOCTYPE html>
+<html lang="hr">
+<meta name="description" content="Vodiči za Bitcoin i Lightning: dostupan softver koji možete koristiti za pokretanje čvora Bitcoin Lightning mreže">
+<body>
+<a href="/nodes/bitcoin-ln-node-software-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/bitcoin-ln-node-software-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/bitcoin-ln-node-software-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/bitcoin-ln-node-software-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/bitcoin-ln-node-software-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/bitcoin-ln-node-software-hr.html">Hrvatski <img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/bitcoin-ln-node-software-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<blockquote style="color:Tomato;"><em>
+<p>Izvorno objavljeno na <a href="https://darthcoin.substack.com/p/what-bitcoin-ln-node-software-can">Substack</a> 31. listopada 2021. Ažurirano ovdje 13. listopada 2024.</p>
+</em></blockquote>
+
+<h3 style="color:Orange;">Jednostavan vodič s popisom dostupnog softvera koji možete koristiti za pokretanje Bitcoin Lightning Network čvora i njihovih glavnih funkcija</h3>
+<blockquote style="color:Tomato;"><em>
+<p>Danas je 31. listopada 2021. i slavimo 13 godina od kada je Satoshi Nakamoto objavio Whitepaper za Bitcoin. U čast ovog posebnog dana, objavljujem ovaj vodič o Bitcoin i Lightning čvorovima, kako bih pomogao novim korisnicima da im daju više izbora za pokretanje čvora.</p>
+</em></blockquote>
+<p>U redu, sada ste bitcoiner koji je započeo svoje putovanje u duboku zečju rupu Bitcoina i želi ići dublje s pokretanjem BTC/LN čvora. Već znate kako koristiti / upravljati BTC / LN novčanikom, znate kako dobiti nešto BTC-a od mjenjačnica, znate da nije dobro ostavljati svoj BTC na skrbničkim uslugama, vrijeme je da preuzmete odgovornost u svoje ruke . Dobro...</p>
+<slika>
+ <img src="/assets/images/bitcoin-paper-abstract.jpg" class="center">
+ <figcaption>Sažetak iz Satoshi Bitcoin Papers (31. listopada 2019.)</figcaption>
+</figure>
+<p>Ili ste samo mali trgovac, imate tvrtku koja želi početi prihvaćati Bitcoin putem Lightning Network plaćanja, bez ikakvih posrednika, kao <a href="https://bitcoin.org/bitcoin.pdf"> Bitcoin papiri navedeni u sažetku</a>:</p>
+<blockquote style="color:Tomato;"><em>
+Čisto peer-to-peer verzija elektroničke gotovine omogućila bi slanje online plaćanja izravno s jedne strane na drugu bez prolaska kroz financijsku instituciju.
+</em></blockquote>
+<p>Neki drugi izvori o tome zašto raditi i što su Bitcoin čvorovi:</p>
+<ul>
+<li><a href="https://bitcoin.org/en/full-node#what-is-a-full-node">Što je puni Bitcoin čvor</a> - Bitcoin.org</li >
+<li><a href="https://blog.lopp.net/securing-your-financial-sovereignty/">Osiguranje vašeg financijskog suvereniteta</a> - Jameson Lopp</li>
+<li><a href="https://www.inbitcoinwetrust.net/here-is-the-main-reason-why-you-must-run-a-bitcoin-full-node-686f8e863de2">Glavni razlog zašto trebali biste pokrenuti čvor</a> - U Bitcoin We Trust</li>
+<li><a href="https://en.bitcoin.it/wiki/Clearing_Up_Misconceptions_About_Full_Nodes#Myth:_The_number_of_these_nodes_matters_and.2For_is_too_low">Mitovi i zablude o Bitcoin čvorovima</a> - Bitcoin Wiki</li>
+<li><a href="https://blog.lopp.net/tor-only-bitcoin-lightning-guide/">Vodič za Bitcoin Lightning samo za Tor</a> - Jameson Lopp</li>
+<li><a href="https://www.ministryofnodes.com.au/ubuntu-node-box-guide-2020">Ubuntu Node Box Guide</a> - Ministarstvo čvorova</li>
+<li><a href="https://bitcoin.page/">Stranica s resursima za Bitcoin</a></li>
+<li><a href="https://lightning.how/">Stranica resursa Lightning Network</a></li>
+<li><a href="https://www.lightning-network.tech/">Sveobuhvatni resursi operatera mrežnog čvora Lightning - Aljaz Ceru</a></li>
+</ul>
+<p>Dakle, idemo na brzinu pregledati neka od najboljih rješenja koja su sada dostupna. Ideja je biti POTPUNO neovisan i sam upravljati svojim novcem i plaćanjima, bez posrednika između.</p>
+<p>Sve ovisi o vašim specifičnostima vaše poslovne aktivnosti, infrastrukturi, proračunu, vašem tehnološkom znanju, razini "neovisnosti" koju želite imati.</p>
+<p>Još jedan aspekt koji treba spomenuti: svaka vrsta čvora koristi određeni implementacijski kod za Lightning Network: <a href="https://github.com/LightningNetwork/lnd">LND</a>, <a href=" https://github.com/ElementsProject/lightning">Core Lightning</a>, <a href="https://github.com/ACINQ/eclair">Eclair</a>, <a href="https://lightningdevkit.org/blog/ldk-an-sdk-for-the-lightning-network /">LDK</a>, <a href="https://github.com/rust-bitcoin/rust-lightning">Rust</a>, <a href="https://github.com/spesmilo/electrum/">Electrum</a>.</p>
+<p>Bitcoin čvor mora biti 24/7 online i pouzdan. Stoga budite spremni održavati ga "živim" i dobro povezanim s internetom. Vaš čvor je vaša banka.</p>
+<p>Prije nego što zaronimo u raznolikost stolnih čvorova, možemo spomenuti da postoje i verzije za mobilne uređaje, koje imaju SPV sinkronizaciju, mali dio zaglavlja blokova s ​​pouzdanog punog poslužitelja čvorova i čuvaju ne- skrbnički LN čvor na vašem mobilnom uređaju.</p>
+<p>Ako ne želite pokrenuti JAVNI čvor za usmjeravanje, želite samo za svoju osobnu upotrebu, uz mala plaćanja, pokretanje PRIVATNOG LN čvora na vašem mobilnom telefonu s ovim aplikacijama novčanika više je nego dovoljno:</p>
+<ul>
+<li><a href="/wallets/getting-started-blixt-wallet-hr.html">Blixt novčanik</a> (Neutrino, LND čvor) - iOS, Android, macOS i uskoro Linux</li>
+<li><a href="https://breez.technology/">Breez</a> (Neutrino, LND čvor) - iOS, Android</li>
+<li><a href="/wallets/getting-started-zeus-wallet-hr.html">Zeus LN novčanik</a> (Neutrino, LND čvor) - iOS, Android, macOS</li>
+<li><a href="/wallets/getting-started-greenwallet-hr.html">Zeleni LN novčanik</a> (Greenlight, GDK čvor) - iOS, Android</li>
+<li><a href="https://planb.network/en/tutorials/wallet/phoenix">Phoenix novčanik</a> (Electrum SPV, Eclair čvor) - iOS, Android</li>
+<li><a href="https://bitkit.to/">Bitkit novčanik</a> (Electrum SPV LDK čvor) - iOS, Android</li>
+<li><a href="https://standardsats.github.io/">Valet</a> (Electrum SPV, Immortan čvor) - Android</li>
+<li><a href="https://electrum.org/">Electrum</a> (Electrum SPV, Electrum čvor) - iOS, Android</li>
+<li><a href="/wallets/bluewallet-funding-sources-hr.html">Bluewallet</a> (Electrum SPV, LDK čvor) - iOS, Android</li>
+</ul>
+<hr style="height:2px">
+
+<h3>Umbrel Node - DIY i Bitcoin Machine</h3>
+<h5>Opis:</h5>
+<ul>
+<li>Ovo je besplatan, najjednostavniji i najbrži način za DIY čvor, s vašim vlastitim hardverom (RPi uređaj ili normalna PC kutija/Linux), a također je potpuno besplatan i <a href="https://blog.getumbrel.com /everything-you-need-to-know-about-umbrels-new-license-f9807203a57e">otvoreni kod</a>.</li>
+<li>Now se također nudi kao <a href="https://thebitcoinmachines.com/">Bitcoin Machine</a>, plug'n'play, spreman za korištenje kao osobni poslužitelj, s mnogim aplikacijama koje su već uključene sinkronizirani blokovi.</li>
+<li>Trenutno je samo Tor čvor, dolazi s najnovijim Bitcoin čvorom i LND čvorom, s jednostavnom web nadzornom pločom za upravljanje vašim Bitcoin i Lightning čvorom, postavkama/statusom sustava/sigurnosnim kopiranjem/seedom, Apps Storeom za dodavanje/uklanjanje aplikacija , povežite se s izbornikom novčanika.</li>
+<li>Jednom kada se instaliraju i sinkroniziraju podaci blockchaina, možete ga početi koristiti kao vlastitu banku, povezujući mnoge aplikacije novčanika i dodatke procesora plaćanja s uključenim aplikacijama na vrhu LND čvora. Neke od aplikacija kao što su BTCPay i LNBits, ako ih želite koristiti u clearnetu, zahtijevat će neke izmjene u konfiguraciji kako bi bile "vidljive" izvan Tor mreže. Vodiči su uključeni.</li>
+</ul>
+<h5>Softver koji se koristi, aplikacije dostupne / uključene:</h5>
+<ul>
+<li>OS Rasp DebianOS prilagođen za dockerizirane aplikacije (za RaspPi korisnike)</li>
+<li>bilo koja distribucija OS Linux + Docker (preporučuje se Debian za korisnike koji ne koriste RPi)</li>
+<li>Bitcoin Core + LND čvor kao softver osnovnog čvora + Electrs (Electrum Server)</li>
+<li>Dodatno možete instalirati i koristiti CLN čvor</li>
+<li>AppStore: BTC RPC Ecplorer, Mempool, RTL (Ride The Lightning), Thunderhub, Lightning Terminal, BTCPay Server, LNBits, Whirlpool, Sphinx Relay, Bluewallet LNDHUB, Spectre, LNMarkets, Kristall Bull, VaultWarden, NextCloud, Synapse Matrix / Element, SqueakNode, PhotoPrism, Pi-Hole, SimpleTorrent, Home Assistant, Node-RED, code-server, Gitea i mnogi drugi</li>
+</ul>
+<h5>Resursi:</h5>
+<ul>
+<li><a href="https://umbrel.com/">Službena stranica</a> - <a href="https://github.com/getumbrel/umbrel">GitHub stranica</a> - <a href="https://community.getumbrel.com/">Forum zajednice</a> - <a href="https://t.me/getumbrel">Telegram grupa</a> - <a href="https://blog.getumbrel.com/">Blog</a></li>
+<li><a href="https://darthcoin.substack.com/p/umbrel-bitcoin-ln-node">Vodič za početak rada s Umbrelom</a>, koji detaljno objašnjava kako započeti, kako instalirati, kako njime upravljati.</li>
+</ul>
+<hr style="height:2px">
+
+<h3>myNodeBTC - DIY i Premium</h3>
+<h5>Opis:</h5>
+<ul>
+<li>myNode je namjenski uređaj koji omogućuje pristup Bitcoin i Lightning mreži zajedno s nizom drugih značajki.</li>
+<li>cjelovito rješenje čvora s mnogo funkcionalnosti, možete kupiti stroj koji je već instaliran ili možete preuzeti softver i izgraditi ga sami pomoću vlastitog hardvera.</li>
+<li>Nudi se u 3 verzije: One, Premium, Community Edition (besplatan DIY), a također možete naručiti RPi stroj koji je već instaliran i sinkroniziran (<a href="https://mynodebtc.com/products/one"> myNode One</a>)</li>
+<li>Može raditi na Tor-u ili Clearnetu prema odluci korisnika i dolazi s jednostavnom web nadzornom pločom na kojoj korisnik može upravljati aplikacijama i statusom usluga čvora.</li>
+<li>Nakon što se instalira i sinkronizira, korisnik se može povezati s raznim aplikacijama novčanika i rješenjima za plaćanje.</li>
+</ul>
+<h5>Softver koji se koristi, aplikacije dostupne / uključene:</h5>
+<ul>
+<li>OS Rasp DebianOS prilagođen za dockerizirane aplikacije (za RaspPi korisnike)</li>
+<li>bilo koja distribucija OS Linux + implementacija VM</li>
+<li>Bitcoin Core + LND čvor kao softver osnovnog čvora + Electrs (Electrum Server)</li>
+<li>AppStore: BTC RPC Ecplorer, Mempool, RTL (Ride The Lightning), Thunderhub, Lightning Terminal, BTCPay Server, LNBits, Whirlpool, Dojo, JoinBox, Sphinx Relay, Bluewallet LNDHUB, Spectre, CKBunker, Caravan, PyBlock, Remote Access VPN i još mnogo toga</li>
+</ul>
+<h5>Resursi:</h5>
+<ul>
+<li><a href="https://www.mynodebtc.com/">Službena stranica</a> - <a href="https://github.com/mynodebtc/mynode/">GitHub stranica</ a> - <a href="https://mynode.community/">Forum zajednice</a> - <a href="https://t.me/mynode_btc">Telegram Grupa</a></li>
+<li><a href="https://mynodebtc.github.io/">Potpuni vodiči za dokumentaciju</a></li>
+<li><a href="https://youtube.com/playlist?list=PLCRbH-IWlcW0KP8DxyWWrqahGafZyV2HR">Video vodiči</a> - Serija Ministry of nodes</li>
+</ul>
+<hr style="height:2px">
+
+<h3>RaspiBlitz - Uradi sam</h3>
+<h5>Opis:</h5>
+<ul>
+<li>Uradi sam Bitcoin & Lightning Node na RaspberryPi uređajima</li>
+<li>Uglavnom je namijenjen za učenje kako pokrenuti vlastiti čvor decentraliziran od kuće - jer: Nije vaš čvor, nisu vaša pravila. Otkrijte i razvijte rastući ekosustav Lightning Networka tako što ćete postati njegov puni dio. Izgradite ga kao dio <a href="https://github.com/rootzoll/raspiblitz/blob/v1.7/WORKSHOP.md">radionice</a> ili sami kao vikend projekt.</li>
+<li>Pokreće se prema zadanim postavkama na Tor-u, ali također dolazi s uslugom kao što je IP2Tor za pristup s Clearneta</li>
+<li>Trgovine hardverom: <a href="https://shop.fulmo.org/">Fulmo</a>, <a href="https://diynodes.com/">DIY čvorovi</a> , <a href="https://lightninginabox.co/product/raspiblitz-raspberry-pi-lightning-node/">LightningInABox</a></li>
+</ul>
+<h5>Softver koji se koristi, aplikacije dostupne / uključene:</h5>
+<ul>
+<li>OS Rasp DebianOS</li>
+<li>Bitcoin Core + LND ili C-Lightning čvor kao softver osnovnog čvora + Electrs</li>
+<li>Core Lightning čvor nije obavezan</li>
+<li>Aplikacije/dodaci: BTC RPC Ecplorer, Mempool, RTL (Ride The Lightning), Thunderhub, Lightning Terminal, BTCPay Server, LNBits, JoinMarket, BoS, Circuit Breaker, Spectre, PyBlock, Kindle Display, Suez, ChanTools, StackingSats, CLBoss, Spark, Sphinx Relay, Telegraf i još mnogo toga</li>
+</ul>
+<h5>Resursi:</h5>
+<ul><a href="https://raspiblitz.org/">Službena stranica</a> - <a href="https://github.com/rootzoll/raspiblitz">GitHub</a> - < a href="https://mynode.community/">Forum zajednice</a> - <a href="https://t.me/raspiblitz">Telegram grupa</a></ul>
+<li><a href="https://github.com/rootzoll/raspiblitz/raw/v1.7/home.admin/assets/slides_lnbits_vouchers_and_merchant_onboarding.pdf">Potpuni vodiči za dokumentaciju</a> (pdf) ili <a href="https://www.youtube.com/watch?v=0Bt3tHULAnw">YouTube video</a></li>
+<li><a href="https://github.com/openoms/raspiblitz/tree/amd64/alternative.platforms">Instalirajte Raspiblitz na bilo koji PC x64</a></li>
+<li>Video vodiči: <a href="https://www.youtube.com/watch?v=QXUGg45CWLo">Duboko zaronite</a>, <a href="https://www.youtube.com/ watch?v=qecxEvVL8ok">Windows</a> , <a href="https://www.youtube.com/watch?v=77BBQWg1n8w">Mac</a>, <a href="https://www.youtube.com/watch?v=udlUotNZOw0">Linux</a></li>
+</ul>
+<hr style="height:2px">
+
+<h3>Embassy Start9 - DIY i Premium HW + SW</h3>
+<h5>Opis:</h5>
+<ul>
+<li>Plug’n’play stroj, plaćena licenca za OS ako želite DIY</li>
+<li>Jednostavan za konfiguriranje i korištenje sa svojim web sučeljem, jednostavno povezivanje s aplikacijama novčanika</li>
+<li>Embassy je elegantan, plug’n’play osobni poslužitelj za pokretanje samostalnog softvera. Tiho stoji na vašoj polici, radi cijeli dan i noć - vaš vlastiti privatni oblak.</li>
+<li>Prema zadanim postavkama radi na Tor mreži, štiteći privatnost korisnika</li>
+</ul>
+<h5>Softver koji se koristi, aplikacije dostupne / uključene:</h5>
+<ul>
+<li> OS Rasp DebianOS kao osnovni OS</li>
+<li>Bitcoin Core + LND ili C-Lightning čvor kao softver osnovnog čvora + Electrs</li>
+<li>Aplikacije/usluge/dodaci: Matrix, BTCPay Server, BitWarden, File Browser, Sphinx Relay, Mastodon, CUPS, BAR, RTL, Thunderhub, Spark, Photoview, Bitcoin Proxy i mnogi drugi.</li>
+</ul>
+<h5>Resursi:</h5>
+<ul>
+<li><a href="https://start9.com/">Službena stranica</a> - <a href="https://github.com/Start9Labs/">GitHub</a> - <a href="https://matrix.to/#/!lMnRwPWnyQvOfAoEnD:matrix.start9labs.com">Matrix zajednice</a> - <a href="https://t.me/start9_labs">Telegram grupa</a></li>
+<li><a href="https://docs.start9.com/">Potpuni vodiči za dokumentaciju</a></li>
+<li><a href="https://docs.start9.com/latest/diy/diy-x86">Instalirajte Embassy na bilo koji PC x86</a></li>
+<li><a href="https://www.youtube.com/channel/UCGEw4HJDvOn3Oy8ykR36P7Q">Video vodiči</a></li>
+</ul>
+<hr style="height:2px">
+
+<h3>NODL - Premium osobni Bitcoin pomoćnik</h3>
+<h5>Opis:</h5>
+<ul>
+<li>Plug’n’play Bitcoin Node stroj, jednostavan za konfiguriranje i korištenje</li>
+<li>Radi na Toru, potpuna prilagodba, otvorenog koda</li>
+<li>Dolazi u 3 verzije: One, Dojo, Cloud, Rack</li>
+</ul>
+<h5>Softver koji se koristi, aplikacije dostupne / uključene:</h5>
+<ul>
+<li>OS Debian Linux kao osnovni OS</li>
+<li>Bitcoin Core + LND čvor kao osnovni softver čvora + Electrs</li>
+<li>Aplikacije/usluge/dodaci: BTCPay poslužitelj, RTL, Thunderhub, Whirlpool, Dojo, BTC RPC Explorer.</li>
+</ul>
+<h5>Resursi:</h5>
+<ul>
+<li><a href="https://www.nodl.it/">Službena stranica</a> - <a href="https://shop.nodl.it/en/">Kupovina</a > - <a href="https://t.me/nodl_it">Telegram grupa</a></li>
+<li><a href="https://docs.nodl.it/">Potpuni vodiči za dokumentaciju</a></li>
+</ul>
+<hr style="height:2px">
+
+<h3>BTCPay poslužitelj - DIY i Plug’n’Play strojevi</h3>
+<h5>Opis:</h5>
+<ul>
+<li>Samostalni procesor plaćanja Bitcoin otvorenog koda. Siguran je, privatan, otporan na cenzuru i besplatan.</li>
+<li>Uradi sam na vlastitom osobnom računalu Linux ili kupite Plug’n’Play stroj koji je dostupan, jednostavan za instalaciju i konfiguraciju, dostupne su i hostirane verzije</li>
+<li>Primarna svrha BTCPay poslužitelja je uklanjanje ovisnosti o pouzdanim trećim stranama. Aplikacije su ugrađene u aplikacije koje su zastarjele središnje vlasti i korisnicima omogućuju jednostavan način proširenja <a href="https://docs.btcpayserver.org/UseCase/">slučaja korištenja softvera</a>. Korisnici mogu sami hostirati sve vrste prilagodljivih aplikacija koje rade odmah.</li>
+<li>Izravna, peer-to-peer Bitcoin plaćanja, bez transakcijskih naknada (osim mrežne naknade, bez naknada za obradu, bez posrednika, bez KYC-a, bez skrbništva (potpuna kontrola nad privatnim ključem), poboljšana privatnost i sigurnost, Tor podrška, Pull Payments</li>
+<li>Upravljanje korisnicima, upravljanje trgovinama</li>
+</ul>
+<h5>Softver koji se koristi, aplikacije dostupne / uključene:</h5>
+<ul>
+<li>OS Debian Linux kao osnovni OS ili Rasp DebianOS</li>
+<li>Bitcoin Core + LND ili C-Lightning ili Eclair čvor + Electrum Server</li>
+<li>Aplikacije/usluge: BTCPay poslužitelj, RTL, PayJoin, Wordpress, Pi-Hole, JoinMarket</li>
+<li>Gumbi za plaćanje koji se lako mogu ugraditi, aplikacija za prodajno mjesto, aplikacija za grupno financiranje, zahtjevi za plaćanje, interni novčanik koji se oslanja na pune čvorove s <a href="https://docs.btcpayserver.org/HardwareWalletIntegration/">integracijom hardverskog novčanika </a>, Payjoin podrška, Lightning Network Apps, Računovodstvo</li>
+<li>Dodaci za Woocommerce, Shopify, Drupal, Magento, PrestaShop</li>
+</ul>
+<h5>Resursi:</h5>
+<ul>
+<li><a href="https://btcpayserver.org/">Službena stranica</a> - <a href="https://github.com/btcpayserver">GitHub</a> - <a href ="https://t.me/btcpayserver">Telegram grupa</a> - <a href="http://blog.btcpayserver.org/">Blog</a></li>
+<li><a href="http://docs.btcpayserver.org/">Vodiči za potpunu dokumentaciju</a> - <a href="https://docs.btcpayserver.org/UseCase/">Slučajevi upotrebe< /a></li>
+<li><a href="https://www.youtube.com/channel/UCpG9WL6TJuoNfFVkaDMp9ug">YouTube kanal</a></li>
+</ul>
+<h5>Trgovine/strojevi za hosting spremni za korištenje:</h5>
+<ul>
+<li><a href="https://lightninginabox.co/shop/">LightningInABox</a>, <a href="https://shop.nodl.it/en/">NODL</a> , <a href="https://bitcoinpos.ch/">BitcoinPOS</a>, <a href="https://coincharge.io/en/coincharge-products/">CoinCharge</a>, < a href="https://voltage.cloud/">Voltage.Cloud</a></li>
+<li><a href="https://github.com/CypherpunkPay/CypherpunkPay">CypherPunkPay</a> - jednostavna verzija BTCPay poslužitelja</li>
+</ul>
+<hr style="height:2px">
+
+<h3>Uradi sam jednostavni kućni čvorovi</h3>
+<h5>Opis:</h5>
+<ul>
+<li>Softver čvorova koji možete instalirati na vlastito normalno računalo, u svrhu testiranja ili samo da biste imali jednostavan Bitcoin & Lightning čvor za osobnu upotrebu</li>
+<li>Nema potrebe za naprednim tehničkim vještinama</li>
+<li>Ograničeno u opcijama i dodatnim aplikacijama, ali dovoljno da se može obavljati transakcija preko Lightning Networka na način vlastitog nadzora</li>
+<li>Možete povezati razne aplikacije novčanika s vlastitim čvorom</li>
+</ul>
+<h5>Korišteni softver:</h5>
+<ul>
+<li>Windows OS, Linux OS, MacOS</li>
+<li>Bitcoin Core, Knots, LND, Eclair, Core Lightning, LDK, Eclair</li>
+</ul>
+<h5>Resursi:</h5>
+<ul>
+<li><a href="https://minibolt.minibolt.info/">MiniBolt DYI LND ili CLN čvor</a></li>
+<li><a href="https://github.com/ArmanTheParman/Parmanode">ParmanNode</a> - jednostavna instalacija putem naredbe</li>
+<li><a href="https://github.com/lightning-power-users/node-launcher">Pokretač čvorova</a> - Windows, Mac čvor s LND-om</li>
+<li><a href="https://phoenix.acinq.co/server">PhoenixD poslužitelj</a> - jednostavan čvor s Eclairom</li>
+<li><a href="https://stopanddecrypt.medium.com/running-bitcoin-lightning-nodes-over-the-tor-network-2021-edition-489180297d5">Standardni LND čvor</a> - Linux čvorni stroj s Torom</li>
+<li><a href="https://github.com/fort-nix/nix-bitcoin/">NixBitcoin</a> - zbirka Nix paketa i NixOS modula za jednostavnu instalaciju potpuno opremljenih Bitcoin čvorova s ​​naglaskom o sigurnosti.</li>
+<li><a href="https://cypherpunkpay.org/">CypherPunkPay</a> - jednostavna verzija BTCPay poslužitelja</li>
+</ul>
+<hr style="height:2px">
+
+<h3>Hosted Node rješenje</h3>
+<h5>Opis:</h5>
+<ul>
+<li>Nemate mogućnost samostalnog hostiranja vlastitog čvornog stroja ili vam je potrebno sigurnije i pouzdanije rješenje</li>
+<li>Nemate potpunu kontrolu nad strojem, ali još uvijek kontrolirate softver</li>
+<li>Imati veće troškove za održavanje i usluge</li>
+<li>Nisu potrebne tehničke vještine</li>
+</ul>
+<h5>Korišteni softver:</h5>
+<ul>
+<li>Obično je to baza Linux OS</li>
+<li>LND, Core Lightning, LDK, PhoenixD, BTCPay poslužitelj, Wordpress/Woocommerce</li>
+</ul>
+<h5>Resursi:</h5>
+<ul>
+<li><a href="https://coincharge.io/en/coincharge-products/">CoinCharge</a> Hostirani BTCPay poslužitelj</li>
+<li><a href="https://voltage.cloud/">Voltage Cloud</a> - Hostirani LN čvorovi i aplikacije</li>
+<li><a href="https://blockstream.com/lightning/greenlight/">GreenLight Blockstream</a></li>
+<li><a href="https://nodana.io/">Nodana</a> - LND, PhoenixD, Alby Hub, LNbits i više</li>
+<li><a href="https://albyhub.com/">Alby Cloud</a> - Pokrenite vlastitu Alby Hub instancu u oblaku</li>
+</ul>
+<hr style="height:2px">
+
+<h3>Ronin Dojo čvor</h3>
+<h5>Opis:</h5>
+<ul>
+<li>Čvorovi usmjereni na punu privatnost, samo Tor</li>
+<li>SAMO onchain Bitcoin čvor, BEZ Lightning čvorova</li>
+<li>Nisu potrebne tehničke vještine</li>
+<li>Plug’n’play uređaj</li>
+</ul>
+<h5>Korišteni softver:</h5>
+<ul>
+<li>Linux OS baza</li>
+<li>Bitcoin Core</li>
+<li>Whirlpool coinjoin</li>
+</ul>
+<h5>Resursi:</h5>
+<p><a href="https://ronindojo.io/">RoninDojo web</a> | <a href="https://shop.ronindojo.io/">Dojo Shop čvorovi</a> | <a href="https://wiki.ronindojo.io/en/home">Wiki dokumentacija</a></p>
+</body>
+</html>
+</article>
