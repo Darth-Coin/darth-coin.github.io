@@ -1,0 +1,266 @@
+---
+layout: default
+title: Experimento de tarifas de enrutamiento de nodos Lightning
+---
+<article>
+<!DOCTYPE html>
+<html lang="es">
+<meta name="description" content="Guías de Bitcoin y Lightning: Establezca varias políticas de tarifas cada mes y observe el enrutamiento del nodo LN">
+<body>
+<a href="/nodes/lightning-routing-fees-experiment-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-routing-fees-experiment-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-routing-fees-experiment-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-routing-fees-experiment-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-routing-fees-experiment-nl.html">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-routing-fees-experiment-hr.html">Hrvatski <img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-routing-fees-experiment-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<blockquote style="color:Tomato;"><em>
+<p>Publicado originalmente en <a href="https://darthcoin.substack.com/p/lightning-routing-fees-experiment">Substack</a> el 25 de marzo de 2022. Actualizado aquí el 20 de diciembre de 2024</p>
+</em></blockquote>
+
+<h3 style="color:Orange;">Establecer varias políticas de tarifas cada mes y observar el enrutamiento del nodo LN</h3>
+<h3>Introducción</h3>
+<p>Mi experiencia con los nodos LN comenzó en 2019 con un simple nodo C-Lightning. Funcionó bien, aprendí muchas cosas sobre Lightning Network en general y cómo ejecutar un nodo BTC/LN, qué ventajas y qué inconvenientes puede tener. Pero eso fue solo el comienzo de LN.</p>
+<p>En 2020, descubrí Umbrel. Entonces cambié mi nodo C-Lightning por un nuevo nodo Umbrel. Ahora tengo una Gigabyte Brix NUC con sistema operativo Debian.</p>
+
+<figure>
+<img src="/assets/images/mini-node.jpg" class="center">
+<figcaption>Nodo Umbrella en Gigabyte Brix NUC (sin ventilador) - CPU i3, 8 GB de RAM, 1 TB de disco duro (int), sistema operativo Debian 10</figcaption>
+</figure>
+
+<p>Solo para aprender más y también para ayudar a la gran cantidad de nuevos usuarios que comienzan a instalar Umbrel pero no tienen idea de qué es LN y un nodo LN.</p>
+<p>Entonces, la mejor manera fue probarlo, aprender a usarlo, descubrirlo y luego documentar lentamente todos mis pasos en guías simples, para poder compartir mi conocimiento con nuevos usuarios, ávidos de esa información y pasos de "cómo hacerlo".</p>
+<p>Así que construí lentamente este nodo, abriendo canales, estudiando a los pares de cerca y <a href="https://darth-coin.github.io/nodes/managing-lightning-node-liquidity-en.html">haciendo mi propia lista de pares</a> (también contiene la famosa <a href="https://basefee.ln.rene-pickhardt.de/">lista de nodos ZeroBaseFee de René Pickhardt</a>).</p>
+<p>No digo que mis procedimientos, políticas y enfoques sean los mejores o incluso buenos. Son solo mis observaciones y mis propias conclusiones sobre cómo administrar un nodo LN. No soy un experto ni un codificador de LN, ni ningún "gurú", solo un plebeyo que observa y pasa por su propio sentido común todo lo que sucede con mi nodo.</p>
+<p>Bien, entonces me uní a algunos Rings of Fire, anillos LN+, grupos privados, etc. y también me conecté a nodos específicos, durante 2 años con este nodo Umbrel. Hasta que alcancé un límite de 40 canales, buenos canales estables y pares. Con muchos mantengo contacto directo. Es bueno ayudarnos entre nosotros (quizás haga otra guía sobre esto).</p>
+<p>Luego, en 2022, comienzo un nodo secundario, un nodo privado, sin alias, solo Tor, no vinculado de ninguna manera a mi identidad real ni a ninguna otra identidad en línea. <a href="https://darthcoin.substack.com/p/node-liquidity-guide">Esto es parte de otro experimento que se describe en esta guía</a>.</p>
+<p>NO estoy interesado EN ABSOLUTO en "ganar dinero" o "ganancias" con LN. Mi objetivo es ayudar a que LN sea una red de pagos muy líquida, para que los usuarios comiencen a usarla día a día y dejen de usar el maldito fiat. No vamos a empezar a tener una red de pagos saludable si empezamos robándonos unos a otros y tratando de saturar la red solo por unos pocos sats miserables.</p>
+<p>Cuando LN sea realmente estable con una buena búsqueda de rutas y nodos saludables, muchos usuarios usándolo como base diaria para pagos (no solo un estúpido reequilibrio), entonces podremos hablar de aumentar las tarifas y construir lentamente un modelo de incentivos para los nodos de enrutamiento.</p>
+<p>AÚN NO hemos llegado allí, no importa lo que digan otros sobre que ganaron x cantidad de sats/mes. ¡NO LLEGARÁS ALLÍ!</p>
+<p>Y recuerda: el objetivo es JODER A LOS BANCOS, no jodernos entre nosotros...</p>
+<p>Si empezamos ahora a cobrar tarifas caras a los nuevos usuarios que se unan al uso de LN, entonces se cagarán de miedo y saldrán corriendo, dirán que este LN es un sistema de pagos caro y de mierda.</p>
+<p>No los asustes, ayúdalos a empezar a usar esta increíble tecnología. Tendremos mucho tiempo más adelante para aumentar las tarifas hasta un nivel que permita mantener esto como incentivo.</p>
+<p>LA CODICIA LOCA ES LO QUE MATA LA INNOVACIÓN.</p>
+
+<figure>
+<img src="/assets/images/fees-passive-income.jpg" class="center">
+<figcaption>Noob interesado en "ingresos pasivos"</figcaption>
+</figure>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">Cómo empezó... #ZeroFeeFebruary</h3>
+<p>En febrero de 2022, comencé, con uno de mis pares más fuertes, un movimiento de <a href="https://amboss.space/community/ec432081-e9f1-4c7f-8604-3a7d9980bc61">#ZeroFeeFebruary</a> entre muchos RoF y grupos. Salió bastante bien con más de 35 nodos uniendo fuerzas y estableciendo tarifas de todos los canales en 0/0 (tarifa base de 0, 0 ppm).</p>
+<p>Mi humilde nodo Umbrel comenzó a duplicar, triplicar y cuadriplicar la cantidad de pagos enrutados. También cerré algunos canales pequeños y zombis con pares que no crecieron en absoluto en los últimos 6 meses.</p>
+<p>Este es un aspecto muy importante: los pares que no crecieron lo suficiente en los últimos meses son INÚTILES y podrían hacer más daño que bien.</p>
+<p>Así que una advertencia para todos los novatos con nuevos nodos: si planean ejecutar una LN con solo 2 o 3 canales y nunca crecer más, esperen que sus pares cierren los canales. Apila más sats y abre más canales LN. Los fondos en LN no se "pierden" ni se "bloquean" como muchos intentan asustarte. No, <a href="https://medium.com/breez-technology/lightning-is-a-liquidity-network-550896ca27ea">los fondos en los canales LN SON LIQUIDEZ. Eso significa que TIENEN QUE FLUIR</a>. De lo contrario, es totalmente inútil.</p>
+<p>Así que empiezo por cerrar los canales con pares que mantienen tarifas altas. Las tarifas altas para mí son:</p>
+<ul>
+<li>Tarifa base >1 | cualquier valor superior a esto es estúpido y hace más daño que bien</li>
+<li>ppm >150-200 | a veces, el ppm es necesario para impulsar la liquidez de un lado u otro, cuando realmente lo necesitas, casos para comerciantes que no quieren salir del bucle sino simplemente dejar que el tráfico haga el equilibrio.</li>
+</ul>
+<p>Entonces, si un par conectado a mi nodo está usando una política estándar para todos sus canales, como tarifa base de 2 sats / 300 ppm, cerraré el canal, sin remordimientos. O estableceré una tarifa base tan alta que todo el tráfico se bloqueará en ese canal hasta que él mismo lo cierre.</p>
+<p>También aquellos que usan intensivamente el script charge-lnd. ¡Dejen de usarlo si son novatos! O al menos aprender qué hay que hacer con él y cómo funciona.</p>
+<p>Está haciendo más daño que bien. El script está diseñado para desactivar canales en un cierto nivel de "rentabilidad", automáticamente. El usuario ni siquiera sabe que sus canales se desactivan y eso significa PUERTAS CERRADAS. Eso significa que no hay más enrutamiento de ninguna manera a través de esos canales. Entonces, cuando veo un nodo con muchos canales desactivados, todo el tiempo, ese es un mensaje claro: está usando el maldito script infame, o está conectado a muchos pares que usan ese script, ese par es un "no go".</p>
+<p>La liquidez fluye en ambas direcciones, sí, es lento, pero tenga paciencia. Deje que la cosa viva de LN crezca naturalmente y fluya naturalmente. Si pone barreras en su camino, por supuesto que encontrará otras.</p>
+<p>Traté de ser razonable con aquellos pares que son receptivos y entienden la situación y ajustar sus tarifas en consecuencia. Poco a poco, la codicia se aislará en los bordes exteriores de la galaxia LN.</p>
+<p>El mes de febrero se ve así, con mi humilde nodo, 70 millones de liquidez total distribuida 50/50 y 40 canales:</p>
+
+<figure>
+<img src="/assets/images/feb-routed-txs-per-day.png" class="center">
+<figcaption>Total de pagos enrutados por día en febrero de 2022</figcaption>
+</figure>
+<figure>
+<img src="/assets/images/feb-routed-sats-per-day.png" class="center">
+<figcaption>Total de sats enrutados por día en febrero de 2022</figcaption>
+</figure>
+
+<p>En total, se enrutaron 995 pagos con un total enrutado de 84 millones sats.</p>
+<p>El pico más alto fue de 95 pagos enrutados y 9 millones de sats en total en un día. En promedio, todo el mes de febrero fue de 20 transacciones por día con alrededor de 3 millones de sats enrutados por día. No está mal para un nodo tan pequeño. No tengo muchos canales grandes, ni siquiera un wumbo.</p>
+<p>Mi nodo de prueba tenía: 5 canales de más de 4 millones de sats, 14 canales entre 4 millones y 1 millón de sats, 12 canales de 1 millón de sats y 9 canales de 500 000 sats. En total, 40 canales (más o menos, cerrando y abriendo algunos).</p>
+<p>Comparando febrero con los 6 meses anteriores:</p>
+
+<figure>
+<img src="/assets/images/routed-txs-6m.png" class="center">
+<figcaption>N.º de txs enrutados en los últimos 6 meses</figcaption>
+</figure>
+<figure>
+<img src="/assets/images/routed-sats-6m.png" class="center">
+<figcaption>Total de sats enrutados durante los últimos 6 meses</figcaption>
+</figure>
+
+<h4 style="color:Yellow;">Pasos adicionales que realicé</h4>
+<ul>
+<li>Reduje la cantidad máxima de HTLC a 500k sats para todos los canales</li>
+<li>Configuré mi nodo <a href="https://community.getumbrel.com/t/lnd-tor-clearnet-how-to-setup-hybrid-mode/6133/">para que funcione en modo híbrido</a>: Tor y clearnet. Esta ruta de ayuda se encuentra cuando Tor está bloqueado</li>
+<li>Activé la <a href="https://community.getumbrel.com/t/how-to-reduce-size-of-channel-db-file-for-lnd/6439/">compactación de mi archivo channel.db</a>, esto mejora la capacidad de respuesta de su nodo y reduce la cantidad de HTLC pendientes</li>
+<li>Establecí una <a href="https://github.com/lightningnetwork/lnd/blob/master/sample-lnd.conf#L306">cantidad máxima de HTLC en el archivo lnd.conf en 10</a></li>
+<li>Mantuve a todos los pares conectados tanto como fue posible. A veces, los chismes a través de Tor son realmente erráticos y denuncian a los pares fuera de línea incluso si no lo están. Entonces, lo que hice fue eliminar de la lista de pares a aquel par que aparecía fuera de línea y agregarlo nuevamente, si es posible, usando su URI de red clara. Después de unos segundos, el nodo vuelve a estar en línea y el canal está listo. Puedes usar Thunderhub para todos estos pasos.</li>
+</ul>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">Conclusiones</h3>
+<p>En general, esta prueba fue un éxito para mí. Mi objetivo principal era ver la posibilidad y la capacidad de este pequeño nodo en el enrutamiento y aprender de él, en situaciones con un alto volumen de tráfico. No quiero revelar información confidencial de ninguno de mis pares, por lo que no publicaré capturas de pantalla con estadísticas sobre canales específicos. Pero puedo decir que muchos de ellos comienzan a moverse este mes.</p>
+<h4 style="color:Yellow;">Algunos puntos clave que observé:</h4>
+<h5>1 - Política de tarifas</h5>
+<p>Las tarifas 0/0 atraen mucho tráfico, pero también es importante tener pares con políticas similares o tarifas bajas.</p>
+<h5>2 - Reequilibrio</h5>
+<p>Los pares con tarifas altas simplemente se estancaron. Algunos dijeron que muchos nodos aprovechan las tarifas 0/0 y reequilibran de forma gratuita. No es así. No noté nada parecido. Hubo pocos movimientos de pares con tarifas más altas que usan los canales con tarifas 0/0. Creo que la mayor parte del enrutamiento se basó simplemente en seguir la forma natural de encontrar el camino más barato y rápido, ignorando los nodos con tarifas altas.</p>
+
+<figure>
+<img src="/assets/images/zfr-quote.jpg" class="center">
+<figcaption>Nodo ZFR sobre tarifas</figcaption>
+</figure>
+
+<p>Muchos dijeron que los canales "agotados" no son enrutamiento y deben equilibrarse o cerrarse. ¡No es cierto! Tuve muchos canales agotados, por un día, sí. Pero después de un tiempo comienzan a mover sats en el camino. Todo depende de si su nodo tiene suficientes canales, con suficiente liquidez y equilibrado a nivel total, no a nivel individual.</p>
+
+<figure>
+<img src="/assets/images/liquidity-report-th.jpg" class="center">
+<figcaption>Este es el informe de liquidez más importante que debe mirar</figcaption>
+</figure>
+
+<p>Cuando la liquidez total de entrada y salida sea casi igual, tenga al menos 10-20-30 canales buenos (no muertos, no del borde exterior de la galaxia LN), entonces su nodo se enrutará naturalmente en ambos lados. Cuando esa relación de entrada/salida esté desequilibrada en más del 30 %, entonces sí, comenzará a tener problemas, su nodo puede detenerse.</p>
+<p>Durante todo este tiempo, NUNCA reequilibré de ninguna manera ningún canal. No usé ningún script automatizado para eso, ni siquiera manualmente. Simplemente me quedé sentado y observé.</p>
+<p>También quería ver si simplemente ajustar ligeramente el HTLC puede ayudar a equilibrar automáticamente el canal al redirigir el flujo hacia donde se necesita y hay suficiente líquido.</p>
+
+<h5>3 - Recursos, carga de memoria</h5>
+<p>Noté que se consumía más memoria cuando había más HTLC pendientes. Entonces, limitar la cantidad total de HTLC pendientes en el archivo lnd.conf ayudó un poco. No estoy seguro de qué causó que tuviera constantemente al menos 3 o 4 HTLC pendientes durante 5, 10 o 15 minutos. ¿Mi nodo? ¿Mi maldito disco duro? Mi conexión (estuve en modo híbrido todo el tiempo). ¿Mis compañeros? ¿Problemas generales con Tor?</p>
+<p>Entiendo el significado de los HTLC pendientes, pero no durante tanto tiempo. Desearía poder hacer algo al respecto, pero no tengo suficiente conocimiento o la información correcta sobre cómo solucionarlos. Tal vez LN necesita una mejora en este asunto.</p>
+
+<h5>4 - Centralidad del nodo, crecimiento</h5>
+<p>Es muy importante tu posición en la red, la centralidad y las conexiones que tienes. <a href="https://darthcoin.substack.com/p/lightning-network-is-awesome">Publiqué una lista con todas las herramientas de LN disponibles aquí</a>. Úsalos, son muy buenos para observar a tus pares, rutas, etc. Aquellos pares que están lejos en el borde de la red no moverán nada. Pero aquellos pares que tienen conexiones entre muchos de los nodos RoF y centrales, tendrán un buen movimiento.</p>
+<p>Entonces, si tienes un nodo nuevo, o incluso un nodo antiguo, pero tienes malas conexiones... cámbialos. E intenta no conectarte con pares que ya tengan las mismas conexiones que tú. Los RoF son muy buenos para expandir, pero cuando te unes a muchos anillos diferentes, pero con los mismos jugadores, no ayuda de ninguna manera, a veces incluso peor, crea como un bucle que nunca sale.</p>
+<p>Amplía tus conexiones a nodos que no estén en la mayoría de los RoF, sé el puente entre ellos y RoF. Explora los pares de LN cada vez que tengas tiempo y toma nodos, observa nuevos nodos.</p>
+<p>Conéctate con más nodos que estén usando al menos una tarifa base de 0 y una política de tarifa pequeña de ppm. <a href="https://basefee.ln.rene-pickhardt.de/">A continuación se muestra una lista enorme mantenida por René Pickhardt con nodos con política de "tarifa base 0"</a>.</p>
+<p>Si tienes un nodo con solo 2 o 3 canales... y no planeas que crezca más, es mejor que lo cierres y <a href="https://darth-coin.github.io/wallets/lightning-wallets-comparison-en.html">uses una billetera móvil LN simple</a>. No estás ayudando en absoluto a la red, ni a ti mismo. Todos sabemos que es difícil acumular sats, pero nadie te está obligando a ejecutar un buen nodo con buena liquidez.</p>
+<p>Mi experimento es ver si con canales relativamente pequeños (1-5 millones de sats) se puede obtener un buen enrutamiento para todos. Sí, puedes tener 2 o 3 canales grandes de 10-20 millones de sats, pero eso lo considero más central, concentrando más transacciones en un solo lugar. En lugar de solo 1 x 20M, podría tener 4 canales x 5M sats cada uno y más conexiones, lo que ofrecería más conectividad. Sí, es preferible tener canales más grandes que 3M sats, por muchas razones. </p>
+
+<h5>5 - ¡Usa tu nodo de liquidez!</h5>
+<p>Sí, si ya tienes un nodo LN, ¡úsalo! Para pagos. Donde sea que encuentres un comerciante que acepte LN, págalo con tu nodo. No es que estés ayudando a los comerciantes, a la red, pero haces que tu nodo sea más visible en la red. Estás impulsando la liquidez. Por eso se llama "liquidez", porque es FLUIDA, tiene que fluir, moverse, para crear algo grande y maravilloso.</p>
+<p>Si te quedas sentado en tu nodo LN esperando que otros lo enruten y les cobres comisiones... ESO ES TOTALMENTE ESTÚPIDO. Eres solo un aprovechador.</p>
+<p><a href="https://darthcoin.substack.com/p/lightning-network-is-awesome">Aquí mantengo actualizada una lista de lugares increíbles donde puedes usar tu nodo LN</a>.</p>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">Próximo paso: #March1ppm</h3>
+<p>Para marzo, probaría el mismo escenario, pero pasaría a 0/1 (0 tarifa base/1 ppm) solamente.</p>
+<p>También estableceré el HTLC máximo en 500k sats para todos los canales mayores a 1M y 150k para todos los sats menores a 1M.</p>
+<h5>ACTUALIZACIÓN 1</h5>
+<p>Después de 1 semana con el HTLC máximo establecido en 500k sats, vi demasiadas transacciones fallidas. Entonces comencé a cambiar un poco la política. Todas las mañanas, durante mi café habitual, solo miro todas las transacciones y canales enrutados anteriores y ajusto el HTLC máximo a la cantidad que tengo de mi lado. Eso significa que si una transacción llega a mi nodo, automáticamente verificaré que esa "tubería" sea lo suficientemente grande para pasar. Cuando el saldo de mi lado es mayor a 1 millón de sats, simplemente establezco un HTLC máximo de 800-900k sats o incluso más si es necesario.</p>
+<p>Por ejemplo, este canal, de 1 millón de sats en total, tengo de mi lado solo 112 765 sats disponibles. Por lo tanto, estableceré un HTLC máximo de 110 000 sats (redondeado, no tiene que ser exacto), porque no puedo reenviar más que eso. Por lo tanto, un nuevo pago enrutado y que sea mayor que eso no verificará automáticamente esta ruta.</p>
+
+<figure>
+<img src="/assets/images/chan-details-th.png" class="center">
+<figcaption>Detalles del canal en Thunderhub</figcaption>
+</figure>
+<figure>
+<img src="/assets/images/max-htlc.png" class="center">
+<figcaption>Modificar HTLC máximo (en sats)</figcaption>
+</figure>
+
+<p>Pero normalmente veo que los usuarios comienzan a usar cada vez más MPP, por lo que no creo que alguna vez se enrute una transmisión mayor a 1 Msats, siempre se dividirá en partes más pequeñas.</p>
+<p>Este proceso me llevó de 5 a 10 minutos todas las mañanas, no es un gran problema, tengo pocos canales, no cientos, por lo que no necesito un script automatizado para establecer ese máximo HTLC.</p>
+<p>Después de una semana haciendo esto, noto un enrutamiento más natural, con menos HTLC fallidos.</p>
+
+<figure>
+<img src="/assets/images/forwards-after-max-htlc.png" class="center">
+<figcaption>Observa que es un número bastante estable cada día</figcaption>
+</figure>
+
+<p>Otra tarea que hago cada 4-5 horas al día es comprobar si hay canales "fuera de línea", en especial aquellos que enrutan más. A veces, el anuncio de chismes falla y muestra canales en "modo fuera de línea" pero en realidad no lo están.</p>
+<p>Entonces, lo que hago es ir a Thunderhub - Peers, eliminar el peer "muerto" y agregarlo nuevamente. Después de unos segundos, el canal vuelve a estar "en línea". Si el peer no está realmente en línea, el proceso de adición fallará, así que no hay nada que hacer, solo inténtalo de nuevo más tarde.</p>
+<p>Esta tarea se puede hacer con el script de BoS para programarlo para que lo haga cada 5 horas, pero por el momento puedo hacerlo manualmente (lo prefiero así), no tengo demasiadas desconexiones todos los días, también tengo buenos peers.</p>
+<p>Empecé marzo con un archivo channel.db de 1,3 GB. Veamos qué tan grande será en 1 mes.</p>
+<h5>ACTUALIZACIÓN 2</h5>
+<p>El 15 de marzo hice una compactación de la base de datos. Ya tenía 2,2 GB, me llevó 5 horas reducirla a 1,2 GB. No sé cómo esto podría afectar, pero después de unas horas, el nodo comenzó a enrutar como loco y alcanzó más de 100 transacciones enrutadas.</p>
+
+<figure>
+<img src="/assets/images/forwards-after-max-htlc2.png" class="center">
+<figcaption>Transacciones enrutadas después de modificar el HTLC máximo</figcaption>
+</figure>
+
+<p>No fue una gran cantidad de sats, solo 7 millones de sats enrutados en más de 100 transacciones. Creo que ayudó más la estrategia de ajustar el HTLC máximo para los canales con menos liquidez de mi lado.</p>
+<p>A partir del 15 de marzo también comencé otra estrategia: para todos los canales mayores a 1 millón de sats, establecí un HTLC mínimo de 99 sats. Dejé 1 sat como mínimo solo para algunos canales en los que todavía uso la política de tarifa 0/0 y quiero enrutar pagos pequeños. Realmente se está moviendo mejor…</p>
+<p>Observa estos pocos canales. Nunca los equilibro. Empecé con 2 con el equilibrio de mi lado y 3 con el equilibrio de su lado. Después de una semana, estaban perfectamente equilibrados.</p>
+<p>¡NO HICE ABSOLUTAMENTE NADA! Sin scripts, sin equilibrio automático, sin gastos de comisiones, solo ajusté el HTLC máximo y dejé la comisión base en 0 y 1 ppm.</p>
+
+<figure>
+<img src="/assets/images/balanced-channels.png" class="center">
+<figcaption>Canales balanceados después de establecer el HTLC máximo</figcaption>
+</figure>
+
+<p>Algunos otros nodos comienzan a abrir canales con mi nodo, no sé por qué, tal vez porque algunos scripts de piloto automático encontraron mi nodo como "adecuado". Pero el problema es que usan tarifas altas... así que simplemente cierro sus canales. No quiero pares codiciosos. También afecta mi enrutamiento. Cuando tengo pares con tarifas altas, esto es lo que sucede... las transacciones enrutadas totales disminuyen. Cerré esos canales y, ¿veo qué sucede al día siguiente? Duplicar el número de transacciones enrutadas.</p>
+
+<figure>
+<img src="/assets/images/march-routed.png" class="center">
+<figcaption>Diferencias entre HTLC máximo y no máximo</figcaption>
+</figure>
+
+<h4 style="color:Yellow;">Conclusión de marzo:</h4>
+<p>Fue un mes bastante bueno, con una política de tarifas de 0/1. También quiero mencionar que para todos los canales con más de 1 millón de satélites, establecí el HTLC mínimo en 9 satélites. El resto de los canales pequeños se mantuvieron con un mínimo de 1 satélite.</p>
+<p>En total, enruté 1779 transacciones y obtuve 113 satélites en tarifas, con un total de 123 218 850 satélites transferidos, en ambas direcciones, con 43 canales siempre en línea. Tenía 2 o 3 canales que estaban inactivos (los operadores me informaron sobre sus problemas y no los cerré).</p>
+<p>El método de ajustar el HTLC máximo para cada canal según la liquidez de mi lado parece funcionar bastante bien. Noto que algunos canales más "inactivos" se están despertando y movieron algunos sats. Algunos canales más activos estaban teniendo buenos momentos, moviendo una buena cantidad de sats.</p>
+<p>Todo depende también de los pares y los pares de sus pares. Si solo tiene pares inactivos que están esperando que otros muevan sats y no realizan ningún pago de LN, entonces esos pares están en un callejón sin salida y es mejor que busque reemplazarlos. LN debe fluir para crecer.</p>
+
+<figure>
+<img src="/assets/images/march-total-txs.png" class="center">
+<figcaption>Total de transacciones de ruta de marzo</figcaption>
+</figure>
+<figure>
+<img src="/assets/images/march-total-sats.png" class="center">
+<figcaption>Monto total de rutas de marzo</figcaption>
+</figure>
+<hr style="height:2px">
+
+<h4 style="color:Yellow;">10 de abril</h4>
+<p>Para abril, aumenté la tarifa de ppm a 10. Veamos cómo va.</p>
+<h5>ACTUALIZACIÓN 15 de abril</h5>
+<p>Fue un promedio constante de 50 transacciones enrutadas por día. Pero quiero mencionar que tuve muchos reinicios de mi nodo, debido a otros experimentos con LNbits.</p>
+<p>También estoy haciendo algunos ajustes a mi archivo lnd.conf y observando cómo va con la “plaga” de canales cerrados a la fuerza.</p>
+<p><a href="https://telegra.ph/LND-conf-customization-04-16">Aquí está mi personalización de lnd.conf, hasta ahora.</a></p>
+<h5>ACTUALIZACIÓN 19 de abril</h5>
+<p>Puede ajustar su HTLC de MX por canal manualmente si no tiene cientos de canales o <a href="https://plebnet.wiki/wiki/Fees_And_Profitability#Using_Charge-Lnd_to_set_Maximum_HTLCs">puede automatizarlo con un script</a>. Prefiero hacerlo manualmente cada mañana, tomar un café y revisar mi nodo después de una noche ajetreada, ajustando solo aquellos canales que considero que lo merecen.</p>
+<p>Realmente no veo la necesidad de hacer reequilibrios obsesivos innecesarios todo el tiempo. Eso es tráfico "falso" sobre LN y pagar tarifas por nada.</p>
+<p>La búsqueda de rutas y el enrutamiento se pueden aumentar y hacer más eficientes si los pagos enrutados encuentran la ruta correcta, donde los canales tienen más liquidez y actúan en consecuencia, como el agua. Si "escondo" esa liquidez, el agua dejará de fluir por esa tubería y seguirá por otras rutas.</p>
+<p>Cuando usas tarifas más altas o más bajas pero ocultas la liquidez, la transacción sigue llegando pero rebota y tienes más rutas fallidas, eso significa que tu nodo dejará de ser "visto" como una buena ruta.</p>
+<p>Sí, algunos "defensores de la privacidad" dirán que revelar el saldo de un canal con mac HTLC es doxear el saldo de tu nodo. Eso es como esconderse detrás de un árbol esquivando balas. Inútil. El saldo de los canales de tu nodo se puede obtener muy fácilmente con muchos otros métodos e incluso en exploradores públicos.</p>
+<p>Haz que el agua fluya bien y con el tiempo podrás ajustar tus tarifas como quieras, lo importante es que el agua fluya continuamente.</p>
+<h5>ACTUALIZACIÓN 22 de abril</h5>
+<p>Aumenté algunos canales antiguos pequeños a más de 2,5 millones de sats. El resultado después de unos días es este... el número de transacciones enrutadas por día ya superó las 200. Veamos si es solo temporal o es una nueva tendencia. Pero noté que cada vez más personas usan LN para pagos regulares (no solo reequilibrios inútiles).</p>
+<p>En la última semana de abril tuve un gran aumento en el número de pagos enrutados con un máximo de 227 transacciones. Luego bajó a un promedio de 50-60 por día.</p>
+
+<figure>
+<img src="/assets/images/apr-total-txs.png" class="center">
+<figcaption>Total de transacciones enrutadas de abril</figcaption>
+</figure>
+<figure>
+<img src="/assets/images/apr-total-sats.png" class="center">
+<figcaption>Monto total enrutado de abril</figcaption>
+</figure>
+
+<p>En abril tuve muchos reinicios y cambios y eso estaba afectando significativamente la cantidad de transacciones enrutadas. También cambié muchos canales (cerrados y abiertos) y recuperar un buen flujo de transacciones lleva tiempo.</p>
+<p>El hecho de que haya aumentado la tarifa en ppm a 10, no estoy seguro de que haya afectado el enrutamiento.</p>
+<h5 style="color:Yellow;">La paciencia es la clave.</h5>
+<p>Acabo de ver <a href="https://xcancel.com/alexbosworth/status/1520067729151078401">este tweet de Alex Bossworth</a> y decidí reducir las tarifas para el próximo mes de mayo a 1 ppm (tarifa base cero para siempre). <a href="https://stacker.news/items/24100/r/DarthCoin">Aquí publiqué una respuesta para Alex</a>.</p>
+<p>Creo que ahora es más importante construir una red de pagos estable y barata que iniciar una "carrera de tarifas" y joderse entre sí. No creo que Alex viva de las tarifas de sus nodos...</p>
+<h5>ACTUALIZACIÓN 5 de mayo</h5>
+<p>Este mes intentaré otro "experimento". Aparte de la tarifa de ppm selectiva, entre 0 y 10 ppm, jugaré con el HTLC máximo.</p>
+<p>Mi plan es el siguiente:</p>
+<ul>
+<li>establecer el HTLC máximo en 299k sats, cuando la mayor parte del saldo esté de mi lado y el canal sea mayor a 2M sats.</li>
+<li>establecer el HTLC máximo en 199k sats, cuando la mayor parte del saldo esté de mi lado y el canal sea menor a 2M sats.</li>
+<li>Ajustar el HTLC máximo si el saldo se está acercando a ese máximo establecido, yendo a 199k y luego a 19k si está bajando.</li>
+<li>Ajustar el HTLC máximo nuevamente en 3 pasos si el saldo está regresando a mi lado.</li>
+</ul>
+<p>De esta manera, no es necesario actualizar todo el tiempo los canales (no se recomienda) y tunelar una cantidad específica de transacciones a través de canales específicos. canales.</p>
+<p>Espero que los usuarios utilicen cada vez más MPP (pagos en varias partes) y tengan una mejor búsqueda de rutas y rutas más rápidas.</p>
+
+<figure>
+<img src="/assets/images/comparison-max-htlc.jpg" class="center">
+<figcaption>Enrutamiento comparado durante todo el experimento</figcaption>
+</figure>
+
+<h5>ACTUALIZACIÓN 22 de septiembre de 2022</h5>
+<p>René Pickhardt acaba de publicar este increíble artículo, que más o menos tiene la misma conclusión que mi experimento:</p>
+<p><a href="https://blog.bitmex.com/el-poder-de-htlc_maximum_msat-como-valvula-de-control-para-un-mejor-control-de-flujo-mejor-confiabilidad-y-menores-tasas-expected-de-fallas-de-pago-en-la-red-lightning/">El poder de las válvulas para Mejor control de flujo, mayor confiabilidad y menores tasas de fallas de pago esperadas en la red Lightning</a></p>
+</body>
+</html>
+</article>
