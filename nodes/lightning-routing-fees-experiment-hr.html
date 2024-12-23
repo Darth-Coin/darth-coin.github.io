@@ -1,0 +1,266 @@
+---
+layout: default
+title: Eksperiment s naknadama za usmjeravanje Lightning Nodea
+---
+<article>
+<!DOCTYPE html>
+<html lang="hr">
+<meta name="description" content="Vodiči za Bitcoin i Lightning: Postavljanje različitih politika naknada svaki mjesec i promatranje usmjeravanja LN čvora">
+<body>
+<a href="/nodes/lightning-routing-fees-experiment-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-routing-fees-experiment-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-routing-fees-experiment-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-routing-fees-experiment-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-routing-fees-experiment-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-routing-fees-experiment-nl.html">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-routing-fees-experiment-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<blockquote style="color:Tomato;"><em>
+<p>Izvorno objavljeno na <a href="https://darthcoin.substack.com/p/lightning-routing-fees-experiment">Substack</a> 25. ožujka 2022. Ovdje ažurirano 20. prosinca 2024. </p>
+</em></blockquote>
+
+<h3 style="color:Orange;">Postavljanje različitih pravila naknada svaki mjesec i promatranje usmjeravanja LN čvora</h3>
+<h3>Uvod</h3>
+<p>Moje iskustvo s LN čvorovima počelo je 2019. s jednostavnim C-Lightning čvorom. Dobro sam radio, naučio sam puno stvari o Lightning Networku općenito i kako pokrenuti BTC/LN čvor, koje prednosti i koje neugodnosti možete imati. Ali to je bio tek početak LN-a.</p>
+<p>Tada sam 2020. saznao za Umbrel. Pa sam svoj C-Lightning čvor prebacio u novi Umbrel čvor. Sada imam Gigabyte Brix NUC s Debian OS-om.</p>
+
+<slika>
+ <img src="/assets/images/mini-node.jpg" class="center">
+ <figcaption>Umbrel čvor na Gigabyte Brix NUC (bez ventilatora) - i3 CPU, 8 GB RAM-a, 1 TB HDD (int), Debian OS 10</figcaption>
+</figure>
+
+<p>Samo da saznam više i da pomognem mnoštvu novih korisnika koji počinju instalirati Umbrel, ali nemaju pojma o tome što je LN i LN čvor.</p>
+<p>Dakle, najbolji je način bio testirati ga, naučiti kako ga koristiti, otkriti i zatim polako dokumentirati sve svoje korake u jednostavnim vodičima, kako bih mogao podijeliti svoje znanje s novim korisnicima, gladnima tih informacija i "kako" koraka.</p>
+<p>Tako sam polako izgradio ovaj čvor, otvarajući kanale, pomno proučavajući iste i <a href="https://darth-coin.github.io/nodes/managing-lightning-node-liquidity-en.html" >izrada vlastitog popisa kolega</a> (također sadrži poznati <a href="https://basefee.ln.rene-pickhardt.de/">René Pickhardt popis ZeroBaseFee čvorova</a>).</p>
+<p>Ne kažem da su moji postupci, politike, pristupi najbolji ili čak dobri. To su samo moja zapažanja i moji vlastiti zaključci o tome kako upravljati LN čvorom. Nisam stručnjak ili LN koder, ili neki "guru", samo pleb koji promatra i prolazi kroz svoj vlastiti zdrav razum što se sve događa s mojim čvorom.</p>
+<p>U redu, pridružio sam se nekim Rings of Fire, LN+ prstenovima, privatnim grupama itd. i također sam se povezao s određenim čvorovima, tijekom 2 godine s ovim čvorom Umbrel. Sve dok nisam dosegao ograničenje od 40 kanala, dobrih stabilnih kanala i vršnjaka. S mnogima sam u direktnom kontaktu. Dobro je pomagati jedni drugima (možda bih napravio još jedan vodič o tome).</p>
+<p>Zatim 2022. godine pokrećem sekundarni čvor, privatni čvor, bez aliasa, samo Tor, koji ni na koji način nije povezan s mojim pravim identitetom ili bilo kojim drugim internetskim identitetom. <a href="https://darthcoin.substack.com/p/node-liquidity-guide">Ovo je dio drugog eksperimenta koji je opisan u ovom vodiču</a>.</p>
+<p>UOPĆE me NE zanima "zarađivati ​​novac" ili "zarađivati" od LN-a. Moj cilj je pomoći da LN postane vrlo likvidna mreža plaćanja, kako bi je korisnici počeli koristiti iz dana u dan i prestali koristiti prokleti jebeni fiat. Nećemo imati zdravu mrežu plaćanja ako počnemo pljačkati jedni druge i pokušavati začepiti mrežu samo za nekoliko bijednih satnica.</p>
+<p>Kada LN bude stvarno stabilan sa stvarno dobrim pronalaženjem staze i zdravim čvorovima, kada ga mnogi korisnici koriste kao dnevnu osnovu za plaćanja (ne samo glupo ponovno balansiranje), tada možemo razgovarati o povećanju naknada i polako graditi model poticaja za čvorove usmjeravanja.</p>
+<p>Još NISMO tamo, bez obzira na to što bi drugi rekli da su zaradili x iznos sati mjesečno. NEĆETE STIĆI TAMO!</p>
+<p>I zapamtite: cilj je ZJEBATI BANKE, a ne zajebavati jedni druge...</p>
+<p>Ako sada počnemo naplaćivati ​​skupe naknade novim korisnicima koji se pridruže korištenju LN-a, onda će se preplašiti i pobjeći, reći će da je ovaj LN usrano skup sustav plaćanja.</p>
+<p>Nemojte ih plašiti, pomozite im da počnu koristiti ovu nevjerojatnu tehnologiju. Kasnije ćemo imati dosta vremena da podignemo naknade na razinu da ovo zadržimo kao poticaj.</p>
+<p>LUDA POHLEPA JE ONO ŠTO UBIJA INOVACIJE.</p>
+
+<slika>
+ <img src="/assets/images/fees-passive-income.jpg" class="center">
+ <figcaption>Noob zainteresiran za "pasivni prihod"</figcaption>
+</figure>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">Kako je počelo... #ZeroFeeFebruary</h3>
+<p>Stoga sam u veljači 2022. s jednim od svojih dobrih kolega pokrenuo pokret <a href="https://amboss.space/community/ec432081-e9f1-4c7f-8604-3a7d9980bc61">#ZeroFeeFebruary</ a> između mnogih RoF i grupa. Prošlo je prilično dobro s 35+ čvorova koji su udružili snage i postavili sve naknade za kanale na 0/0 (0 osnovna naknada, 0 ppm).</p>
+<p>Moj skromni Umbrel čvor počeo je 2x, 3x, 4x preusmjeravati broj plaćanja. Također sam zatvorio neke male, zombi kanale s vršnjacima koji nisu nimalo napredovali u zadnjih 6 mjeseci.</p>
+<p>Ovo je vrlo važan aspekt: ​​vršnjaci koji nisu dovoljno rasli posljednjih mjeseci, BESKORISNI su, mogli bi napraviti više štete nego koristi.</p>
+<p>Dakle, upozorenje za sve noobove s novim čvorovima: ako planirate pokrenuti LN sa samo 2-3 kanala i nikada više ne rasti, očekujte da će vaši kolege zatvoriti kanale. Složite više satova i otvorite više LN kanala. Sredstva u LN nisu "izgubljena" niti "blokirana" kako vas mnogi pokušavaju prestrašiti. Ne, <a href="https://medium.com/breez-technology/lightning-is-a-liquidity-network-550896ca27ea">sredstva u LN kanalima SU JEBENA LIKVIDNOST. To znači MORAJTE TECI</a>. Inače je potpuno beskoristan.</p>
+<p>Zato počinjem zatvaranjem kanala s kolegama koji drže visoke naknade. Za mene su visoke naknade:</p>
+<ul>
+<li>Osnovna naknada >1 | sve više od ovoga je glupo i čini više štete nego koristi</li>
+<li>ppm >150-200 | ponekad je ppm neophodan za povećanje likvidnosti s jedne ili druge strane, kada vam je to stvarno potrebno, slučajevi za trgovce koji ne žele biti u petlji, već samo prepuštaju prometu da izvrši balansiranje.</li>
+</ul>
+<p>Dakle, ako peer spojen na moj čvor koristi standardna pravila za sve svoje kanale kao što su 2 sata osnovna naknada / 300 ppm, zatvorit ću kanal, bez grižnje savjesti. Ili postaviti tako visoku osnovnu naknadu da će sav promet na tom kanalu biti blokiran dok ga on sam ne zatvori.</p>
+<p>Također i oni koji intenzivno koriste skriptu za naplatu. Molimo prestanite ga koristiti ako ste noob! Ili barem naučite što morate učiniti s tim i kako funkcionira.</p>
+<p>Čini više štete nego koristi. Skripta je dizajnirana da automatski onemogući kanale na određenoj razini "profitabilnosti". Korisnik niti ne zna da su mu kanali onemogućeni, a to znači ZATVORENA VRATA. To znači da nema više usmjeravanja na bilo koji način kroz te kanale. Dakle, kada vidim čvor s mnogo onemogućenih kanala, cijelo vrijeme, to je jasna poruka: on koristi jebenu zloglasnu skriptu ili je povezan s mnogo kolega koji koriste tu skriptu, taj peer je "ne ide".</p >
+<p>Likvidnost teče u oba smjera, da, sporo je, ali imajte strpljenja. Neka LN živo biće prirodno raste i teče prirodno. Ako mu postavite prepreke na putu, naravno da će pronaći druge.</p>
+<p>Pokušao sam biti razuman s onim kolegama koji reagiraju i razumiju situaciju te prilagoditi svoje naknade u skladu s tim. Polako će pohlepa biti izolirana u vanjske rubove LN galaksije.</p>
+<p>Mjesec veljača izgleda ovako, s mojim skromnim čvorom, 70 milijuna ukupne likvidnosti raspoređene 50/50 i 40 kanala:</p>
+
+<slika>
+ <img src="/assets/images/feb-routed-txs-per-day.png" class="center">
+ <figcaption>Ukupno preusmjerena plaćanja / dan za veljaču 2022.</figcaption>
+</figure>
+<slika>
+ <img src="/assets/images/feb-routed-sats-per-day.png" class="center">
+ <figcaption>Veljača 2022. Ukupan broj preusmjerenih sati / dan</figcaption>
+</figure>
+
+<p>Ukupno je preusmjereno 995 plaćanja s ukupno preusmjerenih 84 milijuna sat.</p>
+<p>Najveći vrhunac bio je 95 preusmjerenih plaćanja i ukupno 9 milijuna satova u jednom danu. U prosjeku je cijeli mjesec veljače iznosio oko 20 txs/dan s oko 3 milijuna satelita ukupno preusmjerenih/dan. Nije loše, za tako mali čvor. Nemam previše velikih kanala, čak ni jedan wumbo.</p>
+<p>Moj testni čvor je imao: 5 kanala preko 4M satelita, 14 kanala između 4M i 1M satelita, 12 kanala na 1M satelita i 9 kanala od 500k satelita. Ukupno 40 kanala (više-manje, neki se zatvaraju i otvaraju).</p>
+<p>Usporedba veljače sa 6 prethodnih mjeseci:</p>
+
+<slika>
+ <img src="/assets/images/routed-txs-6m.png" class="center">
+ <figcaption>Ne. txs-ova usmjerenih u posljednjih 6 mjeseci</figcaption>
+</figure>
+<slika>
+ <img src="/assets/images/routed-sats-6m.png" class="center">
+ <figcaption>Ukupan broj sati preusmjeren tijekom zadnjih 6 mjeseci</figcaption>
+</figure>
+
+<h4 style="color:Yellow;">Dodatni koraci koje sam napravio</h4>
+<ul>
+<li>Smanjio sam maksimalnu količinu HTLC-a na 500 tisuća sati za sve kanale</li>
+<li>Konfigurirao sam svoj čvor <a href="https://community.getumbrel.com/t/lnd-tor-clearnet-how-to-setup-hybrid-mode/6133/">da radi u hibridnom načinu< /a> - Tor & clearnet. Ovo pronalaženje staze pomoći kada je Tor začepljen</li>
+<li>Aktiviram <a href="https://community.getumbrel.com/t/how-to-reduce-size-of-channel-db-file-for-lnd/6439/">sažimanje svog kanala .db datoteku</a>, to pomaže u odzivu vašeg čvora i manje HTLC-ova na čekanju</li>
+<li>Postavio sam <a href="https://github.com/lightningnetwork/lnd/blob/master/sample-lnd.conf#L306">maksimalni broj HTLC-ova u datoteci lnd.conf na 10</a ></li>
+<li>Održavao sam sve kolege povezane što je više moguće. Ponekad je ogovaranje preko Tor-a stvarno nepredvidljivo i prijavite kolege čak i ako nisu. Dakle, ono što sam učinio je da uklonim s popisa peer-a onog peer-a koji se pojavi izvan mreže i dodam ga ponovo, ako je moguće koristeći njegov clearnet URI. Nakon nekoliko sekundi, peer je ponovno online i kanal je spreman. Za sve ove korake možete koristiti Thunderhub.</li>
+</ul>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">Zaključci</h3>
+<p>Općenito je ovaj test za mene bio uspješan. Moj glavni cilj bio je vidjeti mogućnosti i kapacitet ovog malog čvora u usmjeravanju i učiti iz njega, u situacijama s velikom količinom prometa. Ne želim doxirati nikoga od svojih vršnjaka, stoga neću objavljivati ​​snimke zaslona sa statistikama na određenim kanalima. Ali mogu reći da se mnogi od njih kreću u ovaj mjesec.</p>
+<h4 style="color:Yellow;">Neke ključne točke koje sam uočio:</h4>
+<h5>1 - Politika naknada</h5>
+<p>Naknade 0/0 privlače puno prometa, ali također je važno imati konkurente sa sličnim pravilima ili niskim naknadama.</p>
+<h5>2 - Ponovno balansiranje</h5>
+<p>Kolari s visokim naknadama jednostavno su zastali. Neki su rekli da mnogi čvorovi iskorištavaju naknade 0/0 i rebalansiraju besplatno. Ne, nije. Tako nešto nisam primijetio. Bilo je nekoliko pomaka od kolega s višim naknadama koristeći kanale s naknadama 0/0. Mislim da je većina usmjeravanja samo slijedila prirodni način pronalaženja najjeftinijeg i najbržeg puta, ignorirajući čvorove s visokim naknadama.</p>
+
+<slika>
+ <img src="/assets/images/zfr-quote.jpg" class="center">
+ <figcaption>ZFR čvor o naknadama</figcaption>
+</figure>
+
+<p>Mnogi su rekli da "iscrpljeni" kanali ne usmjeravaju i da ih je potrebno uravnotežiti ili zatvoriti. Nije istina! Imao sam mnogo ispražnjenih kanala, na jedan dan, da. Ali nakon nekog vremena počnu pomicati satove na putu okolo. Sve ovisi o tome ima li vaš čvor dovoljno mnogo kanala, s dovoljno likvidnosti i uravnotežen na ukupnoj razini, a ne na pojedinačnoj razini.</p>
+
+<slika>
+ <img src="/assets/images/liquidity-report-th.jpg" class="center">
+ <figcaption>Ovo je najvažnije izvješće o likvidnosti koje biste trebali pogledati</figcaption>
+</figure>
+
+<p>Kada je vaša ukupna ulazna i izlazna likvidnost gotovo jednaka, imate najmanje 10-20-30 dobrih kanala (ne mrtvih, ne s vanjskog ruba LN galaksije), tada će vaš čvor prirodno usmjeravati na obje strane. Kada je taj omjer ulaz/izlaz više od 30% neuravnotežen, onda da, počinjete biti u nevolji, vaš čvor može stati.</p>
+<p>Sve ovo vrijeme NIKADA nisam ponovno balansirao na bilo koji način, bilo koji kanal. Za to nisam koristio nikakvu automatiziranu skriptu, čak ni ručno. Samo sjedim i gledam.</p>
+<p>Također sam želio vidjeti može li samo lagano podešavanje HTLC-a pomoći u automatskom balansiranju kanala preusmjeravanjem protoka tamo gdje je potrebno i gdje ima dovoljno tekućine.</p>
+
+<h5>3 - Resursi, opterećenje memorije</h5>
+<p>Primijetio sam da se više memorije troši kada je više HTLC-ova na čekanju. Stoga je ograničenje ukupnog broja HTLC-ova na čekanju u datoteci lnd.conf malo pomoglo. Nisam siguran što je uzrokovalo stalno najmanje 3-4 čekanja HTLC-a na 5-10-15 minuta. Moj čvor? Moj usrani HDD? Moja veza (bio sam cijelo vrijeme u hibridnom načinu). Moji vršnjaci? Problemi s općim Torom?</p>
+<p>Razumijem značenje HTLC-ova na čekanju, ali ne tako dugo. Volio bih da mogu nešto učiniti u vezi s njima, ali nemam dovoljno znanja ni pravih informacija o tome kako ih popraviti. Možda LN treba poboljšanje po ovom pitanju.</p>
+
+<h5>4 - Centralnost čvora, rast</h5>
+<p>Vrlo je važna vaša pozicija u mreži, središnje mjesto i veze koje imate. <a href="https://darthcoin.substack.com/p/lightning-network-is-awesome">Ovdje sam objavio popis svih dostupnih LN alata</a>. Koristite ih, vrlo su dobri u promatranju svojih vršnjaka, ruta itd. Oni vršnjaci koji su daleko na rubu mreže neće ništa pomaknuti. Ali oni ravnopravni uređaji koji imaju veze između mnogih RoF i središnjih čvorova imat će dobro kretanje.</p>
+<p>Dakle, ako imate novi čvor ili čak stari čvor, ali imate loše veze... promijenite ih. I pokušajte se ne povezivati ​​s vršnjacima koji već imaju iste veze kao i vi. RoF je jako dobar za proširivanje, ali kada se pridružite mnogo različitih prstenova, ali s istim igračima, to ne pomaže ni na koji način, ponekad čak i gore, stvara se poput petlje koja se nikada ne gasi.</p>
+<p>Proširite svoje veze na čvorove koji nisu u većini RoF-a, budite most između njih i RoF-a. Istražite LN peere svaki put kada imate vremena i uzmite čvorove, promatrajte nove čvorove.</p>
+<p>Povežite se s više čvorova koji koriste najmanje 0 osnovnih naknada i pravila male naknade za ppm. <a href="https://basefee.ln.rene-pickhardt.de/">Ovdje je ogroman popis koji održava René Pickhardt s čvorovima pravila “0 osnovne naknade”</a>.</p>
+<p>Ako imate čvor sa samo 2-3 kanala... i ne planirate dalje rasti, bolje ga samo zatvorite i <a href="https://darth-coin.github.io/wallets /lightning-wallets-comparison-en.html">koristite jednostavan LN mobilni novčanik</a>. Uopće ne pomažete mreži, niti sebi. Svi znamo da je teško slagati satove, ali nitko vas ne tjera da pokrenete dobar čvor s dobrom likvidnošću.</p>
+<p>Moj eksperiment je vidjeti da se s relativno malim kanalima (1-5M satelita) može dobiti dobro usmjeravanje za sve. Da, mogli biste imati 2-3 velika kanala od 10-20M satelita, ali ja to smatram središnjim, koncentrirajući više prijenosa na samo jedno mjesto. Umjesto samo 1 x 20M mogao bih imati 4 kanala x 5M sat svaki i više veza, pružajući više povezivosti. Da, poželjno je imati kanale veće od 3M satelita, iz mnogo razloga. </p>
+
+<h5>5 - Koristite svoj čvor likvidnosti!</h5>
+<p>Da, ako već imate LN čvor, koristite ga dovraga! Za uplate. Gdje god nađete trgovca koji prihvaća LN, platite ga svojim čvorom. Ne da pomažete trgovcima, mreži, već činite svoj čvor vidljivijim u mreži. Gurate naprijed likvidnost. Zato se zove "likvidnost" jer je TEKUĆA, mora teći, kretati se, kako bi se stvorilo nešto veliko i prekrasno.</p>
+<p>Ako samo sjedite na svom LN čvoru i čekate da drugi usmjere, a vi da im naplatite naknade... TO JE ČISTA GLUPOST. Ti si samo pijavica.</p>
+<p><a href="https://darthcoin.substack.com/p/lightning-network-is-awesome">Ovdje stalno ažuriram popis sjajnih mjesta na kojima možete koristiti svoj LN čvor</a>. </p>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">Sljedeći korak: #March1ppm</h3>
+<p>Za ožujak bih testirao isti scenarij, ali samo prelazak na 0/1 (0 osnovne naknade/1 ppm).</p>
+<p>Također će postaviti maksimalni HTLC na 500k sati za sve kanale veće od 1M i 150k za sve manje od 1M sat.</p>
+<h5>AŽURIRANJE 1</h5>
+<p>Nakon 1 tjedna s maksimalnim HTLC-om postavljenim na 500.000 sati, vidio sam previše neuspjelih prijenosa. Pa počinjem malo mijenjati politiku. Svakog jutra za vrijeme moje obične kave samo pogledam sve prethodne rutirane tx-ove i kanale i prilagodim max HTLC koliko imam na svojoj strani. To znači da će, ako txs dođe do mog čvora, automatski provjeriti je li ta "cijev" dovoljno velika da prođe. Kada je ravnoteža na mojoj strani veća od 1 milijuna satova, samo postavim 800-900 tisuća satova max HTLC ili čak i više ako je potrebno.</p>
+<p>Na primjer, ovaj kanal, od ukupno 1 milijuna sati, ja na svojoj strani imam samo 112 765 dostupnih sati. Dakle, postavit ću max 110 000 sati HTLC (zaokruženo, ne mora biti točno), jer više od toga ne mogu proslijediti. Dakle, novo preusmjereno plaćanje koje je veće od toga automatski neće provjeriti ovu rutu.</p>
+
+<slika>
+ <img src="/assets/images/chan-details-th.png" class="center">
+ <figcaption>Pojedinosti o kanalu u Thunderhub</figcaption>
+</figure>
+<slika>
+ <img src="/assets/images/max-htlc.png" class="center">
+ <figcaption>Izmijenite maks. HTLC (u satima)</figcaption>
+</figure>
+
+<p>Ali obično vidim da korisnici počnu koristiti sve više i više MPP-a, tako da ne vjerujem da će ikada dobiti prijenos veći od 1Msata, uvijek će biti podijeljen na manje dijelove.</p>
+<p>Za ovaj mi je postupak trebalo 5-10 minuta svako jutro, nije velika stvar, imam nekoliko kanala, a ne stotine, tako da nema potrebe za automatiziranom skriptom za postavljanje tog maksimalnog HTLC-a.</p>
+<p>Nakon tjedan dana rada, primijetio sam prirodnije usmjeravanje, s manje neuspjelih HTLC-ova.</p>
+
+<slika>
+ <img src="/assets/images/forwards-after-max-htlc.png" class="center">
+ <figcaption>Primijetite da je to prilično stabilan broj svaki dan</figcaption>
+</figure>
+
+<p>Još jedan zadatak koji obavljam svakih 4-5 sati dnevno jest provjeravati postoje li "offline" kanali, posebno oni koji usmjeravaju više. Ponekad najava trača ne uspije i prikazuje kanale u "izvanmrežnom načinu", ali zapravo nisu.</p>
+<p>Ono što ja radim je da odem na Thunderhub - Peers, uklonim "mrtvog" peera i ponovno ga dodam. Nakon nekoliko sekundi kanal je ponovno "online". Ako ravnopravni korisnik stvarno nije na mreži, proces dodavanja neće uspjeti pa se ionako ništa ne treba raditi, samo pokušajte ponovno kasnije.</p>
+<p>Ovaj se zadatak može obaviti s BoS skriptom da se programira da to radi svakih 5 sati, ali trenutno to mogu učiniti ručno (više volim tako), nemam previše prekida veze svaki dan, imam dobre vršnjaci također.</p>
+<p>Ožujak sam započeo s datotekom channel.db od 1,3 GB. Da vidimo koliki će biti za 1 mjesec.</p>
+<h5>AŽURIRANJE 2</h5>
+<p>15. ožujka Sažimao sam bazu podataka. Već je imao 2,2 GB, trebalo je 5 sati da se spusti na 1,2 GB. Ne znam kako bi to moglo utjecati, ali nakon nekoliko sati, čvor je počeo usmjeravati kao lud i dosegao je više od 100 preusmjerenih tx-ova.</p>
+
+<slika>
+ <img src="/assets/images/forwards-after-max-htlc2.png" class="center">
+ <figcaption>usmjereni txs nakon izmjene maksimalnog HTLC-a</figcaption>
+</figure>
+
+<p>Nije bila velika količina satelita, samo 7 milijuna satelita preusmjerenih u 100+ tx-ova. Mislim da je više pomogla strategija prilagodbe maksimalnog HTLC-a za kanale s manjom likvidnošću na mojoj strani.</p>
+<p>Od 15. ožujka također počinjem s drugom strategijom: za sve kanale veće od 1 milijuna sati postavljam min. HTLC 99 sati. Dopuštam 1 sat sat samo za nekoliko kanala na kojima još uvijek koristim politiku naknade 0/0 i želim usmjeravati sitna plaćanja. Stvarno se bolje kreće...</p>
+<p>pogledajte ovih nekoliko kanala. Nikada ih ne balansiram. Počelo je 2 s ravnotežom na mojoj strani i 3 s ravnotežom na njihovoj strani. Nakon tjedan dana su savršeno izbalansirani.</p>
+<p>Nisam učinio APSOLUTNO NIŠTA! Bez skripti, bez automatskog balansiranja, bez potrošenih naknada, samo prilagođavanje maksimalnog HTLC-a i ostavljanje 0 osnovne naknade i 1 ppm.</p>
+
+<slika>
+ <img src="/assets/images/balanced-channels.png" class="center">
+ <figcaption>Uravnoteženi kanali nakon postavljanja maksimalnog HTLC-a</figcaption>
+</figure>
+
+<p>Neki drugi čvorovi počnu otvarati kanale s mojim čvorom, ne znam zašto, možda zato što su neke skripte auto-pilota moj čvor smatrale "prikladnim". Ali stvar je u tome što oni koriste visoke naknade... pa sam jednostavno zatvorio njihove kanale. Ne želim pohlepne vršnjake. To također utječe na moje usmjeravanje. Kad imam kolege s visokim naknadama, događa se ovo... ukupan broj preusmjerenih prijenosa pada. Zatvorili te kanale i vidjeli što će se dogoditi sljedeći dan? Dvostruki broj preusmjerenih tx-ova.</p>
+
+<slika>
+ <img src="/assets/images/march-routed.png" class="center">
+ <figcaption>Razlike između max HTLC i ne-max</figcaption>
+</figure>
+
+<h4 style="color:Yellow;">Zaključak iz ožujka:</h4>
+<p>Bio je to prilično dobar mjesec, s politikom naknada 0/1. Također da spomenem da sam za sve kanale veće od 1M sati postavio min HTLC na 9 sati. Svi ostali mali kanali ostaju na min 1 sat.</p>
+<p>Ukupno sam preusmjerio 1779 txs-a i dobio 113 sat-ova u naknadama, s ukupno 123,218,850 sat-ova premještenih okolo, u oba smjera, s 43 kanala uvijek na mreži. Imao sam 2-3 kanala koji su bili mrtvi (operateri su me obavijestili o njihovim problemima i nisam ih zatvorio).</p>
+<p>Čini se da metoda prilagodbe maksimalnog HTLC-a za svaki kanal prema likvidnosti moje strane prilično dobro funkcionira. Primjećujem da se još neki "uspavani" kanali bude i pomaknuli su neke satove. Neki aktivniji kanali imali su dobra vremena, pomjerajući prilično dobru količinu sati.</p>
+<p>Sve također ovisi o vršnjacima i vršnjacima vaših vršnjaka. Ako imate samo uspavane peere koji samo čekaju da drugi premjeste satove i ne izvrše nikakvo LN plaćanje, onda su ti peeri slijepa ulica i bolje ih zamijenite. LN mora teći kako bi rastao.</p>
+
+<slika>
+ <img src="/assets/images/march-total-txs.png" class="center">
+ <figcaption>Ukupni broj prijenosa usmjeravanja u ožujku</figcaption>
+</figure>
+<slika>
+ <img src="/assets/images/march-total-sats.png" class="center">
+ <figcaption>Ukupni preusmjereni iznos u ožujku</figcaption>
+</figure>
+<hr style="height:2px">
+
+<h4 style="color:Yellow;">10. travnja</h4>
+<p>Za travanj sam povisio naknadu za ppm na 10. Da vidimo kako ide.</p>
+<h5>AŽURIRANJE 15. travnja</h5>
+<p>Bio je stabilan prosjek od 50 poslanih tx-ova dnevno. Ali da spomenem da sam imao mnogo ponovnih pokretanja svog čvora, zbog nekih drugih eksperimenata s LNbitovima.</p>
+<p>Također malo dotjerujem svoju datoteku lnd.conf i gledam kako ide s prisilno zatvorenim kanalima "pošasti".</p>
+<p><a href="https://telegra.ph/LND-conf-customization-04-16">Ovo je moja prilagodba lnd.conf do sada.</a></p>
+<h5>AŽURIRANJE 19. travnja</h5>
+<p>Možete podesiti svoj mx HTLC po kanalu ručno ako nemate stotine kanala ili ga <a href="https://plebnet.wiki/wiki/Fees_And_Profitability#Using_Charge-Lnd_to_set_Maximum_HTLCs">možete automatizirati pomoću skripte </a>. Više volim to raditi ručno svako jutro, ispijajući kavu i provjeravajući svoj čvor nakon naporne noći, podešavajući samo one kanale za koje smatram da to zaslužuju.</p>
+<p>Stvarno ne vidim potrebu za nepotrebnim opsesivnim vraćanjem ravnoteže cijelo vrijeme. To je "lažni" promet preko LN-a i plaćanje naknada za ništa.</p>
+<p>Pronalaženje puta i usmjeravanje može se povećati i učiniti učinkovitijim ako usmjerena plaćanja pronađu pravi put, gdje kanali imaju veću likvidnost i ponašaju se u skladu s tim, poput vode. Ako "sakrijem" tu likvidnost, voda će prestati teći tom cijevi i otići će drugim rutama.</p>
+<p>Kada koristite više ili niže naknade, ali skrivate likvidnost, prijenos i dalje dolazi, ali se vraća i imate više neuspjelih usmjeravanja, to znači da će vaš čvor biti "viđen" kao dobra ruta.< /p>
+<p>Da, neki "zagovornici privatnosti" reći će da otkrivanje ravnoteže kanala s mac HTLC-om predstavlja doxxing vaše bilance čvora. To je kao da se skrivate iza stabla i izbjegavate metke. Beskoristan. Ravnoteža vaših kanala čvora može se vrlo lako postići s mnogim drugim metodama, pa čak i na javnim istraživačima.</p>
+<p>Omogućite dobar protok vode i s vremenom možete prilagoditi svoje naknade kako želite, važno je da voda neprekidno teče.</p>
+<h5>AŽURIRANJE 22. travnja</h5>
+<p>Povećao sam neke male stare kanale na više od 2,5 milijuna sati. Rezultat nakon nekoliko dana je ovaj... broj preusmjerenih tx-ova po danu već je prešao 200. Da vidimo je li to samo privremeno ili je novi trend. No primijetio sam da sve više i više ljudi koristi LN za redovita plaćanja (a ne samo za beskorisno rebalansiranje).</p>
+<p>U posljednjem tjednu travnja imao sam veliki skok u broju preusmjerenih plaćanja s maksimalnih 227 tx-ova. Zatim se smanjio na uobičajenih 50-60/dan.</p>
+
+<slika>
+ <img src="/assets/images/apr-total-txs.png" class="center">
+ <figcaption>Ukupan broj prijenosa usmjeravanja u travnju</figcaption>
+</figure>
+<slika>
+ <img src="/assets/images/apr-total-sats.png" class="center">
+ <figcaption>Ukupni iznos za travanj preusmjeren</figcaption>
+</figure>
+
+<p>U travnju sam imao mnogo ponovnih pokretanja i promjena i to je značajno utjecalo na količinu preusmjerenih txs-ova. Također sam promijenio puno kanala (zatvorenih i otvorenih) i ponovno dobivanje dobrog protoka txs-a zahtijeva vrijeme.</p>
+<p>Činjenica da sam povisio naknadu ppm na 10, nisam siguran da je to utjecalo na usmjeravanje.</p>
+<h5 style="color:Yellow;">Strpljenje je ključ.</h5>
+<p>Upravo sam vidio <a href="https://xcancel.com/alexbosworth/status/1520067729151078401">ovaj tweet Alexa Bosswortha</a> i odlučio sam smanjiti naknade za sljedeći mjesec svibanj na 1ppm ( nula osnovna naknada zauvijek). <a href="https://stacker.news/items/24100/r/DarthCoin">Ovdje sam objavio odgovor za Alex</a>.</p>
+<p>Mislim da je sada važnije izgraditi stabilnu i jeftinu mrežu plaćanja nego pokrenuti "utrku s naknadama" i zajebavati jedni druge. Mislim da Alex ne živi od svojih naknada za čvorove...</p>
+<h5>AŽURIRANJE 5. svibnja</h5>
+<p>Ovog mjeseca pokušat ću još jedan "eksperiment". Osim selektivne naknade za ppm, između 0 i 10 ppm, igrat ću s maksimalnim HTLC-om.</p>
+<p>Moj plan je sljedeći:</p>
+<ul>
+<li>postavite maksimalni HTLC na 299k sati, kada je većina bilance na mojoj strani i kada je kanal veći od 2 milijuna sati.</li>
+<li>postavite maksimalni HTLC na 199k sati, kada je većina bilance na mojoj strani, a kanal je niži od 2 milijuna sati</li>
+<li>Prilagodite maksimalni HTLC ako se ravnoteža približava maksimalnom postavljenom iznosu, idući na 199k, a zatim na 19k ako se smanjuje.</li>
+<li>Vratite maks. HTLC u 3 koraka ako se ravnoteža vraća na moju stranu.</li>
+</ul>
+<p>Na ovaj način nije potrebno cijelo vrijeme ažurirati kanale (ne preporučuje se) i tunelirati određenu količinu txs-ova kroz određene kanale.</p>
+<p>Nadam se da će korisnici sve više koristiti MPP (višedijelna plaćanja) i imati bolje pronalaženje puta i brže rute.</p>
+
+<slika>
+ <img src="/assets/images/comparison-max-htlc.jpg" class="center">
+ <figcaption>Uspoređeno rutiranje tijekom cijelog eksperimenta</figcaption>
+</figure>
+
+<h5>AŽURIRANJE 22. rujna 2022.</h5>
+<p>René Pickhardt je upravo izbacio ovaj nevjerojatan članak, koji manje-više ima isti zaključak kao i moj eksperiment:</p>
+<p><a href="https://blog.bitmex.com/the-power-of-htlc_maximum_msat-as-a-control-valve-for-better-flow-control-improved-reliability-and-lower- očekivane-plaćanja-stope neuspjeha-on-the-lightning-network/">Snaga ventila za bolju kontrolu protoka, poboljšanu pouzdanost i niže očekivano plaćanje stope kvarova na Lightning Network</a></p>
+</body>
+</html>
+</article>
