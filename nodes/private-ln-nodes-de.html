@@ -1,0 +1,407 @@
+---
+layout: default
+title: Private Lightning Network-Knoten
+---
+<article>
+<!DOCTYPE html>
+<html lang="de">
+<meta name="description" content="Bitcoin- und Lightning-Anleitungen: Bitcoin Lightning Network für den persönlichen Gebrauch nutzen, praktische Lösungen mit privaten LN-Knoten">
+<body>
+<a href="/nodes/private-ln-nodes-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/private-ln-nodes-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/private-ln-nodes-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/private-ln-nodes-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/private-ln-nodes-nl.html">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/private-ln-nodes-hr.html">Hrvatski <img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/private-ln-nodes-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<blockquote style="color:Tomato;"><em>
+<p>Dieser Artikel wurde gepostet und registriert <a href="https://mempool.space/tx/d2cc6d20399224a8f0d63c53930158fd825e5cce3faa6c14a0d2b5108266a69b">OP_RETURN</a> auf Blockhöhe <a href="https://mempool.space/block/000000000000000000053df87ae93aaa5ae9ae732ca684845a0cfce261fb23f5">#775009</a> (28. JAN. 2023)</p>
+<p>Aktualisiert am 15. Oktober 2024</p>
+</em></blockquote>
+
+<h3>So verwenden Sie das Bitcoin Lightning Network für Ihren persönlichen Gebrauch, praktische Lösungen mit privaten mobilen und Desktop-LN-Knoten.</h3>
+<h2 style="color:Orange;">EINFÜHRUNG</h2>
+<p>Diese Anleitung richtet sich an alle neuen Benutzer, die Bitcoin über das Lightning Network verwenden möchten, gerade genug, um es zu testen, zu üben, den persönlichen Gebrauch zu machen, mit Lightning Network-Zahlungen einzukaufen, im echten Leben.</p>
+<p>Ja, ich habe <a href="/wallets/lightning-wallets-comparison-de.html">hier</a> und <a href="/beginner/getting-started-lightning-de.html">hier</a> ausführliche Anleitungen zu LN-Wallets geschrieben, ob verwahrt oder nicht. Aber in diesem Handbuch werde ich nichts über LN-Wallets, sondern über private LN-Knoten erklären.</p>
+<p>Heutzutage fallen viele Neulinge, die nicht genug darüber wissen, wie man einen LN-Knoten betreibt und LN im wirklichen Leben verwendet, auf den Hype „Betreibe deinen LN-Knoten, sei Teil des Netzwerks“ herein …</p>
+<p>An dieser Einschätzung ist nichts auszusetzen. Ja, es ist gut, Teil des Netzwerks zu sein, aber wenn SIE WISSEN, WAS SIE TUN. Ich möchte Sie nicht davon abhalten, einen LN-Knoten zu betreiben, aber wählen Sie mit Bedacht, welcher Typ für Sie besser geeignet ist.</p>
+<p>Das ist, als würde man alle auffordern, „Teil des Netzwerks der Flugzeugpiloten zu werden“. Ja, schnappen Sie sich einfach das billigste Flugzeug und fangen Sie an zu fliegen … Sie werden die Bedienungsanleitung lesen, während Sie fliegen.</p>
+<p>Nein, einen ÖFFENTLICHEN Lightning Network-Knoten zu betreiben, IST EINE ERNSTHAFTE AUFGABE. Und wenn Sie nicht vorbereitet sind, zumindest nicht auf grundlegender Ebene, fügen Sie dem Netzwerk mehr Schaden zu, als dass Sie Teil davon sind. LN ist wie ein lebender Mikroorganismus. Wenn ein Teil davon schlecht ist, wirkt sich dies am Ende auf den Rest aus.</p>
+<p><img src="/assets/images/public-private.jpg" class="center"></p>
+
+<h3 style="color:Yellow;">Was ist also der Zweck dieses Leitfadens?</h3>
+<p>Allen Neulingen erklären, dass es zwei Arten von LN-Knoten gibt:</p>
+<ul>
+<li><a href="#public">Öffentliche Routing-Knoten</a></li>
+<li><a href="#private">Private Nicht-Routing-Knoten</a></li>
+</ul>
+<p>Beide spielen eine wichtige Rolle für das Netzwerk. Und ich werde Ihnen in einfachen Worten erklären, was das bedeutet und wie man einen privaten, nicht routenden Knoten verwendet.</p>
+<p>Und die Leute SOLLTEN zwischen öffentlich und privat unterscheiden. Im Lightning Network bedeuten die Begriffe:</p>
+<ul>
+<li style="color:Tomato;"><em>Öffentlich</em> = angekündigte Knoten und Kanäle, sind im öffentlichen LN-Diagramm sichtbar. Dies sind Knoten, die andere Zahlungen über ihre Kanäle WEITERLEITEN KÖNNEN. Ein öffentlicher Routing-Knoten kann auch ein LSP (Liquidity Service Provider) sein. <a href="https://stacker.news/items/329312/r/DarthCoin">Wie ich hier erklärt habe</a>.</li>
+<li style="color:Tomato;"><em>Privat</em> = nicht angekündigte Knoten und Kanäle, sind im öffentlichen LN-Diagramm nicht sichtbar, aber dennoch über Routing-Hinweise zugänglich. Dies sind Knoten, die Zahlungen anderer NICHT WEITERLEITEN KÖNNEN, aber alle IHRE eingehenden und ausgehenden Zahlungen über die Weiterleitungsknoten abwickeln können.</li>
+</ul>
+<hr style="height:2px">
+
+<h2 style="color:Orange;" id="public">A. Öffentliche Routing-Knoten <a href="#public">#</a></h2>
+<p>Dies sind alle LN-Knoten, die Sie normalerweise in jedem Lightning Explorer aufgelistet sehen können (Amboss, Mempool, 1ML <a href="https://darthcoin.substack.com/p/lightning-network-is-awesome?open=false#%C2%A7tools-explorers-analyzers-stats">weitere Informationen finden Sie hier</a>).</p>
+<p>Auch wenn einige ihrem Knoten keinen Aliasnamen hinzufügen (das dient eher dem Spaß und der öffentlichen Aufklärung großer Knoten), hat jeder dieser öffentlichen Knoten dennoch eine eindeutige Kennung, die Knoten-ID, die bei der Erstellung des Knotens generiert wird.</p>
+<p>Einige von ihnen zeigen eine öffentliche IP an (sei es eine normale Clearnet-IP oder eine VPN-IP) und einige verwenden nur eine Tor-Adresse. Auch wenn sie eine Tor-Adresse verwenden (die ihren tatsächlichen Standort oder ihre IP-Adresse nicht preisgibt), handelt es sich dennoch um ÖFFENTLICHE Knoten.</p>
+<p>Um einen öffentlichen Routing-Knoten zu betreiben, MÜSSEN Sie über eine gute Menge an Liquidität verfügen, um „Skin in the Game“ zu haben. Diese Liquidität ist nicht in LN „gesperrt“, wie viele fälschlicherweise sagen. Nein, als Routing-Knoten können Sie diese Liquidität weiterhin nutzen, indem Sie Ihre eigenen LN-Zahlungen vornehmen.</p>
+<p>Ich werde hier nicht zu sehr ins Detail gehen, wie man einen öffentlichen Routing-Knoten betreibt. Ich habe mehrere Anleitungen dazu geschrieben und bitte lesen Sie sie alle, wenn Sie diesen Weg einschlagen möchten. Aber ACHTUNG: Starten Sie nicht einmal einen Routing-Knoten, wenn Ihr gesamter Bitcoin-Vorrat nur ein paar Tausend Sats beträgt. Wir sprechen hier von mindestens 1 BTC, den Sie als Liquidität einsetzen möchten, wenn Sie wirklich ein guter Routing-Knoten sein möchten. Andernfalls verschwenden Sie nur Zeit, Ihre Zeit und die Zeit anderer …</p>
+<p>Legen Sie außerdem NIEMALS Ihren gesamten Bitcoin-Vorrat in einen LN-Knoten. Ich schlage vor, etwa 30 % oder maximal 40 % Ihres gesamten Vorrats in einem Routing-LN-Knoten aufzubewahren.</p>
+<h5>Um mehr über öffentliche Routing-LN-Knoten zu erfahren, habe ich mehrere Anleitungen geschrieben:</h5>
+<ul>
+<li><a href="/beginner/ln-airport-analogy-de.html">Lightning Network erklärt – Die Flughafenanalogie</a> – UNBEDINGT LESEN</li>
+<li><a href="https://stacker.news/items/552822/r/DarthCoin">Lightning Network erklärt – Die Wasserglasanalogie</a> – UNBEDINGT LESEN</li>
+<li><a href="/nodes/bitcoin-ln-node-software-de.html">Welche Bitcoin-LN-Knotensoftware kann ich ausführen?</a></li>
+<li><a href="https://darthcoin.substack.com/p/umbrel-bitcoin-ln-node">Erste Schritte mit Umbrel Node</a> (diese Anleitung handelt nicht nur von Umbrel, sondern auch davon, wie man einen Routing-Node betreibt)</li>
+<li><a href="/nodes/managing-lightning-node-liquidity-de.html">Liquidität von Lightning Nodes verwalten</a> - warum betreibt man einen öffentlichen Node, wo stellt man eine Verbindung her, wie verwaltet man Geldmittel</li>
+<li><a href="/nodes/shtf-restore-lnd-node-de.html">Umbrel / LND-Node - SHTF-Szenario (Wiederherstellungsverfahren)</a></li>
+<li><a href="https://darthcoin.substack.com/p/lightning-network-is-awesome">Lightning Network ist fantastisch</a> - riesige Liste von LN-Ressourcen</li>
+<li><a href="https://darthcoin.substack.com/p/node-liquidity-guide">Liquiditätsanleitung für private / öffentliche Nodes</a> - wie man 3 verschiedene Nodes zum Verschieben verwendet Liquidität</li>
+<li><a href="/nodes/lightning-routing-fees-experiment-de.html">Lightning Routing Fees Experiment</a> - sehr wichtiger Leitfaden für einen Routing-Knoten</li>
+<li><a href="/nodes/lightning-submarine-swaps-de.html">Lightning Network Submarine Swaps</a></li>
+<li><a href="/nodes/lightning-node-maintenance-de.html">Lightning Node Maintenance</a></li>
+<li><a href="/nodes/recommendations-ln-node-operators-de.html">Empfehlungen für neue LN-Knoten-Benutzer</a> - Darth-Wartung</li>
+<li><a href="https://darthcoin.substack.com/p/tailscale-to-your-node">Tailscale mit Ihrem Tor-Knoten verwenden</a></li>
+<li><a href="/merchants/operating-ln-as-merchant-de.html">Als Händler mit LN arbeiten</a></li>
+<li><a href="/merchants/private-banks-over-ln-de.html">Private Banken über Lightning Network</a></li>
+</ul>
+<p> und viele weitere (über spezifische Anwendungsfälle) auf meinem Substack, in viele Sprachen übersetzt.</p>
+<hr style="height:2px">
+
+<h2 style="color:Orange;" id="privat">B. Private Lightning-Knoten <a href="#private">#</a></h2>
+<p>Lassen Sie uns nun in die Frage eintauchen: „Was zum Teufel sind diese privaten LN-Knoten?“</p>
+<p>Der Hauptanwendungsfall für diese ist eine privatere Nutzung. Da ihre Knoten-ID und Kanäle nicht im gesamten öffentlichen Netzwerk bekannt gegeben werden, werden sie am äußeren Rand der LN-Galaxie positioniert, sind aber dennoch mit dem gesamten Netzwerk verbunden.</p>
+
+<figure>
+<img src="/assets/images/public-ln-graph.jpg" class="center">
+<figcaption>Lightning Network Galaxy Map</figcaption>
+</figure>
+
+<p>Wenn Sie diese privaten Knoten verwenden, müssen Sie immer noch etwas Liquidität ins Spiel bringen, aber dieses Mal nur für Ihr eigenes Zahlungsniveau (ein- und ausgehend). Das bedeutet, dass sie besser für Leute geeignet sind, die:</p>
+<ul>
+<li>normale Anfänger sind, die LN verwenden möchten, um Zahlungen zu testen, zu lernen mehr</li>
+<li>haben (noch) nicht zu viele BTC, um große Kanäle zu öffnen</li>
+<li>möchten nicht zu viel von ihrem BTC-Vorrat verwenden, aber trotzdem LN nutzen</li>
+<li>möchten mehr Privatsphäre bei der Nutzung von LN</li>
+<li>sie haben noch einen öffentlichen Knoten, möchten aber auch private Knoten für andere Arten von Zahlungen verwenden, privater, Swaps, Liquiditätsbewegungen usw.</li>
+</ul>
+<p>Und das alles ohne eine Depotlösung zu verwenden. Es gibt viele da draußen, die vorgeben, das beste LN-Erlebnis zu bieten. Ja, einige dieser Depotlösungen (insbesondere die ohne KYC) haben ihren eigenen Anwendungsfall, aber darüber werden wir hier nicht sprechen.</p>
+<p>Wie Sie <a href="/wallets/lightning-wallets-comparison-dn.html">in meinem vorherigen Leitfaden zu LN-Wallets</a> sehen können, teile ich sie in 4 Hauptkategorien ein: Anfänger (Depot), Mittelstufe (ohne Depot), Fortgeschrittene A (Node-Wallets), Fortgeschrittene B (Node-Management). Bitte lesen Sie diesen Leitfaden, um alle Funktionen und Möglichkeiten kennenzulernen.</p>
+<figure>
+<img src="/assets/images/wallets-LN.jpg" class="center">
+<figcaption>Die 4 Hauptkategorien von LN-Wallets</figcaption>
+</figure>
+
+<p>Hier sprechen wir darüber, wie man die Advanced Node-Wallets verwaltet und verwendet, weil ich viele Neulinge gesehen habe, die noch nicht einmal wissen, dass es diese gibt! Mit diesen mobilen oder Desktop-Apps können Sie immer noch lernen, wie Sie LN-Liquidität, -Kanäle und -Knoten verwalten, aber mit einem Low-Level-Ansatz und einfachen Schritten. Dies ist die perfekte Möglichkeit, durch die Verwendung zu lernen, ohne die anderen Prozesse des gesamten Lightning-Netzwerks zu stören.</p>
+<p>Wenn Sie zuvor einen LN-Knoten hatten und ihn nicht verstanden und ausgeführt haben, aber dennoch mehr lernen möchten, empfehle ich Ihnen, ihn nicht wegzuwerfen. Dieses Stück Hardware ist immer noch sehr nützlich.</p>
+<p>Installieren Sie einfach darauf: ein Linux-Debian-Betriebssystem + Bitcoin-Core-Knoten + Electrum-Server/Fulcrum und verwenden Sie es als Ihren Haupt-Bitcoin-Knoten, um hauptsächlich Ihre Transaktionen zu validieren, zu senden und zu verifizieren, was Ihnen auch mehr Privatsphäre bietet.</p>
+<p>Alle diese mobilen Knoten BRAUCHEN sowieso einen Bitcoin-Core-Knoten, mit dem die Hauptkette (Neutrino oder Electrum SPV) synchronisiert werden muss. Ihr alter (ausgefallener) Knoten kann also immer noch eine sehr wichtige Rolle für das Netzwerk spielen.</p>
+
+<figure>
+<img src="/assets/images/wallets-3-circles.jpg" class="center">
+<figcaption>Eine weitere Darstellung des LN-Wallet-Spektrums verwendet die 3 Kreise ihrer Hauptmerkmale</figcaption>
+</figure>
+
+<p>Sehen wir uns also an, welche dieser Desktop- und Mobil-Apps Sie für bestimmte Anwendungsfälle verwenden können und wie:</p>
+<ul>
+<li><a href="#blixt">Blixt Wallet </a> (mobil + macOS-Desktop, eingebetteter LND-Knoten mit Neutrino, LN-Adresse)</li>
+<li><a href="#zeus">Zeus LN Wallet</a> (mobil + macOS-Desktop, Remote + eingebettetes LND mit Neutrino, LN-Adresse)</li>
+<li><a href="#breez">Breez</a> (mobil, eingebettetes LND mit Neutrino)</li>
+<li><a href="#phoenix">Phoenix</a> (mobil, basierend auf Electrum SPV und Eclair)</li>
+<li><a href="#green">Green LN Wallet</a> (mobil, basierend auf Electrumk SPV und CLN Greenlight)</li>
+<li><a href="#electrum">Electrum</a> (Desktop + mobil, basierend auf Electrum SPV und ElectrumLN)</li>
+<li><a href="#bluewallet">Bluewallet</a> (mobil + macOS-Desktop, basierend auf Electrum SPV und LDK)</li>
+<li><a href="#bitkit">Bitkit</a> (mobil, basierend auf Electrum SPV und LDK), noch in der Betaphase)</li>
+<li><a href="#alby">Alby Hub</a> (Desktop-App + Alby Go-Mobil-Begleiter, mit verschiedenen LN-Finanzierungs-Backends: LND, phoenixd, LDK, ecash mint, grünes Licht)</li>
+<li><a href="#shocknet">Shocknet Wallet</a> (PWA und mobile App, die NWC verwendet, um sich mit Lightning.pub und anderen Konten mit einem Remote-LND-Knoten zu verbinden)</li>
+<li><a href="#neutrino">Ein einfacher privater LND-Knoten mit Neutrino</a> (Sie können ihn von Zeus oder BitBanana aus verwalten und mehrere andere Apps verbinden</li>
+</ul>
+
+<figure>
+<img src="/assets/images/wallets-ladder.jpg" class="center">
+<figcaption>Wenn Sie als kleiner Neuling anfangen, müssen Sie die hohe Leiter bis ganz nach oben erklimmen</figcaption>
+</figure>
+
+<p>Für all diese mobilen LN-Knoten benötigen Sie einige gut verbundene Kanäle. Sie können weiterhin LN-Kanäle mit jedem anderen LN-Knoten öffnen, aber es ist viel besser, einige bekannte LSPs zu verwenden, die gute Routen und auch private Kanäle bereitstellen können.</p>
+
+<h3 style="color:Yellow;" id="#lsp">LSP – Anbieter von Liquiditätsdienstleistungen <a href="#lsp">#</a></h3>
+<p>Was ist ein LSP? <a href="https://thebitcoinmanual.com/articles/explained-lsp/">Lesen Sie hier</a>. Betrachten Sie einen LSP als Ihren unverzichtbaren Peer für Ihren privaten Knoten.
+<p>Hier ist eine Liste von LSPs, mit denen Sie reguläre Kanäle und auch 0-conf-Kanäle und Simple Taproot-Kanäle mit diesen privaten LN-Knoten öffnen können:</p>
+<ul>
+<li>Community-Liste guter Peers für <a href="https://github.com/hsjoberg/blixt-wallet/issues/1033">Blixt</a> und <a href="https://github.com/ZeusLN/zeus/discussions/2265">Zeus</a></li>
+<li><a href="https://lsps1.olympusln.com/">Olympus</a> – LSP für Zeus und auch für andere reguläre private und öffentliche Knoten</li>
+<li><a href="https://mempool.space/lightning/node/0230a5bca558e6741460c13dd34e636da28e52afd91cf93db87ed1b0392a7466eb">Blixt Node</a> - LSP für Blixt und auch für andere reguläre private und öffentliche Knoten</li>
+<li><a href="https://megalithic.me/">Megalithic</a> - LSP für Alby Hub mit öffentlichen und privaten Kanälen</li>
+<li><a href="https://lnserver.com/">LNServer</a> - Verkauf eingehender Kanäle</li>
+<li><a href="https://stacker.news/items/227488">FlashSats</a> - Verkauf eingehender Kanäle für öffentliche und private Knoten</li>
+<li><a href="https://mempool.space/lightning/node/0296b2db342fcf87ea94d981757fdf4d3e545bd5cef4919f58b5d38dfdd73bf5c9">Blocktank</a> - LSP für Bitkit und auch für andere reguläre private und öffentliche Knoten</li>
+<li><a href="https://mempool.space/lightning/node/031015a7839468a3c266d662d5bb21ea4cea24226936e2864a7ca4f2c3939836e0">Breez</a> - LSP für Breez und auch für andere reguläre private und öffentliche Knoten</li>
+<li><a href="https://www.bitrefill.com/thor-lightning-network-channels/">Thor</a> - Allgemeiner LSP- und Inbound-Channel-Anbieter</li>
+<li><a href="https://lqwdfintech.com/">LQwD</a> - Allgemeiner LSP- und Inbound-Channel-Anbieter</li>
+<li><a href="https://lnbig.com/#/">LNBig</a> - Allgemeiner LSP- und Inbound-Channel-Anbieter</li>
+<li><a href="https://mempool.space/lightning/node/03864ef025fde8fb587d989186ce6a4a186895ee44a926bfc370e2c366597a3f8f">Acinq</a> - LSP für Phoenix und auch für andere reguläre private und öffentliche Knoten</li>
+</ul>
+<p> ...und viele mehr, lesen Sie hier mehr darüber in diese beiden anderen Anleitungen: <a href="/nodes/managing-lightning-node-liquidity-de.html">„LN-Liquidität verwalten“</a> und <a href="https://darthcoin.substack.com/p/dunder-lsp-and-lightning-box-provider">„Ihr eigenes Dunder LSP betreiben“</a>. Eine weitere gute Lektüre ist dieser Artikel von Roy (Breez) – <a href="https://medium.com/breez-technology/scaling-bitcoin-with-lightning-as-a-service-laas-369e7e6f6cb2">„Bitcoin mit Lightning-as-a-service skalieren“</a>.</p>
+<hr style="height:2px">
+
+<h3 style="color:Orange;" id="blixt">Blixt – sehr leistungsstarker mobiler LN-Knoten <a href="#blixt">#</a></h3>
+<p>Nur wenige Menschen wissen von der Existenz dieses leistungsstarken mobilen LN-Knotens. Ja, es ist ein vollständiger LND-Knoten auf Ihrem eigenen Mobilgerät (auch Desktop für Mac und bald für Linux), mit allen Funktionen zur Selbstverwaltung Ihrer eigenen LN-Kanäle und Liquidität.</p>
+<p>Blixt verwendet eine vollständige LND-Implementierung mit Neutrino für die Blocksynchronisierung.</p>
+<p>Ich werde nicht auf alle Details der Blixt Wallet-App eingehen, ich habe ausführliche Anleitungen geschrieben, die die App und Anwendungsfälle auf der Blixt Wallet-Dokumentationsseite vorstellen:</p>
+<ul>
+<li><a href="/wallets/getting-started-blixt-wallet-de.html">Erste Schritte mit dem mobilen Blixt-Knoten</a></li>
+<li><a href="https://blixtwallet.github.io/features">Blixt Wallet-Funktionsseite</a></li>
+<li><a href="https://blixtwallet.github.io/guides">Blixt Wallet-Anleitungsseite</a> - spezifischere Anwendungsfälle</li>
+<li><a href="https://blixtwallet.github.io/faq">FAQ zu Blixt Wallet</a></li>
+</ul>
+<p>Bitte lesen Sie sie und achten Sie auf die Details. Dadurch erfahren Sie mehr über die Verwendung dieser Art von privaten Knoten.</p>
+
+<figure>
+<img src="/assets/images/noobs-blixt.jpg" class="center">
+<figcaption>Manchmal wissen Neulinge nicht, wo sie suchen sollen ... und übersehen die wichtigen Aspekte</figcaption>
+</figure>
+
+<p>Hier stelle ich nur einen einfachen Anwendungsfall für die Verwaltung der Liquidität mobiler LN-Knoten mithilfe der Blixt Wallet-App vor.</p>
+<p>Um eine gute Liquidität zu haben, nicht nur für jetzt, sondern auch für die zukünftige Verwendung, sollten Sie maximal 3-4 Kanäle haben, aber mit verschiedenen Knoten-Peers, nicht nur einen. Nehmen wir also an, dass Sie während einer Woche maximal ungefähr 2 Mio. Sats benötigen, um zu empfangen. Die Menge kann an die Bedürfnisse jedes Benutzers angepasst werden. Bedenken wir auch, dass Sie in derselben Woche weniger Zahlungen leisten werden, sagen wir etwa 300.000 Sats. Somit verbleibt jede Woche ein Guthaben von etwa 1,7 Mio. Sats auf seiner Seite.</p>
+<p>Anstatt 6 Kanäle mit jeweils 400.000 Sats maximaler Kapazität (insgesamt 2,4 Mio. Sats) zu haben, sollten Sie besser 3 Kanäle mit jeweils 1 Mio. Sats haben. Passen Sie dies an Ihre eingehenden Anforderungen an.</p>
+
+<h4 style="color:Yellow;">SZENARIO A</h4>
+<p>Öffnen Sie 3 große Kanäle mit jeweils 1 Mio. Sats:</p>
+<ul>
+<li>1 mit Blixt-Knoten</li>
+<li>1 mit Ihrem eigenen Knoten (falls Sie einen haben) oder einem befreundeten Knoten (vertrauenswürdig). Wenn Sie keinen solchen Freund möchten/haben, verwenden Sie einfach einen anderen bekannten Knoten</li>
+<li>1 mit einem anderen guten Knoten mit guter Verbindung. <a href="https://github.com/hsjoberg/blixt-wallet/issues/1033">Hier finden Sie einige empfohlene Peers</a></li>
+</ul>
+<p>Fertig. Jetzt haben Sie 3 Millionen Sats in 3 Kanälen. Alles ausgehende Liquidität. Schaffen wir also etwas Platz. Verwenden Sie einen der praktischen Swaps (Deezy, Boltz, FixedFloat, Robosats usw.) und tauschen Sie mindestens 50 % Ihrer gesamten ausgehenden Liquidität in eine beliebige Onchain-Wallet um.</p>
+<p>Sie können dies in 3 Batches (empfohlen für kleinere Beträge) oder auf einmal (könnte aufgrund von Routen mit geringer Liquidität anderer Routing-Knoten fehlschlagen) tun. Sie können beide Fälle ausprobieren.</p>
+<p>Wenn Sie mehr eingehende Liquidität benötigen, tauschen Sie mithilfe dieser Swaps mehr Sats in eine beliebige andere Onchain-Adresse um.</p>
+<p>Aber schließen Sie diese Kanäle nicht. Noch nicht. Ein Kanal sollte nur geschlossen werden, wenn Sie nicht über genügend Liquidität verfügen oder der Peer nicht reagiert/zu lange offline ist.</p>
+<p>Jetzt haben Sie also genügend eingehende Liquidität, um mehr von <a href="https://learn.rbosats.com">Robosats</a> oder einer anderen <a href="/beginner/buy-bitcoin-de.html">Börse, die LN unterstützt</a> zu kaufen.</p>
+<p>Mehr kaufen, tauschen, Zahlungen leisten, viel Spaß mit Lightning. Wiederholen. Schließen Sie diese Kanäle niemals. Verwenden Sie sie hin und her.</p>
+
+<h4 style="color:Yellow;">SZENARIO B</h4>
+<p>Halten Sie einen Kanal offen, einen, in dem Sie genügend Sats haben, um einen eingehenden Kanal von einem beliebigen LSP (LNBig, Bitrefill usw.) zu kaufen. Schließen Sie alle anderen.</p>
+<p>Sobald sie geschlossen sind, kaufen Sie 2 große eingehende Kanäle von diesen LSP. Jeder von 1-2 Millionen Sats, genug, um eine große Anzahl von Zahlungen abzuwickeln. Wenn Sie sie bereit haben, können Sie mehr Sats von Robosats kaufen.</p>
+<p>Tauschen Sie mit den zuvor erwähnten Tauschdiensten zu Onchain aus und freuen Sie sich, dass Sie mehr Platz für weitere Käufe geschaffen haben. Oder verwenden Sie diese Sats einfach für Zahlungen über LN.</p>
+<p>Schließen Sie diese beiden großen Kanäle niemals. Kaufen – austauschen – ausgeben – mehr kaufen.</p>
+<p>Wenn Sie zwei oder mehr verschiedene Kanäle mit unterschiedlichen Peers haben, wird empfohlen, MPP (Multi-Path Payment) zu verwenden. Aber wenn Sie nur einen Kanal oder mehrere Kanäle mit demselben Peer haben, funktioniert MPP nicht und könnte in „Route fehlgeschlagen“ enden.</p>
+<p>Es wird daher immer empfohlen, Kanäle mit unterschiedlichen Peers/Knoten zu haben, die groß genug sind, um Ihre regulären Transaktionen in einem bestimmten Zeitraum abzuwickeln.</p>
+<hr style="height:2px">
+
+<h3 style="color:Orange;" id="zeus">Zeus LN – sehr leistungsstarker mobiler LND-Knoten <a href="#zeus">#</a></h3>
+<p>Ab der neuen Version v0.8.0 hat Zeus den eingebetteten LND-Knoten in die mobile App eingeführt. Lesen Sie mehr über diese große Neuerscheinung im <a href="https://blog.zeusln.com/zeus-v0-8-0-open-beta/">Zeus-Blog</a>.</p>
+<p>Neben der regulären LN-Knotenverwaltung und LNDHUB-Konten kann Zeus jetzt einen vollständigen LN-Knoten ausführen, wobei Neutrino als Backend für die Blocksynchronisierung und LND als in die App integrierter LN-Knoten verwendet wird.</p>
+<p>Es enthält außerdem LSP-Dienste von <a href="https://lsps1.olympusln.com/">Olmpus LSP</a>, sodass Benutzer sofort Satelliten in LN empfangen können. Benutzer können weiterhin andere reguläre private LN-Kanäle öffnen und diese nach Belieben verwalten. <a href="https://github.com/ZeusLN/zeus/discussions/2265">Hier finden Sie einige Empfehlungen für Knoten-Peers für Ihren neuen Zeus-Knoten</a>.</p>
+<p>Darüber hinaus können Benutzer ihre eigene LN-Adresse haben, die vom <a href="https://docs.zeusln.app/lightning-address/intro">Olympus-Server</a> bereitgestellt wird.</p>
+
+<h5>Eine LN-App, die Sie auf jeden Fall für Ihr Mobiltelefon verwenden müssen. Bedenken Sie, dass Zeus auch eine integrierte PoS-Funktion bietet, die sich sehr gut für kleine Händler eignet.</h5>
+<p>Ich werde hier nicht näher auf die Verwendung dieser leistungsstarken mobilen Node-App eingehen, sondern habe hier eine spezielle Anleitung zum eingebetteten Zeus-Node geschrieben:</p>
+<ul>
+<li><a href="/wallets/getting-started-zeus-wallet-de.html">Erste Schritte mit Zeus-Node</a></li>
+<li><a href="/wallets/zeus-node-advanced-usage-de.html">Zeus-Node – Erweiterte Verwendung</a></li>
+<li><a href="https://docs.zeusln.app/category/embedded-node">Lesen Sie mehr über die Verwendung des eingebetteten Zeus-Node in Zeus Docs</a></li>
+<li><a href="https://stacker.news/items/297048/r/DarthCoin">Hier ist auch eine gute Thread-Diskussion über Zeus Knoten</a></li>
+</ul>
+<hr style="height:2px">
+
+<h3 style="color:Orange;" id="valet">Valet (ex-OBW) – einfacher und leistungsstarker mobiler LN-Knoten <a href="#valet">#</a></h3>
+<p>Dies ist ein Fork des alten BLW und später SBW, dann OBW… jetzt alles eingestellt. <a href="https://standardsats.github.io/">Jetzt ist es Valet</a>.</p>
+<p>Valet verwendet die Immortan LN-Implementierung mit Electrum SPV für die Blocksynchronisierung.</p>
+<p>Valet könnte Ihre einfache und beste Möglichkeit sein, mit Lightning-Zahlungen zu beginnen. Sie erhalten also nicht zu viel über LN, möchten aber mehr ausgeben.</p>
+<p>Valet verwendet normale private LN-Kanäle, aber auch eine besondere Art – gehostete Kanäle. <a href="https://fanismichalakis.fr/posts/what-are-hosted-channels/">Die Hauptmerkmale dieser gehosteten Kanäle (HC)</a> sind:</p>
+<ul>
+<li>leichtgewichtige kreditbasierte virtuelle Kanäle, die ein offenes und interoperables Protokoll verwenden</li>
+<li>können gehostete Kanäle zu jedem Knoten öffnen, der die Hostseite des Protokolls unterstützt</li>
+<li>können nicht zurückverfolgt werden und erfordern keine Kapital- oder Kettengebührenkosten</li>
+</ul>
+<h5>So verwenden Sie Valet, Schritte zum Ausführen:</h5>
+<ul>
+<li>Laden Sie Valet herunter, installieren Sie es, öffnen Sie es und speichern Sie Ihren Seed. Grundlegende erste Schritte.</li>
+<li>Senden Sie einige Gelder von Ihren regulären Onchain-Wallets an Ihren Valet. Beginnen Sie mit 1 oder 2 Mio. Sats.</li>
+<li>Öffnen Sie 1 oder 2 Kanäle mit verschiedenen Peers. Vorzugsweise solche mit niedrigen Gebühren. Sehen Sie sich auch die empfohlenen Peers in der Valet-App an.</li>
+<li>Beginnen Sie mit dem Ausgeben und haben Sie Spaß. Hier und hier sind einige Beispiele, wo Sie anfangen könnten, ein paar Sats auszugeben. Die Unterstützung von BTC-Händlern ist sehr wichtig, wenn Sie möchten, dass Bitcoin erfolgreich ist.</li>
+<li>Wenn Ihre LN-Kanäle leer sind, können Sie problemlos jeden Swap-Dienst verwenden, um sie wieder aufzufüllen (wie ich in diesem Handbuch erklärt habe) oder die vorhandenen Kanäle schließen und größere öffnen, wenn Ihre Ausgabegewohnheiten zunehmen. Es ist besser, vorhandene Kanäle offen zu halten, da das Schließen und Öffnen von Kanälen höhere Gebühren mit sich bringt und auch den endgültigen Saldo Ihrer UTXOs offenlegen könnte (aber das ist eine andere Geschichte, die in anderen Handbüchern hier und auch hier erklärt wird).</li>
+<li>Wenn Sie gehostete Kanäle (HC) für mehr Privatsphäre beim Empfangen verwenden möchten, liegt es an Ihnen, öffnen Sie einfach einige davon und beginnen Sie, sie als Empfangsquelle zu verwenden. Es gibt auch eine interessante Funktion von OBW, mit der Sie einen HC direkt von OBW in einen regulären LN-Kanal entleeren können. Klicken Sie einfach auf einen HC und Sie sehen im Popup-Bildschirm die Option „Kanalguthaben abziehen“. Sie werden gefragt, in welchen anderen regulären Kanal Sie die Gelder verschieben möchten.</li>
+</ul>
+<p><img src="/assets/images/valet-drain.jpg" class="center"></p>
+<p>Dies ist eine gute Opsec-Operation, wenn Sie Gelder intern von einem Kanal in einen anderen verschieben und später einen Swap in Onchain durchführen möchten. Lassen Sie Ihrer Fantasie freien Lauf :)</p>
+<p>Weitere Anwendungsfälle und die vollständige Anleitung für Valet finden Sie hier: <a href="https://darthcoin.substack.com/p/obw-open-bitcoin-wallet">„Erste Schritte mit dem mobilen LN-Knoten von OBW“</a> und <a href="/merchants/private-banks-over-ln-en.html">„Verwendung privater Banken über Lightning Network“</a>.</p>
+<hr style="height:2px">
+
+<h3 style="color:Orange;" id="breez">Breez – Guter mobiler Knoten mit eingeschränkten Knotenfunktionen <a href="#breez">#</a></h3>
+<p><a href="https://breez.technology/">Breez</a> verwendet eine gegabelte Version der LND-Implementierung mit Neutrino-Blocksynchronisierung.</p>
+<p>Dieser versucht, eine einfache Benutzeroberfläche mit eingeschränkten Funktionen zur Verwaltung Ihrer Knotenkanäle anzubieten. Für Anfänger ist dies ein guter Anfang. Er bietet immer noch eine nicht-treuhänderische Möglichkeit zur Verwaltung Ihrer Gelder, aber Sie haben nicht die volle Freiheit, Peers, Gebühren, Routen usw. auszuwählen.</p>
+<p>Gleichzeitig bietet er benutzerfreundlichere und bessere Funktionen wie POS und Podcasting. Das Backup-Verfahren ist etwas kompliziert und je nach Drittanbieterdienst kann der Benutzer die Kanalsicherung nicht einfach auf ein lokales Gerät exportieren und von dort aus verwalten, sondern hat die Möglichkeit, Google Drive, WebDAV oder Nextcloud zu verwenden.</p>
+<p>Die Verwaltung der Liquidität ist ziemlich einfach, Sie müssen nur Sats einzahlen/empfangen und automatisch werden LN-Kanäle über ihren LSP-Knoten geöffnet.</p>
+<p>Sie können auch Kanäle mit bestimmten Knoten-Peers öffnen, wenn Sie möchten, aber mit den erweiterten Methoden, die im Menü „Entwickler“ versteckt sind. Sie können auch die LNURL-Kanal-Option von den LSPs verwenden, die diese Methode anbieten.</p>
+<p>Für jemanden, der sich nicht mit der Verwaltung der Knotenliquidität herumschlagen möchte, ist dies eine gute Option.</p>
+<p>Öffnen Sie Kanäle, die nicht zu groß und nicht zu klein sind, aber groß genug, um Ihre regelmäßigen LN-Zahlungen während einer bestimmten Zeit und in bestimmten Beträgen abzudecken.</p>
+<p>Breez bietet auch eine PoS-Funktion und einen Podcasting-Bereich. Sehr gute Funktionen für einen mobilen/nomadischen Benutzer.</p>
+<hr style="height:2px">
+
+<h3 style="color:Orange;" id="phoenix">Phoenix – einfach zu integrierender mobiler LN-Knoten <a href="#phoenix">#</a></h3>
+<p>Phoenix verwendet eine proprietäre Eclair LN-Implementierung mit Electrum SPV.</p>
+<p>Diese basiert auf Acinq LN-Kanälen und Electrum (Onchain-Wiederherstellung).</p>
+<p>Sobald Sie Sats in dieser Brieftasche empfangen/einzahlen, werden automatisch Kanäle mit ACINQ-Knoten geöffnet. Normalerweise ist die Größe der Kanäle etwas größer als der von Ihnen eingezahlte Betrag. Sie haben also für jede Einzahlung immer einen neuen Kanal, außer wenn Sie den Kanal nicht vollständig geleert haben und eine kleinere Zahlung erhalten, wird er wieder aufgefüllt.</p>
+<h4 style="color:Yellow;">Für Phoenix würde ich das folgende Anwendungsszenario vorschlagen:</h4>
+<p>Phoenix öffnet einen Kanal, der etwas größer ist als das, was Sie einzahlen, ich könnte sagen, 10 % mehr. Mit der <a href="https://phoenix.acinq.co/faq#whats-new-in-phoenix-2.0">neuen Version v0.2.0</a>, die mit der neuen LN-Funktion namens <a href="https://voltage.cloud/blog/lightning-network-faq/what-is-splicing-lightning-network-how-it-works/">Kanalspleißen</a> ausgestattet ist. Das bedeutet, dass Sie sich von nun an nicht mehr mit vielen neuen kleinen Kanälen für jede erhaltene Zahlung herumschlagen müssen.</p>
+<p>Wenn nicht genügend Liquidität vorhanden ist, vergrößert Phoenix Ihren anfänglichen Kanal, aber das bedeutet trotzdem eine Onchain-Gebühr. Sie können diese Gebühr trotzdem in den Phoenix-Einstellungen einrichten.</p>
+<p>Ich schlage daher vor, Phoenix mit einem großen Kanal zu verwenden, etwa 1-3-5 Mio. Sats. Ihre Commit-Gebühren sind im Vergleich zur Größe des Kanals unbedeutend und werden Sie nicht allzu sehr beeinträchtigen. Außerdem zahlen Sie statt 4-mal (oder wie oft Sie auch immer kleine Beträge einzahlen) Gebühren von mindestens 3000 Sats nur einmal.</p>
+<p>Wenn Sie anfangen, über diesen Kanal Geld auszugeben, geben Sie nicht alles aus, da Phoenix ihn schließen wird. Wenn Sie einige Sats im Kanal belassen und eine weitere Auffüllung über eine andere LN-Wallet/Quelle mit einem Betrag vornehmen, der größer ist als Ihre Kanalkapazität, wird Phoenix die Größe des Kanals ändern und Sie werden eine zusätzliche Gebühr zahlen. Wenn Sie weniger als die Kanalkapazität erhalten, fallen keine Gebühren an.</p>
+<p>Versuchen Sie also, Ihre anfängliche Kanalkapazität an Ihren persönlichen Ausgabenbedarf anzupassen. Für Ausgaben und Ersetzungen innerhalb der Kanalgrenzen fallen keine Gebühren mehr an und die Nutzung dieser Wallet-App wird reibungslos verlaufen.</p>
+<p>Für jede Zahlung, die Sie tätigen, erhebt diese Wallet im Vergleich zu anderen Knoten ziemlich hohe Gebühren. Ja, irgendwie müssen sie ihre Ausgaben decken und das Entwicklerteam unterstützen. Nichts ist umsonst auf dieser Welt.</p>
+<p>Diese Wallet hat auch integrierte Swaps onchain ←→ LN-Kanäle, sodass Sie sie praktisch als persönlichen Swap verwenden können. Sie können sofort onchain mit Ihren LN-Geldern bezahlen und umgekehrt.</p>
+<p>Es ist eine sehr gute Option für Neulinge, die gerade erst mit LN angefangen haben und nicht allzu viel über die Verwaltung von Knoten wissen, aber dennoch ihre Gelder selbst verwalten können. Selbst wenn Sie Ihr Mobilgerät verlieren, können Sie die Seed-Wörter verwenden und Ihr Guthaben in einer Electrum-Wallet oder auf einem anderen Mobilgerät mit Phoenix wiederherstellen.</p>
+<hr style="height:2px">
+
+<h3 style="color:Orange;" id="green">Grün – einfacher Start ohne Liquidität <a href="#green">#</a></h3>
+<p>Derzeit (Dezember 2023) befindet sich das <a href="https://blockstream.com/green/">Green LN Wallet</a> noch in der Betaphase, wird aber bald für alle Benutzer verfügbar sein. Um damit herumzuspielen und es zu testen, müssen Sie die „experimentellen“ Funktionen aktivieren und ein LN-„Konto“ eröffnen. Dabei handelt es sich eigentlich um einen CLN-Knoten mit Greenlight, bei dem die Schlüssel auf Ihrem Gerät verbleiben.</p>
+<p>Wenn Sie nur den LN-Knoten verwenden möchten, müssen Sie kein Onchain-Konto eröffnen. Überspringen Sie einfach die Ersteinrichtung und gehen Sie direkt zum LN-Konto. Jedes Konto in Green ist separat und hat keine Verknüpfungen untereinander.</p>
+<p>Gehen Sie zu den App-Einstellungen (obere linke Schublade auf dem Hauptbildschirm) und aktivieren Sie „Experimentelle Funktionen“.</p>
+<p><img src="/assets/images/green-experimental.jpg" class="center"></p>
+<p>Wenn Sie das getan haben, gehen Sie zurück zum Bildschirm „Konten“ und klicken Sie oben rechts auf die Schaltfläche „Neues Konto erstellen“. Klicken Sie dann unten auf „Erweiterte Funktionen“. Sie werden sehen, dass Sie jetzt ein „Lightning-Konto“ erstellen können.</p>
+<p><a href="https://help.blockstream.com/hc/en-us/articles/23020279153177-How-does-the-shortcut-to-my-lightning-account-work-and-how-do-I-create-it-">Lesen Sie hier mehr darüber, was ein Lightning-Konto ist und wie man es erstellt</a>.</p>
+<p><a href="https://help.blockstream.com/hc/en-us/articles/900003336346-What-s-the-difference-between-wallets-and-accounts-">Lesen Sie hier mehr über „Wallet“ und „Konten“</a>.</p>
+
+<h4 style="color:Yellow;">Einige Aspekte, die Sie beachten sollten:</h4>
+<ul>
+<li>Dieses LN-Konto wird maximal 4 Mio. Sats haben Kapazität.</li>
+<li>Um ihn zu öffnen, müssen Sie einige Sats aus einem anderen LN-Wallet einzahlen und Ihnen wird eine geringe Gebühr für das Öffnen des Kanals berechnet. Versuchen Sie es zunächst mit 50 - 100.000 und probieren Sie dann ein bisschen herum.</li>
+<li>Sie werden aufgefordert, die Knotenschlüssel auf Ihrem Gerät mit IHRER Geräte-PIN zu verschlüsseln. Beachten Sie, dass einige Benutzer versucht haben, eine neue PIN zu verwenden, aber es sich tatsächlich um die Sicherheits-PIN Ihres Geräts handelt. Es ist NICHT die PIN der Green-App, die Sie normalerweise zum Öffnen festlegen.</li>
+<li>Speichern Sie den LN-Knoten-Seed als Backup!</li>
+<li>Speichern Sie die Knoten-ID als Backup und zur späteren Verwendung!</li>
+<li>Die Knotenliquidität wird NUR über Blockstream Greenlight LSP angeboten (ähnlich wie Phoenix), aber die Schlüssel bleiben auf Ihrem Gerät.</li>
+</ul>
+<p>Green unterstützt LNURL vollständig, außer LUD-18 und 02. Und es funktioniert ziemlich gut.</p>
+<p>Es könnte eine sehr gute Option für absolute Neulinge sein, LN auf selbstverwaltete Weise zu verwenden.</p>
+<hr style="height:2px">
+
+<h3 style="color:Orange;" id="electrum">Electrum-Wallet (Desktop oder mobil) <a href="#electrum">#</a></h3>
+<p><a href="https://electrum.org/">Electrum</a> verwendet eine ElectrumLN-Implementierung mit Electrum SPV-Blocksynchronisierung.</p>
+<p>Ja, viele wissen nicht, dass Electrum, die älteste BTC-Wallet-App, auch ein leistungsstarkes LN-Wallet ist. Und es ist sehr einfach, es als Node-LN-Wallet zu verwenden.</p>
+<p>Sie haben 2 Möglichkeiten, es als LN-Node zu verwenden:</p>
+<ul>
+<li>Trampolin-LN-Kanäle – werden mit bestimmten Nodes geöffnet, die Ihnen Routenhinweise und -pfade liefern.</li>
+<li>normale LN-Kanäle, aber privat (unangekündigt) – Sie öffnen diese Kanäle mit jedem beliebigen Node.</li>
+</ul>
+<p>Ein wichtiger Aspekt: ​​Sie müssen zu Beginn auswählen, welchen Typ Sie verwenden möchten, Sie können nicht beide Typen gleichzeitig verwenden.</p>
+<p>Außerdem ist es gut zu erwähnen: Electrum hat Swaps onchain ←→ LN-Kanäle integriert. Sie können Ihre Electrum-LN-Kanäle also ganz einfach mit nur einem Klick auffüllen oder leeren. Ja, diese Swaps sind mit Kosten verbunden, aber diese sind sehr transparent und Sie wissen immer, wie viel Sie dafür bezahlen.</p>
+
+<h4 style="color:Yellow;">Für die persönliche LN-Nutzung würde ich die Verwendung von Electrum wie folgt empfehlen.</h4>
+<h5>A. Wenn Sie mehr Privatsphäre wünschen:</h5>
+<ul>
+<li>Verbinden Sie Ihr Electrum mit Ihrem eigenen Knoten (Electrum-Server)</li>
+<li>Öffnen Sie Trampolinkanäle</li>
+<li>Verwenden Sie optional Tor oder VPN</li>
+<li>Wenn Sie alle Ihre LN-Kanäle aufgebraucht haben, verschieben Sie die verbleibenden Onchain-Sats in eine neue Electrum-Wallet und beginnen Sie mit einer neuen Identität von vorne. Sie können so viele ausführen, wie Sie möchten. Sie können sogar mehrere Electrum-Instanzen gleichzeitig haben.</li>
+</ul>
+
+<h5>B. Wenn Sie es mit dem Knoten eines Freundes oder einem vertrauenswürdigen Knoten oder einfach mit ausgewählten öffentlichen Knoten verwenden möchten:</h5>
+<ul>
+<li>Verbinden Sie Ihr Electrum mit Ihrem eigenen Electrum-Server. Wenn Sie keinen solchen Server haben, verwenden Sie zumindest einen vertrauenswürdigen Electrum-Server (z. B. Blockstream.info) oder den Knoten eines Freundes (er gibt Ihnen eine bestimmte Adresse von seinem Electrum-Server).</li>
+<li>Öffnen Sie normale private LN-Kanäle mit den öffentlichen Knoten, die Sie möchten. Beachten Sie jedoch, dass nicht alle öffentlichen Knoten private Kanäle tolerieren oder dass einige von ihnen bestimmte Regeln haben, wie lange sie aufbewahrt werden, oder sie schließen, wenn keine Aktivität stattfindet.</li>
+<li>Verwenden Sie optional Tor oder VPN</li>
+<li>Verwenden Sie diese Kanäle so oft Sie möchten. Wenn sie erschöpft sind, können Sie sie aus Ihrem vorhandenen Onchain-Guthaben aus Ihrem Electrum-Wallet oder aus einem anderen Onchain-Wallet, das Sie haben, wieder auffüllen.</li>
+<li>Öffnen Sie nicht zu viele und zu große, aber genug, um Ihre regelmäßigen LN-Zahlungen für eine bestimmte Zeit abzudecken.</li>
+</ul>
+<hr style="height:2px">
+
+<h3 style="color:Orange;" id="bluewallet">Bluewallet – neuer LDK-Knoten integriert (Beta) <a href="#bluewallet">#</a></h3>
+<p>Nachdem <a href="https://bluewallet.io/">Bluewallet</a> seinen LNDHUB-Knoten mit Verwahrung eingestellt hatte, führten sie einen selbstverwahrten Knoten mit LDK-LN-Implementierung ein.</p>
+<p>Im Moment ist es ziemlich neu und noch in der Beta-Phase, deshalb ist es versteckt, aber wenn Sie es aktivieren möchten, ist es ganz einfach:</p>
+<p><img src="/assets/images/bluewallet-ldk-node.jpg" class="center"></p>
+<p>Tippen Sie auf das „+“, um Wallet hinzuzufügen, und tippen Sie dann 10 Mal auf die Lightning-Schaltfläche.</p>
+<p>Fertig, jetzt können Sie dann ein Node-Wallet über LDK erstellen.</p>
+<p>Sie erhalten einen LDK-Seed, speichern Sie die Seed-Wörter an einem sicheren Ort und jetzt können Sie loslegen Öffnen von Kanälen mit einem beliebigen anderen LN-Knoten. Klicken Sie dazu auf die Schaltfläche „Wallet finanzieren“ und wählen Sie ein beliebiges Onchain-Wallet aus, das Sie bereits in Ihrem Bluewallet konfiguriert haben und das über genügend Guthaben verfügt, um einen LN-Kanal zu öffnen. Sie sollten dieses Onchain-Wallet immer mit Ihrem LDK-Knoten verknüpft lassen und es nicht aus Ihrer Bluewallet-App entfernen. Im Falle der Schließung eines Kanals fließen die Mittel zurück in das Onchain-Wallet, das den Kanal finanziert hat.</p>
+
+<figure>
+<img src="/assets/images/bw-channels.jpg" class="center" class="center">
+<figcaption>Öffnen eines LN-Kanals in BW LDK mit vorgeschlagenen Peers</figcaption>
+</figure>
+
+<p>Sie haben die Möglichkeit, einen URI-QR-Code eines Peer-Knotens zu scannen oder mithilfe der Pfeile einen der am besten verbundenen öffentlichen Knoten auszuwählen.</p>
+<p>Öffnen Sie auch hier keine kleinen Kanäle, sondern verwenden Sie Kanäle mit 1-3-5M Sats. Ja, es ist noch in der Betaphase, aber aufgrund der hohen Gebühren wird der Kanal am Ende unbrauchbar, wenn er zu klein ist.</p>
+<p>Fertig, jetzt können Sie Ihr Bluewallet LDK wie jedes andere normale LN-Wallet verwenden, allerdings in einem Modus mit mehr Selbstverwahrung.</p>
+<hr style="height:2px">
+
+<h3 style="color:Orange;" id="bitkit">BitKit – noch in der Entwicklung, Betaphase <a href="#bitkit">#</a></h3>
+<p><a href="https://bitkit.to/">Bitkit</a> bietet ein Bitcoin-Wallet, das sowohl On-Chain- als auch Lightning-Transaktionen unterstützt. Die Anwendung führt einen benutzerdefinierten, nicht routenden Lightning-Knoten aus, der mit dem <a href="https://github.com/lightningdevkit">Lightning Development Kit – LDK</a> auf dem Mobiltelefon des Benutzers erstellt wurde. Sie erfordert eine Verbindung zu einem externen Server, auf dem ein Bitcoin-Vollknoten und ein Electrum-Server laufen.</p>
+<p>Benutzer werden automatisch durch die Integration des Lightning Service Providers (LSP) <a href="https://github.com/synonymdev/blocktank-client">Blocktank</a> in Lightning integriert. Entwickler können mit Blocktank auch ihren eigenen LSP erstellen. In Zukunft wird es Benutzern ermöglicht, sich mit ihren eigenen Lightning- und Bitcoin-Knoten zu verbinden, verschiedene Arten von LSPs auszuwählen, Hardware-Wallets zu koppeln und ihre eigenen Lightning-Kanäle zu verwalten.</p>
+<p>Benutzer können alle ihre Bitcoin-Daten in der Kette mit einem Standard-BIP-39-Seed sichern. Lightning-Kanaldaten sollten automatisch auf einem Backup-Server gespeichert werden. Die Daten müssen clientseitig verschlüsselt werden, bevor sie an einen Server gesendet werden, um die Privatsphäre zu gewährleisten.</p>
+<p>Die anderen Hauptfunktionen, die Bitkit unterstützt, sind die Erstellung von sozialen Profilen, das Importieren und Verwalten von Kontakten, dynamische Zahlungsprofile, schlüsselbasierte Kontoanmeldungen und die Anzeige von öffentlichen Datenfeeds und privaten Kontodaten über In-App-Widgets. Sie können mit diesen Funktionen im <a href="https://synonym.to/products/slashtags#playground">Spielplatz</a> experimentieren.</p>
+<p><a href="https://stacker.news/items/155848/r/DarthCoin">ACHTUNG</a>, Bitkit scheint seine Benutzer nicht allzu sehr zu respektieren und ihr Hauptaugenmerk liegt nicht darauf, eine LN-Knoten-Wallet zu erstellen, sondern auf etwas anderem.</p>
+<hr style="height:2px">
+
+<h3 style="color:Orange;" id="alby">Alby HUb – LN-Knoten-UI, einfach einzurichten und zu warten <a href="#alby">#</a></h3>
+<p>Alby Hub ist eine einfache LN-Knoten-Schnittstelle mit netten NWC-Funktionen zum Verbinden verschiedener LN-Dienste und zur Nutzung „unterwegs“. Es ist KEIN LN-Knoten an sich, bietet aber Tools zur Verwaltung des dahinter liegenden LN-Knotens. Ist wie LNbits oder Zeus.</p>
+<p>Sobald Sie Ihren Alby Hub eingerichtet haben (in der Cloud oder selbst gehostet), können Sie sich mit Alby Go verbinden, ihrer mobilen App, sehr übersichtlich und einfach zu verwenden. Sie können auch Unterkonten für Ihren Knoten anbieten, wie <a href="https://github.com/getAlby/jim">"Onkel Jim"</a></p>
+<p>DENKEN SIE DARAN: Dies ist eine Desktop-Knoten-Benutzeroberfläche mit Funktionen zum Verbinden einer mobilen App (Alby Go). Es ist ein sehr guter und einfacher privater LN-Knoten.</p>
+<h4>RESSOURCEN:</h4>
+<ul>
+<li><a href="/wallets/getting-started-alby-hub-de.html">Erste Schritte mit Alby Hub</a></li>
+<li><a href="https://github.com/getAlby/hub?tab=readme-ov-file#deploy-it-yourself">Stellen Sie es selbst bereit</a> - Alby Github-Anweisungen, wenn Sie es als Server ausführen möchten</li>
+<li><a href="https://stacker.news/items/698497/r/DarthCoin">Alby Hub mit Stacker News-Konto verbinden</a></li>
+<li><a href="https://nodana.io/services/alby-hub">Führen Sie Ihren Alby Hub mit Nodana aus</a> (Hosting-Dienst)</li>
+<li><a href="https://medium.com/@michael.leigh.stewart/setting-up-a-lightning-network-node-with-alby-hub-alby-cloud-4895e97624f8">Führen Sie Ihren Alby Hub mit Alby Cloud aus</a> (Hosting-Dienst)</li>
+<li><a href="https://www.youtube.com/watch?v=2Z1BzwxdP4I">Video-Tutorial Alby Hub in der Cloud</a> – von BTC Sitzungen</li>
+</ul>
+<hr style="height:2px">
+
+<h3 style="color:Orange;" id="shocknet">Shock Wallet <a href="#shocknet">#</a></h3>
+<p>Diese spezielle <a href="https://shockwallet.app/">Shock Wallet</a>-App ist ziemlich neu und befindet sich noch in der Beta-Entwicklung. Gehen Sie also mit Vorsicht, aber auch mit Neugier vor, wenn Sie weitere Funktionen und Optionen zum Ausführen von LN-Knoten erkunden möchten.</p>
+<p>Shock Wallet arbeitet mit einem <a href="https://lightning.pub">Lightning Pub-Server</a> zusammen, der praktisch ein „Nostr-natives Kontosystem ist, das das Ausführen einer Lightning-Infrastruktur für Ihre Freunde/Familie/Kunden einfacher macht als bisher für möglich gehalten.“</p>
+<p>Shock Wallet ist eine mobile und Browser-App, die sich über NWC einfach und benutzerfreundlich mit vielen verschiedenen Finanzierungsquellen (basierend auf 3 Vertrauensebenen) verbinden kann. Sie kann in viele andere WebLN-Apps integriert werden. Ist bereits in die eigene <a href="https://lightning.video">Lightning Video</a>-Plattform integriert, um Live-Sessions zu streamen oder Videos zu posten, indem Satelliten über LN verwendet werden, eine sehr gute Möglichkeit, Ihre Inhalte zu monetarisieren.</p>
+<p>Ich habe es selbst nicht zu ausführlich getestet, nur ein paar Installationen, um zu sehen, wie es funktioniert, aber es ist sehr vielversprechend. Wenn ich mehr Zeit habe, werde ich eine ausführliche Anleitung dazu schreiben. In der Zwischenzeit <a href="https://docs.shock.network/">lesen Sie bitte ihre Dokumentationsseite</a> und treten Sie auch ihrer <a href="https://t.me/ShockBTC">Telegram-Gruppe</a> bei, um weitere Unterstützung zu erhalten und Fragen zu stellen.</p>
+<h5>Es lohnt sich auf jeden Fall, dieser neuen App Beachtung zu schenken!</h5>
+<hr style="height:2px">
+  
+<h3 style="color:Orange;" id="neutrino">Privater Knoten LND mit Neutrino <a href="#neutrino">#</a></h3>
+<p>Hier ist eine einfache Lösung, um einen LN-Knoten mit LND unter Verwendung von Neutrino-Blockfiltern zur Synchronisierung mit der Blockchain auszuführen. Sie benötigen also keinen umfangreichen Bitcoin Core, um ihn auf derselben Maschine auszuführen, Sie können sich mit jedem bekannten oder beliebigen Neutrino-Server verbinden. <a href="https://docs.lightning.engineering/lightning-network-tools/lnd/enable-neutrino-mode-in-bitcoin-core">Lesen Sie hier mehr über Neutrino</a>.</p>
+<ol>
+<li>Auf jedem einfachen PC mit einem Linux-Betriebssystem (ich empfehle der Einfachheit halber Debian oder Ubuntu, aber Sie können auch ein Standard-Linux Mint verwenden) <a href="https://docs.lightning.engineering/lightning-network-tools/lnd/run-lnd">installieren Sie LND als LN-Knoten</a>.</li>
+<li><a href="https://docs.lightning.engineering/lightning-network-tools/lnd/enable-neutrino-mode-in-bitcoin-core#connect-from-your-lnd">Richten Sie in Ihrer neuen LND-Instanz einen Neutrino-Peer ein</a>. Hier sind einige bekannte Server. Wählen Sie einen, der näher an Ihrer Region liegt, um eine bessere Ping-Antwortzeit zu erhalten:</li>
+<ul>
+<li>btcd1.lnolymp.us | btcd2.lnolymp.us – für die Region USA</li>
+<li>btcd-mainnet.lightning.computer – für die Region USA</li>
+<li>uswest.blixtwallet.com (Seattle) – für die Region USA</li>
+<li>europe.blixtwallet.com (Deutschland) – für die Region EU</li>
+<li>asia.blixtwallet.com – für die Region Asien</li>
+<li>node.eldamar.icu – für die Region USA</li>
+<li>noad.sathoarder.com – für die Region USA</li>
+<li>bb1.breez.technology | bb2.breez.technology – für die Region USA</li>
+<li>neutrino.shock.network – Region USA</li>
+<li><a href="https://bitnodes.io/nodes/?q=NODE_COMPACT_FILTERS">Weitere allgemeine zufällige Neutrino-Peers</a></li>
+</ul>
+<li>Optional können Sie zur Verwaltung Ihres Knotens auf demselben Desktop-Computer <a href="https://docs.thunderhub.io/">Thunderhub</a> oder <a href="https://www.ridethelightning.info/">Ride The Lightning</a> als Desktop-Apps installieren. Andernfalls können Sie die <a href="https://docs.zeusln.app/category/remote-connections">Zeus Mobile</a>-App ganz einfach mit Ihrem Knoten verbinden und ihn von dort aus verwalten.</li>
+<li>Öffnen Sie 2–3 UNANGEKÜNDIGTE (private) Kanäle mit großen, guten Knoten und LSPs. Sie werden kein Routing durchführen, nur für Ihre persönlichen Lightning-Zahlungen.</li>
+<li>Fertig. Jetzt können Sie Ihren LND-Knoten von <a href="https://zeusln.com">Zeus</a>, <a href="https://bitbanana.app/">BitBanana</a> aus verwalten und verwenden, eine <a href="/wallets/getting-started-alby-hub-en.html">Alby Hub</a>-Instanz oder eine andere Anwendung verbinden, die einen LN-Knoten als Finanzierungsquelle benötigt.</li>
+</ol>
+<p>Dieser Knoten benötigt keine ausgefallene Tor-Verbindung, die Ihnen das Leben erschwert, und Sie müssen keine Ports öffnen, da er private Kanäle verwendet. Ihre Privatsphäre wird durch die Neutrinofilter und privaten LN-Kanäle sowie die jetzt von LND angebotenen Blindpfade geschützt. Außerdem muss dieser Knoten nicht rund um die Uhr online bleiben, Sie können ihn jederzeit wie eine normale App öffnen. Es wird jedoch empfohlen, die Synchronisierung nicht über längere Zeit aufzugeben.</p>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">FAZIT</h2>
+<p>Wie Sie sehen, gibt es recht gute Alternativen, um einen LN-Knoten im privaten Modus zu betreiben, mit weniger „Verantwortung“ als beim Betrieb eines öffentlichen Routing-Knotens und trotzdem Teilnahme an einem großartigen Zahlungsnetzwerk.</p>
+<p>Denken Sie daran, dass diese öffentlichen Routing-Knoten so viele dieser privaten mobilen Knoten benötigen, denn diese mobilen Knoten sind tatsächlich diejenigen, die die meisten Zahlungen im realen Leben in den Geschäften der Händler tätigen. Und die öffentlichen Routing-Knoten leiten Ihre mobilen Zahlungen praktisch durch ihre komplizierten Liquiditäts- und Routenringe und erheben geringe, manchmal aber auch hohe Gebühren, abhängig von der Gier jedes Knotens. Deshalb ist es für Sie als Benutzer mobiler Knoten wichtig, mit Bedacht zu wählen, mit welchem ​​Knoten Sie verbunden sind.</p>
+<p>Mit der Zeit werden diese Routen tatsächlich verbessert, mit besseren Gebühren, besseren Knoten, besseren Protokollen.</p>
+<p>Deshalb habe ich diesen Leitfaden geschrieben, um zu verhindern, dass Benutzer mit weniger Training unvorbereitete öffentliche Routing-Knoten betreiben und um all den Wahnsinn und festgefahrene Zahlungen, teure Routen usw. für die breite Nutzung des restlichen Netzwerks zu vermeiden.</p>
+<p>Ihre Liquidität, auch wenn sie privat ist, ist ebenfalls sehr wichtig, wenn Sie an diesem riesigen Zahlungsnetzwerk teilnehmen. Diese öffentlichen Routing-Knoten eröffnen tatsächlich mehrere Routen und möchten dafür eine Gebühr erheben. Dies ist ein marktgesteuerter Mechanismus, der sich selbst durch Nachfrage und Angebot anpasst. Wenn all diese mobilen LN-Geldbörsen nicht existieren oder nicht für reale Zahlungen an die Händler verwendet werden, werden all diese Touring-Knoten am Ende keine „Kunden“ mehr für ihre Routen haben. Wie Sie sehen, handelt es sich um eine Art „selbsttragende“ Umgebung.</p>
+<p>FANGEN SIE AN, IHRE SATS ALS GELD ZU VERWENDEN! Jetzt haben wir ein leistungsstarkes Zahlungsnetzwerk!</p>
+<p>Nur so können wir das Fiatgeldsystem und die Sklaverei überflüssig machen.</p>
+<p>Lesen Sie weitere Anleitungen zur Verwendung dieser LN-Wallets für bestimmte Anwendungsfälle:</p>
+<ul>
+<li><a href="/wallets/lightning-cleaning-machine-de.html">Lightning Cleaning Machine</a></li>
+<li><a href="/merchants/getting-started-bitcoin-small-merchants-de.html">Bitcoin für kleine Händler</a></li>
+<li><a href="https://darthcoin.substack.com/p/node-liquidity-guide">Leitfaden zur Liquidität öffentlicher/privater Knoten</a></li>
+<li><a href="/nodes/managing-lightning-node-liquidity-de.html">Verwaltung der LN-Knotenliquidität</a></li>
+<li><a href="/nodes/lightning-submarine-swaps-de.html">Lightning Submarine Swaps</a></li>
+<li><a href="/wallets/bitcoin-and-privacy-de.html">Bitcoin und Datenschutz</a></li>
+<li><a href="/merchants/bitcoin-lightning-payments-irl-de.html">Beispiele aus der Praxis für Bitcoin Lightning-Zahlungen</a></li>
+<li><a href="/merchants/operating-ln-as-merchant-de.html">Arbeiten mit Lightning als Händler</a></li>
+<li><a href="/merchants/private-banks-over-ln-de.html">Private Banken über Lightning Network</a></li>
+</ul>
+</body>
+</html>
+</article>
