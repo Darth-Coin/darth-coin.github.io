@@ -1,0 +1,274 @@
+---
+layout: default
+title: Quel logiciel de nœud Bitcoin LN puis-je exécuter ?
+---
+<article>
+<!DOCTYPE html>
+<html lang="fr">
+<meta name="description" content="Guides Bitcoin et Lightning : les logiciels disponibles que vous pouvez utiliser pour exécuter un nœud Bitcoin Lightning Network">
+<body>
+<a href="/nodes/bitcoin-ln-node-software-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/bitcoin-ln-node-software-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/bitcoin-ln-node-software-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/bitcoin-ln-node-software-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/bitcoin-ln-node-software-nl.html">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/bitcoin-ln-node-software-hr.html">Hrvatski <img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/bitcoin-ln-node-software-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<blockquote style="color:Tomato;"><em>
+<p>Publié à l'origine sur <a href="https://darthcoin.substack.com/p/what-bitcoin-ln-node-software-can">Substack</a> le 31 octobre 2021. Mis à jour ici le 13 octobre 2024.</p>
+</em></blockquote>
+
+<h3 style="color:Orange;">Un guide simple répertoriant les logiciels disponibles que vous pouvez utiliser pour exécuter un nœud Bitcoin Lightning Network et leurs principales fonctionnalités</h3>
+<blockquote style="color:Tomato;"><em>
+<p>Aujourd'hui, nous sommes le 31 octobre 2021 et nous célébrons les 13 ans depuis que Satoshi Nakamoto a publié le livre blanc Bitcoin. Pour honorer cette journée spéciale, je publie ce guide sur les nœuds Bitcoin et Lightning, pour aider les nouveaux utilisateurs à leur donner plus de choix pour exécuter un nœud.</p>
+</em></blockquote>
+<p>OK, vous êtes maintenant un bitcoiner qui commence son voyage dans le terrier profond du lapin Bitcoin et qui souhaite aller plus loin dans l'exécution d'un nœud BTC/LN. Vous savez déjà comment utiliser/gérer un portefeuille BTC/LN, vous savez comment obtenir des BTC auprès des bourses, vous savez qu'il n'est pas bon de laisser vos BTC sur des services de garde, il est temps pour vous de prendre la responsabilité en main. Bien…</p>
+<figure>
+<img src="/assets/images/bitcoin-paper-abstract.jpg" class="center">
+<figcaption>Résumé de Satoshi Bitcoin Papers (31 octobre 2019)</figcaption>
+</figure>
+<p>Ou vous êtes simplement un petit commerçant, vous avez une entreprise qui souhaite commencer à accepter les paiements Bitcoin via Lightning Network, sans aucun intermédiaire, comme l'indiquent <a href="https://bitcoin.org/bitcoin.pdf">Bitcoin Papers dans le résumé</a> :</p>
+<blockquote style="color:Tomato;"><em>
+Une version purement peer-to-peer de la monnaie électronique permettrait d'envoyer des paiements en ligne directement d'une partie à une autre sans passer par une institution financière.
+</em></blockquote>
+<p>Quelques autres ressources sur les raisons d'exécuter et ce que sont les nœuds Bitcoin :</p>
+<ul>
+<li><a href="https://bitcoin.org/en/full-node#what-is-a-full-node">Qu'est-ce qu'un nœud Bitcoin complet</a> - Bitcoin.org</li>
+<li><a href="https://blog.lopp.net/securing-your-financial-sovereignty/">Securing your financial souverainity</a> - Jameson Lopp</li>
+<li><a href="https://www.inbitcoinwetrust.net/here-is-the-main-reason-why-you-must-run-a-bitcoin-full-node-686f8e863de2">Principale raison pour laquelle vous devriez exécuter un nœud</a> - In Bitcoin We Trust</li>
+<li><a href="https://fr.bitcoin.it/wiki/Clarifier_les_idées_fausses_sur_les_nœuds_complets#Mythe_:_Le_nombre_de_ces_nœuds_est_important_et_.2For_est_trop_faible">Mythes et idées fausses sur les nœuds Bitcoin</a> - Bitcoin Wiki</li>
+<li><a href="https://blog.lopp.net/tor-only-bitcoin-lightning-guide/">Guide Bitcoin Lightning Tor uniquement</a> - Jameson Lopp</li>
+<li><a href="https://www.ministryofnodes.com.au/ubuntu-node-box-guide-2020">Guide Ubuntu Node Box</a> - Ministry of Nodes</li>
+<li><a href="https://bitcoin.page/">Page de ressources Bitcoin</a></li>
+<li><a href="https://lightning.how/">Ressources du réseau Lightning Page</a></li>
+<li><a href="https://www.lightning-network.tech/">Ressources complètes pour les opérateurs de nœuds Lightning Network - par Aljaz Ceru</a></li>
+</ul>
+<p>Passons rapidement en revue certaines des meilleures solutions actuellement disponibles. L’idée est d’être TOTALEMENT indépendant et de gérer soi-même son argent et ses paiements, sans intermédiaire.</p>
+<p>Tout dépend des spécificités de votre activité commerciale, de votre infrastructure, de votre budget, de vos connaissances techniques et du niveau d’« indépendance » que vous souhaitez avoir.</p>
+<p>Autre aspect à mentionner : chaque type de nœud utilise un code d’implémentation spécifique pour Lightning Network : <a href="https://github.com/LightningNetwork/lnd">LND</a>, <a href="https://github.com/ElementsProject/lightning">Core Lightning</a>, <a href="https://github.com/ACINQ/eclair">Eclair</a>, <a href="https://lightningdevkit.org/blog/ldk-an-sdk-for-the-lightning-network/">LDK</a>, <a href="https://github.com/rust-bitcoin/rust-lightning">Rust</a>, <a href="https://github.com/spesmilo/electrum/">Electrum</a>.</p>
+<p>Un nœud Bitcoin doit être en ligne 24h/24 et 7j/7 et fiable. Soyez donc prêt à le maintenir « en vie » et bien connecté à Internet. Votre nœud est votre propre banque.</p>
+<p>Avant de plonger dans la variété des nœuds de bureau, nous pouvons mentionner qu'il existe également des versions pour les appareils mobiles, qui synchronisent SPV, une petite partie des en-têtes des blocs à partir d'un serveur de nœud complet de confiance et conservent un nœud LN non dépositaire sur votre appareil mobile.</p>
+<p>Si vous ne cherchez pas à exécuter un nœud de routage PUBLIC, que vous souhaitez uniquement pour votre usage personnel, avec de petits paiements, exécuter un nœud LN PRIVÉ sur votre mobile avec ces applications de portefeuille est plus que suffisant :</p>
+<ul>
+<li><a href="/wallets/getting-started-blixt-wallet-fr.html">Blixt wallet</a> (Neutrino, nœud LND) - iOS, Android, macOS et bientôt Linux</li>
+<li><a href="https://breez.technology/">Breez</a> (Neutrino, nœud LND) - iOS, Android</li>
+<li><a href="/wallets/getting-started-zeus-wallet-fr.html">Portefeuille Zeus LN</a> (Neutrino, nœud LND) - iOS, Android, macOS</li>
+<li><a href="/wallets/getting-started-greenwallet-fr.html">Portefeuille Green LN</a> (Greenlight, nœud GDK) – iOS, Android</li>
+<li><a href="https://planb.network/en/tutorials/wallet/phoenix">Portefeuille Phoenix</a> (Electrum SPV, nœud Eclair) - iOS, Android</li>
+<li><a href="https://bitkit.to/">Portefeuille Bitkit</a> (nœud Electrum SPV LDK) - iOS, Android</li>
+<li><a href="https://standardsats.github.io/">Valet</a> (Electrum SPV, nœud Immortan) - Android</li>
+<li><a href="https://electrum.org/">Electrum</a> (Electrum SPV, Electrum node) - iOS, Android</li>
+<li><a href="/wallets/bluewallet-funding-sources-fr.html">Bluewallet</a> (Electrum SPV, LDK node) - iOS, Android</li>
+</ul>
+<hr style="height:2px">
+
+<h3>Umbrel Node - DIY et The Bitcoin Machine</h3>
+<h5>Description :</h5>
+<ul>
+<li>Il s'agit d'un moyen gratuit, le plus simple et le plus rapide de créer un nœud avec votre propre matériel (appareil RPi ou boîtier PC normal/Linux) et il est également totalement gratuit et <a href="https://blog.getumbrel.com/everything-you-need-to-know-about-umbrels-new-license-f9807203a57e">ouvert source</a>.</li>
+<li>Il est désormais également proposé sous la forme de <a href="https://thebitcoinmachines.com/">Bitcoin Machine</a>, plug’n’play, prêt à être utilisé comme serveur personnel, avec de nombreuses applications déjà incluses et des blocs synchronisés.</li>
+<li>Il s’agit actuellement d’un nœud Tor uniquement, livré avec le dernier nœud Bitcoin et le nœud LND, avec un tableau de bord Web simpliste pour gérer votre nœud Bitcoin et Lightning, les paramètres / l’état du système / la sauvegarde / la graine, l’App Store pour ajouter / supprimer des applications, se connecter au menu des portefeuilles.</li>
+<li>Une fois les données de la blockchain installées et synchronisées, vous pouvez commencer à l’utiliser comme votre propre banque, en connectant de nombreuses applications de portefeuille et des plugins de processeur de paiement à ses applications incluses au-dessus du nœud LND. Certaines des applications comme BTCPay et LNBits, si vous souhaitez les utiliser en clearnet, nécessiteront quelques modifications de configuration pour pouvoir être « visibles » en dehors du réseau Tor. Des guides sont inclus.</li>
+</ul>
+<h5>Logiciels utilisés, applications disponibles / incluses :</h5>
+<ul>
+<li>OS Rasp DebianOS adapté aux applications dockerisées (pour les utilisateurs de RaspPi)</li>
+<li>toute distribution Linux OS + Docker (Debian recommandé pour les utilisateurs non-RPi)</li>
+<li>Bitcoin Core + nœud LND comme logiciel de nœud de base + Electrs (Electrum Server)</li>
+<li>Vous pouvez également installer et utiliser le nœud CLN</li>
+<li>AppStore : BTC RPC Ecplorer, Mempool, RTL (Ride The Lightning), Thunderhub, Lightning Terminal, BTCPay Server, LNBits, Whirlpool, Sphinx Relay, Bluewallet LNDHUB, Spectre, LNMarkets, Kristall Bull, VaultWarden, NextCloud, Synapse Matrix / Element, SqueakNode, PhotoPrism, Pi-Hole, SimpleTorrent, Home Assistant, Node-RED, code-server, Gitea et bien d'autres plus</li>
+</ul>
+<h5>Ressources :</h5>
+<ul>
+<li><a href="https://umbrel.com/">Page officielle</a> - <a href="https://github.com/getumbrel/umbrel">Page GitHub</a> - <a href="https://community.getumbrel.com/">Forum communautaire</a> - <a href="https://t.me/getumbrel">Groupe Telegram</a> - <a href="https://blog.getumbrel.com/">Blog</a></li>
+<li><a href="https://darthcoin.substack.com/p/umbrel-bitcoin-ln-node">Guide de démarrage avec Umbrel</a>, expliquant en détail comment démarrer, comment l'installer, comment le gérer.</li>
+</ul>
+<hr style="height:2px">
+
+<h3>myNodeBTC - DIY et Premium</h3>
+<h5>Description :</h5>
+<ul>
+<li>myNode est un appareil dédié qui donne accès au réseau Bitcoin et Lightning ainsi qu'à un certain nombre d'autres fonctionnalités.</li>
+<li>solution de nœud complète avec de nombreuses fonctionnalités, vous pouvez acheter la machine déjà installée ou vous pouvez télécharger le logiciel et le construire vous-même avec votre propre matériel.</li>
+<li>Est proposé en 3 versions : One, Premium, Community Edition (DIY gratuit) et vous pouvez également commander une machine RPi déjà installée et synchronisée (<a href="https://mynodebtc.com/products/one">myNode One</a>)</li>
+<li>Il peut fonctionner sur Tor ou clearnet selon le choix de l'utilisateur et il est livré avec un tableau de bord Web simpliste où l'utilisateur peut gérer les applications et l'état des services de nœud.</li>
+<li>Une fois installé et synchronisé, l'utilisateur peut se connecter à diverses applications de portefeuille et de paiement solutions.</li>
+</ul>
+<h5>Logiciels utilisés, applications disponibles / incluses :</h5>
+<ul>
+<li>OS Rasp DebianOS adapté aux applications dockerisées (pour les utilisateurs de RaspPi)</li>
+<li>toute distribution Linux OS + déploiement de VM</li>
+<li>Bitcoin Core + nœud LND comme logiciel de nœud de base + Electrs (serveur Electrum)</li>
+<li>AppStore : BTC RPC Ecplorer, Mempool, RTL (Ride The Lightning), Thunderhub, Lightning Terminal, BTCPay Server, LNBits, Whirlpool, Dojo, JoinBox, Sphinx Relay, Bluewallet LNDHUB, Spectre, CKBunker, Caravan, PyBlock, Remote Access VPN et bien d'autres</li>
+</ul>
+<h5>Ressources :</h5>
+<ul>
+<li><a href="https://www.mynodebtc.com/">Page officielle</a> - <a href="https://github.com/mynodebtc/mynode/">Page GitHub</a> - <a href="https://mynode.community/">Forum communautaire</a> - <a href="https://t.me/mynode_btc">Groupe Telegram</a></li>
+<li><a href="https://mynodebtc.github.io/">Guides de documentation complets</a></li>
+<li><a href="https://youtube.com/playlist?list=PLCRbH-IWlcW0KP8DxyWWrqahGafZyV2HR">Tutoriels vidéo</a> - Série Ministry of nodes</li>
+</ul>
+<hr style="height:2px">
+
+<h3>RaspiBlitz - DIY</h3>
+<h5>Description :</h5>
+<ul>
+<li>DIY Bitcoin & Lightning Node sur des appareils RaspberryPi</li>
+<li>Est principalement destiné à apprendre à gérer votre propre nœud décentralisé depuis chez vous - car : pas votre nœud, pas vos règles. Découvrez et développez l'écosystème croissant du Lightning Network en devenant une partie intégrante de celui-ci. Créez-le dans le cadre d'un <a href="https://github.com/rootzoll/raspiblitz/blob/v1.7/WORKSHOP.md">atelier</a> ou comme projet de week-end vous-même.</li>
+<li>Il fonctionne par défaut sur Tor, mais est également fourni avec un service comme IP2Tor pour y accéder depuis clearnet</li>
+<li>Quincailleries : <a href="https://shop.fulmo.org/">Fulmo</a>, <a href="https://diynodes.com/">DIY Nodes</a>, <a href="https://lightninginabox.co/product/raspiblitz-raspberry-pi-lightning-node/">LightningInABox</a></li>
+</ul>
+<h5>Logiciels utilisés, applications disponibles / incluses :</h5>
+<ul>
+<li>OS Rasp DebianOS</li>
+<li>Bitcoin Core + nœud LND ou C-Lightning comme logiciel de nœud de base + Electrs</li>
+<li>Nœud Lightning de base en option</li>
+<li>Applications/Plugins : BTC RPC Ecplorer, Mempool, RTL (Ride The Lightning), Thunderhub, Lightning Terminal, BTCPay Server, LNBits, JoinMarket, BoS, Circuit Breaker, Specter, PyBlock, Kindle Display, Suez, ChanTools, StackingSats, CLBoss, Spark, Sphinx Relay, Telegraf et bien d'autres</li>
+</ul>
+<h5>Ressources :</h5>
+<ul><a href="https://raspiblitz.org/">Page officielle</a> - <a href="https://github.com/rootzoll/raspiblitz">GitHub</a> - <a href="https://mynode.community/">Forum communautaire</a> - <a href="https://t.me/raspiblitz">Groupe Telegram</a></ul>
+<li><a href="https://github.com/rootzoll/raspiblitz/raw/v1.7/home.admin/assets/slides_lnbits_vouchers_and_merchant_onboarding.pdf">Guides de documentation complets</a> (pdf) ou <a href="https://www.youtube.com/watch?v=0Bt3tHULAnw">Vidéo YouTube</a></li>
+<li><a href="https://github.com/openoms/raspiblitz/tree/amd64/alternative.platforms">Installer Raspiblitz sur n'importe quel PC x64</a></li>
+<li>Tutoriels vidéo : <a href="https://www.youtube.com/watch?v=QXUGg45CWLo">Plongée en profondeur</a>, <a href="https://www.youtube.com/watch?v=qecxEvVL8ok">Windows</a> , <a href="https://www.youtube.com/watch?v=77BBQWg1n8w">Mac</a>, <a href="https://www.youtube.com/watch?v=udlUotNZOw0">Linux</a></li>
+</ul>
+<hr style="height:2px">
+
+<h3>Embassy Start9 - HW + SW DIY et Premium</h3>
+<h5>Description :</h5>
+<ul>
+<li>Machine plug’n’play, licence payante pour le système d’exploitation si vous voulez le faire vous-même</li>
+<li>Facile à configurer et à utiliser avec son interface Web, connexions faciles aux applications de portefeuille</li>
+<li>Embassy est un serveur personnel élégant, plug’n’play, pour exécuter des logiciels auto-hébergés. Il se trouve tranquillement sur votre étagère, fonctionnant jour et nuit - votre propre cloud privé.</li>
+<li>Il fonctionne par défaut sur le réseau Tor, protégeant la confidentialité des utilisateurs</li>
+</ul>
+<h5>Logiciels utilisés, applications disponibles / incluses :</h5>
+<ul>
+<li>OS Rasp DebianOS comme OS de base</li>
+<li>Bitcoin Core + LND ou C-Lightning node comme logiciel de base + Electrs</li>
+<li>Applications/Services/Plugins : Matrix, BTCPay Server, BitWarden, File Browser, Sphinx Relay, Mastodon, CUPS, BAR, RTL, Thunderhub, Spark, Photoview, Bitcoin Proxy et bien d'autres.</li>
+</ul>
+<h5>Ressources :</h5>
+<ul>
+<li><a href="https://start9.com/">Page officielle</a> - <a href="https://github.com/Start9Labs/">GitHub</a> - <a href="https://matrix.to/#/!lMnRwPWnyQvOfAoEnD:matrix.start9labs.com">Matrice communautaire</a> - <a href="https://t.me/start9_labs">Groupe Telegram</a></li>
+<li><a href="https://docs.start9.com/">Guides de documentation complets</a></li>
+<li><a href="https://docs.start9.com/latest/diy/diy-x86">Installer Embassy sur n'importe quel PC x86</a></li>
+<li><a href="https://www.youtube.com/channel/UCGEw4HJDvOn3Oy8ykR36P7Q">Tutoriels vidéo</a></li>
+</ul>
+<hr style="height:2px">
+
+<h3>NODL - Assistant Bitcoin Personnel Premium</h3>
+<h5>Description :</h5>
+<ul>
+<li>Machine Bitcoin Node plug’n’play, facile à configurer et à utiliser</li>
+<li>Fonctionne sur Tor, entièrement personnalisable, open source</li>
+<li>Existe en 3 versions : One, Dojo, Cloud, Rack</li>
+</ul>
+<h5>Logiciels utilisés, applications disponibles / incluses :</h5>
+<ul>
+<li>OS Debian Linux comme OS de base</li>
+<li>Bitcoin Core + LND node comme logiciel de base + Electrs</li>
+<li>Applications/Services/Plugins : BTCPay Server, RTL, Thunderhub, Whirlpool, Dojo, BTC RPC Explorer.</li>
+</ul>
+<h5>Ressources :</h5>
+<ul>
+<li><a href="https://www.nodl.it/">Officiel page</a> - <a href="https://shop.nodl.it/fr/">Boutique</a> - <a href="https://t.me/nodl_it">Groupe Telegram</a></li>
+<li><a href="https://docs.nodl.it/">Guides de documentation complets</a></li>
+</ul>
+<hr style="height:2px">
+
+<h3>BTCPay Server - Machines DIY et Plug’n’Play</h3>
+<h5>Description :</h5>
+<ul>
+<li>Processeur de paiement Bitcoin auto-hébergé et open source. Il est sécurisé, privé, résistant à la censure et gratuit.</li>
+<li>DIY sur votre propre PC Linux, ou achetez une machine Plug’n’Play disponible, facile à installer et à configurer, également des versions hébergées disponibles</li>
+<li>L'objectif principal de BTCPay Server est de supprimer les dépendances vis-à-vis de tiers de confiance. Les applications sont intégrées dans des applications qui rendent obsolètes les autorités centrales et permettent aux utilisateurs d'étendre facilement <a href="https://docs.btcpayserver.org/UseCase/">le cas d'utilisation du logiciel</a>. Les utilisateurs peuvent héberger eux-mêmes toutes sortes d'applications personnalisables qui fonctionnent dès la sortie de la boîte.</li>
+<li>Paiements Bitcoin directs peer-to-peer, pas de frais de transaction (autres que les frais de réseau, pas de frais de traitement, pas d'intermédiaire, pas de KYC, non dépositaire (contrôle complet de la clé privée), confidentialité et sécurité améliorées, prise en charge de Tor, paiements Pull</li>
+<li>Gestion des utilisateurs, gestion des magasins</li>
+</ul>
+<h5>Logiciels utilisés, applications disponibles / incluses :</h5>
+<ul>
+<li>OS Debian Linux comme OS de base ou Rasp DebianOS</li>
+<li>Bitcoin Core + LND ou C-Lightning ou nœud Eclair + serveur Electrum</li>
+<li>Applications/services : serveur BTCPay, RTL, PayJoin, Wordpress, Pi-Hole, JoinMarket</li>
+<li>Boutons de paiement faciles à intégrer, application de point de vente, application de financement participatif, paiement Requêtes, portefeuille interne dépendant du nœud complet avec <a href="https://docs.btcpayserver.org/HardwareWalletIntegration/">intégration du portefeuille matériel</a>, prise en charge de Payjoin, applications Lightning Network, comptabilité</li>
+<li>Plugins pour Woocommerce, Shopify, Drupal, Magento, PrestaShop</li>
+</ul>
+<h5>Ressources :</h5>
+<ul>
+<li><a href="https://btcpayserver.org/">Page officielle</a> - <a href="https://github.com/btcpayserver">GitHub</a> - <a href="https://t.me/btcpayserver">Groupe Telegram</a> - <a href="http://blog.btcpayserver.org/">Blog</a></li>
+<li><a href="http://docs.btcpayserver.org/">Guides de documentation complets</a> - <a href="https://docs.btcpayserver.org/UseCase/">Cas d'utilisation</a></li>
+<li><a href="https://www.youtube.com/channel/UCpG9WL6TJuoNfFVkaDMp9ug">Chaîne YouTube</a></li>
+</ul>
+<h5>Magasins/Machines d'hébergement prêtes à utilisation :</h5>
+<ul>
+<li><a href="https://lightninginabox.co/shop/">LightningInABox</a>, <a href="https://shop.nodl.it/en/">NODL</a>, <a href="https://bitcoinpos.ch/">BitcoinPOS</a>, <a href="https://coincharge.io/en/coincharge-products/">CoinCharge</a>, <a href="https://voltage.cloud/">Voltage.Cloud</a></li>
+<li><a href="https://github.com/CypherpunkPay/CypherpunkPay">CypherPunkPay</a> - une version allégée du serveur BTCPay</li>
+</ul>
+<hr style="height:2px">
+
+<h3>Nœuds domestiques simples à faire soi-même</h3>
+<h5>Description :</h5>
+<ul>
+<li>Logiciel de nœud que vous pouvez installer dans votre propre PC normal, à des fins de test ou simplement pour avoir un simple nœud Bitcoin et Lightning pour un usage personnel</li>
+<li>Pas besoin de compétences techniques avancées</li>
+<li>Limité dans les options et les applications supplémentaires, mais suffisant pour pouvoir effectuer des transactions sur le réseau Lightning de manière autonome</li>
+<li>Peut connecter diverses applications de portefeuille à votre propre nœud</li>
+</ul>
+<h5>Logiciels utilisés :</h5>
+<ul>
+<li>Windows OS, Linux OS, MacOS</li>
+<li>Bitcoin Core, Knots, LND, Eclair, Core Lightning, LDK, Eclair</li>
+</ul>
+<h5>Ressources :</h5>
+<ul>
+<li><a href="https://minibolt.minibolt.info/">MiniBolt DYI LND ou CLN node</a></li>
+<li><a href="https://github.com/ArmanTheParman/Parmanode">ParmanNode</a> - installation de commande en ligne simpliste</li>
+<li><a href="https://github.com/lightning-power-users/node-launcher">Node Launcher</a> - nœud Windows, Mac avec LND</li>
+<li><a href="https://phoenix.acinq.co/server">PhoenixD Server</a> - un nœud simple avec Eclair</li>
+<li><a href="https://stopanddecrypt.medium.com/running-bitcoin-lightning-nodes-over-the-tor-network-2021-edition-489180297d5">Nœud LND standard</a> - machine à nœud Linux avec Tor</li>
+<li><a href="https://github.com/fort-nix/nix-bitcoin/">NixBitcoin</a> - collection de Nix packages et modules NixOS pour installer facilement des nœuds Bitcoin complets en mettant l'accent sur la sécurité.</li>
+<li><a href="https://cypherpunkpay.org/">CypherPunkPay</a> - une version allégée du serveur BTCPay</li>
+</ul>
+<hr style="height:2px">
+
+<h3>Solution de nœud hébergé</h3>
+<h5>Description :</h5>
+<ul>
+<li>Vous n'avez pas la possibilité d'héberger vous-même votre propre machine de nœud ou vous avez besoin d'une solution plus sécurisée et fiable</li>
+<li>Vous n'avez pas le contrôle total de la machine, mais vous contrôlez toujours le logiciel</li>
+<li>Avoir des coûts plus élevés pour la maintenance et les services</li>
+<li>Aucune compétence technique n'est nécessaire</li>
+</ul>
+<h5>Logiciel utilisé :</h5>
+<ul>
+<li>Il s'agit généralement d'un système d'exploitation Linux</li>
+<li>LND, Core Lightning, LDK, PhoenixD, BTCPay Serveur, Wordpress/Woocommerce</li>
+</ul>
+<h5>Ressources :</h5>
+<ul>
+<li><a href="https://coincharge.io/en/coincharge-products/">CoinCharge</a> Hosted BTCPay Server</li>
+<li><a href="https://voltage.cloud/">Voltage Cloud</a> - Nœuds et applications LN hébergés</li>
+<li><a href="https://blockstream.com/lightning/greenlight/">GreenLight Blockstream</a></li>
+<li><a href="https://nodana.io/">Nodana</a> - LND, PhoenixD, Alby Hub, LNbits et plus</li>
+<li><a href="https://albyhub.com/">Alby Cloud</a> - Exécutez votre propre instance Alby Hub dans le cloud</li>
+</ul>
+<hr style="height:2px">
+
+<h3>Ronin Dojo Nœud</h3>
+<h5>Description :</h5>
+<ul>
+<li>Nœuds entièrement axés sur la confidentialité, Tor uniquement</li>
+<li>Nœud Bitcoin onchain UNIQUEMENT, PAS de nœuds Lightning</li>
+<li>Aucune compétence technique n'est requise</li>
+<li>Appareil plug'n'play</li>
+</ul>
+<h5>Logiciel utilisé :</h5>
+<ul>
+<li>Base du système d'exploitation Linux</li>
+<li>Bitcoin Core</li>
+<li>Whirlpool coinjoin</li>
+</ul>
+<h5>Ressources :</h5>
+<p><a href="https://ronindojo.io/">RoninDojo web</a> | <a href="https://shop.ronindojo.io/">Dojo Shop Nodes</a> | <a href="https://wiki.ronindojo.io/en/home">Documentation wiki</a></p>
+</body>
+</html>
+</article>
