@@ -1,0 +1,266 @@
+---
+layout: default
+title: Lightning Node Routing Gebühren Experiment
+---
+<article>
+<!DOCTYPE html>
+<html lang="de">
+<meta name="description" content="Bitcoin- und Lightning-Anleitungen: Festlegen verschiedener Gebührenrichtlinien jeden Monat und Beobachten des LN-Knoten-Routings">
+<body>
+<a href="/nodes/lightning-routing-fees-experiment-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-routing-fees-experiment-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-routing-fees-experiment-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-routing-fees-experiment-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-routing-fees-experiment-nl.html">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-routing-fees-experiment-hr.html">Hrvatski <img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-routing-fees-experiment-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<blockquote style="color:Tomato;"><em>
+<p>Ursprünglich gepostet auf <a href="https://darthcoin.substack.com/p/lightning-routing-fees-experiment">Substack</a> am 25. März 2022. Hier aktualisiert am 20. Dezember 2024</p>
+</em></blockquote>
+
+<h3 style="color:Orange;">Jeden Monat verschiedene Gebührenrichtlinien festlegen und das LN-Knotenrouting beobachten</h3>
+<h3>Einführung</h3>
+<p>Meine Erfahrung mit LN-Knoten begann 2019 mit einem einfachen C-Lightning-Knoten. Funktionierte gut, ich habe viel über das Lightning Network im Allgemeinen gelernt und wie man einen BTC/LN-Knoten betreibt, welche Vorteile und welche Nachteile man haben kann. Aber das war erst der Anfang von LN.</p>
+<p>2020 habe ich dann Umbrel entdeckt. Also habe ich meinen C-Lightning-Knoten in einen neuen Umbrel-Knoten umgewandelt. Ich habe jetzt einen Gigabyte Brix NUC mit Debian OS.</p>
+
+<figure>
+<img src="/assets/images/mini-node.jpg" class="center">
+<figcaption>Umbrel-Knoten auf Gigabyte Brix NUC (lüfterlos) – i3-CPU, 8 GB RAM, 1 TB HDD (int), Debian OS 10</figcaption>
+</figure>
+
+<p>Nur um mehr zu lernen und auch um der Vielzahl neuer Benutzer zu helfen, die mit der Installation von Umbrel beginnen, aber überhaupt keine Ahnung haben, was LN und ein LN-Knoten ist.</p>
+<p>Der beste Weg war also, es zu testen, zu lernen, wie man es benutzt, es zu entdecken und dann langsam alle meine Schritte in einfachen Anleitungen zu dokumentieren, damit ich mein Wissen mit neuen Benutzern teilen konnte, die hungrig nach diesen Informationen und „How-to“-Schritten waren.</p>
+<p>Also baute ich diesen Knoten langsam auf, öffnete Kanäle, studierte die Peers genau und <a href="https://darth-coin.github.io/nodes/managing-lightning-node-liquidity-en.html">Erstellen meiner eigenen Peer-Liste</a> (enthält auch die berühmte <a href="https://basefee.ln.rene-pickhardt.de/">René Pickhardt-Liste der ZeroBaseFee-Knoten</a>).</p>
+<p>Ich sage nicht, dass meine Verfahren, Richtlinien und Ansätze die besten oder sogar gut sind. Es sind nur meine Beobachtungen und meine eigenen Schlussfolgerungen darüber, wie man einen LN-Knoten verwaltet. Ich bin kein Experte oder LN-Programmierer oder irgendein „Guru“, sondern nur ein Pöbel, der alles, was mit meinem Knoten passiert, beobachtet und nach seinem eigenen gesunden Menschenverstand weitergibt.</p>
+<p>OK, ich bin also einigen Rings of Fire, LN+-Ringen, privaten Gruppen usw. beigetreten und habe mich auch mit bestimmten Knoten verbunden, während 2 Jahren mit diesem Umbrel-Knoten. Bis ich ein Limit von 40 Kanälen erreicht habe, gute stabile Kanäle und Peers. Mit vielen stehe ich in direktem Kontakt. Es ist gut, sich gegenseitig zu helfen (vielleicht würde ich einen weiteren Leitfaden dazu erstellen).</p>
+<p>Dann starte ich 2022 einen sekundären Knoten, einen privaten Knoten, ohne Alias, nur Tor, der in keiner Weise mit meiner echten Identität oder einer anderen Online-Identität verknüpft ist. <a href="https://darthcoin.substack.com/p/node-liquidity-guide">Dies ist Teil eines anderen Experiments, das in diesem Leitfaden beschrieben wird</a>.</p>
+<p>Ich bin ÜBERHAUPT NICHT daran interessiert, mit LN „Geld zu verdienen“ oder „Gewinne“ zu erzielen. Mein Ziel ist es, LN zu einem sehr liquiden Zahlungsnetzwerk zu machen, damit die Benutzer es Tag für Tag nutzen und aufhören, das verdammte Fiatgeld zu verwenden. Wir werden kein gesundes Zahlungsnetzwerk aufbauen, wenn wir damit anfangen, uns gegenseitig auszurauben und das Netzwerk nur für ein paar miserable Sats zu verstopfen.</p>
+<p>Wenn LN wirklich stabil ist, mit wirklich guter Pfadfindung und gesunden Knoten, und viele Benutzer es als tägliche Zahlungsbasis verwenden (nicht nur dummes Neubalancing), können wir über Gebührenerhöhungen sprechen und langsam ein Anreizmodell für Routing-Knoten aufbauen.</p>
+<p>Wir sind noch NICHT so weit, egal was andere sagen, dass sie x Sats/Monat verdient haben. DAS WERDEN SIE NICHT HIN KOMMEN!</p>
+<p>Und denken Sie daran: Das Ziel ist, DIE BANKEN ZU FICKEN, nicht, uns gegenseitig zu ficken...</p>
+<p>Wenn wir jetzt anfangen, neuen Benutzern, die LN beitreten, hohe Gebühren zu berechnen, werden sie in die Hose machen und weglaufen und sagen, dass dieses LN ein beschissen teures Zahlungssystem ist.</p>
+<p>Machen Sie ihnen keine Angst, helfen Sie ihnen, diese erstaunliche Technologie zu nutzen. Wir werden später noch viel Zeit haben, die Gebühren auf ein Niveau anzuheben, das als Anreiz erhalten bleibt.</p>
+<p>VERRÜCKTE GIER IST DAS, WAS INNOVATIONEN TÖTET.</p>
+
+<figure>
+<img src="/assets/images/fees-passive-income.jpg" class="center">
+<figcaption>Neuling interessiert sich für „passives Einkommen“</figcaption>
+</figure>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">Wie es begann... #ZeroFeeFebruary</h3>
+<p>Also startete ich im Februar 2022 mit einem meiner starken Kollegen eine Bewegung von <a href="https://amboss.space/community/ec432081-e9f1-4c7f-8604-3a7d9980bc61">#ZeroFeeFebruary</a> zwischen vielen RoF und Gruppen. Lief ziemlich gut, als sich über 35 Knoten zusammenschlossen und alle Kanalgebühren auf 0/0 (0 Grundgebühr, 0 ppm) gesetzt wurden.</p>
+<p>Mein bescheidener Umbrel-Knoten begann, die Anzahl der durchgeleiteten Zahlungen zu verdoppeln, zu verdreifachen, zu vervierfachen. Ich habe auch einige kleine Zombie-Kanäle mit Peers geschlossen, die in den letzten 6 Monaten überhaupt nicht gewachsen sind.</p>
+<p>Das ist ein sehr wichtiger Aspekt: ​​Peers, die in den letzten Monaten nicht genug gewachsen sind, sind NUTZLOS und könnten mehr Schaden als Nutzen anrichten.</p>
+<p>Also eine Warnung an alle Neulinge mit neuen Knoten: Wenn Sie planen, ein LN mit nur 2-3 Kanälen zu betreiben und nie mehr zu wachsen, rechnen Sie damit, dass Ihre Peers die Kanäle schließen werden. Stapeln Sie mehr Sats und öffnen Sie mehr LN-Kanäle. Gelder in LN sind nicht „verloren“ oder „blockiert“, wie viele versuchen, Ihnen Angst zu machen. Nein, <a href="https://medium.com/breez-technology/lightning-is-a-liquidity-network-550896ca27ea">Gelder in LN-Kanälen SIND VERDAMMT LIQUID. Das heißt, SIE MÜSSEN FLIEGEN</a>. Sonst ist es völlig nutzlos.</p>
+<p>Also beginne ich damit, die Kanäle mit Peers zu schließen, die hohe Gebühren verlangen. Hohe Gebühren sind für mich:</p>
+<ul>
+<li>Grundgebühr >1 | alles, was darüber liegt, ist dumm und richtet mehr Schaden als Nutzen an</li>
+<li>ppm >150-200 | manchmal ist der ppm notwendig, um die Liquidität auf die eine oder andere Seite zu schieben, wenn man sie wirklich braucht, Fälle für Händler, die nicht ausschleifen wollen, sondern den Verkehr einfach den Ausgleich machen lassen wollen.</li>
+</ul>
+<p>Wenn also ein Peer, der mit meinem Knoten verbunden ist, für alle seine Kanäle die Standardrichtlinie verwendet, wie 2 Sats Grundgebühr / 300 ppm, werde ich den Kanal schließen, ohne Reue. Oder legen Sie eine so hohe Grundgebühr fest, dass der gesamte Verkehr auf diesem Kanal blockiert wird, bis er ihn selbst schließt.</p>
+<p>Auch diejenigen, die das Charge-lnd-Skript intensiv verwenden. Bitte hören Sie auf, es zu verwenden, wenn Sie ein Neuling sind! Oder lernen Sie zumindest, was Sie damit zu tun haben und wie es funktioniert.</p>
+<p>Es richtet mehr Schaden an als es nützt. Das Skript ist so konzipiert, dass es Kanäle ab einem bestimmten „Profitabilitätsniveau“ automatisch deaktiviert. Der Benutzer weiß nicht einmal, dass seine Kanäle deaktiviert werden, und das bedeutet GESCHLOSSENE TÜREN. Das bedeutet, dass in keiner Weise mehr über diese Kanäle geroutet wird. Wenn ich also ständig einen Knoten mit vielen deaktivierten Kanälen sehe, ist das eine klare Botschaft: Er verwendet das verdammt berüchtigte Skript oder er ist mit vielen Peers verbunden, die dieses Skript verwenden. Dieser Peer ist ein „Node“.</p>
+<p>Die Liquidität fließt in beide Richtungen, ja, es ist langsam, aber haben Sie Geduld. Lassen Sie das LN-Lebendgeschöpf natürlich wachsen und natürlich fließen. Wenn Sie ihm Steine ​​in den Weg legen, wird er natürlich andere finden.</p>
+<p>Ich habe versucht, mit den Kollegen, die reagieren, die Situation verstehen und ihre Gebühren entsprechend anpassen, vernünftig umzugehen. Langsam wird die Gier in den äußeren Rändern der LN-Galaxie isoliert.</p>
+<p>Der Monat Februar sieht mit meinem bescheidenen Knoten, 70 Mio. Gesamtliquidität, verteilt 50/50 und 40 Kanäle, so aus:</p>
+
+<figure>
+<img src="/assets/images/feb-routed-txs-per-day.png" class="center">
+<figcaption>Gesamtzahl weitergeleiteter Zahlungen im Februar 2022/Tag</figcaption>
+</figure>
+<figure>
+<img src="/assets/images/feb-routed-sats-per-day.png" class="center">
+<figcaption>Gesamtzahl weitergeleiteter Sats im Februar 2022/Tag</figcaption>
+</figure>
+
+<p>Insgesamt wurden 995 Zahlungen weitergeleitet, insgesamt wurden 84 Mio. Sats weitergeleitet.</p>
+<p>Der höchste Wert waren 95 weitergeleitete Zahlungen und insgesamt 9 Mio. Sats an einem Tag. Im Durchschnitt waren es im gesamten Februar etwa 20 Txs/Tag mit insgesamt rund 3 Mio. weitergeleiteten Sats/Tag. Nicht schlecht für einen so kleinen Knoten. Ich habe nicht zu viele große Kanäle, nicht einmal einen Wumbo.</p>
+<p>Mein Testknoten hatte: 5 Kanäle über 4 Mio. Sats, 14 Kanäle zwischen 4 Mio. und 1 Mio. Sats, 12 Kanäle bei 1 Mio. Sats und 9 Kanäle mit 500.000 Sats. Insgesamt 40 Kanäle (mehr oder weniger, einige wurden geschlossen und geöffnet).</p>
+<p>Vergleich des Februars mit den 6 vorherigen Monaten:</p>
+
+<figure>
+<img src="/assets/images/routed-txs-6m.png" class="center">
+<figcaption>Nein. der in den letzten 6 Monaten weitergeleiteten Txs</figcaption>
+</figure>
+<figure>
+<img src="/assets/images/routed-sats-6m.png" class="center">
+<figcaption>Insgesamt in den letzten 6 Monaten weitergeleitete Sats</figcaption>
+</figure>
+
+<h4 style="color:Yellow;">Zusätzliche Schritte, die ich durchgeführt habe</h4>
+<ul>
+<li>Ich habe die maximale HTLC-Menge auf 500.000 Sats für alle Kanäle reduziert</li>
+<li>Ich habe meinen Knoten <a href="https://community.getumbrel.com/t/lnd-tor-clearnet-how-to-setup-hybrid-mode/6133/">so konfiguriert, dass er im Hybridmodus läuft</a> – Tor & Clearnet. Dies hilft bei der Pfadfindung, wenn Tor verstopft ist</li>
+<li>Ich aktiviere die <a href="https://community.getumbrel.com/t/how-to-reduce-size-of-channel-db-file-for-lnd/6439/">Komprimierung meiner channel.db-Datei</a>, dies verbessert die Reaktionsfähigkeit Ihres Knotens und reduziert ausstehende HTLCs</li>
+<li>Ich habe eine <a href="https://github.com/lightningnetwork/lnd/blob/master/sample-lnd.conf#L306">maximale Anzahl von HTLCs in der lnd.conf-Datei auf 10 festgelegt</a></li>
+<li>Ich habe alle Peers so weit wie möglich verbunden gehalten. Manchmal ist Gossip über Tor wirklich unregelmäßig und meldet Offline-Peers, auch wenn sie es nicht sind. Also habe ich den Peer, der offline erscheint, aus der Peer-Liste entfernt und ihn erneut hinzugefügt, wenn möglich unter Verwendung seiner Clearnet-URI. Nach ein paar Sekunden ist der Peer wieder online und der Kanal ist bereit. Sie können Thunderhub für alle diese Schritte verwenden.</li>
+</ul>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">Fazit</h3>
+<p>Im Großen und Ganzen war dieser Test für mich ein Erfolg. Mein Hauptziel war, die Möglichkeiten und Kapazitäten dieses kleinen Knotens beim Routing zu sehen und daraus in Situationen mit hohem Verkehrsaufkommen zu lernen. Ich möchte keinen meiner Peers doxen, daher werde ich keine Screenshots mit Statistiken zu bestimmten Kanälen veröffentlichen. Aber ich kann sagen, dass viele von ihnen in diesem Monat anfangen, sich zu bewegen.</p>
+<h4 style="color:Yellow;">Einige wichtige Punkte, die mir aufgefallen sind:</h4>
+<h5>1 - Gebührenpolitik</h5>
+<p>0/0-Gebühren ziehen viel Verkehr an, aber es ist auch wichtig, Peers mit ähnlicher Politik oder niedrigen Gebühren zu haben.</p>
+<h5>2 - Neuausgleich</h5>
+<p>Die Peers mit hohen Gebühren sind einfach ins Stocken geraten. Einige sagten, dass viele Knoten die 0/0-Gebühren ausnutzen und kostenlos neu ausgleichen. Nein, ist es nicht. So etwas ist mir nicht aufgefallen. Es gab nur wenige Bewegungen von Peers mit höheren Gebühren über die Kanäle mit 0/0-Gebühren. Ich denke, dass der Großteil des Routings einfach dem natürlichen Weg folgte, den billigsten und schnellsten Weg zu finden und die Knoten mit hohen Gebühren zu ignorieren.</p>
+
+<figure>
+<img src="/assets/images/zfr-quote.jpg" class="center">
+<figcaption>ZFR-Knoten über Gebühren</figcaption>
+</figure>
+
+<p>Viele sagten, dass „erschöpfte“ Kanäle nicht geroutet werden und ausgeglichen oder geschlossen werden müssen. Das stimmt nicht! Ich hatte viele erschöpfte Kanäle, einen Tag lang, ja. Aber nach einer Weile fangen sie an, unterwegs Satelliten zu verschieben. Alles hängt davon ab, ob Ihr Knoten genügend Kanäle mit ausreichender Liquidität hat und auf Gesamtebene, nicht auf Einzelebene, ausgeglichen ist.</p>
+
+<figure>
+<img src="/assets/images/liquidity-report-th.jpg" class="center">
+<figcaption>Dies ist der wichtigste Liquiditätsbericht, den Sie beachten sollten</figcaption>
+</figure>
+
+<p>Wenn Ihre gesamte eingehende und ausgehende Liquidität nahezu gleich ist, Sie mindestens 10-20-30 gute Kanäle haben (nicht tot, nicht vom äußeren Rand der LN-Galaxie), dann wird Ihr Knoten auf beiden Seiten natürlich weiterleiten. Wenn dieses Verhältnis von Ein-/Ausgang mehr als 30 % unausgeglichen ist, dann bekommen Sie tatsächlich Probleme, Ihr Knoten kann ins Stocken geraten.</p>
+<p>Die ganze Zeit über habe ich NIEMALS irgendeinen Kanal in irgendeiner Weise neu ausgeglichen. Ich habe dafür kein automatisiertes Skript verwendet, nicht einmal manuell. Ich lehne mich einfach zurück und schaue zu.</p>
+<p>Ich wollte auch sehen, ob eine leichte Anpassung des HTLC dabei helfen kann, den Kanal automatisch auszugleichen, indem der Fluss dorthin umgeleitet wird, wo er benötigt wird und genügend Flüssigkeit vorhanden ist.</p>
+
+<h5>3 – Ressourcen, Speicherauslastung</h5>
+<p>Mir ist aufgefallen, dass mehr Speicher verbraucht wird, wenn mehr HTLCs ausstehen. Die Begrenzung der Gesamtzahl ausstehender HTLCs in der Datei lnd.conf hat also ein wenig geholfen. Ich bin mir nicht sicher, was die Ursache dafür war, dass 5-10-15 Minuten lang ständig mindestens 3-4 ausstehende HTLCs da waren. Mein Knoten? Meine beschissene Festplatte? Meine Verbindung (ich war die ganze Zeit im Hybridmodus). Meine Peers? Allgemeine Tor-Probleme?</p>
+<p>Ich verstehe die Bedeutung ausstehender HTLCs, aber nicht für so lange Zeit. Ich wünschte, ich könnte etwas dagegen tun, aber ich habe nicht genug Wissen oder die richtigen Informationen, um sie zu beheben. Vielleicht muss LN in dieser Hinsicht verbessert werden.</p>
+
+<h5>4 - Knotenzentralität, Wachstum</h5>
+<p>Ihre Position im Netzwerk, die Zentralität und die Verbindungen, die Sie haben, sind sehr wichtig. <a href="https://darthcoin.substack.com/p/lightning-network-is-awesome">Ich habe hier eine Liste mit allen verfügbaren LN-Tools gepostet</a>. Verwenden Sie sie, sie sind sehr gut darin, Ihre Peers, Routen usw. zu beobachten. Die Peers, die weit am Rand des Netzwerks sind, werden nichts bewegen. Aber die Peers, die Verbindungen zwischen vielen der RoF- und zentralen Knoten haben, werden eine gute Bewegung haben.</p>
+<p>Wenn Sie also einen neuen oder sogar einen alten Knoten haben, aber schlechte Verbindungen haben ... ändern Sie sie. Und versuchen Sie, keine Verbindung mit Peers herzustellen, die bereits dieselben Verbindungen wie Sie haben. RoF sind sehr gut für die Erweiterung geeignet, aber wenn Sie vielen verschiedenen Ringen beitreten, aber mit denselben Spielern, hilft das in keiner Weise, manchmal ist es sogar noch schlimmer, es entsteht eine Art Schleife, die nie endet.</p>
+<p>Erweitern Sie Ihre Verbindungen zu Knoten, die nicht in den meisten RoF enthalten sind, und bilden Sie die Brücke zwischen ihnen und RoF. Erkunden Sie die LN-Peers, wann immer Sie Zeit haben, und nehmen Sie Knoten, beobachten Sie neue Knoten.</p>
+<p>Verbinden Sie sich mit mehr Knoten, die mindestens 0 Grundgebühr und eine Richtlinie für kleine ppm-Gebühren verwenden. <a href="https://basefee.ln.rene-pickhardt.de/">Hier ist eine riesige Liste, die von René Pickhardt mit der „0-Basisgebühr“-Richtlinie für Knoten verwaltet wird</a>.</p>
+<p>Wenn Sie einen Knoten mit nur 2-3 Kanälen haben ... und nicht vorhaben, weiter zu wachsen, sollten Sie ihn besser einfach schließen und <a href="https://darth-coin.github.io/wallets/lightning-wallets-comparison-en.html">eine einfache mobile LN-Geldbörse verwenden</a>. Sie helfen weder dem Netzwerk noch sich selbst. Wir alle wissen, dass es schwierig ist, Sats zu stapeln, aber niemand zwingt Sie, einen guten Knoten mit guter Liquidität zu betreiben.</p>
+<p>Mein Experiment soll zeigen, ob mit relativ kleinen Kanälen (1-5 Mio. Sats) eine gute Weiterleitung für alle erreicht werden kann. Ja, Sie könnten 2-3 große Kanäle mit 10-20 Mio. Sats haben, aber das halte ich für mehr Zentralität, da mehr Txs an nur einem Ort konzentriert werden. Anstatt nur 1 x 20 M könnte ich 4 Kanäle x 5 M Sats und mehr Verbindungen haben, die mehr Konnektivität bieten. Ja, es ist aus vielen Gründen vorzuziehen, Kanäle größer als 3 M Sats zu haben. </p>
+
+<h5>5 - Nutzen Sie Ihren Liquiditätsknoten!</h5>
+<p>Ja, wenn Sie bereits einen LN-Knoten haben, verwenden Sie ihn verdammt noch mal! Für Zahlungen. Wo immer Sie einen Händler finden, der LN akzeptiert, zahlen Sie mit Ihrem Knoten. Nicht, dass Sie den Händlern oder dem Netzwerk helfen, aber Sie machen Ihren Knoten im Netzwerk sichtbarer. Sie treiben die Liquidität voran. Deshalb heißt es „Liquidität“, weil sie FLÜSSIG ist, fließen und sich bewegen muss, um etwas Großes und Wunderbares zu schaffen.</p>
+<p>Wenn Sie einfach auf Ihrem LN-Knoten sitzen und darauf warten, dass andere weiterleiten, und Sie ihnen Gebühren berechnen ... DAS IST EINFACH DUMM. Du bist nur ein Leecher.</p>
+<p><a href="https://darthcoin.substack.com/p/lightning-network-is-awesome">Hier halte ich eine Liste mit tollen Orten auf dem neuesten Stand, an denen Sie Ihren LN-Knoten verwenden können</a>.</p>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">Nächster Schritt: #March1ppm</h3>
+<p>Für März würde ich dasselbe Szenario testen, aber nur auf 0/1 (0 Grundgebühr/1 ppm) umsteigen.</p>
+<p>Außerdem werde ich die maximale HTLC auf 500.000 Sats für alle Kanäle größer als 1 Mio. und 150.000 für alle Kanäle kleiner als 1 Mio. Sats festlegen.</p>
+<h5>UPDATE 1</h5>
+<p>Nach einer Woche mit einer maximalen HTLC-Einstellung von 500.000 Sats habe ich zu viele fehlgeschlagene Txs gesehen. Also habe ich angefangen, die Richtlinie ein wenig zu ändern. Jeden Morgen schaue ich mir bei meinem Kaffee einfach alle zuvor gerouteten Txs und Kanäle an und passe den maximalen HTLC an die Menge an, die ich auf meiner Seite habe. Das heißt, wenn ein Txs an meinen Knoten geht, wird automatisch geprüft, ob die „Leitung“ groß genug ist, um durchzukommen. Wenn der Saldo auf meiner Seite größer als 1 Mio. Sats ist, stelle ich einfach einen maximalen HTLC von 800-900.000 Sats ein oder sogar noch mehr, wenn nötig.</p>
+<p>Bei diesem Kanal mit insgesamt 1 Mio. Sats stehen mir beispielsweise nur 112.765 Sats zur Verfügung. Ich stelle also einen maximalen HTLC von 110.000 Sats ein (gerundet, muss nicht genau sein), weil ich nicht mehr als das weiterleiten kann. Wenn also eine neue Zahlung weitergeleitet wird und größer ist als das, wird diese Route automatisch nicht geprüft.</p>
+
+<figure>
+<img src="/assets/images/chan-details-th.png" class="center">
+<figcaption>Kanaldetails in Thunderhub</figcaption>
+</figure>
+<figure>
+<img src="/assets/images/max-htlc.png" class="center">
+<figcaption>Max. HTLC ändern (in Sats)</figcaption>
+</figure>
+
+<p>Aber ich sehe normalerweise, dass Benutzer immer mehr MPP verwenden, also glaube ich nicht, dass jemals eine Tx weitergeleitet wird, die größer als 1 Msats ist, sie wird immer in kleinere Teile aufgeteilt.</p>
+<p>Dieser Vorgang hat mich jeden Morgen 5-10 Minuten gekostet, keine große Sache, ich habe wenige Kanäle, nicht Hunderte, also brauche ich kein automatisiertes Skript, um diesen maximalen HTLC einzustellen.</p>
+<p>Nach einer Woche Dadurch fällt mir ein natürlicheres Routing mit weniger fehlgeschlagenen HTLCs auf.</p>
+
+<figure>
+<img src="/assets/images/forwards-after-max-htlc.png" class="center">
+<figcaption>Beachten Sie, dass dies jeden Tag eine ziemlich stabile Zahl ist</figcaption>
+</figure>
+
+<p>Eine weitere Aufgabe, die ich alle 4-5 Stunden am Tag erledige, ist zu prüfen, ob es „Offline“-Kanäle gibt, insbesondere solche, die mehr routen. Manchmal schlägt die Gossip-Ankündigung fehl und zeigt Kanäle im „Offline-Modus“ an, obwohl sie es in Wirklichkeit nicht sind.</p>
+<p>Also gehe ich zu Thunderhub – Peers, entferne den „toten“ Peer und füge ihn erneut hinzu. Nach einigen Sekunden ist der Kanal wieder „online“. Wenn der Peer wirklich nicht online ist, schlägt der Hinzufügungsprozess fehl, sodass Sie sowieso nichts tun müssen. Versuchen Sie es einfach später erneut.</p>
+<p>Diese Aufgabe kann mit einem BoS-Skript ausgeführt werden, um es so zu programmieren, dass es alle 5 Stunden ausgeführt wird, aber im Moment kann ich es manuell tun (das ist mir lieber), ich habe nicht zu viele Verbindungsabbrüche pro Tag, ich habe auch gute Peers.</p>
+<p>Ich habe den März mit einer 1,3 GB großen channel.db-Datei begonnen. Mal sehen, wie groß es in einem Monat sein wird.</p>
+<h5>UPDATE 2</h5>
+<p>Am 15. März habe ich eine Datenbank komprimiert. Sie war bereits 2,2 GB groß und es dauerte 5 Stunden, sie auf 1,2 GB zu reduzieren. Ich weiß nicht, welche Auswirkungen das haben könnte, aber nach ein paar Stunden begann der Knoten wie verrückt zu routen und erreichte mehr als 100 geroutete Txs.</p>
+
+<figure>
+<img src="/assets/images/forwards-after-max-htlc2.png" class="center">
+<figcaption>geroutete Txs nach Änderung des maximalen HTLC</figcaption>
+</figure>
+
+<p>Es war keine große Menge an Sats, nur 7 Mio. Sats, geroutet in über 100 Txs. Ich denke, die Strategie, das maximale HTLC für die Kanäle mit weniger Liquidität auf meiner Seite anzupassen, hat mehr geholfen.</p>
+<p>Ab dem 15. März beginne ich auch mit einer anderen Strategie: Für alle Kanäle mit mehr als 1 Mio. Sats lege ich das minimale HTLC auf 99 Sats fest. Ich lasse nur für wenige Kanäle, bei denen ich immer noch die 0/0-Gebührenrichtlinie verwende und kleine Zahlungen weiterleiten möchte, 1 Sat-Mindestbetrag. Das wird wirklich besser …</p>
+<p>Schauen Sie sich diese paar Kanäle an. Ich führe nie ein Gleichgewicht bei ihnen durch. Es fing mit 2 mit einem Gleichgewicht auf meiner Seite an und mit 3 mit einem Gleichgewicht auf ihrer Seite. Nach einer Woche sind sie perfekt ausgeglichen.</p>
+<p>Ich habe ABSOLUT NICHTS getan! Keine Skripte, kein automatisches Balancing, keine Gebühren, nur Anpassung des maximalen HTLC und Belassen von 0 Grundgebühr und 1 ppm.</p>
+
+<figure>
+<img src="/assets/images/balanced-channels.png" class="center">
+<figcaption>Ausgeglichene Kanäle nach Einstellung des maximalen HTLC</figcaption>
+</figure>
+
+<p>Einige andere Knoten beginnen, Kanäle mit meinem Knoten zu öffnen, ich weiß nicht, warum, vielleicht weil einige Autopilot-Skripte meinen Knoten als „geeignet“ empfanden. Aber die Sache ist, dass sie hohe Gebühren erheben … also schließe ich einfach ihre Kanäle. Ich möchte keine gierigen Peers. Es wirkt sich auch auf mein Routing aus. Wenn ich Peers mit hohen Gebühren habe, passiert Folgendes … die Gesamtzahl der gerouteten Txs geht zurück. Ich schließe diese Kanäle und sehe, was am nächsten Tag passiert? Doppelte Anzahl gerouteter Txs.</p>
+
+<figure>
+<img src="/assets/images/march-routed.png" class="center">
+<figcaption>Unterschiede zwischen max. HTLC und nicht max.</figcaption>
+</figure>
+
+<h4 style="color:Yellow;">Fazit März:</h4>
+<p>Es war ein ziemlich guter Monat mit einer Gebührenpolitik von 0/1. Außerdem muss erwähnt werden, dass ich für alle Kanäle mit mehr als 1 Mio. Sats die minimale HTLC auf 9 Sats eingestellt habe. Alle anderen kleinen Kanäle bleiben bei min. 1 Sat.</p>
+<p>Insgesamt habe ich 1779 Txs geroutet und 113 Sats an Gebühren erhalten, wobei insgesamt 123.218.850 Sats in beide Richtungen verschoben wurden und 43 Kanäle immer online waren. Ich hatte 2-3 Kanäle, die tot waren (die Betreiber informierten mich über ihre Probleme und ich habe sie nicht geschlossen).</p>
+<p>Die Methode, den maximalen HTLC für jeden Kanal entsprechend meiner Liquidität anzupassen, scheint ziemlich gut zu funktionieren. Mir ist aufgefallen, dass einige „ruhende“ Kanäle aufwachen und einige Sats verschieben. Einige aktivere Kanäle hatten gute Zeiten und verschoben ziemlich viele Sats.</p>
+<p>Alles hängt auch von den Peers und den Peers Ihrer Peers ab. Wenn Sie nur ruhende Peers haben, die nur darauf warten, dass andere Sats verschieben, und sie keine LN-Zahlung leisten, dann sind diese Peers eine Sackgasse und Sie sollten sich besser um Ersatz bemühen. LN muss fließen, um zu wachsen.</p>
+
+<figure>
+<img src="/assets/images/march-total-txs.png" class="center">
+<figcaption>Gesamtanzahl der weitergeleiteten Txs im März</figcaption>
+</figure>
+<figure>
+<img src="/assets/images/march-total-sats.png" class="center">
+<figcaption>Gesamtanzahl der weitergeleiteten Txs im März</figcaption>
+</figure>
+<hr style="height:2px">
+
+<h4 style="color:Yellow;">10. April</h4>
+<p>Für April habe ich die ppm-Gebühr auf 10 erhöht. Mal sehen, wie es läuft.</p>
+<h5>UPDATE 15. April</h5>
+<p>Es waren konstant durchschnittlich 50 weitergeleitete Txs pro Tag. Aber ich muss erwähnen, dass ich meinen Knoten aufgrund einiger anderer Experimente mit LNbits oft neu starten musste.</p>
+<p>Außerdem nehme ich einige Optimierungen an meiner lnd.conf-Datei vor und beobachte, wie es mit der „Plage“ der zwangsweise geschlossenen Kanäle läuft.</p>
+<p><a href="https://telegra.ph/LND-conf-customization-04-16">Hier ist meine bisherige lnd.conf-Anpassung.</a></p>
+<h5>UPDATE 19. April</h5>
+<p>Sie können Ihr mx HTLC pro Kanal manuell anpassen, wenn Sie nicht Hunderte von Kanälen haben, oder <a href="https://plebnet.wiki/wiki/Fees_And_Profitability#Using_Charge-Lnd_to_set_Maximum_HTLCs">Sie können es mit einem Skript automatisieren</a>. Ich mache es lieber jeden Morgen manuell, trinke einen Kaffee und überprüfe meinen Knoten nach einer arbeitsreichen Nacht und passe nur die Kanäle an, die es meiner Meinung nach verdienen.</p>
+<p>Ich sehe wirklich nicht die Notwendigkeit, ständig unnötig zwanghaft neu auszugleichen. Das ist „falscher“ Verkehr über LN und man zahlt Gebühren für nichts.</p>
+<p>Pfadfindung und Routing können verbessert und effizienter gestaltet werden, wenn die gerouteten Zahlungen den richtigen Weg finden, wo die Kanäle mehr Liquidität haben und sich entsprechend verhalten, wie das Wasser. Wenn ich diese Liquidität „verstecke“, hört das Wasser auf, durch diese Leitung zu fließen und fließt auf andere Wege.</p>
+<p>Wenn Sie höhere oder niedrigere Gebühren verwenden, aber die Liquidität verbergen, kommt die Transaktion zwar noch, wird aber zurückgewiesen und Sie haben mehr fehlgeschlagene Routings, das heißt, Ihr Knoten wird nicht mehr als guter Weg „gesehen“.</p>
+<p>Ja, einige „Datenschutzbefürworter“ werden sagen, dass die Offenlegung des Kontostands eines Kanals mit Mac HTLC das Doxxing Ihres Knotenkontostands ist. Das ist, als würde man sich hinter einem Baum verstecken und Kugeln ausweichen. Nutzlos. Der Kontostand Ihrer Knotenkanäle kann sehr einfach mit vielen anderen Methoden und sogar mit öffentlichen Explorern ermittelt werden.</p>
+<p>Sorgen Sie für einen guten Wasserfluss und mit der Zeit können Sie Ihre Gebühren nach Belieben anpassen. Wichtig ist, dass das Wasser kontinuierlich fließt.</p>
+<h5>UPDATE 22. April</h5>
+<p>Ich habe einige kleine alte Kanäle auf über 2,5 Millionen Sats erhöht. Das Ergebnis nach ein paar Tagen ist dies … die Anzahl der weitergeleiteten Transaktionen pro Tag hat bereits 200 überschritten. Mal sehen, ob das nur vorübergehend ist oder ein neuer Trend. Aber mir ist aufgefallen, dass immer mehr Leute LN für regelmäßige Zahlungen verwenden (nicht nur für nutzloses Neuausgleichen).</p>
+<p>In der letzten Aprilwoche hatte ich einen großen Anstieg der Anzahl weitergeleiteter Zahlungen mit maximal 227 Transaktionen. Dann sank es auf die regulären 50-60/Tag.</p>
+
+<figure>
+<img src="/assets/images/apr-total-txs.png" class="center">
+<figcaption>Gesamtanzahl der weitergeleiteten Txs im April</figcaption>
+</figure>
+<figure>
+<img src="/assets/images/apr-total-sats.png" class="center">
+<figcaption>Gesamtbetrag der weitergeleiteten Txs im April</figcaption>
+</figure>
+
+<p>Im April hatte ich viele Neustarts und Änderungen, was die Menge der weitergeleiteten Txs erheblich beeinflusste. Außerdem habe ich viele Kanäle geändert (geschlossen und offen) und es braucht Zeit, bis wieder ein guter Txs-Fluss erreicht ist.</p>
+<p>Die Tatsache, dass ich die Gebühr pro ppm auf 10 erhöht habe, ist nicht sicher, ob das die Weiterleitung beeinflusst hat.</p>
+<h5 style="color:Yellow;">Geduld ist der Schlüssel.</h5>
+<p>Ich habe gerade <a href="https://xcancel.com/alexbosworth/status/1520067729151078401">diesen Tweet von Alex Bossworth</a> gesehen und beschlossen, die Gebühren für den nächsten Monat Mai auf 1 ppm (Zero Base Fee Forever) zu senken. <a href="https://stacker.news/items/24100/r/DarthCoin">Hier habe ich eine Antwort für Alex gepostet</a>.</p>
+<p>Ich denke, es ist jetzt wichtiger, ein stabiles und günstiges Zahlungsnetzwerk aufzubauen, als ein „Gebührenrennen“ zu starten und sich gegenseitig zu verarschen. Ich glaube nicht, dass Alex von seinen Knotengebühren lebt …</p>
+<h5>UPDATE 5. Mai</h5>
+<p>Diesen Monat werde ich ein weiteres „Experiment“ versuchen. Abgesehen von der selektiven ppm-Gebühr zwischen 0 und 10 ppm werde ich mit max. HTLC spielen.</p>
+<p>Mein Plan ist folgender:</p>
+<ul>
+<li>Max. HTLC auf 299.000 Sats setzen, wenn der Großteil des Guthabens auf meiner Seite ist und der Kanal größer als 2 Mio. Sats ist.</li>
+<li>Max. HTLC auf 199.000 Sats setzen, wenn der Großteil des Guthabens auf meiner Seite ist und der Kanal kleiner als 2 Mio. Sats ist.</li>
+<li>Max. HTLC anpassen, wenn sich das Guthaben diesem eingestellten Maximum nähert, auf 199.000 und dann auf 19.000, wenn es niedriger wird.</li>
+<li>Max. HTLC in 3 Schritten zurückstellen, wenn das Guthaben wieder auf meiner Seite ist.</li>
+</ul>
+<p>Auf diese Weise ist es nicht notwendig, die Kanäle ständig zu aktualisieren (wird nicht empfohlen) und eine bestimmte Anzahl von Txs durch bestimmte Kanäle zu tunneln. Kanäle.</p>
+<p>Ich hoffe, dass Benutzer immer mehr MPP (Multi-Part Payments) verwenden und eine bessere Pfadfindung und schnellere Routen haben.</p>
+
+<figure>
+<img src="/assets/images/comparison-max-htlc.jpg" class="center">
+<figcaption>Verglichenes Routing während des gesamten Experiments</figcaption>
+</figure>
+
+<h5>UPDATE 22. September 2022</h5>
+<p>René Pickhardt hat gerade diesen erstaunlichen Artikel veröffentlicht, der mehr oder weniger zum gleichen Schluss kommt wie mein Experiment:</p>
+<p><a href="https://blog.bitmex.com/the-power-of-htlc_maximum_msat-as-a-control-valve-for-better-flow-control-improved-reliability-and-lower-expected-payment-failure-rates-on-the-lightning-network/">Die Leistung von Ventilen für bessere Flusskontrolle, verbesserte Zuverlässigkeit und geringere erwartete Zahlungsausfallraten im Lightning Network</a></p>
+</body>
+</html>
+</article>
