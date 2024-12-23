@@ -1,0 +1,267 @@
+---
+layout: default
+title: What Bitcoin LN node software can I run?
+---
+<article>
+<!DOCTYPE html>
+<html lang="en">
+<meta name="description" content="Bitcoin and Lightning guides: Setting various fees policies every month and observe the LN node routing">
+<body>
+<a href="/nodes/lightning-routing-fees-experiment-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-routing-fees-experiment-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-routing-fees-experiment-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-routing-fees-experiment-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-routing-fees-experiment-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-routing-fees-experiment-nl.html">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-routing-fees-experiment-hr.html">Hrvatski <img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-routing-fees-experiment-hi.html">Hindi <img src="/assets/images/flag-HI.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<blockquote style="color:Tomato;"><em>
+<p>Originally posted on <a href="https://darthcoin.substack.com/p/lightning-routing-fees-experiment">Substack</a> on Mar 25, 2022. Updated here on Dec 20, 2024</p>
+</em></blockquote>
+
+<h3 style="color:Orange;">Setting various fees policies every month and observe the LN node routing</h3>
+<h3>Introduction</h3>
+<p>My experience with LN nodes started in 2019 with a simple C-Lightning node. Worked well, I learned a lot of things about Lightning Network in general and how to run a BTC/LN node, what advantages and what inconveniences you can have. But that was just the beginning of LN.</p>
+<p>In 2020 then I found out Umbrel. So I switched my C-Lightning node into a new Umbrel node. I have now a Gigabyte Brix NUC with Debian OS.</p>
+
+<figure>
+    <img src="/assets/images/mini-node.jpg" class="center">
+    <figcaption>Umbrel node on Gigabyte Brix NUC (fanless) - i3 CPU, 8GB RAM, 1TB HDD(int), Debian OS 10</figcaption>
+</figure>
+
+<p>Just to learn more and also to help the plethora of new users that start installing Umbrel but have no idea whatsoever about what is LN and a LN node.</p>
+<p>So the best way was to test it, learn how to use it, discover it and then slowly documenting all my steps in simple guides, so I could share my knowledge with new users, hungry for that information and "how to" steps.</p>
+<p>So I built up slowly this node, opening channels, studying the peers closely and <a href="https://darth-coin.github.io/nodes/managing-lightning-node-liquidity-en.html">making my own peers list</a> (also contain the famous <a href="https://basefee.ln.rene-pickhardt.de/">René Pickhardt list of ZeroBaseFee nodes</a>).</p>
+<p>I am not saying that my procedures, policies, approaches are the best or are even good. Are just my observations and my own conclusions about how to manage a LN node. I am not an expert or a LN coder, or some "guru", just a pleb observing and passing through my own common sense all is happening with my node.</p>
+<p>OK, so I joined to some Rings of Fire, LN+ rings, private groups etc and also connect to specific nodes, during 2 years with this Umbrel node. Until I reached a limit of 40 channels, good stable channels and peers. With many I keep direct contact. Is good to help each others (maybe I would make another guide about this).</p>
+<p>Then in 2022 I start a secondary node, a private node, without alias, Tor only, not linked in any way to my real identity or any other online identity. <a href="https://darthcoin.substack.com/p/node-liquidity-guide">This is part of another experiment that is described in this guide</a>.</p>
+<p>I am NOT interested AT ALL in "making money" or "gainz" from LN. My goal is to help making LN a very liquid network of payments, so users would start using it day by day and stop using the damn fucking fiat. We will not start having a healthy payment network if we start by robbing each others and trying to clog the network only for few miserable sats.</p>
+<p>When LN will be really stable with really good path finding and healthy nodes, many users using it as daily basis for payments (not only stupid re-balancing), then we can talk about raising fees and have slowly building an incentive model for routing nodes.</p>
+<p>We are NOT there yet, no matter what others would say that they earned x amount of sats/month. YOU WILL NOT GET THERE!</p>
+<p>And remember: the goal is to FUCK THE BANKS, not to fuck each others...</p>
+<p>If we start now charging expensive fees to new users that join to LN use, then they will get scared shit and run, will say that this LN is a shity expensive payment system.</p>
+<p>Don't scare them, help them to start using this amazing technology. We will have lots of time later to raise fees to a level of maintaining this as an incentive.</p>
+<p>CRAZY GREED IS WHAT KILLS INNOVATION.</p>
+
+<figure>
+    <img src="/assets/images/fees-passive-income.jpg" class="center">
+    <figcaption>Noob interested in "passive income"</figcaption>
+</figure>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">How it started... #ZeroFeeFebruary</h3>
+<p>So in Feb 2022 I started, with one of my strong peers, a movement of <a href="https://amboss.space/community/ec432081-e9f1-4c7f-8604-3a7d9980bc61">#ZeroFeeFebruary</a> between many RoF and groups. Went pretty well with 35+ nodes joining forces and set all channels fees to 0/0 (0 base fee, 0 ppm).</p>
+<p>My humble Umbrel node started to 2x, 3x, 4x the number of payments routed through. I also closed some small, zombie channels with peers that didn't grow at all in the last 6 months.</p>
+<p>This is a very important aspect: peers that didn't grow enough in the last months, are USELESS, could make more damage than good.</p>
+<p>So a warning to all noobs with new nodes: If you plan to run a LN with just 2-3 channels and never grow more, expect that your peers will close the channels. Stack more sats and open more LN channels. Funds in LN are not "lost" or "blocked" as many are trying to scare you. No, <a href="https://medium.com/breez-technology/lightning-is-a-liquidity-network-550896ca27ea">funds in LN channels ARE FUCKING LIQUIDITY. That means HAVE TO FLOW</a>. Otherwise is totally useless.</p>
+<p>So I start by closing the channels with peers that keep high fees. High fees for me are:</p>
+<ul>
+<li>Base fee >1 | anything higher than this is stupid and do more damage than good</li>
+<li>ppm >150-200 | sometimes the ppm is necessary to push the liquidity on one side or another, when you really need it, cases for merchants that do not want to loop out but just leave the traffic to do the balancing.</li>
+</ul>
+<p>So if a peer connected to my node is using standard policy for all his channels like 2 sats base fee / 300 ppm, I will close the channel, no remorse. Or set such high base fee that all traffic will be blocked on that channel until he close it himself.</p>
+<p>Also those using intensively the charge-lnd script. Please stop using it if you are a noob! Or at least learn what you have to do with it and how it works.</p>
+<p>Is doing more damage than good. The script is designed to disable channels at a certain level of "profitability", automatically. The user not even know that his channels get disabled and that means CLOSED DOORS. That means no more routing in any way through those channels. So when I see a node with many disabled channels, all the time, that is a clear message: he's using the fucking infamous script, or he's connected to many peers using that script, that peer is a "no go".</p>
+<p>Liquidity is flowing in both directions, yes is slow, but have patience. Let the LN living thing to grow naturally and flow naturally. If you put barriers in his path of course it will find another ones.</p>
+<p>I tried to be reasonable with those peers that are responsive and understand the situation and adjust their fees accordingly. Slowly the greed will be isolated into the outer rims of the LN Galaxy.</p>
+<p>The month of February look like this, with my humble node, 70M total liquidity distributed 50/50 and 40 channels:</p>
+  
+<figure>
+    <img src="/assets/images/feb-routed-txs-per-day.png" class="center">
+    <figcaption>February 2022 total routed payments / day</figcaption>
+</figure>
+<figure>
+    <img src="/assets/images/feb-routed-sats-per-day.png" class="center">
+    <figcaption>February 2022 Total sats routed / day</figcaption>
+</figure>
+
+<p>In total was 995 payments routed with a total routed of 84M sats.</p>
+<p>Highest peak was 95 routed payments and 9M sats in total in one day. In average the whole February months was like 20 txs/day with around 3M sats total routed / day. Not bad, for such a small node. I don't have too many big channels, not even one wumbo.</p>
+<p>My testing node had: 5 channels over 4M sats, 14 channels between 4M and 1M sats, 12 channels at 1M sats and 9 channels of 500k sats. In total 40 channels (more or less, closing and opening some).</p>
+<p>Comparing February with 6 previous months:</p>
+
+<figure>
+    <img src="/assets/images/routed-txs-6m.png" class="center">
+    <figcaption>No. of txs routed in the last 6 months</figcaption>
+</figure>
+<figure>
+    <img src="/assets/images/routed-sats-6m.png" class="center">
+    <figcaption>Total sats routed during last 6 months</figcaption>
+</figure>
+
+<h4 style="color:Yellow;">Additional steps I did</h4>
+<ul>
+<li>I reduced the max HTLC amount to 500k sats to all channels</li>
+<li>I configured my node <a href="https://community.getumbrel.com/t/lnd-tor-clearnet-how-to-setup-hybrid-mode/6133/">to run on hybrid mode</a> - Tor & clearnet. This help path finding when Tor is clogged</li>
+<li>I activate <a href="https://community.getumbrel.com/t/how-to-reduce-size-of-channel-db-file-for-lnd/6439/">compaction of my channel.db file</a>, this helps responsiveness of your node and less pending HTLCs</li>
+<li>I set a <a href="https://github.com/lightningnetwork/lnd/blob/master/sample-lnd.conf#L306">maximum number of HTLCs in lnd.conf file to 10</a></li>
+<li>I maintained all peers connected as much is possible. Sometimes gossip through Tor is really erratic and report offline peers even if they aren't. So what I did, was remove from peer list that peer that appear offline and add it again, if is possible using his clearnet URI. After few seconds, peer is back online and channel is ready. You can use Thunderhub for all these steps.</li>
+</ul>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">Conclusions</h3>
+<p>In general this test was a success for me. My main goal was to see the possibility and capacity of this small node in routing and learn from it, in situations with high volume of traffic. I don't want to dox any of my peers, so I will not post any screenshots with stats on specific channels. But I can say that many of them start moving in this month.</p>
+<h4 style="color:Yellow;">Some key points that I observed:</h4>
+<h5>1 - Fee policy</h5>
+<p>0/0 fees attract a lot of traffic, but is important also to have peers with similar policy or low fees.</p>
+<h5>2 - Re-balancing</h5>
+<p>The peers with high fees, just stalled. Some said that many nodes take advantage of 0/0 fees and rebalance for free. No it is not. I didn't notice something like that. Were few movements from peers with higher fees using the channels with 0/0 fee. I think that most of the routing was just following the natural way of finding the cheapest and fastest path, ignoring the nodes with high fees.</p>
+
+<figure>
+    <img src="/assets/images/zfr-quote.jpg" class="center">
+    <figcaption>ZFR node about fees</figcaption>
+</figure>
+
+<p>Many said that "depleted" channels are not routing and need to be balanced or closed. It is not true! I had many depleted channels, for one day, yes. But after a while they start moving sats on the way around. All depends if your node have enough many channels, with enough liquidity and balanced at the total level, not individual level.</p>
+
+<figure>
+    <img src="/assets/images/liquidity-report-th.jpg" class="center">
+    <figcaption>This is the most important liquidity report you should watch</figcaption>
+</figure>
+
+<p>When your total inbound and outbound liquidity is almost equal, you have at least 10-20-30 good channels (not dead, not from the outer rim of the LN Galaxy) then your node will route naturally on both sides. When that ratio of in/out is more than 30% unbalanced, then yes, you start being in trouble, your node can stall.</p>
+<p>All this time, I NEVER re-balance in any way, any channel. I didn't use any automated script for that, not even manually. I just sit back and watch.</p>
+<p>I also wanted to see if just adjusting slightly the HTLC can help in auto-balancing the channel by redirecting the flow where is needed and there is enough liquid.</p>
+
+<h5>3 - Resources, memory load</h5>
+<p>I notice more memory eaten up when more HTLCs were in pending. So limiting the total number of pending HTLCs in the lnd.conf file helped a bit. Not sure what caused to have constantly at least 3-4 pending HTLCs for 5-10-15 min. My node? My shity HDD? My connection (I was on hybrid mode all time). My peers? General Tor issues?</p>
+<p>I understand the meaning of pending HTLCs, but not for such long time. I wish I could do something about them but I don't have enough knowledge or the right information about how to fix them. Maybe LN needs an improvement in this matter.</p>
+
+<h5>4 - Node centrality, growth</h5>
+<p>Is very important your position in the network, the centrality and connections you have. <a href="https://darthcoin.substack.com/p/lightning-network-is-awesome">I posted a list with all LN tools available here</a>. Use them, are very good into observing your peers, routes etc. Those peers that are far on the edge of the network will not move anything. But those peers that have connections between many of the RoF and central nodes, will have good movement.</p>
+<p>So if you have a fresh node, or even an old node, but you have bad connections... change them. And try not to connect with peers that already have same connections as you. RoF are very good to expand, but when you join in many different rings, but with same players, it doesn't help in any way, sometimes even worse, it creates like a loop that never go out.</p>
+<p>Expand your connections to nodes that are not in most of the RoF, be the bridge between them and RoF. Explore the LN peers every time you have time and take nodes, observe new nodes.</p>
+<p>Connect with more nodes that are using at least 0 base fee and small ppm fee policy. <a href="https://basefee.ln.rene-pickhardt.de/">Here is a huge list maintained by René Pickhardt with nodes “0 base fee” policy</a>.</p>
+<p>If you have a node with just 2-3 channels... and do not plan to grow more, you better just shut it down and <a href="https://darth-coin.github.io/wallets/lightning-wallets-comparison-en.html">use a simple LN mobile wallet</a>. You are not helping at all the network, neither yourself. We all know that is hard to stack sats, but nobody is forcing you to run a good node with good liquidity.</p>
+<p>My experiment is to see that if with relatively small channels (1-5M sats) can obtain good routing for all. Yes you could have 2-3 big channels of 10-20M sats but that I consider more centrality, concentrating more txs into only one spot. Instead of just 1 x 20M I could have 4 ch x 5M sats each and more connections, providing more connectivity. Yes is preferably to have channels bigger than 3M sats, for many reasons.  </p>
+
+<h5>5 - Use your liquidity node!</h5>
+<p>Yes, if you already have a LN node, use it damn it! For payments. Wherever you find a merchant that accept LN, pay it with your node. Not that you are helping the merchants, the network, but you make your node more visible in the network. You are pushing forward the liquidity. That's why is named "liquidity" because is FLUID, have to flow, to move, in order to create something big and wonderful.</p>
+<p>If you just sit on your LN node waiting for others to route and you to charge them fees... THAT IS PLAIN STUPID. You are just a leecher.</p>
+<p><a href="https://darthcoin.substack.com/p/lightning-network-is-awesome">Here I keep updated a list of awesome places where you can use your LN node</a>.</p>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">Next step: #March1ppm</h3>
+<p>For March I would test the same scenario but moving to 0/1 (0 base fee/1 ppm) only.</p>
+<p>Also will set max HTLC to 500k sats to all channels bigger than 1M and 150k to all smaller than 1M sats.</p>
+<h5>UPDATE 1</h5>
+<p>After 1 week with max HTLC set to 500k sats, I saw too many failed txs. So I start changing a bit the policy. Every morning during my regular coffee, just look at all previous routed txs and channels and adjust the max HTLC to how much I have on my side. That means if a txs comes to my node, automatically will check that “pipe” if is large enough to go through. When the balaance on my side is bigger than 1M sats, I just set 800-900k sats max HTLC or even bigger if is necessary.</p>
+<p>For example this channel, of 1M sats in total, I have on my side only 112 765 sats available. So I will set a max 110 000 sats HTLC (rounded, not have to be exactly), because I cannot forward more than that. So a new payment routed, and is bigger than that automatically will not check this route.</p>
+
+<figure>
+    <img src="/assets/images/chan-details-th.png" class="center">
+    <figcaption>Channel details in Thunderhub</figcaption>
+</figure>
+<figure>
+    <img src="/assets/images/max-htlc.png" class="center">
+    <figcaption>Modify max HTLC (in sats)</figcaption>
+</figure>
+
+<p>But i usually see that users start using more and more MPP so I don’t think will ever be routed a tx bigger than 1Msats, always will be split in smaller parts.</p>
+<p>This process took me 5-10 min every morning, not a big deal, I have few channels, not hundreds, so no need for an automated script to set that max HTLC.</p>
+<p>After a week doing this, I notice a more natural routing, with less failed HTLCs.</p>
+
+<figure>
+    <img src="/assets/images/forwards-after-max-htlc.png" class="center">
+    <figcaption>Notice that is quite stable number each day</figcaption>
+</figure>
+
+<p>Another task I do every 4-5h / day is to check if there are “offline” channels, in special those that route more. Sometimes, the gossip announcement fail and shows channels in “offline mode” but in fact are not.</p>
+<p>So what I do, is go to Thunderhub - Peers, remove the “dead” peer and add it again. After few seconds the channel is back “online”. If the peer is really not online, the adding process will fail so nothing to do anyway, just try again later.</p>
+<p>This task can be done with BoS script to program it to do it every 5h, but for the moment I can do it manually (I prefer like that), I don’t have too many disconnections every day, I have good peers too.</p>
+<p>I started March with a channel.db file at 1.3GB. Let's see how big will be in 1 month.</p>
+<h5>UPDATE 2</h5>
+<p>15 March I did a compacting database. It was already 2.2GB, took 5h to bring down to 1.2GB. I don’t know how this could affect but after few hours, the node start routing like crazy and reached more than 100 routed txs.</p>
+
+<figure>
+    <img src="/assets/images/forwards-after-max-htlc2.png" class="center">
+    <figcaption>routed txs after modifying max HTLC</figcaption>
+</figure>
+
+<p>Wasn’t a big amount of sats, just 7M sats routed in 100+ txs. I think it helped more the strategy of adjusting max HTLC for the channels with less liquidity on my side.</p>
+<p>From 15 March also I start another strategy: for all channels bigger than 1M sats I set min HTLC 99 sats. I let 1 sat min only for few channels where I still use 0/0 fee policy and want to route tiny payments. Is really moving better…</p>
+<p>ook at these few channels. I never balance them. It started 2 with balance on my side and 3 with balance on their side. After a week are perfectly balanced.</p>
+<p>I did ABSOLUTELY NOTHING! No scripts, no automated balancing, no fees spent, just adjusting max HTLC and leave 0 base fee and 1 ppm.</p>
+
+<figure>
+    <img src="/assets/images/balanced-channels.png" class="center">
+    <figcaption>Balanced channels after max HTLC set</figcaption>
+</figure>
+
+<p>Some other nodes start opening channels with my node, I don’t know why, maybe because some auto-pilot scripts found my node as “suitable”. But the thing is that they use high fees… so I just close their channels. I do not want greedy peers. It also affect my routing. When I have peers with high fees, this is what happen… total routed txs are going down. Closed those channels and, see what happen next day? Double number of routed txs.</p>
+
+<figure>
+    <img src="/assets/images/march-routed.png" class="center">
+    <figcaption>Differences between max HTLC and non-max</figcaption>
+</figure>
+
+<h4 style="color:Yellow;">March Conclusion:</h4>
+<p>It was pretty good month, with 0/1 fee policy. Also to mention that for all channels bigger than 1M sats I set min HTLC to 9 sats. All the rest of the snall channels remain with min 1 sat.</p>
+<p>In total I routed 1779 txs and get 113 sats in fees, with a total of 123,218,850 sats moved around, in both directions, with 43 channels always online. I had 2-3 channels that were dead (operators informed me about their problems and I didn’t close them).</p>
+<p>The method of adjusting the max HTLC for each channel according to my side liquidity seems to work pretty well. I notice that some more “dormant” channels are waking up and moved some sats. Some more active channels were having good times, moving pretty good amount of sats.</p>
+<p>All depends also about the peers and the peers of your peers. If you have just dormant peers that are just waiting for others to move sats and they do not do any LN payment, then those peers are dead end and you better look to replace them. LN must flow in order to grow.</p>
+
+<figure>
+    <img src="/assets/images/march-total-txs.png" class="center">
+    <figcaption>March routing total txs</figcaption>
+</figure>
+<figure>
+    <img src="/assets/images/march-total-sats.png" class="center">
+    <figcaption>March total amount routed</figcaption>
+</figure>
+<hr style="height:2px">
+
+<h4 style="color:Yellow;">April 10</h4>
+<p>For April I raised the ppm fee to 10. Let’s see how is going.</p>
+<h5>UPDATE 15 April</h5>
+<p>It was a steady average of 50 txs routed/day. But to mention that I had a lot of restarts of my node, due to some other experiments with LNbits.</p>
+<p>Also I am doing some tweaking of my lnd.conf file and watch how is going with force closed channels “plague”.</p>
+<p><a href="https://telegra.ph/LND-conf-customization-04-16">Here is my lnd.conf customization, until now.</a></p>
+<h5>UPDATE 19 April</h5>
+<p>You can adjust your mx HTLC per channel manually if you do not have hundreds of channels or <a href="https://plebnet.wiki/wiki/Fees_And_Profitability#Using_Charge-Lnd_to_set_Maximum_HTLCs">you can automate it with a script</a>. I prefer to do it manually every morning, drinking a coffee and check my node after a busy night, adjusting only those channels that I consider deserve it.</p>
+<p>I really don't see the necessity to do unnecessary obsessive rebalancing all the time. That is "fake" traffic over LN and paying fees for nothing.</p>
+<p>Path finding and routing can be increased and made more efficient if the routed payments find the right path, where the channels have more liquidity and act accordingly, like the water. If I "hide" that liquidity, the water will stop flowing on that pipe and will go on others routes.</p>
+<p>When you use higher or lowers fees but you hide the liquidity, the tx is still coming but is bounced back and you have more failed routing, that means your node will go down in being "seen" as a good route.</p>
+<p>Yes, some “privacy advocates” will say that revealing the balance of a channel with mac HTLC is doxxing your node balance. That’s like hiding behind a tree dodging bullets. Useless. The balance of your node channels can be obtained very easily with many other methods and even on public explorers.</p>
+<p>Make good flow of the water and in time you can adjust your fees as you want, important is that the water is flowing continuously.</p>
+<h5>UPDATE 22 April</h5>
+<p>I increased some small old channels to more than 2.5M sats. The result after few days is this… number of routed txs per day already passed over 200. Let’s see if is just temporary or is a new trend. But I noticed that more and more people are using LN for regular payments (not just useless rebalancing).</p>
+<p>In the last week of April I had a big spike in number of payments routed with a maximum 227 txs. Then it went down to a regular 50-60/day.</p>
+
+<figure>
+    <img src="/assets/images/apr-total-txs.png" class="center">
+    <figcaption>April routing total txs</figcaption>
+</figure>
+<figure>
+    <img src="/assets/images/apr-total-sats.png" class="center">
+    <figcaption>April total amount routed</figcaption>
+</figure>
+
+<p>In April I had many restarts and changes and that was affecting significantly the amount of txs routed. Also I changed a lot channels (closed and open) and gaining again a good flux of txs takes time.</p>
+<p>The fact that I raised the fee ppm to 10, not sure it was affecting the routing.</p>
+<h5 style="color:Yellow;">Patience is the key.</h5>
+<p>I just saw <a href="https://xcancel.com/alexbosworth/status/1520067729151078401">this tweet from Alex Bossworth</a> and I decided to lower the fees for next month of May to 1ppm (Zero Base Fee Forever). <a href="https://stacker.news/items/24100/r/DarthCoin">Here I posted an answer for Alex</a>.</p>
+<p>I think is more important now to build a stable and cheap payment network than start a “fee race” and fuck each others. I don’t think Alex is living from his node fees…</p>
+<h5>UPDATE 5 May</h5>
+<p>This month I will try another “experiment”. Apart from selective ppm fee, between 0 and 10ppm, I will play with max HTLC.</p>
+<p>My plan is the following:</p>
+<ul>
+<li>set max HTLC to 299k sats, when most of the balance is on my side and the channel is bigger than 2M sats.</li>
+<li>set max HTLC to 199k sats, when most of the balance is on my side and the channel is lower than 2M sats</li>
+<li>Adjust the max HTLC if the balance is getting closer to that max set, going to 199k and then to 19k if is going lower.</li>
+<li>Adjust the max HTLC back in 3 steps if the balance is coming back on my side.</li>
+</ul>
+<p>In this way, is not necessary to update all the time the channels (is not recommended) and tunnel specific amount of txs through specific channels.</p>
+<p>I hope users will use more and more MPP (multi-part payments) and have a better path finding and faster routes.</p>
+
+<figure>
+    <img src="/assets/images/comparison-max-htlc.jpg" class="center">
+    <figcaption>Compared routing during the whole experiment</figcaption>
+</figure>
+
+<h5>UPDATE 22 Sept 2022</h5>
+<p>René Pickhardt just dropped this amazing article, that more or less have the same conclusion like my experiment:</p>
+<p><a href="https://blog.bitmex.com/the-power-of-htlc_maximum_msat-as-a-control-valve-for-better-flow-control-improved-reliability-and-lower-expected-payment-failure-rates-on-the-lightning-network/">The power of valves for better flow control, improved reliability & lower expected payment failure rates on the Lightning Network</a></p>
+</body>
+</html>
+</article>
