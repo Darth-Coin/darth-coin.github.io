@@ -1,0 +1,266 @@
+---
+layout: default
+title: Experiment met routeringskosten voor bliksemknooppunten
+---
+<article>
+<!DOCTYPE html>
+<html lang="nl">
+<meta name="description" content="Bitcoin- en Lightning-handleidingen: elke maand verschillende vergoedingenbeleid instellen en de LN-knooppuntroutering in acht nemen">
+<body>
+<a href="/nodes/lightning-routing-fees-experiment-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-routing-fees-experiment-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-routing-fees-experiment-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-routing-fees-experiment-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-routing-fees-experiment-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-routing-fees-experiment-hr.html">Hrvatski <img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-routing-fees-experiment-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<blockquote style="color:Tomato;"><em>
+<p>Oorspronkelijk geplaatst op <a href="https://darthcoin.substack.com/p/lightning-routing-fees-experiment">Substack</a> op 25 mrt. 2022. Hier bijgewerkt op 20 dec. 2024</p>
+</em></blockquote>
+
+<h3 style="color:Orange;">Elke maand verschillende vergoedingenbeleidsregels instellen en de LN-node-routering in acht nemen</h3>
+<h3>Inleiding</h3>
+<p>Mijn ervaring met LN-nodes begon in 2019 met een eenvoudige C-Lightning-node. Werkte goed, ik heb veel geleerd over Lightning Network in het algemeen en hoe je een BTC/LN-node kunt runnen, welke voordelen en welke ongemakken je kunt hebben. Maar dat was nog maar het begin van LN.</p>
+<p>In 2020 ontdekte ik Umbrel. Dus ik schakelde mijn C-Lightning node om naar een nieuwe Umbrel node. Ik heb nu een Gigabyte Brix NUC met Debian OS.</p>
+
+<figure>
+<img src="/assets/images/mini-node.jpg" class="center">
+<figcaption>Umbrel node op Gigabyte Brix NUC (zonder ventilator) - i3 CPU, 8GB RAM, 1TB HDD(int), Debian OS 10</figcaption>
+</figure>
+
+<p>Gewoon om meer te leren en ook om de vele nieuwe gebruikers te helpen die Umbrel gaan installeren maar geen idee hebben wat LN en een LN node is.</p>
+<p>Dus de beste manier was om het te testen, te leren hoe het te gebruiken, het te ontdekken en vervolgens langzaam al mijn stappen te documenteren in eenvoudige handleidingen, zodat ik mijn kennis kon delen met nieuwe gebruikers, hongerig naar die informatie en "hoe"-stappen.</p>
+<p>Dus ik bouwde langzaam deze node op, opende kanalen, bestudeerde de peers nauwlettend en <a href="https://darth-coin.github.io/nodes/managing-lightning-node-liquidity-en.html">mijn eigen peerslijst maken</a> (bevat ook de beroemde <a href="https://basefee.ln.rene-pickhardt.de/">René Pickhardt-lijst met ZeroBaseFee-nodes</a>).</p>
+<p>Ik zeg niet dat mijn procedures, beleid en benaderingen de beste zijn of zelfs goed. Het zijn gewoon mijn observaties en mijn eigen conclusies over hoe je een LN-node moet beheren. Ik ben geen expert of LN-programmeur, of een "goeroe", gewoon een pleb die mijn eigen gezonde verstand observeert en doorgeeft, alles gebeurt met mijn node.</p>
+<p>OK, dus ik heb me aangesloten bij een aantal Rings of Fire, LN+-ringen, privégroepen enz. en heb ook verbinding gemaakt met specifieke nodes, gedurende 2 jaar met deze Umbrel-node. Totdat ik een limiet van 40 kanalen bereikte, goede stabiele kanalen en peers. Met velen houd ik direct contact. Het is goed om elkaar te helpen (misschien maak ik hier nog een gids over).</p>
+<p>Dan start ik in 2022 een secundaire node, een privé node, zonder alias, alleen Tor, op geen enkele manier gekoppeld aan mijn echte identiteit of een andere online identiteit. <a href="https://darthcoin.substack.com/p/node-liquidity-guide">Dit is onderdeel van een ander experiment dat in deze gids wordt beschreven</a>.</p>
+<p>Ik ben HELEMAAL NIET geïnteresseerd in "geld verdienen" of "winst" met LN. Mijn doel is om LN een zeer liquide netwerk van betalingen te maken, zodat gebruikers het dagelijks zouden gaan gebruiken en zouden stoppen met het verdomde fiat. We zullen geen gezond betalingsnetwerk beginnen als we beginnen met elkaar te beroven en het netwerk alleen maar te verstoppen voor een paar ellendige sats.</p>
+<p>Wanneer LN echt stabiel is met echt goede padvinding en gezonde nodes, veel gebruikers gebruiken het als dagelijkse basis voor betalingen (niet alleen stomme herbalancering), dan kunnen we praten over het verhogen van kosten en langzaam een ​​incentivemodel opbouwen voor routing nodes.</p>
+<p>We zijn er nog NIET, ongeacht wat anderen zouden zeggen dat ze x aantal sats/maand hebben verdiend. JE KOMT ER NIET!</p>
+<p>En vergeet niet: het doel is om DE BANKEN TE NEUKEN, niet om elkaar te neuken...</p>
+<p>Als we nu beginnen met het rekenen van dure kosten aan nieuwe gebruikers die zich aanmelden voor LN, dan zullen ze doodsbang worden en wegrennen, en zullen zeggen dat dit LN een waardeloos duur betalingssysteem is.</p>
+<p>Maak ze niet bang, help ze om deze geweldige technologie te gaan gebruiken. We hebben later nog genoeg tijd om de kosten te verhogen tot een niveau dat we als stimulans kunnen handhaven.</p>
+<p>GEKKE GREED IS WAT INNOVATIE DOODT.</p>
+
+<figure>
+<img src="/assets/images/fees-passive-income.jpg" class="center">
+<figcaption>Noob geïnteresseerd in "passief inkomen"</figcaption>
+</figure>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">Hoe het begon... #ZeroFeeFebruary</h3>
+<p>Dus in februari 2022 begon ik, met een van mijn sterke collega's, een beweging van <a href="https://amboss.space/community/ec432081-e9f1-4c7f-8604-3a7d9980bc61">#ZeroFeeFebruary</a> tussen veel RoF en groepen. Het ging redelijk goed met 35+ nodes die hun krachten bundelden en alle kanaalkosten op 0/0 zetten (0 basiskosten, 0 ppm).</p>
+<p>Mijn bescheiden Umbrel-node begon met 2x, 3x, 4x het aantal betalingen dat werd gerouteerd. Ik heb ook een aantal kleine, zombie-kanalen gesloten met peers die de afgelopen 6 maanden helemaal niet zijn gegroeid.</p>
+<p>Dit is een heel belangrijk aspect: peers die de afgelopen maanden niet genoeg zijn gegroeid, zijn NUTTELOOS en kunnen meer schade dan goeds aanrichten.</p>
+<p>Dus een waarschuwing voor alle noobs met nieuwe nodes: als je van plan bent om een ​​LN te runnen met slechts 2-3 kanalen en nooit meer te laten groeien, verwacht dan dat je peers de kanalen zullen sluiten. Stapel meer sats en open meer LN-kanalen. Fondsen in LN zijn niet "verloren" of "geblokkeerd" zoals velen je proberen bang te maken. Nee, <a href="https://medium.com/breez-technology/lightning-is-a-liquidity-network-550896ca27ea">fondsen in LN-kanalen ZIJN FUCKING LIQUIDITEIT. Dat betekent dat ze MOETEN STROMEN</a>. Anders is het totaal nutteloos.</p>
+<p>Dus ik begin met het sluiten van de kanalen met peers die hoge kosten hanteren. Hoge kosten voor mij zijn:</p>
+<ul>
+<li>Basisvergoeding >1 | alles wat hoger is dan dit is dom en doet meer kwaad dan goed</li>
+<li>ppm >150-200 | soms is de ppm nodig om de liquiditeit aan de ene of andere kant te duwen, wanneer je het echt nodig hebt, gevallen voor handelaren die niet willen loopen maar het verkeer gewoon willen laten balanceren.</li>
+</ul>
+<p>Dus als een peer die is verbonden met mijn node standaardbeleid gebruikt voor al zijn kanalen, zoals 2 sats basisvergoeding / 300 ppm, zal ik het kanaal sluiten, zonder spijt. Of stel zo'n hoge basisvergoeding in dat al het verkeer op dat kanaal wordt geblokkeerd totdat hij het zelf sluit.</p>
+<p>Ook degenen die intensief het charge-lnd-script gebruiken. Stop alsjeblieft met het gebruiken ervan als je een noob bent! Of leer in ieder geval wat je ermee moet doen en hoe het werkt.</p>
+<p>Doet meer kwaad dan goed. Het script is ontworpen om kanalen automatisch uit te schakelen op een bepaald niveau van "winstgevendheid". De gebruiker weet niet eens dat zijn kanalen worden uitgeschakeld en dat betekent GESLOTEN DEUREN. Dat betekent dat er op geen enkele manier meer via die kanalen kan worden gerouteerd. Dus als ik een knooppunt zie met veel uitgeschakelde kanalen, is dat een duidelijke boodschap: hij gebruikt het verdomde beruchte script, of hij is verbonden met veel peers die dat script gebruiken, die peer is een "no go".</p>
+<p>Liquiditeit stroomt in beide richtingen, ja, het is traag, maar heb geduld. Laat het LN-levende wezen op natuurlijke wijze groeien en stromen. Als je obstakels op zijn pad plaatst, zal het natuurlijk andere vinden.</p>
+<p>Ik heb geprobeerd redelijk te zijn met die peers die responsief zijn en de situatie begrijpen en hun tarieven dienovereenkomstig aanpassen. Langzaam zal de hebzucht worden geïsoleerd in de buitenste randen van de LN Galaxy.</p>
+<p>De maand februari ziet er zo uit, met mijn bescheiden knooppunt, 70M totale liquiditeit verdeeld over 50/50 en 40 kanalen:</p>
+
+<figure>
+<img src="/assets/images/feb-routed-txs-per-day.png" class="center">
+<figcaption>Februari 2022 totale gerouteerde betalingen / dag</figcaption>
+</figure>
+<figure>
+<img src="/assets/images/feb-routed-sats-per-day.png" class="center">
+<figcaption>Februari 2022 Totale gerouteerde sats / dag</figcaption>
+</figure>
+
+<p>In totaal werden 995 betalingen gerouteerd met een totaal van 84M sats.</p>
+<p>Hoogste piek was 95 gerouteerde betalingen en 9M sats in totaal op één dag. Gemiddeld waren de hele maand februari ongeveer 20 txs/dag met ongeveer 3M sats in totaal gerouteerd/dag. Niet slecht, voor zo'n kleine node. Ik heb niet al te veel grote kanalen, zelfs niet één wumbo.</p>
+<p>Mijn testnode had: 5 kanalen van meer dan 4M sats, 14 kanalen tussen 4M en 1M sats, 12 kanalen van 1M sats en 9 kanalen van 500k sats. In totaal 40 kanalen (min of meer, sommige sluiten en openen).</p>
+<p>Februari vergelijken met 6 voorgaande maanden:</p>
+
+<figure>
+<img src="/assets/images/routed-txs-6m.png" class="center">
+<figcaption>Nr. van txs gerouteerd in de laatste 6 maanden</figcaption>
+</figure>
+<figure>
+<img src="/assets/images/routed-sats-6m.png" class="center">
+<figcaption>Totaal aantal gerouteerde sats in de laatste 6 maanden</figcaption>
+</figure>
+
+<h4 style="color:Yellow;">Extra stappen die ik heb uitgevoerd</h4>
+<ul>
+<li>Ik heb het maximale HTLC-bedrag verlaagd naar 500k sats naar alle kanalen</li>
+<li>Ik heb mijn node geconfigureerd <a href="https://community.getumbrel.com/t/lnd-tor-clearnet-how-to-setup-hybrid-mode/6133/">om te draaien in de hybride modus</a> - Tor & clearnet. Dit helpt bij het vinden van het pad wanneer Tor verstopt is</li>
+<li>Ik activeer <a href="https://community.getumbrel.com/t/how-to-reduce-size-of-channel-db-file-for-lnd/6439/">compressie van mijn channel.db-bestand</a>, dit helpt bij de responsiviteit van uw node en minder in behandeling zijnde HTLC's</li>
+<li>Ik heb een <a href="https://github.com/lightningnetwork/lnd/blob/master/sample-lnd.conf#L306">maximaal aantal HTLC's in het lnd.conf-bestand ingesteld op 10</a></li>
+<li>Ik heb alle peers zoveel mogelijk verbonden gehouden. Soms is roddel via Tor echt grillig en rapporteer ik offline peers, zelfs als ze dat niet zijn. Dus wat ik deed, was de peer die offline leek te zijn uit de peerlijst verwijderen en deze opnieuw toevoegen, indien mogelijk met behulp van zijn clearnet-URI. Na een paar seconden is de peer weer online en is het kanaal gereed. U kunt Thunderhub voor al deze stappen gebruiken.</li>
+</ul>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">Conclusies</h3>
+<p>Over het algemeen was deze test een succes voor mij. Mijn belangrijkste doel was om de mogelijkheden en capaciteit van dit kleine knooppunt in routing te zien en ervan te leren, in situaties met veel verkeer. Ik wil geen van mijn peers doxen, dus ik zal geen screenshots met statistieken over specifieke kanalen plaatsen. Maar ik kan wel zeggen dat velen van hen deze maand beginnen met verhuizen.</p>
+<h4 style="color:Yellow;">Enkele belangrijke punten die ik heb opgemerkt:</h4>
+<h5>1 - Kostenbeleid</h5>
+<p>0/0 kosten trekken veel verkeer, maar het is ook belangrijk om peers te hebben met een vergelijkbaar beleid of lage kosten.</p>
+<h5>2 - Herbalancering</h5>
+<p>De peers met hoge kosten, zijn gewoon blijven hangen. Sommigen zeiden dat veel nodes profiteren van 0/0 kosten en gratis herbalanceren. Nee, dat is het niet. Ik heb zoiets niet opgemerkt. Er waren weinig bewegingen van peers met hogere kosten die de kanalen met 0/0 kosten gebruikten. Ik denk dat het grootste deel van de routing gewoon de natuurlijke manier volgde om het goedkoopste en snelste pad te vinden, waarbij de knooppunten met hoge kosten werden genegeerd.</p>
+
+<figure>
+<img src="/assets/images/zfr-quote.jpg" class="center">
+<figcaption>ZFR-knooppunt over kosten</figcaption>
+</figure>
+
+<p>Velen zeiden dat "uitgeputte" kanalen niet routeren en in evenwicht moeten worden gebracht of gesloten. Dat is niet waar! Ik had veel uitgeputte kanalen, voor één dag, ja. Maar na een tijdje begonnen ze satellieten te verplaatsen op de heenweg. Het hangt er allemaal vanaf of uw node genoeg kanalen heeft, met genoeg liquiditeit en in balans op het totale niveau, niet op individueel niveau.</p>
+
+<figure>
+<img src="/assets/images/liquidity-report-th.jpg" class="center">
+<figcaption>Dit is het belangrijkste liquiditeitsrapport dat u moet bekijken</figcaption>
+</figure>
+
+<p>Wanneer uw totale inkomende en uitgaande liquiditeit bijna gelijk is, hebt u ten minste 10-20-30 goede kanalen (niet dood, niet van de buitenste rand van de LN Galaxy), dan zal uw node op natuurlijke wijze aan beide kanten routeren. Wanneer die verhouding van in/uit meer dan 30% ongebalanceerd is, dan ja, dan begint u in de problemen te komen, uw node kan vastlopen.</p>
+<p>Al die tijd heb ik NOOIT op welke manier dan ook, geen enkel kanaal opnieuw in evenwicht gebracht. Ik heb daar geen geautomatiseerd script voor gebruikt, zelfs niet handmatig. Ik leun gewoon achterover en kijk toe.</p>
+<p>Ik wilde ook zien of het lichtjes aanpassen van de HTLC kan helpen bij het automatisch in evenwicht brengen van het kanaal door de stroom om te leiden waar nodig is en er genoeg liquiditeit is.</p>
+
+<h5>3 - Resources, geheugenbelasting</h5>
+<p>Ik merk dat er meer geheugen wordt gebruikt als er meer HTLC's in behandeling zijn. Dus het beperken van het totale aantal in behandeling zijnde HTLC's in het lnd.conf-bestand hielp een beetje. Ik weet niet wat de oorzaak is van het feit dat ik constant minstens 3-4 in behandeling zijnde HTLC's heb gedurende 5-10-15 min. Mijn node? Mijn waardeloze HDD? Mijn verbinding (ik zat de hele tijd in de hybride modus). Mijn peers? Algemene Tor-problemen?</p>
+<p>Ik begrijp de betekenis van in behandeling zijnde HTLC's, maar niet zo lang. Ik wou dat ik er iets aan kon doen, maar ik heb niet genoeg kennis of de juiste informatie over hoe ik ze kan oplossen. Misschien moet LN hierin verbetering aanbrengen.</p>
+
+<h5>4 - Node centraliteit, groei</h5>
+<p>Je positie in het netwerk, de centraliteit en de verbindingen die je hebt, zijn erg belangrijk. <a href="https://darthcoin.substack.com/p/lightning-network-is-awesome">Ik heb hier een lijst geplaatst met alle beschikbare LN-tools</a>. Gebruik ze, ze zijn erg goed in het observeren van je peers, routes etc. Die peers die ver aan de rand van het netwerk zitten, zullen niets verplaatsen. Maar die peers die verbindingen hebben tussen veel van de RoF en centrale nodes, zullen een goede beweging hebben.</p>
+<p>Dus als je een nieuwe node hebt, of zelfs een oude node, maar je hebt slechte verbindingen... verander ze dan. En probeer geen verbinding te maken met peers die al dezelfde verbindingen hebben als jij. RoF zijn erg goed om uit te breiden, maar als je je aansluit bij veel verschillende ringen, maar met dezelfde spelers, helpt het op geen enkele manier, soms zelfs erger, het creëert een soort lus die nooit uitgaat.</p>
+<p>Breid je verbindingen uit naar nodes die zich niet in de meeste RoF bevinden, wees de brug tussen hen en RoF. Verken de LN-peers elke keer dat je tijd hebt en neem nodes, observeer nieuwe nodes.</p>
+<p>Maak verbinding met meer nodes die ten minste 0 basiskosten en een klein ppm-kostenbeleid gebruiken. <a href="https://basefee.ln.rene-pickhardt.de/">Hier is een enorme lijst die wordt bijgehouden door René Pickhardt met nodes met een “0 base fee”-beleid</a>.</p>
+<p>Als je een node hebt met slechts 2-3 kanalen... en niet van plan bent om meer te laten groeien, kun je deze beter gewoon sluiten en <a href="https://darth-coin.github.io/wallets/lightning-wallets-comparison-en.html">een eenvoudige LN mobiele wallet gebruiken</a>. Je helpt het netwerk helemaal niet, en jezelf ook niet. We weten allemaal dat het moeilijk is om sats te stapelen, maar niemand dwingt je om een ​​goede node te runnen met een goede liquiditeit.</p>
+<p>Mijn experiment is om te zien of je met relatief kleine kanalen (1-5M sats) een goede routing voor iedereen kunt krijgen. Ja, je zou 2-3 grote kanalen van 10-20M sats kunnen hebben, maar dat beschouw ik als meer centraliteit, waarbij meer txs op slechts één plek worden geconcentreerd. In plaats van slechts 1 x 20M zou ik 4 ch x 5M sats per stuk kunnen hebben en meer verbindingen, wat meer connectiviteit biedt. Ja, het is beter om kanalen groter te hebben dan 3M sats, om vele redenen. </p>
+
+<h5>5 - Gebruik je liquiditeitsknooppunt!</h5>
+<p>Ja, als je al een LN-knooppunt hebt, gebruik het dan verdomme! Voor betalingen. Waar je ook een handelaar vindt die LN accepteert, betaal het met je knooppunt. Niet dat je de handelaren, het netwerk, helpt, maar je maakt je knooppunt zichtbaarder in het netwerk. Je duwt de liquiditeit vooruit. Daarom heet het "liquiditeit", omdat het VLOEIBAAR is, moet stromen, moet bewegen om iets groots en wonderbaarlijks te creëren.</p>
+<p>Als je gewoon op je LN-knooppunt zit te wachten tot anderen routeren en jij hen kosten in rekening brengt... DAT IS GEWOON DOM. Je bent gewoon een leecher.</p>
+<p><a href="https://darthcoin.substack.com/p/lightning-network-is-awesome">Hier houd ik een lijst bij van geweldige plekken waar je je LN-node kunt gebruiken</a>.</p>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">Volgende stap: #March1ppm</h3>
+<p>Voor maart zou ik hetzelfde scenario testen, maar dan alleen naar 0/1 (0 basistarief/1 ppm).</p>
+<p>Ik zal ook de max. HTLC instellen op 500k sats voor alle kanalen groter dan 1M en 150k voor alle kanalen kleiner dan 1M sats.</p>
+<h5>UPDATE 1</h5>
+<p>Na 1 week met max. HTLC ingesteld op 500k sats, zag ik te veel mislukte txs. Dus ik begin het beleid een beetje te veranderen. Elke ochtend tijdens mijn gewone koffie kijk ik gewoon naar alle eerder gerouteerde txs en kanalen en pas ik de max. HTLC aan op hoeveel ik aan mijn kant heb. Dat betekent dat als er een txs naar mijn node komt, automatisch die "pipe" wordt gecontroleerd als deze groot genoeg is om erdoorheen te gaan. Als de balans aan mijn kant groter is dan 1M sats, stel ik gewoon 800-900k sats max HTLC in of zelfs groter als dat nodig is.</p>
+<p>Bijvoorbeeld dit kanaal, van 1M sats in totaal, heb ik aan mijn kant slechts 112.765 sats beschikbaar. Dus ik stel een max van 110.000 sats HTLC in (afgerond, hoeft niet exact te zijn), omdat ik niet meer dan dat kan doorsturen. Dus een nieuwe betaling gerouteerd, en is groter dan dat zal deze route automatisch niet controleren.</p>
+
+<figure>
+<img src="/assets/images/chan-details-th.png" class="center">
+<figcaption>Kanaaldetails in Thunderhub</figcaption>
+</figure>
+<figure>
+<img src="/assets/images/max-htlc.png" class="center">
+<figcaption>Maximale HTLC wijzigen (in sats)</figcaption>
+</figure>
+
+<p>Maar ik zie meestal dat gebruikers steeds meer MPP gaan gebruiken, dus ik denk niet dat er ooit een tx groter dan 1Msats gerouteerd zal worden, het zal altijd in kleinere delen worden gesplitst.</p>
+<p>Dit proces kostte me elke ochtend 5-10 minuten, geen groot probleem, ik heb weinig kanalen, geen honderden, dus er is geen geautomatiseerd script nodig om die max in te stellen HTLC.</p>
+<p>Na een week hiermee bezig te zijn geweest, merk ik een natuurlijkere routing, met minder mislukte HTLC's.</p>
+
+<figure>
+<img src="/assets/images/forwards-after-max-htlc.png" class="center">
+<figcaption>Let op dat dit een vrij stabiel aantal is per dag</figcaption>
+</figure>
+
+<p>Een andere taak die ik elke 4-5 uur / dag doe, is controleren of er "offline" kanalen zijn, met name die welke meer routeren. Soms mislukt de roddelaankondiging en worden kanalen in "offline modus" weergegeven, maar dat zijn ze in feite niet.</p>
+<p>Dus wat ik doe, is naar Thunderhub - Peers gaan, de "dode" peer verwijderen en deze opnieuw toevoegen. Na een paar seconden is het kanaal weer "online". Als de peer echt niet online is, mislukt het toevoegingsproces, dus er is sowieso niets te doen, probeer het later gewoon opnieuw.</p>
+<p>Deze taak kan worden uitgevoerd met BoS-script om het te programmeren om het elke 5 uur te doen, maar op dit moment kan ik het handmatig doen (ik geef de voorkeur aan zo), ik heb niet te veel ontkoppelingen elke dag, ik heb ook goede peers.</p>
+<p>Ik begon maart met een channel.db-bestand van 1,3 GB. Laten we eens kijken hoe groot het over 1 maand zal zijn.</p>
+<h5>UPDATE 2</h5>
+<p>15 maart heb ik een compacte database gemaakt. Het was al 2,2 GB, het duurde 5 uur om het terug te brengen naar 1,2 GB. Ik weet niet hoe dit van invloed kan zijn, maar na een paar uur begon de node als een gek te routeren en bereikte meer dan 100 gerouteerde txs.</p>
+
+<figure>
+<img src="/assets/images/forwards-after-max-htlc2.png" class="center">
+<figcaption>gerouteerde txs na het aanpassen van max HTLC</figcaption>
+</figure>
+
+<p>Het was geen groot aantal sats, slechts 7M sats gerouteerd in 100+ txs. Ik denk dat het meer hielp bij de strategie om max HTLC aan te passen voor de kanalen met minder liquiditeit aan mijn kant.</p>
+<p>Vanaf 15 maart start ik ook een andere strategie: voor alle kanalen groter dan 1M sats stel ik min HTLC in op 99 sats. Ik laat 1 sat min alleen voor een paar kanalen waar ik nog steeds een 0/0-kostenbeleid gebruik en kleine betalingen wil routeren. Gaat echt beter…</p>
+<p>kijk naar deze paar kanalen. Ik balanceer ze nooit. Het begon met 2 met balance aan mijn kant en 3 met balance aan hun kant. Na een week zijn ze perfect in balans.</p>
+<p>Ik heb HELEMAAL NIETS gedaan! Geen scripts, geen geautomatiseerde balancering, geen kosten, alleen de max HTLC aanpassen en 0 basiskosten en 1 ppm laten staan.</p>
+
+<figure>
+<img src="/assets/images/balanced-channels.png" class="center">
+<figcaption>Gebalanceerde kanalen na max HTLC ingesteld</figcaption>
+</figure>
+
+<p>Sommige andere nodes beginnen kanalen te openen met mijn node, ik weet niet waarom, misschien omdat sommige auto-pilot scripts mijn node als "geschikt" vonden. Maar het punt is dat ze hoge kosten hanteren… dus ik sluit gewoon hun kanalen. Ik wil geen hebzuchtige peers. Het heeft ook invloed op mijn routing. Als ik peers heb met hoge kosten, gebeurt dit... het totale aantal gerouteerde txs daalt. Die kanalen gesloten en kijk wat er de volgende dag gebeurt? Dubbel aantal gerouteerde txs.</p>
+
+<figure>
+<img src="/assets/images/march-routed.png" class="center">
+<figcaption>Verschillen tussen max HTLC en non-max</figcaption>
+</figure>
+
+<h4 style="color:Yellow;">Conclusie maart:</h4>
+<p>Het was een vrij goede maand, met een 0/1 vergoedingenbeleid. Ik wil ook nog even vermelden dat ik voor alle kanalen groter dan 1M sats de min HTLC heb ingesteld op 9 sats. Alle overige kleine kanalen blijven op min 1 sat.</p>
+<p>In totaal heb ik 1779 txs gerouteerd en 113 sats aan vergoedingen ontvangen, met een totaal van 123.218.850 verplaatste sats, in beide richtingen, met 43 kanalen altijd online. Ik had 2-3 kanalen die dood waren (operators informeerden me over hun problemen en ik heb ze niet gesloten).</p>
+<p>De methode om de max HTLC voor elk kanaal aan te passen op basis van mijn liquiditeit lijkt vrij goed te werken. Ik merk dat sommige meer "slapende" kanalen wakker worden en wat sats verplaatsen. Sommige actievere kanalen hadden goede tijden, en verplaatsten behoorlijk wat sats.</p>
+<p>Het hangt ook allemaal af van de peers en de peers van je peers. Als je alleen maar slapende peers hebt die alleen maar wachten tot anderen sats verplaatsen en ze doen geen LN-betaling, dan zijn die peers een doodlopende weg en kun je ze beter vervangen. LN moet stromen om te groeien.</p>
+
+<figure>
+<img src="/assets/images/march-total-txs.png" class="center">
+<figcaption>Maart routing totaal aantal transacties</figcaption>
+</figure>
+<figure>
+<img src="/assets/images/march-total-sats.png" class="center">
+<figcaption>Maart totaal aantal gerouteerde transacties</figcaption>
+</figure>
+<hr style="height:2px">
+
+<h4 style="color:Yellow;">10 april</h4>
+<p>Voor april heb ik de ppm-vergoeding verhoogd naar 10. Laten we eens kijken hoe het gaat.</p>
+<h5>UPDATE 15 april</h5>
+<p>Het was een stabiel gemiddelde van 50 gerouteerde transacties/dag. Maar om te vermelden dat ik veel herstarts van mijn node had, vanwege een aantal andere experimenten met LNbits.</p>
+<p>Ik ben ook bezig met het aanpassen van mijn lnd.conf-bestand en kijk hoe het gaat met de “plaag” van geforceerde gesloten kanalen.</p>
+<p><a href="https://telegra.ph/LND-conf-customization-04-16">Hier is mijn lnd.conf-aanpassing, tot nu toe.</a></p>
+<h5>UPDATE 19 april</h5>
+<p>Je kunt je mx HTLC per kanaal handmatig aanpassen als je geen honderden kanalen hebt of <a href="https://plebnet.wiki/wiki/Fees_And_Profitability#Using_Charge-Lnd_to_set_Maximum_HTLCs">je kunt het automatiseren met een script</a>. Ik doe het liever handmatig elke ochtend, drink een kopje koffie en controleer mijn node na een drukke nacht, en pas alleen de kanalen aan die ik het waard vind.</p>
+<p>Ik zie echt niet de noodzaak om de hele tijd onnodig obsessief te herbalanceren. Dat is "nep"-verkeer via LN en kosten betalen voor niets.</p>
+<p>Padvinden en routeren kan worden verbeterd en efficiënter worden gemaakt als de gerouteerde betalingen het juiste pad vinden, waarbij de kanalen meer liquiditeit hebben en dienovereenkomstig handelen, zoals het water. Als ik die liquiditeit "verberg", stopt het water met stromen op die pijp en gaat het via andere routes.</p>
+<p>Wanneer u hogere of lagere kosten gebruikt, maar u verbergt de liquiditeit, komt de tx nog steeds, maar wordt deze teruggekaatst en hebt u meer mislukte routering, wat betekent dat uw node minder "gezien" zal worden als een goede route.</p>
+<p>Ja, sommige "privacyvoorvechters" zullen zeggen dat het onthullen van het saldo van een kanaal met mac HTLC doxxing is van uw node-saldo. Dat is alsof je achter een boom schuilt en kogels ontwijkt. Nutteloos. De balans van je node-kanalen kan heel gemakkelijk worden verkregen met veel andere methoden en zelfs op openbare explorers.</p>
+<p>Zorg voor een goede waterstroom en na verloop van tijd kun je je kosten aanpassen zoals je wilt, belangrijk is dat het water continu stroomt.</p>
+<h5>UPDATE 22 april</h5>
+<p>Ik heb een aantal kleine oude kanalen verhoogd tot meer dan 2,5 miljoen sats. Het resultaat na een paar dagen is dit... het aantal gerouteerde txs per dag is al meer dan 200. Laten we eens kijken of dit tijdelijk is of een nieuwe trend. Maar ik heb gemerkt dat steeds meer mensen LN gebruiken voor regelmatige betalingen (niet alleen voor nutteloze herbalancering).</p>
+<p>In de laatste week van april had ik een grote piek in het aantal gerouteerde betalingen met een maximum van 227 txs. Toen daalde het naar een normale 50-60/dag.</p>
+
+<figure>
+<img src="/assets/images/apr-total-txs.png" class="center">
+<figcaption>Totale transactieroutering april</figcaption>
+</figure>
+<figure>
+<img src="/assets/images/apr-total-sats.png" class="center">
+<figcaption>Totaal gerouteerd april</figcaption>
+</figure>
+
+<p>In april had ik veel herstarts en wijzigingen en dat had een grote invloed op de hoeveelheid gerouteerde txs. Ook heb ik veel kanalen gewijzigd (gesloten en open) en het kost tijd om weer een goede flux van txs te krijgen.</p>
+<p>Het feit dat ik de vergoeding ppm naar 10 heb verhoogd, weet ik niet zeker of dit invloed had op de routing.</p>
+<h5 style="color:Yellow;">Geduld is de sleutel.</h5>
+<p>Ik zag net <a href="https://xcancel.com/alexbosworth/status/1520067729151078401">deze tweet van Alex Bossworth</a> en ik besloot de vergoedingen voor de volgende maand mei te verlagen naar 1 ppm (Zero Base Fee Forever). <a href="https://stacker.news/items/24100/r/DarthCoin">Hier heb ik een antwoord voor Alex geplaatst</a>.</p>
+<p>Ik denk dat het nu belangrijker is om een ​​stabiel en goedkoop betalingsnetwerk te bouwen dan een "fee race" te starten en elkaar te neuken. Ik denk niet dat Alex leeft van zijn node fees…</p>
+<h5>UPDATE 5 mei</h5>
+<p>Deze maand ga ik nog een "experiment" proberen. Afgezien van de selectieve ppm-vergoeding, tussen 0 en 10 ppm, zal ik spelen met max HTLC.</p>
+<p>Mijn plan is het volgende:</p>
+<ul>
+<li>stel max HTLC in op 299k sats, wanneer het meeste saldo aan mijn kant is en het kanaal groter is dan 2M sats.</li>
+<li>stel max HTLC in op 199k sats, wanneer het meeste saldo aan mijn kant is en het kanaal lager is dan 2M sats.</li>
+<li>pas de max HTLC aan als het saldo dichter bij die max-instelling komt, naar 199k en vervolgens naar 19k als het lager wordt.</li>
+<li>pas de max HTLC in 3 stappen weer aan als het saldo weer aan mijn kant komt.</li>
+</ul>
+<p>Op deze manier is het niet nodig om de kanalen steeds bij te werken (wordt niet aanbevolen) en een specifiek aantal txs via specifieke kanalen te tunnelen. kanalen.</p>
+<p>Ik hoop dat gebruikers steeds meer MPP (multi-part payments) gaan gebruiken en een betere padvinding en snellere routes krijgen.</p>
+
+<figure>
+<img src="/assets/images/comparison-max-htlc.jpg" class="center">
+<figcaption>Vergeleken routing tijdens het hele experiment</figcaption>
+</figure>
+
+<h5>UPDATE 22 sept. 2022</h5>
+<p>René Pickhardt heeft zojuist dit geweldige artikel geplaatst, dat min of meer dezelfde conclusie heeft als mijn experiment:</p>
+<p><a href="https://blog.bitmex.com/the-power-of-htlc_maximum_msat-as-a-control-valve-for-better-flow-control-improved-reliability-and-lower-expected-payment-failure-rates-on-the-lightning-network/">De kracht van kleppen voor betere flow control, verbeterde betrouwbaarheid en lagere verwachte betalingsfoutpercentages op het Lightning Network</a></p>
+</body>
+</html>
+</article>
