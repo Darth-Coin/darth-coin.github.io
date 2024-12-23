@@ -1,0 +1,111 @@
+---
+layout: default
+title: Preporuke za operatere BTC LN čvorova
+---
+<article>
+<!DOCTYPE html>
+<html lang="hr">
+<meta name="description" content="Vodiči za Bitcoin i Lightning čvorove: Upozorenje svim operaterima javnih LN čvorova o stvarnoj upotrebi Lightning mreže">
+<body>
+<a href="/nodes/recommendations-ln-node-operators-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/recommendations-ln-node-operators-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/recommendations-ln-node-operators-de.html">Deustch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/recommendations-ln-node-operators-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/recommendations-ln-node-operators-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/recommendations-ln-node-operators-nl.html">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/recommendations-ln-node-operators-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<blockquote style="color:Tomato;"><em>
+<p>Izvorno objavljeno na <a href="https://darthcoin.substack.com/p/recommendations-for-ln-users">Substack</a> 23. svibnja 2022., ažurirano ovdje 20. prosinca 2024. .</p>
+</em></blockquote>
+
+<h3>Upozorenje svim operaterima javnih čvorova o stvarnoj upotrebi Lightning mreže. Ovaj je članak posvećen svim novim onim novim korisnicima koji sada počnu ili sada žele pokrenuti BTC LN čvor.</h3>
+
+<h2 style="color:Orange;">UVOD</h>
+<p>Ovo su moja osobna zapažanja i preporuke nakon 25+ godina u IT sustavima, 10+ godina u Bitcoinlandiji i 2+ godine pokretanja raznih LN čvorova, posvećujući puno vremena testiranju i korištenju raznih rješenja za LN čvorove, pomažući drugim operaterima čvorova .</p>
+<p>Moj je jedini cilj učiniti da LN bolje funkcionira za sve sudionike i predstaviti neke aspekte s vrlo objektivne točke gledišta.</p>
+<p><img src="/assets/images/darth-aprentice-failed.jpg" class="center"></p>
+<p>Nije me briga ako se mnogi neće složiti ili me čak mrziti zbog onoga što ću ovdje reći. Da za neke neće biti ugodne riječi. Nisam ovdje da nekome ugodim, ja iznosim činjenice. Ako tražite lijepe riječi i "kiss ass", od mene to nećete čuti. Uvijek ću govoriti istinu na svoj način, ako vam se ne sviđaju moje riječi, to je vaš problem, a ne moj.</p>
+<p>U 2020. nakon što je Umbrel lansirao BTC/LN paket Umbrel Node, mnogi novi ljudi su ga uskočili i instalirali, misleći da je zabavan, jednostavan i čak "pasivan prihod". Ali su zanemarili jedan važan aspekt: ​​OBRAZOVANJE o Lightning Networku.</p>
+<p>U gotovo 1 godini vidjeli smo da se broj LN čvorova povećao za najmanje 9000 čvorova. To je suluda brojka u tako kratkom vremenu. I to uglavnom na Toru.</p>
+<p>Da, lijepo je vidjeti interes za pokretanje LN čvora, ali prema onome što sam vidio na Telegram grupama i forumima, 90% nema pojma što rade.</p>
+<p>Mislim da je ovo pokretanje bila pogreška, ili je barem način na koji je napravljen. Previše korisnika s ukupno 0 znanja je uskočilo i napravilo kaos. Ne znam tko to promovira kao "vrlo lako instalirati čvor u 3 klika", ali pokretanje čvora ne znači da ga možete instalirati sa samo 3 klika. Radi se više o tome da imate puno znanja o Bitcoinu i kako LN radi u pozadini. Inače je samo stvaranje kaotične mreže ljudi koji nemaju pojma o tome što rade. Da, puno sam im pomogao svojim vodičima i dostupnošću savjeta gotovo 24 sata dnevno. Ali nije dovoljno. Moraju uložiti velike napore u čitanju i učenju o čvorovima. Inače je sve uzalud.</p>
+<p>Da, neki od njih su se polako počeli obrazovati i postali dobri operateri čvorova. Ali većinu nije bilo briga za upozorenja i još uvijek nastavljaju pokretati svoje čvorove na vrlo loše načine, bez odgovarajućeg održavanja, bez osnovnog znanja o tome kako LN radi, neki od njih jedini fokus koji imaju je "zaraditi satove" .</p>
+<p>Ova situacija postaje sve gora i gora svakim danom, jer ovi "loši čvorovi" prave noćnu moru za SVE NAS u mreži.</p>
+
+<h3 style="color:Yellow;">STVARNI PROBLEMI NA LN</h3>
+<p>Ovdje ću spomenuti neke aspekte ove noćne more (možda su neki problemi već riješeni):</p>
+<ul>
+<li>Čvorovi koji su vrlo često izvan mreže. Zbog toga su kanali vrlo nestabilni i neupotrebljivi.</li>
+<li>Čvorovi koji nemaju stabilnu internetsku vezu i u posebnim dobrim Tor relejima.</li>
+<li>Čvorovi koji su SAMO Tor, a još uvijek ne koriste hibridni način (Tor + clearnet). Tor kao komunikacijska mreža za čvorove je jako loš, jer je nestabilan. LN čvorovi moraju cijelo vrijeme moći komunicirati putem protokola ogovaranja. Inače se ne mogu "vidjeti" čak i ako se Bitcoin čvor još sinkronizira.</li>
+<li>Zaglavljeni HTLC-ovi, koji na kraju izazivaju prisilno zatvaranje kanala. Ovo je vrlo neugodna situacija i skupa. Mnogi operateri čvorova ne misle ili ne znaju da ako HTLC prođe kroz njihov čvor i njihov čvor prestane s internetom ili jednostavno ne može komunicirati s LN-om putem protokola ogovaranja, da je HTLC pravi davež za SVE. To je neispunjeni ugovor i ako u razdoblju isteka HTLC nije ispunjen, tada će pokrenuti prisilno kaskadno zatvaranje kanala svim peerovima povezanim na taj HTLC. Utječe na svakoga. <a href="https://xcancel.com/zerofeerouting/status/1528754778041372674">Ovo je upozorenje sa ZFR čvora</a>.</li>
+<li>Pogrešne ili kaotične postavke za <a href="https://github.com/lightning/bolts/blob/master/02-peer-protocol.md#cltv_expiry_delta-selection">CLTV delta</a>, naknade , min/maks HTLC. Vidio sam korisnike kako se igraju s tim postavkama, a da nemaju osnovnog znanja što mijenjaju. To jako otežava rad s njima kao vršnjacima. Ili još gore, ako su vršnjaci vaših vršnjaka, a vi ne znate što rade, to će neizravno utjecati na vas.</li>
+<li>Opsesivno vraćanje ravnoteže. Ovo je druga priča, mnogi to prihvaćaju i ne razumijem tu opsjednutost rebalansom svojih kanala cijelo vrijeme. IMHO ovo je glupo i beskorisno. Može premjestiti likvidnost točno kada je to potrebno za HTLC na čekanju. Beskoristan je i ne pomaže ni na koji način, već ga pogoršava "lažnim" prometom koji ni na koji način ne predstavlja pravi LN promet. Umjesto da radite ovo ponovno balansiranje, bolje podesite min/max HTLC, spustite ga na normalnu količinu tx-a i korisnik bi trebao početi <a href="https://lightning.engineering/posts/2020-05-07-mpp/ ">korištenje MPP-a</a> cijelo vrijeme.</li>
+<li>Onemogućivanje kanala. Još uvijek postoje "LN-alati", skripte koje onemogućuju kanale, ako određeni kanal nije "isplativ" za usmjeravanje. Ovo je kretensko i neproduktivno. Samo zatvara vrata za moguće rute.</li>
+<li>Korisnici još uvijek ne koriste <a href="https://lightning.engineering/posts/2020-05-07-mpp/">MPP</a> kao glavnu opciju kada vrše plaćanja putem LN-a. Zbog toga se kanali mogu isprazniti vrlo brzo, a također ne koriste učinkovite rute, čvorovi će uvijek morati prilagoditi promet različitim metodama (ponovno balansiranje, prilagođavanje naknada, podešavanje maksimalnog HTLC-a, otvaranje više kanala). MPP ne samo da dijeli iznos uplate na mnogo malih dijelova, već i traži najbolji put za svaku podjelu. Manji HTLC imat će bržu i bolju stopu pronalaženja dobrog puta nego veliki.</li>
+<li>Pronalaženje puta. Da, ovo je vrlo važno pitanje u LN-u i uglavnom je posljedica svih gore navedenih aspekata.</li>
+</ul>
+<p><img src="/assets/images/change-my-mind-restart-node.jpg" class="center"></p>
+
+<h3 style="color:Yellow;">PREPORUKE ZA NOVE POKRETNIKE JAVNIH LN ČVOROVA</h3>
+<p>Dakle, kao novi korisnik u ovom fascinantnom svijetu Lightning Networka, što trebate učiniti:</p>
+<ul>
+<li>Prije nego počnete pokretati čvor, zapitajte se: zašto trebate pokrenuti puni LN čvor? Kao što sam spomenuo u vodiču o <a href="https://darthcoin.substack.com/p/umbrel-bitcoin-ln-node">Početak rada s Umbrelom</a> postoji popis odgovora koji ljudi trebali razmotriti prije pokretanja čvora.</li>
+<li>Ako se samo želite igrati s LN-om i čak imate privatni LN čvor, NEMA POTREBE za pokretanjem čvora za usmjeravanje! Možete jednostavno pokrenuti svoj mobilni <a href="/wallets/getting-started-blixt-wallet-hr.html">Blixt Node Wallet</a> ili <a href="/wallets/getting-started-zeus-wallet-hr.html">novčanik Zeus Node</a> s privatnim kanalima, nema potrebe da budete 100% online, potpuno upravljanje vašim kanalima, privatnije, jednostavno za upravljanje, nema potrebe za puno sredstava u LN. Pogledajte više <a href="/wallets/lightning-wallets-comparison-en.html">LN novčanika za mobitele ovdje</a> sa svim detaljnim značajkama i namjenskim <a href="/nodes/private-ln-nodes -en.html">vodič za PRIVATE LN čvorove ovdje</a>.</li>
+<li>Ako želite koristiti stolni LN novčanik, možete jednostavno koristiti Electrum, radi savršeno. Blixt će uskoro također imati verziju za stolna računala, napredniju i snažniju.</li>
+<li>Ako niste toliko tehničar i ne volite čitati dokumentaciju, bolje jednostavno nemojte pokretati te desktop/RPi čvorove. Uopće ne pomažete mreži time što ne znate ništa o LN-u i samo držite usrani čvor u mreži. Činite više štete nego koristi.</li>
+<li>Ako stvarno želite pokrenuti potpuni čvor usmjeravanja na radnoj površini, bolje je da se dobro pripremite: <a href="https://www.lightning-network.tech/">čitajte puno dostupnu dokumentaciju</a >, proučite sve video upute, pripremili ste dobar i jak stroj za vaš čvor kao što sam spomenuo u <a href="/nodes/lightning-node-maintenance-hr.html">ovom namjenskom vodiču za održavanje čvorova</a> , proaktivno promatrajte svoje kolege i kanale, održavajte dobar promet uz niske naknade i dobre rute. Kolege koje je teško održavati na mreži, nemojte ih držati, otežavaju vaše rute.</li>
+<li>Koristite jak hardver! Vrlo je važno. Za čvorove s više od 50-100 kanala RPi stroj postaje stvarno problematičan, posebno ako koristi LND.</li>
+<li>Počnite koristiti metodu podešavanja maksimalnog HTLC-a po kanalu, do određene razine na kojoj ćete vidjeti da promet od vaših kolega postaje dobar na obje strane. <a href="/nodes/lightning-routing-fees-experiment-hr.html">Kao što sam objasnio u drugom vodiču ovdje</a>. Ovo će puno pomoći u pronalaženju putanje za rute i omogućit će bržem protoku satelita kroz vaš čvor, prolazeći kroz ispravne kanale, gdje je naznačena dovoljna likvidnost.</li>
+<li>Visoke naknade vam ni na koji način neće pomoći, već će pogoršati stvari. Nikad se ne spajajte na čvorove s visokim naknadama. IZOLIRAJTE IH! Uzmite samo primjere ovih idiotskih čvorova s ​​ultra visokim naknadama: <a href="https://amboss.space/node/028e9e578efe5f09f3edfd98ef0fad51007014401d8b7ff62236b89d6867529635">Sweet16Joe</a>, <a href="https://amboss.space/node/038f8f113c580048d847d6949371726653e02b928196bad310e3eda39ff61723f6">Magnetron</a> (Muun novčanik) i mnogi drugi poput toga. Ovdje smo da jebemo bankstere, a ne da jebemo jedni druge.</li>
+</ul>
+<slika>
+ <img src="/assets/images/waiting-for-problem.jpg" class="center">
+ <figcaption>Primjer korisnika Umbrela koji želi biti "operator čvora" bez pojma što radi</figcaption>
+</figure>
+
+<h3 style="color:Yellow;">ZAHTJEVI ZA LIGHTNING RAZVOJERE</h3>
+<p>Razmislite o pronalaženju načina za poboljšanje LN koda s ovim aspektima. Ovi zahtjevi nisu samo za programere LN implementacije, već i za upravljanje alatima i novčanicima kao što su Thunderhub, RTL, Zeus itd. Možda su vaši ciljevi drugačiji, ali barem poslušajte što korisnici govore i traže:</p>
+<ul>
+<li>Dodajte kodu opciju da se kanal ne zatvori do određene visine bloka, koju utvrđuju oba ravnopravna uređaja koja otvaraju kanal. Danas imamo mnogo tržišta kanala, prodajemo kanale likvidnosti, ali ne postoji jednostavan način da se ti kanali "zaključaju", da ih je gotovo nemoguće zatvoriti do određenog blok broja. Ovo će također izbjeći varanje u tim ugovorima o likvidnosti i također uspostaviti određena pravila.</li>
+<li>Promijenite način na koji HTLC pokreće prisilno zatvaranje. Zašto kažnjavati čvor koji je već usmjerio HTLC, ako je sljedeći peer u ruti onaj koji ne ispunjava HTLC? Ovi prisilno zatvoreni kanali su doslovno IDIOTSKI, nemaju smisla i skupi su. Ili barem dajte priliku peeru da održava kanal otvorenim i funkcionalnim i na drugi način osporite HTLC-ove na čekanju. Koristite sustav rezervi, gdje će svaki peer prvi položiti rezervu. To će natjerati čvorove da dvaput razmisle s kim i kako će otvoriti kanale.</li>
+<li>Učinite da protokol ogovaranja bude učinkovitiji i pouzdaniji. Ovo je stvarno bolno vidjeti da su kolege doslovno online, mogli biste ih pingati, ali tračevi govore da je kanal offline. Zbog toga je mnogo HTLC-a u stanju na čekanju, pa čak i izgubljeno jer nije dobro komunicirano putem tračeva.</li>
+<li>Dodajte jednostavnu opciju za postavljanje maksimalnog HTLC-a za kanal na temelju likvidnosti tog kanala za svaku stranu, doslovno objavljujući stanje kada uplata stigne na čvor. Da, mnogi će reći da će to "narušiti privatnost", ali budimo iskreni, već imamo mnogo načina kako pronaći ravnotežu kanala, nema potrebe skrivati ​​se iza prsta. Ovo su usmjerivački čvorovi, koji moraju vrlo dobro najaviti likvidnost, nisu privatni čvorovi. Upravo sam sada saznao da sam ručnim podešavanjem maksimalnog HTLC-a za kanal uvelike poboljšao promet, bez ikakvog glupog ponovnog balansiranja ili prilagođavanja naknada na temelju dostupne likvidnosti. <a href="https://xcancel.com/zerofeerouting/status/1522226213439389697">Potpuno se slažem s prijedlogom ZFR čvora ovdje</a>.</li>
+<li>Dodajte bolje opcije za upravljanje rutama na određenim kanalima, sa skupom pravila kojima operater čvora može lako upravljati. Primjer: Želim da svi privatni kanali budu usmjereni kroz određene javne kanale. Ili za LNDhub aplikacije kao što su Bluewallet i LNbits, želio bih imati namjenske kanale za korištenje. Da, pokušao sam na mnoge načine postaviti određene naknade, min/max HTLC, ali ne radi dobro.</li>
+<li>Dodajte bolju podršku za čvorove samo Tor ili pronađite drugi protokol za privatnu komunikaciju. Tor je uistinu nepouzdan za LN čvorove. To stvara toliko problema.</li>
+<li>Zašto imamo 3 LN implementacije s 3 različita CLTV delta? Zašto nisu svi isti? Kako korisnici trebaju postaviti, na temelju kojih metrika? Vidio sam da se neki čvorovi igraju s ovim zadanim postavkama (CLN=34, LND=40, Eclair=144) i usmjeravanje je poludjelo, pa čak završilo s prisilno zatvorenim kanalima. Zašto ne može biti nešto stabilno i pouzdano?</li>
+<li>zakupite neka sva sranja neko vrijeme, prestanite dodavati "nove beskorisne značajke i tokene" na vrh LN-a i koncentrirajte se na to da LN radi bolje. Jer trenutno... ne radi dobro. Daleko od toga da je učinkovita mreža plaćanja. A ako se ne pozabavimo tim problemima, uskoro ćemo imati neuspješan projekt ili samo pokušavati zakrpati zakrpe.</li>
+<li>Posebno za programere Umbrela: nemojte dodavati toliko bloatware aplikacija! Korisnici ih instaliraju samo iz znatiželje i pune te sićušne RP-ove beskorisnim aplikacijama. Više se usredotočite na dio snažnog LN čvora i dodajte važne opcije za upravljanje tim LN čvorom. Sve aplikacije koje nisu povezane s čvorovima uopće nisu korisne i mogu se lako spakirati u drugi paket "osobnih poslužitelja" ako ih stvarno žele koristiti. Ne miješajte te stvari! Znam da je vaša namjera napraviti "suvereni osobni poslužitelj", ali to neće ići tako! Sam pokrećem Umbrel čvor, ali samo kao LN čvor, ne bilo što drugo. Sve ostale aplikacije pokrećem zasebno na drugom računalu ili čak na svom Qnap NAS-u. Ne trebam napuhati svoj čvor s njima. Ali mnogi noobovi ne znaju ovaj aspekt. Bolje odvojeno.</li>
+</ul>
+
+<h2 style="color:Orange;">ZAKLJUČAK</h2>
+<p>Nadam se da će ovaj članak otvoriti mnogo više očiju i natjerati ljude da shvate da još uvijek moramo raditi na poboljšanju LN-a. Još uvijek imamo vremena to popraviti i možemo početi s jednostavnim stvarima: edukacija za nove korisnike i popravljanje/poboljšanje LN koda.</p>
+<p>Možete ponovno otvoriti kanal, ali izgubljeni satovi zbog prisilnog zatvaranja i ponovnog otvaranja bili su uzalud...</p>
+<p>A kad počnete imati 4-5 FC tjedno, nećete vidjeti da je tako pouzdano pokrenuti čvor usmjeravanja.</p>
+<p>Ja osobno imam 2 pokrenuta LN čvora i razmišljam o potpunom isključivanju jednog od njih. Možda oboje (CLN i LND) i samo će pokrenuti <a href="/wallets/getting-started-blixt-wallet-hr.html">Blixt</a> ili <a href="/wallets/getting-started -zeus-wallet-hr.html">Zeus</a> na stolnom računalu ili mobilnom uređaju, privatno i ne zabrinjavaj se za svo usmjeravanje i pomoć mreži.</p>
+<p>Spreman sam rutirati besplatno, ali plaćanje prisilnih zatvaranja za tuđe pogreške... nije prihvatljivo./<
+<p>Počinjemo graditi mrežu plaćanja, ali drugi s druge strane je pokušavaju ugasiti. Sada imamo tržišta likvidnosti, kupujemo kanale, ali ako se ti "ugovori" ne poštuju i ne uspostave određena pravila, nikoga neće biti briga i samo će vam zatvoriti kanale. Reputacija vam neće vratiti niti jedan sat koji ste izgubili zbog tog prisilnog zatvaranja i mreže koju ste počeli graditi, a sada je izgubljena.</p>
+<p>Primjer ovdje, prodavač koji je prodao kanal, a zatim ga želi zatvoriti. Da, vršnjak može biti izvan mreže ili može biti na mreži. Ali imate ugovor kada ste prodali taj kanal. A ovo će stvoriti presedan. Ljudi će vam prodati kanale i onda ih zatvoriti. Sav tvoj rad je nestao.</p>
+<p><img src="/assets/images/question-inbound-channel.jpg" class="center"></p>
+<p>Da, ovaj prodavač je u pravu, brine ga zašto je kolega izvan mreže. Ali ugovor je ugovor. Mora se poštovati.</p>
+<p>Moglo bi biti i jebeno ogovaranje, koje je ponekad stvarno ludo, prikazivanje nekih vršnjaka izvan mreže, ali zapravo nisu.</p>
+<p>Osobno sam bio u situaciji da se nekoliko dana zaredom 3-4-5 vršnjaka pojavljuje offline (od ukupno 55 vršnjaka). Jedan od njih bio je čak i moj drugi čvor CLN, koji sam gledao u isto vrijeme i bio je OK, na mreži i dobro. Stoga je LND odlučio prekinuti vezu s tim kolegama, bez razloga.</p>
+<p>Pokušao sam se ponovno povezati s kolegama, neki su uspjeli, neki nisu. Kontaktirali vršnjake, rekli su da su na mreži i da su dobro. Moj CLN uključen.</p>
+<p>Zašto se to događa? Nitko to ne zna niti pokušava popraviti. Od ovog problema započinju drugi problemi s HTLC-ovima na čekanju, a zatim se prisilno zatvaraju.</p>
+<p>Ovdje, sada, ističem UPOZORENJE i možda će se za nekoliko godina ljudi sjetiti mojih riječi.</p>
+<p>Ako se ovaj problem u LN-u, s prisilno zatvorenim kanalima, ne riješi na neki način ili se ne dodaju nova posebna pravila u kodu, vidjet ćemo veliku centralizaciju u nekoliko velikih čvorova koji će upravljati likvidnošću, uz ogromne naknade. </p>
+<p>Ili ćemo možda za nekoliko godina vidjeti kako se paralelno pojavljuje novi LN, plebs LN, gdje će se roditi još jedan sustav plaćanja, ali koji se može "vezan" za "centralizirani LN" koji se danas formira .</p>
+<p>U vrijeme pisanja ovog članka, LND je pokrenuo i v.0.15 i CLN v0.11.1, popravljajući neke probleme, ali u isto vrijeme uzrokujući masovna prisilna zatvaranja za mnoge čvorove.</p>
+<p>Kao što možete vidjeti ovdje na ovom grafikonu s https://bitcoinvisuals.com/ln-nodes:</p>
+<p><img src="/assets/images/bitcoin-visuals-drop-nodes.png" class="center"></p>
+<p>Mnogi od tih čvorova koji su "nestali" s grafikona su:</p>
+<ul>
+<li>čvorovi koji se sele na "privatne" čvorove (nisu najavljeni, nisu javni), više ne usmjeravaju ili usmjeravaju privatno.</li>
+<li>noobovi shvaćaju da model "RPi čvora s Umbrelom" ne donosi "pasivni prihod" i jednostavno odustaju</li>
+<li>previše prisilno zatvorenih kanala i operatera koji samo isključuju čvorove</li>
+</ul>
+<p><img src="/assets/images/have-spoken.gif" class="center"></p>
+<p><em>Napomena: nastavak ovog članka <a href="/beginner/getting-started-lightning-hr.html">je ovdje s vodičem</a> o tome kako koristiti LN na 3 razine< /em></p>
+</body>
+</html>
+</article>
