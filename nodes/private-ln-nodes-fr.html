@@ -1,0 +1,759 @@
+---
+layout: default
+title: Private Lightning Network Nodes
+---
+<article>
+    <!DOCTYPE html>
+    <html lang="fr">
+    <meta name="description"
+        content="Guides sur Bitcoin et Lightning : Utilisation du Réseau Lightning de Bitcoin pour un usage personnel, solutions pratiques avec des nœuds privés LN">
+
+    <body>
+        <a href="/nodes/private-ln-nodes-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English"
+                style="width:25px;height:10px; style=" vertical-align:bottom"></a> |
+        <a href="/nodes/private-ln-nodes-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español"
+                style="width:25px;height:10px; style=" vertical-align:bottom"></a> |
+        <a href="/nodes/private-ln-nodes-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch"
+                style="width:25px;height:10px; style=" vertical-align:bottom"></a> |
+        <a href="/nodes/private-ln-nodes-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR"
+                title="Français" style="width:25px;height:10px; style=" vertical-align:bottom"></a> |
+        <a href="/nodes/private-ln-nodes-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT"
+                title="Italiano" style="width:25px;height:10px; style=" vertical-align:bottom"></a> |
+        <a href="/nodes/private-ln-nodes-nl.html">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch"
+                style="width:25px;height:10px; style=" vertical-align:bottom"></a> |
+        <a href="/nodes/private-ln-nodes-hr.html">Hrvatski <img src="/assets/images/flag-HR.png" alt="HR"
+                title="Hrvatski" style="width:25px;height:10px; style=" vertical-align:bottom"></a> |
+        <a href="/nodes/private-ln-nodes-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi"
+                style="width:25px;height:10px; style=" vertical-align:bottom"></a> |
+        <blockquote style="color:Tomato;"><em>
+                <p>Cet article a été publié et enregistré <a
+                        href="https://mempool.space/tx/d2cc6d20399224a8f0d63c53930158fd825e5cce3faa6c14a0d2b5108266a69b">OP_RETURN</a>
+                    à la hauteur du bloc <a
+                        href="https://mempool.space/block/000000000000000000053df87ae93aaa5ae9ae732ca684845a0cfce261fb23f5">#775009</a>
+                    (28 JAN 2023)</p>
+                <p>Mis à jour le 15 octobre 2024</p>
+            </em>
+        </blockquote>
+        <h3>Comment utiliser le Réseau Lightning de Bitcoin pour un usage personnel, solutions pratiques avec des nœuds
+            LN privés mobiles et de bureau.</h3>
+        <h2 style="color:Orange;">INTRODUCTION</h2>
+        <p>Ce guide est dédié à tous les nouveaux utilisateurs qui souhaitent commencer à utiliser Bitcoin via le Réseau
+            Lightning, juste assez pour tester, pratiquer, utiliser de manière personnelle, effectuer des achats avec
+            des paiements Lightning Network dans la vie réelle.</p>
+        <p>Oui, j'ai écrit <a href="/wallets/lightning-wallets-comparison-en.html">ici</a> et <a
+                href="/beginner/getting-started-lightning-en.html">ici</a> des guides détaillés sur les portefeuilles
+            LN, qu'ils soient custodiaux ou non custodiaux. Mais dans ce guide, je ne vais pas expliquer les
+            portefeuilles LN, mais les nœuds LN privés.</p>
+        <p>Aujourd'hui, beaucoup de débutants, sans assez de connaissances sur la gestion d'un nœud LN et l'utilisation
+            du LN dans la vie réelle, tombent dans l'engouement de "lancer votre nœud LN, faire partie du réseau"…</p>
+        <p>Rien de mal à cette évaluation. Oui, il est bon de faire partie du réseau, mais lorsque VOUS SAVEZ CE QUE
+            VOUS FAITES. Je ne veux pas vous décourager de faire fonctionner un nœud LN, mais choisissez judicieusement
+            le type qui vous convient le mieux.</p>
+        <p>C'est un peu comme appeler tout le monde à "faire partie du réseau des pilotes d'avion", oui, il suffit de
+            prendre l'avion le moins cher et de commencer à voler… vous lirez le manuel d'instructions pendant que vous
+            volez.</p>
+        <p>Non, faire fonctionner un nœud PUBLIC du Réseau Lightning EST UNE TÂCHE SÉRIEUSE. Et si vous n'êtes pas
+            préparé, du moins à un niveau de base, vous causez plus de tort au réseau que vous n'y participez. Le LN est
+            comme un micro-organisme vivant, s'il y a une mauvaise partie, cela finira par affecter le reste du réseau.
+        </p>
+        <p><img src="/assets/images/public-private.jpg" class="center"></p>
+
+        <h3 style="color:Yellow;">Alors, quel est l'objectif de ce guide ?</h3>
+        <p>Expliquer à tous ces débutants qu'il existe deux types de nœuds LN :</p>
+        <ul>
+            <li><a href="#public">Nœuds publics de routage</a></li>
+            <li><a href="#private">Nœuds privés non routants</a></li>
+        </ul>
+        <p>Les deux ont un rôle important pour le réseau. Et je vais vous expliquer en termes simples ce que cela
+            signifie et comment utiliser un nœud privé non routant.</p>
+        <p>Et les gens DOIVENT faire la différence entre public et privé. Dans le Réseau Lightning, ces termes
+            signifient :</p>
+        <ul>
+            <li style="color:Tomato;"><em>Public</em> = nœud et canaux annoncés, visibles dans le graphique public du
+                LN. Ce sont des nœuds qui PEUVENT ROUTER les paiements des autres via leurs canaux. Un nœud public de
+                routage peut aussi être un LSP (Fournisseur de Services de Liquidité). <a
+                    href="https://stacker.news/items/329312/r/DarthCoin">Comme je l'ai expliqué ici</a>.</li>
+            <li style="color:Tomato;"><em>Privé</em> = nœud et canaux non annoncés, non visibles dans le graphique
+                public du LN, mais toujours accessibles via des indices de routage. Ce sont des nœuds qui NE PEUVENT PAS
+                ROUTER les paiements des autres, mais peuvent effectuer leurs propres paiements, entrants et sortants,
+                via les nœuds de routage.</li>
+        </ul>
+        <hr style="height:2px">
+
+        <h2 style="color:Orange;" id="public">A. Nœuds publics de routage <a href="#public">#</a></h2>
+        <p>Ce sont tous les nœuds LN que vous pouvez habituellement voir listés sur n'importe quel explorateur Lightning
+            (Amboss, Mempool, 1ML <a
+                href="https://darthcoin.substack.com/p/lightning-network-is-awesome?open=false#%C2%A7tools-explorers-analyzers-stats">voir
+                plus ici</a>).</p>
+        <p>Bien que certains n'ajoutent pas un alias à leur nœud (cela est plus pour le plaisir et la reconnaissance
+            publique des gros nœuds), chacun de ces nœuds publics a toujours un identifiant unique, l'ID du nœud, qui
+            est généré à la création du nœud.</p>
+        <p>Certains afficheront une adresse IP publique (qu'il s'agisse d'une adresse IP clearnet normale ou d'une
+            adresse IP VPN), tandis que d'autres n'utiliseront que des adresses Tor. Même s'ils utilisent une adresse
+            Tor (qui ne révèle pas leur localisation réelle ou leur IP), ce sont toujours des nœuds PUBLICS.</p>
+        <p>Pour faire fonctionner un nœud public de routage, vous DEVEZ disposer d'une quantité suffisante de liquidités
+            à investir dans "le jeu". Ces liquidités ne sont pas "bloquées" dans le LN comme beaucoup le disent à tort.
+            Non, en tant que nœud de routage, vous pouvez toujours utiliser cette liquidité en effectuant vos propres
+            paiements LN.</p>
+        <p>Je ne vais pas entrer trop dans les détails ici sur la gestion d'un nœud public de routage. J'ai écrit
+            plusieurs guides à ce sujet, alors lisez-les tous si vous souhaitez suivre ce chemin. Mais SOYEZ PRUDENT :
+            ne commencez même pas un nœud de routage si votre réserve totale de Bitcoin se limite à quelques milliers de
+            sats. Nous parlons d'au moins 1 BTC que vous êtes prêt à investir en liquidités si vous voulez vraiment être
+            un bon nœud de routage, sinon vous perdez simplement du temps, le vôtre et celui des autres...</p>
+        <p>De plus, ne mettez JAMAIS toute votre réserve de Bitcoin dans un nœud LN. Je vous conseille de garder environ
+            30 % ou au maximum 40 % de votre réserve totale dans un nœud LN de routage.</p>
+        <h5>Pour en savoir plus sur les nœuds publics de routage LN, j'ai écrit plusieurs guides :</h5>
+        <ul>
+            <li><a href="/beginner/ln-airport-analogy-en.html">Lightning Network expliqué - L'analogie de l'aéroport</a>
+                - À LIRE ABSOLUMENT</li>
+            <li><a href="https://stacker.news/items/552822/r/DarthCoin">Lightning Network expliqué - L'analogie du verre
+                    d'eau</a> - À LIRE ABSOLUMENT</li>
+            <li><a href="/nodes/bitcoin-ln-node-software-en.html">Quel logiciel de nœud Bitcoin LN puis-je utiliser
+                    ?</a></li>
+            <li><a href="https://darthcoin.substack.com/p/umbrel-bitcoin-ln-node">Démarrer avec le nœud Umbrel</a> (ce
+                guide ne concerne pas seulement Umbrel mais aussi la gestion d'un nœud de routage)</li>
+            <li><a href="/nodes/managing-lightning-node-liquidity-en.html">Gérer la liquidité du nœud Lightning</a> -
+                pourquoi exécuter un nœud public, où se connecter, comment gérer les fonds</li>
+            <li><a href="/nodes/shtf-restore-lnd-node-en.html">Nœud Umbrel / LND - Scénario SHTF (procédures de
+                    restauration)</a></li>
+            <li><a href="https://darthcoin.substack.com/p/lightning-network-is-awesome">Le Réseau Lightning est
+                    génial</a> - une énorme liste de ressources LN</li>
+            <li><a href="https://darthcoin.substack.com/p/node-liquidity-guide">Guide de la liquidité des nœuds privés /
+                    publics</a> - comment utiliser 3 nœuds différents pour déplacer la liquidité</li>
+            <li><a href="/nodes/lightning-routing-fees-experiment-en.html">Expérience sur les frais de routage
+                    Lightning</a> - un guide très important pour un nœud de routage</li>
+            <li><a href="/nodes/lightning-submarine-swaps-en.html">Échanges sous-marins sur le Réseau Lightning</a></li>
+            <li><a href="/nodes/lightning-node-maintenance-en.html">Maintenance du nœud Lightning</a></li>
+            <li><a href="/nodes/recommendations-ln-node-operators-en.html">Recommandations pour les nouveaux
+                    utilisateurs de nœuds LN</a> - Avertissement de Darth</li>
+            <li><a href="https://darthcoin.substack.com/p/tailscale-to-your-node">Utilisation de Tailscale avec votre
+                    nœud Tor</a></li>
+            <li><a href="/merchants/operating-ln-as-merchant-en.html">Exploitation du LN en tant que commerçant</a></li>
+            <li><a href="/merchants/private-banks-over-ln-en.html">Banques privées sur le Réseau Lightning</a></li>
+        </ul>
+        <p>Et bien d'autres (concernant des cas d'utilisation spécifiques) sur mon substack, traduits en plusieurs
+            langues.</p>
+        <hr style="height:2px">
+
+        <h2 style="color:Orange;" id="private">B. Nœuds privés Lightning <a href="#private">#</a></h2>
+        <p>Alors maintenant, plongeons dans le sujet des "qu'est-ce que sont ces foutus nœuds privés LN ?"</p>
+        <p>Le cas d'utilisation principal de ces nœuds est de les utiliser de manière plus privée. En ayant leur nodeID
+            et leurs canaux non annoncés à l'ensemble du réseau public, ils sont positionnés à la périphérie de la
+            galaxie LN, mais restent connectés à l'ensemble du réseau.</p>
+
+        <figure>
+            <img src="/assets/images/public-ln-graph.jpg" class="center">
+            <figcaption>Carte de la galaxie du Réseau Lightning</figcaption>
+        </figure>
+
+        <p>En utilisant ces nœuds privés, vous devez toujours mettre un peu de liquidité en jeu, mais cette fois-ci,
+            uniquement pour vos propres paiements (entrants et sortants). Cela signifie que c'est plus adapté aux
+            personnes qui :</p>
+        <ul>
+            <li>un gars débutant qui veut commencer à utiliser LN, tester des paiements, en apprendre davantage</li>
+            <li>n'ont pas encore beaucoup de BTC pour ouvrir de gros canaux</li>
+            <li>ne veulent pas utiliser trop de leur réserve de BTC, mais veulent quand même utiliser LN</li>
+            <li>veulent plus de confidentialité en utilisant LN</li>
+            <li>ont encore un nœud public, mais veulent aussi utiliser des nœuds privés pour d'autres types de
+                paiements, plus privés, des échanges, déplacer de la liquidité, etc.</li>
+        </ul>
+        <p>Et tout cela sans utiliser une solution de garde. Il y en a beaucoup qui prétendent offrir la meilleure
+            expérience LN. Oui, certaines de ces solutions de garde (surtout celles sans KYC) ont leur propre cas
+            d'utilisation, mais nous ne parlerons pas de cela ici.</p>
+        <p>Comme vous pouvez le voir <a href="/wallets/lightning-wallets-comparison-en.html">dans mon précédent guide
+                sur les portefeuilles LN</a>, je les sépare en 4 grandes catégories : Débutant (solution de garde),
+            Intermédiaire (non-gardien), Avancé A (portefeuilles de nœuds), Avancé B (gestion des nœuds). Veuillez lire
+            ce guide pour voir toutes leurs fonctionnalités et capacités.</p>
+        <figure>
+            <img src="/assets/images/wallets-LN.jpg" class="center">
+            <figcaption>Les 4 principales catégories de portefeuilles LN</figcaption>
+        </figure>
+
+        <p>Ici, nous parlons de la gestion et de l'utilisation des portefeuilles de nœuds avancés, car j'ai vu beaucoup
+            de débutants qui ne savent même pas que ceux-ci existent ! Avec ces applications mobiles ou de bureau, vous
+            pouvez encore apprendre à gérer la liquidité LN, les canaux, les nœuds, mais avec une approche de bas
+            niveau, par étapes simples. C'est la manière idéale d'apprendre en l'utilisant, sans perturber les autres
+            processus du Réseau Lightning dans son ensemble.</p>
+        <p>Si vous avez déjà eu un nœud LN et que vous n'avez pas réussi à le comprendre ou à le faire fonctionner, mais
+            que vous souhaitez toujours en apprendre davantage, je vous conseille de ne pas le jeter. Ce matériel est
+            toujours très utile.</p>
+        <p>Il vous suffit d'installer dessus : un système d'exploitation Linux Debian + un nœud Bitcoin Core + un
+            serveur Electrum / Fulcrum et de l'utiliser comme votre nœud Bitcoin principal pour valider, diffuser et
+            vérifier principalement vos transactions, tout en vous offrant plus de confidentialité.</p>
+        <p>Tous ces nœuds mobiles ont BESOIN d'un nœud Bitcoin Core de toute façon, auquel ils doivent synchroniser la
+            chaîne principale (Neutrino ou SPV Electrum). Ainsi, votre ancien (échec) nœud peut toujours jouer un rôle
+            très important pour le réseau.</p>
+
+        <figure>
+            <img src="/assets/images/wallets-3-circles.jpg" class="center">
+            <figcaption>Une autre représentation du spectre des portefeuilles LN utilisant les 3 cercles de leurs
+                caractéristiques principales</figcaption>
+        </figure>
+        <p>Voyons maintenant comment vous pourriez utiliser ces applications de bureau et mobiles pour des cas
+            d'utilisation spécifiques :</p>
+        <ul>
+            <li><a href="#blixt">Blixt Wallet</a> (mobile + macOS desktop, nœud LND intégré avec Neutrino, adresse LN)
+            </li>
+            <li><a href="#zeus">Zeus LN Wallet</a> (mobile + macOS desktop, nœud LND distant + intégré avec Neutrino,
+                adresse LN)</li>
+            <li><a href="#breez">Breez</a> (mobile, nœud LND intégré avec Neutrino)</li>
+            <li><a href="#phoenix">Phoenix</a> (mobile, basé sur Electrum SPV et Eclair)</li>
+            <li><a href="#green">Green LN Wallet</a> (mobile, basé sur Electrum SPV et CLN Greenlight)</li>
+            <li><a href="#electrum">Electrum</a> (bureau + mobile, basé sur Electrum SPV et ElectrumLN)</li>
+            <li><a href="#bluewallet">Bluewallet</a> (mobile + macOS desktop, basé sur Electrum SPV et LDK)</li>
+            <li><a href="#bitkit">Bitkit</a> (mobile, basé sur Electrum SPV et LDK, encore en bêta)</li>
+            <li><a href="#alby">Alby Hub</a> (application de bureau + compagnon mobile Alby Go, avec divers backends de
+                financement LN : LND, phoenixd, LDK, ecash mint, greenlight)</li>
+            <li><a href="#shocknet">Shocknet Wallet</a> (PWA et application mobile, utilisant NWC pour se connecter à un
+                nœud LND distant avec Lightning.pub et autres comptes)</li>
+            <li><a href="#neutrino">Un simple nœud LND privé avec Neutrino</a> (vous pouvez le gérer depuis Zeus ou
+                BitBanana et connecter plusieurs autres applications)</li>
+        </ul>
+
+        <figure>
+            <img src="/assets/images/wallets-ladder.jpg" class="center">
+            <figcaption>Lorsque vous commencez en tant que petit débutant, vous devez gravir la haute échelle jusqu'en
+                haut</figcaption>
+        </figure>
+
+        <p>Pour tous ces nœuds mobiles LN, vous aurez besoin de bons canaux connectés. Vous pouvez toujours ouvrir des
+            canaux LN avec n'importe quel autre nœud LN, mais il est bien mieux d'utiliser des LSPs (Liquidity Service
+            Providers) bien connus qui peuvent fournir de bons itinéraires et aussi des canaux privés.</p>
+
+        <h3 style="color:Yellow;" id="#lsp">LSP - Fournisseurs de services de liquidité <a href="#lsp">#</a></h3>
+        <p>Qu'est-ce qu'un LSP ? <a href="https://thebitcoinmanual.com/articles/explained-lsp/">Lisez ici</a>.
+            Considérez un LSP comme votre pair incontournable pour votre nœud privé.</p>
+        <p>Voici une liste de LSPs avec lesquels vous pouvez ouvrir des canaux réguliers, des canaux 0-conf et des
+            canaux Taproot Simples avec ces nœuds LN privés :</p>
+        <ul>
+            <li>Liste communautaire de bons pairs pour <a
+                    href="https://github.com/hsjoberg/blixt-wallet/issues/1033">Blixt</a> et <a
+                    href="https://github.com/ZeusLN/zeus/discussions/2265">Zeus</a></li>
+            <li><a href="https://lsps1.olympusln.com/">Olympus</a> - LSP pour Zeus et aussi pour d'autres nœuds privés
+                et publics réguliers</li>
+            <li><a
+                    href="https://mempool.space/lightning/node/0230a5bca558e6741460c13dd34e636da28e52afd91cf93db87ed1b0392a7466eb">Nœud
+                    Blixt</a> - LSP pour Blixt et aussi pour d'autres nœuds privés et publics réguliers</li>
+            <li><a href="https://megalithic.me/">Megalithic</a> - LSP pour Alby Hub avec canaux publics et privés</li>
+            <li><a href="https://lnserver.com/">LNServer</a> - vente de canaux entrants</li>
+            <li><a href="https://stacker.news/items/227488">FlashSats</a> - vente de canaux entrants pour nœuds publics
+                et privés</li>
+            <li><a
+                    href="https://mempool.space/lightning/node/0296b2db342fcf87ea94d981757fdf4d3e545bd5cef4919f58b5d38dfdd73bf5c9">Blocktank</a>
+                - LSP pour Bitkit et aussi pour d'autres nœuds privés et publics réguliers</li>
+            <li><a
+                    href="https://mempool.space/lightning/node/031015a7839468a3c266d662d5bb21ea4cea24226936e2864a7ca4f2c3939836e0">Breez</a>
+                - LSP pour Breez et aussi pour d'autres nœuds privés et publics réguliers</li>
+            <li><a href="https://www.bitrefill.com/thor-lightning-network-channels/">Thor</a> - LSP général et
+                fournisseur de canaux entrants</li>
+            <li><a href="https://lqwdfintech.com/">LQwD</a> - LSP général et fournisseur de canaux entrants</li>
+            <li><a href="https://lnbig.com/#/">LNBig</a> - LSP général et fournisseur de canaux entrants</li>
+            <li><a
+                    href="https://mempool.space/lightning/node/03864ef025fde8fb587d989186ce6a4a186895ee44a926bfc370e2c366597a3f8f">Acinq</a>
+                - LSP pour Phoenix et aussi pour d'autres nœuds privés et publics réguliers</li>
+        </ul>
+        <p>... et bien d'autres, lisez à leur sujet ici dans ces deux autres guides : <a
+                href="/nodes/managing-lightning-node-liquidity-en.html">"Gestion de la liquidité LN"</a> et <a
+                href="https://darthcoin.substack.com/p/dunder-lsp-and-lightning-box-provider">"Gérer votre propre LSP
+                Dunder"</a>. Une autre bonne lecture est cet article de Roy (Breez) - <a
+                href="https://medium.com/breez-technology/scaling-bitcoin-with-lightning-as-a-service-laas-369e7e6f6cb2">"Scaling
+                Bitcoin avec Lightning-as-a-service"</a>.</p>
+        <hr style="height:2px">
+
+        <h3 style="color:Orange;" id="blixt">Blixt - un nœud LN mobile très puissant <a href="#blixt">#</a></h3>
+        <p>Peu de gens connaissent l'existence de ce puissant nœud LN mobile. Oui, il s'agit d'un nœud LND complet sur
+            votre propre mobile (également disponible sur macOS et bientôt sur Linux), avec toutes les fonctions pour
+            gérer vous-même vos canaux LN et votre liquidité.</p>
+        <p>Blixt utilise l'implémentation complète de LND avec Neutrino pour la synchronisation des blocs.</p>
+        <p>Je ne vais pas entrer dans tous les détails de l'application Blixt Wallet, j'ai écrit des guides détaillés
+            présentant l'application et ses cas d'utilisation sur la page de documentation de Blixt Wallet :</p>
+        <ul>
+            <li><a href="/wallets/getting-started-blixt-wallet-en.html">Commencer avec le nœud mobile Blixt</a></li>
+            <li><a href="https://blixtwallet.github.io/features">Page des fonctionnalités de Blixt Wallet</a></li>
+            <li><a href="https://blixtwallet.github.io/guides">Page des guides de Blixt Wallet</a> - des cas
+                d'utilisation plus spécifiques</li>
+            <li><a href="https://blixtwallet.github.io/faq">FAQ de Blixt Wallet</a></li>
+        </ul>
+        <p>Veuillez les lire et prêter attention aux détails. Cela vous aidera à mieux comprendre l'utilisation de ce
+            type de nœuds privés.</p>
+
+        <figure>
+            <img src="/assets/images/noobs-blixt.jpg" class="center">
+            <figcaption>Parfois, les débutants ne savent pas où regarder... et passent à côté des aspects importants
+            </figcaption>
+        </figure>
+
+        <p>Voici un exemple simple de gestion de la liquidité d'un nœud LN mobile en utilisant l'application Blixt
+            Wallet.</p>
+        <p>Pour avoir une bonne liquidité, pas seulement pour l'instant, mais aussi pour un usage futur, vous devriez
+            avoir au maximum 3 à 4 canaux, mais avec des pairs de nœuds différents, pas juste un seul. Imaginons qu'au
+            cours d'une semaine, vous ayez besoin de recevoir un maximum de 2M sats, grosso modo. Le montant peut être
+            ajusté en fonction des besoins de chaque utilisateur. Imaginons aussi que pendant cette même semaine, vous
+            ferez moins de paiements, disons environ 300k sats. Ainsi, chaque semaine, il vous restera un solde
+            d'environ 1,7M sats de votre côté.</p>
+        <p>Au lieu d'avoir 6 canaux, chacun avec une capacité maximale de 400k sats (soit un total de 2,4M sats), il est
+            préférable d'avoir 3 canaux, chacun de 1M sats. Ajustez-le en fonction de vos besoins entrants.</p>
+
+        <h4 style="color:Yellow;">SCÉNARIO A</h4>
+        <p>Ouvrez 3 grands canaux, chacun de 1M sats :</p>
+        <ul>
+            <li>1 avec le nœud Blixt</li>
+            <li>1 avec votre propre nœud (si vous en avez un) ou un nœud d'un ami (de confiance). Si vous ne
+                voulez/pouvez pas avoir un tel ami, utilisez simplement un autre nœud bien connu</li>
+            <li>1 avec n'importe quel autre bon nœud, bien connecté. <a
+                    href="https://github.com/hsjoberg/blixt-wallet/issues/1033">Voir ici quelques pairs recommandés</a>
+            </li>
+        </ul>
+        <p>Voilà. Maintenant vous avez 3M sats dans 3 canaux. Toute la liquidité sortante. Maintenant, faisons un peu de
+            place. Utilisez n'importe quel service d'échange pratique (Deezy, Boltz, FixedFloat, Robosats, etc.) et
+            échangez au moins 50 % de toute votre liquidité sortante vers votre portefeuille on-chain.</p>
+        <p>Vous pouvez le faire en 3 lots (recommandé pour les montants plus petits) ou tout d'un coup (cela pourrait
+            échouer à cause de la faible liquidité des routes des autres nœuds de routage). Vous pouvez essayer les deux
+            cas.</p>
+        <p>Si vous avez besoin de plus de liquidité entrante, échangez plus de sats, vers votre autre adresse on-chain,
+            en utilisant ces services d'échange.</p>
+        <p>Mais ne fermez pas ces canaux. Pas encore. Un canal ne doit être fermé que lorsque vous n'avez plus assez de
+            liquidité ou lorsque le pair est trop longtemps hors ligne.</p>
+        <p>Donc maintenant vous avez suffisamment de liquidité entrante pour acheter plus de sats sur <a
+                href="https://learn.rbosats.com">Robosats</a> ou tout autre <a
+                href="/beginner/buy-bitcoin-en.html">échange qui prend en charge LN</a>.</p>
+        <p>Achetez plus, échangez, effectuez des paiements, profitez de Lightning. Répétez. Ne fermez jamais ces canaux.
+            Utilisez-les dans les deux sens.</p>
+
+        <h4 style="color:Yellow;">SCÉNARIO B</h4>
+        <p>Gardez un canal ouvert, un dans lequel vous avez assez de sats pour acheter un canal entrant auprès de
+            n'importe quel LSP (LNBig, Bitrefill, etc.). Fermez tous les autres.</p>
+        <p>Une fois fermés, achetez 2 grands canaux entrants auprès de ces LSP. Chacun de 1 à 2M sats, suffisant pour
+            gérer un grand nombre de paiements. Une fois que vous les avez, vous pouvez aller acheter plus de sats sur
+            Robosats.</p>
+        <p>Échangez vers on-chain en utilisant les services d'échange mentionnés précédemment et soyez heureux, vous
+            avez créé de la place pour acheter plus. Ou simplement utilisez ces sats pour effectuer des paiements via
+            LN.</p>
+        <p>Ne fermez jamais ces 2 grands canaux. Achetez - échangez - dépensez - achetez plus.</p>
+        <p>Lorsque vous avez 2 ou plusieurs canaux différents avec des pairs différents, oui, il est recommandé
+            d'utiliser le MPP (multi-path payment). Mais lorsque vous avez juste un canal ou plusieurs canaux avec le
+            même pair, le MPP ne fonctionne pas et peut aboutir à un "échec de la route".</p>
+        <p>Il est donc toujours recommandé d'avoir des canaux avec des pairs/nœuds différents et suffisamment grands
+            pour gérer vos transactions régulières sur une période donnée.</p>
+        <hr style="height:2px">
+
+        <h3 style="color:Orange;" id="zeus">Zeus LN - un nœud LND mobile très puissant <a href="#zeus">#</a></h3>
+        <p>Avec la nouvelle version v0.8.0, Zeus a lancé le nœud LND intégré dans l'application mobile. Lisez plus à
+            propos de cette grande nouvelle version sur le <a href="https://blog.zeusln.com/zeus-v0-8-0-open-beta/">blog
+                de Zeus</a>.</p>
+        <p>En plus de la gestion régulière des nœuds LN et des comptes LNDHUB, Zeus peut maintenant exécuter un nœud LN
+            complet, utilisant Neutrino comme backend pour la synchronisation des blocs et LND comme nœud LN intégré
+            dans l'application.</p>
+        <p>Il est également livré avec des services LSP proposés par <a href="https://lsps1.olympusln.com/">Olympus
+                LSP</a>, afin que les utilisateurs puissent recevoir des sats directement sur LN. Les utilisateurs
+            peuvent toujours ouvrir d'autres canaux privés LN réguliers et les gérer à leur guise. <a
+                href="https://github.com/ZeusLN/zeus/discussions/2265">Voir ici des recommandations de pairs de nœuds
+                pour votre nouveau nœud Zeus</a>.</p>
+        <p>De plus, les utilisateurs peuvent avoir leur propre adresse LN fournie par <a
+                href="https://docs.zeusln.app/lightning-address/intro">le serveur Olympus</a>.</p>
+
+        <h5>Un must absolu pour votre application LN mobile. Gardez à l'esprit que Zeus propose également une fonction
+            PoS intégrée, idéale pour les petits commerçants.</h5>
+        <p>Je ne vais pas entrer dans plus de détails ici sur la façon d'utiliser cette puissante application de nœud
+            mobile, j'ai écrit des guides dédiés sur le nœud intégré de Zeus ici :</p>
+        <ul>
+            <li><a href="/wallets/getting-started-zeus-wallet-en.html">Commencer avec le nœud Zeus</a></li>
+            <li><a href="/wallets/zeus-node-advanced-usage-en.html">Nœud Zeus - Utilisation avancée</a></li>
+            <li><a href="https://docs.zeusln.app/category/embedded-node">Lisez plus sur l'utilisation du nœud intégré de
+                    Zeus dans la documentation de Zeus</a></li>
+            <li><a href="https://stacker.news/items/297048">Voici aussi une bonne discussion sur le nœud Zeus</a></li>
+        </ul>
+        <hr style="height:2px">
+
+        <h3 style="color:Orange;" id="valet">Valet (ex-OBW) - Nœud LN mobile simple et puissant <a href="#valet">#</a>
+        </h3>
+        <p>Il s'agit d'un fork de l'ancien BLW et plus tard du SBW, puis OBW… maintenant tout est abandonné. <a
+                href="https://standardsats.github.io/">Maintenant c'est Valet</a>.</p>
+        <p>Valet utilise l'implémentation Immortan LN avec Electrum SPV pour la synchronisation des blocs.</p>
+        <p>Valet pourrait être votre moyen simple et idéal pour commencer à utiliser les paiements Lightning. Si vous ne
+            recevez pas trop via LN mais que vous souhaitez dépenser davantage.</p>
+        <p>Valet utilise des canaux LN privés classiques, mais également un mode particulier - les canaux hébergés. <a
+                href="https://fanismichalakis.fr/posts/what-are-hosted-channels/">Ces canaux hébergés (HC)</a> ont les
+            caractéristiques principales suivantes :</p>
+        <ul>
+            <li>Des canaux virtuels basés sur le crédit, légers, qui utilisent un protocole ouvert et interopérable</li>
+            <li>Ils peuvent ouvrir des canaux hébergés avec n'importe quel nœud qui prend en charge le côté hôte du
+                protocole</li>
+            <li>Ils sont impossibles à tracer et ne nécessitent ni capital ni frais de chaîne</li>
+        </ul>
+        <h5>Comment utiliser Valet, étapes à suivre :</h5>
+        <ul>
+            <li>Téléchargez, installez et ouvrez Valet, puis enregistrez votre seed. Étapes de base initiales.</li>
+            <li>Envoyez des fonds depuis vos portefeuilles on-chain vers votre Valet. Commencez avec 1 ou 2M sats.</li>
+            <li>Ouvrez 1 ou 2 canaux avec des pairs différents. De préférence ceux avec des frais bas. Voir également
+                les pairs recommandés dans l'application Valet.</li>
+            <li>Commencez à dépenser, amusez-vous. Voici quelques exemples d'endroits où vous pourriez commencer à
+                dépenser des sats. Soutenir les commerçants BTC est très important si vous voulez que Bitcoin réussisse.
+            </li>
+            <li>Si vos canaux LN sont à sec, pas de problème, vous pouvez utiliser n'importe quel service d'échange pour
+                les remplir (comme expliqué dans ce guide) ou fermer ceux que vous avez et en ouvrir des plus grands, si
+                vos habitudes de dépenses augmentent. Il est préférable de garder les canaux existants ouverts, car
+                fermer et ouvrir des canaux implique plus de frais et pourrait aussi révéler le solde final de vos UTXO
+                (mais ceci est un autre sujet expliqué dans d'autres guides ici et aussi ici).</li>
+            <li>Si vous souhaitez utiliser des canaux hébergés (HC) pour plus de confidentialité lorsque vous recevez,
+                c'est à vous de décider, il vous suffit d'en ouvrir quelques-uns et de commencer à les utiliser comme
+                source de réception. Il y a aussi une fonctionnalité intéressante d'OBW qui vous permet de vider un HC
+                dans un canal LN classique, directement depuis OBW. Il vous suffit de cliquer sur un HC et vous verrez
+                dans l'écran contextuel l'option "vider le solde du canal". Vous serez invité à sélectionner le canal
+                régulier vers lequel vous souhaitez transférer les fonds.</li>
+        </ul>
+        <p><img src="/assets/images/valet-drain.jpg" class="center"></p>
+        <p>C'est une bonne opération de sécurité si vous voulez déplacer des fonds, en interne, d'un canal à un autre et
+            ensuite faire un swap vers on-chain. Utilisez votre imagination :)</p>
+        <p>Lisez plus de cas d'utilisation et un guide complet pour Valet ici : <a
+                href="https://darthcoin.substack.com/p/obw-open-bitcoin-wallet">"Commencer avec le nœud mobile OBW"</a>
+            et <a href="/merchants/private-banks-over-ln-en.html">"Utiliser des banques privées sur le Lightning
+                Network"</a>.</p>
+        <hr style="height:2px">
+
+        <h3 style="color:Orange;" id="breez">Breez - Bon nœud mobile avec des fonctions limitées <a href="#breez">#</a>
+        </h3>
+        <p><a href="https://breez.technology/">Breez</a> utilise une version forkée de l'implémentation de LND avec
+            synchronisation des blocs via Neutrino.</p>
+        <p>Cela essaie d'offrir une interface utilisateur simple, avec des fonctions limitées pour gérer les canaux de
+            votre nœud. Pour un débutant, c'est un bon point de départ. Il offre toujours une manière non-custodiale de
+            gérer vos fonds, mais vous n'avez pas la liberté totale de choisir les pairs, les frais, les routes, etc.
+        </p>
+        <p>En même temps, il offre des fonctionnalités conviviales intéressantes comme le PoS et le podcasting. La
+            procédure de sauvegarde est un peu compliquée et dépend d'un service tiers, l'utilisateur ne peut toujours
+            pas simplement exporter la sauvegarde des canaux sur un appareil local et la gérer de là, mais il a la
+            possibilité d'utiliser Google Drive, WebDAV ou Nextcloud.</p>
+        <p>Gérer la liquidité est assez facile, il vous suffit de déposer / recevoir des sats et automatiquement des
+            canaux LN seront ouverts en utilisant leur nœud LSP.</p>
+        <p>Vous pouvez également ouvrir des canaux avec des pairs de nœuds spécifiques si vous le souhaitez, mais en
+            utilisant les méthodes avancées cachées dans le menu "Développeurs". Vous pouvez également utiliser l'option
+            LNURL-channels de ces LSP qui proposent cette méthode.</p>
+        <p>Pour quelqu'un qui ne veut pas se soucier de la gestion de la liquidité du nœud, c'est une bonne option.</p>
+        <p>Ouvrez des canaux ni trop grands, ni trop petits, mais suffisamment grands pour couvrir vos paiements
+            réguliers sur LN pendant un certain temps et avec un certain montant.</p>
+        <p>Breez propose également une fonctionnalité PoS et une section podcasting. De très bonnes fonctionnalités pour
+            un utilisateur mobile / nomade.</p>
+        <hr style="height:2px">
+
+        <h3 style="color:Orange;" id="phoenix">Phoenix - Nœud mobile facile à utiliser pour s'intégrer au LN <a
+                href="#phoenix">#</a></h3>
+        <p>Phoenix utilise une implémentation propriétaire de Eclair LN avec Electrum SPV.</p>
+        <p>Celle-ci est basée sur les canaux LN d'Acinq et Electrum (récupération on-chain).</p>
+        <p>Ainsi, une fois que vous recevez / déposez des sats dans ce portefeuille, des canaux seront automatiquement
+            ouverts avec le nœud ACINQ. Habituellement, la taille des canaux sera légèrement plus grande que le montant
+            que vous avez déposé. Vous aurez donc toujours un nouveau canal pour chaque dépôt, sauf lorsque vous n'avez
+            pas complètement vidé le canal et que vous recevez un paiement plus petit, celui-ci sera alors
+            réapprovisionné.</p>
+        <h4 style="color:Yellow;">Pour Phoenix, voici un scénario d'utilisation que je suggère :</h4>
+        <p>Phoenix ouvre un canal légèrement plus grand que ce que vous déposez, je dirais avec 10 % de plus. Avec la <a
+                href="https://phoenix.acinq.co/faq#whats-new-in-phoenix-2.0">nouvelle version v0.2.0</a>, qui introduit
+            une nouvelle fonctionnalité LN appelée <a
+                href="https://voltage.cloud/blog/lightning-network-faq/what-is-splicing-lightning-network-how-it-works/">splicing
+                de canaux</a>, vous n'aurez plus à vous occuper de nombreux petits canaux pour chaque paiement reçu.</p>
+        <p>S'il n'y a pas suffisamment de liquidité entrante, Phoenix augmentera la taille de votre canal initial, mais
+            cela entraînera des frais on-chain. Vous pouvez configurer ces frais dans les paramètres de Phoenix.</p>
+        <p>Je vous conseille donc de commencer à utiliser Phoenix avec un grand canal, comme 1-3-5M sats. Vos frais de
+            confirmation seront insignifiants comparés à la taille du canal et ne vous affecteront pas trop. De plus, au
+            lieu de payer 4 fois (ou autant de fois que vous effectuez de petits dépôts) des frais de 3000 sats minimum,
+            vous paierez une seule fois.</p>
+        <p>Si vous commencez à dépenser depuis ce canal, ne le dépensez pas entièrement, car Phoenix le fermera. Si vous
+            laissez des sats dans le canal et que vous effectuez un autre réapprovisionnement à partir d'un autre
+            portefeuille LN / source, avec un montant plus grand que la capacité de votre canal, Phoenix redimensionnera
+            le canal et vous devrez payer des frais supplémentaires. Si vous recevez moins que la capacité du canal,
+            aucun frais ne sera impliqué.</p>
+        <p>Essayez donc de dimensionner la capacité initiale de votre canal en fonction de vos besoins personnels pour
+            les dépenses. Dépenser et remplacer dans les limites du canal ne générera plus de frais et l'expérience
+            d'utilisation de cette application sera fluide.</p>
+        <p>Pour chaque paiement que vous effectuez, ce portefeuille applique des frais assez élevés, comparativement à
+            d'autres nœuds. Oui, d'une manière ou d'une autre, ils doivent couvrir leurs frais et soutenir l'équipe de
+            développement. Rien n'est gratuit dans ce monde.</p>
+        <p>Ce portefeuille propose également des swaps intégrés entre on-chain ←→ LN, vous pouvez donc l'utiliser comme
+            un swap personnel, payer instantanément on-chain avec vos fonds LN et vice versa.</p>
+        <p>C'est une très bonne option pour les débutants, qui viennent de commencer avec LN et ne connaissent pas
+            encore bien la gestion d'un nœud, mais qui peuvent quand même garder leur autonomie sur leurs fonds. Même si
+            vous perdez votre appareil mobile, vous pouvez utiliser les mots de récupération et récupérer vos fonds dans
+            un portefeuille Electrum ou sur un autre appareil mobile avec Phoenix.</p>
+        <hr style="height:2px">
+
+        <h3 style="color:Orange;" id="green">Green - Facile à démarrer sans aucune liquidité <a href="#green">#</a></h3>
+        <p>Actuellement (décembre 2023), le <a href="https://blockstream.com/green/">portefeuille Green LN</a> est
+            encore en phase bêta, mais il sera bientôt disponible pour tous les utilisateurs. Pour jouer et tester, vous
+            devrez activer les fonctionnalités "expérimentales" et ouvrir un "compte LN", qui est en réalité un nœud CLN
+            utilisant Greenlight, où les clés restent sur votre appareil.</p>
+        <p>Si vous souhaitez uniquement utiliser le nœud LN, vous n'avez pas besoin d'ouvrir un compte on-chain, il
+            suffit de sauter la configuration initiale et de passer directement au compte LN. Chaque compte dans Green
+            est séparé et n'a aucun lien entre eux.</p>
+        <p>Allez dans les Paramètres de l'application (en haut à gauche sur l'écran principal) et activez les
+            "Fonctionnalités expérimentales".</p>
+        <p><img src="/assets/images/green-experimental.jpg" class="center"></p>
+        <p>Une fois cela fait, revenez à l'écran des Comptes et cliquez sur le bouton "Créer un nouveau compte" en haut
+            à droite. Ensuite, en bas, cliquez sur "Fonctionnalités avancées". Vous verrez qu'il est maintenant possible
+            de créer un "Compte Lightning".</p>
+        <p><a
+                href="https://help.blockstream.com/hc/en-us/articles/23020279153177-How-does-the-shortcut-to-my-lightning-account-work-and-how-do-I-create-it-">En
+                savoir plus sur ce qu'est un Compte Lightning et comment le créer ici</a>.</p>
+        <p><a
+                href="https://help.blockstream.com/hc/en-us/articles/900003336346-What-s-the-difference-between-wallets-and-accounts-">En
+                savoir plus sur "Portefeuille" et "Comptes" ici</a>.</p>
+
+        <h4 style="color:Yellow;">Quelques aspects à retenir :</h4>
+        <ul>
+            <li>Ce compte LN aura une capacité maximale de 4 millions de sats.</li>
+            <li>Pour l'ouvrir, vous devrez déposer quelques sats depuis un autre portefeuille LN et vous serez facturé
+                une petite commission pour l'ouverture du canal. Essayez d'abord avec 50 000 - 100 000 sats, puis
+                amusez-vous avec.</li>
+            <li>Il vous sera demandé de chiffrer les clés du nœud sur votre appareil avec VOTRE code PIN de l'appareil.
+                Faites attention, certains utilisateurs ont essayé d'utiliser un nouveau code PIN, mais il s'agit en
+                fait du code PIN de sécurité de votre appareil. Ce n'est PAS le code PIN de l'application Green, celui
+                que vous avez normalement défini pour ouvrir l'application.</li>
+            <li>Enregistrez la semence du nœud LN pour sauvegarde !</li>
+            <li>Enregistrez le nodeID pour sauvegarde et pour une utilisation ultérieure !</li>
+            <li>La liquidité du nœud est offerte UNIQUEMENT via Blockstream Greenlight LSP (similaire à Phoenix), mais
+                les clés restent sur votre appareil.</li>
+        </ul>
+        <p>Green prend en charge complètement LNURL, sauf LUD-18 et 02. Et cela fonctionne plutôt bien.</p>
+        <p>Cela pourrait être une très bonne option pour les débutants complets qui souhaitent commencer à utiliser LN
+            de manière autogérée.</p>
+        <hr style="height:2px">
+
+        <h3 style="color:Orange;" id="electrum">Portefeuille Electrum (bureau ou mobile) <a href="#electrum">#</a></h3>
+        <p><a href="https://electrum.org/">Electrum</a> utilise une implémentation ElectrumLN avec la synchronisation
+            des blocs Electrum SPV.</p>
+        <p>Oui, beaucoup ne savent pas qu'Electrum, l'application de portefeuille BTC la plus ancienne, est également un
+            portefeuille LN puissant. Et il est très facile de l'utiliser comme un portefeuille de nœud LN.</p>
+        <p>Vous avez deux options pour l'utiliser comme nœud LN :</p>
+        <ul>
+            <li>Canaux LN trampoline - ouverts avec des nœuds spécifiques qui vous fourniront des indices et des chemins
+                de routage.</li>
+            <li>Canaux LN normaux, mais privés (non annoncés) - vous ouvrez ces canaux avec n'importe quel nœud que vous
+                souhaitez.</li>
+        </ul>
+        <p>Un aspect important : vous devez choisir dès le début quel type vous voulez utiliser, vous ne pouvez pas
+            utiliser les deux types en même temps.</p>
+        <p>Il est également bon de mentionner qu'Electrum propose des échanges intégrés entre on-chain et canaux LN.
+            Vous pouvez donc facilement remplir ou vider vos canaux LN d'Electrum en un seul clic. Oui, il y a un coût
+            pour ces échanges, mais il est très clair et vous saurez toujours combien vous paierez pour le faire.</p>
+
+        <h4 style="color:Yellow;">Pour un usage personnel de LN, je recommande d'utiliser Electrum comme suit.</h4>
+        <h5>A. Si vous voulez plus de confidentialité :</h5>
+        <ul>
+            <li>Connectez votre Electrum à votre propre nœud (Serveur Electrum).</li>
+            <li>Ouvrez des canaux trampoline.</li>
+            <li>Utilisez Tor ou VPN en option.</li>
+            <li>Lorsque vous videz tous vos canaux LN, déplacez les sats restants on-chain vers un nouveau portefeuille
+                Electrum et recommencez avec une nouvelle identité. Vous pouvez en avoir autant que vous voulez. Vous
+                pouvez même avoir plusieurs instances d'Electrum en même temps.</li>
+        </ul>
+
+        <h5>B. Si vous souhaitez utiliser le nœud d'un ami, un nœud de confiance ou simplement avec des nœuds publics
+            choisis :</h5>
+        <ul>
+            <li>Connectez votre Electrum à votre propre Serveur Electrum. Si vous n'avez pas ce serveur, utilisez au
+                moins un Serveur Electrum de confiance (par exemple, Blockstream.info) ou le nœud d'un ami (il vous
+                fournira une adresse spécifique de son Serveur Electrum).</li>
+            <li>Ouvrez des canaux LN privés normaux avec les nœuds publics de votre choix. Mais soyez conscient que tous
+                les nœuds publics ne toléreront pas les canaux privés, ou certains d'entre eux ont des règles
+                spécifiques sur combien de temps ils les maintiendront ou les fermeront s'il n'y a pas d'activité.</li>
+            <li>Utilisez Tor ou VPN en option.</li>
+            <li>Utilisez ces canaux autant que vous le souhaitez. Lorsqu'ils sont vidés, vous pouvez les remplir à
+                partir de votre solde on-chain existant dans votre portefeuille Electrum ou depuis tout autre
+                portefeuille on-chain que vous avez.</li>
+            <li>Neouvrez pas trop de canaux ni trop grands, mais suffisamment pour couvrir vos paiements LN réguliers
+                pendant un certain temps.</li>
+        </ul>
+        <hr style="height:2px">
+
+        <h3 style="color:Orange;" id="bluewallet">Bluewallet - nouveau nœud LDK intégré (bêta) <a
+                href="#bluewallet">#</a></h3>
+        <p>Après que <a href="https://bluewallet.io/">Bluewallet</a> ait cessé d'offrir leur nœud custodial LNDHUB, ils
+            ont introduit un nœud autogéré utilisant l'implémentation LDK LN.</p>
+        <p>Pour le moment, c'est assez nouveau et encore en bêta, c'est pourquoi c'est caché, mais si vous souhaitez
+            l'activer, c'est facile :</p>
+        <p><img src="/assets/images/bluewallet-ldk-node.jpg" class="center"></p>
+        <p>Appuyez sur "+" pour ajouter un portefeuille, puis appuyez 10 fois sur le bouton Lightning.</p>
+        <p>Voilà, vous pouvez maintenant créer un portefeuille nœud via LDK.</p>
+        <p>Une semence LDK vous sera fournie, gardez les mots de la semence dans un endroit sûr et vous pouvez
+            maintenant commencer à ouvrir des canaux avec n'importe quel autre nœud LN. Pour ce faire, cliquez sur le
+            bouton "funding wallet" et sélectionnez un portefeuille on-chain que vous avez déjà configuré dans votre
+            Bluewallet et qui dispose de fonds suffisants pour ouvrir un canal LN. Vous devez toujours garder ce
+            portefeuille on-chain lié à votre nœud LDK, ne le retirez pas de l'application Bluewallet. En cas de
+            fermeture d'un canal, les fonds reviendront dans ce portefeuille on-chain qui a financé le canal.</p>
+
+        <figure>
+            <img src="/assets/images/bw-channels.jpg" class="center">
+            <figcaption>Ouverture d'un canal LN dans BW LDK avec des pairs suggérés</figcaption>
+        </figure>
+
+        <p>Vous avez la possibilité de scanner un code QR URI de pair node ou de sélectionner l'un des nœuds publics les
+            mieux connectés à l'aide des flèches.</p>
+        <p>Encore une fois, neouvrez pas de petits canaux, utilisez des canaux de 1-3-5M sats. Oui, c'est encore en
+            bêta, mais avec la situation des frais élevés, vous finirez par avoir un canal inutilisable si celui-ci est
+            trop petit.</p>
+        <p>Voilà, vous pouvez maintenant utiliser votre Bluewallet LDK comme n'importe quel autre portefeuille LN
+            régulier, dans un mode plus autogéré.</p>
+        <hr style="height:2px">
+
+        <h3 style="color:Orange;" id="bitkit">BitKit - encore en développement, phase bêta <a href="#bitkit">#</a></h3>
+        <p><a href="https://bitkit.to/">Bitkit</a> propose un portefeuille Bitcoin qui prend en charge à la fois les
+            transactions on-chain et Lightning. L'application fonctionne avec un nœud Lightning personnalisé, non routé,
+            créé avec le <a href="https://github.com/lightningdevkit">Lightning Development Kit - LDK</a> sur le
+            téléphone mobile de l'utilisateur. Il nécessite une connexion à un serveur externe exécutant un nœud complet
+            Bitcoin et un serveur Electrum.</p>
+        <p>Les utilisateurs seront automatiquement intégrés à Lightning grâce à l'intégration du fournisseur de services
+            Lightning (LSP) <a href="https://github.com/synonymdev/blocktank-client">Blocktank</a>. Les développeurs
+            peuvent également créer leur propre LSP en utilisant Blocktank. À l'avenir, Bitkit prendra en charge la
+            connexion des utilisateurs à leurs propres nœuds Lightning et Bitcoin, le choix de différents types de LSP,
+            l'intégration de portefeuilles matériels, et la gestion de leurs propres canaux Lightning.</p>
+        <p>Les utilisateurs peuvent sauvegarder toutes leurs données Bitcoin on-chain avec une semence BIP-39 standard.
+            Les données du canal Lightning doivent être automatiquement stockées sur un serveur de sauvegarde. Les
+            données doivent être cryptées du côté client avant d'être envoyées au serveur pour garantir la
+            confidentialité.</p>
+        <p>Les autres fonctionnalités principales que Bitkit prend en charge sont la création de profils sociaux ;
+            l'importation et la gestion de contacts ; des profils de paiement dynamiques ; des connexions par clé pour
+            accéder aux comptes ; et l'affichage de flux de données publics et de données privées via des widgets dans
+            l'application. Vous pouvez expérimenter ces fonctionnalités dans le <a
+                href="https://synonym.to/products/slashtags#playground">terrain de jeu</a>.</p>
+        <p><a href="https://stacker.news/items/155848/r/DarthCoin">ATTENTION</a>, Bitkit semble ne pas trop respecter
+            ses utilisateurs, et son objectif principal n'est pas de devenir un portefeuille de nœud LN, mais plutôt
+            autre chose.</p>
+        <hr style="height:2px">
+
+        <h3 style="color:Orange;" id="alby">Alby Hub - Interface de nœud LN facile à configurer et à maintenir <a
+                href="#alby">#</a></h3>
+        <p>Alby Hub est une interface simple pour les nœuds LN, avec de belles fonctionnalités NWC pour connecter divers
+            services LN et être utilisée "en déplacement". Ce n'est pas un nœud LN en soi, mais il propose des outils
+            pour gérer le nœud LN derrière. C'est comme LNbits ou Zeus.</p>
+        <p>Une fois que vous avez configuré votre Alby Hub (dans le cloud ou en auto-hébergement), vous pouvez vous
+            connecter à Alby Go, leur application mobile, très propre et facile à utiliser. Vous pouvez également offrir
+            des sous-comptes pour votre nœud, comme <a href="https://github.com/getAlby/jim">"oncle Jim"</a>.</p>
+        <p>RAPPELEZ-VOUS : il s'agit d'une interface de nœud de bureau, avec des fonctionnalités pour connecter une
+            application mobile (Alby Go). C'est un très bon et simple nœud LN privé.</p>
+        <h4>RESSOURCES :</h4>
+        <ul>
+            <li><a href="/wallets/getting-started-alby-hub-en.html">Commencer avec Alby Hub</a></li>
+            <li><a href="https://github.com/getAlby/hub?tab=readme-ov-file#deploy-it-yourself">Déployez-le vous-même</a>
+                - Instructions sur Github si vous souhaitez l'exécuter en tant que serveur</li>
+            <li><a href="https://stacker.news/items/698497/r/DarthCoin">Connecter Alby Hub à un compte Stacker News</a>
+            </li>
+            <li><a href="https://nodana.io/services/alby-hub">Exécutez votre Alby Hub avec Nodana</a> (service
+                d'hébergement)</li>
+            <li><a
+                    href="https://medium.com/@michael.leigh.stewart/setting-up-a-lightning-network-node-with-alby-hub-alby-cloud-4895e97624f8">Exécutez
+                    votre Alby Hub avec Alby Cloud</a> (service d'hébergement)</li>
+            <li><a href="https://www.youtube.com/watch?v=2Z1BzwxdP4I">Vidéo tutoriel Alby Hub dans le Cloud</a> - par
+                BTC Sessions</li>
+        </ul>
+        <hr style="height:2px">
+
+        <h3 style="color:Orange;" id="shocknet">Shock Wallet <a href="#shocknet">#</a></h3>
+        <p>Cette application <a href="https://shockwallet.app/">Shock Wallet</a> est assez nouvelle et encore en
+            développement bêta. Soyez donc prudent, mais curieux si vous souhaitez explorer d'autres fonctionnalités et
+            options pour exécuter des nœuds LN.</p>
+        <p>Shock Wallet fonctionne avec un <a href="https://lightning.pub">serveur Lightning Pub</a>, qui est
+            pratiquement un "système de comptes natif Nostr conçu pour faciliter l'exécution de l'infrastructure
+            Lightning pour vos amis/familles/clients, plus facilement que ce que l'on pensait possible".</p>
+        <p>Shock Wallet est une application mobile et de navigateur qui peut se connecter à de nombreuses sources de
+            financement différentes (basées sur 3 niveaux de confiance) via NWC, avec simplicité et facilité
+            d'utilisation. Elle peut être intégrée dans de nombreuses autres applications WebLN. Elle est déjà intégrée
+            avec leur propre plateforme <a href="https://lightning.video">Lightning Video</a>, pour diffuser des
+            sessions en direct ou publier des vidéos, en utilisant des sats via LN, un très bon moyen de monétiser votre
+            contenu.</p>
+        <p>Je ne l'ai pas testé moi-même en profondeur, juste quelques installations pour voir comment ça fonctionne,
+            mais c'est très prometteur. Lorsque j'aurai plus de temps, je rédigerai un guide détaillé à ce sujet. En
+            attendant, <a href="https://docs.shock.network/">lisez leur page de documentation</a> et rejoignez leur <a
+                href="https://t.me/ShockBTC">groupe Telegram</a> pour plus de soutien et de questions.</p>
+        <h5>Il vaut vraiment la peine de prêter attention à cette nouvelle application !</h5>
+        <hr style="height:2px">
+
+        <h3 style="color:Orange;" id="neutrino">Nœud privé LND avec Neutrino <a href="#neutrino">#</a></h3>
+        <p>Voici une solution simple pour exécuter un nœud LN avec LND en utilisant des filtres de blocs Neutrino pour
+            la synchronisation avec la blockchain. Vous n'avez donc pas besoin de faire fonctionner un Bitcoin Core
+            lourd sur la même machine, vous pouvez vous connecter à n'importe quel serveur Neutrino connu ou au hasard.
+            <a
+                href="https://docs.lightning.engineering/lightning-network-tools/lnd/enable-neutrino-mode-in-bitcoin-core">En
+                savoir plus sur Neutrino ici</a>.
+        </p>
+        <ol>
+            <li>Sur n'importe quel PC simple avec un système d'exploitation Linux (je recommande Debian ou Ubuntu pour
+                la simplicité, mais vous pouvez aussi utiliser un Linux Mint standard), <a
+                    href="https://docs.lightning.engineering/lightning-network-tools/lnd/run-lnd">installez LND en tant
+                    que nœud LN</a>.</li>
+            <li><a
+                    href="https://docs.lightning.engineering/lightning-network-tools/lnd/enable-neutrino-mode-in-bitcoin-core#connect-from-your-lnd">Définissez
+                    un pair Neutrino dans votre nouvelle instance LND</a>. Voici quelques serveurs connus, choisissez
+                celui qui est le plus proche de votre région pour une meilleure réactivité du ping :</li>
+            <ul>
+                <li>btcd1.lnolymp.us | btcd2.lnolymp.us - pour la région des États-Unis</li>
+                <li>btcd-mainnet.lightning.computer - pour la région des États-Unis</li>
+                <li>uswest.blixtwallet.com (Seattle) - pour la région des États-Unis</li>
+                <li>europe.blixtwallet.com (Allemagne) - pour la région de l'UE</li>
+                <li>asia.blixtwallet.com - pour la région Asie</li>
+                <li>node.eldamar.icu - pour la région des États-Unis</li>
+                <li>noad.sathoarder.com - pour la région des États-Unis</li>
+                <li>bb1.breez.technology | bb2.breez.technology - pour la région des États-Unis</li>
+                <li>neutrino.shock.network - pour la région des États-Unis</li>
+                <li><a href="https://bitnodes.io/nodes/?q=NODE_COMPACT_FILTERS">Plus de pairs Neutrino généraux</a></li>
+            </ul>
+            <li>Facultatif : pour gérer votre nœud, vous pouvez installer sur la même machine de bureau <a
+                    href="https://docs.thunderhub.io/">Thunderhub</a> ou <a
+                    href="https://www.ridethelightning.info/">Ride The Lightning</a> en tant qu'applications de bureau.
+                Sinon, vous pouvez facilement connecter l'application mobile <a
+                    href="https://docs.zeusln.app/category/remote-connections">Zeus</a> à votre nœud et le gérer depuis
+                là.</li>
+            <li>Ouvrez 2-3 canaux NON ANNONCÉS (privés) avec de bons gros nœuds et LSP. Vous ne ferez pas de routage,
+                juste pour vos paiements Lightning personnels.</li>
+            <li>C'est fait. Maintenant vous pouvez gérer et utiliser votre nœud LND depuis <a
+                    href="https://zeusln.com">Zeus</a>, <a href="https://bitbanana.app/">BitBanana</a>, connecter une
+                instance <a href="/wallets/getting-started-alby-hub-en.html">Alby Hub</a> ou toute autre application
+                nécessitant un nœud LN comme source de financement.</li>
+        </ol>
+        <p>Ce nœud n'a pas besoin d'une connexion Tor compliquée pour ne pas vous encombrer, pas besoin d'ouvrir de
+            ports car il utilise des canaux privés. Votre confidentialité est protégée par les filtres Neutrino et les
+            canaux privés LN, en plus des chemins aveugles offerts maintenant par LND. De plus, ce nœud n'a pas besoin
+            de rester en ligne 24h/24, vous pouvez l'ouvrir chaque fois que vous en avez besoin comme une application
+            normale. Cependant, il est recommandé de ne pas le laisser trop longtemps non synchronisé.</p>
+        <hr style="height:2px">
+
+        <h2 style="color:Orange;">CONCLUSION</h2>
+        <p>Comme vous pouvez le voir, il existe de très bonnes alternatives pour exécuter un nœud LN en mode privé, avec
+            moins de "responsabilités" que d'exécuter un nœud de routage public tout en participant à un grand réseau de
+            paiements.</p>
+        <p>Rappelez-vous que ces nœuds de routage publics ont besoin de nombreux nœuds mobiles privés, car ce sont ces
+            nœuds mobiles qui réalisent la majorité des paiements dans la vie réelle dans les magasins de commerçants.
+            Les nœuds de routage publics acheminent en réalité vos paiements mobiles à travers leurs complexes anneaux
+            de liquidité et leurs routes, en facturant de petites commissions mais parfois aussi de grandes, en fonction
+            du niveau de cupidité de chaque nœud. C'est pourquoi il est important pour vous, en tant qu'utilisateur de
+            nœud mobile, de bien choisir le nœud auquel vous êtes connecté.</p>
+        <p>Avec le temps, ces routes seront améliorées, avec de meilleurs frais, de meilleurs nœuds, de meilleurs
+            protocoles.</p>
+        <p>C'est pourquoi j'ai rédigé ce guide, pour éviter que ceux qui ont moins de formation n'exécutent des nœuds de
+            routage publics non préparés et évitent toute la folie et les paiements bloqués, les itinéraires coûteux,
+            etc., pour le bon fonctionnement du reste du réseau.</p>
+        <p>Votre liquidité, même si elle est privée, est également très importante, car elle participe à ce vaste réseau
+            de paiements. Ces nœuds de routage publics, oui, ouvrent plusieurs routes et souhaitent facturer des frais
+            pour cela. Il s'agit d'un mécanisme dirigé par le marché, auto-ajusté par l'offre et la demande. Si tous ces
+            portefeuilles mobiles LN n'existaient pas ou n'étaient pas utilisés pour des paiements réels aux
+            commerçants, tous ces nœuds de routage n'auraient plus de "clients" pour leurs itinéraires. Vous pouvez donc
+            voir que c'est un environnement "auto-soutenu".</p>
+        <p>COMMENCEZ À UTILISER VOS SATS COMME DE L'ARGENT ! Nous avons maintenant un puissant réseau de paiements !</p>
+        <p>C'est le seul moyen de rendre obsolète le système monétaire fiat et l'esclavage.</p>
+        <p>Lisez d'autres guides sur l'utilisation de ces portefeuilles LN pour des cas d'utilisation spécifiques :</p>
+        <ul>
+            <li><a href="/wallets/lightning-cleaning-machine-en.html">Machine de nettoyage Lightning</a></li>
+            <li><a href="/merchants/getting-started-bitcoin-small-merchants-en.html">Bitcoin pour les petits
+                    commerçants</a></li>
+            <li><a href="https://darthcoin.substack.com/p/node-liquidity-guide">Guide de liquidité des nœuds
+                    publics/privés</a></li>
+            <li><a href="/nodes/managing-lightning-node-liquidity-en.html">Gérer la liquidité des nœuds LN</a></li>
+            <li><a href="/nodes/lightning-submarine-swaps-en.html">Échanges sous-marins Lightning</a></li>
+            <li><a href="/wallets/bitcoin-and-privacy-en.html">Bitcoin et confidentialité</a></li>
+            <li><a href="/merchants/bitcoin-lightning-payments-irl-en.html">Exemples de paiements Bitcoin Lightning dans
+                    la vie réelle</a></li>
+            <li><a href="/merchants/operating-ln-as-merchant-en.html">Exploitation du Lightning en tant que
+                    commerçant</a></li>
+            <li><a href="/merchants/private-banks-over-ln-en.html">Banques privées sur Lightning Network</a></li>
+        </ul>
+    </body>
+
+    </html>
+</article>
