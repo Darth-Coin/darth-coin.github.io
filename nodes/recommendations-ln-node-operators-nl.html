@@ -1,0 +1,111 @@
+---
+layout: default
+title: Aanbevelingen voor BTC LN-knooppuntoperatoren
+---
+<article>
+<!DOCTYPE html>
+<html lang="nl">
+<meta name="description" content="Bitcoin- en Lightning Node-handleidingen: een waarschuwing voor alle openbare LN-node-operators over het daadwerkelijke gebruik van Lightning Network">
+<body>
+<a href="/nodes/recommendations-ln-node-operators-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/recommendations-ln-node-operators-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/recommendations-ln-node-operators-de.html">Deustch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/recommendations-ln-node-operators-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/recommendations-ln-node-operators-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/recommendations-ln-node-operators-hr.html">Hrvatski <img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/recommendations-ln-node-operators-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<blockquote style="color:Tomato;"><em>
+<p>Oorspronkelijk gepost op <a href="https://darthcoin.substack.com/p/recommendations-for-ln-users">Substack</a> op 23 mei 2022, hier bijgewerkt op 20 december 2024.</p>
+</em></blockquote>
+
+<h3>Een waarschuwing voor alle openbare node-operators over het daadwerkelijke gebruik van Lightning Network. Dit artikel is bedoeld voor alle nieuwe gebruikers die nu beginnen of nu een BTC LN-knooppunt willen runnen.</h3>
+
+<h2 style="color:Orange;">INLEIDING</h>
+<p>Dit zijn mijn persoonlijke observaties en aanbevelingen na 25+ jaar in IT-systemen, 10+ jaar in Bitcoinlandia en 2+ jaar verschillende LN-knooppunten te hebben gerund, veel tijd te hebben besteed aan het testen en gebruiken van verschillende oplossingen voor LN-knooppunten, en andere knooppuntbeheerders te hebben geholpen.</p>
+<p>Mijn enige doel is om LN beter te laten werken voor alle deelnemers en om sommige aspecten vanuit een zeer objectief oogpunt te presenteren.</p>
+<p><img src="/assets/images/darth-aprentice-failed.jpg" class="center"></p>
+<p>Het kan me niet schelen of velen het er niet mee eens zijn of me zelfs haten om wat ik hier zeg. Ja, voor sommigen zullen dat geen prettige woorden zijn. Ik ben hier niet om iemand te plezieren, ik presenteer feiten. Als je op zoek bent naar mooie woorden en "kus kont", dan zul je het niet van mij horen. Ik zal altijd de waarheid spreken op mijn eigen manier, als je mijn woorden niet leuk vindt, is dat jouw probleem, niet het mijne.</p>
+<p>In 2020, nadat Umbrel de BTC/LN-suite Umbrel Node lanceerde, sprongen veel nieuwe mensen erin en installeerden het, denkend dat het leuk, gemakkelijk en zelfs een "passief inkomen" was. Maar ze negeerden één belangrijk aspect: EDUCATIE over Lightning Network.</p>
+<p>In bijna 1 jaar tijd hebben we het aantal LN-knooppunten zien toenemen met minstens 9000 knooppunten. Dat is een krankzinnig aantal in zo'n korte tijd. En vooral op Tor.</p>
+<p>Ja, het is leuk om te zien dat er interesse is in het runnen van een LN-knooppunt, maar van wat ik zag op Telegram-groepen en forums, heeft 90% geen idee wat ze doen.</p>
+<p>Ik denk dat deze lancering een vergissing was, of in ieder geval de manier waarop het is gedaan. Te veel gebruikers met totaal 0 kennis sprongen erin en creëerden chaos. Ik weet niet wie het promoot als "heel makkelijk om een ​​node te installeren in 3 klikken", maar het runnen van een node gaat niet over dat je het met slechts 3 klikken kunt installeren. Het gaat meer over het hebben van veel kennis over Bitcoin en hoe LN op de achtergrond werkt. Anders is het gewoon het creëren van een chaotisch netwerk van mensen die geen idee hebben wat ze doen. Ja, ik heb ze veel geholpen met mijn gidsen en ben bijna 24/7 beschikbaar met advies. Maar dat is niet genoeg. Ze moeten grote inspanningen leveren om te lezen en te leren over nodes. Anders is alles tevergeefs.</p>
+<p>Ja, sommigen van hen beginnen zichzelf langzaam te onderwijzen en werden goede node-operators. Maar de meerderheid gaf geen reet om de waarschuwingen en bleef hun nodes op een heel slechte manier runnen, zonder goed onderhoud, zonder basiskennis over hoe LN werkt, sommigen van hen hebben alleen nog maar de focus op "sats verdienen".</p>
+<p>Deze situatie wordt elke dag erger, omdat deze "slechte nodes" een nachtmerrie vormen voor ONS ALLEN in het netwerk.</p>
+
+<h3 style="color:Yellow;">ECHT PROBLEMEN OP LN</h3>
+<p>Hier zal ik enkele aspecten van deze nachtmerrie noemen (misschien zijn sommige problemen al opgelost):</p>
+<ul>
+<li>Nodes die heel vaak offline gaan. Dat maakt de kanalen erg instabiel en onbruikbaar.</li>
+<li>Nodes die geen stabiele internetverbinding hebben en in speciale goede Tor-relays.</li>
+<li>Nodes die ALLEEN Tor zijn en nog steeds geen hybride modus gebruiken (Tor + clearnet). Tor als communicatienetwerk voor nodes is echt slecht, omdat het instabiel is. LN-nodes moeten altijd kunnen communiceren via het gossip-protocol. Anders kunnen ze elkaar niet "zien", zelfs niet als de Bitcoin-node nog steeds synchroniseert.</li>
+<li>Vastgelopen HTLC's, die uiteindelijk gedwongen gesloten kanalen veroorzaken. Dit is een erg vervelende en kostbare situatie. Veel node operators denken of weten niet dat als een HTLC via hun node gaat en hun node offline gaat of gewoon niet kan communiceren met de LN via het gossip protocol, die HTLC een echte pijn in de kont is voor IEDEREEN. Het is een onvervuld contract en als in de vervalperiode de HTLC niet wordt vervuld, dan zal het een gedwongen sluiting van kanalen in cascade activeren naar alle peers die verbonden zijn met die HTLC. Het heeft invloed op iedereen. <a href="https://xcancel.com/zerofeerouting/status/1528754778041372674">Hier is een waarschuwing van ZFR node</a>.</li>
+<li>Verkeerde of chaotische instellingen voor <a href="https://github.com/lightning/bolts/blob/master/02-peer-protocol.md#cltv_expiry_delta-selection">CLTV delta</a>, kosten, min/max HTLC. Ik zag gebruikers spelen met deze instellingen zonder enige basiskennis van wat ze veranderen. Dat maakt het erg moeilijk om ermee te werken als peers. Of nog erger, als ze de peers van je peers zijn en je weet niet wat ze doen, zal het je indirect beïnvloeden.</li>
+<li>Obsessieve herverdeling. Dit is een ander verhaal, dat velen het omarmen en ik begrijp deze obsessie met het voortdurend herverdelen van hun kanalen niet. IMHO is dit idioot en nutteloos. Het kan liquiditeit verplaatsen precies wanneer dat nodig is voor een in behandeling zijnde HTLC. Het is nutteloos en helpt op geen enkele manier, maar maakt het erger met "nep"-verkeer dat op geen enkele manier het echte LN-verkeer vertegenwoordigt. In plaats van deze herverdeling, kun je beter de min/max HTLC aanpassen, deze verlagen naar een normale hoeveelheid van een tx en de gebruiker zou <a href="https://lightning.engineering/posts/2020-05-07-mpp/">MPP</a> de hele tijd moeten gebruiken.</li>
+<li>Kanalen uitschakelen. Er zijn nog steeds "LN-tools", scripts die kanalen uitschakelen als het specifieke kanaal "niet winstgevend" is om te routeren. Dit is idioot en onproductief. Het sluit gewoon de deuren voor mogelijke routes.</li>
+<li>Gebruikers gebruiken <a href="https://lightning.engineering/posts/2020-05-07-mpp/">MPP</a> nog steeds niet als hoofdoptie wanneer ze betalingen doen via LN. Dit zorgt ervoor dat kanalen heel snel leeg kunnen raken en ook niet door efficiënte routes te gebruiken, zullen nodes altijd het verkeer moeten aanpassen met verschillende methoden (herbalanceren, kosten aanpassen, max HTLC aanpassen, meer kanalen openen). MPP is niet alleen het bedrag van een betaling in veel kleine delen splitsen, maar ook zoeken naar de beste route voor elke splitsing. Kleinere HTLC zal een snellere en betere kans hebben om een ​​goed pad te vinden dan een groot bedrag.</li>
+<li>Pad vinden. Ja, dit is een heel belangrijk probleem in LN en is vooral te wijten aan alle hierboven genoemde aspecten.</li>
+</ul>
+<p><img src="/assets/images/change-my-mind-restart-node.jpg" class="center"></p>
+
+<h3 style="color:Yellow;">AANBEVELINGEN VOOR NIEUWE PUBLIEKE LN NODE RUNNERS</h3>
+<p>Dus wat u als nieuwe gebruiker in deze fascinerende wereld van Lightning Network moet doen:</p>
+<ul>
+<li>Voordat je een node gaat runnen, vraag jezelf af: waarom moet je een volledige LN-node runnen? Zoals ik al zei in de gids over <a href="https://darthcoin.substack.com/p/umbrel-bitcoin-ln-node">Aan de slag met Umbrel</a>, staat daar een lijst met antwoorden die mensen moeten overwegen voordat ze een node gaan runnen.</li>
+<li>Als je gewoon met LN wilt spelen en zelfs een privé-LN-node wilt hebben, is het NIET NODIG om een ​​routing-node te runnen! U kunt eenvoudig uw mobiele <a href="/wallets/getting-started-blixt-wallet-en.html">Blixt Node Wallet</a> of <a href="/wallets/getting-started-zeus-wallet-nl.html">Zeus Node wallet</a> met privékanalen runnen, u hoeft niet 100% online te zijn, volledig beheer van uw kanalen, meer privé, eenvoudig te beheren, u hoeft niet veel geld in LN te hebben. Bekijk hier meer <a href="/wallets/lightning-wallets-comparison-nl.html">LN wallets voor mobiele telefoons</a> met alle functies gedetailleerd en een speciale <a href="/nodes/private-ln-nodes-en.html">gids voor PRIVATE LN nodes</a>.</li>
+<li>Als u een desktop LN wallet wilt gebruiken, kunt u eenvoudig Electrum gebruiken, werkt perfect. Binnenkort zal Blixt ook een desktopversie hebben, geavanceerder en krachtiger.</li>
+<li>Als je niet zo technisch bent en niet graag documentatie leest, kun je beter die desktop-/RPi-nodes niet uitvoeren. Je helpt het netwerk helemaal niet door niets te weten over LN en gewoon een waardeloze node in het netwerk te houden. Je doet meer kwaad dan goed.</li>
+<li>Als je echt een volledige desktop-routeringsnode wilt uitvoeren, kun je beter goed voorbereid zijn: <a href="https://www.lightning-network.tech/">lees alle beschikbare documentatie</a>, bestudeer alle videotutorials, bereid een goede, sterke machine voor je node voor zoals ik al zei in <a href="/nodes/lightning-node-maintenance-nl.html">deze speciale handleiding voor node-onderhoud</a>, houd proactief je peers en kanalen in de gaten, onderhoud een goed verkeer met lage kosten en goede routes. Peers die moeilijk online te houden zijn, houd ze niet vast, ze maken het moeilijker voor je routes.</li>
+<li>Gebruik sterke hardware! Dat is erg belangrijk. Voor nodes met meer dan 50-100 kanalen wordt een RPi-machine echt problematisch, met name bij gebruik van LND.</li>
+<li>Begin met het gebruiken van de methode om de maximale HTLC per kanaal aan te passen, tot een bepaald niveau waarop je ziet dat het verkeer van je peers aan beide kanten goed verloopt. <a href="/nodes/lightning-routing-fees-experiment-nl.html">Zoals ik in de andere gids hier heb uitgelegd</a>. Dit zal het vinden van het pad voor routes enorm helpen en zal ervoor zorgen dat de sats sneller door je node stromen, via de juiste kanalen, waar voldoende liquiditeit wordt aangegeven.</li>
+<li>Hoge kosten helpen je op geen enkele manier, maar maken het alleen maar erger. Maak nooit verbinding met nodes met hoge kosten. ISOLEER ZE! Neem bijvoorbeeld deze idiote nodes met extreem hoge kosten: <a href="https://amboss.space/node/028e9e578efe5f09f3edfd98ef0fad51007014401d8b7ff62236b89d6867529635">Sweet16Joe</a>, <a href="https://amboss.space/node/038f8f113c580048d847d6949371726653e02b928196bad310e3eda39ff61723f6">Magnetron</a> (Muun wallet) en nog veel meer. We zijn hier om de bankiers te neuken, niet om elkaar te neuken.</li>
+</ul>
+<figure>
+<img src="/assets/images/waiting-for-problem.jpg" class="center">
+<figcaption>Voorbeeld van een Umbrel-gebruiker die een "node operator" wil zijn zonder enig idee wat hij doet</figcaption>
+</figure>
+
+<h3 style="color:Yellow;">VERZOEKEN VOOR LIGHTNING DEVELOPERS</h3>
+<p>Overweeg een manier te vinden om de LN-code met deze aspecten te verbeteren. Deze verzoeken zijn niet alleen voor LN-implementatieontwikkelaars, maar ook voor het beheren van tools en wallets zoals Thunderhub, RTL, Zeus etc. Misschien zijn uw doelen anders, maar luister in ieder geval naar wat gebruikers zeggen en verzoeken:</p>
+<ul>
+<li>Voeg in de code een optie toe om een ​​kanaal niet te sluiten tot een bepaalde blokhoogte, vastgesteld door beide peers die het kanaal openen. We hebben tegenwoordig veel kanaalmarkten die liquiditeitskanalen verkopen, maar er is geen eenvoudige manier om die kanalen te "vergrendelen", waardoor het bijna onmogelijk is om ze te sluiten tot een bepaald bloknummer. Dit voorkomt ook vals spelen in die liquiditeitscontracten en stelt ook bepaalde regels vast.</li>
+<li>Verander de manier waarop HTLC een gedwongen sluiting triggert. Waarom een ​​knooppunt straffen dat de HTLC al routeerde, als de volgende peer in de route degene is die de HTLC niet vervult? Deze gedwongen gesloten kanalen zijn letterlijk IDIOOT, slaan nergens op en zijn kostbaar. Of geef de peer tenminste de kans om het kanaal open en functioneel te houden en op een andere manier de in behandeling zijnde HTLC's te betwisten. Gebruik een reservesysteem, waarbij elke peer als eerste een reserve stort. Dat zorgt ervoor dat nodes twee keer nadenken over wie en hoe ze kanalen openen.</li>
+<li>Maak het gossipprotocol efficiënter en betrouwbaarder. Het is echt pijnlijk om te zien dat peers letterlijk online zijn, je zou ze kunnen pingen, maar de gossip zegt dat het kanaal offline is. Dit zorgt ervoor dat veel HTLC in de in behandeling zijnde staat zijn en zelfs verloren gaan omdat er niet goed wordt gecommuniceerd via gossip.</li>
+<li>Voeg een eenvoudige optie toe om max HTLC voor een kanaal in te stellen op basis van de liquiditeit van dat kanaal voor elke kant, waarbij letterlijk het saldo wordt aangekondigd wanneer een betaling bij de node binnenkomt. Ja, velen zullen zeggen dat dit "de privacy schendt", maar laten we eerlijk zijn, we hebben al veel manieren om het saldo van een kanaal te vinden, het is niet nodig om ons achter de vinger te verschuilen. Dit zijn routing nodes, die de liquiditeit heel goed moeten aankondigen, zijn geen private nodes. Op dit moment kom ik erachter dat alleen al door handmatig de max HTLC voor een kanaal aan te passen, het verkeer enorm is verbeterd, zonder domme herverdeling of aanpassing van kosten op basis van beschikbare liquiditeit. <a href="https://xcancel.com/zerofeerouting/status/1522226213439389697">Ik ben het helemaal eens met het ZFR node voorstel hier</a>.</li>
+<li>Voeg betere opties toe om routes op specifieke kanalen te beheren, met een set regels die eenvoudig kunnen worden beheerd door de node operator. Voorbeeld: ik wil dat alle private kanalen worden gerouteerd via specifieke publieke kanalen. Of voor LNDhub apps zoals Bluewallet en LNbits, zou ik graag speciale kanalen willen hebben om te gebruiken. Ja, ik heb veel manieren geprobeerd om specifieke kosten in te stellen, min/max HTLC maar het werkt niet goed.</li>
+<li>Voeg betere ondersteuning toe voor Tor only nodes of vind een ander protocol om privé te communiceren. Tor is echt onbetrouwbaar voor LN-knooppunten. Het zorgt voor zoveel problemen.</li>
+<li>Waarom hebben we 3 LN-implementaties met 3 verschillende CLTV-delta's? Waarom zijn ze niet allemaal hetzelfde? Hoe moeten gebruikers instellen, op basis van welke statistieken? Ik zag een aantal knooppunten spelen met deze standaardinstellingen (CLN=34, LND=40, Eclair=144) en de routing wordt gek en eindigt zelfs met gedwongen gesloten kanalen. Waarom kan het niet stabiel en betrouwbaar zijn?</li>
+<li>Laat al die onzin even rusten, stop met het toevoegen van "nieuwe nutteloze functies en tokens" bovenop LN en concentreer je op het beter laten werken van LN. Want op dit moment... werkt het niet goed. Het is verre van een efficiënt betalingsnetwerk. En als we deze problemen niet aanpakken, hebben we binnenkort een mislukt project of proberen we gewoon patch over patch.</li>
+<li>Voor ontwikkelaars van Umbrel in het bijzonder: voeg alsjeblieft niet zoveel bloatware-apps toe! Gebruikers installeren ze gewoon uit nieuwsgierigheid en laden die kleine RPis vol met nutteloze apps. Concentreer je meer op het hebben van een sterke LN-node en voeg belangrijke opties toe voor het beheren van die LN-node. Alle niet-node-gerelateerde apps zijn helemaal niet nuttig en kunnen gemakkelijk worden verpakt in een andere "personal server"-suite als ze ze echt willen gebruiken. Meng deze dingen niet! Ik weet dat je van plan bent om een ​​"soevereine personal server" te maken, maar zo gaat het niet werken! Ik run zelf een Umbrel-node, maar alleen als een LN-node, niets anders. Alle andere apps run ik apart op een andere machine of zelfs op mijn Qnap NAS. Ik hoef mijn node er niet mee op te blazen. Maar veel noobs kennen dit aspect niet. Beter apart.</li>
+</ul>
+
+<h2 style="color:Orange;">CONCLUSIE</h2>
+<p>Ik hoop dat dit artikel nog veel meer ogen opent en mensen laat beseffen dat we nog werk te doen hebben om LN te verbeteren. We hebben nog tijd om het te repareren en we kunnen beginnen met simpele dingen: educatie voor nieuwe gebruikers en het repareren/verbeteren van de LN-code.</p>
+<p>Je kunt een kanaal heropenen, maar de verloren sats door het geforceerd sluiten en heropenen waren tevergeefs...</p>
+<p>En als je 4-5 FC / week begint te hebben, zul je het niet zo betrouwbaar vinden om een ​​routing node te draaien.</p>
+<p>Ik heb zelf 2 draaiende LN nodes en ik overweeg om er een volledig te sluiten. Misschien beide (CLN en LND) en gewoon een <a href="/wallets/getting-started-blixt-wallet-nl.html">Blixt</a> of <a href="/wallets/getting-started-zeus-wallet-nl.html">Zeus</a> op desktop of mobiel, privé en geef geen moer om alle routing en het helpen van het netwerk.</p>
+<p>Ik ben bereid om gratis te routeren, maar betalen voor gedwongen sluitingen voor fouten van anderen... is niet acceptabel./<
+<p>We beginnen met het bouwen van een betalingsnetwerk, maar anderen aan de andere kant proberen het te sluiten. We hebben nu liquiditeitsmarktplaatsen, we kopen kanalen, maar als deze "contracten" niet worden gerespecteerd en vastgelegd met bepaalde regels, zal niemand er een moer om geven en zullen ze gewoon je kanalen sluiten. Reputatie geeft je geen sats terug die je bent verloren door die gedwongen sluiting en het netwerk dat je bent gaan bouwen en nu verloren is.</p>
+<p>Voorbeeld hier, een verkoper die een kanaal verkocht en vervolgens bereid was het te sluiten. Ja, de peer kan offline of online zijn. Maar je hebt een contract toen je dat kanaal verkocht. En dit zal een precedent scheppen. Mensen zullen je kanalen verkopen en ze vervolgens sluiten. Al je werk is weg.</p>
+<p><img src="/assets/images/question-inbound-channel.jpg" class="center"></p>
+<p>Ja, deze verkoper heeft gelijk, hij maakt zich zorgen waarom de peer offline is. Maar het contract is een contract. Moet gerespecteerd worden.</p>
+<p>Het zou ook de fucking roddel kunnen zijn, die soms echt gek is, die laat zien dat sommige peers offline zijn, maar in feite zijn ze dat niet.</p>
+<p>Ik zat zelf in een situatie dat een paar dagen achter elkaar, 3-4-5 peers offline leken (van 55 peers in totaal). Een daarvan was zelfs mijn andere node CLN, die ik op hetzelfde moment bekeek en die OK, online en goed was. Dus LND besloot de verbinding met deze peers te verbreken, zonder reden.</p>
+<p>Probeerde opnieuw verbinding te maken met peers, sommige werkten, sommige niet. Contact opgenomen met peers, ze zeiden dat ze online en goed waren. Mijn CLN inbegrepen.</p>
+<p>Waarom gebeurt dit? Niemand weet het of probeert het op te lossen. En vanaf dit probleem beginnen de andere problemen met in behandeling zijnde HTLC's, en dan gedwongen sluitingen.</p>
+<p>Ik waarschuw hier nu, en misschien herinneren mensen zich mijn woorden over een paar jaar.</p>
+<p>Als dit probleem in LN, met gedwongen gesloten kanalen, niet op de een of andere manier wordt opgelost, of als er nieuwe specifieke regels in de code worden toegevoegd, zullen we een enorme centralisatie zien in een handvol grote knooppunten die de liquiditeit zullen verwerken, met enorme kosten.</p>
+<p>Of misschien zullen we over een paar jaar een nieuw LN zien, het plebs LN, parallel, waar een ander betalingssysteem zal worden geboren, maar dat kan worden "gekoppeld" aan het "gecentraliseerde LN" dat vandaag wordt gevormd.</p>
+<p>Tijdens het schrijven van dit artikel lanceerde LND ook v.0.15 en CLN v0.11.1, die enkele problemen oplosten, maar tegelijkertijd enorme gedwongen sluitingen veroorzaakten voor veel knooppunten.</p>
+<p>Zoals u hier in deze grafiek kunt zien van https://bitcoinvisuals.com/ln-nodes:</p>
+<p><img src="/assets/images/bitcoin-visuals-drop-nodes.png" class="center"></p>
+<p>Veel van die nodes zijn "verdwenen" uit de grafiek, zijn:</p>
+<ul>
+<li>nodes die naar "private" nodes verhuizen (niet aangekondigd, niet openbaar), niet meer routeren, of routeren in private.</li>
+<li>noobs die zich realiseren dat het model van "RPi node met Umbrel" geen "passief inkomen" oplevert en ze geven het gewoon op</li>
+<li>te veel gedwongen gesloten kanalen en operators die nodes gewoon sluiten</li>
+</ul>
+<p><img src="/assets/images/have-spoken.gif" class="center"></p>
+<p><em>Opmerking: een vervolg op dit artikel <a href="/beginner/getting-started-lightning-nl.html">is hier met een gids</a> over hoe je LN op 3 niveaus kunt gebruiken</em></p>
+</body>
+</html>
+</article>
