@@ -1,0 +1,158 @@
+---
+layout: default
+title: Održavanje Lightning Node
+---
+<article>
+<!DOCTYPE html>
+<html lang="hr">
+<meta name="description" content="Vodiči za Bitcoin i Lightning čvorove: jednostavan vodič o dobrim praksama za održavanje vašeg LN čvora">
+<body>
+<a href="/nodes/lightning-node-maintenance-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-node-maintenance-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-node-maintenance-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-node-maintenance-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-node-maintenance-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-node-maintenance-nl.html">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-node-maintenance-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<blockquote style="color:Tomato;"><em>
+<p>Izvorno objavljeno na <a href="https://darthcoin.substack.com/p/lightning-node-maintenance">Substack</a> 30. travnja 2022. Ovdje ažurirano 25. prosinca 2024.< /p>
+</em></blockquote>
+
+<h3>Jednostavan vodič o dobrim praksama za održavanje vašeg LN čvora</h3>
+<blockquote style="color:Tomato;"><em>
+<p>Svi aspekti ovdje predstavljeni su s moje točke gledišta, nakon 25+ godina rada u IT tehnologiji i podršci za krajnje korisnike, poslužitelje i poduzeća. Nakon 10+ godina u Bitcoinlandiji, testirajući nekoliko aplikacija i rješenja, u posljednje 2 godine počeo sam pomagati velikom broju korisnika Umbrela i promatrati njihovo ponašanje u korištenju LN čvora.</p>
+<p>Ovaj je vodič zatražio jedan od mojih čitatelja substacka. Pa sam isporučio.</p>
+</em></blockquote>
+
+<h2 style="color:Orange;">Uvod</h2>
+<p>Kao operater LN čvora također imamo velike odgovornosti za naše kolege, pa čak i prijatelje, obitelj koji su povezani s našim čvorom. To znači da bismo trebali paziti na naše čvorne strojeve. Pokretanje čvora je ozbiljan zadatak i korisnici to ne bi trebali smatrati igrom za zabavu.</p>
+<p>Dakle, dobro održavanje i brigu o vašem čvornom stroju MORATE IMATI. Vidio sam mnogo novih operatera čvorova koji ne shvaćaju ozbiljno te aspekte i da to utječe na sve nas ostale, ne samo na njih.</p>
+<p>Zašto utječe na sve ostale?</p>
+<ul>
+<li>vršni čvor koji nije pouzdan (99% dostupno) može poremetiti mnoge putove plaćanja.</li>
+<li>nije pouzdan čvor, on utječe na sve svoje konkurente, ocjenjuje se kao dobri čvorovi.</li>
+<li>nepouzdan čvor će zaključati sredstva u mrtvim kanalima, ravnopravni korisnici ovise o tim sredstvima.</li>
+<li>Ovdje ću objasniti neke dobre prakse koje bi operater čvora trebao uzeti u obzir da bi imao dobar pouzdan čvor. Nije bitno pokrećete li čvor za osobnu ili poslovnu upotrebu (trgovci), bitno je koliko vam je stalo do vašeg čvora.</li>
+</ul>
+<p><img src="/assets/images/ln-node-backup.jpg" class="center"></p>
+<hr style="height:2px">
+
+<h3 style="color:Yellow;">KLJUČNI ASPEKTI</h3>
+<ul>
+<li>Isključite/ponovno pokrenite svoj čvor samo kada je to potrebno za neka ažuriranja softvera, čišćenje baza podataka, promjene u konfiguraciji.</li>
+<li>Održavajte svoj čvor online koliko god možete i koliko god je moguće. Gašenje na kratko vrijeme je u redu, kanali će biti u redu, nitko ih neće zatvoriti ako svojim kolegama najavite razdoblje održavanja.</li>
+<li>Koristite UPS (Besprekidni izvor napajanja) s dovoljno dugotrajnom baterijom da održite svoj čvorni stroj + internetski usmjerivač na mreži u slučaju nestanka struje. Ili barem dovoljno vremena da ga isključite u grace modu, ako je napajanje isključeno više sati ili dana. Važno je zaštititi svoje podatke od gubitka i oštećenja.</li>
+<li>Ako su vaš proračun i korištenje čvora vrlo važni za posao, koristite stroj s implementacijom RAID-a. Ne softverski, već hardverski RAID.</li>
+<li>Hardver. Vrlo je važno imati pouzdan hardver, a ne igračke. Igračke su dobre za početak učenja jer su jeftine, ali dugoročno nisu pouzdane. Stoga mudro odaberite svoj hardver, na temelju svoje "faze" (učenje, napredovanje, proizvodnja, poduzetništvo).</li>
+<li>Napravite sigurnosne kopije! Sigurnosne kopije su poput pada cijena BTC-a, nikad ne znate kada su potrebne. Zato ih povremeno napravite.</li>
+<li>LND cijelo vrijeme piše na channel.db i wallet.db i sadrži sve važne podatke. Ovo su najvažnije datoteke vašeg čvora. Sve ostalo može se lako rekonstruirati bilo kada. Ali ove 2 datoteke ne mogu se sigurnosno kopirati u stvarnom vremenu i samo je zadnja verzija važeća.</li>
+<li>SCB sigurnosna kopija je poput jednostavnog izvoza channels.db, u određenom trenutku, koji sadrži osnovne informacije o vašim kanalima, dovoljno da se koriste za njihovo zatvaranje i vraćanje sredstava u lancu.</li>
+<li>CLN implementacija koristi drugu vrstu datoteka, u hsm.secret i puno je lakše napraviti kopije ove baze podataka.</li>
+</ul>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">PRAKSE KORIŠTENJA</h2>
+<h3 style="color:Yellow;">A. Hardver</h3>
+<p>Kada počnete s novim čvorom, prvo što biste se trebali zapitati je: za što koristim ovaj čvor? Zatim izgradite hardver svog stroja prema potrebi i s vremenom prijeđite na drugu konfiguraciju samo kada je to potrebno.</p>
+<h4>Stroj za učenje/proučavanje</h4>
+<p>Na ovoj razini može biti bilo koji RaspberryPi stroj, jeftin, jednostavan za instalaciju i sastavljanje, niske potrošnje energije i sladak. Nemojte se previše oslanjati na ove malene strojeve. Jer vježbanje i učenje su jako dobri, naučit ćete puno. Ali nisu 100% pouzdani.</p>
+<p>Također, čak i ako se odlučite za Rpi uređaj, koristite najmanje 8 GB RAM memorije i dobar SSD pogon. Vrlo je bitan i strujni adapter. Neispravan ili neoriginalan će stvoriti niz kvarova u kaskadi, a vi nećete znati zašto. To je zbog tog malenog strujnog adaptera.</p>
+<p>mSD kartice također često kvare, pa uvijek imajte jednu rezervnu sigurnosnu kopiju, spremnu instaliranu i zamijenite je starom u slučaju kvara. Oni su vrlo osjetljivi kod nestanka struje.</p>
+<p>Ovi su maleni strojevi poznati po stopi kvarova, iz raznih razloga. Dakle, čak i ako ste u "fazi učenja" preporučuje se korištenje UPS-a. Omogućit će vam veću opuštenost i dobar san noću.</p>
+
+<slika>
+ <img src="/assets/images/node-example1.jpg" class="center">
+ <figcaption>RPi trebaju dobru ventilaciju :)</figcaption>
+</figure>
+
+<h4>Napredni stroj</h4>
+<p>Kada budete spremni i naučite više o tome kako pokrenuti čvor, vrijeme je da podignete razinu hardvera. Sada želite pouzdaniji stroj, koji može podnijeti više veza, više kanala, brža plaćanja i dati vam dio uma da vaša sredstva neće biti zaključana za nekoliko dana ili tjedana u načinu oporavka zbog pada.</p>
+<p>Ako vaš proračun nije tako "velikodušan", možete se odlučiti za dobar rabljeni stolni stroj. Danas mnogi uredi prodaju svoje strojeve stare 1-2 godine za sitne novčiće. A neki od njih, čak i barebone, vraški su dobri strojevi za čvor. Obično već dolaze s najmanje 8 GB RAM-a, ponekad se cjenkaju s 16 GB (!!!).</p>
+<h5>Zašto barebones?</h5>
+<ul>
+<li>jer su relativno mali (moj je iste veličine kao RPi i nema ventilator)</li>
+<li>zato što na neke od njih možete dodati 2 SSD pogona ili čak NVM pogone (čak i puno bolje od SSD-a)</li>
+<li>zato što imaju bolju ventilaciju, a neke od njih pasivnu (bez bučnih ventilatora)</li>
+<li>zato što se rješavate veze USB pogona koju koristi RPi uređaj. Ta je USB veza najslabija točka za RPi čvor.</li>
+<li>zato što je hardver robusniji i izdržljiviji od RPi-ja.</li>
+</ul>
+
+<slika>
+ <img src="/assets/images/mini-node.jpg" class="center">
+ <figcaption>Moj skromni barebone čvor, unutarnji pogon, bez ventilatora</figcaption>
+</figure>
+
+<p>CPU zapravo nije bitan, samo dodajte 2 dobra SSD pogona za RAID i dobri ste!</p>
+<p>UPS i dalje morate imati. Zašto? Jer obično kada dođe do prekida struje, vrati se s drugačijim naponom, skokovima, amperima ili samo treperi itd. To bi moglo oštetiti izvor napajanja vašeg stroja. Obično je izvor energije prvi koji padne, štiteći ostale. Ali nikad se ne zna. UPS će održavati dobar i zdrav protok električne energije do vašeg uređaja i održavati internetsku vezu.</p>
+<blockquote style="color:Tomato;"><em>
+<p>Zapamtite: čvor ne mora biti otmjen, mora biti pouzdan.</p>
+</em></blockquote>
+<p>Ovdje bih preporučio da pronađete dobar stroj, s RAID čipom na matičnoj ploči, koji može podnijeti barem RAID 1 konfiguraciju na razini BIOS-a. Što ovo znači? Znači da možete izgraditi RAID volumen, izravno u BIOS-u, od 2 diska, tako da se podaci istovremeno zapisuju na oba diska. Dakle, ako se jedan pogon "razboli" ili umre, još uvijek možete imati svoje podatke na sigurnom na dvostrukom pogonu, koji još uvijek radi. Možete isključiti svoj stroj, zamijeniti bolesni pogon i RAID sustav će ponovno izgraditi dvostruki RAID sustav iz zdravog u nekoliko minuta. Nema gubitka podataka, nema zatvorenih kanala, nema gubitka sredstava.</p>
+
+<h4>Poslovni stroj</h4>
+<p>Kada pokrenete čvor za ozbiljan posao koji 100% ovisi o tom čvoru, vrijeme je da ozbiljno razmislite o posjedovanju stroja s čvorom 24/7/365. Samo dio jezgre čvora, a ne aplikacije koje instalirate na vrhu. Osiguravanje vašeg osnovnog čvora daje vam veću fleksibilnost gdje i kako upravljate svojim poslovnim aplikacijama i rješenjima.</p>
+
+<slika>
+ <img src="/assets/images/node-example2.jpg" class="center">
+ <figcaption>Osobni rack poslužitelji s više čvorova</figcaption>
+</figure>
+<p>Preporučio bih sljedeći scenarij za ovo:</p>
+<ul>
+<li>koristite rješenje hostiranog čvora (<a href="https://voltage.cloud/">Voltage</a>, <a href="https://nodl.it/">Nodl</a> , <a href="https://nodana.io">Nodana</a>, namjenski čvor VPS) kojim upravljaju profesionalci u arhitekturi čvorova, pružajući samo jezgreni dio (Bitcoin + LN čvor) s visokom dostupnošću i podrška.</li>
+<li>koristite bilo koje drugo računalo, može biti kod kuće/u uredu/udaljenom VPS-u gdje instalirate potrebne aplikacije za upravljanje svojim čvorom: BTCPay, LNbits, Thunderhub, RTL itd. i usmjerite njihovu konfiguraciju prema vašem udaljenom LN čvoru.</li>
+</ul>
+<p>To je sve što vam je potrebno za visoko dostupno rješenje, s gotovo nultom šansom da izgubite sredstva, kanale, kolege, vrijeme, klijente itd.</p>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">B. Sigurnosno kopiranje i vraćanje podataka</h2>
+<p>Najvažnija stvar je novčanik. Ovo je prva stvar koju biste trebali spremiti i čuvati na sigurnom, na primjer u izvanmrežnom upravitelju zaporki (Keepass ili Vaultwarden).</p>
+<h3 style="color:Yellow;">Sigurnosne kopije baze podataka LND čvorova</h3>
+<p>Za LND čvorove postoje dvije vrste pohranjivanja podataka koji se mogu vratiti:</p>
+<ul>
+<li>SCB sigurnosne kopije - izvanmrežna kopija stanja vaših kanala, koja sadrži samo informacije koje su dovoljne da se koriste za zatvaranje kanala (zajedno s vašim početnim sadržajem) i vraćanje sredstava s kanala natrag u vaš onchain novčanik. Imajte na umu: ovu datoteku channels.backup možete koristiti SAMO s vašim početnim sadržajem čvora! Napravite kopiju ove SCB datoteke svaki put kada otvorite i/ili zatvorite kanal. Ili napravite skripte koje mogu stvoriti ovu SCB datoteku na lokalnom disku svaki put kada otvorite/zatvorite kanale, a zatim rsync datoteku na udaljenoj lokaciji. To ne mora biti pri svakoj transakciji koju ste obavili sa svojim čvorom.</li>
+<li>Zadnje stanje channels.db i wallet.db. Te se datoteke NE MOGU sigurnosno kopirati u hodu ili čak i ako isključite čvor i napravite kopiju, nisu korisne jer će se nakon ponovnog pokretanja čvora promijeniti.</li>
+</ul>
+<p>Pod "posljednjim stanjem" korisno je SAMO stanje prije oporavka mrtvog čvora. Kada je vaš stroj mrtav zbog hardverskih razloga ili ne pokreće softver, ali još uvijek možete pristupiti datotekama. Zatim napravite kopiju ove dvije datoteke na vanjskom pogonu (može biti velik) i upotrijebite ih kasnije nakon što ponovo izgradite novi čvor.</p>
+<p>Imate 2 načina za vraćanje/oporavak LND čvora:</p>
+ <ol>
+ <li><p>BEZ stanja kanala</p>
+ <p>Za povrat sredstava BEZ kanala, možete koristiti SCB backup koji će se automatski zatvoriti i povratiti sredstva u onchain novčaniku. Ovo je najlakši način i <a href="/nodes/shtf-restore-lnd-node-hr.html">opisujem ga u ovom vodiču</a> (pogledajte metode 2,3,4,5,6) .</p>
+ <p>Snažno predlažem da koristite opciju 3, a dok vraćate sredstva u Blixtu, možete ponovno izgraditi novi nodeID, novi seed, novi novčanik, novi identitet sa svojim starim strojem. Kasnije možete samo premjestiti sredstva na svoj novi čvor iz Blixta ili ih samo koristiti, <a href="https://darthcoin.substack.com/p/node-liquidity-guide">kao privatni mobilni čvor, kao popratni mali čvor za vaš kućni čvor</a>.</p>
+ </li>
+ <li><p>SA stanjem kanala</p>
+ <p>Da biste vratili čvor S netaknutim kanalima, kao što je bio u prošlom stanju, morat ćete poduzeti neke korake da pripremite okruženje. <a href="/nodes/shtf-restore-lnd-node-hr.html">Objašnjeno u ovom vodiču</a>, pogledajte metode 1, 3, 4, 7, 8, 9, 10.</p>
+ <p>Ako vam se čvor srušio, ali još uvijek možete pristupiti datotekama, ovo je najbolji trenutak za sreću, imate 2 zadatka za obaviti:</p>
+ <ul>
+ <li>1. kopirajte wallet.db i channel.db oblik tog "nepokretnog" čvora negdje drugdje, van. channel.db može biti velik, pa nije dovoljan samo USB stick. Prvo provjerite njegovu veličinu.</li>
+ <li>2. kada te 2 datoteke izbacite na sigurno, počnite graditi cijeli čvor od nule ili ako imate prethodnu kopiju, u potpunosti je vratite. BUDITE SVJESNI! kada vraćate, ako možete preskočiti te 2 datoteke, ako ne, morat ćete ih prebrisati najnovijom kopijom koju ste upravo izvadili iz tog mrtvog čvora. Uvijek mora biti zadnje stanje.</li>
+ </ul>
+ <p>Kada ponovno izgradite softver čvora, odaberite opciju "vrati iz sjemena" kako biste mogli imati isti nodeID i ključeve za šifriranje iz prethodnog čvora, uz mogućnost korištenja istog wallet.db i channel.db. Ako upotrijebite drugi seed/nodeID, te datoteke nisu upotrebljive, ne mogu se otključati!</p>
+ <p>Ovo je dio u kojem morate "rekonstruirati" mape s podacima. Ako ne izvršite vraćanje iz potpune kopije koja već sadrži te mape u kojima su prije bili wallet i channel.db, morat ćete instalirati softver čvora od nule, pustiti ga da se pokrene, ponovno izgraditi mape i sinkronizirati db i zatim prestati to. Kopirajte 2 datoteke na njihovu lokaciju i ponovno pokrenite čvor. Gotovo.</p>
+ <p>Tada možete ponovno pokrenuti svoj čvor. Počet će hvatati korak i ponovno koristiti 2 datoteke lijepo, svi će vaši kanali biti tamo, samo će trebati neko vrijeme da uhvati korak s blokovima i sinkronizacijom.</p>
+ </li>
+ </ol>
+<h3>Sigurnosne kopije baze podataka CLN čvorova</h3>
+<p>Za ove implementacijske čvorove puno je lakše i samo su rekurzivna kopija jednostavne male datoteke baze podataka hsm_secret.</p>
+<p><a href="https://lightning.readthedocs.io/BACKUP.html">Cijeli su procesi objašnjeni u ovom priručniku za CLN</a>.</p>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">C. Održavanje i ažuriranja softvera</h2>
+<p>U redu, toliko je korisnika pitalo o ažuriranjima i koliko često to učiniti.</p>
+<p>Odgovor je jednostavan: potrebno je bilo kada. Upravo tako, ne stalno, nego samo kada je potrebno.</p>
+<p>Zašto? Jer nije potrebno sve vrijeme :) Ako nešto radi sasvim dobro bez grešaka, nova verzija ne znači automatski bolju. Nove značajke ili aplikacije koje ne koristite ne znači da morate ažurirati. Stabilnost je važnija od novih stvari.</p>
+<h4 style="color:Yellow;">Preporuke:</h4>
+<ul>
+ <li>nemojte impulzivno uskočiti u ažuriranje softvera vašeg čvora, odmah nakon što je objavljen ili ako čak i ne rješava probleme vašeg čvora. Neka ažuriranja su manja, neka su važna.</li>
+ <li>Pažljivo pročitajte napomene o izdanju i provjerite je li ažuriranje prednost ili ispravlja pogrešku koju ste imali sa svojim čvorom. Ako to ne utječe izravno na vas, nema potrebe uskočiti i izvršiti ažuriranje. Pričekajte važnije izdanje. Ponekad i ažuriranja brzih izdanja mogu sadržavati greške koje programeri nisu na vrijeme provjerili. Sranja se mogu dogoditi, i oni su ljudi. Stoga pričekajte još 1-2 dana i pogledajte što drugi nestrpljivi korisnici kažu nakon ažuriranja.</li>
+ <li>Ažuriranja OS-a važnija su od ažuriranja softvera čvora. Stoga češće provjeravajte ažuriranja OS-a i učinite ih kada su potrebna.</li>
+ <li>Kada ažurirate OS, uvijek prvo zaustavite čvor. Neki rekviziti mogu biti docker komponente ili drugi moduli koji utječu na softver čvora. Dakle, OS se ažurira i gasi stroj. Da, ne jednostavno ponovno pokrenite, već ga isključite, ostavite nekoliko sekundi da se izbriše memorija i pokrenite ponovno. Ovo je također dobra praksa za održavanje klastera pogona u dobrom stanju i čišćenje memorije od loših stvari.</li>
+ <li>Uvijek, prije ažuriranja softvera čvora, prvo ažurirajte OS.</li>
+ <li>RPi korisnici obično ne moraju vršiti ažuriranja OS-a, jer je softver čvora ugrađen zajedno s OS-om, obično je modificirana verzija Debian OS-a, prilagođena za RPi.</li>
+ <li>Korisnicima koji ne koriste RPi, toplo preporučujem korištenje Debian linuxa kao OS-a. Robusniji je, sustav datoteka s boljom provjerom, manje otmjenih nepotrebnih stvari na radnoj površini, za node OS morate biti minimalistički, ne koristite ga cijelo vrijeme.</li>
+ <li>Nemojte komplicirati s VM-ovima, Ubuntu poslužiteljima koji uzimaju samo veliku količinu resursa. Čvor to ne treba. Za pokretanje čvora potrebna vam je samo baza.</li>
+</ul>
+<p>Mislim da je ovo dovoljno aspekata za vas, novog operatera čvorova koji sada započinjete svoje putovanje u ovaj fascinantni svijet čvorova.</p>
+<p>Nadam se da pokrećete najbolji mogući čvor i dao sam vam dovoljno informacija za pokretanje čvora u dobrim uvjetima. Sretna munja!</p>
+</body>
+</html>
+</article>
