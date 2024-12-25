@@ -1,0 +1,322 @@
+---
+layout: default
+title: Verwalten der Lightning Node-Liquidität
+---
+<article>
+<!DOCTYPE html>
+<html lang="de">
+<meta name="description" content="Bitcoin- und Lightning-Anleitungen: So verwalten Sie die Liquidität Ihres LN-Knotens und betreiben ihn als öffentlichen Routing-Knoten">
+<body>
+<a href="/nodes/managing-lightning-node-liquidity-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/managing-lightning-node-liquidity-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/managing-lightning-node-liquidity-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/managing-lightning-node-liquidity-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/managing-lightning-node-liquidity-nl.html">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/managing-lightning-node-liquidity-hr.html">Hrvatski <img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/managing-lightning-node-liquidity-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<blockquote style="color:Tomato;"><em>
+<p>Ursprünglich gepostet auf <a href="https://darthcoin.substack.com/p/managing-lightning-node-liquidity">Substack</a> am 02. Mai 2023. Hier aktualisiert am 25. Dez. 2024</p>
+</em></blockquote>
+
+<h3>Methoden, Strategien, Typen, Empfehlungen zum Starten eines LN-Knotens und zum Bedienen seiner Liquidität.</h3>
+<p>Dieser Leitfaden richtet sich an alle neuen Benutzer, die sich mit (LN) Lightning Network-Knoten vertraut machen und die richtige Methode für ihre eigenen Bedürfnisse auswählen möchten.</p>
+<p>In diesem Leitfaden finden Sie viele Links zu vielen anderen spezifischen Leitfäden. Bitte ignorieren Sie sie nicht. Dieser Leitfaden ist eine Orientierungshilfe für alle, um Ihnen dabei zu helfen, den besten Weg durch das Lightning Network zu wählen.</p>
+<p>Unter neuen Bitcoinern herrscht das Missverständnis, dass man einen dedizierten öffentlichen Routing-Knoten betreiben MUSS, um LN-Zahlungen durchführen zu können.</p>
+<p>Die folgenden Fragen werden wir in diesem Leitfaden zu beantworten versuchen:</p>
+<ul>
+<li>Warum möchten Sie einen LN-Knoten betreiben?</li>
+<li>Welche Art von Hardware werden Sie verwenden?</li>
+<li>Welche Art von Software könnten Sie verwenden?</li>
+<li>Welche Art von Knoten möchten Sie betreiben (öffentlich oder privat)?</li>
+<li>Mit welchen Knoten-Peers sollten Sie sich verbinden?</li>
+<li>Wie werden Sie die Liquidität der Kanäle verwalten?</li>
+</ul>
+<p><img src="/assets/images/ln-liquidity-management.jpg" class="center"></p>
+
+<h2 style="color:Orange;">WARUM möchten Sie einen LN-Knoten betreiben?</h2>
+<h3 style="color:Yellow;">A. Sie sind ein einfacher LN-Benutzer, der nur seine Einkäufe mit Sats bezahlen möchte.</h3>
+<ul>
+<li>Sie benötigen mehr ausgehende Liquidität, da Sie mehr versenden werden.</li>
+<li>aber auch etwas eingehende, falls Sie von Freunden oder anderen empfangen müssen.</li>
+<li>gute Peers zum Verbinden, damit Ihre Txs einfach und billiger durchgehen.</li>
+<li>Sie müssen nicht zu viel Geld in Ihrem LN-Knoten verwenden, genug, um Ihre Ausgaben zu decken.</li>
+<li>Sie benötigen dafür keinen öffentlichen Routing-Knoten!</li>
+</ul>
+
+<h3 style="color:Yellow;">B. Sie sind ein Händler, Freiberufler oder Dienstleister, der Online- oder physische Produkte/Dienstleistungen über LN verkauft</h3>
+<ul>
+<li>Sie benötigen mehr eingehende Liquidität, d. h. andere Peers oder sogar Ihre eigenen Kunden, um Kanäle zu Ihrem Knoten zu öffnen</li>
+<li>Veröffentlichen Sie Ihre Knoten-ID bei Ihren Kunden und regen Sie sie an, sich mit Ihrem Knoten zu verbinden und Sie direkt zu bezahlen, auch ohne Gebühren</li>
+<li>Leeren Sie regelmäßig Ihre gefüllten Kanäle, damit Sie wieder „Platz“ für weitere Einnahmen haben. Es gibt viele Möglichkeiten, dies zu tun.</li>
+<li>Sie benötigen gute, große Kanäle, um so viele Zahlungen wie möglich empfangen zu können</li>
+<li>Sie müssen nicht zu viel Geld von Ihrer Seite einsetzen, Sie sind der Empfänger, nicht der Ausgeber</li>
+</ul>
+
+<h3 style="color:Yellow;">C. Sie sind nur ein Knotenbetreiber, Sie sind mehr daran interessiert, Transaktionen über LN zu routen</h3>
+<ul>
+<li>Sie tätigen nicht zu viele Zahlungen über Ihren Knoten (schlecht, wirklich schlecht)</li>
+<li>Sie benötigen sowohl eingehende als auch ausgehende Liquidität. Und zwar viel, also seien Sie darauf vorbereitet, große Geldsummen in Ihre LN-Kanäle zu stecken. Wenn Sie also ein Routing-Knoten mit 20.000 Sats oder 1 Mio. Sats sein möchten ... VERGESSEN SIE ES! Gehen Sie wieder schlafen.</li>
+<li>Sie benötigen ausgeglichene Kanäle, also treten Sie am besten <a href="https://t.me/plebnet">PLEBNET</a> oder <a href="https://lightningnetwork.plus/">Lightning Network Plus</a> bei.</li>
+<li>Sie müssen wissen, wie man Gebührenkanäle verwaltet, also fangen Sie an zu lernen</li>
+<li>Sie benötigen eine leistungsstarke Hardware und einen Knoten, der immer online ist. Das ist kein Witz!</li>
+<li>Sie können langsam in den Lightning Pool einsteigen und Ihre Node-Liquidität „mieten“/versteigern. Aber Sie brauchen einen starken Node und viel Liquidität, um wirklich ein „Einkommen“ zu erzielen.</li>
+</ul>
+
+<h3 style="color:Yellow;">D. Sie testen und lernen oder sind ein Entwickler, der einen Node als Basis verwendet.</h3>
+<ul>
+<li>Sie brauchen nur ein paar eingehende und ausgehende Kanäle zum Spielen.</li>
+<li>Sie brauchen nicht zu viel Geld darin.</li>
+<li>Es ist besser, Ihre Peers darüber zu informieren, dass Sie ein temporärer Peer für sie sind. Ihr Node ist nur ein Testgelände, sodass sie nicht erwarten, dass Sie online sind oder für immer Peer.</li>
+<li>Sie könnten öffentliche und private Kanäle haben und herumtesten.</li>
+</ul>
+
+<h3 style="color:Yellow;">E. Sie möchten für Ihre Familie und Freunde „Onkel Jim Bank“ sein</h3>
+<ul>
+<li>Sie werden Ihrer Familie und Ihren Freunden BTC/LN-Bankdienstleistungen anbieten. Das bedeutet viel Verantwortung und Vertrauen. Das ist kein Witz, Sie sind jetzt eine echte Bank.</li>
+<li>Sie werden in beide Richtungen (eingehend/ausgehend) etwas Liquidität benötigen, um die Bedürfnisse Ihrer „Kunden“ zu decken. Denken Sie daran: Die Liquidität Ihres Knotens ist ihr „Wasser in den Leitungen“, nicht ihre Gelder. Halten Sie Ihre Rohre also immer mit Wasser gefüllt.</li>
+<li>Sie können viele „Dienste“ anbieten, die Sie mit LNDHUB erreichen können, lesen Sie mehr:</li>
+<ul>
+<li><a href="https://darthcoin.substack.com/p/umbrel-lndhub-bluewallet">Umbrel + LNDHUB + Bluewallet / Zeus</a></li>
+<li><a href="https://darthcoin.substack.com/p/umbrel-node-lnbits">Umbrel + LNBits lndhub + Bluewallet / Zeus</a></li>
+<li><a href="https://darthcoin.substack.com/p/the-bank-of-lnbits">LNbits-Banken</a></li>
+<li><a href="/merchants/private-banks-over-ln-de.html">Private LN-Banken</a></li>
+</ul>
+<li>Sie müssen Ihren Kunden erklären, wie diese Dienste zu nutzen sind. Beginnen Sie also damit, Ihre eigenen einfachen Webanleitungen für sie zu erstellen.</li>
+<li><a href="https://darthcoin.substack.com/p/dunder-lsp-and-lightning-box-provider">Sie möchten LSP-Dienste für private Knoten anbieten.</a></li>
+</ul>
+
+<h3 style="color:Yellow;">F. „Ich möchte mit meinem Knoten Geld verdienen, ich möchte Gewinne erzielen, ich möchte jeden Monat einen bestimmten Prozentsatz“, „Ich möchte mit meinem Knoten Bitcoins schürfen“, „Ich möchte passives Einkommen“ …</h3>
+<ul>
+<li><strong>VERGESSEN SIE ES!</strong></li>
+<li>Das ist die falsche Mentalität, das ist die Mentalität eines faulen Kommunisten: Geld bekommen, ohne etwas zu tun. Um Geld zu verdienen, müssen Sie und Ihr Knoten hart arbeiten.</li>
+<li>Ein BTC/LN-Knoten ist kein beschissener DeFi-Shitcoin-Airdrop, sondern eine ernste Sache. Wenn Sie von der „dunklen Seite“ kommen, gibt es „keinen Hunger“.</li>
+<li>Hören Sie auf, so zu denken, und lesen Sie die vorherigen 5 Punkte noch einmal durch.</li>
+</ul>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">Welche Art von Hardware werden Sie verwenden?</h2>
+<p>OK, nachdem Sie sich entschieden haben, welche Art von Knoten Sie ausführen möchten, wählen Sie die Hardware dafür aus.</p>
+<p>Beachten Sie einige wichtige Aspekte:
+<ul>
+<li>Wenn Sie einen öffentlichen Routing-LN-Knoten ausführen möchten, wählen Sie eine gute, zuverlässige Hardware. <a href="/nodes/lightning-node-maintenance-de.html">Hier habe ich einen speziellen Leitfaden</a> über BTC/LN-Knotenhardware geschrieben. Wählen Sie entsprechend der Art der Verwendung, die dieser Knoten haben wird.</li>
+<li>Wenn Sie einen privaten LN-Knoten ausführen möchten, reicht nur ein gutes mobiles Gerät. Hier habe ich 2 Anleitungen zur Verwendung privater LN-Knoten auf Mobilgeräten geschrieben:</li>
+<ul>
+<li><a href="/beginner/bitcoiners-mobile-device-de.html">Welche Mobilgeräte Bitcoin-Nutzer verwenden sollten</a></li>
+<li><a href="/nodes/private-ln-nodes-de.html">Einen privaten Lightning-Knoten ausführen</a></li>
+</ul>
+</ul>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">Welche Art von Software könnten Sie verwenden?</h2>
+<p>Ja, viele Neulinge wählen einfach den einfachsten Weg und stürzen sich auf Umbrel, myNode, Citadel, Embassy usw., wissen aber nicht, dass sie später feststellen werden, dass es mehr als nur das ist. Ja, diese sind gut, um mit dem Lernen zu beginnen, und einfach zu installieren, aber später wird der Benutzer feststellen, dass er mehr als das will und migrieren oder mit einem neuen Softwareknoten neu beginnen muss.</p>
+<p>Hier in <a href="/nodes/bitcoin-ln-node-software-de.html">diesem Leitfaden habe ich alle Arten von Software aufgelistet</a>, mit denen Sie einen Desktopknoten ausführen können.</p>
+<p>Überlegen Sie sich also zweimal, was Sie tun werden, bevor Sie sich für einen entscheiden, und analysieren Sie jedes Detail.</p>
+<p>Wenn Sie nur einen privaten LN-Knoten auf Ihrem Handy ausführen möchten, finden Sie hier drei detaillierte Leitfäden zu allen LN-Apps, in denen sie nach Typ und Funktionen verglichen werden:</p>
+<ul>
+<li><a href="/wallets/lightning-wallets-comparison-de.html">Leitfaden zum Vergleich von Lightning Wallets</a></li>
+<li><a href="/nodes/private-ln-nodes-de.html">Private Lightning Network-Knoten</a></li>
+<li><a href="/beginner/getting-started-stack-sats-de.html">Erste Schritte Stacking Sats Noob Journey</a></li>
+</ul>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">Welchen Knotentyp möchten Sie ausführen (öffentlich oder privat)?</h2>
+<p>Viele neue Benutzer kennen die Existenz dieser Begriffe nicht einmal: öffentlicher oder privater Knoten.</p>
+<h3 style="color:Yellow;">Ein ÖFFENTLICHER LN-Knoten bedeutet:</h3>
+<ul>
+<li>Ihre Kanäle werden öffentlich im LN-Diagramm angekündigt und können mit allen Details in jedem <a href="https://darthcoin.substack.com/p/lightning-network-is-awesome#%C2%A7tools-explorers-analyzers-stats">Lightning Node Explorer</a> (Mempool, Amboss, 1ML) angezeigt werden. usw.).</li>
+<li>Ihre Knoten-ID und Ihr Name, Ihre IP und Ihre Tor-URL sind sichtbar und können in jedem <a href="https://darthcoin.substack.com/p/lightning-network-is-awesome#%C2%A7tools-explorers-analyzers-stats">LN Explorer</a> abgerufen werden.</li>
+<li>Ihre LN-Kanäle KÖNNTEN das ROUTING anderer Transaktionen durchführen. Das bedeutet, dass Ihr Knoten auch dann noch Gelder bewegt und die über Ihren Knoten eingehenden Zahlungen weiterleitet, wenn Sie selbst keine Zahlung leisten. Daher werden einige Kanäle die Liquidität aufbrauchen und andere werden aufgefüllt. Sie müssen also Methoden finden, um ein Gleichgewicht zwischen ihnen zu halten. <a href="/nodes/lightning-routing-fees-experiment-de.html">Wie ich hier ausführlicher erklärt habe</a>.</li>
+<li>Sie müssen ein intensives Liquiditätsmanagement für Ihre Kanäle durchführen, wenn Sie wirklich möchten, dass Ihr Knoten das Routing durchführt.</li>
+<li>Sie müssen Ihren Knoten 365/24/7 online halten (oder so lange wie möglich), damit Ihr Knoten eine gute Zuverlässigkeit, Verfügbarkeit und Zentralität aufweist und sein Ranking verbessert.</li>
+<li>Wenn Sie einen öffentlichen Knoten für das Routing betreiben möchten, aber dennoch ein gewisses Maß an Privatsphäre wahren möchten, können Sie einen Tor-Knoten verwenden (ist ziemlich schlecht für das Routing) und ihn hinter einen VPS-Clearnet-Server stellen, indem Sie <a href="https://tunnelsats.com/">TunnelSats.com</a> verwenden oder mehrere Täuschungsmethoden verwenden, <a href="/merchants/operating-ln-as-merchant-en.html">wie ich in diesem Handbuch erklärt habe</a>.</li>
+<li>Ein öffentlicher Knoten könnte haben immer noch private Kanäle (unangekündigt), aber diese werden überhaupt KEIN ROUTING DURCHFÜHREN. Wenn Sie einen guten öffentlichen Routing-Knoten haben, können Sie immer noch private Kanäle für mobile Benutzer anbieten. Auf diese Weise bieten Sie ihnen Ihre öffentliche Liquidität an. <a href="/merchants/private-banks-over-ln-de.html">Wie ich in diesem speziellen Leitfaden erklärt habe</a>.</li>
+</ul>
+
+<h3 style="color:Yellow;">Ein PRIVATER LN-Knoten bedeutet:</h3>
+<ul>
+<li>Ihre Kanäle sind NUR unangekündigt (privat) auf dem LN-Diagramm und sind in keinem öffentlichen LN-Explorer SICHTBAR. Diese Kanäle verwenden Routenhinweise, um die Zahlungen vornehmen zu können. Die Routenhinweise werden von den öffentlichen Knoten bereitgestellt, mit denen sie verbunden sind.</li>
+<li>Ihr LN-Knoten ist in keinem LN-Explorer SICHTBAR oder kann eingesehen werden.</li>
+<li>Sie können Zahlungen vornehmen und empfangen, aber Sie KÖNNEN KEIN Routing durchführen. Routing bedeutet, Zahlungen anderer Knoten über Ihren Knoten weiterzuleiten.</li>
+<li>Sie müssen keine Neugewichtung oder Kanalliquidität vornehmen, nur in Fällen, in denen Sie mehr von einem bestimmten Kanal empfangen oder senden müssen.</li>
+<li>Sie müssen Ihren privaten LN-Knoten nicht ständig online halten. Öffnen Sie es aber mindestens alle 2-3 Tage, lassen Sie es synchronisieren und tätigen Sie sogar einige Zahlungen, auch wenn diese klein sind. Seien Sie etwas aktiv, sonst könnten Ihre Peers es als toten Zombie-Knoten interpretieren und den Kanal mit Ihnen zwangsweise schließen.</li>
+<li><a href="/nodes/private-ln-nodes-de.html">Hier finden Sie einen speziellen Leitfaden zu privaten Lightning-Knoten</a>.</li>
+</ul>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">Mit welchen Knoten-Peers sollten Sie sich verbinden?</h2>
+<p>Dies ist eine ziemlich komplexe Frage und jeder sollte seine eigene Analyse basierend auf der Nutzung seines Knotens durchführen.</p>
+<p>Ich beginne mit dem Erstellen einer persönlichen Liste von Knoten, die ich manuell auswähle, nachdem ich sie mehrere Tage lang überwacht habe. Ich sage nicht, dass diese Knoten die besten sind, aber ich behalte gerne den Überblick über Knoten, mit denen ich mich verbinden möchte.</p>
+<p>Ich werde es regelmäßig aktualisieren, basierend auf persönlichen und manuellen Kriterien, und ihre Aktivität auf <a href="https://mempool.space/lightning">Mempool LN</a> oder <a href="https://amboss.space/">Amboss.space</a> LN Explorer und anderen Tools beobachten. Meine Kriterien basieren nicht auf BOS-Scores und ähnlichem. Es geht eher darum, was ihre L2-Verbindungen sind, was ihre Gebühren sind, wie oft sie Kanäle öffnen/schließen, wie lange ihr Knoten online bleibt. Denken Sie mehr darüber nach, wie IHRE Txs über diese Knoten geroutet werden, und kümmern Sie sich später um einen Routing-Knoten.</p>
+<p>Es ist auch nicht wirklich notwendig, sich mit allen aus dieser Liste zu verbinden. Aber einige von ihnen sind gut, um sie als Peers zu haben.</p>
+<p>Ein weiterer wichtiger Aspekt für mich bei der Auswahl von Peers ist: Vermeiden Sie jene Knoten, die exorbitante Gebühren erheben, nur um andere Benutzer mit Gebühren abzuzocken. Mir ist scheißegal, was andere zu sagen versuchen, nämlich ein Wettlauf um Kapitalgewinne auf LN, aber für mich ist LN eher eine Möglichkeit, billig und schnell Transaktionen durchzuführen und nicht, um durch Routing „Sats zu verdienen“. Wenn sich also ein Knoten mit hohen exorbitanten Grundgebühren und/oder ppm mit meinem Knoten verbindet, deaktiviere ich den Kanal oder schließe ihn einfach.</p>
+<p>Zunächst einmal ist dies ein guter Anfang, um sich von dieser <a href="https://amboss.space/community/06027a31-cf60-49c1-be86-210257add36f">Amboss Community of Merchants Nodes</a> aus mit einem dieser Händlerknoten zu verbinden. Sie benötigen eingehende Liquidität. Wenn Sie also einen neuen Knoten haben, helfen Sie ihnen und sie helfen Ihnen.</p>
+<p>Hier ist auch <a href="https://basefee.ln.rene-pickhardt.de/">eine riesige Liste von Knoten mit 0 Basisgebühren</a>, kuratiert von René Pickhardt.</p>
+<p>Schauen Sie sich auch die <a href="https://amboss.space/community/fa2a3e5a-769c-4cbf-ab9d-7ed8680a9ec6">Community mit Null-Basisgebühren</a> auf Amboss und alle anderen <a href="https://amboss.space/community">Amboss-Communitys</a> an.</p>
+<p>Die Reihenfolge der Liste ist zufällig, keine Präferenzen.</p>
+
+<h4 style="color:Yellow;">BEOBACHTETE KNOTEN nach Kategorie</h4>
+<p>Die Reihenfolge der Liste ist zufällig, keine Präferenzen, ist nur eine Referenz und Ausrichtung.</p>
+<h5>LSP-Knoten (Liquidty Service Providers)</h5>
+<p>Dies sind sehr wichtige Quellen, da sie gut verbunden sind, ihre Zentralität gut ist und sie auf hohe Zuverlässigkeit und hohe Liquidität ausgerichtet sind. Nicht alle verwenden niedrige Gebühren, aber im Allgemeinen ja, da sie in großen Transaktionsvolumina denken.</p>
+<p>Diese Knoten benötigen Liquidität auf beiden Seiten des Kanals, daher ist es gut, wenn Sie sie beobachten und das Gleichgewicht halten, wenn es nötig ist. Passen Sie die Gebühren und das minimale/maximale HTLC entsprechend an oder stellen Sie sogar ein zirkuläres Gleichgewicht zwischen Ihren anderen Kanälen her.</p>
+<ul>
+<li>⚡ <a href="https://mempool.space/lightning/node/03d35779ff612c574b92494d74300ce467e0eb510181a6ae3eb74d8ada891d82aa">IBEX</a> – dynamische Gebühren | 3 Mio. Mindesthandel | Hinweis 6/10 | LATAM-Börse LSP</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/03aefa43fbb4009b21a4129d05953974b7dbabbbfb511921410080860fca8ee1f0">Voltage Flow</a> – 1/500-Richtlinie | 1 Mio. Mindesthandel | Hinweis 8/10 | gute Liquidität</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/0242a4ae0c5bef18048fbecf995094b74bfb0f7391418d71ed394784373f41e4f3">CoinGate</a> – 1/1-Richtlinie | 1 Mio. Mindest-Chan | Anmerkung 8/10 | riesiger Knoten</li>
+<li>⚡ <a href="https://amboss.space/search?term=bG5iaWc=">LNBig</a> – geringe Dynamik | kein Mindest-Chan | Anmerkung 8/10 | verschiedene Liquiditätsknoten</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/026af41af0e3861ba170cc0eef8f45a1015125dac57c28df53752dcaeea793b28f">BitcoinVN</a> - 1/dynamisch | 6 Mio. Min. Chan | Hinweis 8/10 | Vietnamesische Börse / LSP</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/02e4971e61a3f55718ae31e2eed19aaf2e32caf3eb5ef5ff03e01aa3ada8907e78">FlashSats</a> - 0/0-Richtlinie | 5 Mio. Min. Chan | Hinweis 8/10 | bietet eingehendes LSP</li>
+<li>⚡ <a href="https://lnserver.com/">LNServer</a> - 0/0-Richtlinie | 2 Mio. min. Chan | Hinweis 8/10 | bietet eingehendes LSP</li>
+<li>⚡ <a href="https://megalithic.me/">Megalithic</a> - 0/0-Richtlinie | 1 Mio. min. Chan | Hinweis 9/10 | bietet eingehendes LSP</li>
+</ul>
+
+<h5>Börsen/Swap-Knoten</h5>
+<p>Die Leute beginnen, mehr Börsen zu verwenden, die Abhebungen über LN anbieten. Und sie brauchen Liquidität und Sie können eine Brücke zwischen Börsen und Benutzern sein. Ihre Bankkunden möchten auch mehr Sats über Ihre Bankkanäle kaufen.</p>
+<p>Diese Knoten benötigen mehr Guthaben auf ihrer Seite. Sie müssen also mehr Sats auf ihrer Seite pushen, damit sie mehr Liquidität für Benutzerabhebungen haben. Diese sind ein gutes Paar für eine zirkuläre Neugewichtung mit den Händlerkanälen.</p>
+<ul>
+<li>⚡ <a href="https://mempool.space/lightning/node/026165850492521f4ac8abd9bd8088123446d126f648ca35e60f88177dc149ceb2">Boltz</a> – 1/dynamische ppm | 1M min chan | Hinweis 8/10 | Swap-Knoten</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/0374eb2306a27dffd657c781065bd11785588f4811c4949070f8aed79e95a97db4">Zickzack</a> – 1/1-Richtlinie | kein Mindestkanal | Hinweis 7/10 | Knoten austauschen</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/037f990e61acee8a7697966afd29dd88f3b1f8a7b14d625c4f8742bd952003a590">FixedFloat</a> – 1/1-Richtlinie | 10 Mio. Mindestkanal | Hinweis 7/10 | Knoten austauschen</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/024bfaf0cabe7f874fd33ebf7c6f4e5385971fc504ef3f492432e9e3ec77e1b5cf">Deezy</a> – 0/dynamisch | 400.000 min| Hinweis 8/10 | Swap-Knoten</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/03037dc08e9ac63b82581f79b662a4d0ceca8a8ca162b1af3551595b8f2d97b70a">River</a> – 0/dynamisch | 10 Mio. min. | Hinweis 8/10 | großer Exchange-Knoten</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/02868e12f320073cad0c2959c42559fbcfd1aa326fcb943492ed7f02c9820aa399">CoinOS</a> – 1/1-Richtlinie | kein Mindest-Chan | Hinweis 6/10 | Knoten austauschen</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/02f1a8c87607f415c8f22c00593002775941dea48869ce23096af27b0cfdcc0b69">Kraken</a> - 0/dynamisch | 1 Mio. min. Chan | Anmerkung 7/10 | Knoten austauschen</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/037659a0ac8eb3b8d0a720114efc861d3a940382dcfa1403746b4f8f6b2e8810ba">NiceHash</a> - 1/dynamisch | 500.000 min. Chan | Anmerkung 7/10 | Austauschknoten</li>
+<li>⚡ <a href="https://amboss.space/search?term=YmZ4">Bitfinex</a> – 1/1-Richtlinie | 2 Mio. Mindest-Chan | Hinweis 7/10 | verschiedene Knoten</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/0247719ca61fa34ce383634a30b9cde6a2b396a8a6e2974dbbd4ebbe93e093ad2c">Biscoint.io</a> – 0/0-Richtlinie | kein Mindest-Chan | Hinweis 7/10 | Brasilianische Börse</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/0260fab633066ed7b1d9b9b8a0fac87e1579d1709e874d28a0d171a1f5c43bb877">SouthxChange</a> - 0/dynamisch | kein Mindestaustausch | Hinweis 7/10 | Börsenknoten</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/02fe80fb6a2dc0fb6e9bec49c76d048889c91355d4e900fcb026bf095665790325">Kollider</a> - 1/dynamisch | 2 Mio. Mindestaustausch | Hinweis 7/10 | Derivatehandelsbörse</li>
+</ul>
+
+<h5>Knoten des Wallet-Anbieters</h5>
+<p>Wenn Sie direkte, schnelle Routen und Interoperabilität zwischen vielen mobilen Benutzern wünschen, sollten Sie gut mit diesen Knoten verbunden sein. Dies bietet Ihnen und Ihren „Bankkunden“ eine schnelle und zuverlässige Route, um mit anderen Benutzern über das Lightning Network Transaktionen durchzuführen.</p>
+<p>Diese Knoten benötigen Liquidität auf beiden Seiten oder beobachten Sie das Verhalten Ihrer eigenen Benutzer. Vielleicht haben Sie mehr Sparer als Geldausgeber. Die Idee ist, sie nicht zu verstopfen, es ist notwendig, ohne Liquidität auf der Seite zu bleiben.</p>
+<ul>
+<li>⚡ <a href="https://mempool.space/lightning/node/0230a5bca558e6741460c13dd34e636da28e52afd91cf93db87ed1b0392a7466eb">Blixt</a> – 1/dynamische ppm | kein Mindest-Chan | Anmerkung 8/10 | LSP-Anbieter, LN-Wallet</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/031b301307574bbe9b9ac7b79cbe1700e31e544513eae0b5d7497483083f99e581">Olympus LSP</a> – dynamisch | 1M-Chan-Größe | Anmerkung 9/10 | <a href="https://lsps1.olympusln.com/">LSP-Anbieter</a>, LN-Wallet</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/035e4ff418fc8b5554c5d9eea66396c227bd429a3251c8cbc711002ba215bfc226">WoS</a> – 0/dynamisch | kein Mindest-Chan | Hinweis 7/10 | große Benutzerabdeckung</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/03864ef025fde8fb587d989186ce6a4a186895ee44a926bfc370e2c366597a3f8f">Acinq</a> - 1/dynamisch | kein Mindestumsatz | Note 7/10 | Phoenix Wallet-Anbieter</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/031015a7839468a3c266d662d5bb21ea4cea24226936e2864a7ca4f2c3939836e0">Breez</a> - 0/dynamisch | 3 Mio. Mindestumsatz | Note 7/10 | Breez-Wallet-Anbieter</li>
+<li>⚡ <a href="https://amboss.space/search?term=YWxieQ==">Alby</a> – 1/1-Richtlinie | 4M Min. Chan | Hinweis 7/10 | Alby Browser Wallet, verschiedene Knoten</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/023dff2a4301df8142a44d30606f0f2173e6dab0d297a412bda2e5c289ee30ae3c">Strike</a> – sie haben viele Knoten, gut als Peer für ein riesiges Netzwerk</li>
+<li>⚡ <a href="https://zebedee.io/nodes">Zebedee-Knoten</a> – Gaming-Wallet-Knoten, sie brauchen Liquidität / Sie brauchen Verbindungen</li>
+</ul>
+
+<h5>Händler-/Dienstanbieterknoten</h5>
+<p>Dies ist auch eine wichtige Quelle, um Ihren Bankkunden direkte Kanäle mit den Händlern anzubieten, die sie häufiger nutzen. Wenn Sie also bereits wissen, welche Händler sie nutzen möchten, eröffnen Sie Kanäle mit diesen. Sie bieten nicht nur Liquidität für Ihre eigenen Bankbenutzer, sondern auch für externe LN-Benutzer, die an diese Händler zahlen. Überprüfen Sie auf <a href="https://btcmap.org/">BTCMap</a> die Händler in der Nähe und fragen Sie sie, ob sie Liquidität benötigen. Öffnen Sie dann einen Kanal mit ihrem Knoten.</p>
+<p>Diese Knoten benötigen mehr Guthaben auf Ihrer Seite des Kanals. Warum? Weil Sie mehr Benutzer haben werden, die an sie zahlen. Sie sind also ein gutes Paar, um die Kanäle von Börsen aus kreisförmig neu auszugleichen.</p>
+<ul>
+<li>⚡ <a href="https://mempool.space/lightning/node/02816caed43171d3c9854e3b0ab2cf0c42be086ff1bd4005acc2a5f7db70d83774">Fold</a> – 1/dynamisches ppm | kein Mindestkanal | Hinweis 7/10 | Satsback, Kartenanbieter</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/03271338633d2d37b285dae4df40b413d8c6c791fbee7797bc5dc70812196d7d5c">LNMarkets</a> – guter Peer, viele Txs, bietet Handel auf LN</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/025f1456582e70c4c06b61d5c8ed3ce229e6d0db538be337a2dc6d163b0ebc05a5">Moon</a> – 1/1-Richtlinie | kein Mindestumsatz | Hinweis 7/10 | Kartenanbieter, gute Verbindungen</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/03f15fc38f36e88bf1d799994d38e10902318287a53eb413b5e8ab0046d863bace">OSHI</a> - 0/dynamische Gebühren | Note 6/10 | zu viele deaktivierte Kanäle | oshi.app</li>
+<li>⚡ <a href="https://amboss.space/community/06027a31-cf60-49c1-be86-210257add36f">Händler-Community</a> – verschiedene Händlerknoten in der Amboss-Community</li>
+</ul>
+
+<h5>Rings of Fire, Liquiditätstausch, NodeRunners-Communitys</h5>
+<p>Dies ist eine spezielle Kategorie und optional. Sie ist gut für den Anfang, wenn Sie nicht so viele Kanäle haben und möchten, dass Ihr Knoten im Netzwerk „sichtbarer“ wird. Verwenden Sie sie nicht übermäßig, da nicht alle Knoten darin für Ihre Anforderungen geeignet sind. Viele von ihnen wollen nur „passives Einkommen“ und versuchen, Sats aus Ihren Knotengebühren zu ziehen.</p>
+<p>Diese Knoten bieten Ihnen mithilfe der Ring-Tools immer bereits ausgeglichene Kanäle. Das ist ein guter Anfang, denn Sie werden auf beiden Seiten Liquidität haben. Auch wenn Sie neu im Betrieb eines Knotens sind, ist die RoF-Community sehr hilfreich und gibt Ihnen die besten Ratschläge zur Konfiguration Ihres Knotens.</p>
+<p>Telegram-Gruppen: <a href="https://t.me/theRingsOfFire">Rings of Fire</a>, <a href="https://t.me/SatoshiRadioROF">Satoshi Radio</a>, <a href="https://t.me/plebnet">Plebnet</a> oder <a href="https://lightningnetwork.plus/">LightningNetwork.Plus</a> – ein fantastisches Web, um Ringen mit anderen Plebs beizutreten.</p>
+<p><a href="https://darthcoin.substack.com/p/lightning-network-is-awesome#%C2%A7tools-explorers-analyzers-stats">Siehe den Abschnitt über LN-Knoten-Tools</a> in dieser fantastischen Liste mit Dingen, die Sie auf LN tun können, und verwenden Sie sie, um Ihr Knoten.</p>
+
+<h5>Andere gute Knoten</h5>
+<p>Dies ist die Kategorie von Knoten, die Sie erweitern können, wenn Ihr Knoten bereits gut verbunden ist und Sie die äußeren Grenzen der LN-Galaxie erreichen möchten. Dies sind Knoten, denen Sie helfen möchten, Knoten, die aus anderen „LN-Banken“ stammen und die Sie verbinden möchten und die keiner der vorherigen Kategorien angehören.</p>
+<p>Aber seien Sie vorsichtig, wählen Sie sie mit Vorsicht aus und beobachten Sie sie während der Anfangsphase. Wenn sie es nicht wert sind, schließen Sie sie. Knoten, die während eines bestimmten Zeitraums keine Satelliten bewegen, sind völlig nutzlos.</p>
+<ul>
+<li>⚡ <a href="https://mempool.space/lightning/node/03c72f89b660de43fc5c77ef879cbf7846601af88befb80e436242909b14fd0495">RecklessApotheosis</a> – 0/dynamische ppm | kein Mindest-Chan | Hinweis 8/10 | plebnet-Knoten</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/0356c1091bb139ad3520eb370f1512ac2f4ed67b87d2687638252152fbf2b4575f">BlackBox</a> – 0,4/dynamische Gebühren | 5 Mio. min. Kanal | Anmerkung 8/10 | beide Seiten Mover, guter Peer</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/03dd09855c3634daa5c7de0146f4d54eb395b51ae422bc86ee1132a0d7ed50e720">Hades</a> – 0/dynamische ppm | 5 Mio. min. Kanal | Anmerkung 8/10 | interessanter Knoten, niedrige Gebühren</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/038baffac55a282ae73e0627146a12a345f7beccb90dec07280e8b970a072849cf">Satstacker</a> – 0/1-Richtlinie | 1 Mio. Mindest-Chan | Anmerkung 8/10 | gut vernetzt, kollaborativ</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/02664c4ed5e60b2f5119e8430f26e5e671fe2199ffaa18de452d29c454db065b02">Südkorea</a> – 0/dynamische ppm | kein Mindest-Chan | Anmerkung 7/10 | plebnet-Knoten</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/03e81689bfd18d0accb28d720ed222209b1a5f2c6825308772beac75b1fe35d491">Rust-eze</a> – 0/dynamisch | 1 Mio. min. Chan | Hinweis 7/10 | vielversprechender Pleb-Knoten</li>
+<li>Für mobile private LN-Knoten: <a href="https://github.com/hsjoberg/blixt-wallet/issues/1033">Hier ist eine Community-Liste guter Knoten</a>, die private Kanäle akzeptieren.</li>
+</ul>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">Wie verwalten Sie die Liquidität der Kanäle?</h2>
+<h3 style="color:Yellow;">A – Für einen öffentlichen Routing-Knoten</h3>
+<p>Bevor wir beginnen, setzen Sie ein Lesezeichen für diesen hervorragenden Spezialleitfaden „Konfiguration eines Routing-Knotens“ – vom LND-Team. Dieser Leitfaden ist ein MUSS, den Sie lesen und verwenden müssen.</p>
+<p>Ein guter 3-5-10-20M-Sats-Kanal (oder sogar größer) mit einem dieser Kanäle ist gut für Ihren neuen Knoten. Öffnen Sie keinen Kanal für weniger als 3M Sats. Das wäre nutzlos. Kanäle, die kleiner als 3M-Satelliten sind, werden beim Routing größtenteils ignoriert.</p>
+<p>Außerdem sind die Kosten für das Öffnen und Schließen kleiner Kanäle zu hoch, um sie zu betreiben. Wenn Sie einen Kanal öffnen, gibt es viele „Reserven“ und versteckte Kosten, die Neulinge normalerweise nicht kennen oder ignorieren, aber später schreien sie: „Warum sinkt mein Kanalguthaben von 20.000 Sats?“ Sie haben die Ankerkanalreserve, Sie haben die Kanalreserve, Sie haben die Verpflichtungsgebühren, die zeitlich variieren können und die verfügbaren Sats Ihres Kanals beeinflussen, Sie haben das HTLC-Minimum/Maximum, das Ihre Peers festlegen können.</p>
+<p>Um all diesen Ärger zu vermeiden, öffnen Sie einfach einen Kanal mit mindestens 3 Mio. Sats und vergessen Sie es.</p>
+<p>Wählen Sie einen Peer mit Bedacht aus und überprüfen Sie auch LN Node Insight, indem Sie mit jedem von ihnen einen Kanal simulieren, und sehen Sie, welche Vorteile dies Ihrem Knoten bringt.</p>
+<p>Sobald Sie den Kanal geöffnet haben, sollten Sie, abhängig von Ihrer verfügbaren ausgehenden/eingehenden Liquidität, etwa 30-40-50 % dieser Liquidität ausschleifen, um den neu erstellten Kanal ein wenig auszugleichen. Das wird helfen, den Griff zu bekommen. Sie können eine temporäre externe LN-Wallet verwenden oder einfach in onchain. Diese Loop-Out-Gelder helfen Ihnen später, weitere Kanäle zu öffnen.</p>
+<p>Um Sats ein-/auszuschleifen, können Sie Folgendes verwenden:</p>
+<ul>
+<li><a href="https://boltz.exchange/">Boltz.exchange</a> – einfach, schnell, Swaps von LN zu onchain</li>
+<li><a href="https://swapmarket.github.io/">Swap Market</a> – basierend auf Boltz-Code, schließt andere nicht-verwahrte Swaps ein</li>
+<li><a href="https://deezy.io/">Deezy.io</a> – einfach, schnell, LSP, Swaps LN – onchain</li>
+<li><a href="https://coinos.io/">CoinOS.io</a> – Web-Wallet, onchain, LN, Swaps, verwahrt oder nicht verwahrt</li>
+<li><a href="https://zigzag.io/">ZigZag.io</a> - einfach, schnell, Swaps von LN zu Onchain (Achtung, manchmal geht ihnen die Liquidität schnell aus)</li>
+<li><a href="https://fixedfloat.com/">FixedFloat</a> - einfach, schnell, Swaps von LN zu Onchain</li>
+<li>Integrierte Swaps in RTL und Thunderhub (verwenden Loop und Boltz)</li>
+<li><a href="http://robosats6tkf3eva7x2voqso3a5wcorsnw34jveyxfqi2fu7oyheasid.onion/">RoboSats</a> (Onion-Link) - Fiat <--> LN und LN <--> Onchain-Swaps, völlig privat, nur Tor</
+<li><a href="https://swap.diamondhands.technology/">DiamondHands</a> - betrieben von einem Japaner Node-Runner-Community</li>
+<li><a href="https://submarineswaps.org/">U-Boot-Tausch</a> – betrieben von Alex Bossworth (LND-Entwickler)</li>
+<li><a href="/nodes/lightning-submarine-swaps-de.html">Hier habe ich einen speziellen Leitfaden zu LN-U-Boot-Tausch geschrieben</a></li>
+</ul>
+<p>Für einen öffentlichen Routing-Knoten ist dies der wichtigste Diagrammbericht: IHR GESAMT-Liquiditätsbericht (Screenshot aus der Thunderhub-Knotenverwaltungs-Web-App)</p>
+<p><img src="/assets/images/liquidity-report-th.jpg" class="center"></p>
+<p>Wie Sie sehen, ist es nicht so wichtig, auf jedem Kanal ein perfektes Gleichgewicht zu halten, sondern auf Ihrer gesamten eingehenden und ausgehenden Liquidität. Eine Störung dieses Gleichgewichts, sagen wir, Sie haben 60 % ausgehende und 40 % eingehende Gesamtliquidität, könnte Ihr Routing direkt beeinflussen und weniger Zahlungen weiterleiten. Warum? Denn wenn Sie nicht genug „Platz“ haben, um eine Zahlung zu empfangen und weiterzuleiten, wird Ihr Knoten die Route ablehnen.</p>
+<p>Sie können diesen Liquiditätsmangel folgendermaßen beheben:</p>
+<ul>
+<li>>Ein- oder Austausch in einen Kanal vornehmen, der leer oder zu voll ist</li>
+<li><a href="https://thebitcoinmanual.com/articles/bitcoin-app-lightning-loop/">Lightning Terminal Loop verwenden</a></li>
+<li><a href="https://github.com/cryptosharks131/lndg">LNDg-Tool zur automatischen Anpassung der Liquidität verwenden</a></li>
+<li>Gebühren für bestimmte Kanäle anpassen, um die Liquidität dorthin zu lenken, wo sie am meisten benötigt wird</li>
+<li><a href="/nodes/lightning-routing-fees-experiment-de.html">Mindest- oder Höchstbetrag für HTLC anpassen (Ventilsystem)</a></li>
+<li><a href="https://notgeld.medium.com/how-to-optimize-lightning-node-centrality-e197d74eab90">Optimieren Sie Ihre Knotenzentralität</a> - sehr gute Anleitung</li>
+</ul>
+<p><a href="https://www.lopp.net/lightning-information.html#node_tools">Hier in dieser Anleitung</a> finden Sie auch weitere Tools zur Knotenverwaltung, automatisierte Skripterstellung und Balancing.</p>
+<p>Allgemeine Empfehlungen für öffentliche Routing-Knoten:</p>
+<ul>
+<li>Versuchen Sie, einen Kanal so weit wie möglich offen zu halten. Wenn der Kanal jedoch recht klein ist und Sie sehen, dass eine gute Weiterleitung durch ihn erfolgt, schließen Sie ihn und öffnen Sie einen größeren.</li>
+<li>Halten Sie Ihren Knoten so zuverlässig wie möglich. Ihr Knotenruf hängt davon ab.</li>
+<li>Betreiben Sie keinen Knoten nur für Tor, wenn Sie Routing durchführen möchten. Routing bedeutet ÖFFENTLICH. Nur Tor-Knoten sind nicht zuverlässig und zu 100 % erreichbar und das betrifft nicht nur Sie, sondern alle anderen im Netzwerk.</li>
+<li>Wenn Sie Privatsphäre vor dem Routing möchten, BETREIBEN SIE KEINEN ÖFFENTLICHEN KNOTEN!</li>
+</ul>
+
+<h3 style="color:Yellow;">B – Für private LN-Knoten</h3>
+<p>In dieser Kategorie ist es ganz einfach und alles hängt von Ihrer Nutzung dieser privaten LN-Knoten ab.</p>
+<p>Grundsätzlich müssen Sie einige gute öffentliche Knoten finden, mit denen Sie sich verbinden können:</p>
+<ul>
+<li>um Ihnen die niedrigstmöglichen Gebühren zu bieten</li>
+<li>akzeptieren Sie die Öffnung kleinerer Kanäle</li>
+<li>akzeptieren Sie die Öffnung privater Kanäle und halten Sie sie offen, solange Sie Aktivität haben</li>
+<li>bieten Sie gute und schnelle Zahlungsrouten an</li>
+</ul>
+<p>Versuchen Sie auch hier, kleinere Kanäle wie 20-50-100.000 Sats zu vermeiden. Ein normaler Kanal mit 1-5 Millionen Sats reicht aus, um Ihnen eine gute Anzahl an Zahlungen zu ermöglichen.</p>
+<p>Halten Sie außerdem 2-3-4 Kanäle auf Ihrem mobilen privaten Knoten bereit. Warum nicht nur 1? Denn Sie wissen nie, wann Ihr Peer offline ist oder keine guten Routen hat. Außerdem können Sie mit mindestens 3 Kanälen MPP (Multipart Payment) verwenden, Ihren Zahlungsbetrag in kleinere Teile aufteilen und über mehrere Routen senden. Dieser Aspekt erhöht nicht nur Ihre Privatsphäre, sondern ist auch eine effizientere Möglichkeit, Ihre Kanäle und das Netzwerk zu nutzen.</p>
+<p>Für den Blixt LN-Knoten <a href="https://blixtwallet.github.io/guides">habe ich auf deren Dokumentationsseite mehrere Anwendungsszenarien und Kanalverwaltung beschrieben</a>.</p>
+<p>Für den Breez, Electrum LN-Knoten <a href="/nodes/private-ln-nodes-de.html">habe ich hier einige Szenarien für Liquidität beschrieben</a>.</p>
+<p>Für Zeus wurde kürzlich der eingebettete LND-Knoten eingeführt, damit Benutzer den Zeus-Knoten auf ihren Mobilgeräten ausführen können.</p>
+<ul>
+<li><a href="/wallets/getting-started-zeus-wallet-de.html">Hier habe ich eine Anleitung für den Einstieg in den Zeus LN-Knoten geschrieben</a></li>
+<li><a href="/wallets/zeus-node-advanced-usage-de.html">Hier habe ich eine erweiterte Anleitung für den Zeus LN-Knoten geschrieben</a></li>
+<li><a href="https://docs.zeusln.app/category/embedded-node">Lesen Sie hier weitere Dokumentation zur Verwendung des integrierten LSP und Knotens</a>.</li>
+</ul>
+<p>Für Phoenix würde ich das folgende Szenario vorschlagen:</p>
+<p>Phoenix öffnet einen Kanal, der etwas größer ist als das, was Sie einzahlen, ich könnte sagen, 10 % mehr. Und für jede Kanalöffnung wird eine Gebühr von 3000 erhoben. Wenn Sie anfangen, über diesen Kanal Geld auszugeben, geben Sie nicht alles aus, denn er wird geschlossen. Wenn Sie einige Sats im Kanal lassen und eine weitere Einzahlung von einem anderen LN-Wallet vornehmen, aber nicht mehr als die Größe des Kanals, passen die Sats in den bereits geöffneten Kanal und es wird kein neuer Kanal geöffnet. Also keine 3000 Sats-Gebühr mehr.</p>
+<p>Wenn Sie von einer Onchain-Adresse einzahlen, wird ein neuer Kanal geöffnet, auch wenn Sie bereits einen fast leeren Kanal haben.</p>
+<p>Ich schlage vor, beim ersten Mal eine größere Einzahlung zu tätigen und so einen größeren Kanal zu öffnen. Geben Sie langsam von diesem Kanal aus, bis Sie den Kontostand von 1 % davon erreicht haben. Dann füllen Sie auf, bis 99 %. Und so weiter. Auf diese Weise halten Sie diesen Kanal offen und zahlen weniger Gebühren.</p>
+<p>Denken Sie auch daran, dass Sie, nachdem Sie einen größeren Kanal geöffnet haben und nicht versehentlich weitere Kanäle öffnen möchten, die Option „Automatische Kanalerstellung im laufenden Betrieb“ unter „Einstellungen – Zahlungsoptionen und Gebühren“ deaktivieren. Aktivieren Sie diese Option nur, wenn Sie neue Kanäle öffnen möchten. Denken Sie daran, dass die Zahlung fehlschlägt, wenn Sie nicht genügend „Speicherplatz“ zum Empfangen haben und diese Option deaktiviert ist.</p>
+<p>Wenn Sie Ihren eigenen Desktop-Knoten zu Hause betreiben, können Sie auch Folgendes verwenden:</p>
+<ul>
+<li><a href="https://darthcoin.substack.com/p/the-bank-of-lnbits">LNBits lndhub</a></li>
+<li><a href="https://github.com/boltcard">BoltCard lndhub</a></li>
+<li><a href="https://docs.lightning.engineering/lightning-network-tools/lightning-terminal/accounts">Lightning Terminal LN-Konten</a></li>
+<li><a href="https://docs.btcpayserver.org/LNbank/">BTCPay LN-Bank-Plugin</a></li>
+<li><a href="/wallets/getting-started-alby-hub-de.html">Alby Hub, selbst gehostet mit „Onkel Jim“-Funktion</a></li>
+</ul>
+<p>So können Sie praktisch Ihr eigener LSP für kleinere Mengen von LN-Konten von Ihrem eigenen Knoten aus sein, ohne Ihre gesamte Liquidität, Knoteninformationen und Ihren Zugriff preiszugeben. Sie können für diese Konten die mobilen Apps Zeus oder Bluewallet oder BoltCard und sogar Alby als Browsererweiterung verwenden.</p>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">FAZIT</h2>
+<p>Wie Sie sehen, gibt es viele Möglichkeiten, Lightning Network zu verwenden, nicht nur „einen Umbrel-Knoten auszuführen“, und die Benutzer sollten den Weg, den sie verfolgen möchten, mit Bedacht wählen, der ihren eigenen Bedürfnissen und Anwendungsfällen besser gerecht wird.</p>
+<p>Ich hoffe, dieser Leitfaden macht den Weg für Sie als neuen LN-Benutzer klarer, der versucht, all diese Begriffe zu Routing, Knoten, Liquidität zu verstehen und nicht weiß, wo er anfangen soll.</p>
+<p>Ich weiß, dass Sie vielleicht erwartet haben, in diesem Leitfaden mehr technische Erklärungen, Diagramme, Grafiken usw. zu finden, aber das ist nicht das Ziel dieses Leitfadens. Das Ziel ist, dass Sie anfangen, Ihren Verstand zu benutzen, alle eingefügten Links zu lesen (die Sie zu vielen anderen detaillierten Leitfäden führen) und Ihr Wissen zu erweitern. Einige Aspekte werden hier nicht einmal erwähnt, nicht um sie vor Ihnen zu verbergen oder Sie abzulenken, sondern um Sie dazu zu bringen, die eingefügten Links weiterzulesen.</p>
+<p>Das ist keine einfache Reise, das weiß ich, denn ich war in derselben Situation wie Sie und hatte Mühe, all diese Aspekte zu verstehen. Aber ich habe beharrlich gelesen, getestet, verschiedene Methoden gelernt, mir viele Videodemos angehört und mit Experten und Entwicklern gesprochen.</p>
+<p>Jetzt möchte ich Ihnen einfach mein gesammeltes Wissen zurückgeben, um Ihnen zu helfen, die richtigen Informationen für jeden Anwendungsfall zu finden. Manchmal probieren viele Benutzer komplizierte Dinge und Methoden aus, ohne zu wissen, dass es auch einfache Lösungen gibt, die in der Community manchmal nicht so gut präsentiert werden oder die kein großes Marketingbudget haben, um überall dafür geworben zu werden.</p>
+</body>
+</html>
+</article>
