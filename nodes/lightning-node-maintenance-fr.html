@@ -1,0 +1,162 @@
+---
+layout: default
+title: Maintenance du nœud Lightning
+---
+<article>
+<!DOCTYPE html>
+<html lang="fr">
+<meta name="description" content="Guides Bitcoin et Lightning Nodes : Un guide simple sur les bonnes pratiques pour la maintenance de votre nœud LN">
+<body>
+<a href="/nodes/lightning-node-maintenance-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-node-maintenance-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-node-maintenance-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-node-maintenance-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-node-maintenance-nl.html">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-node-maintenance-hr.html">Hrvatski <img src="/assets/images/flag-HR.png" alt="HR" title="Hravtaski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-node-maintenance-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<blockquote style="color:Tomato;"><em>
+<p>Publié à l'origine sur Substack le 30 avril 2022. Mis à jour ici le 25 décembre 2024.</p>
+</em></blockquote>
+
+<h3>Un guide simple sur les bonnes pratiques pour la maintenance de votre nœud LN</h3>
+<blockquote style="color:Tomato;"><em>
+<p>Tous les aspects ici sont présentés de mon point de vue, après plus de 25 ans dans la technologie informatique et le support pour les utilisateurs finaux, les serveurs et les entreprises. Après plus de 10 ans dans Bitcoinlandia, à tester plusieurs applications et solutions, au cours des 2 dernières années, j'ai commencé à aider beaucoup d'utilisateurs d'Umbrel et à observer leur comportement lors de l'utilisation d'un nœud LN.</p>
+<p>Ce guide a été demandé par l'un de mes lecteurs de substack. J'ai donc livré.</p>
+</em></blockquote>
+
+<h2 style="color:Orange;">Introduction</h2>
+<p>En tant qu'opérateur de nœud LN, nous avons également de grandes responsabilités envers nos pairs et même nos amis et notre famille qui sont connectés à notre nœud. Cela signifie que nous devons prendre soin de nos machines de nœud avec attention. L'exécution d'un nœud est une tâche sérieuse et les utilisateurs ne doivent pas le considérer comme un jeu pour le plaisir.</p>
+<p>Ainsi, une bonne maintenance et un bon entretien de votre machine de nœud sont INDISPENSABLES. J'ai vu de nombreux nouveaux opérateurs de nœuds qui ne prennent pas ces aspects au sérieux et qui affectent tous les autres, pas seulement eux.</p>
+<p>Pourquoi cela affecte-t-il tous les autres ?</p>
+<ul>
+<li>un nœud homologue qui n'est pas fiable (99 % disponible) peut perturber de nombreux chemins de paiement.</li>
+<li>un nœud non fiable affecte tous ses pairs qui sont considérés comme de bons nœuds.</li>
+<li>un nœud non fiable bloquera les fonds dans des canaux morts, les pairs dépendent de ces fonds.</li>
+<li>Je vais expliquer ici quelques bonnes pratiques qu'un opérateur de nœud doit prendre en considération pour avoir un bon nœud fiable. Peu importe que vous utilisiez un nœud pour un usage personnel ou professionnel (commerçants), ce qui compte, c'est à quel point vous vous souciez de votre nœud.</li>
+</ul>
+<p><img src="/assets/images/ln-node-backup.jpg" class="center"></p>
+<hr style="height:2px">
+
+<h3 style="color:Yellow;">ASPECTS CLÉS</h3>
+<ul>
+<li>Arrêtez/redémarrez votre nœud uniquement lorsque cela est nécessaire pour certaines mises à jour logicielles, le nettoyage des bases de données, les modifications de configuration.</li>
+<li>Gardez votre nœud en ligne autant que possible. L'arrêt pendant une courte période est acceptable, les canaux le seront également, personne ne les fermera si vous annoncez la période de maintenance à vos pairs.</li>
+<li>Utilisez un onduleur (alimentation sans interruption) avec une autonomie de batterie suffisante pour maintenir votre machine de nœud + routeur Internet en ligne en cas de coupure de courant. Ou au moins assez de temps pour que vous puissiez l'éteindre en mode grâce, si l'alimentation est coupée pendant plusieurs heures ou plusieurs jours. Il est important de protéger vos données contre la perte et la corruption.
+
+Si votre budget et votre utilisation du nœud sont très importants pour une entreprise, utilisez une machine avec une implémentation RAID. Pas de logiciel, mais du RAID matériel.
+
+Matériel. Il est très important d'avoir du matériel fiable, pas des jouets. Les jouets sont bons pour commencer à apprendre, car ils sont bon marché, mais ne sont pas fiables à long terme. Choisissez donc judicieusement votre matériel, en fonction de votre « stade » (apprentissage, avancement, production, entreprise).
+
+Faites des sauvegardes ! Les sauvegardes sont comme les baisses de prix du BTC, vous ne savez jamais quand elles sont nécessaires. Faites-les donc périodiquement.
+
+LND écrit tout le temps sur channel.db et wallet.db et contient toutes les données importantes. Ce sont les fichiers les plus importants de votre nœud. Tout le reste peut être reconstruit facilement à tout moment. Mais ces 2 fichiers ne peuvent pas être sauvegardés en temps réel et seule la dernière version est valide.</li>
+<li>La sauvegarde SCB est comme une exportation allégée de channel.db, à un moment précis, qui contient des informations de base sur vos canaux, suffisantes pour être utilisées pour les fermer et récupérer les fonds dans la chaîne.</li>
+<li>L'implémentation CLN utilise un autre type de fichiers, dans hsm.secret et il est beaucoup plus facile de faire des copies de cette base de données.</li>
+</ul>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">PRATIQUES DE CAS D'UTILISATION</h2>
+<h3 style="color:Yellow;">A. Matériel</h3>
+<p>Lorsque vous démarrez avec un nouveau nœud, la première chose que vous devez vous demander est : à quoi est-ce que j'utilise ce nœud ? Ensuite, construisez le matériel de votre machine en fonction des besoins et passez à une autre configuration uniquement lorsque cela est nécessaire.</p>
+<h4>Apprentissage / étude de la machine</h4>
+<p>À ce niveau, il pourrait y avoir n'importe quelle machine RaspberryPi, bon marché, facile à installer et à assembler, à faible consommation d'énergie et mignonne. Ne comptez pas trop sur ces petites machines. Pour la pratique et l'apprentissage, c'est très bien, vous apprendrez beaucoup. Mais elles ne sont pas fiables à 100 %.</p>
+<p>Même si vous optez pour un appareil Rpi, utilisez au moins 8 Go de mémoire RAM et un bon disque SSD. L'adaptateur secteur est également très important. Un adaptateur défectueux ou non original créera une série de pannes en cascade et vous ne saurez pas pourquoi. C'est à cause de ce petit adaptateur secteur.</p>
+<p>Les cartes mSD échouent aussi souvent, donc ayez toujours une carte de secours de secours, prête à être installée et à remplacer l'ancienne en cas de panne. Elles sont très sensibles aux coupures de courant.</p>
+<p>Ces minuscules machines sont réputées pour leur taux de pannes, pour diverses raisons. Donc, même si vous êtes en "phase d'apprentissage", il est recommandé d'utiliser un onduleur. Cela vous donnera plus de tranquillité d'esprit et un bon sommeil la nuit.</p>
+
+<figure>
+<img src="/assets/images/node-example1.jpg" class="center">
+<figcaption>Les RPis ont besoin d'une bonne ventilation :)</figcaption>
+</figure>
+
+<h4>Machine avancée</h4>
+<p>Lorsque vous êtes prêt et que vous en savez plus sur la façon d'exécuter un nœud, il est temps d'augmenter votre niveau de matériel. Vous voulez maintenant une machine plus fiable, capable de gérer plus de connexions, plus de canaux, des paiements plus rapides et vous donnant la tranquillité d'esprit que vos fonds ne seront pas bloqués pendant des jours ou des semaines en mode de récupération à cause d'un crash. </p>
+<p>Si votre budget n'est pas si « généreux », vous pouvez opter pour une bonne machine de bureau d'occasion. De nos jours, de nombreux bureaux vendent leurs machines vieilles de 1 à 2 ans pour quelques centimes. Et certaines d'entre elles, même les plus basiques, sont de très bonnes machines pour un nœud. En général, ils sont livrés avec au moins 8 Go de RAM, parfois des offres intéressantes avec 16 Go (!!!).</p>
+<h5>Pourquoi des barebones ?</h5>
+<ul>
+<li>parce qu'ils sont relativement petits (le mien fait la même taille qu'un RPi et est sans ventilateur)</li>
+<li>parce que sur certains d'entre eux, vous pouvez ajouter 2 disques SSD ou même des disques NVM (encore bien meilleurs que les SSD)</li>
+<li>parce qu'ils ont une meilleure ventilation et certains d'entre eux sont passifs (pas de ventilateurs bruyants)</li>
+<li>parce que vous vous débarrassez de la connexion de lecteur USB qu'utilise un périphérique RPi. Cette connexion USB est le point le plus faible d'un nœud RPi.</li>
+<li>parce que le matériel est plus robuste et durable qu'un RPi.</li>
+</ul>
+
+<figure>
+<img src="/assets/images/mini-node.jpg" class="center">
+<figcaption>Mon humble nœud barebone, lecteur interne, sans ventilateur</figcaption>
+</figure>
+
+<p>Le processeur n'a pas vraiment d'importance, ajoutez simplement 2 bons disques SSD pour le RAID et vous êtes bon !</p>
+<p>L'onduleur est toujours indispensable. Pourquoi ? Parce qu'en général, lorsqu'une coupure de courant se produit, elle revient avec une tension différente, des pics, des ampères ou clignote simplement, etc. Cela pourrait endommager la source d'alimentation de votre machine. En général, la source d'alimentation est la première à tomber, protégeant le reste. Mais on ne sait jamais. Un onduleur maintiendra un flux électrique sain et efficace vers votre machine et maintiendra également la connexion Internet en ligne.</p>
+<blockquote style="color:Tomato;"><em>
+<p>N'oubliez pas : un nœud n'a pas besoin d'être sophistiqué, il doit être fiable.</p>
+</em></blockquote>
+<p>Je recommanderais ici de trouver une bonne machine, avec une puce RAID sur la carte mère, qui peut gérer au moins une configuration RAID 1 au niveau du BIOS. Qu'est-ce que cela signifie ? Cela signifie que vous pouvez créer un volume RAID, directement dans le BIOS, à partir de 2 disques, de sorte que les données sont écrites en même temps sur les deux disques. Ainsi, si un disque tombe « malade » ou meurt, vous pouvez toujours avoir vos données en sécurité sur le disque jumeau, toujours fonctionnel. Vous pouvez éteindre votre machine, remplacer le disque malade et le système RAID reconstruira le système RAID jumeau à partir du disque sain en quelques minutes. Aucune perte de données, aucun canal fermé, aucun fonds perdu.</p>
+
+<h4>Machine d'entreprise</h4>
+<p>Lorsque vous exécutez un nœud pour une entreprise sérieuse qui dépend à 100 % de ce nœud, il est temps pour vous de réfléchir sérieusement à l'idée d'avoir une machine de nœud 24 h/24, 7 j/7 et 365 j/an. Juste la partie principale du nœud, pas les applications que vous installez par-dessus. Une fois votre nœud principal sécurisé, vous bénéficiez d'une plus grande flexibilité quant à l'endroit et à la manière dont vous gérez vos applications et solutions d'entreprise.</p>
+
+<figure>
+<img src="/assets/images/node-example2.jpg" class="center">
+<figcaption>Un serveur rack personnel avec plusieurs nœuds</figcaption>
+</figure>
+<p>Je recommanderais le scénario suivant pour cela :</p>
+<ul>
+<li>utilisez une solution de nœud hébergée (<a href="https://voltage.cloud/">Voltage</a>, <a href="https://nodl.it/">Nodl</a>, <a href="https://nodana.io">Nodana</a>, VPS de nœud dédié) gérée par des professionnels de l'architecture de nœuds, fournissant uniquement la partie principale (Bitcoin + nœud LN) avec une haute disponibilité et un support.</li>
+<li>utilisez n'importe quelle autre machine, qu'il s'agisse d'un VPS à domicile/bureau/à distance, sur lequel vous installez vos applications nécessaires à la gestion de votre nœud : BTCPay, LNbits, Thunderhub, RTL etc et pointez leur configuration vers votre nœud LN distant.</li>
+</ul>
+<p>C'est tout ce dont vous avez besoin pour une solution hautement disponible, avec presque aucune chance de perdre des fonds, des canaux, des pairs, du temps, des clients, etc.</p>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">B. Sauvegarde et restauration des données</h2>
+<p>La chose la plus importante est la graine du portefeuille. C'est la première chose que vous devez sauvegarder et conserver en sécurité, dans un gestionnaire de mots de passe hors ligne par exemple (Keepass ou Vaultwarden).</p>
+<h3 style="color:Yellow;">Sauvegardes de la base de données des nœuds LND</h3>
+<p>Pour les nœuds LND, il existe deux types de données de stockage, qui peuvent être récupérées :</p>
+<ul>
+<li>Sauvegardes SCB : une copie hors ligne de l'état de vos canaux, contenant uniquement les informations suffisantes pour être utilisées pour fermer les canaux (avec votre seed) et récupérer les fonds des canaux dans votre portefeuille en chaîne. Gardez à l'esprit : ce fichier channel.backup ne peut être utilisé qu'avec votre seed de nœud ! Faites une copie de ce fichier SCB à chaque fois que vous ouvrez et/ou fermez un canal. Ou créez des scripts qui peuvent créer ce fichier SCB sur le lecteur local à chaque fois que vous ouvrez/fermez des canaux, puis synchronisez le fichier sur un emplacement distant. Il n'est pas nécessaire que ce soit à chaque transaction que vous avez effectuée avec votre nœud.</li>
+<li>Dernier état de channel.db et wallet.db. Ces fichiers NE PEUVENT PAS être sauvegardés à la volée ou même si vous arrêtez le nœud et en faites une copie, ils ne sont pas utiles, car une fois que vous redémarrez le nœud, il sera modifié.</li>
+</ul>
+<p>Par « dernier état », on entend UNIQUEMENT l'état avant la récupération d'un nœud mort. Lorsque votre machine est morte pour des raisons matérielles ou ne démarre pas le logiciel, mais que vous pouvez toujours accéder aux fichiers. Faites ensuite une copie de ces 2 fichiers sur un disque externe (qui peut être volumineux) et utilisez-les plus tard après avoir reconstruit le nouveau nœud.</p>
+<p>Vous avez 2 façons de restaurer/récupérer un nœud LND :</p>
+  <ol>
+<li><p>SANS l'état des canaux</p>
+<p>Pour récupérer vos fonds SANS les canaux, vous pouvez utiliser la sauvegarde SCB qui fermera et récupérera automatiquement les fonds dans le portefeuille onchain. C'est le moyen le plus simple et <a href="/nodes/shtf-restore-lnd-node-fr.html">je le décris dans ce guide</a> (voir les méthodes 2,3,4,5,6).</p>
+<p>Je vous suggère fortement d'utiliser l'option 3 et pendant que vous récupérez les fonds dans Blixt, vous pouvez reconstruire un nouveau nodeID, une nouvelle seed, un nouveau portefeuille, une nouvelle identité avec votre ancienne machine. Plus tard, vous pouvez simplement déplacer les fonds vers votre nouveau nœud depuis Blixt ou simplement les utiliser, <a href="https://darthcoin.substack.com/p/node-liquidity-guide">comme un nœud mobile privé, comme un petit nœud compagnon pour votre nœud domestique</a>.</p>
+</li>
+<li><p>AVEC l'état des canaux</p>
+<p>Pour restaurer un nœud AVEC les canaux intacts, comme c'était le cas dans le dernier état, vous devrez suivre certaines étapes pour préparer l'environnement. <a href="/nodes/shtf-restore-lnd-node-fr.html">Expliqué dans ce guide</a>, voir les méthodes 1, 3, 4, 7, 8, 9, 10.</p>
+<p>Si votre nœud est tombé en panne, mais que vous pouvez toujours accéder aux fichiers, c'est le meilleur moment chanceux, vous avez 2 tâches à effectuer :</p>
+<ul>
+<li>1. copiez les fichiers wallet.db et channel.db de ce nœud « ne démarrant pas » ailleurs. channel.db peut être volumineux, une simple clé USB ne suffit donc pas. Vérifiez d'abord sa taille.</li>
+<li>2. une fois que vous avez récupéré ces 2 fichiers, commencez à construire l'intégralité de votre nœud à partir de zéro ou, si vous avez une copie précédente, restaurez-la entièrement. ATTENTION ! lorsque vous restaurez, si vous pouvez ignorer ces 2 fichiers, sinon, vous devrez les écraser avec la dernière copie que vous venez de retirer de ce nœud mort. Il doit toujours s'agir du dernier état.</li>
+</ul>
+<p>Lorsque vous reconstruisez le logiciel du nœud, choisissez l'option « restaurer à partir de la graine » afin de pouvoir avoir le même ID de nœud et les mêmes clés de chiffrement que votre nœud précédent, en étant capable d'utiliser le même wallet.db et channel.db. Si vous utilisez une autre graine/ID de nœud, ces fichiers ne sont pas utilisables, ne peuvent pas être déverrouillés !</p>
+<p>C'est la partie où vous devez « reconstruire » les dossiers de données. Si vous ne restaurez pas à partir d'une copie complète qui contient déjà les dossiers où se trouvaient auparavant le portefeuille et channel.db, vous devrez installer le logiciel du nœud à partir de zéro, le laisser démarrer, reconstruire les dossiers et synchroniser la base de données, puis l'arrêter. Copiez les 2 fichiers à leur emplacement et redémarrez le nœud. C'est fait.</p>
+<p>Vous pouvez ensuite redémarrer votre nœud. Il commencera à rattraper son retard et à réutiliser correctement les 2 fichiers, tous vos canaux seront là, il faudra juste un certain temps pour rattraper les blocs et se synchroniser.</p>
+</li>
+</ol>
+<h3>Sauvegardes de la base de données des nœuds CLN</h3>
+<p>Pour ces nœuds d'implémentation, c'est beaucoup plus simple et c'est juste une copie récursive d'un simple petit fichier de base de données hsm_secret.</p>
+<p><a href="https://lightning.readthedocs.io/BACKUP.html">Tout le processus est expliqué dans ce guide manuel pour CLN</a>.</p>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">C. Maintenance et mises à jour logicielles</h2>
+<p>OK, de nombreux utilisateurs ont posé des questions sur les mises à jour et sur la fréquence à laquelle les effectuer.</p>
+<p>La réponse est simple : à tout moment, c'est nécessaire. Exactement, pas tout le temps, mais seulement quand c'est nécessaire.</p>
+<p>Pourquoi ? Parce que tout le temps n'est pas nécessaire :) Si quelque chose fonctionne parfaitement sans erreur, une nouvelle version ne signifie pas automatiquement qu'elle est meilleure. De nouvelles fonctionnalités ou applications que vous n'utilisez pas ne signifient pas que vous devez les mettre à jour. La stabilité est plus importante que les nouveautés.</p>
+<h4 style="color:Yellow;">Recommandations :</h4>
+<ul>
+<li>ne vous lancez pas dans la mise à jour impulsive du logiciel de votre nœud, dès sa sortie ou si cela ne résout même pas les problèmes de votre nœud. Certaines mises à jour sont mineures, d'autres sont importantes.</li>
+<li>Lisez attentivement les notes de publication et voyez si la mise à jour est un avantage ou corrige une erreur que vous avez rencontrée avec votre nœud. Si cela ne vous affecte pas directement, il n'est pas nécessaire de vous lancer et de faire la mise à jour. Attendez une version plus importante. Parfois, les mises à jour rapides peuvent également contenir des bugs, non vérifiés à temps par les développeurs. La merde peut arriver, ce sont aussi des humains. Alors attendez 1 à 2 jours de plus et voyez ce que disent les autres utilisateurs impatients après la mise à jour.</li>
+<li>Les mises à jour du système d'exploitation sont plus importantes que les mises à jour du logiciel du nœud. Vérifiez donc plus souvent les mises à jour du système d'exploitation et faites-les quand elles sont nécessaires.</li>
+<li>Lorsque vous mettez à jour le système d'exploitation, arrêtez toujours d'abord le nœud. Certaines conditions requises peuvent être des composants Docker ou d'autres modules qui affectent le logiciel du nœud. Ainsi, le système d'exploitation se met à jour et arrête la machine. Oui, pas simplement redémarrer, mais arrêter, laisser quelques secondes pour effacer la mémoire et redémarrer. C'est également une bonne pratique pour maintenir les clusters de disques en bon état et nettoyer la mémoire des mauvaises choses.</li>
+<li>Avant de mettre à jour le logiciel du nœud, mettez toujours à jour le système d'exploitation.</li>
+<li>Les utilisateurs de RPi n'ont généralement pas besoin de faire de mises à jour du système d'exploitation, car le logiciel du nœud est intégré au système d'exploitation, il s'agit généralement d'une version modifiée du système d'exploitation Debian, adaptée au RPi.</li>
+<li>Pour les utilisateurs non RPi, je recommande fortement d'utiliser comme système d'exploitation Debian Linux. Il est plus robuste, permet de mieux vérifier le système de fichiers, il y a moins de fonctionnalités de bureau inutiles. Pour un système d'exploitation de nœud, vous devez être minimaliste, vous ne l'utilisez pas tout le temps.</li>
+<li>Ne compliquez pas les choses avec des machines virtuelles, des serveurs Ubuntu qui ne prennent qu'une grande quantité de ressources. Un nœud n'en a pas besoin. Vous n'avez besoin que de la base pour exécuter un nœud.</li>
+</ul>
+<p>Je pense que ces aspects sont suffisants pour vous, le nouvel opérateur de nœud qui démarre maintenant votre voyage dans ce monde fascinant des nœuds.</p>
+<p>J'espère que vous exécutez le meilleur nœud possible et que je vous ai donné suffisamment d'informations pour exécuter un nœud dans de bonnes conditions. Joyeux Lightning !</p>
+</body>
+</html>
+</article>
