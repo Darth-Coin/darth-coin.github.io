@@ -1,0 +1,322 @@
+---
+layout: default
+title: Beheer van Lightning Node-liquiditeit
+---
+<article>
+<!DOCTYPE html>
+<html lang="nl">
+<meta name="description" content="Bitcoin- en Lightning-handleidingen: Hoe u de liquiditeit van uw LN-knooppunt beheert en als een openbaar routeringsknooppunt functioneert">
+<body>
+<a href="/nodes/managing-lightning-node-liquidity-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/managing-lightning-node-liquidity-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/managing-lightning-node-liquidity-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/managing-lightning-node-liquidity-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/managing-lightning-node-liquidity-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/managing-lightning-node-liquidity-hr.html">Hrvatski <img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/managing-lightning-node-liquidity-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<blockquote style="color:Tomato;"><em>
+<p>Oorspronkelijk gepost op <a href="https://darthcoin.substack.com/p/managing-lightning-node-liquidity">Substack</a> op 2 mei 2023. Hier bijgewerkt op 25 december 2024</p>
+</em></blockquote>
+
+<h3>Methoden, strategieën, typen, aanbevelingen voor het starten van een LN-knooppunt en het beheren van de liquiditeit ervan.</h3>
+<p>Deze gids is bedoeld voor alle nieuwe gebruikers die meer willen weten over (LN) Lightning Network-knooppunten en het juiste type methode willen kiezen voor hun eigen behoefte.</p>
+<p>In deze gids vindt u veel links naar veel andere specifieke gidsen. Negeer ze alstublieft niet. Deze gids is een leidraad tussen al deze, om u te helpen uw beste pad door Lightning Network te kiezen.</p>
+<p>Er is een MISVATTING rond de nieuwe bitcoiners dat je een speciale openbare routingnode MOET runnen om LN-betalingen te kunnen doen.</p>
+<p>Dit zijn de vragen die we in deze gids zullen proberen te beantwoorden:</p>
+<ul>
+<li>Waarom wil je een LN-node runnen?</li>
+<li>Wat voor soort hardware ga je gebruiken?</li>
+<li>Wat voor soort software kun je gebruiken?</li>
+<li>Wat voor soort node wil je runnen (openbaar of privé)?</li>
+<li>Met welke node-peers moet je verbinding maken?</li>
+<li>Hoe ga je de liquiditeit van de kanalen beheren?</li>
+</ul>
+<p><img src="/assets/images/ln-liquidity-management.jpg" class="center"></p>
+
+<h2 style="color:Orange;">WAAROM wilt u een LN-knooppunt uitvoeren?</h2>
+<h3 style="color:Yellow;">A. U bent een eenvoudige LN-gebruiker die alleen met sats uw boodschappen wilt betalen</h3>
+<ul>
+<li>U hebt meer uitgaande liquiditeit nodig omdat u meer verzendt</li>
+<li>Maar ook wat inkomende voor het geval u van vrienden of anderen moet ontvangen.</li>
+<li>Goede peers om verbinding mee te maken, zodat uw txs gemakkelijk en goedkoper verlopen</li>
+<li>U hoeft niet te veel geld in uw LN-knooppunt te gebruiken, genoeg om uw uitgaven te dekken</li>
+<li>U hebt daarvoor geen openbaar routeringsknooppunt nodig!</li>
+</ul>
+
+<h3 style="color:Yellow;">B. U bent een handelaar, freelancer of dienstverlener die online of fysieke producten/diensten verkoopt met behulp van LN</h3>
+<ul>
+<li>U hebt meer inkomende liquiditeit nodig, dat betekent andere peers of zelfs uw eigen klanten om kanalen naar uw node te openen</li>
+<li>Publiceer uw node-ID aan uw klanten en moedig hen aan om verbinding te maken met uw node en u rechtstreeks te betalen, zelfs zonder kosten</li>
+<li>Maak uw gevulde kanalen periodiek leeg, zodat u weer "ruimte" hebt voor meer inkomstenbetalingen. Er zijn veel manieren om dit te doen.</li>
+<li>U hebt goede, grote kanalen nodig om zoveel mogelijk betalingen te kunnen ontvangen</li>
+<li>U hoeft niet te veel geld van uw kant te storten, u bent de ontvanger, niet de uitgever</li>
+</ul>
+
+<h3 style="color:Yellow;">C. U bent slechts een node operator, u bent meer geïnteresseerd in het routeren van txs via LN</h3>
+<ul>
+<li>u doet niet te veel betalingen via uw node (slecht, echt slecht)</li>
+<li>u hebt zowel inkomende als uitgaande liquiditeit nodig. En veel, dus wees voorbereid met een groot deel van de fondsen om in uw LN-kanalen te stoppen. Dus als u een routingnode wilt zijn met 20k sats of 1M sats... VERGEET HET! Ga weer slapen.</li>
+<li>u hebt gebalanceerde kanalen nodig, dus u kunt beter deelnemen aan <a href="https://t.me/plebnet">PLEBNET</a> of <a href="https://lightningnetwork.plus/">Lightning Network Plus</a></li>
+<li>u moet weten hoe u kostenkanalen beheert, dus begin met leren</li>
+<li>u moet sterke hardware hebben en een node die altijd online is. Dit is geen grap!</li>
+<li>Je kunt langzaam Lightning Pool binnengaan en je node-liquiditeit "huren"/veilen. Maar je hebt een sterke node en veel liquiditeit nodig om echt wat "inkomsten" te zien.</li>
+</ul>
+
+<h3 style="color:Yellow;">D. Je test en leert, of een ontwikkelaar die een node als basis gebruikt</h3>
+<ul>
+<li>je hebt maar een paar inbound- en outbound-kanalen nodig om mee te spelen.</li>
+<li>je hebt er niet te veel geld in nodig.</li>
+<li>het is beter om je peers te informeren dat je een tijdelijke peer voor hen bent, je node is slechts een testterrein, dus ze zullen niet verwachten dat je online bent of voor altijd peer.</li>
+<li>je zou openbare en privékanalen kunnen hebben, om rond te testen.</li>
+</ul>
+
+<h3 style="color:Yellow;">E. Je wilt "Uncle Jim Bank" zijn voor je familie en vrienden</h3>
+<ul>
+<li>je biedt BTC/LN-bankdiensten aan voor je familie en vrienden. Dat betekent veel verantwoordelijkheid en vertrouwen. Dit is geen grap, je bent nu een echte bank.</li>
+<li>je hebt wat liquiditeit nodig in beide richtingen (in/uit) om de behoeften van je "klanten" te dekken. Onthoud: je node-liquiditeit is hun "water in de leidingen", niet hun fondsen. Houd uw leidingen dus altijd gevuld met water.</li>
+<li>u kunt veel "diensten" aanbieden die u kunt bereiken met behulp van LNDHUB, lees meer:</li>
+<ul>
+<li><a href="https://darthcoin.substack.com/p/umbrel-lndhub-bluewallet">Umbrel + LNDHUB + Bluewallet / Zeus</a></li>
+<li><a href="https://darthcoin.substack.com/p/umbrel-node-lnbits">Umbrel + LNBits lndhub + Bluewallet / Zeus</a></li>
+<li><a href="https://darthcoin.substack.com/p/the-bank-of-lnbits">LNbits Banken</a></li>
+<li><a href="/merchants/private-banks-over-ln-nl.html">Private LN banken</a></li>
+</ul>
+<li>je moet je klanten leren hoe ze deze services moeten gebruiken, dus begin met het maken van je eigen eenvoudige webgidsen voor hen</li>
+<li><a href="https://darthcoin.substack.com/p/dunder-lsp-and-lightning-box-provider">je wilt LSP-services aanbieden voor privéknooppunten</a></li>
+</ul>
+
+<h3 style="color:Yellow;">F. "Ik wil geld verdienen met mijn knooppunt, ik wil winst, ik wil een bepaald percentage dat ik elke maand krijg", "Ik wil bitcoins minen met mijn knooppunt", "Ik wil passief inkomen"...</h3>
+<ul>
+<li><strong>VERGEET HET!</strong></li>
+<li>Dit is een verkeerde mentaliteit, dit is een luie communistische mentaliteit, geld krijgen voor niets doen. Om geld te verdienen, moeten jij en je node hard werken.</li>
+<li>Een BTC/LN node is geen shit DeFi shitcoin airdrop, het is een serieuze zaak. Als je van die "donkere kant" komt, is er "geen soep voor jou".</li>
+<li>Stop met zo te denken en bekijk de vorige 5 punten</li>
+</ul>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">Welk type hardware ga je gebruiken?</h2>
+<p>OK, nadat je hebt besloten welk type node je wilt draaien, kies je de hardware ervoor.</p>
+<p>Houd rekening met een aantal belangrijke aspecten:
+<ul>
+<li>Als je een openbare routing LN node wilt draaien, kies dan goede, betrouwbare hardware. <a href="/nodes/lightning-node-maintenance-nl.html">Hier heb ik een speciale handleiding geschreven</a> over BTC/LN node hardware. Kies dienovereenkomstig voor het type gebruik dat je die node wilt laten draaien.</li>
+<li>Als je een privé LN node wilt draaien, is een goed mobiel apparaat voldoende. Hier heb ik 2 handleidingen geschreven over het gebruik van privé LN-knooppunten op mobiele apparaten:</li>
+<ul>
+<li><a href="/beginner/bitcoiners-mobile-device-nl.html">Welke mobiele apparaten bitcoiners moeten gebruiken</a></li>
+<li><a href="/nodes/private-ln-nodes-nl.html">Een privé lightning-knooppunt uitvoeren</a></li>
+</ul>
+</ul>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">Welk type software zou je kunnen gebruiken?</h2>
+<p>Ja, veel beginners kiezen gewoon voor het makkelijkste pad, springen in Umbrel, myNode, Citadel, Embassy etc. maar weten niet dat ze later zullen beseffen dat er meer is dan dat. Ja, die zijn goed om mee te beginnen, makkelijk te installeren, maar later zal de gebruiker ontdekken dat hij meer wil dan dat en moet migreren of opnieuw moet beginnen met een nieuwe software node.</p>
+<p>Dus hier in <a href="/nodes/bitcoin-ln-node-software-nl.html">deze gids heb ik alle soorten software opgesomd</a> waarmee je een desktop node kunt draaien.</p>
+<p>Dus voordat je er een kiest, denk twee keer na over wat je gaat doen en analyseer elk detail.</p>
+<p>Als je gewoon een privé LN node op je mobiel wilt draaien, zijn hier drie gedetailleerde gidsen over alle LN apps die ze vergelijken op type en functies:</p>
+<ul>
+<li><a href="/wallets/lightning-wallets-comparison-nl.html">Lightning Wallets Comparison Guide</a></li>
+<li><a href="/nodes/private-ln-nodes-nl.html">Private Lightning Network Nodes</a></li>
+<li><a href="/beginner/getting-started-stack-sats-nl.html">Getting Started Stacking Sats Noob Journey</a></li>
+</ul>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">Wat voor type node wil je runnen (openbaar of privé)?</h2>
+<p>Veel nieuwe gebruikers weten niet eens dat deze termen bestaan: openbaar of privé node.</p>
+<h3 style="color:Yellow;">Een PUBLIEKE LN node betekent:</h3>
+<ul>
+<li>je kanalen worden openbaar aangekondigd op de LN-grafiek en kunnen met al hun details zichtbaar zijn in elke <a href="https://darthcoin.substack.com/p/lightning-network-is-awesome#%C2%A7tools-explorers-analyzers-stats">Lightning Node Explorer</a> (mempool, amboss, 1ML etc).</li>
+<li>uw node-ID en naam, IP, Tor-URL zijn zichtbaar en kunnen worden geraadpleegd op elke <a href="https://darthcoin.substack.com/p/lightning-network-is-awesome#%C2%A7tools-explorers-analyzers-stats">LN Explorer</a>.</li>
+<li>uw LN-kanalen KUNNEN ROUTING van andere transacties uitvoeren, dat betekent dat zelfs als u geen betalingen voor uzelf doet, uw node nog steeds fondsen zal verplaatsen en de betalingen die via uw node binnenkomen zal doorsturen, dus sommige kanalen zullen de liquiditeit afvoeren en andere zullen worden gevuld. U zult dus de methoden moeten vinden om een ​​evenwicht tussen hen te behouden. <a href="/nodes/lightning-routing-fees-experiment-nl.html">Zoals ik hier in meer detail uitleg</a>.</li>
+<li>Je zult intensief liquiditeitsbeheer voor je kanalen moeten doen als je echt wilt dat je node routing doet.</li>
+<li>Je moet je node 365/24/7 online houden (of zoveel als mogelijk is), zodat je node een goede betrouwbaarheid, beschikbaarheid en centraliteit heeft en zijn ranking kan verhogen.</li>
+<li>Als je een openbare node wilt runnen voor routing, maar toch een bepaald niveau van privacy wilt behouden, kun je een Tor-node gebruiken (is vrij slecht voor routing) en deze achter een VPS clearnet-server plaatsen, met behulp van <a href="https://tunnelsats.com/">TunnelSats.com</a> of meerdere methoden van afleiding gebruiken, <a href="/merchants/operating-ln-as-merchant-nl.html">zoals ik in dit heb uitgelegd guide</a>.</li>
+<li>een openbare node kan nog steeds privékanalen hebben (onaangekondigd), maar deze zullen GEEN ROUTING DOEN. Als u een goede openbare routingnode hebt, kunt u nog steeds privékanalen aanbieden voor mobiele gebruikers, op deze manier biedt u uw openbare liquiditeit aan hen aan. <a href="/merchants/private-banks-over-ln-nl.html">Zoals ik heb uitgelegd in deze speciale gids</a>.</li>
+</ul>
+
+<h3 style="color:Yellow;">EEN PRIVÉ LN-knooppunt betekent:</h3>
+<ul>
+<li>uw kanalen zijn ALLEEN onaangekondigd (privé) op de LN-grafiek en zijn NIET ZICHTBAAR op een openbare LN-explorer. Deze kanalen gebruiken routehints om betalingen te kunnen doen. De routehints worden verstrekt door de openbare knooppunten waarmee ze zijn verbonden.</li>
+<li>uw LN-knooppunt is NIET ZICHTBAAR of kan worden geraadpleegd op een LN-explorer.</li>
+<li>u kunt betalingen doen en ontvangen, maar u KUNT GEEN routing uitvoeren. Routing betekent het doorsturen van betalingen van andere knooppunten via uw knooppunt.</li>
+<li>u hoeft geen herverdeling of liquiditeit van kanalen uit te voeren, alleen in gevallen waarin u meer van een specifiek kanaal moet ontvangen of verzenden.</li>
+<li>u hoeft uw privé LN-knooppunt niet altijd online te houden. Maar open het minstens elke 2-3 dagen, laat het synchroniseren en doe zelfs wat betalingen, zelfs als ze klein zijn. Zorg voor wat activiteit, anders zouden je peers het kunnen interpreteren als een dode zombie node en het kanaal met jou geforceerd sluiten.</li>
+<li><a href="/nodes/private-ln-nodes-en.html">Hier vind je een speciale gids over private lightning nodes</a>.</li>
+</ul>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">Met welke node peers moet je verbinding maken?</h2>
+<p>Dit is een vrij complexe vraag en iedereen moet zijn eigen analyse maken op basis van het gebruik van zijn node.</p>
+<p>Ik begin met het samenstellen van een persoonlijke lijst met nodes, handmatig geselecteerd, nadat ik ze een aantal dagen heb gemonitord. Ik zeg niet dat deze nodes de beste zijn, maar ik houd graag bij welke nodes ik wil verbinden.</p>
+<p>Ik zal het periodiek updaten, op basis van persoonlijke en handmatige criteria, door hun activiteit op <a href="https://mempool.space/lightning">Mempool LN</a> of <a href="https://amboss.space/">Amboss.space</a> LN explorer en andere tools te observeren. Mijn criteria zijn niet gebaseerd op BOS-scores en andere dingen van die aard. Het gaat meer om wat hun L2 van verbindingen is, wat hun kosten zijn, hoe vaak ze kanalen openen/sluiten, hoe lang ze hun node online houden. Denk meer na over hoe UW txs via deze nodes worden gerouteerd en ga later om met het hebben van een routingnode.</p>
+<p>Het is ook niet echt nodig om verbinding te maken met alles van deze lijst. Maar sommige van hen zijn goed om als peers te hebben.</p>
+<p>Een ander belangrijk aspect voor mij om peers te kiezen is: vermijd die nodes die buitensporige kosten gebruiken, alleen om andere gebruikers op te lichten. Het kan me geen reet schelen wat anderen proberen te zeggen over het verkrijgen van kapitaal op LN, maar voor mij is LN meer een manier om goedkoop en snel transacties te doen en niet om "sats" te verdienen met routing. Dus als een node met hoge buitensporige basiskosten en/of ppm verbinding maakt met mijn node, zal ik het kanaal uitschakelen of gewoon sluiten.</p>
+<p>Allereerst is dit een goed begin om verbinding te maken met een van deze merchant nodes van deze <a href="https://amboss.space/community/06027a31-cf60-49c1-be86-210257add36f">Amboss Community of Merchants Nodes</a>. Ze hebben inkomende liquiditeit nodig, dus als je een nieuwe node hebt, help je hen, en zij helpen jou.</p>
+<p>Hier is ook <a href="https://basefee.ln.rene-pickhardt.de/">een enorme lijst met 0 base fee nodes</a>, samengesteld door René Pickhardt.</p>
+<p>Overweeg ook om te kijken naar de <a href="https://amboss.space/community/fa2a3e5a-769c-4cbf-ab9d-7ed8680a9ec6">Zero Base Fee Community</a> op Amboss en alle andere <a href="https://amboss.space/community">Amboss Communities</a>.</p>
+<p>De volgorde van de lijst is willekeurig, geen voorkeuren.</p>
+
+<h4 style="color:Yellow;">BEKEKEN NODES per categorie</h4>
+<p>De volgorde van de lijst is willekeurig, geen voorkeuren, is slechts een referentie en oriëntatie.</p>
+<h5>LSP-knooppunten (Liquidty Service Providers)</h5>
+<p>Dit zijn zeer belangrijke bronnen, omdat ze goed verbonden zijn, hun centraliteit is goed en ze zijn toegewijd aan een sterke betrouwbaarheid en grote liquiditeit. Niet allemaal gebruiken ze lage kosten, maar over het algemeen wel, omdat ze denken in grote volumes van txs.</p>
+<p>Deze knooppunten hebben liquiditeit nodig aan beide kanten van het kanaal, dus het is goed dat je ze in de gaten houdt en die balans behoudt wanneer dat nodig is. Pas de kosten en min/max HTLC dienovereenkomstig aan of maak zelfs een cirkelvormige balans tussen andere van je kanalen.</p>
+<ul>
+<li>⚡ <a href="https://mempool.space/lightning/node/03d35779ff612c574b92494d74300ce467e0eb510181a6ae3eb74d8ada891d82aa">IBEX</a> - dynamische kosten | 3M min chan | opmerking 6/10 | LATAM exchange LSP</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/03aefa43fbb4009b21a4129d05953974b7dbabbbfb511921410080860fca8ee1f0">Voltage Flow</a> - 1/500 beleid | 1M min chan | opmerking 8/10 | goede liquiditeit</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/0242a4ae0c5bef18048fbecf995094b74bfb0f7391418d71ed394784373f41e4f3">CoinGate</a> - 1/1 beleid | 1M min chan | opmerking 8/10 | enorme node</li>
+<li>⚡ <a href="https://amboss.space/search?term=bG5iaWc=">LNBig</a> - lage dynamiek | geen min chan | opmerking 8/10 | verschillende liquiditeitsknooppunten</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/026af41af0e3861ba170cc0eef8f45a1015125dac57c28df53752dcaeea793b28f">BitcoinVN</a> - 1/dynamisch | 6M min chan | opmerking 8/10 | Vietnam exchange / LSP</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/02e4971e61a3f55718ae31e2eed19aaf2e32caf3eb5ef5ff03e01aa3ada8907e78">FlashSats</a> - 0/0 beleid | 5M min chan | opmerking 8/10 | biedt inkomende LSP</li>
+<li>⚡ <a href="https://lnserver.com/">LNServer</a> - 0/0 beleid | 2M min chan | opmerking 8/10 | biedt inkomende LSP</li>
+<li>⚡ <a href="https://megalithic.me/">Megalithic</a> - 0/0 beleid | 1M min chan | opmerking 9/10 | biedt inkomende LSP</li>
+</ul>
+
+<h5>Exchanges / swaps nodes</h5>
+<p>Mensen beginnen meer exchanges te gebruiken die opnames via LN aanbieden. En ze hebben liquiditeit nodig en jij kunt een brug vormen tussen exchanges en gebruikers. Je bankklanten willen ook meer sats kopen via je bankkanalen.</p>
+<p>Deze nodes hebben meer saldo aan hun kant nodig. Je zult dus meer sats aan hun kant moeten pushen, zodat ze meer liquiditeit hebben voor de opnames van gebruikers. Dit zijn goede paren voor circulaire herbalancering met de merchant-kanalen.</p>
+<ul>
+<li>⚡ <a href="https://mempool.space/lightning/node/026165850492521f4ac8abd9bd8088123446d126f648ca35e60f88177dc149ceb2">Boltz</a> - 1/dynamische ppm | 1M min chan | opmerking 8/10 | swap-knooppunt</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/0374eb2306a27dffd657c781065bd11785588f4811c4949070f8aed79e95a97db4">ZigZag</a> - 1/1-beleid | geen min chan | opmerking 7/10 | swap node</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/037f990e61acee8a7697966afd29dd88f3b1f8a7b14d625c4f8742bd952003a590">FixedFloat</a> - 1/1 beleid | 10M min chan | opmerking 7/10 | swap node</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/024bfaf0cabe7f874fd33ebf7c6f4e5385971fc504ef3f492432e9e3ec77e1b5cf">Deezy</a> - 0/dynamisch | 400k min| opmerking 8/10 | swap node</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/03037dc08e9ac63b82581f79b662a4d0ceca8a8ca162b1af3551595b8f2d97b70a">River</a> - 0/dynamisch | 10M min | opmerking 8/10 | grote exchange node</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/02868e12f320073cad0c2959c42559fbcfd1aa326fcb943492ed7f02c9820aa399">CoinOS</a> - 1/1 beleid | geen min chan | opmerking 6/10 | swap-knooppunt</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/02f1a8c87607f415c8f22c00593002775941dea48869ce23096af27b0cfdcc0b69">Kraken</a> - 0/dynamisch | 1M min. kan. | opmerking 7/10 | exchange-knooppunt</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/037659a0ac8eb3b8d0a720114efc861d3a940382dcfa1403746b4f8f6b2e8810ba">NiceHash</a> - 1/dynamisch | 500k min. kan. | opmerking 7/10 | exchange node</li>
+<li>⚡ <a href="https://amboss.space/search?term=YmZ4">Bitfinex</a> - 1/1 beleid | 2M min chan | opmerking 7/10 | verschillende nodes</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/0247719ca61fa34ce383634a30b9cde6a2b396a8a6e2974dbbd4ebbe93e093ad2c">Biscoint.io</a> - 0/0 beleid | geen min chan | opmerking 7/10 | Braziliaanse beurs</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/0260fab633066ed7b1d9b9b8a0fac87e1579d1709e874d28a0d171a1f5c43bb877">SouthxChange</a> - 0/dynamisch | geen min. chan | opmerking 7/10 | beursknooppunt</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/02fe80fb6a2dc0fb6e9bec49c76d048889c91355d4e900fcb026bf095665790325">Kollider</a> - 1/dynamisch | 2M min. chan | opmerking 7/10 | derivatenhandelbeurs</li>
+</ul>
+
+<h5>Wallet provider nodes</h5>
+<p>Als u directe snelle routes en interoperabiliteit tussen veel mobiele gebruikers wilt, moet u goed verbonden zijn met deze nodes. Dit biedt u en uw "bankklanten" een snelle en betrouwbare route om transacties uit te voeren met andere gebruikers via het Lightning Network.</p>
+<p>Deze nodes hebben liquiditeit aan beide kanten nodig, of kijk naar het gedrag van uw eigen gebruikers, misschien hebt u meer redders dan spenders. Het idee is om ze niet te verstoppen, er is behoefte aan liquiditeit aan de zijkant.</p>
+<ul>
+<li>⚡ <a href="https://mempool.space/lightning/node/0230a5bca558e6741460c13dd34e636da28e52afd91cf93db87ed1b0392a7466eb">Blixt</a> - 1/dynamic ppm | geen min chan | opmerking 8/10 | LSP-provider, LN-wallet</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/031b301307574bbe9b9ac7b79cbe1700e31e544513eae0b5d7497483083f99e581">Olympus LSP</a> - dynamisch | 1M chan-grootte | opmerking 9/10 | <a href="https://lsps1.olympusln.com/">LSP-provider</a>, LN-wallet</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/035e4ff418fc8b5554c5d9eea66396c227bd429a3251c8cbc711002ba215bfc226">WoS</a> - 0/dynamisch | geen min. chan | opmerking 7/10 | grote dekking van gebruikers</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/03864ef025fde8fb587d989186ce6a4a186895ee44a926bfc370e2c366597a3f8f">Acinq</a> - 1/dynamisch | geen min. chan | opmerking 7/10 | Phoenix wallet-provider</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/031015a7839468a3c266d662d5bb21ea4cea24226936e2864a7ca4f2c3939836e0">Breez</a> - 0/dynamisch | 3M min. chan | opmerking 7/10 | Breez wallet-provider</li>
+<li>⚡ <a href="https://amboss.space/search?term=YWxieQ==">Alby</a> - 1/1 beleid | 4M min chan | opmerking 7/10 | Alby browser wallet, verschillende nodes</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/023dff2a4301df8142a44d30606f0f2173e6dab0d297a412bda2e5c289ee30ae3c">Strike</a> - ze hebben veel nodes, goed als peer voor een groot netwerk verbonden</li>
+<li>⚡ <a href="https://zebedee.io/nodes">Zebedee Nodes</a> - Gaming wallet nodes, ze hebben liquiditeit nodig / je hebt verbindingen nodig</li>
+</ul>
+
+<h5>Merchants / Service providers nodes</h5>
+<p>Dit is ook een belangrijke bron, om je bankklanten directe kanalen aan te bieden met die handelaren die ze het meest gebruiken. Dus als je al weet welke handelaren ze willen gebruiken, open dan kanalen met die. Niet alleen dat je liquiditeit biedt voor je eigen bankgebruikers, maar ook voor externe LN-gebruikers die aan die handelaren betalen. Controleer op <a href="https://btcmap.org/">BTCMap</a> die handelaren in de buurt en vraag hen of ze liquiditeit nodig hebben. Open vervolgens een kanaal met hun node.</p>
+<p>Deze nodes hebben meer balans nodig aan jouw kant van het kanaal. Waarom? Omdat je meer gebruikers hebt die aan hen betalen. Ze zijn dus een goed paar om de kanalen van exchanges circulair opnieuw in evenwicht te brengen.</p>
+<ul>
+<li>⚡ <a href="https://mempool.space/lightning/node/02816caed43171d3c9854e3b0ab2cf0c42be086ff1bd4005acc2a5f7db70d83774">Fold</a> - 1/dynamisch ppm | geen min chan | opmerking 7/10 | satsback, kaartprovider</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/03271338633d2d37b285dae4df40b413d8c6c791fbee7797bc5dc70812196d7d5c">LNMarkets</a> - goede peer, veel transacties, biedt handel op LN</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/025f1456582e70c4c06b61d5c8ed3ce229e6d0db538be337a2dc6d163b0ebc05a5">Maan</a> - 1/1 beleid | geen min chan | opmerking 7/10 | kaartprovider, goede verbindingen</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/03f15fc38f36e88bf1d799994d38e10902318287a53eb413b5e8ab0046d863bace">OSHI</a> - 0/dynamische kosten | opmerking 6/10 | te veel uitgeschakelde ch | oshi.app</li>
+<li>⚡ <a href="https://amboss.space/community/06027a31-cf60-49c1-be86-210257add36f">Merchants Community</a> - verschillende merchant nodes in Amboss Community</li>
+</ul>
+
+<h5>Rings of Fire, Liquidity swaps, NodeRunners Communities</h5>
+<p>Dit is een speciale categorie, optioneel. Het is goed om mee te beginnen, wanneer je niet zoveel kanalen hebt en je wilt dat je node meer "zichtbaar" wordt in het netwerk. Gebruik het niet overmatig, want niet alle nodes daarin zijn goed voor jouw behoeften. Veel van hen willen gewoon "passief inkomen" en proberen sats uit je nodekosten te zuigen.</p>
+<p>Deze nodes bieden je altijd al gebalanceerde kanalen, met behulp van de ringtools. Dat is een goed begin, je hebt liquiditeit aan beide kanten. Ook als je nieuw bent in het runnen van een node, is de RoF-community erg behulpzaam en zal je het beste advies geven om je node te configureren.</p>
+<p>Telegramgroepen: <a href="https://t.me/theRingsOfFire">Rings of Fire</a>, <a href="https://t.me/SatoshiRadioROF">Satoshi Radio</a>, <a href="https://t.me/plebnet">Plebnet</a> of <a href="https://lightningnetwork.plus/">LightningNetwork.Plus</a> - geweldige website om je aan te sluiten bij ringen met andere plebs.</p>
+<p><a href="https://darthcoin.substack.com/p/lightning-network-is-awesome#%C2%A7tools-explorers-analyzers-stats">Zie het gedeelte over LN-nodestools</a> in deze geweldige lijst met dingen die je op LN kunt doen en gebruiken om je node af te stemmen.</p>
+
+<h5>Andere goede nodes</h5>
+<p>Dit is de categorie nodes die je kunt uitbreiden als je node al goed verbonden is en je de buitenste grenzen van de LN Galaxy wilt bereiken. Dit zijn nodes die je wilt helpen, nodes die van andere "LN Banks" zijn en die je verbonden wilt hebben en die niet van een van de vorige categorieën zijn.</p>
+<p>Maar wees je ervan bewust, selecteer ze met de nodige voorzichtigheid en houd ze in de gaten tijdens de eerste periode. Als ze het niet waard zijn, sluit ze dan. Nodes die gedurende een bepaalde periode geen sats verplaatsen, zijn totaal nutteloos.</p>
+<ul>
+<li>⚡ <a href="https://mempool.space/lightning/node/03c72f89b660de43fc5c77ef879cbf7846601af88befb80e436242909b14fd0495">RecklessApotheosis</a> - 0/dynamische ppm | geen min chan | opmerking 8/10 | plebnet node</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/0356c1091bb139ad3520eb370f1512ac2f4ed67b87d2687638252152fbf2b4575f">BlackBox</a> - 0,4/dynamische kosten | 5M min ch| opmerking 8/10 | beide kanten mover, goede peer</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/03dd09855c3634daa5c7de0146f4d54eb395b51ae422bc86ee1132a0d7ed50e720">Hades</a> - 0/dynamische ppm | 5M min ch | opmerking 8/10 | interessante node, lage kosten</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/038baffac55a282ae73e0627146a12a345f7beccb90dec07280e8b970a072849cf">Satstacker</a> - 0/1 beleid | 1M min chan | opmerking 8/10 | goed verbonden, samenwerkend</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/02664c4ed5e60b2f5119e8430f26e5e671fe2199ffaa18de452d29c454db065b02">Zuid-Korea</a> - 0/dynamische ppm | geen min chan | opmerking 7/10 | plebnet node</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/03e81689bfd18d0accb28d720ed222209b1a5f2c6825308772beac75b1fe35d491">Rust-eze</a> - 0/dynamisch | 1M min chan | opmerking 7/10 | veelbelovende pleb node</li>
+<li>Voor mobiele privé LN nodes, <a href="https://github.com/hsjoberg/blixt-wallet/issues/1033">hier is een community lijst van goede nodes</a>, die privé kanalen accepteren.</li>
+</ul>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">Hoe ga je de liquiditeit van de kanalen beheren?</h2>
+<h3 style="color:Yellow;">A - Voor een openbare routing node</h3>
+<p>Voordat we beginnen, bookmark deze uitstekende speciale gids "Configuratie van een routing node" - Door LND team. Dit is een MUST read en use gids.</p>
+<p>Een goed 3-5-10-20M sats kanaal (of zelfs groter) met een van deze zal goed zijn om te hebben voor je nieuwe node. Open geen kanaal voor minder dan 3M sats. Zal nutteloos zijn. Kanalen kleiner dan 3M satellieten zullen grotendeels genegeerd worden voor routing.</p>
+<p>Ook de kosten van het openen en sluiten van kleine kanalen zijn te hoog om ze te laten draaien. Wanneer je een kanaal opent, zijn er veel "reserves" en verborgen kosten die noobs meestal niet kennen of negeren, maar later roepen ze "waarom gaat mijn 20k sats kanaalsaldo omlaag?". Je hebt de ankerkanaalreserve, je hebt de kanaalreserve, je hebt de commitment fees die in de tijd kunnen variëren en van invloed zijn op de beschikbare sats van je kanaal, je hebt de HTLC min/max die je peers kunnen instellen.</p>
+<p>Dus om al deze problemen te voorkomen, open je gewoon een kanaal van min 3M sats en vergeet je het.</p>
+<p>Kies verstandig een peer en controleer ook op LN Node Insight dat een kanaal simuleert met elk van hen en zie welke voordelen het je node oplevert.</p>
+<p>Zodra je het kanaal opent, afhankelijk van je beschikbare uitgaande/inkomende liquiditeit, loop je ongeveer 30-40-50% van die liquiditeit uit om het nieuw gecreëerde kanaal een beetje in evenwicht te brengen. Dat zal helpen om grip te krijgen. Je kunt een tijdelijke externe LN-wallet gebruiken of gewoon swappen naar onchain. Die loop out-fondsen helpen je later om meer kanalen te openen.</p>
+<p>Om sats in/uit te loopen, kun je het volgende gebruiken:</p>
+<ul>
+<li><a href="https://boltz.exchange/">Boltz.exchange</a> - eenvoudig, snel, swaps van LN naar onchain</li>
+<li><a href="https://swapmarket.github.io/">Swap Market</a> - gebaseerd op Boltz-code, inclusief andere non-custodial swaps</li>
+<li><a href="https://deezy.io/">Deezy.io</a> - eenvoudig snel, LSP, swaps LN - onchain</li>
+<li><a href="https://coinos.io/">CoinOS.io</a> - webwallet, onchain, LN, swaps, custodial of non-custodial</li>
+<li><a href="https://zigzag.io/">ZigZag.io</a> - eenvoudig snel, swaps van LN naar onchain (let op, soms raken ze snel op) liquiditeit)</li>
+<li><a href="https://fixedfloat.com/">FixedFloat</a> - eenvoudig snel, swaps van LN naar onchain</li>
+<li>Geïntegreerde swaps in RTL en Thunderhub (gebruik Loop en Boltz)</li>
+<li><a href="http://robosats6tkf3eva7x2voqso3a5wcorsnw34jveyxfqi2fu7oyheasid.onion/">RoboSats</a> (onion link) - fiat <--> LN en LN <-->onchain swaps, volledig privé, alleen Tor</
+<li><a href="https://swap.diamondhands.technology/">DiamondHands</a> - gerund door een Japanse node runners community</li>
+<li><a href="https://submarineswaps.org/">Submarine Swaps</a> - gerund door Alex Bossworth (LND dev)</li>
+<li><a href="/nodes/lightning-submarine-swaps-nl.html">Hier heb ik een speciale gids geschreven over LN submarine swaps</a></li>
+</ul>
+<p>Voor een openbare routing node is dit het belangrijkste grafiekrapport: UW TOTALE liquiditeitsrapport (screenshot van Thunderhub node management web app)</p>
+<p><img src="/assets/images/liquidity-report-th.jpg" class="center"></p>
+<p>Zoals u kunt zien, is het niet zo belangrijk om een ​​perfecte balans te houden op elk kanaal, maar op uw totale inkomende en uitgaande liquiditeit. Een verstoring van deze balans, laten we zeggen dat u 60% uitgaande en 40% inkomende totale liquiditeit hebt, kan uw routing direct beïnvloeden en zal leiden tot minder gerouteerde betalingen. Waarom? Omdat als u niet genoeg "ruimte" hebt om een ​​betaling te ontvangen en door te sturen, uw node de route zal weigeren.</p>
+<p>U kunt dit gebrek aan liquiditeit aanpassen met:</p>
+<ul>
+<li>>een swap in of uit maken in een kanaal dat leeg is of te veel gevuld is</li>
+<li><a href="https://thebitcoinmanual.com/articles/bitcoin-app-lightning-loop/">met Lightning Terminal Loop</a></li>
+<li><a href="https://github.com/cryptosharks131/lndg">met LNDg-tool voor automatische aanpassing van liquiditeit</a></li>
+<li>de kosten voor specifieke kanalen aanpassen om de liquiditeit naar de kant te duwen waar het het meest nodig is</li>
+<li><a href="/nodes/lightning-routing-fees-experiment-nl.html">het minimale of maximale HTLC-bedrag aanpassen (kleppensysteem)</a></li>
+<li><a href="https://notgeld.medium.com/how-to-optimize-lightning-node-centrality-e197d74eab90">optimaliseer uw node centrality</a> - zeer goede gids</li>
+</ul>
+<p><a href="https://www.lopp.net/lightning-information.html#node_tools">Hier in deze gids</a> vindt u ook meer node management tools, geautomatiseerde scripting, balancing.</p>
+<p>Algemene aanbevelingen voor openbare routing nodes:</p>
+<ul>
+<li>probeer een kanaal zo veel mogelijk open te houden. Maar als het kanaal vrij klein is en u ziet dat u er veel forwarding doorheen hebt, sluit het dan en open een groter kanaal.</li>
+<li>houd uw node zo betrouwbaar mogelijk. Uw node reputatie hangt daarvan af.</li>
+<li>draai geen Tor only node als u routing wilt doen. Routing betekent PUBLIC. Tor-only nodes zijn niet 100% betrouwbaar en bereikbaar en dat heeft niet alleen invloed op jou, maar ook op iedereen in het netwerk.</li>
+<li>Als je privacy wilt voor het routeren, VOER DAN GEEN PUBLIEKE NODE UIT!</li>
+</ul>
+
+<h3 style="color:Yellow;">B - Voor privé LN-knooppunten</h3>
+<p>In deze categorie is het vrij eenvoudig en hangt het allemaal af van uw gebruik van deze privé LN-knooppunten.</p>
+<p>In principe moet u een aantal goede openbare knooppunten vinden waarmee u verbinding kunt maken:</p>
+<ul>
+<li>om u de laagst mogelijke kosten te bieden</li>
+<li>accepteren om kleinere kanalen te openen</li>
+<li>accepteren om privékanalen te openen en deze open te houden zolang u activiteit hebt</li>
+<li>goede en snelle betalingsroutes bieden</li>
+</ul>
+<p>Probeer zelfs met deze kanalen te vermijden om kleinere kanalen te openen, zoals 20-50-100k sats. Een normaal kanaal van 1-5M sats is prima, genoeg om u een behoorlijke hoeveelheid betalingen te bieden.</p>
+<p>Heb ook 2-3-4 kanalen voorbereid op uw mobiele privéknooppunt. Waarom niet gewoon 1? Omdat je nooit weet wanneer je peer offline is of geen goede routes heeft, en met minimaal 3 kanalen kun je MPP (multi-part payment) gebruiken. Hiermee verdeel je het te betalen bedrag in kleinere delen en verstuur je het via meerdere routes. Dit aspect zal niet alleen uw privacy vergroten, maar is ook een efficiëntere manier om uw kanalen en het netwerk te gebruiken.</p>
+<p>Voor Blixt LN-knooppunt <a href="https://blixtwallet.github.io/guides">schreef ik op hun docs-pagina meerdere use case-scenario's en kanaalbeheer</a>.</p>
+<p>Voor Breez, Electrum LN-knooppunt <a href="/nodes/private-ln-nodes-nl.html">schreef ik hier enkele scenario's voor liquiditeit</a>.</p>
+<p>Voor Zeus werd onlangs het ingebedde LND-knooppunt geïntroduceerd, zodat gebruikers het Zeus-knooppunt op hun mobiele apparaten kunnen uitvoeren.</p>
+<ul>
+<li><a href="/wallets/getting-started-zeus-wallet-nl.html">Hier schreef ik een handleiding om aan de slag te gaan met het Zeus LN-knooppunt</a></li>
+<li><a href="/wallets/zeus-node-advanced-usage-nl.html">Hier heb ik een geavanceerde handleiding geschreven voor Zeus LN node</a></li>
+<li><a href="https://docs.zeusln.app/category/embedded-node">Lees hier meer documentatie over het gebruik van hun geïntegreerde LSP en node</a>.</li>
+</ul>
+<p>Voor Phoenix zou ik het volgende scenario voorstellen:</p>
+<p>Phoenix opent een kanaal dat iets groter is dan wat je stort, ik zou kunnen zeggen met 10% meer. En voor elke kanaalopening worden er kosten van 3000 in rekening gebracht. Als je begint met uitgeven via dat kanaal, geef dan niet alles uit, want ze zullen het sluiten. Als je wat sats in het kanaal laat staan ​​en een andere storting doet via een andere LN-wallet, maar niet meer dan de grootte van het kanaal, passen de sats in dat reeds geopende kanaal en openen ze geen nieuw kanaal. Dus geen 3000 sats kosten meer.</p>
+<p>Als je stort vanaf een onchain adres, dan zal het een nieuw kanaal openen, zelfs als je al een bijna leeg kanaal hebt.</p>
+<p>Ik raad aan om de eerste keer een grotere storting te doen, en zo een groter kanaal te openen. Geef langzaam geld uit vanaf dat kanaal totdat je het saldo van 1% ervan bereikt. Vul dan aan. tot 99%. En zo verder. Op die manier houd je dat kanaal open en betaal je minder kosten.</p>
+<p>Houd er ook rekening mee dat nadat je een groter kanaal hebt geopend en niet meer kanalen wilt openen, je per ongeluk de optie "automatische on-the-fly kanaalcreatie" uitschakelt via Instellingen - Betaalopties en kosten. Activeer die optie alleen wanneer je nieuwe kanalen wilt openen. Onthoud dat als u niet genoeg "ruimte" hebt om te ontvangen, de betaling mislukt en die optie is uitgeschakeld.</p>
+<p>Als u thuis uw eigen desktopknooppunt gebruikt, kunt u ook het volgende gebruiken:</p>
+<ul>
+<li><a href="https://darthcoin.substack.com/p/the-bank-of-lnbits">LNBits lndhub</a></li>
+<li><a href="https://github.com/boltcard">BoltCard lndhub</a></li>
+<li><a href="https://docs.lightning.engineering/lightning-network-tools/lightning-terminal/accounts">Lightning Terminal LN-accounts</a></li>
+<li><a href="https://docs.btcpayserver.org/LNbank/">BTCPay LN-bankplug-in</a></li>
+<li><a href="/wallets/getting-started-alby-hub-nl.html">Alby Hub, zelf gehost met "oom Jim"-functie</a></li>
+</ul>
+<p>Je kunt dus praktisch je eigen LSP zijn voor kleinere hoeveelheden LN-accounts vanaf je eigen node, zonder je hele liquiditeit, node-info en toegang te onthullen. Je kunt voor deze accounts Zeus of Bluewallet of BoltCard mobiele apps gebruiken en zelfs Alby als browserextensie.</p>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">CONCLUSIE</h2>
+<p>Zoals u kunt zien zijn er veel manieren om Lightning Network te gebruiken, niet alleen "Run a Umbrel node", en gebruikers moeten verstandig het pad kiezen dat ze willen volgen, dat beter kan voldoen aan hun eigen behoeften en use cases.</p>
+<p>Ik hoop dat deze gids het pad duidelijker maakt voor u, de nieuwe LN-gebruiker die al deze termen over routing, nodes, liquiditeit probeert te begrijpen en niet weet waar te beginnen.</p>
+<p>Ik weet dat u misschien verwachtte in deze gids meer technische uitleg, grafieken, diagrammen etc. te zien, maar dat is niet het doel van deze gids. Het doel is dat u uw hersenen gaat gebruiken, alle ingevoegde links leest (die u naar veel andere gedetailleerde gidsen leiden) en uw kennis uitbreidt. Sommige aspecten worden hier niet eens genoemd, niet om je te verbergen of af te leiden, maar om je meer te laten lezen over de links die zijn ingevoegd.</p>
+<p>Het is geen eenvoudige reis, dat weet ik, omdat ik in dezelfde situatie zat als jij, worstelend om al deze aspecten te begrijpen. Maar ik was volhardend in het lezen, testen, leren van meerdere methoden, luisteren naar veel videodemo's, praten met experts, devs.</p>
+<p>Nu wil ik je gewoon mijn opgebouwde kennis teruggeven, om je te helpen de juiste informatie te vinden voor elk gebruiksgeval. Soms dwalen veel gebruikers rond en proberen ze ingewikkelde dingen en methoden, zonder te weten dat er ook eenvoudige oplossingen bestaan, die soms niet zo goed worden gepresenteerd in de community of geen groot marketingbudget hebben om overal te worden aangeprezen.</p>
+</body>
+</html>
+</article>
