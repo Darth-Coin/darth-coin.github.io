@@ -1,0 +1,158 @@
+---
+layout: default
+title: Manutenzione del nodo Lightning
+---
+<article>
+<!DOCTYPE html>
+<html lang="it">
+<meta name="description" content="Guide Bitcoin e Lightning Nodes: una semplice guida sulle buone pratiche per la manutenzione del tuo nodo LN">
+<body>
+<a href="/nodes/lightning-node-maintenance-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-node-maintenance-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-node-maintenance-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-node-maintenance-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-node-maintenance-nl.html">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-node-maintenance-hr.html">Hrvatski <img src="/assets/images/flag-HR.png" alt="HR" title="Hravtaski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-node-maintenance-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<blockquote style="color:Tomato;"><em>
+<p>Pubblicato originariamente su <a href="https://darthcoin.substack.com/p/lightning-node-maintenance">Substack</a> il 30 aprile 2022. Aggiornato qui il 25 dicembre 2024.</p>
+</em></blockquote>
+
+<h3>Una semplice guida sulle buone pratiche per la manutenzione del tuo nodo LN</h3>
+<blockquote style="color:Tomato;"><em>
+<p>Tutti gli aspetti qui sono presentati dal mio punto di vista, dopo oltre 25 anni di esperienza nel settore IT e nel supporto per utenti finali, server e aziende. Dopo oltre 10 anni in Bitcoinlandia, testando diverse app e soluzioni, negli ultimi 2 anni ho iniziato ad aiutare molti utenti Umbrel e a osservare il loro comportamento nell'uso di un nodo LN.</p>
+<p>Questa guida è stata richiesta da uno dei miei lettori di Substack. Quindi ho consegnato.</p>
+</em></blockquote>
+
+<h2 style="color:Orange;">Introduzione</h2>
+<p>Come operatori di nodi LN abbiamo anche grandi responsabilità per i nostri pari e persino per gli amici e la famiglia che sono connessi al nostro nodo. Ciò significa che dovremmo prenderci cura con attenzione delle nostre macchine nodo. Gestire un nodo è un compito serio e gli utenti non dovrebbero considerarlo un gioco per divertimento.</p>
+<p>Quindi una buona manutenzione e una buona cura della tua macchina nodo sono un MUST HAVE. Ho visto molti nuovi operatori di nodi che non prendono sul serio questi aspetti e che influenzano tutti noi, non solo loro.</p>
+<p>Perché influenzano tutti gli altri?</p>
+<ul>
+<li>un nodo peer che non è affidabile (disponibile al 99%) può interrompere molti percorsi di pagamento.</li>
+<li>un nodo non affidabile influenza tutti i punteggi dei suoi peer come nodi buoni.</li>
+<li>un nodo non affidabile bloccherà i fondi in canali morti, i peer dipendono da quei fondi.</li>
+<li>Spiegherò qui alcune buone pratiche che un operatore di nodi dovrebbe prendere in considerazione per avere un nodo buono e affidabile. Non importa se gestisci un nodo per uso personale o aziendale (commercianti), ciò che conta è quanto tieni al tuo nodo.</li>
+</ul>
+<p><img src="/assets/images/ln-node-backup.jpg" class="center"></p>
+<hr style="height:2px">
+
+<h3 style="color:Yellow;">ASPETTI CHIAVE</h3>
+<ul>
+<li>Spegni/riavvia il tuo nodo solo quando è necessario per alcuni aggiornamenti software, pulizia dei database, modifiche alla configurazione.</li>
+<li>Mantieni il tuo nodo online il più possibile. Spegnere per un breve periodo di tempo va bene, i canali andranno bene, nessuno li chiuderà se annunci il periodo di manutenzione ai tuoi pari.</li>
+<li>Utilizza un UPS (gruppo di continuità) con una durata della batteria sufficiente a mantenere online la tua macchina nodo + router Internet in caso di interruzioni di corrente. O almeno abbastanza tempo per spegnerlo in modalità grazia, se l'alimentazione è spenta per più ore o giorni. È importante proteggere i dati da perdite e corruzione.</li>
+<li>Se il tuo budget e l'uso del nodo sono molto importanti per un'azienda, allora usa una macchina con implementazione RAID. Non software, ma RAID hardware.</li>
+<li>Hardware. È molto importante avere hardware affidabile, non giocattoli. I giocattoli sono buoni per iniziare a imparare, perché sono economici, ma non sono affidabili a lungo termine. Quindi scegli saggiamente il tuo hardware, in base alla tua "fase" (apprendimento, avanzamento, produzione, impresa).</li>
+<li>Fai dei backup! I backup sono come i cali del prezzo di BTC, non sai mai quando sono necessari. Quindi falli periodicamente.</li>
+<li>LND scrive continuamente su channel.db e wallet.db e contiene tutti i dati importanti. Questi sono i file più importanti del tuo nodo. Tutto il resto può essere ricostruito facilmente in qualsiasi momento. Ma questi 2 file non possono essere sottoposti a backup in tempo reale e inoltre solo l'ultima versione è valida.</li>
+<li>Il backup SCB è come un'esportazione leggera di channels.db, in un momento specifico, che contiene informazioni di base sui tuoi canali, sufficienti per essere utilizzate per chiuderli e recuperare i fondi in onchain.</li>
+<li>L'implementazione CLN utilizza un altro tipo di file, in hsm.secret ed è molto più semplice fare copie di questo database.</li>
+</ul>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">PRATICHE DI CASO D'USO</h2>
+<h3 style="color:Yellow;">A. Hardware</h3>
+<p>Quando inizi con un nuovo nodo, la prima cosa che dovresti chiederti è: per cosa sto usando questo nodo? Quindi costruisci l'hardware della tua macchina in base alle necessità e passa nel tempo a un'altra configurazione solo quando è necessario.</p>
+<h4>Macchina per imparare/studiare</h4>
+<p>A questo livello potrebbe essere qualsiasi macchina RaspberryPi, economica, facile da installare e assemblare, a basso consumo energetico e carina. Non fare troppo affidamento su queste piccole macchine. Per esercitarsi e imparare sono molto buone, imparerai molto. Ma non sono affidabili al 100%.</p>
+<p>Inoltre, anche se scegli un dispositivo Rpi, usa almeno 8 GB di memoria RAM e una buona unità SSD. Anche l'adattatore di alimentazione è molto importante. Uno difettoso o non originale creerà una serie di guasti a cascata e non saprai il perché. È a causa di quel piccolo adattatore di alimentazione.</p>
+<p>Anche le schede mSD si guastano spesso, quindi tienine sempre una di riserva, pronta all'uso e da sostituire in caso di guasto. Sono molto sensibili alle interruzioni di corrente.</p>
+<p>Queste piccole macchine sono famose per la frequenza dei guasti, per vari motivi. Quindi, anche se sei in "fase di apprendimento", è consigliabile utilizzare un UPS. Ti darà più tranquillità e un buon sonno notturno.</p>
+
+<figure>
+<img src="/assets/images/node-example1.jpg" class="center">
+<figcaption>Gli RPi hanno bisogno di una buona ventilazione :)</figcaption>
+</figure>
+
+<h4>Macchina avanzata</h4>
+<p>Quando sei pronto e hai imparato di più su come gestire un nodo, è il momento di aumentare il livello dell'hardware. Ora vuoi una macchina più affidabile, che possa gestire più connessioni, più canali, pagamenti più rapidi e darti la tranquillità che i tuoi fondi non saranno bloccati in giorni o settimane in modalità di ripristino a causa di un crash.</p>
+<p>Se il tuo budget non è così "generoso" puoi optare per una buona macchina desktop di seconda mano. Oggigiorno molti uffici vendono le loro macchine di 1-2 anni per pochi centesimi. E alcune di queste, persino barebone, sono macchine dannatamente buone per un nodo. Di solito arrivano già con un minimo di 8 GB di RAM, a volte sono scontati con 16 GB (!!!).</p>
+<h5>Perché barebone?</h5>
+<ul>
+<li>perché sono relativamente piccoli (il mio è grande quanto un RPi ed è senza ventola)</li>
+<li>perché su alcuni di essi puoi aggiungere 2 unità SSD o persino unità NVM (anche molto meglio di un SSD)</li>
+<li>perché hanno una ventilazione migliore e alcuni di essi sono passivi (nessuna ventola rumorosa)</li>
+<li>perché ti sbarazzi della connessione all'unità USB che un dispositivo RPi usa. Quella connessione USB è il punto più debole di un nodo RPi.</li>
+<li>perché l'hardware è più robusto e durevole di un RPi.</li>
+</ul>
+
+<figure>
+<img src="/assets/images/mini-node.jpg" class="center">
+<figcaption>Il mio umile nodo barebone, unità interna, senza ventola</figcaption>
+</figure>
+
+<p>La CPU non ha molta importanza, basta aggiungere 2 buone unità SSD per RAID e sei a posto!</p>
+<p>L'UPS è ancora un must. Perché? Perché di solito quando si verifica un'interruzione di corrente, torna con una tensione diversa, picchi, ampere o semplicemente tremola ecc. Ciò potrebbe danneggiare la fonte di alimentazione della macchina. Di solito la fonte di alimentazione è la prima a interrompersi, proteggendo le altre. Ma non si sa mai. Un UPS manterrà un flusso di elettricità buono e sano verso la tua macchina e manterrà online la connessione Internet.</p>
+<blockquote style="color:Tomato;"><em>
+<p>Ricorda: un nodo non deve essere sofisticato, deve essere affidabile.</p>
+</em></blockquote>
+<p>Consiglierei di trovare una buona macchina, con chip RAID sulla scheda madre, che possa gestire almeno la configurazione RAID 1 a livello BIOS. Cosa significa? Significa che puoi creare un volume RAID, direttamente nel BIOS, da 2 unità, in modo che i dati vengano scritti contemporaneamente su entrambi i dischi. Quindi se un'unità si "ammala" o si spegne, puoi comunque avere i tuoi dati al sicuro sull'unità gemella, ancora funzionante. Puoi spegnere la tua macchina, sostituire l'unità malata e il sistema RAID ricostruirà il sistema RAID gemello da quello sano in pochi minuti. Nessuna perdita di dati, nessun canale chiuso, nessun fondo perso.</p>
+
+<h4>Macchina aziendale</h4>
+<p>Quando gestisci un nodo per un'attività seria che dipende al 100% da quel nodo, è il momento di pensare seriamente ad avere una macchina nodo 24/7/365. Solo la parte principale del nodo, non le app che installi sopra. Dopo aver protetto il tuo nodo principale, avrai maggiore flessibilità su dove e come gestire le tue app e soluzioni aziendali.</p>
+
+<figure>
+<img src="/assets/images/node-example2.jpg" class="center">
+<figcaption>Un server rack personale con più nodi</figcaption>
+</figure>
+<p>Consiglierei il seguente scenario per questo:</p>
+<ul>
+<li>utilizza una soluzione di nodo ospitato (<a href="https://voltage.cloud/">Voltage</a>, <a href="https://nodl.it/">Nodl</a>, <a href="https://nodana.io">Nodana</a>, VPS nodo dedicato) gestita da professionisti nell'architettura dei nodi, che forniscano solo la parte Core (nodo Bitcoin + LN) con elevata disponibilità e supporto.</li>
+<li>utilizza qualsiasi altra macchina, potrebbe essere a casa/in ufficio/VPS remoto in cui installi le app necessarie per gestire il tuo nodo: BTCPay, LNbits, Thunderhub, RTL ecc. e indirizza la loro configurazione verso il tuo nodo LN remoto.</li>
+</ul>
+<p>Questo è tutto ciò di cui hai bisogno per una soluzione ad alta disponibilità, con quasi zero possibilità di perdere fondi, canali, peer, tempo, clienti ecc.</p>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">B. Backup e ripristino dei dati</h2>
+<p>La cosa più importante è il seed del portafoglio. Questa è la prima cosa che dovresti salvare e tenere al sicuro, ad esempio in un gestore di password offline (Keepass o Vaultwarden).</p>
+<h3 style="color:Yellow;">Backup del database dei nodi LND</h3>
+<p>Per i nodi LND ci sono due tipi di dati di archiviazione, che possono essere recuperati:</p>
+<ul>
+<li>Backup SCB: una copia offline dello stato dei tuoi canali, contenente solo le informazioni sufficienti per essere utilizzate per chiudere i canali (insieme al tuo seed) e recuperare i fondi dai canali nel tuo portafoglio onchain. Tieni presente: questo file channels.backup può essere utilizzato SOLO con il tuo seed di nodo! Crea una copia di questo file SCB ogni volta che apri e/o chiudi un canale. Oppure crea degli script che possano creare questo file SCB sull'unità locale ogni volta che apri/chiudi canali e poi sincronizza il file su una posizione remota. Non deve essere per ogni transazione che hai fatto con il tuo nodo.</li>
+<li>Ultimo stato di channels.db e wallet.db. Questi file NON POTREBBERO essere salvati al volo o anche se spegni il nodo e ne fai una copia, non sono utili, perché una volta riavviato il nodo, verrà modificato.</li>
+</ul>
+<p>Per "ultimo stato" si intende che sono utili SOLO gli stati prima del ripristino di un nodo morto. Quando la tua macchina è morta per motivi hardware o non sta avviando il software, ma puoi comunque accedere ai file. Quindi fai una copia di questi 2 file su un'unità esterna (potrebbe essere grande) e usali in seguito dopo aver ricostruito il nuovo nodo.</p>
+<p>Hai 2 modi per ripristinare/recuperare un nodo LND:</p>
+ <ol>
+<li><p>SENZA stato dei canali</p>
+<p>Per recuperare i tuoi fondi SENZA i canali, puoi usare il backup SCB che chiuderà automaticamente e recupererà i fondi nel portafoglio onchain. Questo è il modo più semplice e <a href="/nodes/shtf-restore-lnd-node-it.html">lo descrivo in questa guida</a> (vedi metodi 2,3,4,5,6).</p>
+<p>Ti consiglio vivamente di usare l'opzione 3 e nel frattempo che stai recuperando i fondi in Blixt, puoi ricostruire un nuovo nodeID, un nuovo seed, un nuovo portafoglio, una nuova identità con la tua vecchia macchina. Successivamente puoi semplicemente spostare i fondi sul tuo nuovo nodo da Blixt o semplicemente usarli, <a href="https://darthcoin.substack.com/p/node-liquidity-guide">come nodo mobile privato, come piccolo nodo di accompagnamento per il tuo nodo domestico</a>.</p>
+</li>
+<li><p>CON stato dei canali</p>
+<p>Per ripristinare un nodo CON i canali intatti, come era nell'ultimo stato, dovrai eseguire alcuni passaggi per preparare l'ambiente. <a href="/nodes/shtf-restore-lnd-node-it.html">Spiegato in questa guida</a>, vedi i metodi 1, 3, 4, 7, 8, 9, 10.</p>
+<p>Se il tuo nodo è andato in crash, ma riesci ancora ad accedere ai file, questo è il momento più fortunato, hai 2 attività da svolgere:</p>
+<ul>
+<li>1. copia wallet.db e channel.db da quel nodo "non in fase di avvio" da qualche altra parte, out. channel.db potrebbe essere grande, quindi non è sufficiente una chiavetta USB. Controlla prima le sue dimensioni.</li>
+<li>2. una volta che hai quei 2 file al sicuro, inizia a costruire l'intero nodo da zero o se hai una copia precedente, ripristinala completamente. FAI ATTENZIONE! quando ripristini, se puoi saltare quei 2 file, altrimenti dovrai sovrascriverli con l'ultima copia che hai appena estratto da quel nodo morto. Deve essere sempre l'ultimo stato.</li>
+</ul>
+<p>Quando ricostruisci il software del nodo, scegli l'opzione "ripristina da seed" in modo da avere lo stesso nodeID e le stesse chiavi di crittografia del tuo nodo precedente, potendo usare lo stesso wallet.db e channel.db. Se usi un altro seed/nodeID, quei file non sono utilizzabili, non possono essere sbloccati!</p>
+<p>Questa è la parte in cui devi "ricostruire" le cartelle dati. Se non esegui il ripristino da una copia completa che contiene già le cartelle in cui prima si trovavano il wallet e il channel.db, dovrai installare il software del nodo da zero, lasciarlo avviare, ricostruire le cartelle e sincronizzare il database e quindi fermarlo. Copia i 2 file nella loro posizione e riavvia il nodo. Fatto.</p>
+<p>Quindi puoi riavviare il tuo nodo. Inizierà a recuperare e riutilizzare i 2 file in modo corretto, tutti i tuoi canali saranno lì, ci vorrà solo un po' di tempo per recuperare i blocchi e sincronizzarli.</p>
+</li>
+</ol>
+<h3>Backup del database dei nodi CLN</h3>
+<p>Per questi nodi di implementazione è molto più semplice ed è solo una copia ricorsiva di un semplice piccolo file di database hsm_secret.</p>
+<p><a href="https://lightning.readthedocs.io/BACKUP.html">Tutto il processo è spiegato in questa guida manuale per CLN</a>.</p>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">C. Manutenzione e aggiornamenti software</h2>
+<p>OK, così tanti utenti hanno chiesto degli aggiornamenti e con quale frequenza farli.</p>
+<p>La risposta è semplice: in qualsiasi momento è necessario. Esatto, non sempre, ma solo quando è necessario.</p>
+<p>Perché? Perché non serve tutto il tempo :) Se qualcosa funziona perfettamente senza errori, una nuova versione non significa automaticamente migliore. Nuove funzionalità o app che non usi non significano che devi aggiornarle. La stabilità è più importante delle novità.</p>
+<h4 style="color:Yellow;">Raccomandazioni:</h4>
+<ul>
+<li>non buttarti nell'aggiornamento del software del tuo nodo impulsivamente, subito dopo il rilascio o se non risolve nemmeno i problemi del tuo nodo. Alcuni aggiornamenti sono minori, altri sono importanti.</li>
+<li>Leggi attentamente le note di rilascio e verifica se l'aggiornamento è un vantaggio o risolve un errore che hai avuto con il tuo nodo. Se non ti riguarda direttamente, non c'è bisogno di buttarti e fare l'aggiornamento. Attendi una versione più importante. A volte anche gli aggiornamenti di rilascio rapidi possono contenere bug, non verificati in tempo dagli sviluppatori. La merda può succedere, sono umani anche loro. Quindi aspetta 1-2 giorni in più e vedi cosa dicono gli altri utenti impazienti dopo aver aggiornato.</li>
+<li>Gli aggiornamenti del sistema operativo sono più importanti degli aggiornamenti del software del nodo. Quindi controlla più spesso gli aggiornamenti del sistema operativo ed eseguili quando sono necessari.</li>
+<li>Quando aggiorni il sistema operativo, ferma sempre prima il nodo. Alcuni requisiti potrebbero essere componenti docker o altri moduli che influenzano il software del nodo. Quindi il sistema operativo si aggiorna e spegne la macchina. Sì, non semplicemente riavviare, ma spegnere, lasciare qualche secondo per cancellare la memoria e riavviare. Questa è una buona pratica anche per mantenere i cluster di unità in buone condizioni e pulire la memoria da cose negative.</li>
+<li>Sempre, prima di aggiornare il software del nodo, aggiornare prima il sistema operativo.</li>
+<li>Gli utenti RPi di solito non devono fare aggiornamenti del sistema operativo, perché il software del nodo è integrato insieme al sistema operativo, di solito è una versione modificata del sistema operativo Debian, adattata per RPi.</li>
+<li>Per gli utenti non RPi, consiglio vivamente di usare come sistema operativo un Debian Linux. È più robusto, controlla meglio il file system, meno cose inutili e fantasiose per il desktop, per un sistema operativo del nodo devi essere minimalista, non lo usi sempre.</li>
+<li>Non complicare le cose con VM, server Ubuntu che assorbono solo grandi quantità di risorse. Un nodo non ne ha bisogno. Hai bisogno solo della base per gestire un nodo.</li>
+</ul>
+<p>Penso che questi siano sufficienti aspetti per te, il nuovo operatore di nodi che inizia ora il tuo viaggio in questo affascinante mondo di nodi.</p>
+<p>Spero che tu stia gestendo il miglior nodo possibile e che ti abbia dato informazioni sufficienti per gestire un nodo in buone condizioni. Buon Lightning!</p>
+</body>
+</html>
+</article>
