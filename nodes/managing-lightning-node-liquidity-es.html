@@ -1,0 +1,320 @@
+---
+layout: default
+title: Gestiónar la liquidez de un Nodo Lightning
+---
+<article>
+<!DOCTYPE html>
+<html lang="es">
+<meta name="description" content="Guías de Bitcoin y Lightning: Cómo administrar la liquidez de su nodo LN y operar como un nodo de enrutamiento público">
+<body>
+<a href="/nodes/managing-lightning-node-liquidity-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/managing-lightning-node-liquidity-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/managing-lightning-node-liquidity-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/managing-lightning-node-liquidity-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/managing-lightning-node-liquidity-nl.html">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/managing-lightning-node-liquidity-hr.html">Hrvatski <img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/managing-lightning-node-liquidity-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<blockquote style="color:Tomato;"><em>
+<p>Publicado originalmente en <a href="https://darthcoin.substack.com/p/managing-lightning-node-liquidity">Substack</a> el 2 de mayo de 2023. Actualizado aquí el 25 de diciembre de 2024</p>
+</em></blockquote>
+
+<h3>Métodos, estrategias, tipos y recomendaciones sobre cómo empezar a ejecutar un nodo de LN y operar su liquidez.</h3>
+<p>Esta guía está dedicada a todos aquellos nuevos usuarios que quieran empezar a aprender sobre los nodos de Lightning Network (LN) y elegir el tipo de método adecuado para sus propias necesidades.</p>
+<p>Dentro de esta guía, encontrará muchos enlaces a muchas otras guías específicas. No las ignore. Esta guía es una guía entre todos ellos, para ayudarte a elegir tu mejor camino a través de Lightning Network.</p>
+<p>Hay una IDEA ERRÓNEA entre los nuevos bitcoiners de que DEBES ejecutar un nodo de enrutamiento público dedicado para poder realizar algunos pagos de LN.</p>
+<p>Estas serán las preguntas que intentaremos responder en esta guía:</p>
+<ul>
+<li>¿Por qué quieres ejecutar un nodo de LN?</li>
+<li>¿Qué tipo de hardware usarás?</li>
+<li>¿Qué tipo de software podrías usar?</li>
+<li>¿Qué tipo de nodo quieres ejecutar (público o privado)?</li>
+<li>¿A qué pares de nodos deberías conectarte?</li>
+<li>¿Cómo gestionarás la liquidez de los canales?</li>
+</ul>
+<p><img src="/assets/images/ln-liquidity-management.jpg" class="center"></p>
+
+<h2 style="color:Orange;">¿POR QUÉ quieres ejecutar un nodo LN?</h2>
+<h3 style="color:Yellow;">A. Eres un simple usuario de LN que solo quiere pagar con sats sus compras</h3>
+<ul>
+<li>Necesitarás más liquidez saliente porque enviarás más</li>
+<li>pero también algo de liquidez entrante en caso de que necesites recibir de amigos u otros.</li>
+<li>Buenos pares con los que conectarte para que tus transacciones se realicen fácilmente y a menor costo</li>
+<li>No necesitas usar demasiados fondos en tu nodo LN, lo suficiente para cubrir tus gastos</li>
+<li>¡No necesitas un nodo de enrutamiento público solo para eso!</li>
+</ul>
+
+<h3 style="color:Yellow;">B. Eres un comerciante, un profesional independiente o un proveedor de servicios que vende productos o servicios físicos o en línea mediante LN.</h3>
+<ul>
+<li>Necesitarás más liquidez entrante, es decir, otros pares o incluso tus propios clientes para abrir canales hacia tu nodo.</li>
+<li>Publica la ID de tu nodo a tus clientes y anímalos a conectarse a tu nodo y pagarte directamente, incluso sin comisiones.</li>
+<li>Vacía periódicamente tus canales llenos para que tengas nuevamente "espacio" para más pagos de ingresos. Hay muchas formas de hacer esto.</li>
+<li>Necesitarás canales buenos y grandes para poder recibir tantos pagos como puedas.</li>
+<li>No necesitas poner demasiados fondos de tu lado, eres el receptor, no el que gasta.</li>
+</ul>
+
+<h3 style="color:Yellow;">C. Eres solo un operador de nodo, estás más interesado en enrutar transacciones a través de LN</h3>
+<ul>
+<li>no realizas demasiados pagos usando tu nodo (malo, muy malo)</li>
+<li>necesitarás liquidez tanto entrante como saliente. Y mucha, así que prepárate con una gran cantidad de fondos para poner en tus canales LN. Entonces, si quieres ser un nodo de enrutamiento con 20k sats o 1M sats... ¡OLVÍDATE! Vuelve a dormir.</li>
+<li>necesitarás canales balanceados, así que mejor únete a <a href="https://t.me/plebnet">PLEBNET</a> o <a href="https://lightningnetwork.plus/">Lightning Network Plus</a></li>
+<li>necesitarás saber cómo hacer la gestión de canales de tarifas, así que comienza a aprender</li>
+<li>necesitarás tener un hardware fuerte y un nodo siempre en línea. ¡Esto no es una broma!</li>
+<li>Puedes ingresar lentamente en Lightning Pool y "alquilar"/subastar la liquidez de tu nodo. Pero necesitarás un nodo fuerte y mucha liquidez para realmente ver algún "ingreso".</li>
+</ul>
+
+<h3 style="color:Yellow;">D. Estás probando y aprendiendo, o eres un desarrollador que usa un nodo como base</h3>
+<ul>
+<li>Solo necesitas algunos canales de entrada y salida con los que jugar.</li>
+<li>No necesitas demasiados fondos.</li>
+<li>Es mejor informar a tus pares que eres un par temporal para ellos, tu nodo es solo un campo de pruebas, por lo que no esperarán que estés en línea o que seas un par para siempre.</li>
+<li>Podrías tener canales públicos y privados, haciendo pruebas.</li>
+</ul>
+
+<h3 style="color:Yellow;">E. Quieres ser el "Banco del tío Jim" para tu familia y amigos</h3>
+<ul>
+<li>Ofrecerás servicios bancarios BTC/LN para tu familia y amigos. Eso implica mucha responsabilidad y confianza. Esto no es una broma, ahora eres un banco real.</li>
+<li>Necesitarás algo de liquidez en ambos sentidos (entrada/salida) para cubrir las necesidades de tus "clientes". Recuerda: la liquidez de tu nodo es su "agua en las tuberías", no sus fondos. Así que mantén tus tuberías siempre llenas de agua.</li>
+<li>puedes ofrecer muchos "servicios" que puedes lograr usando LNDHUB, lee más:</li>
+<ul>
+<li><a href="https://darthcoin.substack.com/p/umbrel-lndhub-bluewallet">Umbrel + LNDHUB + Bluewallet / Zeus</a></li>
+<li><a href="https://darthcoin.substack.com/p/umbrel-node-lnbits">Umbrel + LNBits lndhub + Bluewallet / Zeus</a></li>
+<li><a href="https://darthcoin.substack.com/p/the-bank-of-lnbits">Bancos LNbits</a></li>
+<li><a href="/merchants/private-banks-over-ln-es.html">Bancos LN privados</a></li>
+</ul>
+<li>Necesitarás educar a tus clientes sobre cómo usar estos servicios, así que empieza a crear tus propias guías web sencillas para ellos</li>
+<li><a href="https://darthcoin.substack.com/p/dunder-lsp-and-lightning-box-provider">Quieres ofrecer servicios LSP para nodos privados</a></li>
+</ul>
+
+<h3 style="color:Yellow;">F. "Quiero ganar dinero con mi nodo, quiero ganancias, quiero un cierto % que me den cada mes", "quiero minar bitcoins con mi nodo", "quiero ingresos pasivos"...</h3>
+<ul>
+<li><strong>¡OLVÍDATE DE ELLO!</strong></li>
+<li>Esta es una mentalidad equivocada, es una mentalidad comunista perezosa, obtener dinero sin hacer nada. Para ganar dinero, tú y tu nodo deben trabajar duro.</li>
+<li>Un nodo BTC/LN no es un airdrop de mierda de DeFi, es algo serio. Si vienes de ese "lado oscuro", "no hay sopa para ti".</li>
+<li>Deja de pensar así y revisa los 5 puntos anteriores</li>
+</ul>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">¿Qué tipo de hardware usarás?</h2>
+<p>Bien, entonces después de decidir qué tipo de nodo quieres ejecutar, elige el hardware para él.</p>
+<p>Ten en cuenta algunos aspectos importantes:
+<ul>
+<li>Si quieres ejecutar un nodo LN de enrutamiento público, elige un buen hardware, confiable. <a href="/nodes/lightning-node-maintenance-es.html">Aquí escribí una guía dedicada</a> sobre el hardware del nodo BTC/LN. Elige en función del tipo de uso que se le dará a ese nodo.</li>
+<li>Si quieres ejecutar un nodo LN privado, basta con un buen dispositivo móvil. Aquí escribí 2 guías sobre el uso de nodos LN privados en dispositivos móviles:</li>
+<ul>
+<li><a href="/beginner/bitcoiners-mobile-device-es.html">Qué dispositivos móviles deberían usar los bitcoiners</a></li>
+<li><a href="/nodes/private-ln-nodes-es.html">Ejecutar un nodo Lightning privado</a></li>
+</ul>
+</ul>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">¿Qué tipo de software podrías usar?</h2>
+<p>Sí, muchos novatos simplemente toman el camino más fácil, pasando a Umbrel, myNode, Citadel, Embassy, ​​etc., pero no saben que más adelante se darán cuenta de que es más que eso. Sí, son buenos para empezar a aprender, son fáciles de instalar, pero más adelante el usuario descubrirá que querrá más que eso y necesitará migrar o comenzar de nuevo con un nuevo nodo de software.</p>
+<p>Así que aquí en <a href="/nodes/bitcoin-ln-node-software-es.html">esta guía enumeré todos los tipos de software</a> que pueden ejecutar un nodo de escritorio.</p>
+<p>Así que antes de elegir uno, piense dos veces qué va a hacer y analice cada detalle.</p>
+<p>Si solo desea ejecutar un nodo LN privado en su dispositivo móvil, aquí hay tres guías detalladas sobre todas las aplicaciones LN comparándolas por tipo y características:</p>
+<ul>
+<li><a href="/wallets/lightning-wallets-comparison-es.html">Guía de comparación de billeteras Lightning</a></li>
+<li><a href="/nodes/private-ln-nodes-es.html">Red Lightning privada Nodos</a></li>
+<li><a href="/beginner/getting-started-stack-sats-es.html">Comenzando a apilar Sats en el viaje de un novato</a></li>
+</ul>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">¿Qué tipo de nodo quieres ejecutar (público o privado)?</h2>
+<p>Muchos usuarios nuevos ni siquiera conocen la existencia de estos términos: nodo público o privado.</p>
+<h3 style="color:Yellow;">Un nodo LN PÚBLICO significa:</h3>
+<ul>
+<li>Tus canales se anuncian públicamente en el gráfico LN y pueden verse con todos sus detalles en cualquier <a href="https://darthcoin.substack.com/p/lightning-network-is-awesome#%C2%A7tools-explorers-analyzers-stats">Explorador de nodos Lightning</a> (mempool, amboss, 1ML, etc.).</li>
+<li>Su ID y nombre de nodo, IP, URL de Tor son visibles y se pueden consultar en cualquier <a href="https://darthcoin.substack.com/p/lightning-network-is-awesome#%C2%A7tools-explorers-analyzers-stats">LN Explorer</a>.</li>
+<li>Sus canales LN PODRÍAN ENRUTAR las transacciones de otros, lo que significa que incluso si usted no realiza ningún pago para sí mismo, su nodo seguirá moviendo fondos, reenviando los pagos que llegan a través de su nodo, por lo que algunos canales agotarán la liquidez y otros se llenarán. Por lo tanto, deberá encontrar los métodos para mantener un equilibrio de ellos. <a href="/nodes/lightning-routing-fees-experiment-es.html">Como expliqué con más detalles aquí</a>.</li>
+<li>tendrás que hacer una gestión intensiva de la liquidez para tus canales si realmente quieres que tu nodo haga enrutamiento.</li>
+<li>tienes que mantener tu nodo en línea las 24 horas del día, los 7 días de la semana (o tanto como sea posible) para que tu nodo pueda tener buena confiabilidad, disponibilidad y centralidad y aumentar su clasificación.</li>
+<li>si quieres ejecutar un nodo público para enrutamiento pero aún quieres mantener un cierto nivel de privacidad, puedes usar un nodo Tor (es bastante malo para enrutamiento) y ponerlo detrás de un servidor VPS clearnet, usando <a href="https://tunnelsats.com/">TunnelSats.com</a> o usar múltiples métodos de señuelo, <a href="/merchants/operating-ln-as-merchant-es.html">como expliqué en este <a href="/merchants/private-banks-over-ln-es.html">Como expliqué en esta guía dedicada</a>.</li>
+
+<h3 style="color:Yellow;">Un nodo LN PRIVADO significa:</h3>
+<ul>
+<li>Sus canales SOLO no están anunciados (son privados) en el gráfico LN y NO SON VISIBLES en ningún explorador LN público. Estos canales usan sugerencias de ruta para poder realizar los pagos. Las sugerencias de ruta las proporcionan los nodos públicos a los que están conectados.</li>
+<li>Tu nodo LN NO ES VISIBLE ni se puede consultar en ningún explorador LN.</li>
+<li>Puedes realizar y recibir pagos pero NO PODRÁS realizar enrutamiento. Enrutamiento significa reenviar pagos de otros nodos a través de tu nodo.</li>
+<li>No necesitas realizar ningún rebalanceo ni liquidez de canales, solo en los casos en que necesites recibir o enviar más desde un canal específico.</li>
+<li>No necesitas mantener tu nodo LN privado en línea todo el tiempo. Pero al menos cada 2-3 días, ábrelo, deja que se sincronice e incluso realiza algunos pagos, incluso los que sean pequeños. Tenga alguna actividad, de lo contrario, sus compañeros podrían interpretar que es un nodo zombie muerto y forzarán el cierre del canal con usted.</li>
+<li><a href="/nodes/private-ln-nodes-es.html">Aquí puede encontrar una guía dedicada a los nodos Lightning privados</a>.</li>
+</ul>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">¿A qué pares de nodos deberías conectarte?</h2>
+<p>Esta es una pregunta bastante compleja y cada uno debería hacer su propio análisis en función del uso de su nodo.</p>
+<p>Empiezo a crear una lista personal de nodos, seleccionados manualmente, después de monitorearlos durante varios días. No digo que estos nodos sean los mejores, pero me gusta hacer un seguimiento de los nodos con los que me gustaría conectarme.</p>
+<p>La actualizaré periódicamente, en función de criterios personales y manuales, observando su actividad en <a href="https://mempool.space/lightning">Mempool LN</a> o en el explorador de LN <a href="https://amboss.space/">Amboss.space</a> y otras herramientas. Mis criterios no se basan en puntuaciones BOS y otras cosas por el estilo. Se trata más de cuál es su L2 de conexiones, cuáles son sus tarifas, con qué frecuencia abren/cierran canales, el tiempo que mantienen su nodo en línea. Piensa más en cómo se enrutarán TUS transacciones a través de estos nodos y luego lidia con tener un nodo de enrutamiento.</p>
+<p>Tampoco es realmente necesario conectarse a todos los de esta lista. Pero algunos de ellos son buenos para tenerlos como pares.</p>
+<p>Otro aspecto importante para mí a la hora de elegir pares es: evitar aquellos nodos que utilizan tarifas exorbitantes, solo para estafar a otros usuarios en las tarifas. No me importa una mierda lo que otros están tratando de decir sobre la carrera por ganar capital en LN, pero para mí LN es más una forma de realizar transacciones baratas y rápidas y no para "ganar sats" con el enrutamiento. Entonces, si un nodo con tarifas base y/o ppm exorbitantes se conecta a mi nodo, deshabilitaré el canal o simplemente lo cerraré.</p>
+<p>En primer lugar, este es un buen comienzo para conectarse a uno de estos nodos comerciales desde esta <a href="https://amboss.space/community/06027a31-cf60-49c1-be86-210257add36f">Comunidad de nodos comerciales de Amboss</a>. Necesitan liquidez entrante, por lo que si tienes un nuevo nodo, los ayudas, ellos te ayudan.</p>
+<p>Aquí también hay <a href="https://basefee.ln.rene-pickhardt.de/">una enorme lista de nodos con tarifa base 0</a>, seleccionada por René Pickhardt.</p>
+<p>Considera también mirar la <a href="https://amboss.space/community/fa2a3e5a-769c-4cbf-ab9d-7ed8680a9ec6">Comunidad de tarifa base cero</a> en Amboss y todas las demás <a href="https://amboss.space/community">Comunidades de Amboss</a>.</p>
+<p>El orden de la lista es aleatorio, sin preferencias.</p>
+
+<h4 style="color:Yellow;">NODOS VIGILADOS por categoría</h4>
+<p>El orden de la lista es aleatorio, sin preferencias, es solo una referencia y orientación.</p>
+<h5>Nodos LSP (Proveedores de Servicios de Liquidez)</h5>
+<p>Son fuentes muy importantes, porque están bien conectados, su centralidad es buena y están dedicados a tener una fuerte confiabilidad y gran liquidez. No todos están usando tarifas bajas, pero en general sí, porque piensan en gran volumen de transacciones.</p>
+<p>Estos nodos necesitan liquidez en ambos lados del canal, por lo que es bueno que los vigiles y mantengas ese equilibrio cuando sea necesario. Ajuste las tarifas y el HTLC mínimo/máximo según corresponda o incluso haga un balance circular entre otros de sus canales.</p>
+<ul>
+<li>⚡ <a href="https://mempool.space/lightning/node/03d35779ff612c574b92494d74300ce467e0eb510181a6ae3eb74d8ada891d82aa">IBEX</a> - tarifas dinámicas | 3M min chan | nota 6/10 | Intercambio LATAM LSP</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/03aefa43fbb4009b21a4129d05953974b7dbabbbfb511921410080860fca8ee1f0">Flujo de voltaje</a> - Política 1/500 | 1 millón de canal mínimo | nota 8/10 | buena liquidez</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/0242a4ae0c5bef18048fbecf995094b74bfb0f7391418d71ed394784373f41e4f3">CoinGate</a> - Política 1/1 | 1 millón de canal mínimo | nota 8/10 | nodo enorme</li>
+<li>⚡ <a href="https://amboss.space/search?term=bG5iaWc=">LNBig</a> - dinámica baja | sin min chan | nota 8/10 | varios nodos de liquidez</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/026af41af0e3861ba170cc0eef8f45a1015125dac57c28df53752dcaeea793b28f">BitcoinVN</a> - 1/dinámica | 6M min chan | nota 8/10 | Intercambio de Vietnam / LSP</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/02e4971e61a3f55718ae31e2eed19aaf2e32caf3eb5ef5ff03e01aa3ada8907e78">FlashSats</a> - Política 0/0 | Canal mínimo de 5 millones | Nota 8/10 | Ofrece LSP entrante</li>
+<li>⚡ <a href="https://lnserver.com/">LNServer</a> - Política 0/0 | Canal mínimo de 2 millones | Nota 8/10 | Ofrece LSP entrante</li>
+<li>⚡ <a href="https://megalithic.me/">Megalithic</a> - Política 0/0 | Canal mínimo de 1 millón | Nota 9/10 | ofrece LSP entrante</li>
+</ul>
+
+<h5>Nodos de intercambio/swaps</h5>
+<p>La gente comienza a usar más intercambios que ofrecen retiros a través de LN. Y necesitan liquidez y usted puede ser un puente entre los intercambios y los usuarios. Sus clientes bancarios también quieren comprar más sats, utilizando sus canales bancarios.</p>
+<p>Estos nodos necesitan más saldo de su lado. Por lo tanto, deberá impulsar más sats de su lado, para que puedan tener más liquidez para los retiros de los usuarios. Estos son un buen par para el reequilibrio circular con los canales comerciales.</p>
+<ul>
+<li>⚡ <a href="https://mempool.space/lightning/node/026165850492521f4ac8abd9bd8088123446d126f648ca35e60f88177dc149ceb2">Boltz</a> - 1/1 ppm dinámico | 1M min chan | nota 8/10 | nodo de intercambio</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/0374eb2306a27dffd657c781065bd11785588f4811c4949070f8aed79e95a97db4">ZigZag</a> - política 1/1 | sin min chan | nota 7/10 | nodo de intercambio</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/037f990e61acee8a7697966afd29dd88f3b1f8a7b14d625c4f8742bd952003a590">FixedFloat</a> - Política 1/1 | Min 10M chan | nota 7/10 | nodo de intercambio</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/024bfaf0cabe7f874fd33ebf7c6f4e5385971fc504ef3f492432e9e3ec77e1b5cf">Deezy</a> - 0/dinámico | Min 400k | nota 8/10 | nodo de intercambio</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/03037dc08e9ac63b82581f79b662a4d0ceca8a8ca162b1af3551595b8f2d97b70a">River</a> - 0/dinámico | 10M mín. | nota 8/10 | nodo de intercambio grande</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/02868e12f320073cad0c2959c42559fbcfd1aa326fcb943492ed7f02c9820aa399">CoinOS</a> - política 1/1 | sin chan min | nota 6/10 | nodo de intercambio</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/02f1a8c87607f415c8f22c00593002775941dea48869ce23096af27b0cfdcc0b69">Kraken</a> - 0/dinámico | 1M min chan | nota 7/10 | nodo de intercambio</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/037659a0ac8eb3b8d0a720114efc861d3a940382dcfa1403746b4f8f6b2e8810ba">NiceHash</a> - 1/dinámico | 500k min chan | nota 7/10 | nodo de intercambio</li>
+<li>⚡ <a href="https://amboss.space/search?term=YmZ4">Bitfinex</a> - Política 1/1 | Min Chan de 2 millones | nota 7/10 | varios nodos</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/0247719ca61fa34ce383634a30b9cde6a2b396a8a6e2974dbbd4ebbe93e093ad2c">Biscoint.io</a> - Política 0/0 | Sin Min Chan | nota 7/10 | Intercambio brasileño</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/0260fab633066ed7b1d9b9b8a0fac87e1579d1709e874d28a0d171a1f5c43bb877">SouthxChange</a> - 0/dinámico | sin canal mínimo | nota 7/10 | nodo de intercambio</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/02fe80fb6a2dc0fb6e9bec49c76d048889c91355d4e900fcb026bf095665790325">Kollider</a> - 1/dinámico | 2 millones de canales mínimos | nota 7/10 | Intercambio de operaciones con derivados</li>
+</ul>
+
+<h5>Nodos de proveedores de billetera</h5>
+<p>Si desea tener rutas rápidas y directas e interoperabilidad entre muchos usuarios móviles, debe estar bien conectado con estos nodos. Esto le ofrecerá a usted y a sus "clientes bancarios" una ruta rápida y confiable para realizar transacciones con otros usuarios a través de la red Lightning.</p>
+<p>Estos nodos necesitan liquidez en ambos lados, o vigilar el comportamiento de sus propios usuarios, tal vez tenga más ahorradores que gastadores. La idea es no saturarlos, quedando sin liquidez en el lateral si es necesario.</p>
+<ul>
+<li>⚡ <a href="https://mempool.space/lightning/node/0230a5bca558e6741460c13dd34e636da28e52afd91cf93db87ed1b0392a7466eb">Blixt</a> - 1/dynamic ppm | no min chan | nota 8/10 | Proveedor de LSP, billetera LN</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/031b301307574bbe9b9ac7b79cbe1700e31e544513eae0b5d7497483083f99e581">Olympus LSP</a> - dinámico | Tamaño de canal 1M | nota 9/10 | <a href="https://lsps1.olympusln.com/">Proveedor de LSP</a>, billetera LN</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/035e4ff418fc8b5554c5d9eea66396c227bd429a3251c8cbc711002ba215bfc226">WoS</a> - 0/dinámico | sin min chan | nota 7/10 | gran cobertura de usuarios</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/03864ef025fde8fb587d989186ce6a4a186895ee44a926bfc370e2c366597a3f8f">Acinq</a> - 1/dinámico | sin min chan | nota 7/10 | proveedor de billetera Phoenix</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/031015a7839468a3c266d662d5bb21ea4cea24226936e2864a7ca4f2c3939836e0">Breez</a> - 0/dinámico | 3M min chan | nota 7/10 | Proveedor de billetera Breez</li>
+<li>⚡ <a href="https://amboss.space/search?term=YWxieQ==">Alby</a> - Política 1/1 | Min Chan de 4 millones | Nota 7/10 | Billetera de navegador Alby, varios nodos</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/023dff2a4301df8142a44d30606f0f2173e6dab0d297a412bda2e5c289ee30ae3c">Strike</a>: tienen muchos nodos, buenos como pares para una vasta red conectada</li>
+<li>⚡ <a href="https://zebedee.io/nodes">Nodos Zebedee</a>: nodos de billetera para juegos, necesitan liquidez / necesitas conexiones</li>
+</ul>
+
+<h5>Nodos de comerciantes/proveedores de servicios</h5>
+<p>Esta también es una fuente importante para ofrecer a los clientes de su banco canales directos con aquellos comerciantes que más utilizan. Por lo tanto, si ya sabe qué comerciantes quieren utilizar, abra canales con ellos. No solo ofrece liquidez para los usuarios de su propio banco, sino también para los usuarios externos de LN que pagan a esos comerciantes. Verifique en <a href="https://btcmap.org/">BTCMap</a> a los comerciantes cercanos y pregúnteles si necesitan liquidez. Luego abra un canal con su nodo.</p>
+<p>Estos nodos necesitan más saldo de su lado del canal. ¿Por qué? Porque tendrá más usuarios que paguen hacia ellos. Por lo tanto, son un buen par para reequilibrar circularmente los canales de los exchanges.</p>
+<ul>
+<li>⚡ <a href="https://mempool.space/lightning/node/02816caed43171d3c9854e3b0ab2cf0c42be086ff1bd4005acc2a5f7db70d83774">Fold</a> - 1/dynamic ppm | no min chan | nota 7/10 | satsback, proveedor de tarjetas</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/03271338633d2d37b285dae4df40b413d8c6c791fbee7797bc5dc70812196d7d5c">LNMarkets</a>: buen par, muchas transacciones, ofrece operaciones en LN</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/025f1456582e70c4c06b61d5c8ed3ce229e6d0db538be337a2dc6d163b0ebc05a5">Moon</a>: política 1/1 | sin min chan | nota 7/10 | proveedor de tarjetas, buenas conexiones</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/03f15fc38f36e88bf1d799994d38e10902318287a53eb413b5e8ab0046d863bace">OSHI</a> - 0/tarifas dinámicas | nota 6/10 | demasiados canales deshabilitados | oshi.app</li>
+<li>⚡ <a href="https://amboss.space/community/06027a31-cf60-49c1-be86-210257add36f">Comunidad de comerciantes</a>: varios nodos de comerciantes en la comunidad de Amboss</li>
+</ul>
+
+<h5>Anillos de fuego, intercambios de liquidez, comunidades de NodeRunners</h5>
+<p>Esta es una categoría especial, es opcional. Es bueno comenzar con ella cuando no tienes tantos canales y quieres que tu nodo se vuelva más "visible" en la red. No la uses en exceso porque no todos los nodos que hay allí son buenos para tus necesidades. Muchos de ellos solo quieren "ingresos pasivos" y tratan de sacar sats de las tarifas de tu nodo.</p>
+<p>Estos nodos siempre te ofrecerán canales ya balanceados, usando las herramientas de anillo. Eso es bueno para comenzar, tendrás liquidez en ambos lados. Además, si eres nuevo en la gestión de nodos, la comunidad de RoF es muy útil y te dará los mejores consejos para configurar tu nodo.</p>
+<p>Grupos de Telegram: <a href="https://t.me/theRingsOfFire">Rings of Fire</a>, <a href="https://t.me/SatoshiRadioROF">Satoshi Radio</a>, <a href="https://t.me/plebnet">Plebnet</a> o <a href="https://lightningnetwork.plus/">LightningNetwork.Plus</a>: una web increíble para unirse a anillos con otros plebeyos.</p>
+<p><a href="https://darthcoin.substack.com/p/lightning-network-is-awesome#%C2%A7tools-explorers-analyzers-stats">Consulta la sección sobre herramientas de nodos de LN</a> en esta increíble lista con cosas que puedes hacer en LN y usarlas para Pon a punto tu nodo.</p>
+
+<h5>Otros nodos buenos</h5>
+<p>Esta es la categoría de nodos que puedes ampliar cuando tu nodo ya está bien conectado y quieres llegar a los límites exteriores de la Galaxia LN. Son nodos a los que quieres ayudar, nodos que son de otros “Bancos LN” y quieres que estén conectados y que no son de ninguna de las categorías anteriores.</p>
+<p>Pero ten cuidado, selecciónalos con precaución y obsérvalos durante el período inicial. Si no valen la pena, ciérralos. Los nodos que no están moviendo ningún satélite durante un período determinado son totalmente inútiles.</p>
+<ul>
+<li>⚡ <a href="https://mempool.space/lightning/node/03c72f89b660de43fc5c77ef879cbf7846601af88befb80e436242909b14fd0495">RecklessApotheosis</a> - 0/dinámica ppm | sin canal mínimo | nota 8/10 | nodo plebnet</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/0356c1091bb139ad3520eb370f1512ac2f4ed67b87d2687638252152fbf2b4575f">BlackBox</a> - 0,4/dinámica tarifas | canal mínimo de 5 millones | nota 8/10 | Ambos lados se mueven, buen par</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/03dd09855c3634daa5c7de0146f4d54eb395b51ae422bc86ee1132a0d7ed50e720">Hades</a> - 0/min ppm | 5M min chan | nota 8/10 | nodo interesante, tarifas bajas</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/038baffac55a282ae73e0627146a12a345f7beccb90dec07280e8b970a072849cf">Satstacker</a> - 0/1 política | 1M min chan | nota 8/10 | bien conectado, colaborativo</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/02664c4ed5e60b2f5119e8430f26e5e671fe2199ffaa18de452d29c454db065b02">Corea del Sur</a> - 0/dinámico ppm | sin min chan | nota 7/10 | nodo plebnet</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/03e81689bfd18d0accb28d720ed222209b1a5f2c6825308772beac75b1fe35d491">Rust-eze</a> - 0/dinámico | 1M min chan | nota 7/10 | Nodo de plebeyo prometedor</li>
+<li>Para los nodos LN privados móviles, <a href="https://github.com/hsjoberg/blixt-wallet/issues/1033">aquí hay una lista comunitaria de buenos nodos</a>, que aceptan canales privados.</li>
+</ul>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">¿Cómo gestionarás la liquidez de los canales?</h2>
+<h3 style="color:Yellow;">A - Para un nodo de enrutamiento público</h3>
+<p>Antes de comenzar, marca como favorito esta excelente guía especial “Configuración de un nodo de enrutamiento” del equipo de LND. Esta es una guía que DEBES leer y usar.</p>
+<p>Un buen canal de 3-5-10-20M sats (o incluso más grande) con uno de estos será bueno para tu nuevo nodo. No abras un canal por menos de 3M sats. Será inútil. Los canales más pequeños que 3 millones de satélites se ignorarán en su mayoría para el enrutamiento.</p>
+<p>Además, el costo de abrir y cerrar canales pequeños es demasiado alto para operarlos. Cuando abres un canal hay muchas "reservas" y costos ocultos que los novatos generalmente no conocen o ignoran, pero luego se quejan "¿por qué el saldo de mi canal de 20k sats está bajando?". Tienes la reserva del canal de anclaje, tienes la reserva del canal, tienes las tarifas de compromiso que pueden variar con el tiempo y afectar los sats disponibles de tu canal, tienes el HTLC mínimo/máximo que tus pares pueden establecer.</p>
+<p>Entonces, para evitar todos estos problemas, simplemente abre un canal de mínimo 3M sats y olvídate.</p>
+<p>Elige sabiamente un par y también revisa LN Node Insight simulando un canal con cada uno de ellos y ve qué ventajas traerá a tu nodo.</p>
+<p>Una vez que abras el canal, dependiendo de tu liquidez entrante/saliente disponible, haz un bucle de algo así como 30-40-50 % de esa liquidez para equilibrar un poco el canal recién creado. Eso ayudará a controlarlo. Puedes usar una billetera externa LN temporal o simplemente intercambiar en onchain. Esos fondos de salida te ayudarán más adelante a abrir más canales.</p>
+<p>Para hacer un bucle de entrada/salida de sats, puedes usar:</p>
+<ul>
+<li><a href="https://boltz.exchange/">Boltz.exchange</a>: simple, rápido, intercambios de LN a onchain</li>
+<li><a href="https://swapmarket.github.io/">Swap Market</a>: basado en el código de Boltz, incluye otros intercambios sin custodia</li>
+<li><a href="https://deezy.io/">Deezy.io</a>: simple, rápido, LSP, intercambios LN - onchain</li>
+<li><a href="https://coinos.io/">CoinOS.io</a>: billetera web, onchain, LN, intercambios, con custodia o sin custodia</li>
+<li><a href="https://zigzag.io/">ZigZag.io</a>: simple y rápido, intercambios de LN a onchain (tenga en cuenta que a veces se quedan sin liquidez rápidamente)</li>
+<li><a href="https://fixedfloat.com/">FixedFloat</a>: simple y rápido, intercambios de LN a onchain</li>
+<li>Intercambios integrados en RTL y Thunderhub (usan Loop y Boltz)</li>
+<li><a href="http://robosats6tkf3eva7x2voqso3a5wcorsnw34jveyxfqi2fu7oyheasid.onion/">RoboSats</a> (enlace de cebolla): intercambios fiat <--> LN y LN <--> onchain, totalmente privados, solo Tor</
+<li><a href="https://swap.diamondhands.technology/">DiamondHands</a> - administrado por una comunidad de nodos de Japón</li>
+<li><a href="https://submarineswaps.org/">Submarine Swaps</a> - administrado por Alex Bossworth (desarrollador de LND)</li>
+<li><a href="/nodes/lightning-submarine-swaps-es.html">Aquí escribí una guía dedicada a los intercambios de submarinos de LN</a></li>
+</ul>
+<p>Para un nodo de enrutamiento público, este es el informe gráfico más importante: SU informe de liquidez TOTAL (captura de pantalla de la aplicación web de gestión de nodos Thunderhub)</p>
+<p><img src="/assets/images/liquidity-report-th.jpg" class="center"></p>
+<p>Como puede ver, no es tan importante mantener un equilibrio perfecto en cada canal, sino en su liquidez total de entrada y salida. Una interrupción en este equilibrio, digamos que tiene un 60 % de liquidez total de salida y un 40 % de entrada, podría afectar su enrutamiento directamente y se enrutarán menos pagos. ¿Por qué? Porque si no tienes suficiente "espacio" para recibir y enviar un pago, tu nodo rechazará la ruta.</p>
+<p>Puedes ajustar esta falta de liquidez con:</p>
+<ul>
+<li>>hacer un swap dentro o fuera de un canal que esté drenado o demasiado lleno</li>
+<li><a href="https://thebitcoinmanual.com/articles/bitcoin-app-lightning-loop/">usando Lightning Terminal Loop</a></li>
+<li><a href="https://github.com/cryptosharks131/lndg">usando la herramienta LNDg para ajustar automáticamente la liquidez</a></li>
+<li>ajustar las tarifas para canales específicos para impulsar la liquidez en el lado donde más se necesita</li>
+<li><a href="/nodes/lightning-routing-fees-experiment-es.html">ajustar la cantidad mínima o máxima de HTLC (sistema de válvulas)</a></li>
+<li><a href="https://notgeld.medium.com/como-optimizar-la-centralidad-de-los-nodos-lightning-e197d74eab90">optimice la centralidad de su nodo</a> - muy buena guía</li>
+</ul>
+<p><a href="https://www.lopp.net/lightning-information.html#node_tools">Aquí en esta guía</a> también puede encontrar más herramientas de administración de nodos, scripts automatizados, balanceo.</p>
+<p>Recomendaciones generales para nodos de enrutamiento público:</p>
+<ul>
+<li>Intente mantener abierto un canal tanto como sea posible. Pero si el canal es bastante pequeño y ve que tiene una buena cantidad de reenvío a través de él, ciérrelo y abra uno más grande.</li>
+<li>Mantenga su nodo lo más confiable posible. La reputación de su nodo depende de eso.</li>
+<li>No ejecute un nodo solo de Tor si desea realizar enrutamiento. Enrutamiento significa PÚBLICO. Los nodos que solo utilizan Tor no serán confiables ni accesibles al 100% y eso no solo te afectará a ti sino a todos los demás en la red.</li>
+<li>Si quieres privacidad antes del enrutamiento, ¡NO EJECUTES UN NODO PÚBLICO!</li>
+</ul>
+
+<h3 style="color:Yellow;">B - Para nodos LN privados</h3>
+<p>En esta categoría es bastante simple y todo depende del uso que le des a estos nodos LN privados.</p>
+<p>Básicamente, necesitas encontrar algunos buenos nodos públicos a los que conectarte:</p>
+<ul>
+<li>para ofrecerte las tarifas más bajas posibles</li>
+<li>acepta abrir canales más pequeños</li>
+<li>acepta abrir canales privados y mantenerlos abiertos mientras tengas actividad</li>
+<li>ofrece rutas de pago buenas y rápidas</li>
+</ul>
+<p>Incluso con estos, intenta evitar abrir canales más pequeños, como 20-50-100k sats. Un canal regular de 1 a 5 millones de sats será suficiente para proporcionarte una buena cantidad de pagos.</p>
+<p>También debes tener preparados 2, 3 o 4 canales en tu nodo privado móvil. ¿Por qué no solo 1? Porque nunca sabes cuándo tu par está fuera de línea o no tiene buenas rutas y, además, con al menos 3 canales puedes usar el MPP (pago en varias partes), dividiendo el monto de tu pago en partes más pequeñas y enviándolo a través de múltiples rutas. Este aspecto no solo aumentará tu privacidad, sino que también es una forma más eficiente de usar tus canales y la red.</p>
+<p>Para el nodo LN de Blixt, <a href="https://blixtwallet.github.io/guides">escribí en su página de documentación múltiples escenarios de casos de uso y administración de canales</a>.</p>
+<p>Para el nodo LN de Breez, Electrum, <a href="/nodes/private-ln-nodes-es.html">escribí algunos escenarios de liquidez aquí</a>.</p>
+<p>Para Zeus, recientemente se introdujo el nodo LND integrado para que los usuarios puedan ejecutar el nodo Zeus en sus dispositivos móviles.</p>
+<ul>
+<li><a href="/wallets/getting-started-zeus-wallet-es.html">Aquí escribí una guía de inicio para el nodo LN de Zeus</a></li>
+<li><a href="/wallets/zeus-node-advanced-usage-es.html">Aquí escribí una guía avanzada para el nodo Zeus LN</a></li>
+<li><a href="https://docs.zeusln.app/category/embedded-node">Lea más documentación sobre cómo usar su LSP y nodo integrados aquí</a>.</li>
+</ul>
+<p>Para Phoenix sugeriría el siguiente escenario:</p>
+<p>Phoenix está abriendo un canal un poco más grande que lo que estás depositando, podría decir con un 10% más. Y por cada apertura de canal está cobrando una tarifa de 3000 sats. Si comienzas a gastar desde ese canal, no lo gastes todo, porque lo cerrarán. Si dejas algunos sats en el canal y haces otro depósito desde otra billetera LN, pero no más que el tamaño del canal, los sats encajarán en ese canal ya abierto y no abrirán uno nuevo. Entonces no más tarifa de 3000 sats.</p>
+<p>Si depositas desde una dirección onchain, entonces abrirá un nuevo canal incluso si ya tienes un canal casi vacío.</p>
+<p>Sugiero hacer la primera vez un depósito más grande, y así abrir un canal más grande. Gasta desde ese canal lentamente hasta que alcances el saldo del 1% del mismo. Luego, rellénalo hasta el 99%. Y así sucesivamente. De esa manera mantienes abierto ese canal y pagas menos comisiones.</p>
+<p>También ten en cuenta que después de abrir un canal más grande y no quieras abrir más canales, por error, desactiva la opción “creación automática de canales sobre la marcha” desde Configuración – Opciones de pago y comisiones. Activa esa opción solo cuando quieras abrir nuevos canales. Recuerda, si no tienes suficiente “espacio” para recibir, el pago fallará y esa opción estará deshabilitada.</p>
+<p>Si ejecutas tu propio nodo de escritorio en casa, también puedes usar:</p>
+<ul>
+<li><a href="https://darthcoin.substack.com/p/the-bank-of-lnbits">LNBits lndhub</a></li>
+<li><a href="https://github.com/boltcard">BoltCard lndhub</a></li>
+<li><a href="https://docs.lightning.engineering/lightning-network-tools/lightning-terminal/accounts">Cuentas LN de Lightning Terminal</a></li>
+<li><a href="https://docs.btcpayserver.org/LNbank/">Plugin bancario LN de BTCPay</a></li>
+<li><a href="/wallets/getting-started-alby-hub-es.html">Alby Hub, alojado por uno mismo con la función "Uncle Jim"</a></li>
+</ul>
+<p>De esta forma, prácticamente puedes ser tu propio LSP para pequeñas cantidades de cuentas LN desde tu propio nodo, sin revelar toda tu liquidez, información del nodo y acceso. Puede utilizar para estas cuentas las aplicaciones móviles Zeus o Bluewallet o BoltCard e incluso Alby como extensión del navegador.</p>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">CONCLUSIÓN</h2>
+<p>Como puede ver, hay muchas formas de utilizar Lightning Network, no solo "Ejecutar un nodo Umbrel", y los usuarios deben elegir sabiamente el camino que desean seguir, que podría satisfacer mejor sus propias necesidades y casos de uso.</p>
+<p>Espero que esta guía le aclare el camino a usted, el nuevo usuario de LN que intenta comprender todos estos términos sobre enrutamiento, nodos, liquidez y no sabe por dónde empezar.</p>
+<p>Sé que tal vez esperaba ver en esta guía más explicaciones técnicas, cuadros, gráficos, etc., pero ese no es el objetivo de esta guía. El objetivo es que comience a usar su cerebro, lea todos los enlaces insertados (que lo llevarán a muchas otras guías detalladas) y amplíe su conocimiento. Algunos aspectos ni siquiera se mencionan aquí, no para ocultarlos o distraerlos, sino para que lean más los enlaces insertados.</p>
+<p>No es un viaje sencillo, lo sé, porque estuve en la misma situación que tú, luchando por comprender todos estos aspectos. Pero fui persistente en leer, probar, aprender múltiples métodos, escuchar muchas demostraciones en video, hablar con expertos y desarrolladores.</p>
+<p>Ahora solo quiero devolverte mi conocimiento acumulado, para ayudarte a encontrar la información adecuada para cada caso de uso. A veces, muchos usuarios divagan y prueban cosas y métodos complicados, sin saber que también existen soluciones simples, que a veces no están tan bien presentadas en la comunidad o no tienen un gran presupuesto de marketing para promocionarlas por todos lados.</p>
+</body>
+</html>
+</article>
