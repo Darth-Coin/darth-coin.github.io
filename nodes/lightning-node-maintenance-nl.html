@@ -1,0 +1,158 @@
+---
+layout: default
+title: Onderhoud van Lightning Node
+---
+<article>
+<!DOCTYPE html>
+<html lang="nl">
+<meta name="description" content="Bitcoin- en Lightning-knooppuntenhandleidingen: een eenvoudige handleiding over goede werkwijzen voor uw LN-knooppuntonderhoud">
+<body>
+<a href="/nodes/lightning-node-maintenance-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-node-maintenance-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-node-maintenance-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-node-maintenance-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-node-maintenance-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-node-maintenance-hr.html">Hrvatski <img src="/assets/images/flag-HR.png" alt="HR" title="Hravtaski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-node-maintenance-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<blockquote style="color:Tomato;"><em>
+<p>Oorspronkelijk gepost op <a href="https://darthcoin.substack.com/p/lightning-node-maintenance">Substack</a> op 30 apr. 2022. Hier bijgewerkt op 25 dec. 2024.</p>
+</em></blockquote>
+
+<h3>Een eenvoudige handleiding over goede werkwijzen voor uw LN-knooppuntonderhoud</h3>
+<blockquote style="color:Tomato;"><em>
+<p>Alle aspecten hier worden vanuit mijn oogpunt gepresenteerd, na 25+ jaar in IT-technologie en ondersteuning voor eindgebruikers, servers en ondernemingen. Na 10+ jaar in Bitcoinlandia, waar ik verschillende apps en oplossingen heb getest, ben ik de afgelopen 2 jaar veel Umbrel-gebruikers gaan helpen en hun gedrag bij het gebruik van een LN-knooppunt gaan observeren.</p>
+<p>Deze handleiding is aangevraagd door een van mijn substacklezers. Dus ik heb geleverd.</p>
+</em></blockquote>
+
+<h2 style="color:Orange;">Introductie</h2>
+<p>Als LN node operator hebben we ook grote verantwoordelijkheden voor onze peers en zelfs vrienden, familie die verbonden zijn met onze node. Dat betekent dat we goed voor onze node machines moeten zorgen. Het runnen van een node is een serieuze taak en gebruikers moeten het niet zien als een spelletje voor de lol.</p>
+<p>Dus een goed onderhoud en goede verzorging van uw node machine is een MUST HAVE. Ik zag veel nieuwe node operators die deze aspecten niet serieus nemen en dat het invloed heeft op de rest van ons, niet alleen op hen.</p>
+<p>Waarom heeft het invloed op de rest?</p>
+<ul>
+<li>Een peer node die niet betrouwbaar is (99% beschikbaar) kan veel betalingspaden verstoren.</li>
+<li>Een niet-betrouwbare node beïnvloedt al zijn peers en scoort als goede nodes.</li>
+<li>Een niet-betrouwbare node zal fondsen blokkeren in dode kanalen, peers zijn afhankelijk van die fondsen.</li>
+<li>Ik zal hier enkele goede praktijken uitleggen die een node operator in overweging moet nemen om een ​​goede betrouwbare node te hebben. Het maakt niet echt uit of u een node voor persoonlijk gebruik of zakelijk gebruik (handelaren) gebruikt, wat telt is hoeveel u om uw node geeft.</li>
+</ul>
+<p><img src="/assets/images/ln-node-backup.jpg" class="center"></p>
+<hr style="height:2px">
+
+<h3 style="color:Yellow;">BELANGRIJKE ASPECTEN</h3>
+<ul>
+<li>Sluit/herstart uw node alleen wanneer dit nodig is voor software-updates, het opschonen van databases, wijzigingen in de configuratie.</li>
+<li>Houd uw node zo veel mogelijk online. Het is oké om voor een korte periode uit te schakelen, kanalen zullen oké zijn, niemand zal ze sluiten als u de onderhoudsperiode aan uw collega's aankondigt.</li>
+<li>Gebruik een UPS (Uninterruptible Power Supply) met voldoende batterijduur om uw nodemachine + internetrouter online te houden in geval van stroomuitval. Of in ieder geval genoeg tijd om het in een grace mode uit te schakelen, als de stroom voor meer uren of dagen uitvalt. Belangrijk is om uw gegevens te beschermen tegen verlies en corruptie.</li>
+<li>Als uw budget en uw gebruik van node erg belangrijk zijn voor een bedrijf, gebruik dan een machine met RAID-implementatie. Geen software, maar hardware RAID.</li>
+<li>Hardware. Het is erg belangrijk om betrouwbare hardware te hebben, geen speelgoed. Speelgoed is goed om mee te beginnen, omdat het goedkoop is, maar op de lange termijn niet betrouwbaar. Kies dus verstandig uw hardware, op basis van uw "fase" (leren, vooruitgang, productie, onderneming).</li>
+<li>Maak back-ups! Back-ups zijn als BTC-prijsdalingen, je weet nooit wanneer ze nodig zijn. Maak ze dus periodiek.</li>
+<li>LND schrijft de hele tijd op channel.db en wallet.db en bevat alle belangrijke gegevens. Dit zijn de belangrijkste bestanden van uw node. De rest kan op elk moment eenvoudig worden gereconstrueerd. Maar deze 2 bestanden kunnen niet in realtime worden geback-upt en alleen de laatste versie is geldig.</li>
+<li>SCB-back-up is net als een lichte export van channels.db, op een specifiek moment, die basisinformatie over uw kanalen bevat, genoeg om ze te sluiten en de fondsen in onchain te herstellen.</li>
+<li>CLN-implementatie gebruikt een ander type bestanden, in hsm.secret en is veel gemakkelijker om kopieën van deze database te maken.</li>
+</ul>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">USE CASE PRACTICES</h2>
+<h3 style="color:Yellow;">A. Hardware</h3>
+<p>Wanneer u met een nieuw knooppunt begint, moet u zich eerst afvragen: waarvoor gebruik ik dit knooppunt? Bouw vervolgens uw machinehardware op basis van noodzaak en ga na verloop van tijd alleen naar een andere configuratie als dat nodig is.</p>
+<h4>Leren / studeren machine</h4>
+<p>Op dit niveau kan elke RaspberryPi-machine zijn, goedkoop, eenvoudig te installeren en te monteren, laag stroomverbruik en schattig. Vertrouw niet te veel op deze kleine machines. Voor oefenen en leren zijn erg goed, u zult veel leren. Maar ze zijn niet 100% betrouwbaar.</p>
+<p>Ook als u voor een Rpi-apparaat gaat, gebruik dan ten minste minimaal 8 GB RAM-geheugen en een goede SSD-schijf. Ook de stroomadapter is erg belangrijk. Een defecte of niet originele adapter zal een reeks storingen in cascade veroorzaken en u zult niet weten waarom. Dat komt door die kleine stroomadapter.</p>
+<p>mSD-kaarten gaan ook vaak kapot, dus zorg altijd dat je er een reserve hebt, klaar om te installeren en de oude te vervangen als die kapotgaat. Deze zijn erg handig bij stroomuitval.</p>
+<p>Deze kleine machines staan ​​bekend om hun hoge uitvalpercentage, om verschillende redenen. Dus zelfs als je nog in de "leerfase" zit, is het raadzaam om een ​​UPS te gebruiken. Dat geeft je meer gemoedsrust en een goede nachtrust.</p>
+
+<figure>
+<img src="/assets/images/node-example1.jpg" class="center">
+<figcaption>RPis hebben goede ventilatie nodig :)</figcaption>
+</figure>
+
+<h4>Geavanceerde machine</h4>
+<p>Wanneer je er klaar voor bent en meer hebt geleerd over het runnen van een node, is het tijd om je hardwareniveau te verhogen. Nu wilt u een betrouwbaardere machine, die meer verbindingen, meer kanalen, snellere betalingen aankan en u de zekerheid geeft dat uw geld niet dagen of weken in de herstelmodus wordt vastgezet vanwege een crash.</p>
+<p>Als uw budget niet zo "royaal" is, kunt u kiezen voor een goede tweedehands desktopmachine. Tegenwoordig verkopen veel kantoren hun 1-2 jaar oude machines voor een paar centen. En sommige daarvan, zelfs barebones, zijn verdomd goede machines voor een node. Meestal komen ze al met min 8GB RAM, soms koopjes met 16GB (!!!).</p>
+<h5>Waarom barebones?</h5>
+<ul>
+<li>omdat ze relatief klein zijn (de mijne is even groot als een RPi en heeft geen ventilator)</li>
+<li>omdat je op sommige 2 SSD-schijven of zelfs NVM-schijven kunt toevoegen (zelfs veel beter dan SSD)</li>
+<li>omdat ze beter ventileren en sommige passief (geen luidruchtige ventilatoren)</li>
+<li>omdat je de USB-schijfverbinding kwijtraakt die een RPi-apparaat gebruikt. Die USB-aansluiting is het zwakste punt voor een RPi-knooppunt.</li>
+<li>omdat de hardware robuuster en duurzamer is dan een RPi.</li>
+</ul>
+
+<figure>
+<img src="/assets/images/mini-node.jpg" class="center">
+<figcaption>Mijn bescheiden barebone-knooppunt, interne schijf, zonder ventilator</figcaption>
+</figure>
+
+<p>CPU maakt niet echt uit, voeg gewoon 2 goede SSD-schijven toe voor RAID en je bent klaar!</p>
+<p>UPS is nog steeds een must-have. Waarom? Omdat het meestal terugkomt met een andere spanning, pieken, ampères of gewoon flikkert, enz. als er een stroomstoring is. Dat kan de stroombron van uw machine beschadigen. Meestal is de stroombron de eerste die uitvalt, waardoor de rest wordt beschermd. Maar je weet maar nooit. Een UPS zorgt voor een goede en gezonde stroom van elektriciteit naar uw machine en houdt ook de internetverbinding online.</p>
+<blockquote style="color:Tomato;"><em>
+<p>Onthoud: een knooppunt hoeft niet bijzonder te zijn, het moet betrouwbaar zijn.</p>
+</em></blockquote>
+<p>Ik zou hier aanraden om een ​​goede machine te vinden, met RAID-chip op het moederbord, die ten minste RAID 1-configuratie op BIOS-niveau aankan. Wat betekent dit? Betekent dat u een RAID-volume kunt bouwen, rechtstreeks in BIOS, van 2 schijven, zodat gegevens tegelijkertijd op beide schijven worden geschreven. Dus als één schijf "ziek" of dood wordt, kunt u uw gegevens nog steeds veilig op de dubbele schijf hebben, die nog steeds functioneert. U kunt uw machine uitschakelen, de zieke schijf vervangen en het RAID-systeem bouwt het dubbele RAID-systeem in een paar minuten opnieuw op vanaf de gezonde schijf. Geen gegevensverlies, geen gesloten kanalen, geen verloren geld.</p>
+
+<h4>Bedrijfsmachine</h4>
+<p>Wanneer u een node runt voor een serieuze business die 100% afhankelijk is van die node, is het tijd om serieus na te denken over het hebben van een 24/7/365 node machine. Alleen het kerngedeelte van de node, niet de apps die u erbovenop installeert. Als u uw kernknooppunt hebt beveiligd, hebt u meer flexibiliteit waar en hoe u uw bedrijfsapps en -oplossingen beheert.</p>
+
+<figure>
+<img src="/assets/images/node-example2.jpg" class="center">
+<figcaption>Een persoonlijke rackserver met meerdere knooppunten</figcaption>
+</figure>
+<p>Ik zou hiervoor het volgende scenario aanbevelen:</p>
+<ul>
+<li>gebruik een gehoste knooppuntoplossing (<a href="https://voltage.cloud/">Voltage</a>, <a href="https://nodl.it/">Nodl</a>, <a href="https://nodana.io">Nodana</a>, dedicated knooppunt-VPS) die wordt beheerd door professionals in knooppuntarchitectuur, die alleen het kerngedeelte (Bitcoin + LN-knooppunt) bieden met hoge beschikbaarheid en ondersteuning.</li>
+<li>gebruik een andere machine, bijvoorbeeld thuis/op kantoor/op afstand VPS waar u installeert uw benodigde apps om uw node te beheren: BTCPay, LNbits, Thunderhub, RTL etc. en wijs hun configuratie naar uw externe LN-node.</li>
+</ul>
+<p>Dat is alles wat u nodig hebt voor een oplossing met hoge beschikbaarheid, met bijna nul kans om fondsen, kanalen, peers, tijd, klanten etc. te verliezen.</p>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">B. Gegevensback-up en -herstel</h2>
+<p>Het belangrijkste is de wallet seed. Dit is het eerste dat u moet opslaan en veilig bewaren, bijvoorbeeld in een offline wachtwoordbeheerder (Keepass of Vaultwarden).</p>
+<h3 style="color:Yellow;">LND nodes database backups</h3>
+<p>Voor LND nodes zijn er twee soorten opslaggegevens die kunnen worden hersteld:</p>
+<ul>
+<li>SCB backups - een offline kopie van de status van uw kanalen, met alleen de informatie die nodig is om de kanalen te sluiten (samen met uw seed) en de fondsen van kanalen terug te halen naar uw onchain wallet. Houd er rekening mee dat dit channels.backup bestand ALLEEN kan worden gebruikt met uw node seed! Maak een kopie van dit SCB bestand elke keer dat u een kanaal opent en/of sluit. Of maak scripts die dit SCB bestand kunnen maken op een lokale schijf elke keer dat u kanalen opent/sluit en vervolgens het bestand rsync op een externe locatie. Het hoeft niet bij elke transactie te zijn die u met uw node hebt gedaan.</li>
+<li>Laatste status van channels.db en wallet.db. Deze bestanden KUNNEN NIET direct worden teruggezet of zelfs als u de node afsluit en een kopie maakt, zijn niet nuttig, omdat deze wordt gewijzigd zodra u de node opnieuw start.</li>
+</ul>
+<p>Met "laatste status" wordt bedoeld dat ALLEEN de status vóór het herstellen van een dode node nuttig is. Wanneer uw machine om hardwareredenen dood is of de software niet start, maar u nog steeds toegang hebt tot de bestanden. Maak dan een kopie van deze 2 bestanden op een externe schijf (kan groot zijn) en gebruik ze later nadat u de nieuwe node hebt herbouwd.</p>
+<p>U hebt 2 manieren om een ​​LND-node te herstellen/herstellen:</p>
+  <ol>
+<li><p>ZONDER kanalenstatus</p>
+<p>Om uw fondsen ZONDER de kanalen te herstellen, kunt u de SCB-back-up gebruiken die automatisch sluit en fondsen herstelt in de onchain-wallet. Dit is de gemakkelijkste manier en <a href="/nodes/shtf-restore-lnd-node-nl.html">ik beschrijf het in deze handleiding</a> (zie methoden 2,3,4,5,6).</p>
+<p>Ik raad u ten zeerste aan om optie 3 te gebruiken en terwijl u de fondsen herstelt in Blixt, kunt u een nieuwe nodeID, nieuwe seed, nieuwe wallet, nieuwe identiteit opnieuw opbouwen met uw oude machine. Later kun je de fondsen gewoon verplaatsen naar je nieuwe node van Blixt of ze gewoon gebruiken, <a href="https://darthcoin.substack.com/p/node-liquidity-guide">als een privé mobiele node, als een begeleidende kleine node voor je home node</a>.</p>
+</li>
+<li><p>MET kanalenstatus</p>
+<p>Om een ​​node te herstellen MET de kanalen intact, zoals in de vorige status, moet je een aantal stappen uitvoeren om de omgeving voor te bereiden. <a href="/nodes/shtf-restore-lnd-node-nl.html">Uitgelegd in deze gids</a>, zie methoden 1, 3, 4, 7, 8, 9, 10.</p>
+<p>Als je node is gecrasht, maar je nog steeds toegang hebt tot de bestanden, is dit het beste geluksmoment, je hebt 2 taken om te doen:</p>
+<ul>
+<li>1. kopieer de wallet.db en channel.db van die "niet startende" node ergens anders, out. channel.db kan groot zijn, dus is een USB-stick niet genoeg. Controleer eerst de grootte.</li>
+<li>2. zodra je die 2 bestanden veilig hebt, begin je met het bouwen van je hele node vanaf nul of als je een eerdere kopie hebt, herstel je deze volledig. LET OP! als je herstelt, als je die 2 bestanden kunt overslaan, anders zul je ze moeten overschrijven met de laatste kopie die je zojuist uit die dode node hebt gehaald. Moet altijd de laatste staat zijn.</li>
+</ul>
+<p>Wanneer je de node-software herbouwt, kies je de optie "herstellen van seed" zodat je dezelfde nodeID en encryptiesleutels van je vorige node kunt hebben, en dezelfde wallet.db en channel.db kunt gebruiken. Als je een andere seed/nodeID gebruikt, zijn die bestanden niet bruikbaar en kunnen ze niet worden ontgrendeld!</p>
+<p>Dit is het gedeelte waarin je de gegevensmappen moet "reconstrueren". Als u niet herstelt van een volledige kopie die al die mappen bevat waar de wallet en channel.db zich eerder bevonden, moet u de node-software vanaf nul installeren, deze laten starten, de mappen en de sync-db opnieuw opbouwen en deze vervolgens stoppen. Kopieer de 2 bestanden naar hun locatie en start de node opnieuw op. Klaar.</p>
+<p>Vervolgens kunt u uw node opnieuw opstarten. Het zal de 2 bestanden netjes inhalen en hergebruiken, al je kanalen zullen er zijn, het zal alleen even duren om blokken in te halen en te synchroniseren.</p>
+</li>
+</ol>
+<h3>CLN-knooppunten databaseback-ups</h3>
+<p>Voor deze implementatie zijn knooppunten veel eenvoudiger en is het gewoon een recursieve kopie van een eenvoudig klein databasebestand hsm_secret.</p>
+<p><a href="https://lightning.readthedocs.io/BACKUP.html">Het hele proces wordt uitgelegd in deze handleiding voor CLN</a>.</p>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">C. Onderhoud en software-updates</h2>
+<p>OK, zoveel gebruikers vroegen naar updates en hoe vaak ze die moesten doen.</p>
+<p>Het antwoord is simpel: altijd is nodig. Precies, niet altijd, maar alleen wanneer nodig.</p>
+<p>Waarom? Omdat niet alle tijd nodig is :) Als iets prima werkt zonder fouten, betekent een nieuwe versie niet automatisch beter. Nieuwe functies of apps die je niet gebruikt, betekent niet dat je moet updaten. Stabiliteit is belangrijker dan nieuwe dingen.</p>
+<h4 style="color:Yellow;">Aanbevelingen:</h4>
+<ul>
+<li>Ga niet impulsief aan de slag met het updaten van je node-software, direct nadat deze is uitgebracht of als het je node-problemen niet eens oplost. Sommige updates zijn klein, andere belangrijk.</li>
+<li>Lees de release-opmerkingen zorgvuldig door en kijk of de update een voordeel is of een fout verhelpt die je met je node had. Als het je niet direct raakt, hoef je niet meteen de update uit te voeren. Wacht op een belangrijkere release. Soms kunnen ook quick release-updates bugs bevatten die niet op tijd door devs zijn geverifieerd. Er kan van alles gebeuren, het zijn ook mensen. Wacht dus nog 1-2 dagen en kijk wat andere ongeduldige gebruikers zeggen nadat ze de update hebben uitgevoerd.</li>
+<li>OS-updates zijn belangrijker dan node-software-updates. Controleer dus vaker de OS-updates en voer ze uit wanneer dat nodig is.</li>
+<li>Wanneer je het OS updatet, stop dan altijd eerst de node. Sommige vereisten kunnen docker-componenten of andere modules zijn die de node-software beïnvloeden. Dus het besturingssysteem wordt bijgewerkt en de machine wordt afgesloten. Ja, niet gewoon opnieuw opstarten, maar afsluiten, een paar seconden wachten om het geheugen te wissen en opnieuw te starten. Dit is ook een goede gewoonte om de schijfclusters in goede staat te houden en het geheugen te reinigen van slechte dingen.</li>
+<li>Altijd, voordat u de node-software bijwerkt, eerst het besturingssysteem bijwerken.</li>
+<li>RPi-gebruikers hoeven meestal geen besturingssysteemupdates uit te voeren, omdat de node-software samen met het besturingssysteem is ingebouwd, meestal is het een aangepaste versie van Debian OS, aangepast voor RPi.</li>
+<li>Voor niet-RPi-gebruikers raad ik ten zeerste aan om als besturingssysteem een ​​Debian Linux te gebruiken. Is robuuster, controleert het bestandssysteem beter, minder overbodige desktop-dingen, voor een node-besturingssysteem moet je minimalistisch zijn, je gebruikt het niet de hele tijd.</li>
+<li>Maak het niet ingewikkelder met VM's, Ubuntu-servers die alleen maar veel bronnen in beslag nemen. Een node heeft dat niet nodig. Je hebt alleen de basis nodig om een ​​node te runnen.</li>
+</ul>
+<p>Ik denk dat dit genoeg aspecten zijn voor jou, de nieuwe node operator die nu je reis naar deze fascinerende wereld van nodes start.</p>
+<p>Ik hoop dat je de beste node runt die je kunt en ik heb je genoeg informatie gegeven om een ​​node te runnen onder goede omstandigheden. Fijne Lightning!</p>
+</body>
+</html>
+</article>
