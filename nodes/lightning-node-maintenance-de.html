@@ -1,0 +1,158 @@
+---
+layout: default
+title: Lightning Node-Wartung
+---
+<article>
+<!DOCTYPE html>
+<html lang="de">
+<meta name="description" content="Anleitungen für Bitcoin- und Lightning-Nodes: Eine einfache Anleitung zu bewährten Vorgehensweisen für die Wartung Ihres LN-Nodes">
+<body>
+<a href="/nodes/lightning-node-maintenance-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-node-maintenance-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-node-maintenance-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-node-maintenance-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-node-maintenance-nl.html">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-node-maintenance-hr.html">Hrvatski <img src="/assets/images/flag-HR.png" alt="HR" title="Hravtaski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-node-maintenance-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<blockquote style="color:Tomato;"><em>
+<p>Ursprünglich am 30. April 2022 auf Substack gepostet. Hier am 25. Dezember 2024 aktualisiert.</p>
+</em></blockquote>
+
+<h3>Eine einfache Anleitung zu bewährten Vorgehensweisen für die Wartung Ihres LN-Knotens</h3>
+<blockquote style="color:Tomato;"><em>
+<p>Alle Aspekte hier werden aus meiner Sicht dargestellt, nach über 25 Jahren in IT-Technik und Support für Endbenutzer, Server und Unternehmen. Nach über 10 Jahren in Bitcoinlandia, in denen ich mehrere Apps und Lösungen getestet habe, habe ich in den letzten 2 Jahren begonnen, vielen Umbrel-Benutzern zu helfen und ihr Verhalten bei der Verwendung eines LN-Knotens zu beobachten.</p>
+<p>Diese Anleitung wurde von einem meiner Substack-Leser angefordert. Also habe ich geliefert.</p>
+</em></blockquote>
+
+<h2 style="color:Orange;">Einführung</h2>
+<p>Als LN-Knotenbetreiber tragen wir auch große Verantwortung für unsere Kollegen und sogar Freunde und Familie, die mit unserem Knoten verbunden sind. Das bedeutet, dass wir unsere Knotenmaschinen mit Aufmerksamkeit pflegen sollten. Das Betreiben eines Knotens ist eine ernste Aufgabe und Benutzer sollten es nicht als Spiel zum Spaß betrachten.</p>
+<p>Eine gute Wartung und Pflege Ihrer Knotenmaschine ist also ein MUSS. Ich habe viele neue Knotenbetreiber gesehen, die diese Aspekte nicht ernst nehmen und die uns alle betreffen, nicht nur sie.</p>
+<p>Warum betrifft das alle anderen?</p>
+<ul>
+<li>Ein Peer-Knoten, der nicht zuverlässig ist (99 % verfügbar), kann viele Zahlungspfade stören.</li>
+<li>Ein nicht zuverlässiger Knoten wirkt sich auf alle seine Peers aus und wird als gute Knoten gewertet.</li>
+<li>Ein nicht zuverlässiger Knoten sperrt Gelder in toten Kanälen, Peers sind auf diese Gelder angewiesen.</li>
+<li>Ich werde hier einige bewährte Vorgehensweisen erläutern, die ein Knotenbetreiber berücksichtigen sollte, um einen guten, zuverlässigen Knoten zu haben. Es spielt keine Rolle, ob Sie einen Knoten für den persönlichen oder geschäftlichen Gebrauch (Händler) betreiben. Wichtig ist, wie wichtig Ihnen Ihr Knoten ist.</li>
+</ul>
+<p><img src="/assets/images/ln-node-backup.jpg" class="center"></p>
+<hr style="height:2px">
+
+<h3 style="color:Yellow;">WICHTIGE ASPEKTE</h3>
+<ul>
+<li>Fahren Sie Ihren Knoten nur herunter bzw. starten Sie ihn neu, wenn dies für Software-Updates, das Bereinigen von Datenbanken oder Konfigurationsänderungen erforderlich ist.</li>
+<li>Halten Sie Ihren Knoten so lange online wie möglich. Ein Herunterfahren für einen kurzen Zeitraum ist in Ordnung, Kanäle sind in Ordnung, niemand wird sie schließen, wenn Sie Ihren Kollegen den Wartungszeitraum ankündigen.</li>
+<li>Verwenden Sie eine USV (unterbrechungsfreie Stromversorgung) mit ausreichender Batterielebensdauer, um Ihre Knotenmaschine + Ihren Internet-Router bei Stromausfällen online zu halten. Oder zumindest genug Zeit, um es in einem Schonmodus herunterzufahren, wenn der Strom für mehrere Stunden oder Tage ausfällt. Wichtig ist, Ihre Daten vor Verlust und Beschädigung zu schützen.</li>
+<li>Wenn Ihr Budget und Ihre Nutzung des Knotens für ein Unternehmen sehr wichtig sind, verwenden Sie eine Maschine mit RAID-Implementierung. Kein Software-, sondern Hardware-RAID.</li>
+<li>Hardware. Es ist sehr wichtig, zuverlässige Hardware zu haben, kein Spielzeug. Spielzeug ist gut, um mit dem Lernen anzufangen, weil es billig ist, aber auf lange Sicht nicht zuverlässig. Wählen Sie Ihre Hardware also mit Bedacht aus, basierend auf Ihrem „Stadium“ (Lernen, Fortschreiten, Produktion, Unternehmen).</li>
+<li>Machen Sie Backups! Backups sind wie BTC-Preisrückgänge, Sie wissen nie, wann sie benötigt werden. Machen Sie sie also regelmäßig.</li>
+<li>LND schreibt ständig in channel.db und wallet.db und enthält alle wichtigen Daten. Dies sind die wichtigsten Dateien Ihres Knotens. Der ganze Rest kann jederzeit problemlos wiederhergestellt werden. Diese beiden Dateien können jedoch nicht in Echtzeit gesichert werden und außerdem ist nur die letzte Version gültig.</li>
+<li>Die SCB-Sicherung ist wie ein leichter Export von channels.db zu einem bestimmten Zeitpunkt, der grundlegende Informationen zu Ihren Kanälen enthält, die ausreichen, um sie zu schließen und die Mittel in der Onchain wiederherzustellen.</li>
+<li>Die CLN-Implementierung verwendet einen anderen Dateityp in hsm.secret und es ist viel einfacher, Kopien dieser Datenbank zu erstellen.</li>
+</ul>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">Anwendungsfälle</h2>
+<h3 style="color:Yellow;">A. Hardware</h3>
+<p>Wenn Sie mit einem neuen Knoten beginnen, sollten Sie sich als Erstes fragen: Wofür verwende ich diesen Knoten? Bauen Sie dann Ihre Maschinenhardware nach Bedarf und wechseln Sie nur bei Bedarf zu einer anderen Konfiguration.</p>
+<h4>Lern-/Studienmaschine</h4>
+<p>Auf dieser Ebene könnte jede RaspberryPi-Maschine sein, billig, einfach zu installieren und zusammenzubauen, mit geringem Stromverbrauch und niedlich. Verlassen Sie sich nicht zu sehr auf diese winzigen Maschinen. Sie eignen sich sehr gut zum Üben und Lernen, Sie werden viel lernen. Aber sie sind nicht 100 % zuverlässig.</p>
+<p>Auch wenn Sie sich für ein RPi-Gerät entscheiden, verwenden Sie mindestens 8 GB RAM-Speicher und ein gutes SSD-Laufwerk. Auch das Netzteil ist sehr wichtig. Ein fehlerhaftes oder nicht originales Netzteil führt zu einer Reihe von Fehlern in Folge, und Sie werden nicht wissen, warum. Das liegt an dem winzigen Netzteil.</p>
+<p>mSD-Karten versagen auch häufig, also halten Sie immer eine Ersatzkarte bereit, die Sie im Fehlerfall durch die alte ersetzen können. Diese sind bei Stromausfällen sehr sinnvoll.</p>
+<p>Diese winzigen Maschinen sind aus verschiedenen Gründen für ihre Ausfallrate bekannt. Daher wird empfohlen, auch wenn Sie sich in der „Lernphase“ befinden, eine USV zu verwenden. Das gibt Ihnen mehr Seelenfrieden und einen guten Schlaf in der Nacht.</p>
+
+<figure>
+<img src="/assets/images/node-example1.jpg" class="center">
+<figcaption>RPis brauchen eine gute Belüftung :)</figcaption>
+</figure>
+
+<h4>Fortgeschrittene Maschine</h4>
+<p>Wenn Sie bereit sind und mehr über den Betrieb eines Knotens gelernt haben, ist es Zeit, Ihr Hardware-Level zu erhöhen. Jetzt möchten Sie eine zuverlässigere Maschine, die mehr Verbindungen, mehr Kanäle und schnellere Zahlungen verarbeiten kann und Ihnen die Gewissheit gibt, dass Ihre Gelder nicht wegen eines Absturzes tage- oder wochenlang im Wiederherstellungsmodus gesperrt werden.</p>
+<p>Wenn Ihr Budget nicht so „großzügig“ ist, können Sie sich für eine gute gebrauchte Desktop-Maschine entscheiden. Heutzutage verkaufen viele Büros ihre 1-2 Jahre alten Maschinen für ein paar Cent. Und einige davon, sogar Barebones, sind verdammt gute Maschinen für einen Knoten. Normalerweise sind sie schon mit mindestens 8 GB RAM ausgestattet, manchmal gibt es auch Schnäppchen mit 16 GB (!!!).</p>
+<h5>Warum Barebones?</h5>
+<ul>
+<li>weil sie relativ klein sind (meins ist genauso groß wie ein RPi und hat keinen Lüfter)</li>
+<li>weil man bei manchen von ihnen 2 SSD-Laufwerke oder sogar NVM-Laufwerke hinzufügen kann (sogar viel besser als SSD)</li>
+<li>weil sie eine bessere Belüftung haben und manche von ihnen passiv sind (keine lauten Lüfter)</li>
+<li>weil man den USB-Laufwerkanschluss loswird, den ein RPi-Gerät verwendet. Diese USB-Verbindung ist die schwächste Stelle eines RPi-Knotens.</li>
+<li>weil die Hardware robuster und langlebiger ist als ein RPi.</li>
+</ul>
+
+<figure>
+<img src="/assets/images/mini-node.jpg" class="center">
+<figcaption>Mein bescheidener Barebone-Knoten, internes Laufwerk, lüfterlos</figcaption>
+</figure>
+
+<p>CPU ist eigentlich egal, fügen Sie einfach 2 gute SSD-Laufwerke für RAID hinzu und alles ist gut!</p>
+<p>USV ist immer noch ein Muss. Warum? Weil es bei einem Stromausfall normalerweise mit anderer Spannung, Spitzen, Ampere oder einfach nur Flackern usw. wieder anspringt. Das könnte die Stromquelle Ihres Geräts beschädigen. Normalerweise ist die Stromquelle die erste, die ausfällt und den Rest schützt. Aber man weiß nie. Eine USV sorgt für eine gute und stabile Stromversorgung Ihres Rechners und hält auch die Internetverbindung online.</p>
+<blockquote style="color:Tomato;"><em>
+<p>Denken Sie daran: Ein Knoten muss nicht extravagant sein, er muss zuverlässig sein.</p>
+</em></blockquote>
+<p>Ich würde hier empfehlen, einen guten Rechner mit RAID-Chip auf der Hauptplatine zu finden, der mindestens eine RAID-1-Konfiguration auf BIOS-Ebene verarbeiten kann. Was bedeutet das? Sie können direkt im BIOS ein RAID-Volume aus 2 Laufwerken erstellen, sodass die Daten gleichzeitig auf beide Festplatten geschrieben werden. Wenn also ein Laufwerk „krank“ oder kaputt geht, können Sie Ihre Daten immer noch sicher auf dem noch funktionierenden Zwillingslaufwerk aufbewahren. Sie können Ihren Rechner herunterfahren, das defekte Laufwerk ersetzen und das RAID-System wird das Zwillings-RAID-System in wenigen Minuten aus dem intakten Laufwerk wiederherstellen. Kein Datenverlust, keine geschlossenen Kanäle, kein Geldverlust.</p>
+
+<h4>Unternehmensmaschine</h4>
+<p>Wenn Sie einen Knoten für ein seriöses Unternehmen betreiben, das zu 100 % von diesem Knoten abhängt, sollten Sie ernsthaft über eine 24/7/365-Knotenmaschine nachdenken. Nur den Knotenkernteil, nicht die Apps, die Sie darauf installieren. Wenn Sie Ihren Kernknoten gesichert haben, haben Sie mehr Flexibilität, wo und wie Sie Ihre Unternehmens-Apps und -Lösungen verwalten.</p>
+
+<figure>
+<img src="/assets/images/node-example2.jpg" class="center">
+<figcaption>Ein persönlicher Rack-Server mit mehreren Knoten</figcaption>
+</figure>
+<p>Ich würde hierfür das folgende Szenario empfehlen:</p>
+<ul>
+<li>Verwenden Sie eine gehostete Knotenlösung (<a href="https://voltage.cloud/">Voltage</a>, <a href="https://nodl.it/">Nodl</a>, <a href="https://nodana.io">Nodana</a>, dedizierter Knoten-VPS), die von Profis in der Knotenarchitektur verwaltet wird und nur den Kernteil (Bitcoin + LN-Knoten) mit hoher Verfügbarkeit und Support bereitstellt.</li>
+<li>Verwenden Sie eine beliebige andere Maschine, z. B. zu Hause/im Büro/als Remote-VPS, auf der Sie die erforderlichen Apps zur Verwaltung Ihres Knotens installieren: BTCPay, LNbits, Thunderhub, RTL usw. und richten Sie deren Konfiguration auf Ihren Remote-LN-Knoten aus.</li>
+</ul>
+<p>Das ist alles, was Sie für eine hochverfügbare Lösung benötigen, bei der die Wahrscheinlichkeit, Gelder, Kanäle, Peers, Zeit, Kunden usw. zu verlieren, nahezu null ist.</p>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">B. Datensicherung und -wiederherstellung</h2>
+<p>Das Wichtigste ist der Wallet-Seed. Dies ist das Erste, was Sie speichern und sicher aufbewahren sollten, zum Beispiel in einem Offline-Passwortmanager (Keepass oder Vaultwarden).</p>
+<h3 style="color:Yellow;">LND-Knoten-Datenbanksicherungen</h3>
+<p>Für LND-Knoten gibt es zwei Arten von Datenspeichern, die wiederhergestellt werden können:</p>
+<ul>
+<li>SCB-Sicherungen – eine Offline-Kopie des Status Ihrer Kanäle, die nur die Informationen enthält, die zum Schließen der Kanäle (zusammen mit Ihrem Seed) und zum Wiederherstellen der Mittel aus den Kanälen in Ihre Onchain-Wallet ausreichen. Denken Sie daran: Diese Datei channels.backup kann NUR mit Ihrem Node-Seed verwendet werden! Erstellen Sie jedes Mal eine Kopie dieser SCB-Datei, wenn Sie einen Kanal öffnen und/oder schließen. Oder erstellen Sie Skripte, die diese SCB-Datei jedes Mal auf dem lokalen Laufwerk erstellen können, wenn Sie Kanäle öffnen/schließen, und die Datei dann per Rsync an einem Remote-Standort synchronisieren. Dies muss nicht bei jeder Transaktion geschehen, die Sie mit Ihrem Node durchgeführt haben.</li>
+<li>Letzter Status von channels.db und wallet.db. Diese Dateien KÖNNEN NICHT im laufenden Betrieb gesichert werden, und selbst wenn Sie den Knoten herunterfahren und eine Kopie erstellen, sind sie nicht nützlich, da sie beim erneuten Starten des Knotens geändert werden.</li>
+</ul>
+<p>Mit „letztem Zustand“ ist NUR der Zustand vor der Wiederherstellung eines toten Knotens nützlich. Wenn Ihre Maschine aus Hardwaregründen tot ist oder die Software nicht startet, Sie aber immer noch auf die Dateien zugreifen können. Erstellen Sie dann eine Kopie dieser beiden Dateien auf einem externen Laufwerk (kann groß sein) und verwenden Sie sie später, nachdem Sie den neuen Knoten neu erstellt haben.</p>
+<p>Sie haben zwei Möglichkeiten, einen LND-Knoten wiederherzustellen/wiederherzustellen:</p>
+ <ol>
+<li><p>OHNE Kanalstatus</p>
+<p>Um Ihre Gelder OHNE die Kanäle wiederherzustellen, können Sie das SCB-Backup verwenden, das automatisch schließt und die Gelder im Onchain-Wallet wiederherstellt. Dies ist der einfachste Weg und <a href="/nodes/shtf-restore-lnd-node-de.html">ich beschreibe ihn in diesem Handbuch</a> (siehe Methoden 2,3,4,5,6).</p>
+<p>Ich empfehle dringend, Option 3 zu verwenden. Während Sie die Gelder in Blixt wiederherstellen, können Sie mit Ihrer alten Maschine eine neue Node-ID, einen neuen Seed, ein neues Wallet und eine neue Identität neu erstellen. Später können Sie die Gelder einfach von Blixt auf Ihren neuen Knoten verschieben oder sie einfach <a href="https://darthcoin.substack.com/p/node-liquidity-guide">als privaten mobilen Knoten oder als kleinen Begleitknoten für Ihren Heimknoten</a> verwenden.</p>
+</li>
+<li><p>MIT Kanalstatus</p>
+<p>Um einen Knoten MIT intakten Kanälen wiederherzustellen, wie im letzten Status, müssen Sie einige Schritte ausführen, um die Umgebung vorzubereiten. <a href="/nodes/shtf-restore-lnd-node-de.html">In diesem Handbuch erklärt</a>, siehe Methoden 1, 3, 4, 7, 8, 9, 10.</p>
+<p>Wenn Ihr Knoten abgestürzt ist, Sie aber noch auf die Dateien zugreifen können, ist dies der beste Glücksmoment. Sie müssen zwei Aufgaben erledigen:</p>
+<ul>
+<li>1. Kopieren Sie die wallet.db und channel.db aus diesem „nicht startenden“ Knoten woanders hin. channel.db kann groß sein, ein USB-Stick reicht also nicht aus. Prüfen Sie zuerst die Größe.</li>
+<li>2. Sobald Sie diese beiden Dateien sicher haben, beginnen Sie mit dem Aufbau Ihres gesamten Knotens von Grund auf oder stellen Sie ihn vollständig wieder her, wenn Sie eine vorherige Kopie haben. ACHTUNG! Wenn Sie wiederherstellen, können Sie diese beiden Dateien überspringen. Wenn nicht, müssen Sie sie mit der neuesten Kopie überschreiben, die Sie gerade aus diesem toten Knoten erstellt haben. Es muss immer der letzte Zustand sein.</li>
+</ul>
+<p>Wenn Sie die Knotensoftware neu erstellen, wählen Sie die Option „Von Seed wiederherstellen“, damit Sie dieselbe Knoten-ID und dieselben Verschlüsselungsschlüssel wie bei Ihrem vorherigen Knoten haben und dieselbe wallet.db und channel.db verwenden können. Wenn Sie eine andere Seed/Knoten-ID verwenden, sind diese Dateien nicht verwendbar und können nicht entsperrt werden!</p>
+<p>Dies ist der Teil, in dem Sie die Datenordner „rekonstruieren“ müssen. Wenn Sie nicht von einer vollständigen Kopie wiederherstellen, die bereits die Ordner enthält, in denen sich zuvor Wallet und channel.db befanden, müssen Sie die Node-Software von Grund auf neu installieren, sie starten lassen, die Ordner und die Synchronisierungsdatenbank neu erstellen und sie dann stoppen. Kopieren Sie die beiden Dateien an ihren Speicherort und starten Sie den Node neu. Fertig.</p>
+<p>Anschließend können Sie Ihren Node neu starten. Es wird beginnen, aufzuholen und die 2 Dateien ordentlich wiederzuverwenden, alle Ihre Kanäle werden da sein, es wird nur eine Weile dauern, bis die Blöcke aufgeholt und synchronisiert sind.</p>
+</li>
+</ol>
+<h3>Datenbanksicherungen von CLN-Knoten</h3>
+<p>Für diese Implementierung sind Knoten viel einfacher und sind nur eine rekursive Kopie einer einfachen kleinen Datenbankdatei hsm_secret.</p>
+<p><a href="https://lightning.readthedocs.io/BACKUP.html">Der gesamte Prozess wird in diesem Handbuch für CLN erklärt</a>.</p>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">C. Wartung und Software-Updates</h2>
+<p>OK, so viele Benutzer haben nach Updates gefragt und wie oft sie durchgeführt werden sollen.</p>
+<p>Die Antwort ist einfach: Sie müssen jederzeit durchgeführt werden. Genau, nicht immer, sondern nur, wenn sie benötigt werden.</p>
+<p>Warum? Weil nicht immer alles nötig ist :) Wenn etwas einwandfrei und fehlerfrei funktioniert, ist eine neue Version nicht automatisch besser. Neue Funktionen oder Apps, die Sie nicht verwenden, bedeuten nicht, dass Sie sie aktualisieren müssen. Stabilität ist wichtiger als neue Sachen.</p>
+<h4 style="color:Yellow;">Empfehlungen:</h4>
+<ul>
+<li>Aktualisieren Sie Ihre Node-Software nicht impulsiv, gleich nachdem sie veröffentlicht wurde oder wenn sie Ihre Node-Probleme nicht behebt. Manche Updates sind geringfügig, andere sind wichtig.</li>
+<li>Lesen Sie die Versionshinweise sorgfältig durch und prüfen Sie, ob das Update von Vorteil ist oder einen Fehler behebt, den Sie mit Ihrem Node hatten. Wenn es Sie nicht direkt betrifft, müssen Sie das Update nicht sofort durchführen. Warten Sie auf eine wichtigere Version. Manchmal können auch schnelle Release-Updates Fehler enthalten, die nicht rechtzeitig von den Entwicklern überprüft wurden. So etwas kann passieren, sie sind auch nur Menschen. Warten Sie also noch 1-2 Tage und sehen Sie, was andere ungeduldige Benutzer nach dem Update sagen.</li>
+<li>Betriebssystemupdates sind wichtiger als Node-Softwareupdates. Überprüfen Sie also häufiger die Betriebssystemupdates und führen Sie sie bei Bedarf durch.</li>
+<li>Wenn Sie das Betriebssystem aktualisieren, stoppen Sie immer zuerst den Node. Einige Voraussetzungen könnten Docker-Komponenten oder andere Module sein, die die Node-Software betreffen. Das Betriebssystem wird also aktualisiert und die Maschine heruntergefahren. Ja, nicht einfach neu starten, sondern herunterfahren, ein paar Sekunden warten, bis der Speicher gelöscht ist, und dann erneut starten. Das ist auch eine gute Vorgehensweise, um die Laufwerkscluster in gutem Zustand zu halten und den Speicher von schlechten Dingen zu befreien.</li>
+<li>Aktualisieren Sie immer zuerst das Betriebssystem, bevor Sie die Node-Software aktualisieren.</li>
+<li>RPi-Benutzer müssen das Betriebssystem normalerweise nicht aktualisieren, da die Node-Software zusammen mit dem Betriebssystem integriert ist und normalerweise eine modifizierte Version des Debian-Betriebssystems ist, die für RPi angepasst wurde.</li>
+<li>Nicht-RPi-Benutzern empfehle ich dringend, als Betriebssystem ein Debian-Linux zu verwenden. Es ist robuster, überprüft das Dateisystem besser und hat weniger ausgefallene, unnötige Desktop-Sachen. Für ein Node-Betriebssystem müssen Sie minimalistisch sein, Sie verwenden es nicht die ganze Zeit.</li>
+<li>Machen Sie die Dinge nicht komplizierter mit VMs oder Ubuntu-Servern, die nur große Mengen an Ressourcen beanspruchen. Ein Node braucht das nicht. Sie benötigen nur die Basis, um einen Knoten auszuführen.</li>
+</ul>
+<p>Ich denke, dies sind genug Aspekte für Sie, den neuen Knotenbetreiber, der jetzt seine Reise in diese faszinierende Welt der Knoten beginnt.</p>
+<p>Ich hoffe, Sie führen den bestmöglichen Knoten aus und ich habe Ihnen genügend Informationen gegeben, um einen Knoten unter guten Bedingungen auszuführen. Viel Spaß mit Lightning!</p>
+</body>
+</html>
+</article>
