@@ -1,0 +1,240 @@
+---
+layout: default
+title: Lightning Network Submarine Swaps
+---
+<article>
+<!DOCTYPE html>
+<html lang="it">
+<meta name="description" content="Guide Bitcoin e Lightning Nodes: come scambiare sat tra i canali Bitcoin LN e i portafogli onchain">
+<body>
+<a href="/nodes/lightning-submarine-swaps-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-submarine-swaps-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-submarine-swaps-de.html">Deustch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-submarine-swaps-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-submarine-swaps-nl.html">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-submarine-swaps-hr.html">Hrvatski <img src="/assets/images/flag-HR.png" alt="HR" title="Hrvayski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-submarine-swaps-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<blockquote style="color:Tomato;"><em>
+<p>Pubblicato originariamente su <a href="https://darthcoin.substack.com/p/lightning-network-submarine-swaps">Substack</a> il 29 marzo 2022. Aggiornato qui il 25 dicembre 2024</p>
+</em></blockquote>
+
+<h3>Metodi su come utilizzare i servizi di swap per spostare i sat tra i canali LN e i portafogli onchain</h3>
+<p>Oggigiorno abbiamo molti Lightning Node, ma i loro operatori non sanno ancora come utilizzarli al massimo del loro potenziale.</p>
+<p>Quindi cercherò di spiegare in questa guida come utilizzare gli swap sottomarini in LN.</p>
+<p><img src="/assets/images/submarine-swaps.jpg" class="center"></p>
+<h4>Cosa sono i Lightning Submarine swap?</h4>
+<p>Gli swap sottomarini sono swap atomici on-chain-off-chain (e viceversa) di Bitcoin. Sono progettati per facilitare il trasferimento da BTC on-chain a un canale Lightning Network (LN) off-chain. Attualmente, questo non è direttamente possibile senza gli swap sottomarini e richiede un passaggio aggiuntivo in cui un utente deve trasferire i fondi LN al proprio portafoglio Bitcoin on-chain.</p>
+<p>Ecco altra documentazione, che spiega in dettaglio cosa sono gli swap Lightning Submarine:</p>
+<ul>
+<li><a href="https://docs.lightning.engineering/the-lightning-network/multihop-payments/instant-submarine-swaps">Swap sottomarini istantanei</a></li>
+<li><a href="https://voltage.cloud/blog/lightning-network-faq/submarine-swaps-how-do-they-work-and-where-they-are-used/">Una spiegazione dettagliata di Voltage sugli swap sottomarini</a></li>
+<li><a href="https://stacker.news/items/163372/r/DarthCoin">Guida agli swap sottomarini</a> - di aftermath su Stacker News, molto buono elenco dei servizi di swap e una tabella di confronto dettagliata delle loro commissioni</li>
+</ul>
+<p>Quindi, in pratica, con gli swap sottomarini, possiamo spostare liquidità da/verso un portafoglio HODL/cache onchain a/verso un nodo/portafoglio LN. Potrebbe anche essere usato molto bene come metodo di coinjoin, per perdere traccia delle tue monete KYC.</p>
+<p>Considereremo due possibili scenari di casi d'uso:</p>
+<ul>
+<li><a href="#scenario-a">Scenario A</a> - un nodo commerciante che ha bisogno di scambiare più spesso i sat ricevuti dai pagamenti. Metodi utilizzati:</li>
+<ul>
+<li>App di gestione nodi RTL o Thunderhub o estensione LNbits Boltz</li>
+<li>Portafoglio web CoinOS</li>
+<li>Servizi di swap esterni</li>
+<li><a href="#ghetto-swap">Metodo Ghetto Swap</a> o PeerSwap tra peer diretti</li>
+<li>Bluewallet LNDHUB</li>
+</ul>
+<li><a href="#scenario-b">Scenario B</a> - un utente abituale che acquista regolarmente sat dagli exchange. Metodi utilizzati:</li>
+<ul>
+<li>Scambi Robosats</li>
+<li>Acquista sat dagli exchange P2P LN</li>
+<li>Acquista sat dagli exchange onchain e usa il livello del portafoglio cache per lo scambio</li>
+<li>Portafoglio Electrum LN</li>
+</ul>
+</ul>
+<hr style="height:2px">
+
+<h2 id="scenario-a">SCENARIO A <a href="#scenario-a">#</a></h2>
+<blockquote style="color:Tomato;"><em>
+<p>Caso: hai un nodo LN e vuoi spostare liquidità (quando necessario) da/verso i tuoi canali LN. Prendiamo l'esempio di un semplice commerciante, con un negozio online o fisico, che accetta pagamenti tramite LN.</p>
+</em></blockquote>
+<p>Quindi, avendo più pagamenti in entrata, i suoi canali LN saranno riempiti al massimo ogni fine giornata, quindi dovrà "svuotarli", per fare più spazio per il giorno successivo di accettazione dei pagamenti. Ciò significa che dovrai spostare dai canali LN i sat ricevuti, in un portafoglio onchain. Questa operazione è chiamata "LOOP OUT".</p>
+<p>Il "LOOP IN" è lo stesso processo, solo che è in modalità inversa, da uno qualsiasi dei tuoi portafogli onchain, verso il tuo nodo/portafoglio LN. In questo caso abbiamo alcuni metodi semplici:</p>
+
+<h3>1 - <a href="https://www.ridethelightning.info/">RTL</a> e/o <a href="https://thunderhub.io/">Thunderhub</a> - app di gestione dei nodi</h3>
+<p>Entrambi hanno integrato la funzionalità "loop out", utilizzando i servizi Boltz e Loop.</p>
+
+<figure>
+<img src="/assets/images/th-swap.png" class="center">
+<figcaption>Funzionalità di scambio Thunderhub, tramite Boltz</figcaption>
+</figure>
+<p>In Thunderhub, puoi scegliere da quale canale vuoi effettuare il loop out o lasciare che Thunderhub calcoli l'opzione migliore. Puoi scegliere un indirizzo onchain del nodo interno o uno esterno.</p>
+<figure>
+<img src="/assets/images/rtl-swap.png" class="center">
+<figcaption>Servizio di pagina di scambio Ride The Lightning (puoi scegliere tra Loop e Boltz)</figcaption>
+</figure>
+<p>A volte RTL funziona meglio e puoi usare quantità maggiori. Puoi anche andare sui canali LN, selezionarne uno in cui hai più liquidità dalla tua parte e sui pulsanti di azione sul lato destro hai l'opzione "loop out".</p>
+<p><img src="/assets/images/rtl-swap2.png" class="center"></p>
+<p>Fatto, una volta impostati i termini, ci vorrà un po' prima che il loop out venga approvato e i fondi vengano inviati al tuo indirizzo onchain indicato. Puoi monitorare lo stato nella stessa pagina.</p>
+<p>Un altro metodo: se esegui un nodo con un'istanza LNbits, hai integrato anche l'<a href="https://extensions.lnbits.com/boltz">estensione Boltz Swap</a> o l'<a href="https://extensions.lnbits.com/deezy">estensione Deezy swap</a> direttamente in LNBits, per swap facili. Come commerciante che usa <a href="https://darthcoin.substack.com/p/lnbits-for-small-merchants">LNbits per la sua attività</a>, questo è uno strumento molto utile per "svuotare" i tuoi canali pieni dai pagamenti, con swap in indirizzi onchain.</p>
+
+<h3>2 - <a href="https://coinos.io">CoinOS</a> - portafoglio web, con funzionalità onchain e LN</h3>
+<p>Questa app potrebbe anche essere usata come portafoglio di primo livello di reddito (se non hai un tuo nodo) per un piccolo commerciante, come descritto <a href="/merchants/getting-started-bitcoin-small-merchants-it.html">in un'altra guida qui</a>.</p>
+<p>CoinOS ha integrato gli swap e potrebbe essere usato in modo anonimo, inclusi gli swap con Liquid Network.</p>
+<p>Un semplice processo di swap con CoinOS essere:</p>
+<ul>
+<li>Apri un account su CoinOS (salva i dettagli di accesso, se vuoi riutilizzarli)</li>
+<li>Crea una fattura LN o usa l'indirizzo LN fornito da CoinOS, che sarà username@coinos.io. Puoi anche usare l'indirizzo LNURL-pay fornito e puoi pagare qualsiasi importo tu voglia.</li>
+<li>Paga a quella fattura LN / indirizzo LN / indirizzo LNURL-p dal tuo nodo (usare Thunderhub è molto più semplice per l'indirizzo LN/LNURL, puoi anche usare il portafoglio Zeus connesso al tuo nodo).</li>
+<li>Una volta che hai i fondi in CoinOS LN, effettua un pagamento a uno qualsiasi dei tuoi indirizzi BTC onchain, del tuo nodo (per futuri nuovi canali LN) o qualsiasi altro portafoglio onchain HODL, oppure puoi dividere.</li>
+<li>Fatto, sei appena uscito da LN per mettere i tuoi fondi onchain, con commissioni e seccature minime, totalmente privato.</li>
+</ul>
+
+<h3>3 - Utilizzo di vari servizi di swap esterni</h3>
+<a href="https://boltz.exchange/">Boltz</a> | <a href="https://swapmarket.github.io/">SwapMarket</a> | <a href="https://zigzag.io/">ZigZag</a> | <a href="https://fixedfloat.com/">FixedFloat</a>| <a href="https://deezy.io/">Deezy</a> | <a href="https://swap.diamondhands.technology/">DiamondHands</a> | <a href="https://submarineswaps.org/">Submarine Swaps</a>
+<p>Questi sono exchange online dedicati agli swap e utilizzando una semplice procedura in 3-4 passaggi, ottieni il tuo swap sats da LN in qualsiasi indirizzo onchain:</p>
+<p>ATTENZIONE: a volte ZigZag.io potrebbe avere seri problemi di liquidità e non può soddisfare i tuoi swap. Ho notato che molti altri utenti si lamentano.</p>
+<p>Sì, stanno addebitando una commissione, ma tutto è molto trasparente e viene visualizzato prima di cliccare su "swap".</p>
+<p>Stesso processo, paghi una fattura LN dal tuo nodo e indichi un indirizzo onchain dove vuoi ricevere.</p>
+<figure>
+<img src="/assets/images/boltz-swap.png" class="center">
+<figcaption>Schermata di swap Boltz LN su onchain</figcaption>
+</figure>
+<p>Ecco alcune guide più dettagliate sugli swap che utilizzano questi servizi:</p>
+<ul>
+<li><a href="https://stacker.news/items/333907/r/DarthCoin">Utilizzo di Boltz e Robosats per gli scambi LN ←→onchain</a></li>
+<li><a href="https://stacker.news/items/695140/r/DarthCoin">Utilizzo di SwapMarket</a></li>
+</ul>
+
+<h3 id="ghetto-swap">4 - Ghetto Swap o PeerSwap: lo scambio amichevole con i tuoi pari diretti <a href="#ghetto-swap">#</a></h3>
+<h5>A - Il metodo "Ghetto Swap"</h5>
+<p style="color:Tomato;"><strong>ATTENZIONE: non farlo con persone sconosciute a caso su Internet!</strong></p>
+<p>In pratica è uno scambio di sat da LN a onchain, utilizzando la funzionalità keysend del tuo nodo, il più utilizzato è Thunderhub per questa procedura.</p>
+<p>Invii i sats tramite un canale comune al tuo peer, che ti rimborserà su un indirizzo onchain da te indicato. Questa transazione è nota SOLO a voi due. La tx keysend non è una fattura LN e se hai un canale comune, non pagherai commissioni e non passerai attraverso nessun altro nodo hop. Puoi farlo anche se non hai un canale comune, ma ti costerà di più perché passerà attraverso alcuni hop, come un normale pagamento LN.</p>
+<p>Ok, abbiamo uno scenario di casi d'uso come questo:</p>
+<ul>
+<li>un gruppo di amici/peer conosciuti in un gruppo ad anello, con nodi BTC/LN già sincronizzati e con fondi nel portafoglio del nodo onchain.</li>
+<li>vogliamo avere un anello di nodi di routing, con canali bilanciati e pronti a inviare e ricevere tx LN e a instradare altre tx.</li>
+</ul>
+<p><strong>SCENARIO A: Pushing token al peer e rimborso in seguito</strong></p>
+<ol>
+<li>Stabilisci l'importo del canale, di solito è meglio iniziare con 1M o 2M sats.</li>
+<li>Stabilisci come verrà trasferita metà dell'importo del canale all'altro peer, onchain o LN. Ogni preferenza è correlata a cosa si vorrà fare con i fondi in seguito (aprire un altro canale - onchain, o semplicemente riutilizzarli per i pagamenti - LN).</li>
+<li>Uno dei peer utilizzerà l'app Thunderhub per aprire un canale 2M sats, ad esempio. Se utilizzi come software nodo Umbrel/myNode/RaspiBlitz, puoi trovare Thunderhub nel tuo AppStore del bundle. TH è una potente app per gestire il tuo nodo.</li>
+<p>Vai alla pagina principale di TH - pulsanti di azione rapida - Apri. Si aprirà una piccola casella di azione con un altro pulsante Apri.</p>
+<p><img src="/assets/images/th-ghetto-swap.png" class="center"></p>
+<p>Essendo un nuovo peer, incolla semplicemente nella casella il nodeID del peer. Inserisci l'importo in sat, 2 000 000 in dimensione canale.</p>
+<p>In importo commissione inserisci una commissione più bassa, in base al mempool, come 2-3-4-5 sat/vByte</p>
+<p>Nella scheda avanzata (dovrai cliccarci sopra per aprire la finestra di dialogo), lascia "canale pubblico" e seleziona "spingi token al partner" come "metà".</p>
+<p>Clicca su "Apri canale" e fatto, attendi che la tx sia completamente confermata (3 conferme)</p>
+<li>Come iniziatore di canale aperto il tuo ruolo è terminato. Ora dai all'altro peer il tuo indirizzo BTC onchain o la fattura LN dove inviare la tua metà dell'importo di sat che hai spinto dalla sua parte, rendendoli "suoi" sat.</li>
+<li>L'altro peer ti pagherà semplicemente la fattura e il gioco è fatto.</li>
+</ol>
+<p><strong>SCENARIO B: Apri il canale e bilancialo con keysend</strong></p>
+<ol>
+<li>Segui gli stessi passaggi dello "Scenario A" eccetto il punto in cui spingi i token nella procedura di apertura. Diciamo che vuoi prima ricevere quei mezzi sat nel tuo portafoglio prima di spingere i token dall'altra parte.</li>
+<li>Quindi avrai un canale di 2 milioni di sat con tutta la liquidità dalla tua parte.</li>
+<li>Dopo aver ricevuto i sat dall'altro peer, metà dell'importo del canale, vai alla pagina principale in Thunderhub - Account - Lightning e fai clic su Invia. Quindi seleziona "Is keysend".</li>
+<p><img src="/assets/images/th-swap-peer.png" class="center"></p>
+<li>Incolla il nodeID/chiave pubblica dell'altro peer, clicca su decode. Apparirà un'altra finestra con il nome del nodo (se impostato). Inserisci la quantità di sat, in questo caso 1M sat (1 000 000) e clicca su send. Questa operazione invierà 1M sat direttamente al tuo peer, senza fattura, senza commissioni, direttamente tramite il tuo canale comune già aperto e confermato.</li>
+<p><img src="/assets/images/th-swap-peer-amount.png" class="center"></p>
+<li>Fatto! Ora avrai un canale bilanciato con il tuo peer.</li>
+</ol>
+<p>Se vuoi un video esplicativo più dettagliato su come usare Thunderhub in un nodo, <a href="https://www.youtube.com/watch?v=KItleddMYFU">ecco un fantastico video tutorial di BTC Sessions</a></p>
+<p><strong>NOTA</strong></p>
+<p>Un altro aspetto da tenere in considerazione è la dimensione del canale che apri e la commissione di impegno.</p>
+<p>Un canale piccolo come 20k-50k-100k sarà fortemente influenzato dalla "commissione di impegno". Ciò significa che col tempo, se le commissioni del miner aumentano, anche la commissione di commit verrà "dedotta" dal saldo del tuo canale.</p>
+<p>Altro da leggere sulle variazioni delle commissioni di commit <a href="https://bitcoin.stackexchange.com/questions/89232/why-is-my-spendable-msat-much-lower-than-msatoshi-to-us/89235#89235">qui</a> e <a href="https://old.reddit.com/r/lightningnetwork/comments/cjtbjt/question_regarding_commit_fee/">qui</a></p>
+
+<h5>B - Il metodo Peer Swap</h5>
+<p>Un altro metodo per effettuare lo swap tra peer è utilizzare il <a href="https://www.peerswap.dev/">servizio PeerSwap</a>.</p>
+<p>PeerSwap consente ai nodi Lightning Network di bilanciare i propri canali facilitando gli swap atomici con peer diretti. PeerSwap migliora la decentralizzazione di Lightning Network consentendo a tutti i nodi di essere il proprio fornitore di swap. Nessun coordinatore centralizzato, nessun esattore di rendite di terze parti e bilanciamento dei canali a costo più basso significa che i nodi piccoli possono competere meglio con i nodi grandi.</p>
+<p>PeerSwap ha attualmente un'implementazione funzionante per i nodi CLN e LND.</p>
+<p>Al momento PeerSwap è adatto per gli operatori di nodi di potenza con competenze nella riga di comando Linux. Sono attualmente in corso implementazioni di interfacce GUI del pannello di controllo che renderanno PeerSwap più facile da usare per gli utenti finali ordinari.</p>
+
+<h3>5 - Bluewallet LNDHUB</h3>
+<p>Se il tuo nodo (Umbrel, MyNode, RaspiBlitz, Embassy) ha già installato e configurato BW LNDHUB, questo potrebbe essere un metodo semplice per ottenere liquidità rapida da un portafoglio onchain esterno.</p>
+<p>Passaggi da eseguire:</p>
+<ul>
+<li>Collega l'app mobile BW al tuo nodo BW LNDHUB</li>
+<li>Crea un nuovo portafoglio LN (verrà creato sul tuo nodo, non sui server BW)</li>
+<li>Questo portafoglio LN sarà "vuoto" come saldo, ma utilizzerà la liquidità del tuo nodo.</li>
+<li>Salva questo backup del portafoglio! Vai ai dettagli del portafoglio e seleziona esporta backup, sarà un URL al tuo portafoglio LNDHUB.</li>
+<li>In BW, apri questo portafoglio LN e clicca sul pulsante "ricarica - da fonte esterna". Apparirà un codice QR con un indirizzo onchain dal tuo nodo.</li>
+<li>Una volta pagato a quell'indirizzo (non usare piccole quantità come 100, 10k sat), il tuo portafoglio LN avrà un saldo con quei sat e il tuo nodo LN avrà anche una maggiore liquidità con quell'importo.</li>
+<li>La tx verrà riflessa sulle tx onchain del tuo nodo ma sarà sempre a un indirizzo onchain "dedicato" per quel portafoglio LNDHUB. E i fondi saranno anche nei tuoi canali LN (vedi l'elenco delle transazioni del tuo nodo LN).</li>
+<li>Fatto, in un semplice passaggio sei passato da onchain a LN, usando il tuo nodo.</li>
+</ul>
+<p><a href="https://darthcoin.substack.com/p/umbrel-lndhub-bluewallet">Ulteriori informazioni su come usare Bluewallet LNDHUB con il nodo Umbrel qui, guida dedicata</a>.</p>
+<hr style="height:2px">
+
+<h2 id="scenario-b">SCENARIO B <a href="#scenario-b">#</a></h2>
+<blockquote style="color:Tomato;"><em>
+<p>Caso: sei un utente abituale, che desidera solo più privacy e hai perso traccia di alcuni BTC acquistati da uno scambio KYC o hai ricevuto alcuni BTC da una fonte sconosciuta e non vuoi essere collegato in alcun modo con it.</p>
+</em></blockquote>
+<p>In questo caso non è necessario avere un nodo LN, ma puoi farlo da un nodo o da un semplice portafoglio LN.</p>
+<p>Per questo processo abbiamo i seguenti metodi:</p>
+
+<h3>1 - RoboSats - scambio totalmente anonimo, solo su Tor e LN</h3>
+<ul>
+<li>Vai alla pagina RoboSats, usando il browser Tor</li>
+<li>Genera un'identità Robot (salva la chiave se vuoi riutilizzarla)</li>
+<li>Fai un'offerta o prendine una esistente, specificando nella destinazione di scambio dove vuoi ricevere i sat (onchain o LN)</li>
+<li>Ecco una demo di RoboSats</li>
+<li>Fatto, ricevi i sat in qualsiasi portafoglio LN/onchain. Scegline uno da questa lista.</li>
+</ul>
+<p><img src="/assets/images/robosats-swap.jpg" class="center"></p>
+
+<h3>2 - Acquista BTC con fiat e preleva nei canali wallet/node LN</h3>
+<p>Questo metodo è valido per piccole quantità, o se non vuoi avere a che fare con indirizzi onchain, ottieni più privacy e puoi anche usarlo come metodo "loop in" per i tuoi canali LN o wallet LN.</p>
+<p>Facoltativamente potresti chiedere (mettere un ordine) per swap LN <-->onchain come metodo di trading</p>
+<p>Qui hai una guida comparativa su tutti i wallet LN con le loro caratteristiche.</p>
+<p>Strumenti che puoi usare:</p>
+<ul>
+<li><a href="http://robosats6tkf3eva7x2voqso3a5wcorsnw34jveyxfqi2fu7oyheasid.onion/">RoboSats</a>, menzionato in precedenza, solo Tor (presto app mobile), <a href="https://learn.robosats.com">maggiore documentazione qui</a>.</li>
+<li><a href="https://app.mostro.network/">Mostro</a> - P2P su NOSTR. Maggior documentazione <a href="https://mostro.network/">qui</a>.</li>
+<li><a href="https://bisq.network/">Bisq P2P Exchange</a> - il nuovo Bisq2 supporta le negoziazioni su LN, <a href="https://stacker.news/items/663856/r/DarthCoin">qui una guida dettagliata</a>. <li><a href="https://t.me/lnp2pBot">Scambio P2P bot Telegram LNP2P</a></li>
+<li><a href="https://t.me/SatsMobiBot">Scambio P2P bot Telegram SatsMobi</a></li>
+<li><a href="https://azte.co/">voucher LN di Azte.co</a> o anche il loro <a href="https://t.me/BitcoinVoucherBot">bot Telegram</a></li>
+<li><a href="/beginner/buy-bitcoin-it.html">altri exchange con supporto LN qui</a></li>
+</ul>
+
+<h3>3 - Scambi KYC onchain su portafoglio/canali LN</h3>
+<p>Dovresti prendere in considerazione di non usarli e invece usare quelli di <a href="https://kycnot.me/">KYCnot.me</a>.</p>
+<p>Questo è il caso in cui hai acquistato da uno scambio KYC e non supportano il prelievo tramite LN. Questa parte è un po' complicata, perché molti di loro ritarderanno il prelievo, non è immediato, per evitare di inviare quelle monete a un servizio di swap o semplicemente per misure KYC draconiane.</p>
+<p><img src="/assets/images/bitcoin-privacy-scheme.jpg" class="center"></p>
+<p>Quindi avrai bisogno di un "portafoglio cache" come descritto <a href="/beginner/be-your-own-bank-it.html">in quest'altra guida</a> che ho scritto, dove farai il controllo delle monete, organizzando gli swap, la distribuzione per categoria ecc. Prelevi dall'exchange su questo portafoglio cache e da lì in pezzi più piccoli, li scambi tramite LN, usando gli exchange di swap indicati: Boltz, ZigZag, FixedFloat, CoinOS ecc. (ce ne sono molti altri).</p>
+<p>Se il tuo exchange supporta il prelievo immediato, va bene, puoi semplicemente saltare la parte del "portafoglio cache" e inviare solo pezzi più piccoli agli exchange di swap e da lì al tuo portafoglio LN a tua scelta.</p>
+<p>Per questo processo ti consiglio di usare un portafoglio esterno, non di formare il tuo nodo. <a href="https://darthcoin.substack.com/p/node-liquidity-guide">Come ho descritto in questa altra guida</a> sulla liquidità tra nodi. Blixt, Zeus, Breeze, Phoenix sono delle buone scelte per questo processo.</p>
+<p>Da quel portafoglio LN, puoi anche inviare al tuo nodo (se hai bisogno di più liquidità) e/o a qualsiasi altro portafoglio HODL onchain (usando un altro swap).</p>
+
+<h3>4 - Electrum Desktop Lightning</h3>
+<p>Questo è un portafoglio LN piuttosto potente (ma sottovalutato) con anche swap integrati. Personalmente lo trovo molto utile.</p>
+<p>Passaggi da seguire per questo processo:</p>
+<ul>
+<li>Scarica e installa sul tuo PC desktop l'app portafoglio Electrum. È disponibile per tutte le piattaforme.</li>
+<li>Crea un portafoglio nativo segwit (bech32) per essere completamente compatibile con LN</li>
+<li>Salva tutti i dettagli, seed, password ecc. nel tuo gestore password</li>
+<li>Vai alle opzioni del portafoglio e attiva "Lightning" (non è di default)</li>
+<li>Puoi usare i canali trampolino (gestiti da ACINQ e altri server) o i tuoi canali (privati) con i nodi che desideri.</li>
+<p><img src="/assets/images/electrum-swap.jpg" class="center"></p>
+<li>Dovresti prima aprire alcuni canali. Salvali anche come backup.</li>
+<li>Per fare più "spazio" in questi canali, dovresti spostare alcuni sat, inviandoli a un altro tuo portafoglio LN, o se apri un canale con il tuo nodo, semplicemente spingendoli usando keysend verso il tuo nodo o semplicemente una semplice fattura LN a te stesso.</li>
+<li>Quindi sei pronto a ricevere nuovi sat in questi canali Electrum LN.</li>
+<li>Una volta che acquisti da altre fonti e ricevi in ​​Electrum, puoi fare uno scambio interno, in Electrum. I fondi verranno trasferiti a uno dei tuoi indirizzi Electrum.</li>
+</ul>
+<p>Ecco una demo su come usare Electrum con Lightning (video di 5 minuti).</p>
+<iframe width="640" height="480" src="https://www.youtube.com/embed/dg1fyd5_foA" title="Electrum Lightning Demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<hr style="height:2px">
+
+<h3>CONCLUSIONE</h3>
+<p>Usa tutti questi suggerimenti per altri scenari per loop in, loop out, puoi fare più combinazioni usando diversi wallet LN, exchange, nodi ecc.</p>
+<p><strong>PER RICORDA:</strong></p>
+<ul>
+<li>su un canale LN, diciamo di 1M sat, puoi passare attraverso 21 BTC o più, avanti e indietro. Quando chiudi questo canale, sulla blockchain saranno "visibili" solo quei 1M sat che sono stati "utilizzati" nel tx. Tutti gli altri 20,09 BTC non vengono riflessi, non c'è traccia di loro (se lo fai bene).</li>
+<li>potresti usare anche Inbound Liquidity Providers, che si apriranno verso i tuoi canali di nodo e sarai pronto a ricevere sat da quei servizi di swap e/o exchange LN. Ciò significa che l'UTXO utilizzato per aprire il canale non è tuo. Questo è un altro aspetto che aumenta la tua privacy.</li>
+<li>passare attraverso più hop per un pagamento aumenta anche l'anonimato.</li>
+<li>usa MPP (pagamento multi-parte) se puoi e se le tue app wallet lo supportano.</li>
+<li>Se vuoi un nodo LN veloce, per l'anonimato e non ti preoccupi di gestire un nodo completo, solo per acquistare alcuni sat in modo anonimo, ti consiglio di usare il portafoglio <a href="/wallets/getting-started-blixt-wallet-it.html">nodo LN Blixt</a> o <a href="/wallets/getting-started-zeus-wallet-it.html">nodo LN Zeus</a> (questo è uno strumento molto potente, se sai come usarlo), SBW, Breez, Electrum. Con questi puoi gestire facilmente canali e liquidità come desideri. Inoltre, puoi sempre, semplicemente svuotarli e avviare una nuova istanza in forma anonima.</li>
+<li>Il futuro delle transazioni è su Lightning Network. Presto le transazioni onchain saranno utilizzate solo per aprire/chiudere i canali LN. Quindi preparati da ora, inizia a imparare come usare tutti questi strumenti LN, i portafogli, esegui il tuo nodo, costruisci la tua rete di peer, costruisci la tua liquidità su LN. Arriverà il giorno in cui sarà MOLTO COSTOSO FARLO! Sei stato avvisato.</li>
+</ul>
+</body>
+</html>
+</article>
