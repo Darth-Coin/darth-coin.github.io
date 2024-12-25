@@ -1,0 +1,322 @@
+---
+layout: default
+title: Upravljanje likvidnošću Lightning Node
+---
+<article>
+<!DOCTYPE html>
+<html lang="hr">
+<meta name="description" content="Vodiči za Bitcoin i Lightning: Kako upravljati likvidnošću svog LN čvora i raditi kao javni čvor za usmjeravanje">
+<body>
+<a href="/nodes/managing-lightning-node-liquidity-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/managing-lightning-node-liquidity-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/managing-lightning-node-liquidity-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/managing-lightning-node-liquidity-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/managing-lightning-node-liquidity-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/managing-lightning-node-liquidity-nl.html">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/managing-lightning-node-liquidity-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<blockquote style="color:Tomato;"><em>
+<p>Izvorno objavljeno na <a href="https://darthcoin.substack.com/p/managing-lightning-node-liquidity">Substack</a> 2. svibnja 2023. Ovdje ažurirano 25. prosinca 2024.< /p>
+</em></blockquote>
+
+<h3>Metode, strategije, vrste, preporuke kako pokrenuti LN čvor i upravljati njegovom likvidnošću.</h3>
+<p>Ovaj vodič namijenjen je svim onim novim korisnicima koji žele početi učiti o čvorovima (LN) Lightning Network i odabrati pravu vrstu metode za vlastite potrebe.</p>
+<p>Unutar ovog vodiča pronaći ćete mnogo poveznica na mnoge druge specifične vodiče. Nemojte ih ignorirati. Ovaj vodič je smjernica između svih njih, kako bi vam pomogao da odaberete svoj najbolji put kroz Lightning Network.</p>
+<p>U vezi s novim bitcoinerima postoji ZABLUDA da MORATE pokrenuti namjenski javni čvor za usmjeravanje kako biste mogli izvršiti neka LN plaćanja.</p>
+<p>Ovo će biti pitanja na koja ćemo pokušati odgovoriti u ovom vodiču:</p>
+<ul>
+<li>Zašto želite pokrenuti LN čvor?</li>
+<li>Koju vrstu hardvera ćete koristiti?</li>
+<li>Koju biste vrstu softvera mogli koristiti?</li>
+<li>Koju vrstu čvora želite pokrenuti (javni ili privatni)?</li>
+<li>S kojim se čvorovima ravnopravnim čvorovima trebate povezati?</li>
+<li>Kako ćete upravljati likvidnošću kanala?</li>
+</ul>
+<p><img src="/assets/images/ln-liquidity-management.jpg" class="center"></p>
+
+<h2 style="color:Orange;">ZAŠTO želite pokrenuti LN čvor?</h2>
+<h3 style="color:Yellow;">A. Vi ste jednostavan korisnik LN-a koji samo želi platiti satovima za kupovinu</h3>
+<ul>
+<li>trebat ćete više izlazne likvidnosti jer ćete slati više</li>
+<li>ali i neke dolazne u slučaju da trebate primiti od prijatelja ili drugih.</li>
+<li>dobri partneri za povezivanje tako da će vaš txs proći lakše i jeftinije</li>
+<li>ne morate koristiti previše sredstava u svom LN čvoru, dovoljno da pokrijete svoju potrošnju</li>
+<li>ne treba vam javni čvor za usmjeravanje samo za to!</li>
+</ul>
+
+<h3 style="color:Yellow;">B. Vi ste trgovac ili freelancer ili pružatelj usluga koji prodaje online ili fizičke proizvode/usluge koristeći LN</h3>
+<ul>
+<li>trebat će vam više ulazne likvidnosti, što znači da će drugi konkurenti ili čak vaši klijenti otvoriti kanale prema vašem čvoru</li>
+<li>objavite svoj ID čvora svojim klijentima i potaknite ih da se povežu s vašim čvorom i plate vam izravno, čak i bez naknada</li>
+<li>povremeno ispraznite popunjene kanale kako biste ponovno imali "prostora" za više isplata prihoda. Postoji mnogo načina za to.</li>
+<li>trebat će vam dobri, veliki kanali da biste mogli primiti što više uplata</li>
+<li>ne trebate uložiti previše sredstava sa svoje strane, vi ste primatelj, a ne potrošač</li>
+</ul>
+
+<h3 style="color:Yellow;">C. Vi ste samo operater čvora, više ste zainteresirani za usmjeravanje tx-ova kroz LN</h3>
+<ul>
+<li>ne vršite previše plaćanja koristeći svoj čvor (loše, jako loše)</li>
+<li>trebat će vam i ulazna i izlazna likvidnost. I to mnogo, stoga budite spremni s velikim dijelom sredstava koje ćete staviti u svoje LN kanale. Dakle, ako želite biti usmjerivački čvor s 20k satelita ili 1M satelita... ZABORAVITE! Vrati se na spavanje.</li>
+<li>trebat će vam uravnoteženi kanali, pa se bolje pridružite <a href="https://t.me/plebnet">PLEBNET</a> ili <a href="https://lightningnetwork.plus/" >Lightning Network Plus</a></li>
+<li>trebat ćete znati kako upravljati kanalima naknada, pa počnite učiti</li>
+<li>morat ćete imati jak hardver i uvijek online čvor. Ovo nije šala!</li>
+<li>možete polako ući u Lightning Pool i "iznajmiti"/prodati svoju likvidnost čvora. Ali trebat će vam jak čvor i puno likvidnosti da stvarno ostvarite neki "prihod".</li>
+</ul>
+
+<h3 style="color:Yellow;">D. Vi testirate i učite, ili programer koji koristi čvor kao bazu</h3>
+<ul>
+<li>trebate samo nekoliko ulaznih i izlaznih kanala za igru.</li>
+<li>ne trebate previše sredstava za to.</li>
+<li>bolje je obavijestiti svoje vršnjake da ste im privremeni vršnjak, vaš čvor je samo poligon za testiranje, tako da neće očekivati ​​da budete na mreži ili zauvijek vršnjak.</li>
+<li>mogli biste imati javne i privatne kanale, testiranje uokolo.</li>
+</ul>
+
+<h3 style="color:Yellow;">E. Želite biti "ujak Jim Bank" za svoju obitelj i prijatelje</h3>
+<ul>
+<li>ponudit ćete BTC/LN bankarske usluge za svoju obitelj i prijatelje. To znači veliku odgovornost i povjerenje. Ovo nije šala, sada ste prava banka.</li>
+<li>trebat će vam nešto likvidnosti u oba smjera (ulaz/izlaz) kako biste pokrili potrebe svojih "kupaca". Zapamtite: likvidnost vašeg čvora je njihova "voda u cijevima", a ne njihova sredstva. Neka vaše cijevi uvijek budu napunjene vodom.</li>
+<li>možete ponuditi mnoge "usluge" koje možete postići koristeći LNDHUB, pročitajte više:</li>
+ <ul>
+ <li><a href="https://darthcoin.substack.com/p/umbrel-lndhub-bluewallet">Umbrel + LNDHUB + Bluewallet / Zeus</a></li>
+ <li><a href="https://darthcoin.substack.com/p/umbrel-node-lnbits">Umbrel + LNBits lndhub + Bluewallet / Zeus</a></li>
+ <li><a href="https://darthcoin.substack.com/p/the-bank-of-lnbits">LNbits banke</a></li>
+ <li><a href="/merchants/private-banks-over-ln-hr.html">Privatne LN banke</a></li>
+ </ul>
+<li>morat ćete educirati svoje klijente o tome kako koristiti te usluge, pa počnite izrađivati ​​vlastite jednostavne web vodiče za njih</li>
+<li><a href="https://darthcoin.substack.com/p/dunder-lsp-and-lightning-box-provider">želite ponuditi LSP usluge za privatne čvorove</a></li>
+</ul>
+
+<h3 style="color:Yellow;">F. "Želim zaraditi novac sa svojim čvorom, želim gainz, želim određeni % koji mi daje svaki mjesec", "Želim rudariti bitcoine sa svojim čvorom", "Želim pasivni prihod"...</h3>
+<ul>
+<li><strong>ZABORAVITE NA TO!</strong></li>
+<li>Ovo je pogrešan mentalitet, ovo je lijeni komunistički mentalitet, dobivaj novac ne radeći ništa. Da biste zaradili novac, vi i vaš čvor morate naporno raditi.</li>
+<li>BTC/LN čvor nije usrani DeFi shitcoin airdrop, to je ozbiljna stvar. Ako ste došli s te "tamne strane" za vas "nema juhe".</li>
+<li>Prestanite tako razmišljati i pregledajte prethodnih 5 točaka</li>
+</ul>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">Koju vrstu hardvera ćete koristiti?</h2>
+<p>U redu, dakle, nakon što odlučite koju vrstu čvora želite pokrenuti, odaberite hardver za njega.</p>
+<p>Imajte na umu neke važne aspekte:
+<ul>
+<li>Ako želite pokrenuti javni LN čvor za usmjeravanje, odaberite dobar hardver, pouzdan. <a href="/nodes/lightning-node-maintenance-hr.html">Ovdje sam napisao poseban vodič</a> o hardveru BTC/LN čvora. Odaberite u skladu s vrstom upotrebe koju će taj čvor imati.</li>
+<li>Ako želite pokrenuti privatni LN čvor, dovoljan je samo dobar mobilni uređaj. Ovdje sam napisao 2 vodiča o korištenju privatnih LN čvorova na mobilnim uređajima:</li>
+<ul>
+<li><a href="/beginner/bitcoiners-mobile-device-hr.html">Koje mobilne uređaje bitkoineri trebali koristiti</a></li>
+<li><a href="/nodes/private-ln-nodes-hr.html">Pokrenite privatni čvor munje</a></li>
+</ul>
+</ul>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">Koju biste vrstu softvera mogli koristiti?</h2>
+<p>Da, mnogi noobovi jednostavno idu najlakšim putem, skaču u Umbrel, myNode, Citadel, Embassy itd. ali ne znaju da će kasnije shvatiti da je to više od toga. Da, oni su dobri za početak učenja, jednostavni za instalaciju, ali kasnije će korisnik otkriti da želi više od toga i morat će migrirati ili početi ispočetka s novim softverskim čvorom.</p>
+<p>Dakle, ovdje u <a href="/nodes/bitcoin-ln-node-software-hr.html">ovom vodiču naveo sam sve vrste softvera</a> koji možete pokrenuti na stolnom čvoru.</p >
+<p>Zato prije nego što odaberete jedan, dvaput razmislite što ćete učiniti i analizirajte svaki detalj.</p>
+<p>Ako samo želite pokrenuti privatni LN čvor na svom mobitelu, evo tri detaljna vodiča o svim LN aplikacijama uspoređujući ih prema vrsti i značajkama:</p>
+<ul>
+ <li><a href="/wallets/lightning-wallets-comparison-hr.html">Vodič za usporedbu Lightning novčanika</a></li>
+ <li><a href="/nodes/private-ln-nodes-hr.html">Čvorovi privatne mreže Lightning</a></li>
+ <li><a href="/beginner/getting-started-stack-sats-hr.html">Početak slaganja Sats Noob Journey</a></li>
+</ul>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">Koju vrstu čvora želite pokrenuti (javni ili privatni)?</h2>
+<p>Mnogi novi korisnici niti ne znaju za postojanje ovih izraza: javni ili privatni čvor.</p>
+<h3 style="color:Yellow;">JAVNI LN čvor znači:</h3>
+<ul>
+<li>vaši kanali su javno objavljeni na LN grafikonu i mogu biti vidljivi sa svim svojim detaljima u bilo kojem <a href="https://darthcoin.substack.com/p/lightning-network-is-awesome#%C2% A7tools-explorers-analyzers-stats">Lightning Node Explorer</a> (mempool, amboss, 1ML itd.).</li>
+<li>Vaš ID čvora i naziv, IP, Tor URL su vidljivi i mogu se pregledati na bilo kojem <a href="https://darthcoin.substack.com/p/lightning-network-is-awesome#%C2%A7tools -explorers-analyzers-stats">LN Explorer</a>.</li>
+<li>vaši LN kanali MOGLI OBAVLJATI USMJERAVANJE drugih tx-ova, to čak znači da će čak i ako ne izvršite plaćanje za sebe, vaš čvor i dalje premještati sredstva, prosljeđujući plaćanja koja dolaze kroz vaš čvor, tako da će neki kanali crpiti likvidnost i neki drugi će se popuniti. Stoga ćete morati pronaći metode za održavanje ravnoteže između njih. <a href="/nodes/lightning-routing-fees-experiment-hr.html">Kao što sam ovdje detaljnije objasnio</a>.</li>
+<li>morat ćete intenzivno upravljati likvidnošću za svoje kanale ako stvarno želite da vaš čvor radi usmjeravanje.</li>
+<li>morate održavati svoj čvor 365/24/7 na mreži (ili onoliko koliko je moguće) kako bi vaš čvor mogao imati dobru pouzdanost, dostupnost i središnji položaj te povećati svoj rang.</li>
+<li>ako želite pokrenuti javni čvor za usmjeravanje, ali i dalje želite zadržati određenu razinu privatnosti, možete koristiti Tor čvor (prilično je loš za usmjeravanje) i staviti ga iza VPS clearnet poslužitelja, koristeći <a href ="https://tunnelsats.com/">TunnelSats.com</a> ili koristite više metoda mamaca, <a href="/merchants/operating-ln-as-merchant-hr.html">kako sam objasnio u ovom vodiču</a>.</li>
+<li>javni čvor i dalje može imati privatne kanale (nenajavljene), ali oni uopće NEĆE VRŠITI ROUTING. Ako imate dobar javni čvor za usmjeravanje, još uvijek možete ponuditi privatne kanale za mobilne korisnike, na taj način im nudite svoju javnu likvidnost. <a href="/merchants/private-banks-over-ln-hr.html">Kao što sam objasnio u ovom namjenskom vodiču</a>.</li>
+</ul>
+
+<h3 style="color:Yellow;">PRIVATNI LN čvor znači:</h3>
+<ul>
+<li>vaši kanali su SAMO nenajavljeni (privatni) na LN grafikonu i NISU VIDLJIVI ni na jednom javnom LN pretraživaču. Ovi kanali koriste savjete o ruti kako bi mogli izvršiti plaćanja. Savjeti za rutu daju javni čvorovi s kojima su povezani.</li>
+<li>vaš LN čvor NIJE VIDLJIV ili ga se može pregledati na bilo kojem LN pretraživaču.</li>
+<li>možete vršiti i primati plaćanja, ali NEĆETE MOĆI vršiti usmjeravanje. Usmjeravanje znači prosljeđivanje plaćanja drugim čvorovima kroz vaš čvor.</li>
+<li>ne morate raditi nikakvo rebalansiranje ili kanalizirati likvidnost, samo u slučajevima kada trebate primiti ili poslati više s određenog kanala.</li>
+<li>ne morate stalno držati svoj privatni LN čvor online. Ali barem svaka 2-3 dana otvorite ga, pustite da se sinkronizira i čak izvršite neka plaćanja, čak i ona mala. Imajte neku aktivnost, inače bi vaši vršnjaci mogli protumačiti da je mrtav zombi čvor i prisiliti će zatvoriti kanal s vama.</li>
+<li><a href="/nodes/private-ln-nodes-en.html">Ovdje možete pronaći namjenski vodič o privatnim svjetlosnim čvorovima</a>.</li>
+</ul>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">S kojim čvorovima ravnopravnim čvorovima biste se trebali povezati?</h2>
+<p>Ovo je prilično složeno pitanje i svatko bi trebao napraviti vlastitu analizu na temelju korištenja svog čvora.</p>
+<p>Počinjem graditi osobni popis čvorova, ručno odabranih, nakon što sam ih pratio nekoliko dana. Ne kažem da su ti čvorovi najbolji, ali volim pratiti čvorove s kojima se želim povezati.</p>
+<p>Povremeno ću ga ažurirati, na temelju osobnih i ručnih kriterija, promatrajući njihovu aktivnost na <a href="https://mempool.space/lightning">Mempool LN</a> ili <a href="https: //amboss.space/">Amboss.space</a> LN explorer i drugi alati. Moji kriteriji se ne temelje na BOS rezultatima i sličnim stvarima. Više o tome koji je njihov L2 veza, kolike su im naknade, koliko često otvaraju/zatvaraju kanale, koliko vremena održavaju svoj čvor online. Razmislite više o tome kako će se VAŠI tx-ovi usmjeravati kroz te čvorove i kasnije se pozabavite čvorom za usmjeravanje.</p>
+<p>Također nije potrebno spajati se na sve s ovog popisa. Ali neke od njih je dobro imati kao svoje vršnjake.</p>
+<p>Još jedan važan aspekt za mene pri odabiru ravnopravnih korisnika je: izbjegavajte te čvorove koji koriste pretjerane naknade samo da bi druge korisnike potkrali u naknadama. Nije me briga za ono što drugi pokušavaju reći da je utrka za stjecanjem kapitala na LN-u, ali za mene je LN više način za jeftine i brze transakcije, a ne za "zaradu satova" od usmjeravanja. Dakle, ako se čvor s visokim osnovnim naknadama i/ili ppm-om spoji na moj čvor, onemogućit ću kanal ili ga jednostavno zatvoriti.</p>
+<p>Prije svega, ovo je dobar početak za povezivanje s jednim od ovih trgovačkih čvorova iz ove <a href="https://amboss.space/community/06027a31-cf60-49c1-be86-210257add36f">Amboss zajednice Trgovački čvorovi</a>. Oni trebaju ulaznu likvidnost, pa ako imate novi čvor, vi pomažete njima, oni pomažu vama.</p>
+<p>Ovdje je i <a href="https://basefee.ln.rene-pickhardt.de/">veliki popis od 0 čvorova s ​​osnovnom naknadom</a>, čiji je kustos René Pickhardt.</p>
+<p>Razmislite i o <a href="https://amboss.space/community/fa2a3e5a-769c-4cbf-ab9d-7ed8680a9ec6">zajednici Zero Base Fee</a> na Ambossu i svim drugim <a href ="https://amboss.space/community">Amboss zajednice</a>.</p>
+<p>Redoslijed popisa je nasumičan, bez preferencija.</p>
+
+<h4 style="color:Yellow;">PROMATRANI ČVOROVI prema kategoriji</h4>
+<p>Redoslijed popisa je nasumičan, nema postavki, samo je referenca i orijentacija.</p>
+<h5>LSP čvorovi (pružatelji usluga likvidnosti)</h5>
+<p>Ovo su vrlo važni izvori, jer su dobro povezani, njihova centralnost je dobra i posvećeni su velikoj pouzdanosti i velikoj likvidnosti. Ne koriste svi niske naknade, ali općenito da, jer razmišljaju o velikoj količini prijenosa.</p>
+<p>Ovi čvorovi trebaju likvidnost na obje strane kanala, stoga je dobro da ih promatrate i održavate tu ravnotežu kada je to potrebno. Prilagodite naknade i min/max HTLC u skladu s tim ili čak napravite kružnu ravnotežu između ostalih svojih kanala.</p>
+<ul>
+<li>⚡ <a href="https://mempool.space/lightning/node/03d35779ff612c574b92494d74300ce467e0eb510181a6ae3eb74d8ada891d82aa">IBEX</a> - dinamičke naknade | 3M min chan | bilješka 6/10 | LATAM razmjena LSP</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/03aefa43fbb4009b21a4129d05953974b7dbabbbfb511921410080860fca8ee1f0">Protok napona</a> - pravilo 1/500 | 1M min chan | bilješka 8/10 | dobra likvidnost</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/0242a4ae0c5bef18048fbecf995094b74bfb0f7391418d71ed394784373f41e4f3">CoinGate</a> - Pravila 1/1 | 1M min chan | bilješka 8/10 | ogroman čvor</li>
+<li>⚡ <a href="https://amboss.space/search?term=bG5iaWc=">LNBig</a> - niska dinamika | nema min chan | bilješka 8/10 | različiti čvorovi likvidnosti</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/026af41af0e3861ba170cc0eef8f45a1015125dac57c28df53752dcaeea793b28f">BitcoinVN</a> - 1/dinamički | 6M min chan | bilješka 8/10 | Vijetnamska burza / LSP</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/02e4971e61a3f55718ae31e2eed19aaf2e32caf3eb5ef5ff03e01aa3ada8907e78">FlashSats</a> - Pravila 0/0 | 5M min chan | bilješka 8/10 | nudi dolazni LSP</li>
+<li>⚡ <a href="https://lnserver.com/">LNServer</a> - Pravila 0/0 | 2M min chan | bilješka 8/10 | nudi dolazni LSP</li>
+<li>⚡ <a href="https://megalithic.me/">Megalithic</a> - Pravila 0/0 | 1M min chan | bilješka 9/10 | nudi dolazni LSP</li>
+</ul>
+
+<h5>Razmjene/zamjene čvorova</h5>
+<p>Ljudi počinju koristiti više razmjena koje nude isplate preko LN-a. I njima je potrebna likvidnost, a vi možete biti most između burzi i korisnika. Klijenti vaše banke također žele kupiti više satnica, koristeći kanale vaše banke.</p>
+<p>Ovi čvorovi trebaju više ravnoteže na svojoj strani. Dakle, morat ćete gurnuti više satnica na njihovu stranu, tako da mogu imati više likvidnosti za povlačenja korisnika. Ovo je dobar par za kružno rebalansiranje s trgovačkim kanalima.</p>
+<ul>
+<li>⚡ <a href="https://mempool.space/lightning/node/026165850492521f4ac8abd9bd8088123446d126f648ca35e60f88177dc149ceb2">Boltz</a> - 1/dinamički ppm | 1M min chan | bilješka 8/10 | čvor zamjene</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/0374eb2306a27dffd657c781065bd11785588f4811c4949070f8aed79e95a97db4">Cik-cak</a> - Politika 1/1 | nema min chan | bilješka 7/10 | čvor zamjene</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/037f990e61acee8a7697966afd29dd88f3b1f8a7b14d625c4f8742bd952003a590">FixedFloat</a> - Pravila 1/1 | 10M min chan | bilješka 7/10 | čvor zamjene</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/024bfaf0cabe7f874fd33ebf7c6f4e5385971fc504ef3f492432e9e3ec77e1b5cf">Deezy</a> - 0/dinamički | 400 tisuća min| bilješka 8/10 | čvor zamjene</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/03037dc08e9ac63b82581f79b662a4d0ceca8a8ca162b1af3551595b8f2d97b70a">Rijeka</a> - 0/dinamički | 10M min | bilješka 8/10 | veliki razmjenski čvor</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/02868e12f320073cad0c2959c42559fbcfd1aa326fcb943492ed7f02c9820aa399">CoinOS</a> - Pravila 1/1 | nema min chan | bilješka 6/10 | čvor zamjene</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/02f1a8c87607f415c8f22c00593002775941dea48869ce23096af27b0cfdcc0b69">Kraken</a> - 0/dinamički | 1M min chan | bilješka 7/10 | razmjenski čvor</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/037659a0ac8eb3b8d0a720114efc861d3a940382dcfa1403746b4f8f6b2e8810ba">NiceHash</a> - 1/dinamički | 500k min chan | bilješka 7/10 | razmjenski čvor</li>
+<li>⚡ <a href="https://amboss.space/search?term=YmZ4">Bitfinex</a> - Pravila 1/1 | 2M min chan | bilješka 7/10 | razni čvorovi</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/0247719ca61fa34ce383634a30b9cde6a2b396a8a6e2974dbbd4ebbe93e093ad2c">Biscoint.io</a> - Pravila 0/0 | nema min chan | bilješka 7/10 | Brazilska razmjena</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/0260fab633066ed7b1d9b9b8a0fac87e1579d1709e874d28a0d171a1f5c43bb877">SouthxChange</a> - 0/dinamički | nema min chan | bilješka 7/10 | razmjenski čvor</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/02fe80fb6a2dc0fb6e9bec49c76d048889c91355d4e900fcb026bf095665790325">Kollider</a> - 1/dinamički | 2M min chan | bilješka 7/10 | razmjena derivata</li>
+</ul>
+
+<h5>Čvorovi pružatelja novčanika</h5>
+<p>Ako želite imati izravne brze rute i interoperabilnost između mnogih mobilnih korisnika, trebali biste biti dobro povezani s tim čvorovima. To će vama i vašim "bankarskim klijentima" ponuditi brzu i pouzdanu rutu za transakcije s drugim korisnicima putem Lightning mreže.</p>
+<p>Ovi čvorovi trebaju likvidnost s obje strane ili promatrajte ponašanje svojih korisnika, možda imate više spasitelja nego potrošača. Ideja je ne začepiti ih, potrebno je ostati bez likvidnosti sa strane.</p>
+<ul>
+<li>⚡ <a href="https://mempool.space/lightning/node/0230a5bca558e6741460c13dd34e636da28e52afd91cf93db87ed1b0392a7466eb">Blixt</a> - 1/dinamički ppm | nema min chan | bilješka 8/10 | LSP pružatelj, LN novčanik</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/031b301307574bbe9b9ac7b79cbe1700e31e544513eae0b5d7497483083f99e581">Olympus LSP</a> - dinamički | Veličina kanala 1M | bilješka 9/10 | <a href="https://lsps1.olympusln.com/">LSP pružatelj usluga</a>, LN novčanik</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/035e4ff418fc8b5554c5d9eea66396c227bd429a3251c8cbc711002ba215bfc226">WoS</a> - 0/dinamički | nema min chan | bilješka 7/10 | velika pokrivenost korisnika</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/03864ef025fde8fb587d989186ce6a4a186895ee44a926bfc370e2c366597a3f8f">Acinq</a> - 1/dinamički | nema min chan | bilješka 7/10 | Dobavljač novčanika Phoenix</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/031015a7839468a3c266d662d5bb21ea4cea24226936e2864a7ca4f2c3939836e0">Breez</a> - 0/dinamički | 3M min chan | bilješka 7/10 | Dobavljač novčanika Breez</li>
+<li>⚡ <a href="https://amboss.space/search?term=YWxieQ==">Alby</a> - Pravila 1/1 | 4M min chan | bilješka 7/10 | Novčanik preglednika Alby, različiti čvorovi</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/023dff2a4301df8142a44d30606f0f2173e6dab0d297a412bda2e5c289ee30ae3c">Strike</a> - imaju mnogo čvorova, dobri su kao peer za ogromnu mrežnu povezanost</li>
+<li>⚡ <a href="https://zebedee.io/nodes">Zebedee čvorovi</a> - čvorovi novčanika za igre, trebaju likvidnost / trebate veze</li>
+</ul>
+
+<h5>Čvorovi trgovaca/pružatelja usluga</h5>
+<p>Ovo je također važan izvor da klijentima svoje banke ponudite izravne kanale s onim trgovcima koje više koriste. Dakle, ako već znate koje trgovce žele koristiti, otvorite kanale s njima. Ne samo da nudite likvidnost za vlastite bankovne korisnike, već i za vanjske LN korisnike koji plaćaju tim trgovcima. Provjerite na <a href="https://btcmap.org/">BTCMap</a> one trgovce u blizini i pitajte ih trebaju li likvidnost. Zatim otvorite kanal s njihovim čvorom.</p>
+<p>Ovi čvorovi trebaju više ravnoteže na vašoj strani kanala. Zašto? Jer ćete imati više korisnika koji plaćaju prema njima. Stoga su dobar par za kružno ponovno balansiranje kanala iz razmjena.</p>
+<ul>
+<li>⚡ <a href="https://mempool.space/lightning/node/02816caed43171d3c9854e3b0ab2cf0c42be086ff1bd4005acc2a5f7db70d83774">Preklop</a> - 1/dinamički ppm | nema min chan | bilješka 7/10 | satsback, pružatelj kartice</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/03271338633d2d37b285dae4df40b413d8c6c791fbee7797bc5dc70812196d7d5c">LNMarkets</a> - dobar peer, puno tx-ova, omogućite trgovanje na LN</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/025f1456582e70c4c06b61d5c8ed3ce229e6d0db538be337a2dc6d163b0ebc05a5">Mjesec</a> - Pravila 1/1 | nema min chan | bilješka 7/10 | davatelj kartice, dobre veze</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/03f15fc38f36e88bf1d799994d38e10902318287a53eb413b5e8ab0046d863bace">OSHI</a> - 0/dinamičke naknade | bilješka 6/10 | previše invalida ch | oshi.app</li>
+<li>⚡ <a href="https://amboss.space/community/06027a31-cf60-49c1-be86-210257add36f">Zajednica trgovaca</a> - razni trgovački čvorovi u Amboss zajednici</li>
+</ul>
+
+<h5>Vatreni prstenovi, zamjene likvidnosti, NodeRunners zajednice</h5>
+<p>Ovo je posebna kategorija, nije obavezna. Dobro je za početak, kada nemate toliko kanala i želite da vaš čvor postane “vidljiviji” u mreži. Nemojte ga pretjerano koristiti jer nisu svi čvorovi dobri za vaše potrebe. Mnogi od njih samo žele "pasivni prihod" i pokušavaju izvući satove iz vaših naknada za čvorove.</p>
+<p>Ovi će vam čvorovi uvijek nuditi već balansirane kanale, koristeći prstenaste alate. To je dobra stvar za početak, imat ćete likvidnost na obje strane. Također, ako ste novi u pokretanju čvora, RoF zajednica je od velike pomoći i dat će vam najbolje savjete za konfiguriranje vašeg čvora.</p>
+<p>Telegram grupe: <a href="https://t.me/theRingsOfFire">Rings of Fire</a>, <a href="https://t.me/SatoshiRadioROF">Satoshi Radio</ a>, <a href="https://t.me/plebnet">Plebnet</a> ili <a href="https://lightningnetwork.plus/">LightningNetwork.Plus</a> - nevjerojatna mreža za udruživanje u prstenove s drugim plebsom.</p>
+<p><a href="https://darthcoin.substack.com/p/lightning-network-is-awesome#%C2%A7tools-explorers-analyzers-stats">Pogledajte odjeljak o alatima za LN čvorove</a > na ovom sjajnom popisu sa stvarima koje možete raditi na LN-u i koristiti ih za podešavanje vašeg čvora.</p>
+
+<h5>Ostali dobri čvorovi</h5>
+<p>Ovo je kategorija čvorova koje možete proširiti kada je vaš čvor već dobro povezan i želite doseći vanjska ograničenja LN galaksije. Jesu li čvorovi kojima želite pomoći, čvorovi koji su iz drugih “LN banaka” i želite biti povezani te nisu ni iz jedne od prethodnih kategorija.</p>
+<p>Ali budite svjesni, birajte ih s oprezom i promatrajte ih tijekom početnog razdoblja. Ako se ne isplati, zatvorite ih. Čvorovi koji ne pomiču niti jedan sat tijekom određenog razdoblja potpuno su beskorisni.</p>
+<ul>
+<li>⚡ <a href="https://mempool.space/lightning/node/03c72f89b660de43fc5c77ef879cbf7846601af88befb80e436242909b14fd0495">RecklessApotheosis</a> - 0/dinamički ppm | nema min chan | bilješka 8/10 | plebnet čvor</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/0356c1091bb139ad3520eb370f1512ac2f4ed67b87d2687638252152fbf2b4575f">BlackBox</a> - 0,4/dinamičke naknade | 5M min ch| bilješka 8/10 | obostrani pokretač, dobar kolega</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/03dd09855c3634daa5c7de0146f4d54eb395b51ae422bc86ee1132a0d7ed50e720">Had</a> - 0/dinamički ppm | 5M min ch | bilješka 8/10 | zanimljiv čvor, niske naknade</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/038baffac55a282ae73e0627146a12a345f7beccb90dec07280e8b970a072849cf">Satstacker</a> - Pravila 0/1 | 1M min chan | bilješka 8/10 | dobro povezani, surađuju</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/02664c4ed5e60b2f5119e8430f26e5e671fe2199ffaa18de452d29c454db065b02">Južna Koreja</a> - 0/dinamički ppm | nema min chan | bilješka 7/10 | plebnet čvor</li>
+<li>⚡ <a href="https://mempool.space/lightning/node/03e81689bfd18d0accb28d720ed222209b1a5f2c6825308772beac75b1fe35d491">Rust-eze</a> - 0/dinamički | 1M min chan | bilješka 7/10 | obećavajući pleb čvor</li>
+<li>Za mobilne privatne LN čvorove, <a href="https://github.com/hsjoberg/blixt-wallet/issues/1033">ovdje je popis dobrih čvorova zajednice</a> koji prihvaćaju privatne kanale .</li>
+</ul>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">Kako ćete upravljati likvidnošću kanala?</h2>
+<h3 style="color:Yellow;">A - Za javni čvor usmjeravanja</h3>
+<p>Prije nego što počnemo, označite ovaj odličan poseban vodič “Konfiguracija čvora za usmjeravanje” - LND tim. Ovo je vodič koji MORATE pročitati i koristiti.</p>
+<p>Dobar 3-5-10-20M satelitski kanal (ili čak i veći) s jednim od ovih bit će dobro imati za vaš novi čvor. Ne otvarajte kanal za manje od 3 milijuna sati. Bit će beskoristan. Kanali manji od 3M satelita uglavnom će biti zanemareni za usmjeravanje.</p>
+<p>Također su troškovi otvaranja i zatvaranja malih kanala previsoki da bi se mogli pokrenuti. Kada otvorite kanal postoje mnoge "rezerve" i skriveni troškovi koje noobovi obično ne znaju ili ih ignoriraju, ali onda kasnije plaču "zašto se moj saldo kanala od 20 tisuća satova smanjuje"?". Imate rezervu sidrenog kanala, imate rezervu kanala, imate naknade za obvezu koje mogu varirati u vremenu i utjecati na dostupne satove vašeg kanala, imate HTLC min/max koji vaši kolege mogu postaviti.</p>
+<p>Dakle, kako biste izbjegli sve ove probleme, samo otvorite min 3M sats kanal i zaboravite.</p>
+<p>Odaberite mudro ravnopravnog partnera i provjerite LN Node Insight koji simulira kanal sa svakim od njih i vidite koje će prednosti donijeti vašem čvoru.</p>
+<p>Jednom kada otvorite kanal, ovisno o vašoj dostupnoj izlaznoj/ulaznoj likvidnosti, izvucite nešto poput 30-40-50 % te likvidnosti kako biste malo uravnotežili novostvoreni kanal. To će vam pomoći da dobijete stisak. Možete koristiti privremeni vanjski LN novčanik ili jednostavno zamijeniti u onchain. Ta loop out sredstva će vam kasnije pomoći da otvorite više kanala.</p>
+<p>Za ulaz/izlazak sats možete koristiti:</p>
+<ul>
+<li><a href="https://boltz.exchange/">Boltz.exchange</a> - jednostavno, brzo, zamjene s LN na onchain</li>
+<li><a href="https://swapmarket.github.io/">Tržište zamjena</a> - na temelju Boltzova koda, uključite druge zamjene bez skrbništva</li>
+<li><a href="https://deezy.io/">Deezy.io</a> - jednostavno brzo, LSP, zamjene LN - onchain</li>
+<li><a href="https://coinos.io/">CoinOS.io</a> - web novčanik, onchain, LN, zamjene, skrbnički ili neskrbnički</li>
+<li><a href="https://zigzag.io/">ZigZag.io</a> - jednostavno brzo, zamjene s LN na onchain (budite svjesni, ponekad brzo ponestane likvidnosti)</li>
+<li><a href="https://fixedfloat.com/">FixedFloat</a> - jednostavno brzo, zamjene s LN na onchain</li>
+<li>Integrirane zamjene u RTL i Thunderhub (koriste Loop i Boltz)</li>
+<li><a href="http://robosats6tkf3eva7x2voqso3a5wcorsnw34jveyxfqi2fu7oyheasid.onion/">RoboSats</a> (link na luk) - fiat <--> LN i LN <-->onchain zamjene, potpuno privatno, samo Tor</
+<li><a href="https://swap.diamondhands.technology/">DiamondHands</a> - vodi japanska zajednica pokretača čvorova</li>
+<li><a href="https://submarineswaps.org/">Submarine Swaps</a> - vodi Alex Bossworth (LND dev)</li>
+<li><a href="/nodes/lightning-submarine-swaps-hr.html">Ovdje sam napisao poseban vodič o LN zamjenama podmornica</a></li>
+</ul>
+<p>Za javni čvor usmjeravanja ovo je najvažnije izvješće o grafikonu: VAŠE UKUPNO izvješće o likvidnosti (snimka zaslona iz web-aplikacije za upravljanje čvorom Thunderhub)</p>
+<p><img src="/assets/images/liquidity-report-th.jpg" class="center"></p>
+<p>Kao što vidite, nije toliko važno održati savršenu ravnotežu na svakom kanalu, već na vašoj ukupnoj ulaznoj i izlaznoj likvidnosti. Poremećaj ove ravnoteže, recimo da imate 60% izlazne i 40% ulazne ukupne likvidnosti, mogao bi izravno utjecati na vaše usmjeravanje, imat će manje preusmjerenih plaćanja. Zašto? Jer ako nemate dovoljno “prostora” za primanje i prosljeđivanje plaćanja, vaš će čvor odbiti rutu.</p>
+<p>Ovaj nedostatak likvidnosti možete prilagoditi pomoću:</p>
+<ul>
+<li>izvršite zamjenu unutar ili van u kanal koji je isušen ili previše ispunjen</li>
+<li><a href="https://thebitcoinmanual.com/articles/bitcoin-app-lightning-loop/">upotrebom Lightning Terminal Loop</a></li>
+<li><a href="https://github.com/cryptosharks131/lndg">upotrebom LNDg alata za automatsko podešavanje likvidnosti</a></li>
+<li>prilagodite naknade za određene kanale kako biste gurnuli likvidnost na stranu gdje je najpotrebnija</li>
+<li><a href="/nodes/lightning-routing-fees-experiment-hr.html">prilagodite minimalnu ili maksimalnu količinu HTLC-a (sustav ventila)</a></li>
+<li><a href="https://notgeld.medium.com/how-to-optimize-lightning-node-centrality-e197d74eab90">optimizirajte središnji čvor</a> - vrlo dobar vodič</li>
+</ul>
+<p><a href="https://www.lopp.net/lightning-information.html#node_tools">Ovdje u ovom vodiču</a> također možete pronaći više alata za upravljanje čvorovima, automatizirano skriptiranje, balansiranje.< /p>
+<p>Opće preporuke za javne čvorove usmjeravanja:</p>
+<ul>
+<li>pokušajte kanal držati otvorenim što je više moguće. Ali ako je kanal prilično mali i vidite da kroz njega imate dosta prosljeđivanja, zatvorite ga i otvorite veći.</li>
+<li>čuvajte svoj čvor što je više moguće pouzdanim. Reputacija vašeg čvora ovisi o tome.</li>
+<li>nemojte pokretati Tor samo čvor ako želite raditi usmjeravanje. Usmjeravanje znači JAVNO. Čvorovi samo za Tor neće biti pouzdani i dostupni 100% i to će utjecati ne samo na vas nego i na sve ostale u mreži.</li>
+<li>Ako želite privatnost prije usmjeravanja, NE POKRENITE JAVNI ČVOR!</li>
+</ul>
+
+<h3 style="color:Yellow;">B - Za privatne LN čvorove</h3>
+<p>U ovoj kategoriji je prilično jednostavno i sve ovisi o vašoj upotrebi ovih privatnih LN čvorova.</p>
+<p>U osnovi morate pronaći neke dobre javne čvorove na koje ćete se povezati:</p>
+<ul>
+<li>da vam osiguramo najniže moguće naknade</li>
+<li>prihvatite otvaranje manjih kanala</li>
+<li>prihvatite otvaranje privatnih kanala i ostavite ih otvorenima sve dok imate aktivnosti</li>
+<li>pružiti dobre i brze putove plaćanja</li>
+</ul>
+<p>Čak i s ovim, pokušajte izbjeći otvaranje manjih kanala, poput 20-50-100k sat. Redoviti kanal od 1-5 milijuna satelita bit će u redu, dovoljno da vam osigura dobar iznos plaćanja.</p>
+<p>Također pripremite 2-3-4 kanala na vašem mobilnom privatnom čvoru. Zašto ne samo 1? Budući da nikada ne znate kada je vaš kolega offline ili nema dobre rute, a također s najmanje 3 kanala možete koristiti MPP (multi-part payment), spajajući iznos plaćanja u manje dijelove i šaljući kroz više ruta. Ovaj aspekt ne samo da će povećati vašu privatnost, već je i učinkovitiji način korištenja vaših kanala i mreže.</p>
+<p>Za Blixt LN čvor <a href="https://blixtwallet.github.io/guides">Na njihovoj stranici s dokumentima napisao sam više scenarija upotrebe i upravljanja kanalima</a>.</p>
+<p>Za Breez, Electrum LN čvor <a href="/nodes/private-ln-nodes-hr.html">Ovdje sam napisao neke scenarije za likvidnost</a>.</p>
+<p>Za Zeus je nedavno predstavljen ugrađeni LND čvor tako da korisnici mogu pokrenuti Zeus čvor na svojim mobilnim uređajima.</p>
+<ul>
+<li><a href="/wallets/getting-started-zeus-wallet-hr.html">Ovdje sam napisao vodič za početak rada za Zeus LN čvor</a></li>
+<li><a href="/wallets/zeus-node-advanced-usage-hr.html">Ovdje sam napisao napredni vodič za Zeus LN čvor</a></li>
+<li><a href="https://docs.zeusln.app/category/embedded-node">Ovdje pročitajte više dokumentacije o tome kako koristiti njihov integrirani LSP i čvor</a>.</li>
+</ul>
+<p>Za Phoenix bih predložio sljedeći scenarij:</p>
+<p>Phoenix otvara kanal malo veći od onoga što ulažete, mogao bih reći s 10% više. I za svako otvaranje kanala naplaćuje se naknada od 3000. Ako počnete trošiti iz tog kanala, nemojte potrošiti sve, jer će ga zatvoriti. Ako ostavite neke satove u kanalu i napravite još jedan depozit iz drugog LN novčanika, ali ne više od veličine kanala, satovi će stati u taj već otvoreni kanal i neće otvarati novi. Dakle, nema više naknade od 3000 sats.</p>
+<p>Ako uplatite s onchain adrese, to će otvoriti novi kanal čak i ako već imate skoro prazan kanal.</p>
+<p>Predlažem da prvi put napravite veći depozit i tako otvorite veći kanal. Trošite s tog kanala polako dok ne dosegnete saldo od 1%. Zatim dopunite. do 99%. I tako dalje. Na taj način održavate taj kanal otvorenim i plaćate manje naknade.</p>
+<p>Također imajte na umu da nakon što otvorite veći kanal i ne želite otvoriti više kanala, greškom onemogućite opciju “automatsko stvaranje kanala u hodu” u Postavkama - Mogućnosti plaćanja i naknade. Aktivirajte tu opciju samo kada želite otvoriti nove kanale. Upamtite, ako nemate dovoljno “prostora” za primanje, plaćanje neće uspjeti, a ta će opcija biti onemogućena.</p>
+<p>Ako kod kuće pokrećete vlastiti desktop čvor, također možete koristiti:</p>
+<ul>
+<li><a href="https://darthcoin.substack.com/p/the-bank-of-lnbits">LNBits lndhub</a></li>
+<li><a href="https://github.com/boltcard">BoltCard lndhub</a></li>
+<li><a href="https://docs.lightning.engineering/lightning-network-tools/lightning-terminal/accounts">Lightning Terminal LN računi</a></li>
+<li><a href="https://docs.btcpayserver.org/LNbank/">BTCPay LN bankovni dodatak</a></li>
+<li><a href="/wallets/getting-started-alby-hub-hr.html">Alby Hub, hostiran sam sa značajkom "uncle Jim"</a></li>
+</ul>
+<p>Dakle, praktički možete biti svoj vlastiti LSP za manje količine LN računa iz vlastitog čvora, bez otkrivanja vaše rupe likvidnosti, informacija o čvoru i pristupa. Za te račune možete koristiti mobilne aplikacije Zeus ili Bluewallet ili BoltCard, pa čak i Alby kao proširenje preglednika.</p>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">ZAKLJUČAK</h2>
+<p>Kao što vidite postoji mnogo načina za korištenje Lightning Networka, a ne samo "Pokreni Umbrel čvor", a korisnici bi trebali mudro odabrati put koji žele slijediti, a koji bi mogao bolje služiti njihovim potrebama i slučajevima korištenja.< /p>
+<p>Nadam se da će vam ovaj vodič pojasniti put, novom korisniku LN-a koji pokušava razumjeti sve ove pojmove o usmjeravanju, čvorovima, likvidnosti, a ne znate odakle početi.</p>
+<p>Znam da ste možda očekivali da ćete u ovom vodiču vidjeti više tehničkih objašnjenja, dijagrama, grafikona itd., ali to nije cilj ovog vodiča. Cilj je da počnete koristiti svoj mozak, pročitate sve umetnute poveznice (koje će vas odvesti do mnogih drugih detaljnih vodiča), proširite svoje znanje. Neki aspekti ovdje nisu niti spomenuti, ne da bi se sakrili od vas ili da bi vam odvratili pažnju, već da biste više čitali te umetnute poveznice.</p>
+<p>Znam da to nije jednostavno putovanje jer sam bio u istoj situaciji kao i ti, mučio sam se razumjeti sve te aspekte. Ali bio sam uporan u čitanju, testiranju, učenju više metoda, slušanju puno video demonstracija, razgovorima sa stručnjacima, razvojnim programerima.</p>
+<p>Sada vam samo želim vratiti svoje prikupljeno znanje, kako bih vam pomogao pronaći prave informacije za svaki slučaj upotrebe. Ponekad mnogi korisnici tumaraju isprobavajući komplicirane stvari i metode, a da ne znaju da postoje i jednostavna rješenja, koja ponekad nisu tako dobro predstavljena u zajednici ili nemaju veliki marketinški proračun za koji bi se mogli sve pohvaliti.</p>
+</body>
+</html>
+</article>
