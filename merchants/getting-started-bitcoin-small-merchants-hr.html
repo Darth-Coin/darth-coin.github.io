@@ -1,0 +1,401 @@
+---
+layout: default
+title: Prvi koraci s Bitcoinom za trgovce
+---
+<article>
+<!DOCTYPE html>
+<html lang="hr">
+<meta name="description" content="Vodiči za Bitcoin i Lightning Nodes: Koja biste Bitcoin LN rješenja mogli početi koristiti kao mali trgovac.">
+<body>
+<a href="/merchants/getting-started-bitcoin-small-merchants-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/getting-started-bitcoin-small-merchants-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/getting-started-bitcoin-small-merchants-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/getting-started-bitcoin-small-merchants-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/getting-started-bitcoin-small-merchants-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/getting-started-bitcoin-small-merchants-nl.html">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/getting-started-bitcoin-small-merchants-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<em><blockquote style="color:Tomato;">
+<p>Izvorno objavljeno na <a href="https://darthcoin.substack.com/p/bitcoin-for-small-merchants">Substack</a> 26. listopada 2021. Ovdje ažurirano 3. prosinca 2024. .</p>
+</em></blockquote>
+
+<h3>Koja biste Bitcoin LN rješenja mogli početi koristiti kao mali trgovac.</h3>
+<p>Mnogo sam puta čuo ovo pitanje: "Kako početi prihvaćati Bitcoin, kao mali trgovac?"</p>
+<p>Ovdje bih želio predstaviti neka jednostavna, brza rješenja, poligon za testiranje, male jednostavne korake, za nove korisnike koji još uvijek ne mogu/ne žele pokrenuti stroj s punim LN čvorom.</p>
+
+<h4>Ciljevi koje treba postići:</h4>
+<ul>
+<li>Trgovac želi početi prihvaćati BTC putem LN-a, uz jednostavne korake, dovoljno da ga testiraju, da nauče kako funkcionira i da mogu primati BTC.</li>
+<li>Najniža moguća cijena</li>
+<li>Prilagodite se uvjetima Bitcoin i Lightning Network, kako koristiti novčanike, QR kodove, LN fakture, LNURL, naknade itd</li>
+<li>Način premještanja primljenih sredstava u "hodling" novčanik</li>
+<li>Pripremite način razmišljanja za sljedeći korak: pokretanje trgovačkog LN čvora. ova su rješenja samo prvi korak, privremeni, dok trgovac ne bude spreman imati potpuni čvor, vlastitu banku za upravljanje vlastitim novcem.</li>
+<li>Pristup WP Woocommerce dodatku za brzu integraciju s postojećim web trgovinama za e-trgovinu</li>
+<li>Ovo NIJE dugoročno rješenje samo da bismo vas pripremili i razumjeli kako Bitcoin LN funkcionira za malu trgovinu. Za dugoročno rješenje i samostalno skrbništvo pogledajte <a href="#advanced">odjeljak Napredna rješenja u nastavku.</a></li>
+</ul>
+
+<h3 style="color:Orange;">Dostupna rješenja:</h3>
+<p>Svaki ima svoje posebnosti, značajke, razinu složenosti i slučajeve upotrebe. Predlažem da počnete koristiti 2-3 od njih i udobno se smjestite, dok u međuvremenu proučavate druge.</p>
+<ul>
+<li><a href="#coinos">CoinOS</a> - skrbnički, vrlo jednostavna integracija, NWC, nije potrebna aplikacija</li>
+<li><a href="#walletano">Walletano</a> - skrbništvo, vrlo jednostavna integracija, nije potrebna aplikacija</li>
+<li><a href="#ibex">IBEX Pay</a> - skrbništvo, složena nadzorna ploča trgovca, višestruke značajke, pretvorba fiata, Woocommerce dodatak</li>
+<li><a href="#blink">Blink Wallet</a> - skrbništvo, LN adresa, PoS, API</li>
+<li><a href="#opago">Opago Pay</a> - ne-skrbnički, jednostavan izvanmrežni PoS, fiat konverzija, Woocommerce dodatak</li>
+<li><a href="#swisspay">Swiss Bitcoin Pay</a> - skrbnička, jednostavna aplikacija, PoS aplikacija, Woocommerce dodatak</li>
+<li><a href="#lifpay">LifPay</a> - skrbnička, jednostavna aplikacija, PoS, NWC</li>
+<li><a href="#opennode">OpenNode</a> - procesor skrbničkih plaćanja, Woocommerce dodatak</li>
+<li><a href="#coingate">CoinGate</a> - procesor skrbničkih plaćanja, Woocommerce dodatak</li>
+<li><a href="#satsmobi">Sats Mobi</a> - skrbnički, Telegram LN bot s opcijama za PoS</li>
+<li><a href="#voltz">LN Voltz Bank</a> - skrbništvo, LNBits instanca za vlastitu upotrebu, Woocommerce dodatak</li>
+<li><a href="#alby">Alby</a> - samostalno skrbništvo, moćno rješenje s više značajki, NWC, Woocommerce dodatak</li>
+<li><a href="#bluewallet">Bluewallet</a> - skrbnički LNdhub novčanik ili samoskrbnički ugrađeni LDK LN čvor</li>
+<li><a href="#simple">Phoenix / Green / Breez / Electrum mobilni novčanik</a> - jednostavni mobilni LN čvorovi s vlastitim skrbništvom</li>
+<li><a href="#blixt">Blixt</a> - potpuni samostalni LND čvor na vašem mobitelu, LN adresa</li>
+<li><a href="#zeus">Zeus</a> - potpuni mobilni LND čvor sa samostalnim nadzorom, daljinsko upravljanje čvorom, LNDHUB računi, LN adresa, PoS</li>
+<li><a href="#zaprite">Zaprite</a> - Snažno rješenje s više različitih metoda plaćanja</li>
+<li><a href="#advanced">Napredna rješenja</a> Pokrenite vlastiti BTC LN čvor kao trgovac (BTCPay poslužitelj ili LNBits)</li>
+</ul>
+
+<p>Poseban jednostavan slučaj također bi mogao biti korištenje <a href="https://lightningaddress.com/">Lightning Address</a>. Za freelancere ili povremene fakture plaćene u BTC-u, možete postaviti LN adresu s federalnim poslužiteljem ili uslugom ili čak s vlastitom domenom, povezanom s vašim vlastitim čvorom. <a href="/beginner/getting-started-ln-address-hr.html">Ovo je vodič</a>.</p>
+
+<hr style="height:2px">
+
+<h3 id="coinos">1 - CoinOS <a href="#coinos">#</a></h3>
+<h4>Opis / značajke</h4>
+<ul>
+<li><a href="https://coinos.io/">https://coinos.io/</a></li>
+<li>web sučelje, PWA, jednostavno za korištenje i na mobilnim uređajima, NWC (Nostr Wallet Connect)</li>
+<li>Skrbništvo, bez KYC</li>
+<li>ne morate ništa instalirati, samo kreirajte anonimni račun/novčanik</li>
+<li>neometano mijenjanje između onchain / LN</li>
+<li>potpuna kontrola ključeva novčanika</li>
+<li>puna podrška za LN adresu, sada je možete imati kao username@coinos.io</li>
+<li>puna podrška za LNURL slanje / primanje / prijavu</li>
+<li>ecash podrška</li>
+</ul>
+<h4>Scenarij korištenja</h4>
+<ol>
+<li>otvorite/izradite račun i spremite korisnika/lozinku, 2FA, ključeve, LNURL-auth</li>
+<li>Na računu (gore desno) vidjet ćete da je stvorena jedinstvena adresa za vaš novčanik, za lakši pristup, poput https://coinos.io/user-name</li>
+<li>za početak primanja uplata samo kliknite gumb za primanje. Prema zadanim postavkama faktura će biti Lightning prazna. Morat ćete dodati iznos, neki LN novčanici još nisu sposobni platiti praznu LN fakturu.</li>
+<li>Možete koristiti i dostavljeni LNURL za primanje uplata bez LN fakture, tako da možete ispisati taj LNURL QR kod na papir i prezentirati ga kupcima, bez potrebe za otvaranjem online novčanika. Nakon što vam kupac pokaže izvršenu uplatu, ne postoji način da se uplata poništi tako da više potvrda nije potrebno.</li>
+<li>također postoji opcija primanja na Lightning Address, mnogi LN novčanici mogu slati na username@coinos.io i ne morate izdavati nikakvu fakturu, korisnik samo treba poslati iznos koji je potreban.</li>
+<li>Krajem dana ili tjedna, ili kad god to poželi, trgovac može povući sredstva iz CoinOS novčanika u bilo koji drugi osobni novčanik. Zamjena s LN fondova na onchain adresu obavlja se automatski (uključuje naknadu za zamjenu). Ali također se može poslati na drugi LN novčanik, bez ikakve druge naknade osim naknade za prijenos (iznimno mala).</li>
+<li>Ako želite imati jednostavnu ikonu na radnoj površini telefona, poput aplikacije, otvorite https://coinos.io/username u svom mobilnom pregledniku (testirao sam s Firefoxom na Androidu), idite na izbornik i kliknite "Instaliraj" . Stvorit će jednostavnu aplikaciju ikone koju možete povući na widget radne površine telefona i otvoriti je sljedeći put kao aplikaciju.</li>
+</ol>
+<hr style="height:2px">
+
+<h3 id="walletano">2 - Walletano <a href="#walletano">#</a></h3>
+<h4>Opis / značajke:</h4>
+<ul>
+<li><a href="https://www.walletano.com/">https://www.walletano.com/</a></li>
+<li><a href="/wallets/getting-started-walletano-hr.html">Potpuni DC vodič ovdje</a></li>
+<li>skrbnička, jednostavna web ili mobilna PWA aplikacija, bez KYC</li>
+<li>Opcija povezivanja vlastitog LN čvora</li>
+<li>Opcija stvaranja podračuna iz vlastitog LN čvora</li>
+<li>integrirane zamjene LN <-->onchain</li>
+<li>Podrška za LNURL / LN adresu</li>
+<li>više računa</li>
+<li>Za jednostavno uključivanje ovo je aplikacija za trgovce vrlo jednostavna za korištenje</li>
+</ul>
+<hr style="height:2px">
+
+<h3 id="ibex">3 - IBEX Pay <a href="#ibex">#</a></h3>
+<h4>Opis / značajke:</h4>
+<ul>
+<li><a href="https://www.ibexpay.io/">https://www.ibexpay.io/</a></li>
+<li><a href="https://www.ibexpay.io/support">Više vodiča ovdje</a></li>
+<li>Skrbništvo, KYC</li>
+<li>Radi s LNURL i Lightning Address</li>
+<li>Payment Gateway for Marketplaces</li>
+<li>Prodajno mjesto za trgovce</li>
+<li><a href="https://wordpress.com/es/plugins/ibexpay-payment-gateway">WP Woocomemrce dodatak za e-trgovine</a></li>
+</ul>
+<h4>Scenarij korištenja</h4>
+<p>Nemam više objašnjenja, <a href="https://www.youtube.com/watch?v=q_maOYxBtbs">ovdje je odličan video demo</a> koji je napravio Ian Major i objašnjava korak po korak kako koristiti ovo rješenje.
+<hr style="height:2px">
+
+<h3 id="blink">4 - Blink novčanik <a href="#blink">#</a></h3>
+<h4>Opis / značajke:</h4>
+<ul>
+<li><a href="https://www.blink.sv/">https://www.blink.sv/</a></li>
+<li><a href="https://www.blink.sv/en/blog/bitcoin-how-tos">Više vodiča ovdje</a></li>
+<li>skrbništvo, jednostavna mobilna aplikacija, lagani KYC</li>
+<li>Radi s LNURL i Lightning Address</li>
+<li>Lightning registarska blagajna, kod za plaćanje koji se može ispisati, web PoS</li>
+<li>Karta trgovaca</li>
+<li>Wallet API za povezivanje s drugim LN aplikacijama</li>
+<li>Kupujte BTC u aplikaciji, dostupno u nekim zemljama</li>
+<li>Popis kontakata</li>
+<li>Za jednostavno uključivanje ovo je aplikacija za trgovce vrlo jednostavna za korištenje</li>
+</ul>
+<hr style="height:2px">
+
+<h3 id="opago">5 - Opago Pay <a href="#opago">#</a></h3>
+<h4>Opis / značajke:</h4>
+<ul>
+<li><a href="https://opago-pay.com/">https://opago-pay.com/</a></li>
+<li><a href="https://opago-pay.com/en/faq">Opago dokumentacija</a></li>
+<li>skrbništvo s opcijom automatskog povlačenja, bez KYC</li>
+<li>offline PoS</li>
+<li>Nadzorna ploča trgovca</li>
+<li>Radi s LNURL i Lightning Address</li>
+<li>Izvješćivanje o transakcijama</li>
+<li>Pristup dodatku za Woocommerce, na zahtjev</li>
+<li>Za jednostavno uključivanje ovo je aplikacija za trgovce vrlo jednostavna za korištenje</li>
+<li><a href="https://stacker.news/OPAGO_PAY/posts">Popis primjera trgovaca koji ga koriste ovdje</a></li>
+</ul>
+<centar>
+<video width="420" height="840" kontrole>
+ <izvor src="https://video.nostr.build/0ea90f78975a12c4104fc340afb1e9665ff96165aa0f33d74ae993b488fcba49.mp4" type="video/mp4">
+</video>
+</center>
+<hr style="height:2px">
+
+<h3 id="swisspay">6 - Swiss Bitcoin Pay <a href="#swisspay">#</a></h3>
+<h4>Opis / značajke:</h4>
+<ul>
+<li><a href="https://swiss-bitcoin-pay.ch/">https://swiss-bitcoin-pay.ch/</a></li>
+<li>skrbništvo s opcijom automatskog povlačenja, bez KYC</li>
+<li>PoS mobilna aplikacija</li>
+<li>Radi s LNURL i Lightning Address</li>
+<li>Bitcoin NFC kartice</li>
+<li>Izvješćivanje o transakcijama</li>
+<li>Woocommerce dodatak</li>
+<li>Za jednostavno uključivanje ovo je aplikacija za trgovce vrlo jednostavna za korištenje</li>
+</ul>
+<hr style="height:2px">
+
+<h3 id="lifpay">7 - LifPay <a href="#lifpay">#</a></h3>
+<h4>Opis / značajke:</h4>
+<ul>
+<li><a href="https://lifpay.me/">https://lifpay.me/</a></li>
+<li>skrbništvo, bez KYC-a, jednostavna mobilna aplikacija</li>
+<li>Radi s LNURL i Lightning Address</li>
+<li>Više računa</li>
+<li>Stranica s munjom</li>
+</ul>
+<hr style="height:2px">
+
+<h3 id="opennode">8 - OpenNode <a href="#opennode">#</a></h3>
+<h4>Opis / značajke:</h4>
+<ul>
+<li><a href="https://opennode.com/">https://opennode.com/</a></li>
+<li>skrbnički, lagani KYC, potpuni procesor plaćanja s podrškom za više platformi e-trgovine</li>
+<li>Woocommerce dodatak</li>
+<li>Podrška za onchain i LN plaćanja</li>
+<li>Automatska povlačenja i konverzije novčanih sredstava</li>
+<li>Stranica trgovaca</li>
+</ul>
+<hr style="height:2px">
+
+<h3 id="coingatee">9 - CoinGate <a href="#coingate">#</a></h3>
+<h4>Opis / značajke:</h4>
+<ul>
+<li><a href="https://coingate.com/">https://coingate.com/</a></li>
+<li>skrbnički, lagani KYC, potpuni procesor plaćanja s podrškom za više platformi e-trgovine</li>
+<li>Woocommerce dodatak</li>
+<li>Podrška za onchain i LN plaćanja</li>
+<li>Povlačenja i konverzije fiat</li>
+<li>Stranica trgovaca</li>
+</ul>
+<hr style="height:2px">
+
+<h3 id="satsmobi">10 - Sats Mobi <a href="#satsmobi"></a></h3>
+<h4>Opis / značajke</h4>
+<ul>
+<li><a href="https://t.me/satsmobi">https://t.me/satsmobi</a></li>
+<li>Telegram LN bot novčanik, može se koristiti u aplikaciji Telegram i također uvesti u Zeus, BitBanana ili Bluewallet kao uobičajeni LN novčanik</li>
+<li>Skrbništvo, bez KYC</li>
+<li>ovaj novčanik je skrbnički pa bi se trebao koristiti samo za privremene male iznose i povlačiti ga u osobni novčanik, povremeno</li>
+<li>podrška za LNURL i Lightning Address (TGuser@sats.mobi), jednostavna za korištenje u izvanmrežnom načinu rada</li>
+<li><a href="https://massmux.org/p/built-in-lightning-pos-in-satsmobi">Može se koristiti i kao jednostavan PoS</a></li>
+<li>vrlo male naknade za txs, nema naknada za otvaranje/održavanje novčanika računa</li>
+<li>Kupite BTC u aplikaciji</li>
+</ul>
+<h4>Scenarij korištenja</h4>
+<ol>
+<li>trgovac će otvoriti/stvoriti korisničko ime za Telegram</li>
+<li>automatski će imati dostupan LNURL na https://sats.mobi/@TG-user-name koji može odmah primati LN plaćanja, bez potrebe za LN fakturom, min. 100 sat</li>
+<li>automatski će imati dostupnu Lightning adresu kao username@ln.tips gdje korisnici mogu plaćati izravno s novčanicima koji to podržavaju.</li>
+<li>trgovac može izraditi i LN fakture, u Telegramu u izravnom chatu s @SatsMobiBot s naredbom /invoice {amount sats} {optional description} i pokazati QR ili LN kod fakture kupcu</li>
+<li>trgovac također može uvesti SatsMobiBot novčanik u aplikaciju Zeus / Bluewallet i koristiti ga kao normalan LN novčanik i kreirati fakture za svoje kupce, premještati sredstva u druge novčanike, mijenjati u onchain (pomoću swap usluga)</li>
+</ol>
+<hr style="height:2px">
+
+<h3 id="voltz">11 - LN Voltz<a href="#voltz"></a></h3>
+<h4>Opis / značajke</h4>
+<ul>
+<li><a href="https://lnvoltz.com/">LN Voltz Bank</a></li>
+<li>Javna je LNbits instanca, jednostavna za kreiranje skrbničkih računa, u slučaju da trebate brzi LNbits, sa svim njegovim značajkama.</li>
+<li>Skrbništvo, bez KYC. Ovaj novčanik je skrbnički pa ga treba koristiti samo za privremene male iznose i povlačiti ga u osobni novčanik, povremeno</li>
+<li>podrška za LNURL i Lightning Address, PoS, offline PoS, višestruka korisna proširenja, Woocommerce dodatak za LNbits</li>
+<li><a href="https://darthcoin.substack.com/p/lnbits-for-small-merchants">Ovdje je potpuni vodič o tome kako koristiti LNbits za trgovce</a></li>
+<li>vrlo male naknade za txs, nema naknada za otvaranje/održavanje novčanika računa</li>
+</ul>
+<h4>Scenarij korištenja</h4>
+<ol>
+<li>Trgovac će otvoriti/kreirati Voltz račun, besplatno</li>
+<li>Može povezati svoju e-trgovinu izravno s ovom LNbits instancom, putem <a href="https://wordpress.com/plugins/lightning-payment-gateway-lnbits">Woocommerce LNbits dodatka</a>< /li>
+<li>Prvo ćete morati dodati potrebna proširenja: PayLinks, SatsPay Server, LNDHub, Scrub, Onchain, Boltz swap, TPOS i druga ako su potrebna.</li>
+<li>Zatim izradite SatsPay vezu kako biste njome mogli upravljati iz naknada za Woocommerce dodatak u svojoj e-trgovini.</li>
+<li>Dodajte onchain xpub iz bilo kojeg od svojih vanjskih novčanika, može biti hladno ili vruće. To će se koristiti za povlačenje satnica izravno u vaš vanjski novčanik sa samoskrbništvom.</li>
+<li>U proširenju PayLinks možete kreirati neograničen broj LNURL i LN adresa koje želite, koje se koriste za izravne statične QR kodove plaćanja ili s određenim iznosom.</li>
+<li>Proširenje Scrub može se koristiti ako želite automatski povući satove naplaćene u vašoj e-trgovini iz ovih skrbničkih LNbitova. Opcionalno možete koristiti Boltz ekstenziju za zamjenu satova s ​​LN-a na bilo koju onchain adresu.</li>
+<li>S ekstenzijom LNdhub možete upravljati pristupom svojim računima (u ovom slučaju možete stvoriti više računa novčanika) pomoću vanjske aplikacije kao što su Zeus, Bluewallet, BitBanana.</li>
+</ol>
+<hr style="height:2px">
+
+<h3 id="alby">12 - Alby Hub, Alby Go i proširenje preglednika <a href="#alby">#</a></h3>
+<h4>Opis / značajke</h4>
+<ul>
+<li><a href="https://getalby.com/">Albyjevo proširenje</a> | <a href="https://albyhub.com/">Alby Hub</a> | <a href="https://pos.albylabs.com/">Alby PoS</a> | <a href="https://albygo.com/">Alby Go</a></li>
+<li>ova aplikacija prvenstveno funkcionira kao proširenje web-preglednika za stolno računalo ili koristi Alby Go kao vrlo jednostavnu i pouzdanu mobilnu aplikaciju povezanu s vašim Alby Hubom</li>
+<li>Također se može uvesti u Zeus, BitBanana ili Bluewallet kao normalan LN novčanik, ali najbolji jednostavan način je korištenje mobilne aplikacije Alby Go</li>
+<li><a href="/wallets/getting-started-alby-hub-hr.html">Cjeloviti DC vodič za Alby Hub</a></li>
+<li>podrška za LNURL i Lightning Address (user@getalby.com), jednostavan za korištenje u izvanmrežnom načinu rada. Također podržava <a href="https://guides.getalby.com/user-guide/v/alby-account-and-browser-extension/alby-account/use-your-lightning-address/own-domain ">vaša vlastita domena za LN adresu</a>.</li>
+<li>Potpuna podrška za NWC veze s LN aplikacijama</li>
+<li>Možete ga koristiti s <a href="https://pos.albylabs.com/">Alby Buzz PoS</a></li>
+<li>možete sami upravljati svojim kanalima ako pokrenete Alby Hub</li>
+<li><a href="https://blog.getalby.com/provide-easy-to-use-wallets-to-friends-and-family-with-alby-hub/">Omogućite podračune za obitelj i prijatelji</a></li>
+<li>podrška za pozadinu financiranja ecash</li>
+<li>Više Alby vodiča i tutorijala <a href="https://blog.getalby.com/">ovdje</a> i <a href="https://guides.getalby.com/">ovdje< /a></li>
+</ul>
+<hr style="height:2px">
+
+<h3 id="bluewallet">13 - Bluewallet <a href="#bluewallet">#</a></h3>
+<h4>Opis / značajke</h4>
+<ul>
+<li><a href="https://bluewallet.io/">https://bluewallet.io/</a></li>
+<li>jednostavan, skrbnički LNDHUB mobilni novčanik, dostupna i aplikacija za računala Mac</li>
+<li>opcionalno možete koristiti novi LDK integrirani čvor, ali je još uvijek u beta verziji</li>
+<li>Onchain je novčanik bez skrbništva</li>
+<li>opcija za korištenje iza Tora (sporo je) i povezivanje s vlastitim čvorom ili određenim čvorom Electrum poslužitelja</li>
+<li>Višestruki BTC LN novčanici</li>
+<li><a href="https://bluewallet.io/features/">Više značajki pogledajte ovdje</a></li>
+<li><a href="/wallets/bluewallet-funding-sources-hr.html">Dodatni DC vodič za povezivanje izvora financiranja</a></li>
+<li>Može se povezati sa SatsMobi i kao LNDHUB račun</li>
+</ul>
+<p>Napredniji slučajevi upotrebe novčanika bez skrbništva Bluewallet + LNDHUB:</p>
+<ul>
+<li><a href="https://darthcoin.substack.com/p/umbrel-lndhub-bluewallet">Umbrel čvor + BW LNDHUB + aplikacija Bluewallet/Zeus</a></li>
+<li><a href="https://darthcoin.substack.com/p/umbrel-node-lnbits">Umbrel čvor + LNBits LNDHUB + aplikacija Bluewallet/Zeus</a></li>
+</ul>
+<hr style="height:2px">
+
+<h3 id="simple">14 - Phoenix, Green, Breez ili Electrum <a href="#simple">#</a></h3>
+<h4>Opis / značajke</h4>
+<ul>
+<li>Veze: <a href="https://phoenix.acinq.co/">Phoenix</a> | <a href="https://blockstream.com/green/">Zelena</a> | <a href="https://breez.technology/">Breez</a> | <a href="https://electrum.org/">Electrum</a>
+<li>jednostavni mobilni novčanici koji rade onchain / LN na istom sučelju</li>
+<li>otvaraju kanale za korisnika, u pozadini ili ih ručno otvara korisnik, uključene su naknade</li>
+<li>integrirana izmjena između onchain / LN, tako da nema potrebe za korištenjem vanjskih usluga</li>
+<li>Breez također ima integrirani PoS odjeljak koji lako može koristiti mali trgovac</li>
+<li><a href="/nodes/private-ln-nodes-en.html#phoenix">Vodič za Phoenix DC</a> | <a href="/wallets/getting-started-greenwallet-hr.html">Green DC vodič</a></li>
+</ul>
+<h4>Scenarij korištenja</h4>
+<ol>
+<li>trgovac/korisnik instalira aplikaciju i spremi početnu vrijednost na sigurno mjesto</li>
+<li>može odmah početi primati uplate na LN, klikom na gumb za primanje i unošenjem iznosa, stvarajući QR i LN fakturu</li>
+<li>Bolje je započeti s velikom primljenom uplatom za otvaranje velikog kanala (kao što je 10 milijuna sati) za vas i platiti samo jednom naknadu za otvaranje. Ako počnete s malim iznosima, svaki put kada primite malu uplatu otvara se novi kanal i naplaćuje vam se naknada za taj kanal.</li>
+<li>Nakon što primite veliku uplatu, pošaljite s tog kanala otprilike 90-95% sredstava u drugi LN novčanik ili ga zamijenite u drugi onchain novčanik (ili pomoću <a href="/nodes/lightning-submarine-swaps-hr.html">vanjske usluge zamjene</a>), ostavljajući kanalu samo malu količinu satova kako bi kanal ostao otvoren.</li>
+<li>Kad se kanal skoro isprazni, možete ponovno početi primati na istom kanalu bez više naknada za otvaranje.</li>
+</ol>
+<hr style="height:2px">
+
+<h3 id="blixt">15 - Blixt LN čvor <a href="#blixt">#</a></h3>
+<h4>Opis / značajke</h4>
+<ul>
+<li><a href="https://blixtwallet.com">https://blixtwallet.com</a></li>
+<li>puni LND čvor s pozadinom Neutrino na vašem mobilnom uređaju</li>
+<li>Dunder LSP - pružatelj usluga likvidnosti - ulazni kanali na zahtjev</li>
+<li>potpuno upravljanje LN kanalima</li>
+<li>podrška za LNURL, Lightning Address, keysend</li>
+<li>Integrirani Tor s opcijom da ima nodeID iza Tora i prihvaća dolazne kanale</li>
+<li>funkcija jednostavnog sigurnosnog kopiranja/vraćanja (izvan mreže i pohrana u oblaku)</li>
+<li><a href="/wallets/getting-started-blixt-wallet-hr.html">Cjeloviti DC korisnički priručnik ovdje</a></li>
+<li><a href="https://blixtwallet.github.io/guides">Ovdje pogledajte više vodiča i scenarija o tome kako koristiti Blixt</a></li>
+</ul>
+<hr style="height:2px">
+
+<h3 id="zeus">16 - Zeus LN čvor <a href="#zeus">#</a></h3>
+<h4>Opis / značajke</h4>
+<ul>
+<li><a href="https://zeusln.com">https://zeusln.com</a> | <a href="https://docs.zeusln.app">Zeusovi dokumenti</a></li>
+<li>puni LND čvor s pozadinom Neutrino na vašem mobilnom uređaju</li>
+<li>potpuno upravljanje udaljenim LN čvorovima (LND / CLN)</li>
+<li>podrška za LNDHUB račune</li>
+<li>Olympus LSP - pružatelj usluga likvidnosti - ulazni kanali na zahtjev</li>
+<li>potpuno upravljanje LN kanalima</li>
+<li>podrška za Lightning Address, LNURL, keysend</li>
+<li>funkcija jednostavnog sigurnosnog kopiranja/vraćanja (izvan mreže i pohrana u oblaku)
+<li>integrirani PoS s naprednim značajkama</li>
+<li><a href="/wallets/getting-started-zeus-wallet-hr.html">Potpuni priručnik za ugrađeni čvor DC Zeus ovdje</a></li>
+<li>POS korisnički priručnik ovdje</li>
+</ul>
+<hr style="height:2px">
+
+<h3 id="zaprite">17 - Zaprite <a href="#zaprite">#</a></h3>
+<h4>Opis / značajke</h4>
+<ul>
+<li><a href="https://zaprite.com/">https://zaprite.com/</a></li>
+<li>Vrlo jednostavno implementirati Bitcoin plaćanja na svoju web stranicu e-trgovine ili ga koristiti kao freelancer, na način samostalne skrbi</li>
+<li>Podrška za više i mješovite načine plaćanja i izvore financiranja, uključujući VISA kartice i bankovne prijenose</li>
+<li>Podrška za BTC onchain i LN plaćanja</li>
+<li>Jednostavno integrirajte troškove plaćanja u svoju e-trgovinu pomoću API-ja</li>
+<li>Stranica za upravljanje trgovcem</li>
+<li>vrlo koristan tim za podršku</li>
+</ul>
+<p>Ovdje je vrlo dobar video vodič BTC Sessions, koji korak po korak predstavlja kako postaviti svoj Zaprite račun i koristiti ga s mnogo različitih izvora financiranja.</p>
+<centar>
+<iframe width="640" height="480" src="https://www.youtube.com/embed/Fpf4i7pvcBk" title="ZAPRITE: Kako JEDNOSTAVNO prihvatiti Bitcoin plaćanja online" frameborder="0" allow=" akcelerometar; zapis u međuspremnik; žiroskop; referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</center>
+<hr style="height:2px">
+
+<h3 id="advanced">18 - Napredna rješenja <a href="#advanced">#</a></h3>
+<h4>Opis / značajke</h4>
+<p>Ovo je složeno rješenje koje se može pokrenuti na vašem vlastitom hardveru, na potpuno samostalan način ili pomoću hostiranih poslužitelja / VPS-a.</p>
+<p>Ideja je da sami vodite cijelo rješenje plaćanja, ali također podrazumijeva potpuno upravljanje financiranjem, LN kanale, likvidnost, zamjene itd.</p>
+<ul>
+<li><a href="/nodes/bitcoin-ln-node-software-en.html">Pokrenite namjenski Bitcoin LN čvor s više alata za upravljanje</a></li>
+<li><p>Pokrenite vlastite instance <a href="https://btcpayserver.org/">BTCPay poslužitelja</a> ili <a href="https://lnbits.com/">LNbits poslužitelja </a></p>
+ <p>Oba ova "cjelovita rješenja" mogu se izvoditi na vašem lokalnom hardveru ili na udaljenim poslužiteljima</p>
+ <p>Provjerite na: <a href="https://www.voltage.cloud/">Voltage Cloud</a> ili <a href="https://nodana.io/">Nodana</a> , jednostavna rješenja za hosting, gdje možete pokrenuti BTCPay poslužitelj ili LNbits u nekoliko minuta.</p>
+ <p>Po mom iskrenom mišljenju, najlakši i najjednostavniji bi mogao biti na Nodani, koristeći phoenixd poslužitelj + LNbits instancu. Phoenixd ne treba komplicirano upravljanje kanalima, točno je poput mobilnog Phoenix novčanika, ali se koristi kao poslužitelj izvora financiranja. A LNBits je moćan alat s više opcija za trgovce, uključujući jednostavan WP Woocommerce dodatak.</p>
+ <p><a href="https://www.youtube.com/watch?v=t28coHBX3aI">Evo video vodiča</a> kako u nekoliko minuta instalirati LNbits s phoenixd kao izvorom financiranja na VPS .</p>
+ <p><a href="https://ereignishorizont.xyz/blitzbank/en/">Evo sjajnog vodiča</a>, korak po korak, kako postaviti LNbits s phoenixd na vlastitom hardveru ili VPS-u< /p>
+ <p><a href="https://github.com/massmux/lightstack">Evo još jednog jednostavnog vodiča</a>, samo pokrenite jednu liniju skripte i imate spreman LNbits + phoenixd poslužitelj, s već konfiguriranim domena.</p>
+ <p>LNbits podržava višestruke izvore financiranja kao LND/CLN/phoenixd čvor, druge LNbits instance, LN Pay, OpenNode, ZBD itd.</p>
+</li>
+<li><a href="/merchants/private-banks-over-ln-hr.html">Vodite vlastitu privatnu LN banku</a></li>
+<li><a href="/merchants/bitcoin-lightning-payments-irl-hr.html">Prihvatite Bitcoin i Lightning plaćanja u svojoj online trgovini</a></li>
+<li>Primajte uplate izravno na svoju hladnjaču ili Lightning adresu</li>
+<li>Offline / online PoS, hardverski alati, bankomati, NFC plaćanja</li>
+<li>Plaćanja putem e-trgovine</li>
+<li>Izravno se integrira s WooCommerce</li>
+</ul>
+<hr style="height:2px">
+
+<h4>Više dokumentacije, vodiča, scenarija</h4>
+<ul>
+<li><a href="/nodes/managing-lightning-node-liquidity-hr.html">Upravljanje likvidnošću vašeg Lightning Node</a></li>
+<li><a href="https://darthcoin.substack.com/p/getting-started-lnbits">Početak rada s LNbits</a></li>
+<li><a href="/merchants/operating-ln-as-merchant-hr.html">Rad s Lightning Networkom kao trgovac</a></li>
+<li><a href="https://darthcoin.substack.com/p/lnbits-for-small-merchants">LNbitovi za male trgovce</a></li>
+<li><a href="https://darthcoin.substack.com/p/build-your-own-lnbits-app-server">Izradite vlastiti LNbits poslužitelj aplikacija</a></li>
+<li><a href="https://darthcoin.substack.com/p/lnbits-nostr-market">Pokrenite svoje NOSTR tržište s LNbits</a></li>
+<li><a href="https://darthcoin.substack.com/p/orange-pill-bitcoin-tpos-atm">"Orange Pill" s Bitcoin TPoS bankomatom</a></li>
+<li><a href="/nodes/ln-bank-with-lnbits-hr.html">LN banka s LNBits</a></li>
+<li><a href="https://darthcoin.substack.com/p/lnbits-saas-a-solution-for-schools">LNbits SaaS – rješenje za školske projekte i događaje</a></li >
+<li><a href="https://darthcoin.substack.com/p/lnbits-streamer-copilot">Kako koristiti LNbits Streamer Copilot</a></li>
+<li><a href="/merchants/bitcoin-lightning-payments-irl-hr.html">Prihvaćanje BTC-a - primjeri iz stvarnog života</a></li>
+<li><a href="https://stacker.news/items/600658/r/DarthCoin">Ovdje više opcija za PoS sustave s BTC-om</a></li>
+</ul>
+<hr style="height:2px">
+
+<p>Kao što možete vidjeti, postoji mnogo rješenja i aplikacija za početak prihvaćanja Bitcoina, posebno korištenjem Lightning Networka koji je mreža PLAĆANJA za Bitcoin. Proučite ih sve i vidite koji je prikladniji za vaše poslovanje. Siguran sam da ih ima još puno i da će se sve to stalno mijenjati.</p>
+<p>Kao novi trgovac Bitcoinima ne zaboravite također promovirati svoju tvrtku na <a href="https://btcmap.org">BTC karti</a>! Vrlo je važno da bitco8ineri znaju da ste počeli prihvaćati Bitcoin.</p>
+<p><a href="/beginner/pay-with-bitcoin-hr.html">Ovdje u ovom vodiču</a> možete pronaći više popisa trgovaca na koje možete dodati svoju trgovinu/tvrtku kako biste bili vidljiviji većem broju bitcoineri.</p>
+</body>
+</html>
+</article>
