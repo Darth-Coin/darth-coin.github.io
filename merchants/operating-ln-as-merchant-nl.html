@@ -1,0 +1,123 @@
+---
+layout: default
+title: Werken met Bitcoin LN als handelaar
+---
+<article>
+<!DOCTYPE html>
+<html lang="nl">
+<meta name="description" content="Bitcoin- en Lightning Nodes-handleidingen: Hoe u als handelaar meer privacy kunt toevoegen aan uw Lightning-transacties">
+<body>
+<a href="/merchants/operating-ln-as-merchant-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/operating-ln-as-merchant-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/operating-ln-as-merchant-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/operating-ln-as-merchant-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/operating-ln-as-merchant-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/operating-ln-as-merchant-hr.html">Hrvatski <img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/operating-ln-as-merchant-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<blockquote style="color:Tomato;"><em>
+<p>Oorspronkelijk geplaatst op <a href="https://darthcoin.substack.com/p/operating-with-ln-as-a-merchant">Substack</a> op 21 okt. 2022. Hier bijgewerkt op 13 dec. 2024</p>
+</em></blockquote>
+<h3>Hoe u als handelaar meer privacy kunt toevoegen aan uw Lightning-ontvangen betalingen</h3>
+<p>We weten allemaal dat u in Lightning Network als ontvanger (alleen) uw bestemmingsnodeID aan de betaler moet onthullen. Daarom zal ik proberen u enkele voorbeelden te geven van hoe u als ontvanger van sats via Lightning Network anoniemer kunt werken.</p>
+<p>Sommigen zullen dit aspect beschouwen als een "schending van de privacy". Ik zou het andersom zien: hoe je valse vallen zet voor degenen die je geld willen traceren (als ze dat kunnen).</p>
+<p>Veel mensen zijn tegenwoordig geobsedeerd door het woord "privacy", maar houden geen rekening met het andere belangrijke woord: anonimiteit of pseudoniem.</p>
+<p>Je kunt meer privacy krijgen door je ware identiteit die is gekoppeld aan een knooppunt, service, adres, proces etc. niet te onthullen.</p>
+<p><img src="/assets/images/bitcoin-private-merchant.jpg" class="center"></p>
+<p>Als verzender via LN weten we allemaal dat het heel moeilijk of bijna onmogelijk is om een ​​betaling terug te traceren naar de oorspronkelijke bron. LN verwerkt de transacties met behulp van "onion routing". <a href="https://www.youtube.com/watch?v=toarjBSPFqI">Hier is een zeer eenvoudige uitleg van dit proces door Renè Pickhardt</a>.</p>
+<p>Stel dat u een kleine handelaar bent die online of in een winkel producten of diensten verkoopt en u wilt een bepaald niveau van anonimiteit toevoegen aan uw ontvangen fondsen. Of waar bewaart u in ieder geval het merendeel van uw bitcoins die u van LN-betalingen hebt ontvangen?</p>
+<h3>SAMENVATTING van hoe het LN-betalingsproces werkt</h3>
+<p>1 - De handelaar maakt een LN-factuur (vanuit zijn LN-wallet, gekoppeld aan zijn node of niet)</p>
+<p>2 - De gemaakte LN-factuur onthult aan de betaler de bestemmingsnodeID (maar niet de uiteindelijke routes)</p>
+<p>3 - De klant betaalt de LN-factuur en kan de bestemmingsnodeID zien</p>
+<p>4 - De handelaar kon de oorspronkelijke bron van de betaling niet zien, maar kan alleen de laatste hop/peer zien die de betaling naar zijn wallet/node doorstuurt</p>
+<p>Een herinnering over hoe u een goede openbare routingnode kunt runnen, ik heb verschillende handleidingen geschreven over:</p>
+<ul>
+<li><a href="https://darthcoin.substack.com/p/umbrel-bitcoin-ln-node">Bouw een eenvoudige LN-routingnode met Umbrel</a></li>
+<li><a href="/nodes/bitcoin-ln-node-software-nl.html">Welke software is beschikbaar om een ​​LN-node te runnen?</a></li>
+<li><a href="/nodes/lightning-routing-fees-experiment-nl.html">Experiment met routingkosten voor Lightning-nodes</a></li>
+<li><a href="/nodes/lightning-node-maintenance-nl.html">Onderhoud Lightning-nodes</a></li>
+<li><a href="/nodes/recommendations-ln-node-operators-nl.html">Aanbevelingen voor LN-node-runners/gebruikers</a></li>
+<li><a href="/nodes/managing-lightning-node-liquidity-nl.html">Liquiditeit Lightning-node beheren</a></li>
+</ul>
+<p>Welke opties hebben we als ontvanger van LN-betalingen?</p>
+<hr stijl="hoogte:2px">
+
+<h3>Anonimiteitsopties</h3>
+<h4>A. Run een “decoy node”</h4>
+<p>Als handelaar heb je INBOUND liquiditeit en goede routes naar je bestemmingsnode nodig om de betalingen van klanten correct te kunnen ontvangen.</p>
+<p>Maar tegelijkertijd kun je niet al je klanten dwingen om Tor te gebruiken om je LN-facturen te kunnen betalen die zijn gegenereerd via een Tor-node. Omdat we weten dat LN-facturen die zijn gegenereerd via een Tor-node ALLEEN kunnen worden gelezen vanaf LN-wallets die het Tor-netwerk gebruiken.</p>
+<p>Ik zou dus voorstellen om een ​​“decoy node” te gebruiken met goede liquiditeit en routes en ook voor een betere connectiviteit om in een hybride modus te draaien (Tor + clearnet). De decoy node heeft een direct privékanaal met je laatste node in de route, die alle betalingen doorstuurt. Gebruik een groot kanaal ertussen, zodat u het niet vaak hoeft te sluiten.</p>
+<p>Koppel deze nodes op geen enkele manier aan uw echte identiteit, gebruik nyms als dat nodig is om te communiceren met andere node-operators tijdens het proces van het maken van uw openbare node-liquiditeit. Probeer ook geen aliassen te gebruiken voor deze nodes, gebruik gewoon de willekeurige nodeID.</p>
+<p>Aan deze "openbare node" kunt u een eenvoudige LN-node verbinden, met een privé (onaangekondigd) kanaal, groot genoeg om de ontvangen fondsen van betalingen van klanten te verplaatsen.</p>
+<h5>In dit scenario kunnen we ook meerdere opties hebben:</h5>
+<ul>
+<li>draai beide LN-nodes op Tor, maar bied alleen een aparte service op clearnet om de LN-facturen te genereren (kan een <a href="https://btcpayserver.org/">BTCPay-server</a> of <a href="https://lnbits.com/">LNbits</a> zijn). Hier heb ik een handleiding geschreven over <a href="https://darthcoin.substack.com/p/lnbits-for-small-merchants">het gebruik van LNbits suite als handelaar</a>, ook op clearnet.</li>
+<li>draai een LN node op Tor maar gebruik een VPN tunnel van je BTCPay server of LNbits gehost op een clearnet VPS. <a href="https://darthcoin.substack.com/p/build-your-own-lnbits-app-server">Hier heb ik nog een handleiding geschreven met verschillende scenario's zoals deze met LNbits</a>. Op deze manier onthult u niet de werkelijke locatie van uw LN-knooppunt.</li>
+<li>voer een openbaar LN-knooppunt uit dat alle betalingen ontvangt, maar verbind met dat knooppunt een ander privé-LN-knooppunt met behulp van een snel mobiel LN-knooppunt zoals <a href="/wallets/getting-started-blixt-wallet-nl.html">Blixt</a>, <a href="/wallets/getting-started-zeus-wallet-nl.html">Zeus</a>, <a href="https://phoenix.acinq.co/">Phoenix</a>, <a href="https://electrum.org/">Electrum</a>, <a href="/wallets/getting-started-greenwallet-nl.html">Green</a> of <a href="https://breez.technology/">Breez</a>. Deze mobiele LN-knooppunten gebruiken altijd een privé (onaangekondigd) kanaal. Met Blixt en Zeus kun je ook de keysend-methode gebruiken om fondsen van je "receiver"-node naar je Blixt-node te pushen. Vanaf daar kun je het kanaal sluiten en/of <a href="/nodes/lightning-submarine-swaps-en.html">andere kanalen gebruiken voor elke swapservice</a> (Deezy, Boltz, FixedFloat, RoboSats etc.). <a href="https://darthcoin.substack.com/p/node-liquidity-guide">Ik heb hier een andere handleiding over dit scenario geschreven</a>.</li>
+<li>Voer een wegwerp-LN-node uit met directe installatie van <a href="https://rizful.com/">Rizful</a>. Simpel, snel, anoniem en gemakkelijk.</li>
+</ul>
+<hr style="height:2px">
+
+<h4>B. Gebruik alleen een privé mobiel LN-knooppunt</h4>
+<p>Ja, als u een kleine handelaar bent die geen tijd en geld heeft om te besteden aan desktopknooppuntinfrastructuur, kunt u betalingen rechtstreeks accepteren met een mobiel LN-knooppunt.</p>
+<p>Ja, er zijn voor- en nadelen aan deze optie, maar afhankelijk van uw specifieke bedrijfssituatie kunt u deze aanpassen en gebruiken. Stel je voor dat je een handelaar bent die opereert in een mobiele markt, je hebt geen groot volume aan verkopen met BTC/LN en je hebt geen plek of middelen waar je een stabiele desktopnode kunt toewijzen.</p>
+<p>Je kunt <a href="/wallets/getting-started-blixt-wallet-nl.html">Blixt</a>, <a href="/wallets/getting-started-zeus-wallet-nl.html">Zeus</a>, <a href="https://phoenix.acinq.co/">Phoenix</a>, <a href="https://electrum.org/">Electrum</a>, <a href="/wallets/getting-started-greenwallet-nl.html">Green</a> of <a href="https://breez.technology/">Breez</a> gebruiken voor dit scenario.</p>
+<h5>Enkele aspecten van deze apps om vermelding:</h5>
+<ul>
+<li>Ze zijn allemaal SELF-CUSTODY, u beheert de sleutels en de fondsen 100%, allemaal open source en gratis.</li>
+<li>Ze zijn allemaal LN-nodes, in uw eigen zak, geen mumbo-jumbo obscure processen en bewaarfondsen/sleutels.</li>
+<li>Ze ondersteunen allemaal LNURL en Lightning-adressen (om naar te verzenden). <a href="/wallets/lightning-wallets-comparison-nl.html">Meer details in deze vergelijkingsgids voor functies</a>.</li>
+<li>Zeus en Breez bieden een PoS-app aan. Gemakkelijk te beheren als handelaar. Ondersteunt ook NFC.</li>
+<li>Electrum biedt swaps LN <-->onchain rechtstreeks in de app, geen externe service vereist. Het gebruikt trampoline en normale LN-kanalen. Electrum is ook beschikbaar op alle desktopplatforms.</li>
+<li>Blixt biedt geavanceerd LN-kanalenbeheer en geavanceerde tools voor ervaren gebruikers (zoals keysend). Blixt heeft onlangs de versie voor Mac-desktop toegevoegd. Binnenkort voor Linux.</li>
+</ul>
+
+<h5>Bewerkingen</h5>
+<p>Dus hoe moet u met deze LN-knooppunt-apps werken om meer anonimiteit als ontvanger toe te voegen?</p>
+<p>Al deze LN-knooppunten hebben een anonieme nodeID, die niet is gekoppeld aan uw echte identiteit. Er is geen KYC of identiteitsverificatie om deze apps te gebruiken.</p>
+<p>Als u uw ontvangende merchant nodeID wilt "vernieuwen", stel ik enkele scenario's voor:</p>
+<ul>
+<li>U kunt op elk moment al uw LN-kanalen sluiten, de BTC naar een andere onchain wallet node brengen en een nieuwe LN node starten, een frisse, nieuwe nodeID. Dit is de eenvoudigste methode. Zodra u een nieuwe nodeID hebt, kunt u een of meerdere inkomende kanalen kopen bij elke LSP (<a href="https://lsps1.olympusln.com/">Olympus</a>, <a href="https://lnbig.com/#/">LNBIG</a>, <a href="https://megalithic.me/">Megalith</a>, <a href="https://www.bitrefill.com/thor-lightning-network-channels/">Bitrefill</a>, <a href="https://lnserver.com/">LNServer</a>, <a href="https://stacker.news/items/227488/r/DarthCoin">FlashSats</a> etc.), maar u moet dan wel aangeven dat u een "privékanaal" wilt, geen openbaar routeringskanaal. Dan bent u klaar om direct betalingen te ontvangen, met een nieuwe nodeID!</li>
+<li>Met Blixt kunt u ook het <a href="https://blixtwallet.github.io/faq#blixt-restore">"migratieproces"</a> gebruiken naar een andere nieuwe Blixt-node. Dus als u uw vorige LN-kanalen hebt leeggemaakt met behulp van een swapservice of als u gewoon uw resterende saldo naar een nieuwe nodeID wilt verplaatsen, kunt u gewoon de <a href="https://darthcoin.substack.com/p/dunder-lsp-and-lightning-box-provider">Dunder-service van de Blixt-node</a> gebruiken. U kunt dus via LN al het resterende saldo van de ene Blixt-node naar de andere verplaatsen en tegelijkertijd wat inkomende liquiditeit krijgen. Later in de nieuwe Blixt kunt u meer <a href="/nodes/managing-lightning-node-liquidity-nl.html">inkomende kanalen met meer LSP's</a> toevoegen. <a href="https://docs.zeusln.app/for-users/embedded-node/backup-and-recovery#kan-ik-mijn-zeus-onchain-wallet-herstellen-in-andere-wallet-toepassingen">Hetzelfde kan worden gedaan met Zeus</a>, nodes die zijn geopend in Blixt kunnen worden hersteld in Zeus en vice versa.</li>
+</ul>
+<hr style="height:2px">
+
+<h4>C. Gebruik een "decoy" custodial Lightning wallet</h4>
+<p>Ja, velen zijn bang voor de "beruchte" custodial wallets, maar in sommige scenario's zijn ze een goed hulpmiddel om je echte identiteit te verbergen.</p>
+<p>Er zijn veel custodial LN wallets en services die geen KYC zijn of geen identiteitsverificatieproces vereisen, misschien alleen een e-mailadres.</p>
+<p>Voor dit scenario kun je het volgende gebruiken: CoinOS, Blink, Wallet of Satoshi, Bluewallet, Alby, <a href="/beginner/getting-started-stack-sats-nl.html">zie hier meer voorbeelden en details</a>, een vriend of provider van LNbits wallet <a href="/nodes/ln-bank-with-lnbits-nl.html">zoals ik hier beschreef</a>.</p>
+<p>Zodra je in deze LN wallets bent, kun je gemakkelijk <a href="/nodes/lightning-submarine-swaps-nl.html">gebruik een submarine swap service</a> om de sats in uw eigen privé onchain wallet te plaatsen. Hier is ook een andere gids over het gebruik van een <a href="/wallets/lightning-cleaning-machine-nl.html">“Lightning Cleaning Machine”</a> methode.</p>
+<p>Ontvangen in deze wallets, zal niets van uw echte identiteit of node onthullen, zal alleen de openbare node van de provider zijn.</p>
+<p>Swappen naar onchain adressen zal ook geen spoor van uw echte identiteit achterlaten.</p>
+<h5>Enkele belangrijke aspecten om te vermelden over deze apps:</h5>
+<ul>
+<li><a href="https://coinos.io/">CoinOS</a> biedt een web PoS interface voor handelaren. Kan op elk apparaat worden uitgevoerd, zonder iets te installeren, omdat het gewoon een web-app is. Biedt ook geïntegreerde swaps LN ←&gt; onchain, ondersteunt alle LNURL-opties, inclusief een Lightning-adres om te ontvangen. Is een zeer krachtige tool voor een kleine handelaar die Bitcoin via LN wil gaan accepteren.</li>
+<li><a href="/wallets/getting-started-alby-hub-nl.html">Alby</a> is een browserextensie met uitgebreide functionaliteiten als een LN-wallet. Het kan worden gebruikt als een custodial wallet (van een vriend), maar kan ook worden verbonden met uw eigen nodes of bronnen (LND, CLN, LNBits, NWC, Blink, LNDhub). Ondersteunt NWC en alle LNURL-opties + Lightning-adres plus een eenvoudige mobiele app en PoS.</li>
+<li><a href="https://www.walletofsatoshi.com/">Wallet of Satoshi</a> is een eenvoudige mobiele LN-wallet + PoS, custodial. Ondersteunt enkele LNURL-functionaliteiten + biedt een Lightning-adres. Gebruikers wordt alleen om een ​​e-mailadres gevraagd voor het geval dat ze de back-upfunctie willen gebruiken. Maar als je wilt, kun je elke dag een nieuwe WoS gebruiken, nadat je alle fondsen ervan hebt overgezet naar je privé onchain wallet, zonder je e-mailadres of identiteit prijs te geven.</li>
+<li><a href="https://bluewallet.io/">Bluewallet</a> is een goede mobiele app, onchain en LN (met geïntegreerde LDK node), die LNDhub wallets van Bluewallet servers gebruikt. Het kan ook worden gebruikt met andere privé LNDhub accounts van je vrienden nodes of andere providers, inclusief van LNTXBOT. Het biedt swaps van uw onchain wallet naar LN wallet.</li>
+<li><a href="https://lnbits.com/">LNbits</a> is een krachtige suite tool, die gebruikt kan worden vanaf de node of provider van een vriend, zoals ik uitlegde in deze artikelen (<a href="/nodes/ln-bank-with-lnbits-nl.html">The Bank of LNbits</a> en <a href="https://darthcoin.substack.com/p/lnbits-for-small-merchants">LNbits for small merchants</a>). GEBRUIK NIET de publieke demo LNbits instance (demo.lnbits.com) ! Die is alleen voor testen, demo's, om ermee vertrouwd te raken, het wordt niet aanbevolen voor echte use cases. LNbits heeft ook een speciale extensie voor swaps, met behulp van Boltz.</li>
+<li><a href="https://lnvoltz.com">LN Voltz</a> is een custodial solution, gebaseerd op LNbits, die een zeer eenvoudig te gebruiken LN-wallet biedt voor kleine handelaren. Geen KYC.</li>
+</ul>
+<hr style="height:2px">
+
+<h4>D. Gebruik een LN-proxy</h4>
+<p>Hier is een eenvoudige webtool waarmee u een proxy kunt gebruiken voor uw ontvangende LN-factuur:</p>
+<p><a href="https://lnproxy.org/">https://lnproxy.org/</a></p>
+<p>Met lnproxy kunnen gebruikers in plaats daarvan ingepakte facturen genereren en uitgeven om de identiteit van hun lightning-netwerkknooppunten te verhullen voor hun transactiepartners.</p>
+<hr style="height:2px">
+
+<h3>CONCLUSIE</h3>
+<p>Dus… zoals u kunt zien, kunt u als handelaar ook een ander niveau van privacy verkrijgen door anonimiteit en uw uiteindelijke bestemming van uw geld verbergen.</p>
+<p>Is het perfect? ​​Misschien niet. Maar ik daag u uit om uw eigen tests te doen: probeer uzelf te traceren met behulp van enkele van deze methoden en kijk of u de oorsprong en de uiteindelijke bestemming van de met deze methoden verhandelde fondsen kunt vinden. Het zal echt moeilijk zijn, ik heb het zelf vele malen geprobeerd, met vele methoden.</p>
+<p>Deze methoden kunnen ongetwijfeld worden verbeterd, gebruik uw verbeelding en vaardigheden. Ik wilde u alleen een paar trucs aanbieden waarmee u kunt beginnen.</p>
+<p>Laat u niet ontmoedigen door die haters die zeggen dat Lightning Network geen privacy biedt en dat u het niet moet gebruiken. Als je meer wilt weten over LN, zul je ontdekken hoe fascinerend het is en hoeveel dingen je ermee kunt doen.</p>
+<p>Lightning Network, als een laag 2 over Bitcoin Network, is een echte game changer en een krachtig hulpmiddel in de handen van de gebruiker.</p>
+<p>Hier zijn enkele voorbeelden van geweldige dingen die je met LN kunt doen:</p>
+<ul>
+<li><a href="https://darthcoin.substack.com/p/lightning-network-is-awesome">Lightning Network is geweldig</a> - een verzameling links met LN-services</li>
+<li><a href="/merchants/bitcoin-lightning-payments-irl-nl.html">Voorbeelden van Bitcoin Lightning Network in het echte leven</a></li>
+<li><a href="/merchants/getting-started-bitcoin-small-merchants-nl.html">Aan de slag met Bitcoin voor kleine handelaren</a></li>
+</ul>
+</body>
+</html>
+</article>
