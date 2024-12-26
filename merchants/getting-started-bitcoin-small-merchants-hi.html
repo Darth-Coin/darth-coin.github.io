@@ -1,0 +1,398 @@
+---
+layout: default
+title: व्यापारियों के लिए बिटकॉइन के साथ शुरुआत करना
+---
+<article>
+<!DOCTYPE html>
+<html lang="hi">
+<meta name="description" content="बिटकॉइन और लाइटनिंग नोड्स गाइड: एक छोटे व्यापारी के रूप में आप कौन से बिटकॉइन एलएन समाधानों का उपयोग शुरू कर सकते हैं.">
+<body>
+<a href="/merchants/getting-started-bitcoin-small-merchants-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/getting-started-bitcoin-small-merchants-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/getting-started-bitcoin-small-merchants-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/getting-started-bitcoin-small-merchants-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/getting-started-bitcoin-small-merchants-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/getting-started-bitcoin-small-merchants-nl.html">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/getting-started-bitcoin-small-merchants-hr.html">Hrvatski <img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<em><blockquote style="color:Tomato;">
+<p>मूल रूप से <a href="https://darthcoin.substack.com/p/bitcoin-for-small-merchants">Substack</a> पर 26 अक्टूबर, 2021 को पोस्ट किया गया। यहाँ 03 दिसंबर, 2024 को अपडेट किया गया।</p>
+</em></blockquote>
+
+<h3>एक छोटे व्यापारी के रूप में आप कौन से Bitcoin LN समाधान का उपयोग करना शुरू कर सकते हैं।</h3>
+<p>मैंने कई बार यह सवाल सुना है: "एक छोटे व्यापारी के रूप में, Bitcoin को स्वीकार करना कैसे शुरू करें?"</p>
+<p>और यहाँ मैं नए उपयोगकर्ताओं के लिए कुछ सरल, त्वरित समाधान, परीक्षण का आधार, छोटे सरल कदम प्रस्तुत करना चाहूँगा जो अभी भी एक पूर्ण LN नोड मशीन नहीं चला सकते/नहीं चलाना चाहते हैं।</p>
+
+<h4>प्राप्त करने के लिए लक्ष्य:</h4>
+<ul>
+<li>व्यापारी स्वीकार करना शुरू करना चाहता है LN के माध्यम से BTC, सरल चरणों के साथ, बस इसे परखने के लिए, यह जानने के लिए कि यह कैसे काम करता है और BTC प्राप्त करने में सक्षम होने के लिए पर्याप्त है।</li>
+<li>सबसे कम लागत संभव</li>
+<li>बिटकॉइन और लाइटनिंग नेटवर्क की शर्तों, वॉलेट, क्यूआर कोड, LN चालान, LNURL, शुल्क आदि का उपयोग कैसे करें</li>
+<li>प्राप्त धन को "होल्डिंग" वॉलेट में स्थानांतरित करने का एक तरीका</li>
+<li>अगले चरण के लिए मानसिकता तैयार करें: एक मर्चेंट LN नोड चलाना। ये समाधान केवल पहला कदम है, अस्थायी, जब तक कि मर्चेंट एक पूर्ण नोड, अपने स्वयं के पैसे का प्रबंधन करने के लिए अपना बैंक रखने के लिए तैयार न हो जाए।</li>
+<li>मौजूदा ई-कॉमर्स वेबशॉप के साथ जल्दी से एकीकृत करने के लिए WP Woocommerce प्लगइन तक पहुंच होना</li>
+<li>यह दीर्घकालिक समाधान नहीं है, यह केवल आपको तैयार करने और यह समझने के लिए है कि बिटकॉइन LN एक छोटी दुकान के लिए कैसे काम करता है। दीर्घकालिक समाधान और स्व-संरक्षण के लिए कृपया नीचे दिए गए <a href="#advanced">उन्नत समाधान अनुभाग</a></li> से परामर्श लें।
+</ul>
+
+<h3 style="color:Orange;">उपलब्ध समाधान:</h3>
+<p>प्रत्येक की अपनी विशिष्टताएँ, विशेषताएँ, जटिलता का स्तर और उपयोग के मामले हैं। मेरा सुझाव है कि आप उनमें से 2-3 का उपयोग करना शुरू करें और सहज हो जाएँ, इस बीच दूसरों का अध्ययन करें।</p>
+<ul>
+<li><a href="#coinos">CoinOS</a> - कस्टोडियल, बहुत सरल ऑनबोर्डिंग, NWC, किसी ऐप की आवश्यकता नहीं</li>
+<li><a href="#walletano">Walletano</a> - कस्टोडियल, बहुत सरल ऑनबोर्डिंग, किसी ऐप की आवश्यकता नहीं</li>
+<li><a href="#ibex">IBEX Pay</a> - कस्टोडियल, जटिल मर्चेंट डैशबोर्ड, कई सुविधाएँ, फ़िएट रूपांतरण, Woocommerce प्लगइन</li>
+<li><a href="#blink">Blink Wallet</a> - कस्टोडियल, LN पता, PoS, API</li>
+<li><a href="#opago">Opago Pay</a> - गैर-कस्टोडियल, सरल ऑफ़लाइन PoS, फ़िएट रूपांतरण, Woocommerce प्लगइन</li>
+<li><a href="#swisspay">स्विस बिटकॉइन पे</a> - कस्टोडियल, सरल ऐप, PoS ऐप, वूकॉमर्स प्लगइन</li>
+<li><a href="#lifpay">LifPay</a> - कस्टोडियल, सरल ऐप, PoS, NWC</li>
+<li><a href="#opennode">OpenNode</a> - कस्टोडियल पेमेंट प्रोसेसर, वूकॉमर्स प्लगइन</li>
+<li><a href="#coingate">CoinGate</a> - कस्टोडियल पेमेंट प्रोसेसर, वूकॉमर्स प्लगइन</li>
+<li><a href="#satsmobi">Sats Mobi</a> - कस्टोडियल, PoS के लिए विकल्पों के साथ टेलीग्राम LN बॉट</li>
+<li><a href="#voltz">LN Voltz Bank</a> - कस्टोडियल, अपने खुद के इस्तेमाल के लिए LNBits इंस्टेंस, Woocommerce प्लगइन</li>
+<li><a href="#alby">Alby</a> - सेल्फ-कस्टोडियल, कई सुविधाओं के साथ शक्तिशाली समाधान, NWC, Woocommerce प्लगइन</li>
+<li><a href="#bluewallet">Bluewallet</a> - कस्टोडियल LNdhub वॉलेट या सेल्फ-कस्टोडियल एम्बेडेड LDK LN नोड</li>
+<li><a href="#simple">Phoenix / Green / Breez / Electrum मोबाइल वॉलेट</a> - सरल मोबाइल सेल्फ-कस्टोडियल LN नोड्स</li>
+<li><a href="#blixt">Blixt</a> - आपके मोबाइल पर पूर्ण सेल्फ-कस्टोडियल LND नोड, LN पता</li>
+<li><a href="#zeus">Zeus</a> - पूर्ण सेल्फ-कस्टोडियल मोबाइल LND नोड, रिमोट नोड प्रबंधन, LNDHUB खाते, LN पता, PoS</li>
+<li><a href="#zaprite">Zaprite</a> - कई मिश्रित भुगतान विधियों के साथ शक्तिशाली समाधान</li>
+<li><a href="#advanced">उन्नत समाधान</a> व्यापारी के रूप में अपना खुद का BTC LN नोड चलाएँ (BTCPay सर्वर या LNBits)</li>
+</ul>
+
+<p>एक विशेष सरल मामला <a href="https://lightningaddress.com/">लाइटनिंग एड्रेस</a> का उपयोग करना भी हो सकता है। फ्रीलांसरों या BTC में भुगतान किए जाने वाले कभी-कभार चालान के लिए, आप फ़ेडरेटेड सर्वर या सेवा या यहाँ तक कि अपने स्वयं के डोमेन के साथ, अपने स्वयं के नोड से लिंक करके LN एड्रेस सेट कर सकते हैं। <a href="/beginner/getting-started-ln-address-hi.html">यहाँ एक गाइड है</a>.</p>
+
+<hr style="height:2px">
+
+<h3 id="coinos">1 - CoinOS <a href="#coinos">#</a></h3>
+<h4>विवरण / विशेषताएँ</h4>
+<ul>
+<li><a href="https://coinos.io/">https://coinos.io/</a></li>
+<li>वेब इंटरफ़ेस, PWA, मोबाइल डिवाइस पर भी इस्तेमाल करने में आसान, NWC (नोस्ट्र वॉलेट कनेक्ट)</li>
+<li>कस्टोडियल, नॉन KYC</li>
+<li>कुछ भी इंस्टॉल करने की ज़रूरत नहीं है, बस एक अनाम खाता/वॉलेट बनाएँ</li>
+<li>ऑनचेन/LN के बीच सहजता से स्वैप करें</li>
+<li>वॉलेट कुंजियों का पूर्ण नियंत्रण</li>
+<li>LN पते के लिए पूर्ण समर्थन, अब आप username@coinos.io के रूप में एक रख सकते हैं</li>
+<li>LNURL भेजने/प्राप्त करने/ लॉगिन करें</li>
+<li>ईकैश सपोर्ट</li>
+</ul>
+<h4>उपयोग केस परिदृश्य</h4>
+<ol>
+<li>खाता खोलें/बनाएँ और उपयोगकर्ता/पासवर्ड, 2FA, कुंजियाँ, LNURL-प्रमाणन सहेजें</li>
+<li>खाते में (ऊपर दाएँ) आप देखेंगे कि आपके वॉलेट के लिए एक अनूठा पता बनाया गया है, आसान पहुँच के लिए, जैसे https://coinos.io/user-name</li>
+<li>भुगतान प्राप्त करना शुरू करने के लिए बस प्राप्त करें बटन पर क्लिक करें। डिफ़ॉल्ट रूप से लाइटनिंग खाली चालान होगा। आपको एक राशि जोड़नी होगी, कुछ LN वॉलेट अभी तक खाली LN चालान का भुगतान करने में सक्षम नहीं हैं।</li>
+<li>आप LN चालान के बिना भुगतान प्राप्त करने के लिए प्रदान किए गए LNURL का भी उपयोग कर सकते हैं, इसलिए आप उस LNURL QR कोड को एक कागज़ पर प्रिंट कर सकते हैं और इसे ग्राहकों को प्रस्तुत कर सकते हैं, बिना ऑनलाइन वॉलेट खोलने की आवश्यकता के। एक बार जब ग्राहक आपको भुगतान कर देगा, तो भुगतान को वापस करने का कोई तरीका नहीं है, इसलिए अधिक पुष्टि की आवश्यकता नहीं है।</li>
+<li>लाइटनिंग एड्रेस पर प्राप्त करने का विकल्प भी है, कई LN वॉलेट username@coinos.io पर भेजने में सक्षम हैं और आपको कोई चालान बनाने की आवश्यकता नहीं है, ग्राहक को केवल आवश्यक राशि भेजनी है।</li>
+<li>दिन या सप्ताह के अंत में, या जब भी चाहें, व्यापारी CoinOS वॉलेट से किसी अन्य व्यक्तिगत वॉलेट में धनराशि निकाल सकते हैं। LN फंड से ऑनचेन एड्रेस पर स्वैप स्वचालित रूप से किया जाता है (स्वैप शुल्क शामिल है)। लेकिन इसे किसी अन्य LN वॉलेट में भी भेजा जा सकता है, जिसमें tx शुल्क (बेहद छोटा) के अलावा कोई अन्य शुल्क नहीं है।</li>
+<li>यदि आप फ़ोन डेस्कटॉप पर एक सरल आइकन चाहते हैं, जैसे कि ऐप, अपने मोबाइल ब्राउज़र में https://coinos.io/username खोलें (मैंने Android पर Firefox के साथ परीक्षण किया), मेनू पर जाएँ और "इंस्टॉल करें" पर क्लिक करें। यह एक सरल आइकन ऐप बनाएगा जिसे आप अपने फ़ोन डेस्कटॉप विजेट पर खींच सकते हैं और अगली बार ऐप की तरह खोल सकते हैं।</li>
+</ol>
+<hr style="height:2px">
+
+<h3 id="walletano">2 - Walletano <a href="#walletano">#</a></h3>
+<h4>विवरण / विशेषताएँ:</h4>
+<ul>
+<li><a href="https://www.walletano.com/">https://www.walletano.com/</a></li>
+<li><a href="/wallets/getting-started-walletano-hi.html">पूर्ण DC गाइड यहाँ</a></li>
+<li>कस्टोडियल, सरल वेब या मोबाइल PWA ऐप, गैर KYC</li>
+<li>स्वयं के LN नोड को कनेक्ट करने का विकल्प</li>
+<li>अपने खाते से उप-खाते बनाने का विकल्प खुद का LN नोड</li>
+<li>एकीकृत स्वैप LN <-->ऑनचेन</li>
+<li>LNURL / LN पता समर्थन</li>
+<li>मल्टी-अकाउंट</li>
+<li>आसान ऑनबोर्डिंग के लिए यह व्यापारियों के लिए उपयोग करने में बहुत आसान ऐप है</li>
+</ul>
+<hr style="height:2px">
+
+<h3 id="ibex">3 - IBEX Pay <a href="#ibex">#</a></h3>
+<h4>विवरण / विशेषताएँ:</h4>
+<ul>
+<li><a href="https://www.ibexpay.io/">https://www.ibexpay.io/</a></li>
+<li><a href="https://www.ibexpay.io/support">यहाँ और अधिक ट्यूटोरियल</a></li>
+<li>कस्टोडियल, KYC</li>
+<li>LNURL और लाइटनिंग एड्रेस के साथ काम करता है</li>
+<li>मार्केटप्लेस के लिए भुगतान गेटवे</li>
+<li>व्यापारियों के लिए पॉइंट-ऑफ-सेल</li>
+<li><a href="https://wordpress.com/es/plugins/ibexpay-payment-gateway">ई-शॉप के लिए WP Woocomemrce प्लगइन</a></li>
+</ul>
+<h4>उपयोग के मामले का परिदृश्य</h4>
+<p>मेरे पास और कोई स्पष्टीकरण नहीं है, <a href="https://www.youtube.com/watch?v=q_maOYxBtbs">यहाँ इयान मेजर द्वारा बनाया गया एक बेहतरीन वीडियो डेमो है</a> जिसमें इस समाधान का उपयोग करने के तरीके को चरण दर चरण समझाया गया है।
+<hr style="height:2px">
+
+<h3 id="blink">4 - ब्लिंक वॉलेट <a href="#blink">#</a></h3>
+<h4>विवरण / विशेषताएँ:</h4>
+<ul>
+<li><a href="https://www.blink.sv/">https://www.blink.sv/</a></li>
+<li><a href="https://www.blink.sv/en/blog/bitcoin-how-tos">यहाँ और गाइड</a></li>
+<li>कस्टोडियल, सरल मोबाइल ऐप, लाइट KYC</li>
+<li>LNURL और लाइटनिंग एड्रेस के साथ काम करता है</li>
+<li>लाइटनिंग कैश रजिस्टर, प्रिंट करने योग्य भुगतान कोड, वेब PoS</li>
+<li>मर्चेंट मैप</li>
+<li>अन्य LN ऐप से कनेक्ट करने के लिए वॉलेट API</li>
+<li>BTC खरीदें ऐप में, कुछ देशों के लिए उपलब्ध</li>
+<li>संपर्क सूची</li>
+<li>आसान ऑनबोर्डिंग के लिए यह व्यापारियों के लिए उपयोग करने में बहुत आसान ऐप है</li>
+</ul>
+<hr style="height:2px">
+
+<h3 id="opago">5 - Opago Pay <a href="#opago">#</a></h3>
+<h4>विवरण / सुविधाएँ:</h4>
+<ul>
+<li><a href="https://opago-pay.com/">https://opago-pay.com/</a></li>
+<li><a href="https://opago-pay.com/en/faq">Opago प्रलेखन</a></li>
+<li>ऑटो-विदड्रॉ विकल्प के साथ कस्टोडियल, नो-KYC</li>
+<li>ऑफ़लाइन PoS</li>
+<li>व्यापारी डैशबोर्ड</li>
+<li>काम करता है LNURL और लाइटनिंग एड्रेस के साथ</li>
+<li>लेनदेन रिपोर्टिंग</li>
+<li>Woocommerce प्लगइन एक्सेस, अनुरोध द्वारा</li>
+<li>आसान ऑनबोर्डिंग के लिए यह व्यापारियों के लिए उपयोग करने में बहुत आसान ऐप है</li>
+<li><a href="https://stacker.news/OPAGO_PAY/posts">इसका उपयोग करने वाले व्यापारी उदाहरणों की सूची यहाँ</a></li>
+</ul>
+<center>
+<video width="420" height="840" controls>
+<source src="https://video.nostr.build/0ea90f78975a12c4104fc340afb1e9665ff96165aa0f33d74ae993b488fcba49.mp4" type="video/mp4">
+</video>
+</center>
+<hr style="height:2px">
+
+<h3 id="swisspay">6 - स्विस बिटकॉइन पे <a href="#swisspay">#</a></h3>
+<h4>विवरण / विशेषताएँ:</h4>
+<ul>
+<li><a href="https://swiss-bitcoin-pay.ch/">https://swiss-bitcoin-pay.ch/</a></li>
+<li>ऑटो-विदड्रॉ विकल्प के साथ कस्टोडियल, नो-KYC</li>
+<li>PoS मोबाइल ऐप</li>
+<li>LNURL और लाइटनिंग एड्रेस के साथ काम करता है</li>
+<li>बिटकॉइन NFC कार्ड</li>
+<li>लेनदेन रिपोर्टिंग</li>
+<li>वूकॉमर्स प्लगइन</li>
+<li>आसान ऑनबोर्डिंग के लिए यह व्यापारियों के लिए उपयोग करने में बहुत आसान ऐप है</li>
+</ul>
+<hr style="height:2px">
+
+<h3 id="lifpay">7 - LifPay <a href="#lifpay">#</a></h3>
+<h4>विवरण / विशेषताएँ:</h4>
+<ul>
+<li><a href="https://lifpay.me/">https://lifpay.me/</a></li>
+<li>कस्टोडियल, नो-केवाईसी, सरल मोबाइल ऐप</li>
+<li>LNURL और लाइटनिंग एड्रेस के साथ काम करता है</li>
+<li>मल्टी अकाउंट</li>
+<li>लाइटनिंग पेज</li>
+</ul>
+<hr style="height:2px">
+
+<h3 id="opennode">8 - OpenNode <a href="#opennode">#</a></h3>
+<h4>विवरण / विशेषताएँ:</h4>
+<ul>
+<li><a href="https://opennode.com/">https://opennode.com/</a></li>
+<li>कस्टोडियल, लाइट-केवाईसी, कई ई-कॉमर्स प्लेटफ़ॉर्म के लिए समर्थन के साथ पूर्ण भुगतान प्रोसेसर</li>
+<li>वूकॉमर्स प्लगइन</li>
+<li>ऑनचेन और एलएन भुगतान के लिए समर्थन</li>
+<li>ऑटो-निकासी और फ़िएट रूपांतरण</li>
+<li>व्यापारी पृष्ठ</li>
+</ul>
+<hr style="height:2px">
+
+<h3 id="coingatee">9 - CoinGate <a href="#coingate">#</a></h3>
+<h4>विवरण / विशेषताएँ:</h4>
+<ul>
+<li><a href="https://coingate.com/">https://coingate.com/</a></li>
+<li>कस्टोडियल, लाइट-केवाईसी, कई ई-कॉमर्स प्लेटफ़ॉर्म के लिए समर्थन के साथ पूर्ण भुगतान प्रोसेसर कई ई-कॉमर्स प्लेटफ़ॉर्म के लिए समर्थन</li>
+<li>वूकॉमर्स प्लगइन</li>
+<li>ऑनचेन और एलएन भुगतान के लिए समर्थन</li>
+<li>निकासी और फ़िएट रूपांतरण</li>
+<li>व्यापारी पृष्ठ</li>
+</ul>
+<hr style="height:2px">
+
+<h3 id="satsmobi">10 - सैट्स मोबी <a href="#satsmobi"></a></h3>
+<h4>विवरण / सुविधाएँ</h4>
+<ul>
+<li><a href="https://t.me/satsmobi">https://t.me/satsmobi</a></li>
+<li>टेलीग्राम एलएन बॉट वॉलेट, टेलीग्राम ऐप में इस्तेमाल किया जा सकता है और सामान्य एलएन वॉलेट के रूप में ज़ीउस, बिटबनाना या ब्लूवॉलेट में भी आयात किया जा सकता है</li>
+<li>कस्टोडियल, नॉन KYC</li>
+<li>यह वॉलेट कस्टोडियल है, इसलिए इसका उपयोग केवल अस्थायी छोटी राशि के लिए किया जाना चाहिए और समय-समय पर व्यक्तिगत वॉलेट में वापस ले लिया जाना चाहिए</li>
+<li>LNURL और लाइटनिंग एड्रेस (TGuser@sats.mobi) के लिए समर्थन, ऑफ़लाइन मोड में उपयोग करना आसान है</li>
+<li><a href="https://massmux.org/p/built-in-lightning-pos-in-satsmobi">इसे एक साधारण PoS के रूप में भी इस्तेमाल किया जा सकता है</a></li>
+<li>txs के लिए बहुत कम शुल्क, खाता वॉलेट खोलने/रखरखाव के लिए कोई शुल्क नहीं</li>
+<li>ऐप में BTC खरीदें</li>
+</ul>
+<h4>उपयोग के मामले का परिदृश्य</h4>
+<ol>
+<li>व्यापारी एक टेलीग्राम उपयोगकर्ता नाम खोलेगा/बनाएगा</li>
+<li>स्वचालित रूप से https://sats.mobi/@TG-user-name पर एक LNURL उपलब्ध होगा जो एलएन चालान की आवश्यकता के बिना, सीधे एलएन भुगतान प्राप्त कर सकते हैं, न्यूनतम 100 सैट्स</li>
+<li>स्वचालित रूप से username@ln.tips के रूप में एक लाइटनिंग पता उपलब्ध होगा, जहाँ ग्राहक सीधे वॉलेट से भुगतान कर सकते हैं जो इसका समर्थन करते हैं।</li>
+<li>मर्चेंट टेलीग्राम में @SatsMobiBot के साथ सीधे चैट में /invoice {amount sats} {वैकल्पिक विवरण} कमांड के साथ एलएन चालान भी बना सकते हैं और ग्राहक को क्यूआर या एलएन चालान कोड दिखा सकते हैं</li>
+<li>मर्चेंट सैट्समोबीबॉट वॉलेट को ज़ीउस / ब्लूवॉलेट ऐप में आयात कर सकते हैं और इसे सामान्य एलएन वॉलेट के रूप में उपयोग कर सकते हैं और अपने ग्राहकों के लिए चालान बना सकते हैं, अन्य वॉलेट में फंड स्थानांतरित कर सकते हैं, ऑनचेन में स्वैप कर सकते हैं (स्वैप सेवाओं का उपयोग करके)</li>
+</ol>
+<hr style="height:2px">
+
+<h3 id="voltz">11 - LN Voltz<a href="#voltz"></a></h3>
+<h4>विवरण / विशेषताएँ</h4>
+<ul>
+<li><a href="https://lnvoltz.com/">LN Voltz Bank</a></li>
+<li>एक सार्वजनिक LNbits इंस्टेंस है, कस्टोडियल अकाउंट बनाना आसान है, अगर आपको त्वरित LNbits की आवश्यकता है, तो इसकी सभी विशेषताओं के साथ।</li>
+<li>कस्टोडियल, गैर KYC। यह वॉलेट कस्टोडियल है, इसलिए इसका उपयोग केवल अस्थायी छोटी राशि के लिए किया जाना चाहिए और समय-समय पर व्यक्तिगत वॉलेट में वापस ले लिया जाना चाहिए</li>
+<li>LNURL और लाइटनिंग एड्रेस, PoS, ऑफ़लाइन PoS, कई उपयोगी एक्सटेंशन, LNbits के लिए Woocommerce प्लगइन के लिए समर्थन</li>
+<li><a href="https://darthcoin.substack.com/p/lnbits-for-small-merchants">यहाँ व्यापारियों के लिए LNbits का उपयोग करने के तरीके के बारे में पूरी गाइड दी गई है</a></li>
+<li>txs के लिए बहुत कम शुल्क, खाता वॉलेट खोलने/रखरखाव के लिए कोई शुल्क नहीं</li>
+</ul>
+<h4>उपयोग के मामले का परिदृश्य</h4>
+<ol>
+<li>व्यापारी मुफ़्त में Voltz खाता खोलेगा/बनाएगा</li>
+<li>अपनी ई-कॉमर्स दुकान को सीधे इस LNbits इंस्टेंस से कनेक्ट कर सकता है, <a href="https://wordpress.com/plugins/lightning-payment-gateway-lnbits">Woocommerce LNbits प्लगइन</a></li>
+<li>सबसे पहले आपको आवश्यक एक्सटेंशन जोड़ने होंगे: PayLinks, SatsPay सर्वर, LNDHub, Scrub, Onchain, Boltz स्वैप, TPOS और यदि आवश्यक हो तो अन्य।</li>
+<li>फिर अपने ई-शॉप में Woocommerce प्लगइन शुल्क से इसे प्रबंधित करने में सक्षम होने के लिए एक SatsPay लिंक बनाएं।</li>
+<li>अपने किसी भी बाहरी वॉलेट से एक ऑनचेन xpub जोड़ें, चाहे वह कोल्ड हो या हॉट। इसका उपयोग आपके बाहरी स्व-संरक्षित वॉलेट में सीधे सैट्स को वापस लेने के लिए किया जाएगा।</li>
+<li>पेलिंक्स एक्सटेंशन में आप अपनी पसंद के असीमित LNURL और LN पते बना सकते हैं, जिनका उपयोग सीधे स्थिर QR भुगतान कोड या विशिष्ट राशि के लिए किया जाता है।</li>
+<li>यदि आप अपने ई-शॉप में चार्ज किए गए सैट्स को इस कस्टोडियल LNbits से स्वचालित रूप से वापस लेना चाहते हैं, तो स्क्रब एक्सटेंशन का उपयोग किया जा सकता है। वैकल्पिक रूप से आप बोल्ट्ज़ एक्सटेंशन का उपयोग करके सैट्स को LN से किसी भी ऑनचेन पते पर स्वैप कर सकते हैं।</li>
+<li>LNdhub एक्सटेंशन के साथ आप Zeus, Bluewallet, BitBanana जैसे बाहरी ऐप का उपयोग करके अपने खातों तक पहुँच प्रबंधित कर सकते हैं (आप इस उदाहरण में कई वॉलेट खाते बना सकते हैं)।</li>
+</ol>
+<hr style="height:2px">
+
+<h3 id="alby">12 - Alby Hub, Alby Go और ब्राउज़र एक्सटेंशन <a href="#alby">#</a></h3>
+<h4>विवरण / विशेषताएँ</h4>
+<ul>
+<li><a href="https://getalby.com/">Alby Extension</a> | <a href="https://albyhub.com/">Alby Hub</a> | <a href="https://pos.albylabs.com/">Alby PoS</a> | <a href="https://albygo.com/">Alby Go</a></li>
+<li>यह ऐप मुख्य रूप से डेस्कटॉप वेब ब्राउज़र एक्सटेंशन के रूप में काम करता है, या आपके Alby Hub से जुड़े एक बहुत ही सरल और विश्वसनीय मोबाइल ऐप के रूप में Alby Go का उपयोग करता है</li>
+<li>इसे सामान्य LN वॉलेट के रूप में Zeus, BitBanana या Bluewallet में भी आयात किया जा सकता है, लेकिन सबसे आसान तरीका Alby Go मोबाइल ऐप का उपयोग करना है</li>
+<li><a href="/wallets/getting-started-alby-hub-hi.html">Alby Hub के लिए पूर्ण DC गाइड</a></li>
+<li>LNURL और लाइटनिंग एड्रेस (user@getalby.com) के लिए समर्थन, ऑफ़लाइन मोड में उपयोग करने में आसान। इसके अलावा <a href="https://guides.getalby.com/user-guide/v/alby-account-and-browser-extension/alby-account/use-your-lightning-address/own-domain">LN पते के लिए अपना खुद का डोमेन</a> रखने का समर्थन करता है।</li>
+<li>LN ऐप्स के साथ NWC कनेक्शन के लिए पूर्ण समर्थन</li>
+<li>आप इसे <a href="https://pos.albylabs.com/">Alby Buzz PoS</a></li> के साथ उपयोग कर सकते हैं
+<li>यदि आप Alby Hub चलाते हैं तो आप अपने चैनल खुद प्रबंधित कर सकते हैं</li>
+<li><a href="https://blog.getalby.com/provide-easy-to-use-wallets-to-friends-and-family-with-alby-hub/">परिवार और दोस्तों के लिए उप-खाते प्रदान करें</a></li>
+<li>के लिए समर्थन ईकैश फंडिंग बैकएंड</li>
+<li>अधिक एल्बी गाइड और ट्यूटोरियल <a href="https://blog.getalby.com/">यहाँ</a> और <a href="https://guides.getalby.com/">यहाँ</a></li>
+</ul>
+<hr style="height:2px">
+
+<h3 id="bluewallet">13 - Bluewallet <a href="#bluewallet">#</a></h3>
+<h4>विवरण / विशेषताएँ</h4>
+<ul>
+<li><a href="https://bluewallet.io/">https://bluewallet.io/</a></li>
+<li>सरल, कस्टोडियल LNDHUB मोबाइल वॉलेट, मैक डेस्कटॉप ऐप भी उपलब्ध है</li>
+<li>वैकल्पिक रूप से आप नए LDK एकीकृत नोड का उपयोग कर सकते हैं, लेकिन यह अभी भी बीटा में है</li>
+<li>ऑनचेन गैर-कस्टोडियल वॉलेट है</li>
+<li>टोर के पीछे उपयोग करने का विकल्प (धीमा है) और अपने नोड या विशिष्ट इलेक्ट्रम सर्वर नोड से कनेक्ट करें</li>
+<li>एकाधिक BTC LN वॉलेट</li>
+<li><a href="https://bluewallet.io/features/">अधिक सुविधाएँ देखें यहाँ</a></li>
+<li><a href="/wallets/bluewallet-funding-sources-hi.html">फंडिंग स्रोतों को कैसे कनेक्ट करें, इस बारे में अतिरिक्त DC गाइड</a></li>
+<li>LNDHUB खाते के रूप में SatsMobi से भी कनेक्ट किया जा सकता है</li>
+</ul>
+<p>Bluewallet + LNDHUB नॉन-कस्टोडियल वॉलेट के अधिक उन्नत उपयोग के मामले:</p>
+<ul>
+<li><a href="https://darthcoin.substack.com/p/umbrel-lndhub-bluewallet">अम्ब्रेल नोड + BW LNDHUB + Bluewallet/Zeus ऐप</a></li>
+<li><a href="https://darthcoin.substack.com/p/umbrel-node-lnbits">अम्ब्रेल नोड + LNBits LNDHUB + Bluewallet/Zeus ऐप</a></li>
+</ul>
+<hr style="height:2px">
+
+<h3 id="simple">14 - फीनिक्स, ग्रीन, ब्रीज़ या इलेक्ट्रम <a href="#simple">#</a></h3>
+<h4>विवरण / विशेषताएँ</h4>
+<ul>
+<li>लिंक: <a href="https://phoenix.acinq.co/">फीनिक्स</a> | <a href="https://blockstream.com/green/">ग्रीन</a> | <a href="https://breez.technology/">ब्रीज़</a> | <a href="https://electrum.org/">इलेक्ट्रम</a>
+<li>सरल मोबाइल वॉलेट जो एक ही इंटरफ़ेस पर ऑनचेन/एलएन संचालित करते हैं</li>
+<li>उपयोगकर्ता के लिए चैनल खोल रहे हैं, पृष्ठभूमि में या उपयोगकर्ता द्वारा मैन्युअल रूप से खोले जा सकते हैं, इसमें शुल्क शामिल है</li>
+<li>ऑनचेन/एलएन के बीच एकीकृत स्वैप, इसलिए बाहरी सेवाओं का उपयोग करने की कोई आवश्यकता नहीं है</li>
+<li>ब्रीज़ में एक एकीकृत PoS अनुभाग भी है जिसका उपयोग छोटे व्यापारी आसानी से कर सकते हैं</li>
+<li><a href="/nodes/private-ln-nodes-en.html#phoenix">फ़ीनिक्स डीसी गाइड</a> | <a href="/wallets/getting-started-greenwallet-hi.html">ग्रीन डीसी गाइड</a></li>
+</ul>
+<h4>उपयोग केस परिदृश्य</h4>
+<ol>
+<li>व्यापारी/उपयोगकर्ता ऐप इंस्टॉल करें और बीज को सुरक्षित स्थान पर सेव करें</li>
+<li>प्राप्त करें बटन पर क्लिक करके और राशि डालकर, क्यूआर और एलएन चालान बनाकर तुरंत एलएन पर भुगतान प्राप्त करना शुरू कर सकते हैं</li>
+<li>आपके लिए एक बड़ा चैनल (जैसे 10M सैट्स) खोलने के लिए प्राप्त बड़े भुगतान से शुरू करना बेहतर है और केवल एक बार उद्घाटन शुल्क का भुगतान करें। यदि आप छोटी राशि से शुरू करते हैं, तो हर बार जब आप एक छोटा भुगतान प्राप्त करते हैं, तो एक नया चैनल खुलता है और उस चैनल के लिए आपसे शुल्क लिया जाता है।</li>
+<li>जब आपको एक बड़ा भुगतान प्राप्त होता है, तो उस चैनल से 90-95% फंड को दूसरे LN वॉलेट में भेजें या दूसरे ऑनचेन वॉलेट में स्वैप करें (या <a href="/nodes/lightning-submarine-swaps-hi.html">बाहरी स्वैप सेवाओं</a> का उपयोग करके), चैनल को खुला रखने के लिए केवल थोड़ी मात्रा में सैट्स के साथ चैनल को छोड़ दें।</li>
+<li>जब चैनल लगभग खाली हो जाता है, तो आप बिना किसी और शुरुआती शुल्क के उसी चैनल में फिर से प्राप्त करना शुरू कर सकते हैं।</li>
+</ol>
+<hr style="height:2px">
+
+<h3 id="blixt">15 - Blixt LN नोड <a href="#blixt">#</a></h3>
+<h4>विवरण / विशेषताएं</h4>
+<ul>
+<li><a href="https://blixtwallet.com">https://blixtwallet.com</a></li>
+<li>आपके मोबाइल डिवाइस पर न्यूट्रिनो बैकएंड के साथ पूर्ण LND नोड</li>
+<li>डंडर LSP - लिक्विडिटी सर्विस प्रोवाइडर - ऑन-डिमांड इनबाउंड चैनल</li>
+<li>पूर्ण LN चैनल प्रबंधन</li>
+<li>LNURL, लाइटनिंग एड्रेस, कीसेंड के लिए समर्थन</li>
+<li>टोर के पीछे नोडआईडी रखने और इनकमिंग चैनल स्वीकार करने के विकल्प के साथ एकीकृत टोर</li>
+<li>आसान बैकअप / रीस्टोर फ़ंक्शन (ऑफ़लाइन और क्लाउड स्टोरेज)</li>
+<li><a href="/wallets/getting-started-blixt-wallet-hi.html">पूर्ण DC उपयोगकर्ता मैनुअल यहाँ</a></li>
+<li><a href="https://blixtwallet.github.io/guides">Blixt का उपयोग कैसे करें, इसके बारे में अधिक मार्गदर्शिकाएँ और परिदृश्य यहाँ देखें</a></li>
+</ul>
+<hr style="height:2px">
+
+<h3 id='zeus'>16 - ज़ीउस एलएन नोड <a href='#zeus'>#</a></h3>
+<h4>विवरण/विशेषताएं</h4>
+<उल>
+<li><a href='https://zeusln.com'>https://zeusln.com</a> | <a href="https://docs.zeusln.app">Zeus Docs</a></li>
+<li>आपके मोबाइल डिवाइस पर न्यूट्रिनो बैकएंड के साथ पूर्ण LND नोड</li>
+<li>पूर्ण रिमोट LN नोड्स प्रबंधन (LND / CLN)</li>
+<li>LNDHUB खातों के लिए समर्थन</li>
+<li>ओलंपस LSP - लिक्विडिटी सेवा प्रदाता - ऑन-डिमांड इनबाउंड चैनल</li>
+<li>पूर्ण LN चैनल प्रबंधन</li >
+<li>लाइटनिंग एड्रेस, LNURL, कीसेंड के लिए समर्थन</li>
+<li>आसान बैकअप / रीस्टोर फ़ंक्शन (ऑफ़लाइन और क्लाउड स्टोरेज)
+<li>उन्नत सुविधाओं के साथ एकीकृत PoS</li>
+<li><a href=" /wallets/getting-started-zeus-wallet-hi.html">पूर्ण DC Zeus एम्बेडेड नोड मैनुअल यहाँ</a></li>
+<li>POS उपयोगकर्ता मैनुअल यहाँ</li>
+</ul>
+<hr style="height:2px">
+
+<h3 id="zaprite">17 - जैप्राइट <a href="#zaprite">#</a></h3>
+<h4 >विवरण / विशेषताएँ</h4>
+<ul>
+<li><a href="https://zaprite.com/">https://zaprite.com/</a></li>
+<li>बहुत आसान अपनी ई-शॉप साइट पर बिटकॉइन भुगतान को लागू करने या इसे एक फ्रीलांसर के रूप में, स्व-संरक्षक तरीके से उपयोग करने के लिए</li>
+<li>वीज़ा कार्ड और बैंक हस्तांतरण सहित कई और मिश्रित भुगतान विधियों और फंडिंग स्रोतों के लिए समर्थन</li> <li>BTC ऑनचेन और LN भुगतान के लिए समर्थन</li>
+<li>एपीआई के साथ अपने ई-शॉप पर भुगतान शुल्क को आसानी से एकीकृत करें</li>
+<li>व्यापारी प्रबंधन पृष्ठ</li>
+<li>बहुत मददगार सहायता टीम</li>
+</ul>
+<p>यहाँ BTC सेशन द्वारा एक बहुत अच्छा वीडियो ट्यूटोरियल है, जिसमें चरण दर चरण बताया गया है कि कैसे अपने Zaprite खाते को सेटअप करें और इसे कई अलग-अलग फंडिंग स्रोतों के साथ उपयोग करें।</p>
+<center> <iframe width="640" height="480" src="https://www.youtube.com/embed/Fpf4i7pvcBk" title="ZAPRITE: बिटकॉइन भुगतान ऑनलाइन आसानी से कैसे स्वीकार करें" frameborder="0" allow=" एक्सेलेरोमीटर; ऑटोप्ले; क्लिपबोर्ड-राइट; एन्क्रिप्टेड-मीडिया; जाइरोस्कोप; पिक्चर-इन-पिक्चर; वेब-शेयर" रेफररपॉलिसी="स्ट्रिक्ट-ओरिजिन-व्हेन-क्रॉस-ओरिजिन" allowfullscreen></iframe>
+</center>
+<hr style="height:2px">
+
+<h3 id="advanced">18 - उन्नत समाधान < a href="#advanced">#</a></h3>
+<h4>विवरण / विशेषताएँ</h4>
+<p>यह एक जटिल समाधान है जिसे आपके अपने हार्डवेयर पर, पूरी तरह से स्व-संरक्षित तरीके से चलाया जा सकता है तरीका, या होस्टेड सर्वर / वीपीएस का उपयोग करना।</p>
+<p>इसका विचार खुद को संपूर्ण भुगतान समाधान चलाने का है, लेकिन इसका तात्पर्य पूर्ण फंडिंग प्रबंधन, एलएन चैनल, तरलता, स्वैप आदि से भी है।</p>
+<ul> <li><a href="/nodes/bitcoin-ln-node-software-en.html">एकाधिक प्रबंधन के साथ एक समर्पित Bitcoin LN नोड चलाएँ उपकरण</a></li>
+<li><p><a href="https://btcpayserver.org/">BTCPay सर्वर</a> या <a href="https:/ के अपने स्वयं के इंस्टेंस चलाएँ /lnbits.com/">LNbits सर्वर</a></p>
+<p>ये दोनों "पूर्ण समाधान" आपके स्थानीय हार्डवेयर या दूरस्थ सर्वर पर चलाए जा सकते हैं</p>
+<p>जाँचें: <a href="https://www.voltage.cloud/">वोल्टेज क्लाउड</a> या <a href="https://nodana.io/">नोडाना</a>, सरल होस्टिंग समाधान, जहाँ आप कुछ ही मिनटों में BTCPay सर्वर या LNbits को स्पिन अप करें।</p>
+<p>मेरी ईमानदार राय में सबसे आसान और सरल तरीका Nodana पर फीनिक्सडी सर्वर + LNbits इंस्टेंस का उपयोग करना हो सकता है। फीनिक्सडी को जटिल चैनल प्रबंधन की आवश्यकता नहीं है, यह बिल्कुल मोबाइल फीनिक्स वॉलेट की तरह है, लेकिन इसका उपयोग फंडिंग स्रोत सर्वर के रूप में किया जाता है। और LNBits व्यापारियों के लिए कई विकल्पों के साथ एक शक्तिशाली उपकरण है, जिसमें एक सरल WP Woocommerce प्लगइन भी शामिल है।</p>
+<p><a href="https://www.youtube.com/watch?v=t28coHBX3aI">यहाँ है एक वीडियो ट्यूटोरियल</a> वीपीएस पर फंडिंग स्रोत के रूप में फीनिक्सडी के साथ कुछ ही मिनटों में एलएनबिट्स कैसे स्थापित करें।</p>
+<p><a href="https://ereignishorizont.xyz/blitzbank/en/"> यहाँ एक बढ़िया गाइड है</a>, चरण दर चरण, अपने खुद के हार्डवेयर या VPS पर phoenixd के साथ LNbits कैसे सेटअप करें</p>
+<p><a href="https://github.com/massmux/lightstack ">यहाँ एक और सरल गाइड है</a>, बस एक स्क्रिप्ट लाइन चलाएँ और आपके पास पहले से कॉन्फ़िगर किया गया LNbits + phoenixd सर्वर तैयार है डोमेन।</p>
+<p>LNbits एक LND/CLN/phoenixd नोड, अन्य LNbits इंस्टेंस, LN Pay, OpenNode, ZBD आदि के रूप में कई फंडिंग स्रोतों का समर्थन करता है</p>
+</li>
+<li><a href=" /merchants/private-banks-over-ln-hi.html">अपना खुद का प्राइवेट एलएन बैंक चलाएँ</a></li>
+<li><a href="/merchants/bitcoin-lightning-payments-irl-hi.html">अपने ऑनलाइन स्टोर में बिटकॉइन और लाइटनिंग भुगतान स्वीकार करें</a></li>
+<li>सीधे अपने कोल्ड स्टोरेज या लाइटनिंग पते पर भुगतान भेजें</li>
+<li>ऑफ़लाइन / ऑनलाइन PoS, हार्डवेयर उपकरण, एटीएम, एनएफसी भुगतान</li>
+<li>ई-कॉमर्स भुगतान</li>
+<li>वूकॉमर्स के साथ सीधे एकीकृत करता है</li>
+</ul>
+<hr style="ऊंचाई:2px">
+    
+<h4>अधिक दस्तावेज़, मार्गदर्शिकाएँ, परिदृश्य</h4>
+<ul>
+<li><a href="/nodes/managing-lightning-node-liquidity-hi.html">अपनी लाइटनिंग नोड लिक्विडिटी का प्रबंधन करना</a></li>
+<li><a href="https://darthcoin.substack.com/p/getting-started-lnbits">LNbits के साथ शुरुआत करना</a></li>
+<li><a href="/merchants/operating-ln-as-merchant-hi.html">एक व्यापारी के रूप में लाइटनिंग नेटवर्क के साथ संचालन करना</a></li>
+<li><a href="https://darthcoin.substack.com/p/lnbits-for-small-merchants">छोटे व्यापारियों के लिए LNBits</a></li>
+<li><a href="https://darthcoin.substack.com/p/build-your-own-lnbits-app-server">अपना खुद का LNbits ऐप सर्वर बनाएँ</a></li>
+<li><a href="https://darthcoin.substack.com/p/lnbits-nostr-market">LNbits के साथ अपना NOSTR-Market शुरू करें</a></li>
+<li><a href="https://darthcoin.substack.com/p/orange-pill-bitcoin-tpos-atm">बिटकॉइन TPoS ATM के साथ "ऑरेंज पिल"</a></li>
+<li><a href="/nodes/ln-bank-with-lnbits-hi.html">LNBits के साथ LN बैंक</a></li>
+<li><a href="https://darthcoin.substack.com/p/lnbits-saas-a-solution-for-schools">LNbits SaaS - स्कूल प्रोजेक्ट और इवेंट के लिए एक समाधान</a></li>
+<li><a href="https://darthcoin.substack.com/p/lnbits-streamer-copilot">LNbits Streamer Copilot का उपयोग कैसे करें</a></li>
+<li><a href="/merchants/bitcoin-lightning-payments-irl-hi.html">BTC स्वीकार करना - वास्तविक जीवन के उदाहरण</a></li>
+<li><a href="https://stacker.news/items/600658/r/DarthCoin">यहाँ BTC के साथ PoS सिस्टम के लिए और विकल्प दिए गए हैं</a></li>
+</ul>
+<hr style="height:2px">
+
+<p>जैसा कि आप देख सकते हैं बिटकॉइन स्वीकार करना शुरू करने के लिए कई समाधान और ऐप हैं, खासकर लाइटनिंग नेटवर्क का उपयोग करना जो बिटकॉइन के लिए भुगतान नेटवर्क है। उन सभी का अध्ययन करें और देखें कि आपके व्यवसाय के लिए कौन सा अधिक उपयुक्त है। मुझे यकीन है कि वहाँ कई और भी हैं और ये सभी निरंतर परिवर्तन में रहेंगे।</p>
+<p>एक नए बिटकॉइन व्यापारी के रूप में अपने व्यवसाय को <a href="https://btcmap.org">BTC मैप</a> पर प्रचारित करना न भूलें! यह बहुत महत्वपूर्ण है कि बिटकॉइनर्स को पता चले कि आप बिटकॉइन स्वीकार करना शुरू कर रहे हैं।</p>
+<p><a href="/beginner/pay-with-bitcoin-hi.html">यहाँ इस गाइड में</a> आप और अधिक व्यापारियों की सूचियाँ पा सकते हैं जहाँ आप अपनी दुकान / व्यवसाय को और अधिक बिटकॉइनर्स के लिए दृश्यमान बनाने के लिए जोड़ सकते हैं।</p>
+</body>
+</html>
+</article>
