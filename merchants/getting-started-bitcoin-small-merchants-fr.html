@@ -1,0 +1,399 @@
+---
+layout: default
+title: Démarrer avec Bitcoin pour les commerçants
+---
+<article>
+<!DOCTYPE html>
+<html lang="fr">
+<meta name="description" content="Guides Bitcoin et Lightning Nodes : quelles solutions Bitcoin LN pouvez-vous commencer à utiliser en tant que petit commerçant.">
+<body>
+<a href="/merchants/getting-started-bitcoin-small-merchants-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/getting-started-bitcoin-small-merchants-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/getting-started-bitcoin-small-merchants-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/getting-started-bitcoin-small-merchants-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/getting-started-bitcoin-small-merchants-nl.html">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/getting-started-bitcoin-small-merchants-hr.html">Hrvatski <img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/getting-started-bitcoin-small-merchants-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<em><blockquote style="color:Tomato;">
+<p>Publié à l'origine sur <a href="https://darthcoin.substack.com/p/bitcoin-for-small-merchants">Substack</a> le 26 octobre 2021. Mis à jour ici le 3 décembre 2024.</p>
+</em></blockquote>
+
+<h3>Quelles solutions Bitcoin LN pourriez-vous commencer à utiliser en tant que petit commerçant.</h3>
+<p>J'ai souvent entendu cette question : « Comment commencer à accepter Bitcoin, en tant que petit commerçant ? »</p>
+<p>Et ici, j'aimerais présenter quelques solutions simples et rapides, un terrain d'essai, de petites étapes simples, pour les nouveaux utilisateurs qui ne peuvent pas/ne veulent toujours pas exécuter une machine à nœud LN complète.</p>
+
+<h4>Objectifs à atteindre :</h4>
+<ul>
+<li>Le commerçant souhaite commencer à accepter le BTC via LN, avec des étapes simples, juste assez pour testez-le pour savoir comment il fonctionne et pouvoir recevoir des BTC.</li>
+<li>Coût le plus bas possible</li>
+<li>S'adapter aux conditions de Bitcoin et de Lightning Network, comment utiliser les portefeuilles, les codes QR, les factures LN, LNURL, les frais, etc.</li>
+<li>Un moyen de déplacer les fonds reçus dans un portefeuille « hodling »</li>
+<li>Préparez l'état d'esprit pour l'étape suivante : exécuter un nœud LN marchand. Ces solutions ne sont que la première étape, temporaire, jusqu'à ce que le commerçant soit prêt à avoir un nœud complet, sa propre banque pour gérer son propre argent.</li>
+<li>Avoir accès à un plugin WP Woocommerce pour s'intégrer rapidement aux boutiques en ligne de commerce électronique existantes</li>
+<li>Ce n'est PAS une solution à long terme, c'est juste pour vous préparer et comprendre comment fonctionne Bitcoin LN pour une petite boutique. Pour une solution à long terme et une gestion autonome, veuillez consulter la section <a href="#advanced">Solutions avancées ci-dessous.</a></li>
+</ul>
+
+<h3 style="color:Orange;">Solutions disponibles :</h3>
+<p>Chacune a ses propres particularités, fonctionnalités, niveau de complexité et cas d'utilisation. Je suggère de commencer à en utiliser 2 ou 3 et de vous familiariser, tout en étudiant les autres.</p>
+<ul>
+<li><a href="#coinos">CoinOS</a> - dépositaire, intégration très simple, NWC, aucune application requise</li>
+<li><a href="#walletano">Walletano</a> - dépositaire, intégration très simple, aucune application requise</li>
+<li><a href="#ibex">IBEX Pay</a> - dépositaire, tableau de bord marchand complexe, fonctionnalités multiples, conversion fiat, plugin Woocommerce</li>
+<li><a href="#blink">Blink Wallet</a> - dépositaire, adresse LN, PoS, API</li>
+<li><a href="#opago">Opago Pay</a> - non dépositaire, PoS hors ligne simple, conversion fiat, plugin Woocommerce</li>
+<li><a href="#swisspay">Swiss Bitcoin Pay</a> - </li>
+<li><a href="#lifpay">LifPay</a> - appli de dépôt, appli simple, PoS, NWC</li>
+<li><a href="#opennode">OpenNode</a> - processeur de paiement de dépôt, plugin Woocommerce</li>
+<li><a href="#coingate">CoinGate</a> - processeur de paiement de dépôt, plugin Woocommerce</li>
+<li><a href="#satsmobi">Sats Mobi</a> - bot Telegram LN avec options pour PoS</li>
+<li><a href="#voltz">LN Voltz Bank</a> - appli de dépôt, instance LNBits pour votre propre usage, plugin Woocommerce</li>
+<li><a href="#alby">Alby</a> - solution puissante et auto-dépositaire avec plusieurs fonctionnalités, NWC, plugin Woocommerce</li>
+<li><a href="#bluewallet">Bluewallet</a> - portefeuille LNdhub de garde ou nœud LDK LN intégré auto-dépositaire</li>
+<li><a href="#simple">Portefeuille mobile Phoenix / Green / Breez / Electrum</a> - nœuds LN auto-dépositaires mobiles simples</li>
+<li><a href="#blixt">Blixt</a> - nœud LND auto-dépositaire complet sur votre mobile, adresse LN</li>
+<li><a href="#zeus">Zeus</a> - nœud LND mobile auto-dépositaire complet, gestion de nœud à distance, comptes LNDHUB, adresse LN, PoS</li>
+<li><a href="#zaprite">Zaprite</a> - Solution puissante avec plusieurs méthodes de paiement mixtes</li>
+<li><a href="#advanced">Solutions avancées</a> Exécutez votre propre nœud LN BTC en tant que commerçant (serveur BTCPay ou LNBits)</li>
+</ul>
+
+<p>Un cas particulièrement simple pourrait également être l'utilisation de <a href="https://lightningaddress.com/">Lightning Address</a>. Pour les freelances ou les factures occasionnelles payées en BTC, vous pouvez configurer une adresse LN avec un serveur ou un service fédéré ou même avec votre propre domaine, lié à votre propre nœud. <a href="/beginner/getting-started-ln-address-fr.html">Voici un guide</a>.</p>
+
+<hr style="height:2px">
+
+<h3 id="coinos">1 - CoinOS <a href="#coinos">#</a></h3>
+<h4>Description / fonctionnalités</h4>
+<ul>
+<li><a href="https://coinos.io/">https://coinos.io/</a></li>
+<li>interface Web, PWA, facile à utiliser également sur les appareils mobiles, NWC (Nostr Wallet Connect)</li>
+<li>Custodial, non KYC</li>
+<li>pas besoin d'installer quoi que ce soit, il suffit de créer un compte/portefeuille anonyme</li>
+<li>échange transparent entre onchain / LN</li>
+<li>contrôle total des clés de portefeuille</li>
+<li>prise en charge complète de l'adresse LN, vous pouvez désormais en avoir une comme username@coinos.io</li>
+<li>prise en charge complète de l'envoi/réception/connexion LNURL</li>
+<li>prise en charge ecash</li>
+</ul>
+<h4>Cas d'utilisation scénario</h4>
+<ol>
+<li>ouvrez/créez un compte et enregistrez l'utilisateur/mot de passe, 2FA, clés, LNURL-auth</li>
+<li>Dans le compte (en haut à droite), vous verrez qu'une adresse unique est créée pour votre portefeuille, pour un accès facile, comme https://coinos.io/user-name</li>
+<li>pour commencer à recevoir des paiements, cliquez simplement sur le bouton de réception. Par défaut, la facture sera vide avec Lightning. Vous devrez ajouter un montant, certains portefeuilles LN ne sont pas encore capables de payer une facture LN vide.</li>
+<li>Vous pouvez également utiliser l'URL LN fournie pour recevoir des paiements sans facture LN, afin de pouvoir imprimer ce code QR LNURL sur un papier et le présenter aux clients, sans avoir besoin d'ouvrir le portefeuille en ligne. Une fois que le client vous montrera le paiement effectué, il n'y a aucun moyen d'annuler le paiement, donc plus besoin de confirmations.</li>
+<li>Il existe également la possibilité de recevoir l'adresse Lightning, de nombreux portefeuilles LN sont capables d'envoyer à username@coinos.io et vous n'avez pas besoin de faire de facture, le client envoie simplement le montant nécessaire.</li>
+<li>En fin de journée ou de semaine, ou à tout moment, le commerçant peut retirer les fonds du portefeuille CoinOS vers n'importe quel autre portefeuille personnel. L'échange des fonds LN vers l'adresse onchain se fait automatiquement (implique des frais d'échange). Mais il peut également être envoyé vers un autre portefeuille LN, sans autres frais que les frais de transaction (extrêmement faibles).</li>
+<li>Si vous souhaitez avoir une simple icône sur le bureau du téléphone, comme une application, ouvrez https://coinos.io/username dans votre navigateur mobile (j'ai testé avec Firefox sur Android), allez dans le menu et cliquez sur "Installer". Il créera une application d'icône simple que vous pourrez faire glisser sur le widget du bureau de votre téléphone et l'ouvrir la prochaine fois comme une application.</li>
+</ol>
+<hr style="height:2px">
+
+<h3 id="walletano">2 - Walletano <a href="#walletano">#</a></h3>
+<h4>Description / fonctionnalités :</h4>
+<ul>
+<li><a href="https://www.walletano.com/">https://www.walletano.com/</a></li>
+<li><a href="/wallets/getting-started-walletano-fr.html">Guide DC complet ici</a></li>
+<li>application PWA Web ou mobile simple et dépositaire, non KYC</li>
+<li>Option de connexion de votre propre nœud LN</li>
+<li>Option de création de sous-comptes à partir de votre propre nœud LN</li>
+<li>swaps LN intégrés <-->onchain</li>
+<li>Support des adresses LNURL / LN</li>
+<li>multi-comptes</li>
+<li>Pour une intégration facile, il s'agit d'une application très simple à utiliser pour les commerçants</li>
+</ul>
+<hr style="height:2px">
+
+<h3 id="ibex">3 - IBEX Pay <a href="#ibex">#</a></h3>
+<h4>Description / fonctionnalités :</h4>
+<ul>
+<li><a href="https://www.ibexpay.io/">https://www.ibexpay.io/</a></li>
+<li><a href="https://www.ibexpay.io/support">Plus de tutoriels ici</a></li>
+<li>Custodial, KYC</li>
+<li>Fonctionne avec LNURL et Lightning Address</li>
+<li>Passerelle de paiement pour les marketplaces</li>
+<li>Point de vente pour les commerçants</li>
+<li><a href="https://wordpress.com/es/plugins/ibexpay-payment-gateway">Plugin WP Woocomemrce pour les boutiques en ligne</a></li>
+</ul>
+<h4>Scénario d'utilisation</h4>
+<p>I je n'ai plus d'explications, <a href="https://www.youtube.com/watch?v=q_maOYxBtbs">voici une excellente vidéo de démonstration</a> réalisée par Ian Major expliquant étape par étape comment utiliser cette solution.
+<hr style="height:2px">
+
+<h3 id="blink">4 - Blink Wallet <a href="#blink">#</a></h3>
+<h4>Description / fonctionnalités :</h4>
+<ul>
+<li><a href="https://www.blink.sv/">https://www.blink.sv/</a></li>
+<li><a href="https://www.blink.sv/en/blog/bitcoin-how-tos">Plus de guides ici</a></li>
+<li>dépositaire, application mobile simple, KYC léger</li>
+<li>Fonctionne avec LNURL et Lightning Address</li>
+<li>Caisse enregistreuse Lightning, code de paiement imprimable, PoS Web</li>
+<li>Carte du commerçant</li>
+<li>API de portefeuille pour se connecter à d'autres applications LN</li>
+<li>Acheter du BTC dans l'application, disponible pour certains pays</li>
+<li>Contact liste</li>
+<li>Pour une intégration facile, il s'agit d'une application très simple à utiliser pour les commerçants</li>
+</ul>
+<hr style="height:2px">
+
+<h3 id="opago">5 - Opago Pay <a href="#opago">#</a></h3>
+<h4>Description / fonctionnalités :</h4>
+<ul>
+<li><a href="https://opago-pay.com/">https://opago-pay.com/</a></li>
+<li><a href="https://opago-pay.com/en/faq">Documentation Opago</a></li>
+<li>dépositaire avec option de retrait automatique, sans KYC</li>
+<li>PoS hors ligne</li>
+<li>Tableau de bord du commerçant</li>
+<li>Fonctionne avec LNURL et Lightning Address</li>
+<li>Rapports de transaction</li>
+<li>Accès au plugin Woocommerce, sur demande</li>
+<li>Pour une utilisation facile intégration c'est une application très simple à utiliser pour les commerçants</li>
+<li><a href="https://stacker.news/OPAGO_PAY/posts">Liste d'exemples de commerçants l'utilisant ici</a></li>
+</ul>
+<center>
+<video width="420" height="840" controls>
+<source src="https://video.nostr.build/0ea90f78975a12c4104fc340afb1e9665ff96165aa0f33d74ae993b488fcba49.mp4" type="video/mp4">
+</video>
+</center>
+<hr style="height:2px">
+
+<h3 id="swisspay">6 - Swiss Bitcoin Pay <a href="#swisspay">#</a></h3>
+<h4>Description / fonctionnalités :</h4>
+<ul>
+<li><a href="https://swiss-bitcoin-pay.ch/">https://swiss-bitcoin-pay.ch/</a></li>
+<li>dépositaire avec option de retrait automatique, sans KYC</li>
+<li>Application mobile PoS</li>
+<li>Fonctionne avec LNURL et Lightning Address</li>
+<li>Cartes Bitcoin NFC</li>
+<li>Rapports de transactions</li>
+<li>Plugin Woocommerce</li>
+<li>Pour une intégration facile, il s'agit d'une application très simple à utiliser pour les commerçants</li>
+</ul>
+<hr style="height:2px">
+
+<h3 id="lifpay">7 - LifPay <a href="#lifpay">#</a></h3>
+<h4>Description / fonctionnalités :</h4>
+<ul>
+<li><a href="https://lifpay.me/">https://lifpay.me/</a></li>
+<li>application mobile simple, sans KYC et dépositaire</li>
+<li>fonctionne avec LNURL et Lightning Address</li>
+<li>comptes multiples</li>
+<li>page Lightning</li>
+</ul>
+<hr style="height:2px">
+
+<h3 id="opennode">8 - OpenNode <a href="#opennode">#</a></h3>
+<h4>Description / fonctionnalités :</h4>
+<ul>
+<li><a href="https://opennode.com/">https://opennode.com/</a></li>
+<li>processeur de paiement complet, dépositaire, KYC léger avec prise en charge de plusieurs commerces électroniques plateformes</li>
+<li>Plugin Woocommerce</li>
+<li>Prise en charge des paiements onchain et LN</li>
+<li>Retraits automatiques et conversions fiat</li>
+<li>Page des marchands</li>
+</ul>
+<hr style="height:2px">
+
+<h3 id="coingatee">9 - CoinGate <a href="#coingate">#</a></h3>
+<h4>Description / fonctionnalités :</h4>
+<ul>
+<li><a href="https://coingate.com/">https://coingate.com/</a></li>
+<li>processeur de paiement complet, dépositaire, KYC léger avec prise en charge de plusieurs plateformes de commerce électronique</li>
+<li>Plugin Woocommerce</li>
+<li>Prise en charge des paiements onchain et LN</li>
+<li>Retraits et conversions fiat</li>
+<li>Page des marchands</li>
+</ul>
+<hr style="hauteur:2px">
+
+<h3 id="satsmobi">10 - Sats Mobi <a href="#satsmobi"></a></h3>
+<h4>Description / fonctionnalités</h4>
+<ul>
+<li><a href="https://t.me/satsmobi">https://t.me/satsmobi</a></li>
+<li>Portefeuille bot Telegram LN, peut être utilisé dans l'application Telegram et également importé dans Zeus, BitBanana ou Bluewallet en tant que portefeuille LN normal</li>
+<li>Custodial, non KYC</li>
+<li>Ce portefeuille est dépositaire, il ne doit donc être utilisé que pour de petits montants temporaires et retiré périodiquement vers un portefeuille personnel</li>
+<li>Prise en charge de LNURL et Lightning Address (TGuser@sats.mobi), facile à utiliser en mode hors ligne</li>
+<li><a href="https://massmux.org/p/built-in-lightning-pos-in-satsmobi">Peut également être utilisé comme un simple PoS</a></li>
+<li>frais très faibles pour les transactions, pas de frais pour ouvrir/maintenir le portefeuille du compte</li>
+<li>Acheter du BTC dans l'application</li>
+</ul>
+<h4>Scénario de cas d'utilisation</h4>
+<ol>
+<li>le commerçant ouvrira/créera un nom d'utilisateur Telegram</li>
+<li>aura automatiquement à sa disposition une LNURL sur https://sats.mobi/@TG-user-name qui pourra recevoir immédiatement des paiements LN, sans avoir besoin d'une facture LN, au moins 100 sats</li>
+<li>aura automatiquement à sa disposition une adresse Lightning comme username@ln.tips où les clients pourront payer directement avec les portefeuilles qui la prennent en charge.</li>
+<li>le commerçant peut également créer des factures LN, dans Telegram en chat direct avec @SatsMobiBot avec la commande /facture {montant sats} {description facultative} et afficher le code QR ou le code de facture LN au client</li>
+<li>le commerçant peut également importer le portefeuille SatsMobiBot dans l'application Zeus / Bluewallet et l'utiliser comme un portefeuille LN normal et créer des factures pour ses clients, déplacer des fonds vers d'autres portefeuilles, échanger vers la chaîne (en utilisant les services d'échange)</li>
+</ol>
+<hr style="height:2px">
+
+<h3 id="voltz">11 - LN Voltz<a href="#voltz"></a></h3>
+<h4>Description / fonctionnalités</h4>
+<ul>
+<li><a href="https://lnvoltz.com/">LN Voltz Bank</a></li>
+<li>Il s'agit d'une instance publique de LNbits, facile à créer des comptes de garde, au cas où vous auriez besoin d'un LNbits rapide, avec toutes ses fonctionnalités.</li>
+<li>Garde, non KYC. Ce portefeuille est de garde, il ne doit donc être utilisé que pour de petits montants temporaires et retiré périodiquement vers un portefeuille personnel</li>
+<li>prise en charge de LNURL et Lightning Address, PoS, PoS hors ligne, plusieurs extensions utiles, plugin Woocommerce pour LNbits</li>
+<li><a href="https://darthcoin.substack.com/p/lnbits-for-small-merchants">Voici un guide complet sur la façon d'utiliser LNbits pour les commerçants</a></li>
+<li>frais très faibles pour les transactions, aucun frais pour ouvrir/maintenir le portefeuille de compte</li>
+</ul>
+<h4>Scénario de cas d'utilisation</h4>
+<ol>
+<li>Le commerçant ouvrira/créera un compte Voltz, gratuitement</li>
+<li>Peut connecter sa boutique de commerce électronique directement à cette instance LNbits, via le <a href="https://wordpress.com/plugins/lightning-payment-gateway-lnbits">Woocommerce Plugin LNbits</a></li>
+<li>Vous devrez d'abord ajouter les extensions nécessaires : PayLinks, SatsPay Server, LNDHub, Scrub, Onchain, Boltz swap, TPOS et autres si nécessaire.</li>
+<li>Créez ensuite un lien SatsPay pour pouvoir le gérer à partir des frais du plugin Woocommerce dans votre boutique en ligne.</li>
+<li>Ajoutez un xpub onchain à partir de l'un de vos portefeuilles externes, qu'il soit froid ou chaud. Cela sera utilisé pour retirer les sats directement dans votre portefeuille externe auto-dépositaire.</li>
+<li>Dans l'extension PayLinks, vous pouvez créer un nombre illimité d'adresses LNURL et LN que vous souhaitez, utilisées pour les codes de paiement QR statiques directs ou avec un montant spécifique.</li>
+<li>L'extension Scrub peut être utilisée si vous souhaitez retirer automatiquement les sats facturés dans votre boutique en ligne à partir de ces LNbits de garde. En option, vous pouvez utiliser l'extension Boltz pour échanger les satellites de LN vers n'importe quelle adresse onchain.</li>
+<li>Avec l'extension LNdhub, vous pouvez gérer l'accès à vos comptes (vous pouvez créer plusieurs comptes de portefeuille dans ce cas) à l'aide d'une application externe comme Zeus, Bluewallet, BitBanana.</li>
+</ol>
+<hr style="height:2px">
+
+<h3 id="alby">12 - Alby Hub, Alby Go et extension de navigateur <a href="#alby">#</a></h3>
+<h4>Description / fonctionnalités</h4>
+<ul>
+<li><a href="https://getalby.com/">Extension Alby</a> | <a href="https://albyhub.com/">Alby Hub</a> | <a href="https://pos.albylabs.com/">Alby PoS</a> | <a href="https://albygo.com/">Alby Go</a></li>
+<li>cette application fonctionne principalement comme une extension de navigateur Web de bureau, ou en utilisant Alby Go comme un appareil mobile très simple et fiable application connectée à votre Alby Hub</li>
+<li>Peut également être importé dans Zeus, BitBanana ou Bluewallet en tant que portefeuille LN normal, mais le moyen le plus simple est d'utiliser l'application mobile Alby Go</li>
+<li><a href="/wallets/getting-started-alby-hub-fr.html">Guide DC complet pour Alby Hub</a></li>
+<li>prise en charge de LNURL et Lightning Address (user@getalby.com), facile à utiliser en mode hors ligne. Il est également possible d'avoir <a href="https://guides.getalby.com/user-guide/v/alby-account-and-browser-extension/alby-account/use-your-lightning-address/own-domain ">votre propre domaine pour l'adresse LN</a>.</li>
+<li>Prise en charge complète des connexions NWC avec les applications LN</li>
+<li>Vous pouvez l'utiliser avec <a href="https://pos .albylabs.com/">Alby Buzz PoS</a></li>
+<li>vous pouvez gérer vous-même vos propres chaînes si vous utilisez Alby Hub</li>
+<li><a href="https:// blog.getalby.com/fournir-des-portefeuilles-faciles-à-utiliser-à-vos-amis-et-votre-famille-avec-alby-hub/">Fournir des sous-comptes à la famille et aux amis</a></li>
+<li >prise en charge du backend de financement ecash</li>
+<li>Plus de guides et de tutoriels Alby <a href="https://blog.getalby.com/">ici</a> et <a href="https://guides.getalby.com/">ici</a></li>
+</ul >
+<hr style="height:2px">
+
+<h3 id="bluewallet">13 - Bluewallet <a href="#bluewallet">#</a></h3>
+<h4>Description / fonctionnalités</h4> <ul>
+<li><a href="https://bluewallet.io/">https://bluewallet.io/</a></li>
+<li>Portefeuille mobile LNDHUB simple et sécurisé, également pour ordinateur de bureau Mac application disponible</li>
+<li>en option, vous pouvez utiliser le nouveau nœud intégré LDK, mais il est toujours en version bêta</li>
+<li>Onchain est un portefeuille non dépositaire</li>
+<li>option à utiliser derrière Tor ( est lent) et se connecte à son propre nœud ou à un nœud de serveur Electrum spécifique</li>
+<li>Plusieurs Portefeuilles BTC LN</li>
+<li><a href="https://bluewallet.io/features/">Voir plus de fonctionnalités ici</a></li>
+<li><a href="/wallets/ bluewallet-funding-sources-fr.html">Guide DC supplémentaire sur la façon de connecter des sources de financement</a></li>
+<li>Peut également être connecté à SatsMobi en tant que compte LNDHUB</li>
+</ul>
+<p >Cas d'utilisation plus avancés des portefeuilles non dépositaires Bluewallet + LNDHUB :</p>
+<ul>
+<li><a href="https://darthcoin.substack.com/p/umbrel-lndhub-bluewallet">Nœud Umbrel + BW LNDHUB + application Bluewallet/Zeus</a></li>
+<li><a href="https://darthcoin.substack.com/p/umbrel-node-lnbits">Nœud Umbrel + LNBits LNDHUB + Bluewallet/application Zeus</a></li>
+</ul>
+<hr style="height:2px">
+
+<h3 id="simple">14 - Phoenix, Green, Breez ou Electrum <a href="#simple">#</a></h3>
+<h4>Description / caractéristiques</h4>
+<ul>
+<li>Liens : <a href="https://phoenix.acinq.co/">Phoenix</a> | <a href="https://blockstream.com/green/">Green</a> | <a href="https://breez.technology/">Breez</a> | <a href="https://electrum.org/">Electrum</a>
+<li>des portefeuilles mobiles simples qui fonctionnent sur la chaîne / LN sur la même interface</li>
+<li>ouvrent des canaux pour l'utilisateur, en arrière-plan ou manuellement ouverts par l'utilisateur, des frais sont impliqués</li>
+<li>swap intégré entre onchain / LN, donc pas besoin d'utiliser des services externes</li>
+<li>Breez dispose également d'une section PoS intégrée qui peut être facilement utilisée par un petit commerçant</li>
+<li><a href="/nodes/private-ln-nodes-en.html#phoenix">Guide Phoenix DC</a> | <a href="/wallets/getting-started-greenwallet-fr.html">Guide Green DC</a></li>
+</ul>
+<h4>Scénario de cas d'utilisation</h4>
+<ol>
+<li>le commerçant/utilisateur installe l'application et enregistre la graine dans un endroit sûr</li>
+<li>peut commencer à recevoir des paiements sur LN immédiatement, en cliquant sur le bouton de réception et en indiquant le montant, en créant le QR et la facture LN</li>
+<li>Il est préférable de commencer par un gros paiement reçu pour ouvrir un gros canal (comme 10 M de sats) pour vous et de ne payer qu'une seule fois les frais d'ouverture. Si vous commencez avec de petits montants, chaque fois que vous recevez un petit paiement, un nouveau canal s'ouvre et des frais vous sont facturés pour ce canal.</li>
+<li>Une fois que vous recevez un gros paiement, envoyez depuis ce canal environ 90 à 95 % des fonds vers un autre portefeuille LN ou échangez-les vers un autre portefeuille onchain (ou en utilisant des <a href="/nodes/lightning-submarine-swaps-en.html">services d'échange externes</a>), laissant le canal avec juste une petite quantité de sats pour le maintenir ouvert.</li>
+<li>Une fois que le canal est presque vide, vous pouvez recommencer à recevoir dans le même canal sans plus de frais d'ouverture.</li>
+</ol>
+<hr style="height:2px">
+
+<h3 id="blixt">15 - Nœud Blixt LN <a href="#blixt">#</a></h3>
+<h4>Description / fonctionnalités</h4>
+<ul>
+<li><a href="https://blixtwallet.com">https://blixtwallet.com</a></li>
+<li>nœud LND complet avec backend Neutrino sur votre appareil mobile</li>
+<li>Dunder LSP - Fournisseur de services de liquidité - canaux entrants à la demande</li>
+<li>gestion complète des canaux LN</li>
+<li>prise en charge de LNURL, Lightning Address, keysend</li>
+<li>Tor intégré avec option d'avoir un nodeID derrière Tor et d'accepter les canaux entrants</li>
+<li>fonction de sauvegarde/restauration facile (hors ligne et stockage cloud)</li>
+<li><a href="/wallets/getting-started-blixt-wallet-fr.html">Manuel d'utilisation complet de DC ici</a></li>
+<li><a href="https://blixtwallet.github.io/guides">Voir plus de guides et de scénarios sur l'utilisation de Blixt ici</a></li>
+</ul>
+<hr style="hauteur:2px">
+
+<h3 id="zeus">16 - Nœud Zeus LN <a href="#zeus">#</a></h3>
+<h4>Description / fonctionnalités</h4>
+<ul>
+<li><a href="https://zeusln.com">https://zeusln.com</a> | <a href="https://docs.zeusln.app">Zeus Docs</a></li>
+<li>nœud LND complet avec backend Neutrino sur votre appareil mobile</li>
+<li>nœuds LN distants complets gestion (LND / CLN)</li>
+<li>prise en charge des comptes LNDHUB</li>
+<li>Olympus LSP - Fournisseur de services de liquidité - canaux entrants à la demande</li>
+<li>gestion complète des canaux LN</li> >
+<li>prise en charge de Lightning Address, LNURL, keysend</li>
+<li>fonction de sauvegarde/restauration facile (stockage hors ligne et cloud)
+<li>PoS intégré avec fonctionnalités avancées</li>
+<li><a href=" /wallets/getting-started-zeus-wallet-fr.html">Manuel complet du nœud intégré DC Zeus ici</a></li>
+<li>Manuel d'utilisation du POS ici</li>
+</ul>
+<hr style= "hauteur:2px">
+
+<h3 id="zaprite">17 - Zaprite <a href="#zaprite">#</a></h3>
+<h4>Description / caractéristiques</h4>
+<ul>
+<li><a href="https: //zaprite.com/">https://zaprite.com/</a></li>
+<li>Très facile de mettre en œuvre des paiements Bitcoin sur votre site de boutique en ligne ou de l'utiliser en tant que freelance, dans un environnement auto-dépositaire <li>Prise en charge de plusieurs méthodes de paiement et sources de financement mixtes, notamment les cartes VISA et les virements bancaires</li>
+<li>Prise en charge des paiements BTC onchain et LN</li>
+<li>Intégration facile des frais de paiement sur votre boutique en ligne avec API</li>
+<li>Page de gestion des marchands</li>
+<li>équipe de support très serviable</li>
+</ul>
+<p>Voici un très bon tutoriel vidéo de BTC Sessions, présentant étape par étape comment configurer votre compte Zaprite et l'utiliser avec de nombreux financements différents sources.</p>
+<center>
+<iframe width="640" height="480" src="https://www.youtube.com/embed/Fpf4i7pvcBk" title="ZAPRITE : Comment accepter FACILEMENT les paiements en Bitcoin en ligne " frameborder="0" allow="accéléromètre; lecture automatique; écriture du presse-papiers; média crypté; gyroscope; image dans l'image; partage Web" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></ iframe>
+</center>
+<hr style="height:2px">
+
+<h3 id="advanced">18 - Solutions avancées <a href="#advanced">#</a></h3>
+<h4>Description / fonctionnalités</h4>
+<p>Il s'agit d'une solution complexe qui peut être exécutée sur votre propre matériel, de manière entièrement autonome, ou en utilisant des serveurs hébergés / VPS.</p>
+<p>L'idée est de gérer vous-même l'ensemble de la solution de paiement, mais cela implique également une gestion complète du financement, des canaux LN, de la liquidité, des swaps, etc.</p>
+<ul>
+<li><a href="/nodes/bitcoin-ln-node-software-en.html">Exécutez un nœud LN Bitcoin dédié avec plusieurs outils de gestion</a></li>
+<li><p>Exécutez vos propres instances de <a href="https://btcpayserver.org/">BTCPay Server</a> ou <a href="https://lnbits.com/">LNbits Server</a></p>
+<p>Les deux ces « solutions complètes » peuvent être exécutées sur votre matériel local ou sur des serveurs distants</p>
+<p>Consultez : <a href="https://www.voltage.cloud/">Voltage Cloud</a> ou <a href="https://nodana.io/">Nodana</a>, des solutions d'hébergement simples, où vous pouvez lancer un serveur BTCPay ou LNbits en quelques minutes.</p>
+<p>À mon avis, le plus simple et le plus simple pourrait être sur Nodana, en utilisant un serveur phoenixd + une instance LNbits. Phoenixd n'a pas besoin d'une gestion compliquée des canaux, c'est exactement comme un portefeuille mobile Phoenix, mais utilisé comme serveur de source de financement. Et LNBits est un outil puissant avec de multiples options pour les marchands, y compris un simple plugin WP Woocommerce.</p>
+<p><a href="https://www.youtube.com/watch?v=t28coHBX3aI">Voici un tutoriel vidéo</a> expliquant comment installer en quelques minutes un LNbits avec phoenixd comme source de financement sur un VPS.</p>
+<p><a href="https://ereignishorizont.xyz/blitzbank/en/">Voici un excellent guide</a>, étape par étape, expliquant comment configurer un LNbits avec phoenixd sur votre propre matériel ou VPS</p>
+<p><a href="https://github.com/massmux/lightstack">Voici un autre guide simple</a>, exécutez simplement une seule ligne de script et vous avez un serveur LNbits + phoenixd prêt, avec un domaine déjà configuré.</p>
+<p>LNbits prend en charge plusieurs sources de financement en tant que Nœud LND/CLN/phoenixd, autre instance LNbits, LN Pay, OpenNode, ZBD etc.</p>
+</li>
+<li><a href="/merchants/private-banks-over-ln-fr.html">Gérez votre propre banque privée LN</a></li>
+<li><a href="/merchants/bitcoin-lightning-payments-irl-fr.html">Acceptez les paiements Bitcoin et Lightning dans votre boutique en ligne</a></li>
+<li>Recevez des paiements envoyés directement vers votre adresse de stockage à froid ou Lightning</li>
+<li>PoS hors ligne/en ligne, outils matériels, distributeurs automatiques de billets, paiements NFC</li>
+<li>Paiements de commerce électronique</li>
+<li>S'intègre directement à WooCommerce</li>
+</ul>
+<hr style="height:2px">
+
+<h4>Plus de documentation, de guides, de scénarios</h4>
+<ul>
+<li><a href="/nodes/managing-lightning-node-liquidity-fr.html">Gérer la liquidité de votre nœud Lightning</a></li>
+<li><a href="https://darthcoin.substack.com/p/getting-started-lnbits">Démarrer avec LNbits</a></li>
+<li><a href="/merchants/operating-ln-as-merchant-fr.html">Fonctionner avec Lightning Network en tant que commerçant</a></li>
+<li><a href="https://darthcoin.substack.com/p/lnbits-for-small-merchants">LNBits pour les petits commerçants</a></li>
+<li><a href="https://darthcoin.substack.com/p/build-your-own-lnbits-app-server">Créez votre propre serveur d'applications LNbits</a></li>
+<li><a href="https://darthcoin.substack.com/p/lnbits-nostr-market">Démarrez votre marché NOSTR avec LNbits</a></li>
+<li><a href="https://darthcoin.substack.com/p/orange-pill-bitcoin-tpos-atm">"Pilule orange" avec Bitcoin TPoS ATM</a></li>
+<li><a href="/nodes/ln-bank-with-lnbits-fr.html">La banque LN avec LNBits</a></li>
+<li><a href="https://darthcoin.substack.com/p/lnbits-saas-a-solution-for-schools">LNbits SaaS – Une solution pour les projets et événements scolaires</a></li>
+<li><a href="https://darthcoin.substack.com/p/lnbits-streamer-copilot">Comment utiliser LNbits Streamer Copilot</a></li>
+<li><a href="/merchants/bitcoin-lightning-payments-irl-fr.html">Accepter BTC - exemples concrets</a></li>
+<li><a href="https://stacker.news/items/600658/r/DarthCoin">Voici d'autres options pour les systèmes PoS avec BTC</a></li>
+</ul>
+<hr style="height:2px">
+
+<p>Comme vous pouvez le constater, il existe de nombreuses solutions et applications pour commencer à accepter Bitcoin, en particulier en utilisant Lightning Network qui est le réseau de PAIEMENT pour Bitcoin. Étudiez-les toutes et voyez laquelle est la plus adaptée à votre entreprise. Je suis sûr qu'il y en a beaucoup d'autres et qu'elles seront toutes en constante évolution.</p>
+<p>En tant que nouveau commerçant Bitcoin, n'oubliez pas également de promouvoir votre entreprise sur <a href="https://btcmap.org">BTC Map</a> ! Il est très important que les utilisateurs de Bitcoin sachent que vous acceptez désormais les Bitcoins.</p>
+<p><a href="/beginner/pay-with-bitcoin-fr.html">Ici, dans ce guide</a>, vous pouvez trouver d'autres listes de commerçants où vous pouvez ajouter votre boutique/entreprise pour être plus visible auprès d'un plus grand nombre d'utilisateurs de Bitcoin.</p>
+</body>
+</html>
+</article>
