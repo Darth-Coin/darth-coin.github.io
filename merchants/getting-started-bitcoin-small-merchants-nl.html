@@ -1,0 +1,401 @@
+---
+layout: default
+title: Aan de slag met Bitcoin voor handelaren
+---
+<article>
+<!DOCTYPE html>
+<html lang="nl">
+<meta name="description" content="Bitcoin- en Lightning Nodes-handleidingen: welke Bitcoin LN-oplossingen u als kleine handelaar kunt gaan gebruiken.">
+<body>
+<a href="/merchants/getting-started-bitcoin-small-merchants-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/getting-started-bitcoin-small-merchants-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/getting-started-bitcoin-small-merchants-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/getting-started-bitcoin-small-merchants-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/getting-started-bitcoin-small-merchants-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/getting-started-bitcoin-small-merchants-hr.html">Hrvatski <img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/getting-started-bitcoin-small-merchants-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<em><blockquote style="color:Tomato;">
+<p>Oorspronkelijk geplaatst op <a href="https://darthcoin.substack.com/p/bitcoin-for-small-merchants">Substack</a> op 26 oktober 2021. Hier bijgewerkt op 3 december 2024.</p>
+</em></blockquote>
+
+<h3>Welke Bitcoin LN-oplossingen kun je als kleine handelaar gebruiken?</h3>
+<p>Ik heb deze vraag vaak gehoord: "Hoe begin ik met het accepteren van Bitcoin als kleine handelaar?"</p>
+<p>En hier wil ik een aantal eenvoudige, snelle oplossingen, testterrein, kleine, eenvoudige stappen, presenteren voor nieuwe gebruikers die nog steeds geen volledige LN-nodemachine kunnen/willen draaien.</p>
+
+<h4>Te bereiken doelen:</h4>
+<ul>
+<li>Handelaar wil BTC via LN gaan accepteren, met eenvoudige stappen, net genoeg om het te testen, om te leren hoe het werkt en om BTC te kunnen ontvangen.</li>
+<li>Laagste kosten mogelijk</li>
+<li>Voldoen aan de Bitcoin- en Lightning Network-voorwaarden, hoe wallets, QR-codes, LN-facturen, LNURL, kosten etc. te gebruiken</li>
+<li>Een manier om de ontvangen fondsen naar een "hodling" wallet te verplaatsen</li>
+<li>Bereid de mindset voor op de volgende stap: het runnen van een merchant LN-node. Deze oplossingen zijn slechts de eerste stap, tijdelijk, totdat de merchant klaar is om een ​​volledige node te hebben, een eigen bank om zijn eigen geld te beheren.</li>
+<li>Toegang hebben tot een WP Woocommerce-plug-in om snel te integreren met bestaande e-commerce webshops</li>
+<li>Dit is GEEN oplossing voor de lange termijn, het is alleen om je voor te bereiden en te begrijpen hoe Bitcoin LN werkt voor een kleine winkel. Voor een oplossing op de lange termijn en zelfbeheer, raadpleeg de <a href="#advanced">sectie Geavanceerde oplossingen hieronder.</a></li>
+</ul>
+
+<h3 style="color:Orange;">Beschikbare oplossingen:</h3>
+<p>Elk heeft zijn eigen bijzonderheden, functies, complexiteitsniveau en use cases. Ik raad aan om er 2-3 te gebruiken en er vertrouwd mee te raken, terwijl je de andere bestudeert.</p>
+<ul>
+<li><a href="#coinos">CoinOS</a> - custodial, zeer eenvoudige onboarding, NWC, geen app vereist</li>
+<li><a href="#walletano">Walletano</a> - custodial, zeer eenvoudige onboarding, geen app vereist</li>
+<li><a href="#ibex">IBEX Pay</a> - custodial, complex merchant dashboard, meerdere functies, fiat-conversie, Woocommerce-plug-in</li>
+<li><a href="#blink">Blink Wallet</a> - custodial, LN-adres, PoS, API</li>
+<li><a href="#opago">Opago Pay</a> - non-custodial, eenvoudige offline PoS, fiat-conversie, Woocommerce-plug-in</li>
+<li><a href="#swisspay">Swiss Bitcoin Pay</a> - bewaarplaats, eenvoudige app, PoS-app, Woocommerce-plug-in</li>
+<li><a href="#lifpay">LifPay</a> - bewaarplaats, eenvoudige app, PoS, NWC</li>
+<li><a href="#opennode">OpenNode</a> - bewaarplaats betalingsverwerker, Woocommerce-plug-in</li>
+<li><a href="#coingate">CoinGate</a> - bewaarplaats betalingsverwerker, Woocommerce-plug-in</li>
+<li><a href="#satsmobi">Sats Mobi</a> - bewaarplaats, Telegram LN-bot met opties voor PoS</li>
+<li><a href="#voltz">LN Voltz Bank</a> - bewaarplaats, LNBits-instantie voor eigen gebruik, Woocommerce-plug-in</li>
+<li><a href="#alby">Alby</a> - self-custodial, krachtige oplossing met meerdere functies, NWC, Woocommerce-plug-in</li>
+<li><a href="#bluewallet">Bluewallet</a> - custodial LNdhub-portemonnee of self-custodial ingebedde LDK LN-node</li>
+<li><a href="#simple">Phoenix / Green / Breez / Electrum mobiele portemonnee</a> - eenvoudige mobiele self-custodial LN-nodes</li>
+<li><a href="#blixt">Blixt</a> - volledige self-custodial LND-node op uw mobiel, LN-adres</li>
+<li><a href="#zeus">Zeus</a> - volledige self-custodial mobiele LND-node, extern nodebeheer, LNDHUB-accounts, LN-adres, PoS</li>
+<li><a href="#zaprite">Zaprite</a> - Krachtig oplossing met meerdere gemengde betaalmethoden</li>
+<li><a href="#advanced">Geavanceerde oplossingen</a> Voer uw eigen BTC LN-knooppunt uit als handelaar (BTCPay Server of LNBits)</li>
+</ul>
+
+<p>Een bijzonder eenvoudig geval zou ook kunnen zijn het gebruik van <a href="https://lightningaddress.com/">Lightning Address</a>. Voor freelancers of incidentele facturen die in BTC worden betaald, kunt u een LN-adres instellen met een gefedereerde server of service of zelfs met uw eigen domein, gekoppeld aan uw eigen knooppunt. <a href="/beginner/getting-started-ln-address-nl.html">Hier is een handleiding</a>.</p>
+
+<hr style="height:2px">
+
+<h3 id="coinos">1 - CoinOS <a href="#coinos">#</a></h3>
+<h4>Beschrijving / functies</h4>
+<ul>
+<li><a href="https://coinos.io/">https://coinos.io/</a></li>
+<li>webinterface, PWA, eenvoudig te gebruiken op mobiele apparaten, NWC (Nostr Wallet Connect)</li>
+<li>Bewaring, geen KYC</li>
+<li>geen installatie nodig, maak gewoon een anonieme account/wallet aan</li>
+<li>naadloos wisselen tussen onchain / LN</li>
+<li>volledige controle over wallet-sleutels</li>
+<li>volledige ondersteuning voor LN-adres, nu kunt u er een hebben als gebruikersnaam@coinos.io</li>
+<li>volledige ondersteuning voor LNURL verzenden / ontvangen / inloggen</li>
+<li>ecash support</li>
+</ul>
+<h4>Gebruiksscenario</h4>
+<ol>
+<li>Open/maak een account en sla de gebruikersnaam/het wachtwoord, 2FA, sleutels, LNURL-auth op</li>
+<li>In account (rechtsboven) ziet u dat er een uniek adres voor uw wallet is aangemaakt, voor eenvoudige toegang, zoals https://coinos.io/gebruikersnaam</li>
+<li>Om betalingen te ontvangen, klikt u gewoon op de knop Ontvangen. Standaard is dit een lege Lightning-factuur. U moet een bedrag toevoegen, sommige LN-wallets kunnen nog geen lege LN-factuur betalen.</li>
+<li>U kunt ook de meegeleverde LNURL gebruiken om betalingen te ontvangen zonder LN-factuur, zodat u die LNURL QR-code op papier kunt afdrukken en aan de klanten kunt presenteren, zonder dat u de online wallet hoeft te openen. Zodra de klant de betaling heeft laten zien, is er geen manier om de betaling terug te draaien, dus er zijn geen verdere bevestigingen nodig.</li>
+<li>Er is ook de optie om te ontvangen op Lightning Address, veel LN-wallets kunnen naar username@coinos.io sturen en u hoeft geen factuur te maken, de klant hoeft alleen het bedrag te sturen.</li>
+<li>Aan het einde van de dag of week, of wanneer gewenst, kan de handelaar het geld van de CoinOS-wallet opnemen naar een andere persoonlijke wallet. De omwisseling van LN-fondsen naar het onchain-adres gebeurt automatisch (bevat een omwisselingsvergoeding). Maar kan ook naar een andere LN-wallet worden gestuurd, zonder andere vergoeding dan de tx-vergoeding (extreem laag).</li>
+<li>Als u een eenvoudig pictogram op het bureaublad van uw telefoon wilt hebben, zoals een app, opent u https://coinos.io/gebruikersnaam in uw mobiele browser (ik heb het getest met Firefox op Android), gaat u naar het menu en klikt u op "Installeren". Het maakt een eenvoudige pictogram-app die u naar de widget van uw telefoon kunt slepen en de volgende keer als een app kunt openen.</li>
+</ol>
+<hr style="height:2px">
+
+<h3 id="walletano">2 - Walletano <a href="#walletano">#</a></h3>
+<h4>Beschrijving / functies:</h4>
+<ul>
+<li><a href="https://www.walletano.com/">https://www.walletano.com/</a></li>
+<li><a href="/wallets/getting-started-walletano-nl.html">Volledige DC-gids hier</a></li>
+<li>custodial, eenvoudige web- of mobiele PWA-app, geen KYC</li>
+<li>Optie om eigen LN-knooppunt te verbinden</li>
+<li>Optie om subaccounts te maken vanuit uw eigen LN-knooppunt</li>
+<li>geïntegreerde swaps LN <-->onchain</li>
+<li>LNURL / LN Address-ondersteuning</li>
+<li>meerdere accounts</li>
+<li>Voor eenvoudige onboarding is dit een zeer eenvoudig te gebruiken app voor handelaren</li>
+</ul>
+<hr style="height:2px">
+
+<h3 id="ibex">3 - IBEX Pay <a href="#ibex">#</a></h3>
+<h4>Beschrijving / functies:</h4>
+<ul>
+<li><a href="https://www.ibexpay.io/">https://www.ibexpay.io/</a></li>
+<li><a href="https://www.ibexpay.io/support">Meer tutorials hier</a></li>
+<li>Custodial, KYC</li>
+<li>Werkt met LNURL en Lightning Address</li>
+<li>Betaalgateway voor Marktplaatsen</li>
+<li>Point-of-Sale voor handelaren</li>
+<li><a href="https://wordpress.com/es/plugins/ibexpay-payment-gateway">WP Woocomemrce plugin voor e-shops</a></li>
+</ul>
+<h4>Gebruiksscenario</h4>
+<p>Ik heb geen verdere uitleg, <a href="https://www.youtube.com/watch?v=q_maOYxBtbs">hier is een uitstekende videodemo</a> gemaakt door Ian Major die stap voor stap uitlegt hoe je deze oplossing gebruikt.
+<hr style="height:2px">
+
+<h3 id="blink">4 - Blink Wallet <a href="#blink">#</a></h3>
+<h4>Beschrijving / functies:</h4>
+<ul>
+<li><a href="https://www.blink.sv/">https://www.blink.sv/</a></li>
+<li><a href="https://www.blink.sv/en/blog/bitcoin-how-tos">Meer handleidingen hier</a></li>
+<li>custodial, eenvoudige mobiele app, lichte KYC</li>
+<li>Werkt met LNURL en Lightning Address</li>
+<li>Lightning kassa, afdrukbare betaalcode, web PoS</li>
+<li>Merchant map</li>
+<li>Wallet API om verbinding te maken met andere LN-apps</li>
+<li>Koop BTC in de app, beschikbaar voor sommige landen</li>
+<li>Contactenlijst</li>
+<li>Voor eenvoudige onboarding dit is een zeer eenvoudig te gebruiken app voor handelaren</li>
+</ul>
+<hr style="height:2px">
+
+<h3 id="opago">5 - Opago Pay <a href="#opago">#</a></h3>
+<h4>Beschrijving / functies:</h4>
+<ul>
+<li><a href="https://opago-pay.com/">https://opago-pay.com/</a></li>
+<li><a href="https://opago-pay.com/en/faq">Opago-documentatie</a></li>
+<li>custodial met automatische opnameoptie, geen KYC</li>
+<li>offline PoS</li>
+<li>Handelaarsdashboard</li>
+<li>Werkt met LNURL en Lightning Address</li>
+<li>Transactierapportage</li>
+<li>Woocommerce-plug-intoegang, op aanvraag</li>
+<li>Voor eenvoudige onboarding is dit een zeer eenvoudige om app voor handelaren te gebruiken</li>
+<li><a href="https://stacker.news/OPAGO_PAY/posts">Lijst met voorbeelden van handelaren die het hier gebruiken</a></li>
+</ul>
+<center>
+<video width="420" height="840" controls>
+<source src="https://video.nostr.build/0ea90f78975a12c4104fc340afb1e9665ff96165aa0f33d74ae993b488fcba49.mp4" type="video/mp4">
+</video>
+</center>
+<hr style="height:2px">
+
+<h3 id="swisspay">6 - Swiss Bitcoin Pay <a href="#swisspay">#</a></h3>
+<h4>Beschrijving / functies:</h4>
+<ul>
+<li><a href="https://swiss-bitcoin-pay.ch/">https://swiss-bitcoin-pay.ch/</a></li>
+<li>custodial met automatische opnameoptie, geen KYC</li>
+<li>PoS mobiele app</li>
+<li>Werkt met LNURL en Lightning Address</li>
+<li>Bitcoin NFC-kaarten</li>
+<li>Transactierapportage</li>
+<li>Woocommerce-plug-in</li>
+<li>Voor eenvoudige onboarding is dit een zeer eenvoudig te gebruiken app voor handelaren</li>
+</ul>
+<hr style="height:2px">
+
+<h3 id="lifpay">7 - LifPay <a href="#lifpay">#</a></h3>
+<h4>Beschrijving / functies:</h4>
+<ul>
+<li><a href="https://lifpay.me/">https://lifpay.me/</a></li>
+<li>custodial, no-KYC, eenvoudige mobiele app</li>
+<li>Werkt met LNURL en Lightning Address</li>
+<li>Multi accounts</li>
+<li>Lightning-pagina</li>
+</ul>
+<hr style="height:2px">
+
+<h3 id="opennode">8 - OpenNode <a href="#opennode">#</a></h3>
+<h4>Beschrijving / functies:</h4>
+<ul>
+<li><a href="https://opennode.com/">https://opennode.com/</a></li>
+<li>custodial, light-KYC, complete betalingsverwerker met ondersteuning voor meerdere e-commerceplatforms</li>
+<li>Woocommerce-plug-in</li>
+<li>Ondersteuning voor onchain- en LN-betalingen</li>
+<li>Automatische opnames en fiat-conversies</li>
+<li>Handelarenpagina</li>
+</ul>
+<hr style="height:2px">
+
+<h3 id="coingatee">9 - CoinGate <a href="#coingate">#</a></h3>
+<h4>Beschrijving / functies:</h4>
+<ul>
+<li><a href="https://coingate.com/">https://coingate.com/</a></li>
+<li>custodial, light-KYC, complete betalingsverwerker met ondersteuning voor meerdere e-commerceplatforms platforms</li>
+<li>Woocommerce-plug-in</li>
+<li>Ondersteuning voor onchain- en LN-betalingen</li>
+<li>Opnames en fiat-conversies</li>
+<li>Handelarenpagina</li>
+</ul>
+<hr style="height:2px">
+
+<h3 id="satsmobi">10 - Sats Mobi <a href="#satsmobi"></a></h3>
+<h4>Beschrijving / functies</h4>
+<ul>
+<li><a href="https://t.me/satsmobi">https://t.me/satsmobi</a></li>
+<li>Telegram LN bot-portemonnee, kan worden gebruikt in de Telegram-app en ook worden geïmporteerd in Zeus, BitBanana of Bluewallet als normale LN-portemonnee</li>
+<li>Bewaring, niet-KYC</li>
+<li>deze portemonnee is bewaard en mag daarom alleen worden gebruikt voor tijdelijke kleine bedragen en periodiek opgenomen in een persoonlijke wallet</li>
+<li>ondersteuning voor LNURL en Lightning Address (TGuser@sats.mobi), eenvoudig te gebruiken in offline modus</li>
+<li><a href="https://massmux.org/p/built-in-lightning-pos-in-satsmobi">Kan ook worden gebruikt als een eenvoudige PoS</a></li>
+<li>zeer kleine kosten voor txs, geen kosten om de account wallet te openen/onderhouden</li>
+<li>BTC kopen in app</li>
+</ul>
+<h4>Gebruiksscenario</h4>
+<ol>
+<li>handelaar opent/maakt een Telegram-gebruikersnaam</li>
+<li>heeft automatisch een LNURL beschikbaar op https://sats.mobi/@TG-user-name die direct LN-betalingen kan ontvangen, zonder dat er een LN-factuur nodig is, min. 100 sats</li>
+<li>heeft automatisch een Lightning Address beschikbaar als username@ln.tips waar klanten rechtstreeks kunnen betalen met wallets die dit ondersteunen.</li>
+<li>handelaar kan ook LN-facturen maken, in Telegram in directe chat met @SatsMobiBot met de opdracht /invoice {bedrag sats} {optionele beschrijving} en QR- of LN-factuurcode aan de klant tonen</li>
+<li>handelaar kan ook de SatsMobiBot-wallet importeren in de Zeus / Bluewallet-app en deze gebruiken als een normale LN-wallet en facturen maken voor zijn klanten, fondsen verplaatsen naar andere wallets, swappen naar onchain (met behulp van swap-services)</li>
+</ol>
+<hr style="height:2px">
+
+<h3 id="voltz">11 - LN Voltz<a href="#voltz"></a></h3>
+<h4>Beschrijving / functies</h4>
+<ul>
+<li><a href="https://lnvoltz.com/">LN Voltz Bank</a></li>
+<li>Is een openbare LNbits-instantie, eenvoudig om bewaarrekeningen aan te maken, voor het geval u snel een LNbits nodig hebt, met alle functies.</li>
+<li>Bewaarrekening, niet KYC. Deze wallet is een bewaarportemonnee en mag daarom alleen worden gebruikt voor tijdelijke kleine bedragen en periodiek worden opgenomen in een persoonlijke wallet</li>
+<li>ondersteuning voor LNURL en Lightning Address, PoS, offline PoS, meerdere nuttige extensies, Woocommerce-plug-in voor LNbits</li>
+<li><a href="https://darthcoin.substack.com/p/lnbits-for-small-merchants">Hier is een volledige handleiding over het gebruik van LNbits voor handelaren</a></li>
+<li>zeer kleine kosten voor txs, geen kosten om de accountwallet te openen/onderhouden</li>
+</ul>
+<h4>Gebruiksscenario</h4>
+<ol>
+<li>Handelaar opent/maakt gratis een Voltz-account</li>
+<li>Kan zijn e-commercewinkel rechtstreeks verbinden met deze LNbits-instantie, via de <a href="https://wordpress.com/plugins/lightning-payment-gateway-lnbits">Woocommerce LNbits plugin</a></li>
+<li>Eerst moet je de benodigde extensies toevoegen: PayLinks, SatsPay Server, LNDHub, Scrub, Onchain, Boltz swap, TPOS en andere indien nodig.</li>
+<li>Maak vervolgens een SatsPay-link om deze te kunnen beheren vanuit Woocommerce plugin-kosten in je e-shop.</li>
+<li>Voeg een onchain xpub toe van een van je externe wallets, dit kan koud of warm zijn. Dit wordt gebruikt om de sats rechtstreeks in uw externe self-custodial wallet op te nemen.</li>
+<li>In de PayLinks-extensie kunt u onbeperkt LNURL- en LN-adressen aanmaken die u wilt, die worden gebruikt voor directe statische QR-betaalcodes of met een specifiek bedrag.</li>
+<li>De Scrub-extensie kan worden gebruikt als u de sats die in uw e-shop in rekening zijn gebracht, automatisch uit deze LNbits wilt opnemen. Optioneel kunt u de Boltz-extensie gebruiken om de sats van LN naar elk onchain-adres te wisselen.</li>
+<li>Met de LNdhub-extensie kunt u de toegang tot uw accounts beheren (u kunt in dit geval meerdere wallet-accounts aanmaken) met behulp van een externe app zoals Zeus, Bluewallet, BitBanana.</li>
+</ol>
+<hr style="height:2px">
+
+<h3 id="alby">12 - Alby Hub, Alby Go en browserextensie <a href="#alby">#</a></h3>
+<h4>Beschrijving / functies</h4>
+<ul>
+<li><a href="https://getalby.com/">Alby-extensie</a> | <a href="https://albyhub.com/">Alby Hub</a> | <a href="https://pos.albylabs.com/">Alby PoS</a> | <a href="https://albygo.com/">Alby Go</a></li>
+<li>deze app werkt voornamelijk als een desktop webbrowser-extensie, of door Alby Go te gebruiken als een zeer eenvoudige en betrouwbare mobiele app die is verbonden met uw Alby Hub</li>
+<li>Kan ook worden geïmporteerd in Zeus, BitBanana of Bluewallet als een normale LN-wallet, maar de beste eenvoudige manier is om de mobiele app Alby Go te gebruiken</li>
+<li><a href="/wallets/getting-started-alby-hub-nl.html">Volledige DC-gids voor Alby Hub</a></li>
+<li>ondersteuning voor LNURL en Lightning Address (user@getalby.com), eenvoudig te gebruiken in offline modus. Ook ondersteuning voor <a href="https://guides.getalby.com/user-guide/v/alby-account-and-browser-extension/alby-account/use-your-lightning-address/own-domain">uw eigen domein voor LN-adres</a>.</li>
+<li>Volledige ondersteuning voor NWC-verbindingen met LN-apps</li>
+<li>U kunt het gebruiken met <a href="https://pos.albylabs.com/">Alby Buzz PoS</a></li>
+<li>U kunt zelf uw eigen kanalen beheren als u de Alby Hub gebruikt</li>
+<li><a href="https://blog.getalby.com/provide-easy-to-use-wallets-to-friends-and-family-with-alby-hub/">Bied subaccounts voor familie en vrienden</a></li>
+<li>ondersteuning voor ecash-financieringsbackend</li>
+<li>Meer Alby-gidsen en tutorials <a href="https://blog.getalby.com/">hier</a> en <a href="https://guides.getalby.com/">hier</a></li>
+</ul>
+<hr style="height:2px">
+
+<h3 id="bluewallet">13 - Bluewallet <a href="#bluewallet">#</a></h3>
+<h4>Beschrijving / functies</h4>
+<ul>
+<li><a href="https://bluewallet.io/">https://bluewallet.io/</a></li>
+<li>eenvoudige, bewaarde LNDHUB mobiele portemonnee, ook Mac desktop-app beschikbaar</li>
+<li>optioneel kunt u de nieuwe LDK geïntegreerde node gebruiken, maar is nog in bèta</li>
+<li>Onchain is een niet-bewaarde wallet</li>
+<li>optie om achter Tor te gebruiken (is traag) en verbinding te maken met eigen node of specifieke Electrum-server node</li>
+<li>Meerdere BTC LN-wallets</li>
+<li><a href="https://bluewallet.io/features/">Bekijk hier meer functies</a></li>
+<li><a href="/wallets/bluewallet-funding-sources-nl.html">Aanvullende DC-handleiding voor het verbinden van financieringsbronnen</a></li>
+<li>Kan ook worden verbonden met SatsMobi als een LNDHUB-account</li>
+</ul>
+<p>Meer geavanceerde use cases van Bluewallet + LNDHUB non-custodial wallets:</p>
+<ul>
+<li><a href="https://darthcoin.substack.com/p/umbrel-lndhub-bluewallet">Umbrel node + BW LNDHUB + Bluewallet/Zeus-app</a></li>
+<li><a href="https://darthcoin.substack.com/p/umbrel-node-lnbits">Umbrel node + LNBits LNDHUB + Bluewallet/Zeus app</a></li>
+</ul>
+<hr style="height:2px">
+
+<h3 id="simple">14 - Phoenix, Green, Breez of Electrum <a href="#simple">#</a></h3>
+<h4>Beschrijving / functies</h4>
+<ul>
+<li>Links: <a href="https://phoenix.acinq.co/">Phoenix</a> | <a href="https://blockstream.com/green/">Green</a> | <a href="https://breez.technology/">Breez</a> | <a href="https://electrum.org/">Electrum</a>
+<li>eenvoudige mobiele wallets die onchain/LN op dezelfde interface werken</li>
+<li>openen kanalen voor de gebruiker, op de achtergrond of handmatig geopend door de gebruiker, kosten zijn hierbij betrokken</li>
+<li>geïntegreerde swap tussen onchain/LN, dus geen noodzaak om externe services te gebruiken</li>
+<li>Breez heeft ook een geïntegreerde PoS-sectie die eenvoudig kan worden gebruikt door een kleine handelaar</li>
+<li><a href="/nodes/private-ln-nodes-nl.html#phoenix">Phoenix DC-gids</a> | <a href="/wallets/getting-started-greenwallet-nl.html">Green DC-gids</a></li>
+</ul>
+<h4>Gebruiksscenario</h4>
+<ol>
+<li>handelaar/gebruiker installeert de app en bewaart de seed op een veilige plek</li>
+<li>kan direct betalingen ontvangen op LN, door op de knop ontvangen te klikken en het bedrag in te voeren, de QR-code en LN-factuur te maken</li>
+<li>Het is beter om te beginnen met een grote ontvangen betaling om een ​​groot kanaal (zoals 10M sats) voor u te openen en slechts één keer de openingsvergoeding te betalen. Als je met kleine bedragen begint, wordt er elke keer dat je een kleine betaling ontvangt een nieuw kanaal geopend en worden er kosten voor dat kanaal in rekening gebracht.</li>
+<li>Zodra je een grote betaling ontvangt, stuur je 90-95% van de fondsen van dat kanaal naar een andere LN-wallet of wissel je naar een andere onchain-wallet (of gebruik je <a href="/nodes/lightning-submarine-swaps-en.html">externe swapservices</a>), waardoor het kanaal slechts een kleine hoeveelheid sats overhoudt om het kanaal open te houden.</li>
+<li>Zodra het kanaal bijna leeg is, kun je weer gaan ontvangen in hetzelfde kanaal zonder verdere openingskosten.</li>
+</ol>
+<hr style="height:2px">
+
+<h3 id="blixt">15 - Blixt LN-knooppunt <a href="#blixt">#</a></h3>
+<h4>Beschrijving / functies</h4>
+<ul>
+<li><a href="https://blixtwallet.com">https://blixtwallet.com</a></li>
+<li>volledige LND-node met Neutrino-backend op uw mobiele apparaat</li>
+<li>Dunder LSP - Liquidity Service Provider - on-demand inbound-kanalen</li>
+<li>volledig LN-kanalenbeheer</li>
+<li>ondersteuning voor LNURL, Lightning Address, keysend</li>
+<li>Geïntegreerde Tor met de optie om een ​​nodeID achter Tor te hebben en inkomende kanalen te accepteren</li>
+<li>eenvoudige back-up-/herstelfunctie (offline en cloudopslag)</li>
+<li><a href="/wallets/getting-started-blixt-wallet-nl.html">Volledige DC-gebruikershandleiding hier</a></li>
+<li><a href="https://blixtwallet.github.io/guides">Bekijk hier meer handleidingen en scenario's over het gebruik van Blixt</a></li>
+</ul>
+<hr style="hoogte:2px">
+
+<h3 id="zeus">16 - Zeus LN-knooppunt <a href="#zeus">#</a></h3>
+<h4>Beschrijving/kenmerken</h4>
+<ul>
+<li><a href="https://zeusln.com">https://zeusln.com</a> | <a href="https://docs.zeusln.app">Zeus Docs</a></li>
+<li>volledig LND-knooppunt met Neutrino-backend op uw mobiele apparaat</li>
+<li>volledig beheer van externe LN-knooppunten (LND / CLN)</li>
+<li>ondersteuning voor LNDHUB-accounts</li>
+<li>Olympus LSP - Liquidity Service Provider - on-demand inbound-kanalen</li>
+<li>volledig beheer van LN-kanalen</li>
+<li>ondersteuning voor Lightning Address, LNURL, keysend</li>
+<li>eenvoudige back-up-/herstelfunctie (offline en cloudopslag)
+<li>geïntegreerde PoS met geavanceerde functies</li>
+<li><a href="/wallets/getting-started-zeus-wallet-nl.html">Volledige handleiding voor DC Zeus embedded node hier</a></li>
+<li>POS-gebruikershandleiding hier</li>
+</ul>
+<hr style="height:2px">
+
+<h3 id="zaprite">17 - Zaprite <a href="#zaprite">#</a></h3>
+<h4>Beschrijving / functies</h4>
+<ul>
+<li><a href="https://zaprite.com/">https://zaprite.com/</a></li>
+<li>Zeer eenvoudig om Bitcoin-betalingen op uw e-shopsite te implementeren of als freelancer te gebruiken, op een self-custodial manier</li>
+<li>Ondersteuning voor meerdere en gemengde betaalmethoden en financieringsbronnen, waaronder VISA-kaarten en bankoverschrijvingen</li>
+<li>Ondersteuning voor BTC onchain en LN-betalingen</li>
+<li>Eigenlijk betalingskosten integreren op uw e-shop met API</li>
+<li>Merchant management-pagina</li>
+<li>Zeer behulpzaam supportteam</li>
+</ul>
+<p>Hier is een zeer goede videotutorial van BTC Sessions, die stap voor stap laat zien hoe u uw Zaprite-account en gebruik het met veel verschillende financieringsbronnen.</p>
+<center>
+<iframe width="640" height="480" src="https://www.youtube.com/embed/Fpf4i7pvcBk" title="ZAPRITE: Hoe je EENVOUDIG Bitcoin-betalingen online accepteert" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</center>
+<hr style="height:2px">
+
+<h3 id="advanced">18 - Geavanceerde oplossingen <a href="#advanced">#</a></h3>
+<h4>Beschrijving / functies</h4>
+<p>Dit is een complexe oplossing die op uw eigen hardware kan worden uitgevoerd, op een volledig self-custodial manier, of met behulp van gehoste servers / VPS.</p>
+<p>Het idee is om zelf de hele betalingsoplossing te runnen, maar ook een volledig financieringsbeheer, LN-kanalen, liquiditeit, swaps etc. te impliceren.</p>
+<ul>
+<li><a href="/nodes/bitcoin-ln-node-software-nl.html">Run een speciale Bitcoin LN-node met meerdere beheertools</a></li>
+<li><p>Run uw eigen instanties van <a href="https://btcpayserver.org/">BTCPay Server</a> of <a href="https://lnbits.com/">LNbits Server</a></p>
+<p>Beide "volledige oplossingen" kunnen worden uitgevoerd op uw lokale hardware of op externe servers</p>
+<p>Controleer op: <a href="https://www.voltage.cloud/">Voltage Cloud</a> of <a href="https://nodana.io/">Nodana</a>, eenvoudige hostingoplossingen, waar u binnen enkele minuten een BTCPay Server of LNbits kunt opstarten.</p>
+<p>Naar mijn eerlijke mening zou de gemakkelijkste en eenvoudigste op Nodana kunnen zijn, met behulp van een phoenixd server + LNbits-instantie. Phoenixd heeft geen ingewikkeld kanaalbeheer nodig, is precies zoals een mobiele Phoenix-portemonnee, maar wordt gebruikt als financieringsbronserver. En LNBits is een krachtige tool met meerdere opties voor handelaren, waaronder een eenvoudige WP Woocommerce-plug-in.</p>
+<p><a href="https://www.youtube.com/watch?v=t28coHBX3aI">Hier is een video-tutorial</a> over hoe je in een paar minuten een LNbits met phoenixd als financieringsbron op een VPS installeert.</p>
+<p><a href="https://ereignishorizont.xyz/blitzbank/en/">Hier is een geweldige gids</a>, stap voor stap, hoe je een LNbits met phoenixd op je eigen hardware of VPS instelt</p>
+<p><a href="https://github.com/massmux/lightstack">Hier is nog een eenvoudige gids</a>, voer gewoon een enkele scriptregel uit en je hebt een LNbits + phoenixd-server klaar, met een al geconfigureerd domein.</p>
+<p>LNbits ondersteunt meerdere financieringsbronnen als een LND/CLN/phoenixd node, andere LNbits-instantie, LN Pay, OpenNode, ZBD etc.</p>
+</li>
+<li><a href="/merchants/private-banks-over-ln-nl.html">Run uw eigen Private LN Bank</a></li>
+<li><a href="/merchants/bitcoin-lightning-payments-irl-nl.html">Accepteer Bitcoin- en Lightning-betalingen in uw online winkel</a></li>
+<li>Laat betalingen rechtstreeks naar uw cold storage- of lightning-adres sturen</li>
+<li>Offline/online PoS, hardwaretools, geldautomaten, NFC-betalingen</li>
+<li>E-commercebetalingen</li>
+<li>Integreert rechtstreeks met WooCommerce</li>
+</ul>
+<hr style="height:2px">
+    
+<h4>Meer documentatie, handleidingen, scenario's</h4>
+<ul>
+<li><a href="/nodes/managing-lightning-node-liquidity-nl.html">Uw Lightning Node Liquidity beheren</a></li>
+<li><a href="https://darthcoin.substack.com/p/getting-started-lnbits">Aan de slag met LNbits</a></li>
+<li><a href="/merchants/operating-ln-as-merchant-nl.html">Werken met Lightning Network als handelaar</a></li>
+<li><a href="https://darthcoin.substack.com/p/lnbits-for-small-merchants">LNBits voor kleine handelaren</a></li>
+<li><a href="https://darthcoin.substack.com/p/build-your-own-lnbits-app-server">Bouw uw eigen LNbits app server</a></li>
+<li><a href="https://darthcoin.substack.com/p/lnbits-nostr-market">Start uw NOSTR-Market met LNbits</a></li>
+<li><a href="https://darthcoin.substack.com/p/orange-pill-bitcoin-tpos-atm">"Orange Pill" met Bitcoin TPoS ATM</a></li>
+<li><a href="/nodes/ln-bank-with-lnbits-nl.html">De LN Bank met LNBits</a></li>
+<li><a href="https://darthcoin.substack.com/p/lnbits-saas-a-solution-for-schools">LNbits SaaS – Een oplossing voor schoolprojecten en evenementen</a></li>
+<li><a href="https://darthcoin.substack.com/p/lnbits-streamer-copilot">Hoe LNbits Streamer Copilot te gebruiken</a></li>
+<li><a href="/merchants/bitcoin-lightning-payments-irl-nl.html">BTC accepteren - voorbeelden uit het echte leven</a></li>
+<li><a href="https://stacker.news/items/600658/r/DarthCoin">Hier meer opties voor PoS-systemen met BTC</a></li>
+</ul>
+<hr style="height:2px">
+
+<p>Zoals u kunt zien zijn er veel oplossingen en apps om Bitcoin te accepteren, met name met behulp van Lightning Network, het BETALINGSnetwerk voor Bitcoin. Bestudeer ze allemaal en kijk welke het meest geschikt is voor uw bedrijf. Ik weet zeker dat er nog veel meer zijn en dat deze allemaal continu zullen veranderen.</p>
+<p>Vergeet als nieuwe Bitcoin-handelaar ook niet om uw bedrijf te promoten op <a href="https://btcmap.org">BTC Map</a>! Het is erg belangrijk dat bitcoiners weten dat u Bitcoin accepteert.</p>
+<p><a href="/beginner/pay-with-bitcoin-nl.html">Hier in deze gids</a> vindt u meer lijsten met handelaren waar u uw winkel/bedrijf kunt toevoegen om zichtbaarder te zijn voor meer bitcoiners.</p>
+</body>
+</html>
+</article>
