@@ -1,0 +1,330 @@
+---
+layout: default
+title: Private banken via het Lightning Network
+---
+<article>
+<!DOCTYPE html>
+<html lang="nl">
+<meta name="description" content="Bitcoin- en Lightning Node-handleidingen: Een Bitcoin LN-routeringsknooppunt beheren voor privégebruik als een Uncle Jim Bank voor uzelf, voor uw vrienden en familie.">
+<body>
+<a href="/merchants/private-banks-over-ln-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/private-banks-over-ln-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/private-banks-over-ln-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/private-banks-over-ln-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/private-banks-over-ln-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/private-banks-over-ln-hr.html">Hrvatski <img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/private-banks-over-ln-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<em><blockquote style="color:Tomato;">
+<p>Oorspronkelijk geplaatst op <a href="https://darthcoin.substack.com/p/bitcoin-private-banks-over-lightning">Substack</a> op 16 december 2022. Hier bijgewerkt op 22 oktober 2024</em></p>
+</em></blockquote>
+
+<h3>Hoe je een Bitcoin LN-routeringsknooppunt beheert voor een meer privégebruik als een "Uncle Jim"-bank voor jezelf, voor je vrienden en familie.</h3>
+<h2 style="color:Orange;">INLEIDING</h2>
+<p>Deze gids is iets specialer omdat ik zal proberen een echt use case-scenario te presenteren voor veel nieuwe Bitcoin- en Lightning-gebruikers. Het is een use case om meer mensen te helpen om op een meer privémanier eenvoudig aan boord te komen met Bitcoin. Is het belangrijkste geval van "Uncle Jim" die zijn lokale gemeenschap helpt met zijn kennis, vaardigheden en... LN-liquiditeit.</p>
+<h4><strong>Deze gids gaat NIET over "opbrengst verdienen" met uw LN-knooppunt!</strong></h4>
+<p>Waarom zou ik zo'n gids schrijven voor zo'n use case-scenario? Omdat de meeste mensen banken nodig hebben, maar geen fiatbanken. Ze hebben Bitcoin Lightning Banks nodig, omdat niet iedereen in staat zal zijn om zijn eigen routingknooppunt te runnen, velen zullen het ook niet willen. Dit is waar het "Uncle Jim"-model in beeld komt. En nodig is. Dit is het begin voor het bouwen van <a href="https://www.youtube.com/watch?v=GquPdAFQ40U">de circulaire economie van Bitcoin</a>.</p>
+<p>En ik schrijf deze gids om in de Bitcoin-geschiedenis te blijven als referentie. Ik weet zeker dat dit slechts een klein deel is van wat we met Bitcoin kunnen doen, maar het is slechts een begin. We zullen het altijd verbeteren met nieuwe oplossingen, apps etc.</p>
+<p>Ja, ik ben vaak gevraagd om over dit scenario te schrijven en veel mensen zijn geïnteresseerd in hoe ze het in de praktijk kunnen brengen, voor persoonlijk of zelfs commercieel gebruik. Ik zal proberen, zoals gewoonlijk, het in eenvoudige bewoordingen uit te leggen, zodat elke nieuwe gebruiker het kan begrijpen. Ik weet dat het moeilijk is om zoveel technische termen over te slaan... maar houd het tegelijkertijd op een laag niveau van technische kennis.</p>
+<p>Deze gids is bedoeld voor degenen die wat basiskennis hebben over hoe Bitcoin Lightning Network (LN) werkt en die hun nodes geavanceerder willen gebruiken, of die een LN-node willen starten die precies dit scenario volgt.</p>
+<p>De gids kan erg lang worden, omdat er veel aspecten zijn om over te praten, maar ik zal proberen het kort te houden.</p>
+<p>Als je nieuw bent in het runnen van een node, raad ik je ten zeerste aan om deze gidsen te lezen voordat je deze gids leest of in de praktijk brengt, of ze op zijn minst te bookmarken, omdat ze nodig zijn om ze als basiskennis te hebben:</p>
+<ul>
+<li><a href="/beginner/be-your-own-bank-nl.html">₿itcoin - Be your own bank, think like a bank</a></li>
+<li><a href="/nodes/bitcoin-ln-node-software-nl.html">Welke Bitcoin LN-nodesoftware kan ik gebruiken?</a></li>
+<li><a href="https://darthcoin.substack.com/p/lightning-network-is-awesome">⚡️ Lightning Network is geweldig ⚡️</a></li>
+<li><a href="/nodes/managing-lightning-node-liquidity-nl.html">Hoe Lightning Nodes Liquidity te beheren</a></li>
+<li><a href="/nodes/lightning-node-maintenance-nl.html">Lightning Node Maintenance</a></li>
+<li><a href="/nodes/recommendations-ln-node-operators-nl.html">Aanbevelingen voor LN-nodegebruikers</a></li>
+<li><a href="/nodes/lightning-routing-fees-experiment-nl.html">Lightning Routing Fees Experiment</a></li>
+<li><a href="/nodes/lightning-submarine-swaps-nl.html">Lightning Network Submarine Swaps</a></li>
+<li><a href="/wallets/lightning-wallets-comparison-nl.html">Lightning Wallets Vergelijking</a></li>
+<li><a href="/wallets/bitcoin-adoption-using-ecash-nl.html">Bitcoin-adoptie met Ecash</a></li>
+<li><a href="/nodes/private-ln-nodes-nl.html">Private Lightning Nodes</a></li>
+</ul>
+<p> en meer van mijn Substack of Github. <a href="https://darthcoin.substack.com/p/darth-about-studying-bitcoin">De leercurve</a> is langzaam, maar moet noodzakelijk zijn.</p>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">DOELSTELLING</h2>
+<p>Deze gids heeft als hoofddoel om een ​​"plebs private bank" te bouwen via Lightning Network, hoe de liquiditeit van de LN-node achter de "bank" te beheren, welke hardware/software en mobiele apps we kunnen gebruiken, use case scenario's in het echte leven.</p>
+<p>Zal ook het aspect van het toevoegen van meer privacy en anonimiteit aan uw transacties raken.</p>
+<p>Neem dit aspect heel serieus. Dit is geen spel of u doet het voor de lol. U bent verantwoordelijk voor de fondsen van uw gebruikers en om hen goede liquiditeitsdiensten te bieden. Je doet dit niet alleen voor jezelf, maar ook voor de rest van de netwerkdeelnemers.</p>
+<p>Ja, niet iedereen kan een fatsoenlijk LN-knooppunt runnen en voor alle aspecten zorgen, dus jij stapt op en wordt hun "oom Jim" die alles voor hen runt, op een meer beveiligde, privé en semi-bewarende manier.</p>
+<p>Dit scenario is goed voor familiebanken, lokale gemeenschapsbanken, zelfs interne banken van bedrijven. Het zal ook helpen om goede en specifieke liquiditeit te bieden die is gericht op de richtingen waar gebruikers de meeste LN-betalingen gebruiken, met lage kosten en minder mislukte betalingen.</p>
+<h4>DIT IS NIET VOOR PASSIEF INKOMEN! Stap af van deze mentaliteit. Alsjeblieft.</h4>
+<p>Ja, het Bitcoin-netwerk wordt aangestuurd door puur anarcho-kapitalisme, maar dat betekent niet dat we ons moeten richten op "hoe we elkaar neuken, in plaats van de bankiers neuken". Het gaat ook niet om altruïsme, het gaat om het bouwen van een nieuw systeem, iets nobels, duurzaams en het maken van een betere wereld. Je kunt niet iets goeds beginnen als je alleen maar gefocust bent op "hoe kan ik meer sats van de andere nodes en gebruikers halen". We hebben later tijd om dat aan te pakken, nadat we alle banksters, govs en alle kwaadaardigheid in deze wereld hebben verwijderd.</p>
+<p>Doe dit niet als je NIET bereid bent om tijd en middelen te besteden. Dit is GEEN gemakkelijke taak, zoals velen zouden denken. Investeer tijd, geld, hardware en toewijding.</p>
+<p>Als u alleen op zoek bent naar een eenvoudig persoonlijk gebruik van Bitcoin Lightning Network, dan heeft u hier een gids voor <a href="/beginner/getting-started-lightning-nl.html">Aan de slag met Lightning Network</a>, die meer dan genoeg is voor een enkele eenvoudige gebruiker.</p>
+<p>Hier is een schema van dit scenario, zoals een kaart van alle processen die erachter zitten en waar we het in deze gids over zullen hebben:</p>
+<p><img src="/assets/images/ln-banks.jpg" class="center"></p>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">UW CENTRALE LN-KNOP = UW BANK</h2>
+<p>Dit is het "brein van uw banksysteem", dus kies verstandig wat voor soort infrastructuur u gaat bouwen. Ja, het is niet nodig om een ​​super high-end dure computer te zijn, maar ook niet om een ​​goedkope pc te gebruiken die je in je garage hebt staan.</p>
+<h3 style="color:Yellow;">A. Hardware</h3>
+<p>Zoals ik heb uitgelegd in <a href="/nodes/lightning-node-maintenance-nl.html">deze handleiding voor het onderhoud van LN-knooppunten</a>, heb je verschillende niveaus van hardware die je kunt gebruiken, afhankelijk van je "zakelijke visie" en hoe ver je wilt gaan.</p>
+<p>Als je met een vrij lage prijs wilt beginnen, maar later wilt kunnen uitbreiden, zou ik voorstellen om een ​​mini-pc / barebone / SFF (small form factor) te gebruiken, dat kan zelfs een opgeknapte pc zijn, maar dan wel een goede, niet uit 1995... met minstens 8 GB RAM (bij voorkeur ECC), een behoorlijke CPU (multi-core) en SSD-schijf. Tegenwoordig kun je veel opgeknapte pc's vinden uit gesloten kantoren, met bijna nieuwe hardware. Voeg gewoon een 1TB SSD-schijf toe aan de bestaande en je bent klaar om te gaan.</p>
+<p>Ik gebruik persoonlijk een normale NUC Gigabyte, zonder ventilator. Is vrij oud, maar voor mijn behoeften is het voldoende. Ik draai verschillende LN-knooppunten met deze vanaf januari 2019, testen, leren etc.</p>
+
+<figure>
+<img src="/assets/images/mini-node.jpg" class="center">
+<figcaption>Kleine en krachtige Gigabyte NUC</figcaption>
+</figure>
+
+<p>Als u een barebone-pc kunt gebruiken waar u meer schijven in kwijt kunt, is het goed om een ​​RAID-systeem te hebben, ten minste RAID1 (2 schijven) of RAID5 (3 schijven) voor realtime bescherming van schijfstoringen.</p>
+<p>Draai het Debian OS op een primaire kleinere schijf en node data op de grotere 1TB-schijf (enkel of RAID-volume).</p>
+<p>Zorg ervoor dat u een goede internetverbinding hebt en voer de node bij voorkeur uit in een hybride modus (clearnet + Tor) of gewoon clearnet. Tor is onbetrouwbaar voor dergelijke bewerkingen. Als u uw thuis-IP niet wilt gebruiken of onthullen, kunt u <a href="https://tunnelsats.com/">TunnelSats.com</a> of een andere VPN-verbinding gebruiken. Belangrijk is dat u een online beschikbaarheid van 99,99% van uw node moet hebben.</p>
+<p>Zorg ervoor dat u volledige toegang hebt tot uw internetrouter, zodat u poorten kunt openen en de nodige wijzigingen kunt aanbrengen.</p>
+<p>Ook een belangrijk aspect is om het online te houden. Dat betekent dat u een UPS (uninterruptible power supply) moet gebruiken voor uw node en internetrouter. Schakel uw UPS in op basis van het stroomverbruik van uw apparaten, meestal is een 850VA, max 1200VA UPS voldoende om uw machine in leven te houden totdat de stroomvoorziening is hersteld. Maar voeg geen ander apparaat toe aan dit UPS-circuit. Elke extra belasting maakt het nutteloos.</p>
+
+<h3 style="color:Yellow;">B. Node-software</h3>
+<p>Welke node-software kunt u gebruiken? <a href="/nodes/bitcoin-ln-node-software-nl.html">Hier heb ik een gids geschreven over alle soorten softwarenodes</a> en resources.</p>
+<h4>Belangrijke aspecten:</h4>
+<ul>
+<li>Er zijn verschillende <a href="https://medium.com/@fulgur.ventures/an-overview-of-lightning-network-implementations-d670255a6cfa">Lightning-implementaties</a> en elk heeft zijn eigen voor- en nadelen. Kies dus degene waar u zich het prettigst bij voelt en die past bij uw behoeften. U kunt 2 LN-implementaties op dezelfde machine uitvoeren, maar wees u ervan bewust dat dit meer resources kost. Het is beter om ze apart uit te voeren en ze ook als back-up voor elkaar te hebben. Als uw machine krachtig genoeg is, is het geen probleem om 2 LN-knooppunten op dezelfde machine te laten draaien, elk heeft zijn eigen poort om te communiceren.</li>
+<li>U moet een domeinnaam hebben gekocht en er volledige controle over hebben. U moet domeinrecords toevoegen en verwijzen naar het IP-adres van uw machine. Dus als u niet weet hoe u dit moet doen, leer het dan eerst.</li>
+<li>U moet ten minste een basiskennis hebben van netwerken: LAN, WAN, proxy's, firewalls, poorten, enz. omdat u met al deze dingen te maken krijgt. Als u niet bekend bent met deze termen, leer het dan eerst.</li>
+<li>U moet ten minste basiskennis hebben van het gebruik van Linux OS-systemen. Dus als u een "Windows-gebruiker" bent, begin dan met leren, installeer op een eenvoudige pc een Linux Mint of Ubuntu of Debian en speel ermee totdat u de basis onder de knie hebt. Hier is ook een geweldig YouTube-kanaal over het gebruik van <a href="https://www.youtube.com/@402PaymentRequired">Linux voor LN-knooppuntservers, door 402 Payment Required</a></li>
+</ul>
+<p>Als je gewoon op een eenvoudige manier wilt beginnen met leren, raad ik je aan om de installatieprocedure van <a href="https://github.com/openoms/raspiblitz/tree/amd64/alternative.platforms">Raspiblitz x64</a> of <a href="https://minibolt.minibolt.info/">MiniBolt</a> te gebruiken. Ook heeft Start9 nu de <a href="https://docs.start9.com/latest/diy/diy-x86">x86-versie voor Embassy Node</a> gelanceerd. Als je het goed vindt om een ​​LN-knooppunt in de cloud te runnen, kun je <a href="https://voltage.cloud/">Voltage</a> of <a href="https://www.nodl.eu/nodl-cloud/">NODL</a> of <a href="https://nodana.io/">Nodana</a> gebruiken als externe servers voor je knooppunt. Of een andere VPS-server.</p>
+<p>In principe zijn de stappen vrij eenvoudig:</p>
+<ol>
+<li>Installeer Debian OS op de kleine hoofdschijf. Kan een interne schijf SSD of USB zijn, maar kies een snellere. Ik vond Transcend USB JetFlash 920 - 128GB met 400MBps lezen/schrijven die echt goed werkt. Het liefst een interne schijf.</li>
+<li>Voeg de 1TB SSD of RAID (multiple disks volume) toe.</li>
+<li>Voer/installeer het Raspiblitz-script (is in principe gewoon 1 opdrachtregel, kopiëren/plakken) en wacht geduldig tot het klaar is. Voor de MiniBolt zijn er meer stappen om te doen, maar het is hetzelfde, gewoon de instructies volgen en kopiëren/plakken.</li>
+<li>Start de machine opnieuw op en log in met de toegewezen beheerder om uw node te beheren. Zal beginnen met een volledige synchronisatie van de Bitcoin Node, dus dat zal een tijdje duren (tot 3-4 of zelfs 8 dagen), dus wees geduldig, wacht en controleer de status.</li>
+<li>Installeer LND of CLN zoals u nodig hebt, of beide. LND werkt met Dunder-kanalen, CLN werkt met Hosted Channels. Beide werken met LNbits. Misschien hebben we in de toekomst ondersteuning in LND voor Hosted Channels.</li>
+<li>Installeer extra benodigde apps:</li>
+<ul>
+<li><a href="https://github.com/chris-belcher/electrum-personal-server">Electrum Server</a> | <a href="https://fulcrumserver.org/">Fulcrum Server</a> - biedt SPV-toegang voor uw externe wallets</li>
+<li><a href="https://www.ridethelightning.info/">RTL</a> | <a href="https://thunderhub.io/">Thunderhub</a> - om uw LN-knooppunt(en) te beheren vanaf een desktop, in een browser</li>
+<li><a href="https://darthcoin.substack.com/p/getting-started-lnbits">LNbits</a> - om lndhub-accounts en een groot aantal applicaties te bieden</li>
+<li><a href="/wallets/getting-started-alby-hub-nl.html">Alby Hub</a> - om eenvoudige toegang te bieden tot LN-accounts en NWC-verbindingen</li>
+<li><a href="https://github.com/shocknet/Lightning.Pub">Lightning Pub</a> - om toegang te bieden tot LN-accounts via NWC</li>
+<li><a href="https://github.com/BitcoinAndLightningLayerSpecs/lsp">LSP-specificatie toevoegen aan uw knooppunt</a> - API-specificaties voor Lightning Service Providers (LSP)</li>
+<li><a href="https://darthcoin.substack.com/p/dunder-lsp-and-lightning-box-provider">Dunder LSP en LN Address provider</a> - om inbound kanalen en liquiditeit te bieden voor uw gebruikers</li>
+<li><a href="https://btcpayserver.org/">BTCPay Server</a> als u een frontend voor een merchant shop wilt runnen</li>
+<li><a href="https://github.com/nbd-wtf/poncho">Poncho</a> - om gehoste kanalen (op krediet gebaseerd) te bieden voor lightning nodes</
+<li><a href="https://github.com/nbd-wtf/cliche">Cliche</a> - client voor gehoste kanalen en liquiditeit</li>
+<li><a href="https://github.com/GrayFinance/lightning-swap">Optionele Lightning Swap-service</a></li>
+<li><a href="https://swapmarket.github.io/">Word lid van SwapMarket</a></li>
+<li><a href="https://github.com/lnproxy">Optionele Lightning Proxy-service</a></li>
+</ul>
+</ol>
+
+<h3 style="color:Yellow;">C. Software voor mobiele apparaten</h3>
+<p>Het wordt aanbevolen om Android-apparaten te gebruiken, met name met open OS (GrapheneOS / CalyxOS), gede-googled en schoon van bloatware.</p>
+<p>Installeer op uw mobiele apparaat en de apparaten van uw andere gebruikers de belangrijkste apps:</p>
+<ul>
+<li><p><a href="https://zeusln.com/">Zeus</a> - mobiel extern knooppuntbeheer, geïntegreerd LND-knooppunt en lndhub</p>
+<ul>
+<li><a href="https://docs.zeuzln.app/">Documentatie</a> | <a href="https://t.me/zeusLN">Telegram-groep</a> | <a href="https://github.com/ZeusLN/zeus/releases">Github-releases</a> | <a href="/wallets/getting-started-zeus-wallet-nl.html">DC-gids</a></li>
+</ul>
+</li>
+<li><p><a href="https://blixtwallet.com/">Blixt</a> - mobiele LND-nodewallet, Dunder LSP en normale kanalen</p>
+<ul>
+<li><a href="https://blixtwallet.github.io/features">Documentatie</a> | <a href="https://t.me/blixtwallet">Telegram-groep</a> | <a href="https://github.com/hsjoberg/blixt-wallet/releases">Github-releases</a> | <a href="/wallets/getting-started-blixt-wallet-nl.html">DC-gids</a></li>
+</ul>
+</li>
+<li><a href="https://bitbanana.app/">BitBanana</a> - een krachtige mobiele app die kan worden verbonden met een extern knooppunt, zoals Zeus, maar ook met behulp van LNDHUB-accounts van uw knooppunt</li>
+<li><p><a href="https://electrum.org/">Electrum</a> - desktop- en mobiele LN-knooppuntportemonnee, trampoline en normale kanalen</p>
+<ul>
+<li><a href="https://electrum.readthedocs.io/en/latest/">Documentatie</a> | <a href="https://github.com/spesmilo/electrum/">Github-releases</a></li>
+</ul>
+</li>
+<li><p><a href="https://standardsats.github.io/">Valet</a> - mobiele LN-node-wallet, Immortan-node, gehoste kanalen</p>
+<ul>
+<li><a href="https://t.me/StandardSatsCommunity">Telegram-groep</a> | <a href="https://github.com/standardsats">Github-releases</a> | <a href="https://darthcoin.substack.com/p/obw-open-bitcoin-wallet-de">DC-gids</a></li>
+</ul>
+</li>
+<li><a href="https://github.com/getAlby/go/">Alby Go</a> - een zeer eenvoudige mobiele app die kan worden gekoppeld aan uw Alby Hub</li>
+<li><p><a href="https://www.enuts.cash/">eNuts</a> / <a href="https://www.minibits.cash/">Minibits</a> - ecash mint wallets | <a href="/wallets/bitcoin-adoption-using-ecash-nl.html">DC-gids</a></p>
+<ul>
+<li><a href="/wallets/lightning-wallets-comparison-nl.html">Optioneel extra LN-wallets installeren</a> - hier is een volledige vergelijkingsgids, het is goed om ook 2-3 andere LN-wallets klaar te hebben voor gebruik, voor verschillende omstandigheden.</li>
+</ul>
+</li>
+</ul>
+<p>Waarom ik voor deze belangrijkste mobiele apps kies? In het volgende hoofdstuk ziet u hoe we ze gaan gebruiken, maar het hoofddoel is zelfbewaring en een betere manier om uw fondsen, LN-kanalen, padvinding, liquiditeit en netwerkkosten te beheren.</p>
+<hr style="height:2px">
+
+<figure>
+    <img src="/assets/images/lagarde-bank.jpg" class="center">
+    <figcaption>LNbits ecash mint</figcaption>
+</figure>
+
+<h2 style="color:Orange;">UW BANKDIENSTEN</h2>
+<h3 style="color:Yellow;">A. Liquiditeitsstrategie - Fondsenbeheer</h3>
+<p>Laten we duidelijk zijn: u runt geen "spaarbank". U bent een LIQUIDITEITSBANK. Daarom zullen we ons niet richten op hoe u en uw bankgebruikers de spaarrekeningen beheren. <a href="/beginner/be-your-own-bank-nl.html">Ik heb al uitgelegd hoe de drie niveaus van de voorraad werken in een andere gids</a>.</p>
+<p>Wat heeft een bank in het echte leven nodig? Fondsen en vloeiende liquiditeit.</p>
+<p>Van waar naar waar? Van uw klanten naar vele services die hun geld accepteren.</p>
+<p>U moet dus die brug tussen hen zijn, door het volgende te bieden:</p>
+<ul>
+<li>beveiligde accounts voor snelle ontvangst/uitgaven (lndhub en hosted channels) en ecash-mints met behulp van LNbits.</li>
+<li>LN-kanalen liquiditeit met goede routes en lage kosten</li>
+<li>goede inboundcapaciteit</li>
+<li>betrouwbare routingnode</li>
+</ul>
+<p>In ons scenario zullen, afgezien van uw eigen gebruik van de banknode, ook andere gebruikers hun wallet-apps verbinden met uw node en de specifieke services gebruiken. Dus wat zijn deze "services" om te bieden?</p>
+
+<h3 style="color:Yellow;">B. Goede betalingsroutes via het Lightning Network</h3>
+<p>Analyseer eerst met welke node-peers u verbinding wilt maken. Niet alle nodes zijn goed of bieden de beste routes voor u. Probeer zoveel mogelijk de dure nodes te vermijden (controleer hun kosten op de <a href="https://amboss.space/">Amboss explorer-pagina</a>).</p>
+<p><a href="/nodes/lightning-routing-fees-experiment-nl.html">Ik heb hier een uitgebreid routingexperiment uitgevoerd</a>, waarin ik uitlegde dat kanalen met 0 basiskosten en een laag tarief, plus een instelbaar min/max HTLC-bedrag (<a href="https://blog.bitmex.com/the-power-of-htlc_maximum_msat-as-a-control-valve-for-better-flow-control-improved-reliability-and-lower-expected-payment-failure-rates-on-the-lightning-network/">het klepsysteem werd ook uitgelegd door Rene Pickhardt</a>) veel efficiënter zijn in het vinden van de beste routes met lage kosten voor jou en je node. gebruikers.</p>
+<p>Zoals je kunt zien in mijn artikel over het routingexperiment, heb ik een geleidelijke verhoging van de kosten op mijn kanalen gebruikt en dat werkte erg goed.</p>
+<p>Ik heb altijd een basistarief van 0 gebruikt - omdat, zoals Rene Pickhardt ook ontdekte, een basistarief niet helpt om een ​​goed goedkoop pad te vinden, vooral niet voor kleine bedragen. En ik wil ook het gebruik van LN voor kleine betalingen aanmoedigen, dus het is niet logisch om een ​​vergoeding van 1 sat te rekenen voor een betaling van 10 sats.</p>
+<p>Ik heb meer het tarieftarief (ppm) gebruikt, dat is een % van het totale bedrag. Dat is logischer en eerlijker. Ik begin geleidelijk met 10 ppm en verhoog het tot 1000, zelden meer, alleen als de balans van een kanaal in een specifieke richting moet worden aangepast.</p>
+<p>Ook als ik een peer node zie die buitensporige kosten op ons kanaal begint te rekenen, verhoog ik het tarief ook geleidelijk en beperk ik ook de maximale HTLC. Op deze manier zal de peer mijn kanaal niet goedkoop leegtrekken. Als ze de kosten blijven verhogen, sluit ik het kanaal gewoon en zoek ik een andere goede peer.</p>
+<p>Obsessief opnieuw in evenwicht brengen van node-kanalen is NIET nodig en kan zelfs verstoringen in uw node-stroom veroorzaken.</p>
+
+<figure>
+    <img src="/assets/images/liquidity-report-th.jpg" class="center">
+    <figcaption>Het belangrijkste rapport - totale liquiditeit</figcaption>
+</figure>
+
+<p>In deze schermafbeelding ziet u dat de totale liquiditeit (lokaal en extern) perfect in balans is. Dat betekent dat mijn node genoeg "ruimte" heeft om te ontvangen en te verzenden. U kunt dit bereiken door de inkomende en uitgaande kanalen te beheren op basis van uw nodegebruik (gebruik van klanten), en deze voortdurend aan te passen om geen onevenredig verschil te hebben tussen inkomende en uitgaande kanalen.</p>
+<p>Een ander aspect om hier rekening mee te houden, is de kanaalgrootte. In dit specifieke rapport wordt niet precies weergegeven hoeveel het is, maar u mag GEEN kanalen openen die kleiner zijn dan 3M sats of zelfs 5M sats. Zijn totaal nutteloos en alleen u zult ze uiteindelijk sluiten. Kanalen van 10-20M tot 100M sats zijn goed, met voldoende liquiditeit.</p>
+<p>Houd rekening met het aspect van kanaalreserves dat 1% is. Die fondsen zijn inderdaad geblokkeerd totdat het kanaal wordt gesloten.</p>
+
+<h3 style="color:Yellow;">C. Verbind uw LN-knooppunt met specifieke bestemmingsknooppunten:</h3>
+<ol>
+<li><p><strong>Goede LSP-knooppunten (Liquidity Service Providers)</strong></p>
+<p>Dit zijn zeer belangrijke bronnen, omdat ze goed verbonden zijn, hun centraliteit is goed en ze zijn toegewijd aan een sterke betrouwbaarheid en grote liquiditeit. Niet allemaal gebruiken ze lage kosten, maar over het algemeen wel, omdat ze denken in grote volumes van txs.</p>
+<p>Deze knooppunten hebben liquiditeit nodig aan beide kanten van het kanaal, dus het is goed dat u ze in de gaten houdt en die balans behoudt wanneer dat nodig is. Pas de kosten en min/max HTLC dienovereenkomstig aan of maak zelfs een circulaire balans tussen andere van uw kanalen.</p>
+</li>
+<li><p><strong>Wallet-providerknooppunten.</strong></p>
+<p>Als u directe snelle routes en interoperabiliteit tussen veel mobiele gebruikers wilt, moet u goed verbonden zijn met deze knooppunten. Dit biedt u en uw "bankklanten" een snelle en betrouwbare route om transacties te verrichten met andere gebruikers via het Lightning Network.</p>
+<p>Deze nodes hebben liquiditeit nodig aan beide kanten, of kijk naar het gedrag van uw eigen gebruikers, misschien hebt u meer redders dan spenders. Het idee is om ze niet te verstoppen, er is behoefte aan liquiditeit aan de kant.</p>
+</li>
+<li><p><strong>Exchanges nodes.</strong></p>
+<p>Mensen beginnen meer exchanges te gebruiken die opnames via LN aanbieden. En ze hebben liquiditeit nodig en u kunt een brug vormen tussen exchanges en gebruikers. Uw bankklanten willen ook meer sats kopen, via uw bankkanalen.</p>
+<p>Deze nodes hebben meer saldo aan hun kant nodig. Dus u zult de sats aan hun kant meer moeten pushen, zodat ze meer liquiditeit hebben voor de opnames van gebruikers. Dit zijn goede paren om circulair te herbalanceren met de merchant kanalen.</p>
+</li>
+<li><p><strong>Merchant nodes.</strong></p>
+<p>Dit is ook een belangrijke bron om uw bankklanten directe kanalen aan te bieden met die merchants die ze het meest gebruiken. Dus als u al weet welke merchants ze willen gebruiken, open dan kanalen met die. Niet alleen dat u liquiditeit biedt voor uw eigen bankgebruikers, maar ook voor externe LN-gebruikers die aan die merchants betalen. Controleer op BTCMap die merchants in de buurt en vraag hen of ze liquiditeit nodig hebben. Open dan een kanaal met hun node.</p>
+<p>Deze nodes hebben meer balans nodig aan uw kant van het kanaal. Waarom? Omdat u meer gebruikers zult hebben die aan hen betalen. Dus ze zijn een goed paar om de kanalen van exchanges circulair te herbalanceren.</p>
+</li>
+<li><p><strong>Rings of Fire nodes (optioneel).</strong></p>
+<p>Dit is een speciale categorie, is optioneel. Het is goed om mee te beginnen, wanneer je niet zoveel kanalen hebt en je wilt dat je node meer "zichtbaar" wordt in het netwerk. Gebruik het niet overmatig, want niet alle nodes zijn goed voor je behoeften. Veel van hen willen gewoon "passief inkomen" en proberen sats uit je nodekosten te zuigen.</p>
+<p>Deze nodes bieden je altijd al gebalanceerde kanalen, met behulp van de ringtools. Dat is een goed begin, je hebt liquiditeit aan beide kanten. Ook als je nieuw bent in het runnen van een node, is de RoF-community erg behulpzaam en zal je het beste advies geven om je node te configureren.</p>
+</li>
+<li><p><strong>Andere handmatig geselecteerde nodes (optioneel).</strong></p>
+<p>Dit is de categorie nodes die je kunt uitbreiden wanneer je node al goed verbonden is en je de buitenste grenzen van de LN Galaxy wilt bereiken. Nodes die u wilt helpen, nodes die van andere "LN Banks" zijn en die u wilt verbinden en die niet van een van de vorige categorieën zijn.</p>
+<p>Maar wees voorzichtig, selecteer ze met de nodige voorzichtigheid en houd ze in de gaten tijdens de eerste periode. Als ze het niet waard zijn, sluit ze dan. Nodes die gedurende een bepaalde periode geen sats verplaatsen, zijn totaal nutteloos.</p>
+</li>
+</ol>
+
+<h3 style="color:Yellow;">D. Welke services kunt u aanbieden aan uw LN-bankklanten?</h3>
+<p>Oké, nu u een goede liquiditeit heeft voor uw LN-bank, is het tijd om de services voor uw klanten (vrienden en familie) voor te bereiden.</p>
+<ol>
+<li><p><a href="https://github.com/hsjoberg/dunder-lsp">Dunder Channels</a> of 0-conf-kanalen</p>
+<p>Deze worden (voorlopig) aangeboden in de mobiele app <a href="/wallets/getting-started-blixt-wallet-nl.html">Blixt Wallet</a>, maar kunnen ook worden toegepast op elke andere LN-wallet-app, als ze deze functie toevoegen (is open source). Deze procedure werkt op dit moment alleen met LND-knooppunten. Dit zijn totaal niet-bewarende kanalen.</p>
+<p>Praktisch gezien is een techniek om inkomende betalingen toe te staan ​​wanneer de wallet geen inkomende kanalen heeft, om een ​​intermediair knooppunt (LSP) te hebben.</p>
+<p>a. De inkomende HTLC onderscheppen</p>
+<p>b. Het zelf vereffenen in plaats van het door te sturen (door preimage aan LSP te geven)</p>
+<p>c. Een kanaal naar de wallet openen met push-bedrag</p>
+<p>Om dit te doen kan de wallet een factuur maken met een routehint die leidt naar een LSP-knooppunt met een nep-kort kanaal-id. Zodra de LSP een binnenkomende HTLC ziet met doorstuurinformatie die de nep-korte kanaal-id specificeert, kan deze doorgaan met het hierboven gespecificeerde protocol.</p>
+<p>In de toekomst kan ook een helling worden gebruikt voor swaps tussen "de bank" (uw node) en uw "klanten", gebruikers die hun Blixt-portemonnee gebruiken om Dunder-kanalen te openen met uw node.</p>
+<p><a href="https://darthcoin.substack.com/p/dunder-lsp-and-lightning-box-provider">Hier vindt u een speciale handleiding over Dunder Server en LN Box</a>.</p>
+<p>Een soortgelijk systeem van 0-conf-kanalen biedt <a href="https://docs.zeusln.app/for-users/embedded-node/lightning-onboarding">Olympus by Zeus</a>.</p>
+</li>
+<li><p><a href="https://fanismichalakis.fr/posts/what-are-hosted-channels/">Hosted Channels</a></p>
+<p>Deze worden aangeboden met behulp van de <a href="https://github.com/nbd-wtf/poncho">Poncho-plugin voor CLN-knooppunten</a> (mogelijk in de toekomst ook beschikbaar voor LND-knooppunten). Deze gehoste kanalen zijn erg goed om nieuwe gebruikers aan boord te krijgen, met behulp van de mobiele app <a href="https://darthcoin.substack.com/p/obw-open-bitcoin-wallet">Valet</a>, die direct inkomende liquiditeit biedt en direct sats kan ontvangen.</p>
+<p>Het kan ook worden gebruikt voor swaps tussen uw node en uw klanten, de Poncho-operator kan sats van dat kanaal pushen of nemen en ze ontvangen / geven aan de gebruiker in een onchain-adres (er is een vertrouwde relatie nodig, dus doe het niet met vreemden).</p>
+</li>
+<li><p><a href="https://extensions.lnbits.com/lndhub">LNDHUB-accounts</a></p>
+<p>Deze service wordt uitgevoerd met behulp van de <a href="https://darthcoin.substack.com/p/getting-started-lnbits">krachtige LNbits-software</a>, dat is een boekhoudsysteem bovenop uw LN-knooppunt, met een grote verscheidenheid aan extensies die gebruikers kunnen activeren en gebruiken voor hun eigen use case van zakelijke of echte situaties.</p>
+<p>De lndhub-accounts, ja, zijn bewaarrekeningen die fungeren als LN-wallets. Ik heb al in verschillende handleidingen de use cases voor deze geweldige software beschreven: <a href="/nodes/ln-bank-with-lnbits-nl.html">De LNbits Bank</a>, <a href="https://darthcoin.substack.com/p/lnbits-for-small-merchants">LNbits voor kleine handelaren</a>.</p>
+</li>
+<li><p><a href="https://cashu.space/">Ecash-munten</a></p>
+<p>Met deze service, uitgevoerd met uw LNbits-instantie, kunt u ecash-tokens aanbieden op basis van uw LN-liquiditeit, zoals digitale cadeaubonnen of tegoeden.</p>
+<p>Lees meer over ecash-munten op <a href="https://cashu.space/">https://cashu.space/</a> en <a href="/wallets/bitcoin-adoption-using-ecash-nl.html">hier is een DC-gids</a>.</p>
+</li>
+<li><p><a href="https://github.com/hsjoberg/lightning-box">Lightning Box</a></p>
+<p>Lightning Box is een betalingsinbox voor <a href="https://lightningaddress.com/">Lightning-adressen</a>. Het is vooral geschikt voor niet-bewarende Lightning-wallets die mogelijk niet altijd online zijn om betalingen te ontvangen. <a href="https://darthcoin.substack.com/p/dunder-lsp-and-lightning-box-provider">Hier is een handleiding</a>.</p>
+</li>
+<li><p><a href="https://github.com/GrayFinance/lightning-swap">Swaps LN ←→ onchain</a></p>
+<p>Dit is een optionele service, alleen als uw klanten dit eisen of willen dat u rechtstreeks de provider bent. Ze kunnen ook elke andere externe swapservice gebruiken, zoals: Boltz | Deezy | RoboSats | ZigZag | FixedFloat | CoinOS | Amboss | DiamondHands</p>
+<p><a href="/nodes/lightning-submarine-swaps-nl.html">Ik heb ook een uitgebreide handleiding geschreven over hoe je submarine swaps kunt gebruiken</a>.</p>
+</li>
+<li><p>Bitcoin Core en Electrum Server</p>
+<p>Ja, sommige mobiele en desktop wallet apps hebben een privétoegang tot Bitcoin blokken en/of SPV met Electrum/Fulcrum Server nodig.</p>
+<p>Je kunt deze, met je node, alleen aan je vrienden en familie aanbieden, zodat ze geen onbekende node hoeven te vertrouwen, ze vertrouwen jou.</p>
+<p>Bijvoorbeeld Blixt heeft BIP157 Neutrino sync nodig. Valet heeft een Electrum/Fulcrum Server nodig om de blokken te synchroniseren. En veel andere wallet-apps kunnen uw openbare node gebruiken als een privé-vertrouwde server.</p>
+</li>
+<li><p>Ondersteuning en assistentie</p>
+<p>Ja, dit onderdeel is erg belangrijk, vooral voor nieuwe gebruikers (uw familie en vrienden, buren etc.) die uw LN Bank gaan gebruiken.</p>
+<p>Begin dus met het bouwen van uw eigen webpagina als "kennisbank", met specifieke instructies, tutorials, videovoorbeelden die hen kunnen helpen met het starten met Bitcoin. U kunt al mijn substack-handleidingen kopiëren als u dat wilt. Ze zijn gratis en open voor iedereen, ik claim geen auteursrecht of geld (maar als u een donatie wilt doen als waardering voor mijn werk, zie dan onderaan dit artikel).</p>
+<p>Ook met de LNbits-softwaresuite die u op uw node installeert, kunt u de <a href="https://extensions.lnbits.com/lnticket">Support tickets-extensie</a> activeren en uw eigen klanten kunnen u bellen voor betaalde ondersteuning, als ze geavanceerde assistentie nodig hebben. <a href="https://extensions.lnbits.com/">LNbits heeft veel andere nuttige extensies</a> die uw relatie met uw bankklanten kunnen verbeteren.</p>
+</li>
+</ol>
+<hr style="height:2px">
+
+<p><img src="/assets/images/lnbits-pos-fruits.jpg" class="center"></p>
+
+<h2 style="color:Orange;">UW BANKKLANTEN / GEBRUIKERS</h2>
+<p>Laten we het ook hebben over wie de gebruikers van uw LN-bank zijn en wat zij kunnen en moeten doen, hun taak en het gebruik van Bitcoin Lightning Network.</p>
+<h3 style="color:Yellow;">Wie zal zo'n Bitcoin LN-bank gebruiken?</h3>
+<ol>
+<li><p>Uw familieleden</p>
+<p>Zijn de belangrijkste, zij vertrouwen u en uw kennis. Stel ze niet teleur. Geef ze de juiste tools om transacties met elkaar en andere bitcoingebruikers te doen.</p>
+</li>
+<li><p>Je vrienden</p>
+<p>Ja, degenen die je al die jaren domme vragen stelden over de "bitcoinprijs" en "overheden zullen het sluiten"... je weet wel, het eindeloze <a href="https://nocoinerexcuse.com/">"nocoiner-excuus"</a>.</p>
+<p>Ze zullen naar je toe komen als hun tijd rijp is. Wees dus voorbereid met de juiste tools en services voor hen. JIJ zult de enige zijn die ze zullen vertrouwen.</p>
+</li>
+<li><p>Je lokale kleine winkelbuurman</p>
+<p>Ja, NEGEER ZE NIET! Ze zijn de belangrijkste in de Bitcoin-ruimte. Zonder handelaren die BTC accepteren, is het hele punt van deze LN Bank totaal nutteloos.</p>
+<p>Hier heb ik <a href="/general/bitcoin-adoption-story-nl.html">een verhaal geplaatst over hoe ik een lokale winkeleigenaar overtuigde</a> om Bitcoin te gaan gebruiken. <a href="https://stacker.news/items/692855/r/DarthCoin">En nog eentje hier</a>. Is niet zo moeilijk. Je kunt ook meet-ups gaan organiseren, zoals deze geweldige initiatieven: <a href="https://2140meetups.com/">2140Meetups</a> en <a href="https://ambassadeur.decouvrebitcoin.fr/en/the-map/">Ambassadeurs van Bitcoin</a>.</p>
+<p>Er zijn niet veel kleine handelaren die bereid en in staat zijn om hun eigen nodes te runnen. Ja, dat zal ideaal zijn, maar sommigen zijn oud of niet zo technisch onderlegd, maar ze vertrouwen JOU, de oom Jim en deskundig.</p>
+</li>
+</ol>
+<p>Ik raad aan om niet voor de "commerciële" manier te gaan om dit soort LN Bank-diensten aan te bieden aan een groter publiek met onbekende gebruikers. Houd het simpel, dicht bij jou, met vertrouwde gebruikers. Wat je kunt doen, is anderen leren om hetzelfde scenario in hun gemeenschap uit te voeren en later kun je verbinding maken met deze "vriendelijke LN-banken" die je kent en een bredere dekking maken door de banken met elkaar te verbinden. Dit zal kleine "gecentraliseerde" lokale LN-banken creëren in een groot gedecentraliseerd Lightning Network.</p>
+
+<h3 style="color:Yellow;">Hoe zullen deze gebruikers jouw LN Bank-diensten gebruiken?</h3>
+<p>Voor hen zal het heel eenvoudig zijn (als je ze goed leert). Ze hoeven alleen de specifieke mobiele/desktop-apps te installeren, configureren en gebruiken om toegang te krijgen tot hun geld. Ze hoeven zich niet al te veel zorgen te maken over hoe deep LN werkt, liquiditeit, routes en dat soort dingen.</p>
+<p>Ja, op een bepaald niveau zouden ze de basis van Bitcoin en LN moeten kennen, maar alleen oppervlakkig, niet echt technische dingen. Daarom zul je je gidsenpagina moeten bouwen met artikelen die ze het meest nodig hebben.</p>
+<p>Houd een belangrijk aspect in gedachten: al deze mobiele LN-knooppunten (Blixt, Zeus, Valet, Breez, Phoenix, Electrum) gebruiken "privékanalen" (onaangekondigd), dus deze kanalen DOEN GEEN ROUTING. Ze worden uitsluitend gebruikt voor je eigen betalingen.</p>
+<p>Ten eerste moet je ze aanraden om een ​​Android-mobiel apparaat te gebruiken, vooral met een schoon open source OS zoals GrapheneOS of CalyxOS.</p>
+<p>Dan zou ik als software-apps op hun mobiele apparaten zeggen om deze te gebruiken:</p>
+<ul>
+<li>Voor starters - <a href="https://darthcoin.substack.com/p/obw-open-bitcoin-wallet">Valet</a>. Makkelijk om te starten, een LN mobiele node, ook met gehoste kanalen en een eenvoudige interface. Zodra je het start, kun je een of meerdere HCP's (hosted channel providers) selecteren en klaar zijn om sats via LN te ontvangen. Als je meer liquiditeit nodig hebt, begin dan met het openen van normale LN-kanalen met andere nodes of inkomende LSP-nodes.</li>
+<li>Voor het volgende niveau - <a href="/wallets/getting-started-blixt-wallet-nl.html">Blixt</a>. Meer geavanceerde tools en functies om een ​​volledige LND-node op hun mobiele apparaat te runnen. Je kunt Dunder-kanaalopening gebruiken met je LN-bank of andere providers. U kunt ook andere kanalen op de normale manier openen met elk ander knooppunt, inclusief inkomende LSP-knooppunten.</li>
+<li>Extra voor lndhub-accounts - <a href="https://docs.zeusln.app/for-users/remote-connections/lndhub">Zeus</a>, <a href="https://bitbanana.app/">BitBanana</a> of <a href="/wallets/bluewallet-funding-sources-nl.html">Bluewallet</a>. Gemakkelijk te gebruiken met de LNBits lndhub-accounts, net als LN-wallets. U hoeft geen kanaal te openen, uw LN-bank biedt de liquiditeit, u gebruikt het gewoon, direct.</li>
+<li>Aanvullend of optioneel kunt u ecash-tokens aanbieden en uw gebruikers kunnen <a href="https://enuts.cash/">eNuts</a> of <a href="https://minibits.cash/">Minibits</a> wallets gebruiken. Volledig compatibel met alle LN-betalingen.</li>
+<li>LN-accounts via NWC-verbindingen - met behulp van <a href="https://shockwallet.app/">Shocknet Wallet</a> met Lightning Pub en <a href="https://github.com/getAlby/go/">Alby Go</a> met Alby Hub-accounts.
+<li>Voor u, als node-operator - <a href="https://docs.zeusln.app/category/remote-connections">Zeus</a>. Volledige controle over uw node vanaf uw mobiele apparaat. Krachtige mobiele app met veel goede functies en kan worden gebruikt met meerdere accounts / verbindingen / LN-implementaties.</li>
+<li>Voor desktopclients - <a href="https://electrum.org/">Electrum</a> / <a href="https://www.sparrowwallet.com/">Sparow</a> en <a href="https://blixtwallet.com/">Blixt macOS</a>. Binnenkort hebben we ook Blixt voor Linux-desktop. Electrum heeft ook geïntegreerde swaps.</li>
+<li>Voor jou, als node-operator, desktopbeheertools zoals <a href="https://www.ridethelightning.info/">RTL</a> en <a href="https://thunderhub.io/">Thunderhub</a>. U kunt ook <a href="https://github.com/edouardparis/lntop">LNTop</a>, <a href="https://github.com/cryptosharks131/lndg">LNDg</a>, <a href="https://github.com/niteshbalusu11/lndboss">LND BoS GUI</a> gebruiken als hulpmiddelen om uw node af te stemmen.</li>
+<li>Elke andere extra LN-wallet-app als ze die nodig hebben, zoals <a href="/wallets/lightning-wallets-comparison-nl.html">ik beschreef in deze vergelijkingsgids over LN-wallets</a>.</li>
+<li>Om hun wallet-seed, accountgegevens enz. op te slaan, raad ik aan om de wachtwoordbeheer-app <a href="https://keepass.info/">KeePass</a> te gebruiken. Gebruikers MOETEN leren hoe ze hun wallets kunnen beveiligen en deze gegevens op een veilige plek kunnen opslaan.</li>
+</ul>
+
+<h3 style="color:Yellow;">Wat moeten uw klanten doen om hun flow te behouden?</h3>
+<p>Ja, dit is nog een aspect waar gebruikers voor moeten zorgen: hun eigen liquiditeit in hun LN-wallets.</p>
+<p>De algemene regels zijn:</p>
+<ul>
+<li>Houd je LN-kanalen zo veel mogelijk open</li>
+<li>Open kanalen voornamelijk met je LN-bank, maar je kunt ze ook afzonderlijk openen met andere nodes.</li>
+<li>Je kanalen moeten het bedrag hebben dat je regelmatig gebruikt voor je uitgaven, dus het is niet nodig om ze te groot te maken. Ik zou zeggen dat kanalen tussen 1M sats en 5-6M sats genoeg zullen zijn. En het is niet nodig om er te veel te hebben, 3-4 kanalen per LN-app zullen genoeg zijn. En elk zou een ander knooppunt kunnen hebben voor meer redundantie en gebruik van <a href="https://docs.lightning.engineering/the-lightning-network/pathfinding/multipath-payments-mpp">MPP (multi-part payments)</a>.</li>
+<li>Om een ​​kanaal te vullen of leeg te maken <a href="/nodes/lightning-submarine-swaps-en.html">gebruik je de swapservices die in deze handleiding worden beschreven</a> of die door je LN-bank worden aangeboden.</li>
+<li><p>Gebruik zoveel mogelijk LN-betalingen, niet onchain. Niet alleen omdat de kosten goedkoper zouden kunnen zijn, maar ook vanwege de snelheid van de transactie. Onchain-transacties hebben minimaal 3-6 bevestigingen nodig om als voltooid te worden beschouwd. Dat betekent minimaal 30m.</p>
+<p>Onchain = is het settlementnetwerk, uw eigen "centrale bank", uw kluis.</p>
+<p>LN = is het betalingsnetwerk (<a href="/beginner/ln-airport-analogy-en.html">zie de luchthavenanalogiegids</a>), uw uitgavenportemonnee, uw "commerciële bank" van dagelijkse uitgaven.</p>
+</li>
+<li>Controleer op <a href="https://btcmap.org/">BTCMap</a> welke handelaren in de buurt zijn en doe uw boodschappen bij hen. <a href="/merchants/bitcoin-lightning-payments-irl-nl.html">Hier is ook een lijst met voorbeelden</a> van betalingen in het echte leven met handelaren die Bitcoin Lightning-betalingen accepteren.</li>
+<li><a href="/beginner/pay-with-bitcoin-nl.html">Betaal rekeningen met Bitcoin</a> - lijst met plaatsen</li>
+<li><a href="/beginner/buy-bitcoin-nl.html">Koop bitcoins via Lightning Network</a> - lijst met beurzen en broker-apps</li>
+<li><a href="/beginner/be-your-own-bank-nl.html">Gebruik de drie-niveau stash-methode</a>. Bewaar niet al je bitcoin op je mobiele apparaten. Verdeel je stash in veel verschillende wallets (onchain of LN).</li>
+</ul>
+
+<figure>
+<img src="/assets/images/3levels-stash.jpg" class="center">
+<figcaption>Het 3 levels stash methode schema</figcaption>
+</figure>
+
+<p>En geef je sats verstandig uit. Ja, het is goed om je sats uit te geven, om de Bitcoin circulaire economie te creëren, maar ook niet te veel. Bitcoin is een spaartechnologie, niet zoals fiat, de consumentismetechnologie.</p>
+<p>Geef je sats dus alleen uit als je ze echt nodig hebt en voor dingen die nuttig en noodzakelijk zijn. Koop geen rotzooi. Later zul je er spijt van krijgen.</p>
+<p>Onthoud dat bitcoin beperkt is tot 21 miljoen, ooit, voor altijd. Ja, je kunt meer verdienen, maar waarom zou je die sats niet bewaren voor later, wanneer je ze echt het hardst nodig hebt.</p>
+<p>Ik hoop dat deze gids je zal helpen om je "visie" over het Bitcoin-toekomstige gebruik te openen en je zal helpen om de Bitcoin-circulaire economie in je lokale gemeenschap te starten.</p>
+<p>Dus, ik denk dat dit het is... GELUKKIGE BLIKSEM!</p>
+</body>
+</html>
+</article>
