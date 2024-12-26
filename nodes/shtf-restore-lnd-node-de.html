@@ -1,0 +1,249 @@
+---
+layout: default
+title: SHTF-Szenario – Wie stellt man einen toten LND-Knoten wieder her?
+---
+<article>
+<!DOCTYPE html>
+<html lang="de">
+<meta name="description" content="Anleitungen für Bitcoin und Lightning Nodes: Verschiedene Möglichkeiten zur Wiederherstellung Ihrer LND-Node-Gelder im SHTF">
+<body>
+<a href="/nodes/shtf-restore-lnd-node-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/shtf-restore-lnd-node-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/shtf-restore-lnd-node-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/shtf-restore-lnd-node-nl.html">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/shtf-restore-lnd-node-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/shtf-restore-lnd-node-hr.html">Hrvatski <img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/shtf-restore-lnd-node-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<blockquote style="color:Tomato;"><em>
+<p>Ursprünglich gepostet auf <a href="https://darthcoin.substack.com/p/umbrel-btcln-node-shtf-scenario">Substack</a> am 01. Oktober 2021. Hier aktualisiert am 17. Oktober 2024</p>
+</em></blockquote>
+
+<h3>Verschiedene Möglichkeiten, Ihre LND-Knotengelder im Falle eines SHTF (Shit Hit the Fan – toter Knoten) wiederherzustellen</h3>
+<p>Hier ist ein separates Kapitel über die Verwaltung Ihres LND-Knotens (Umbrel, myNodeBTC, Raspiblitz, Start9 usw.), über Methoden und Verfahren zum Wiederherstellen/Wiedergewinnen Ihrer Knoten-Wallet-Gelder im Falle eines SHTF (Shit Hit the Fan).</p>
+<p>Es gibt viele Benutzer, die verrückte Sachen mit ihren Umbrel-Knoten machen, und manchmal gibt es keine andere Möglichkeit, das Problem zu beheben, als es in einer anderen Wallet-App wiederherzustellen und mit einer neuen zu beginnen ein oder dasselbe LND-Wallet, aber in einer neuen Instanz.</p>
+<p><img src="/assets/images/shtf-recovery-plan.jpg" class="center"></p>
+
+<h3>Bevor wir beginnen... ZUM DENKEN:</h3>
+<ul>
+<li>Bleiben Sie ruhig und seien Sie geduldig.</li>
+<li>Dieser Vorgang kann einige Zeit in Anspruch nehmen und erfordert genaue Schritte.</li>
+<li>Machen Sie nichts Dummes, das den Vorgang durcheinanderbringen könnte.</li>
+<li>Leeren oder verschieben Sie während des Wiederherstellungsprozesses keine Gelder/UTXOs aus Ihrem Onchain-Wallet. Viele UTXOs können mit der Schließung von Kanälen von sogenannten „Ankerreserve“-UTXOs in Verbindung gebracht werden.</li>
+<li>Warten Sie geduldig, bis die Kanäle geschlossen werden. Es kann 40 bis 144 Blöcke dauern, bis die Mittel freigegeben werden, selbst wenn die Transaktionen im Block-Explorer bestätigt werden.</li>
+<li>Die Wiederherstellung der Mittel ist der LETZTE Ausweg. Konsultieren Sie daher vor dem Starten andere und versuchen Sie, eine korrekte Diagnose darüber zu erhalten, was mit Ihrem Knoten passiert ist. Vielleicht reicht ein einfacher Neustart aus.</li>
+</ul>
+<p>Nachfolgend stelle ich Ihnen verschiedene Methoden vor, um Ihre toten LND-Knotengelder „wiederherzustellen“.</p>
+<p>Wenn Sie NUR Gelder in der Onchain-Wallet und keine Gelder in LN-Kanälen haben, verwenden Sie einfach die Methoden 2, 3, 4, 5, 6.</p>
+<p>Wenn Sie Gelder in der Onchain-Wallet UND in LN-Kanälen haben, verwenden Sie die Methoden: 1, 3, 4, 7, 8, 9, 10.</p>
+<p><a href="#umbrel">1. Standardmäßige, normale Methode mit einer neuen Instanz des Umbrel-Knotens</a></p>
+<p><a href="#bluewallet">2. Mit der mobilen App von Bluewallet</a></p>
+<p><a href="#blixt">3. Mit der mobilen App von Blixt Wallet</a></p>
+<p><a href="#zeus">4. Verwenden der mobilen App Zeus LN Wallet</a></p>
+<p><a href="#zap">5. Verwenden der Desktop-App Zap Wallet</a></p>
+<p><a href="#sparrow">6. Verwenden der Desktop-App Sparrow Wallet</a></p>
+<p><a href="#raw-copy">7. Verwenden einer Kopie von Datenbankdateien in einer anderen LND-Knoteninstanz</a></p>
+<p><a href="#experimental">8. Experimentelles vollständiges Kopieren von Daten vom RPi-Knoten auf einen Desktop-/NUC-Linux-Rechner</a>
+<p><a href="#th">9. Verwenden eines Thunderhub-/Amboss-SCB-Backups zum Wiederherstellen in Blixt</a>
+<p><a href="https://github.com/guggero/chantools">10. Verwendung von Guggeros Chantools für festgefahrene Kanäle</a></p>
+<hr style="height:2px">
+
+<h2 id="umbrel">Methode 1 – Standard, normale Methode unter Verwendung einer neuen Instanz des Umbrel-Knotens <a href="#umbrel">#</a></h2>
+<p>Diese Methode ist die normale Methode, wie sie vom <a href="https://umbrel.com">Umbrel-Team</a> beschrieben und empfohlen wird.</p>
+<p>Es wird davon ausgegangen, dass Sie bereits über den 24-Wörter-Seed und die zuvor erhaltene Datei channel.backup verfügen. Wenn Sie dieses Backup nicht erstellt haben, aber noch Zugriff auf Ihr altes Knotenlaufwerk haben, finden Sie es unter /home/umbrel/umbrel/lnd/data/chain/bitcoin/mainnet/channel.backup</p>
+<p>oder Sie können eine Kopie von den Umbrel-Entwicklern anfordern (kontaktieren Sie sie in der <a href="https://t.me/getumbrel">Umbrel-Telegram-Gruppe</a> oder im <a href="https://community.getumbrel.com/">Umbrel-Community-Forum</a>.</p>
+<p>Installieren Sie eine neue Instanz von Umbrel. Starten Sie die Dashboard-Seite und Sie werden aufgefordert, den zuvor gesicherten 24-Wörter-Seed zu verwenden.</p>
+<p>Nachdem Sie die 24 Wörter wiederhergestellt haben, kann es einige Minuten bis einige Stunden dauern, bis alle Ihre vorherigen Bitcoin-Transaktionen (On-Chain) und -Guthaben gescannt sind. In der Zwischenzeit können Sie die Gelder in Ihren Lightning-Kanälen wie folgt wiederherstellen.</p>
+<p>SCHRITT 1: KOPIEREN ÜBER DIE KANAL-SICHERUNGSDATEI VON IHREM COMPUTER AUF IHREN UMBREL.</p>
+<p>Geben Sie sich per SSH ein und führen Sie Folgendes aus:</p>
+
+<pre><code>
+scp <Pfad/zu/Ihrer/Kanal-Sicherungsdatei> umbrel@umbrel.local:/home/umbrel/umbrel/lnd/channel.backup
+</code></pre>
+
+<p>Ersetzen Sie `<Pfad/zu/Ihrer/Kanal-Sicherungsdatei>` durch den genauen Pfad zur Kanal-Sicherungsdatei auf Ihrem Computer</Pfad>
+<p>Das Passwort lautet `moneyprintergobrrr`, außer bei Version 0.3.3 oder höher, wo das Passwort stattdessen Ihr persönliches Benutzerpasswort ist.</p>
+<p>SCHRITT 2: GELD WIEDERHERSTELLEN</p>
+<pre><code>
+cd ~/umbrel && ./bin/lncli restorechanbackup --multi_file /data/.lnd/channel.backup
+</code></pre>
+<p>Nachdem Sie dies ausgeführt haben, warten Sie 1 Minute. Sie sollten jetzt sehen können, wie Ihre Kanäle auf http://umbrel.local/lightning geschlossen werden.</p>
+<p>Sie sollten geduldig warten, bis die Gelder in Ihr Onchain-Wallet zurückfließen. Dies dauert mindestens 40 Blöcke. Sie können die Details zum Schließen von Kanälen im <a href="https://community.umbrel.com/t/umbrel-troubleshooting-guide/3632">Leitfaden zur Fehlerbehebung</a></p> sehen/überprüfen.
+<hr style="height:2px">
+
+<h2 id="bluewallet">Methode 2 – Bluewallet verwenden <a href="#bluewallet">#</a></h2>
+<h3>WICHTIGER HINWEIS:</h3>
+<p>Es gibt eine Einschränkung der Adresstypen in <a href="https://bluewallet.com">Bluewallet</a>! LND / Umbrel verwendet jetzt auch Taproot-Adressen. Dies ist nicht standardmäßig der Fall, aber wenn Sie diese Option in den Einstellungen aktiviert haben, generiert Ihr Umbrel-Wallet Adressen im Taproot-Format. Beachten Sie, dass nicht alle anderen Apps, die xpub oder das vollständige Blixt Aezeed Wallet importieren können, diese Adressen auch anzeigen/lesen können. Das bedeutet, dass Ihnen einige Sats in Ihrem angezeigten Guthaben fehlen, da diese Taproot-Adressen ignoriert werden. Das bedeutet nicht, dass Sie Ihre Sats verloren haben. Es werden nur nicht angezeigt, nicht gezeigt und sind nicht „lesbar“ für die App, die Sie zum Importieren des Wallets verwenden.</p>
+<p>Ja, jetzt können Sie sich direkt mit einer mobilen App verbinden, dem Onchain AEZEED Node Wallet. Verwenden Sie einfach Ihren Umbrel-Knotensamen in Bluewallet (fügen Sie ihn als neue Brieftasche hinzu) und fertig. Anwendungsfälle:</p>
+<ul>
+<li>Sie möchten eine Möglichkeit zur Hand haben, schnell Geld auf Ihr Node-Wallet (Onchain) einzuzahlen.</li>
+<li>Sie müssen Zugriff auf Ihre Onchain-Gelder haben, falls Ihr Node abstürzt und Sie die Gelder wiederherstellen/auf sie zugreifen möchten.</li>
+</ul>
+<p><strong>ERINNERUNG:</strong></p>
+<ul>
+<li>Hierbei wird NUR das Onchain-Wallet wiederhergestellt, nicht auch die LN-Kanäle!</li>
+<li>Um die Gelder aus Ihren LN-Kanälen wiederherzustellen, müssen Sie weiterhin das Verfahren zur Wiederherstellung mit der Standardmethode befolgen, siehe Punkt 1.</li>
+<li>Ich würde empfehlen, denselben Seed nicht in einer neuen Umbrel-LND-Instanz wiederherzustellen, sondern einfach mit einer neuen LND-Instanz zu beginnen und dieses alte Wallet in Bluewallet zu behalten oder die Gelder einfach in die neue Umbrel-Instanz zu verschieben.</li>
+</ul>
+<hr style="height:2px">
+
+<h2 id="blixt">Methode 3 – Verwenden Blixt Mobile Wallet <a href="#blixt">#</a></h2>
+<p><a href="/wallets/getting-started-blixt-wallet-en.html">Blixt Wallet</a> ist eine hervorragende mobile App, die LND und Neutrino-Blocksynchronisierung verwendet und viele weitere Funktionen bietet, die kein anderes Mobile Wallet bietet. Es lohnt sich, es als Paarknoten mit einem anderen regulären Knoten auf Ihrem Telefon zu haben.</p>
+<p>Es besteht die Möglichkeit, einen LND-Knoten gleich bei den ersten Schritten beim Öffnen der App wiederherzustellen.</p>
+<p>Sie werden in diesem Test/Szenario keine Gelder verlieren. Das Schlimmste, was passieren kann, ist, dass die Kanäle nicht wiederhergestellt werden und/oder Kanäle geschlossen und Gelder in das Onchain-Wallet zurückgewonnen werden. Die „Wiederherstellung“ wird einfach abgelehnt und Ihre Kanäle bleiben im Umbrel-Knoten aktiv.</p>
+<h4>Anforderungen:</h4>
+<ul>
+<li>Ihr Umbrel-Knoten ist tot und sollte in diesem Prozess nicht online sein.</li>
+<li>Sie haben eine Sicherungskopie Ihrer Kanäle im neuesten Zustand. Verwenden Sie die Sicherungsdatei, die Sie vom Umbrel-Dashboard – Lightning-Seite erhalten. Nicht RTL oder Thunderhub. Sie können auch die Online-Sicherungskopie von Umbrel-Servern verwenden (dafür müssen Sie die Umbrel-Entwickler kontaktieren). Wenn Sie dieses Backup nicht erstellt haben, aber noch Zugriff auf Ihr altes Knotenlaufwerk haben, finden Sie es unter `/home/umbrel/umbrel/lnd/data/chain/bitcoin/mainnet/channel.backup`</li>
+<li>Sie haben ein Backup Ihres 24-Wörter-Seeds</li>
+</ul>
+<h3>Auszuführende Schritte:</h3>
+<ol>
+<li><a href="https://blixtwallet.github.io/">Installieren Sie Blixt Wallet</a> auf Ihrem Mobiltelefon</li>
+<li>Gehen Sie zu den Menüeinstellungen und aktivieren Sie Tor (die App wird neu gestartet). Dies ist notwendig, da Umbrel standardmäßig Tor ist und viele Ihrer vorherigen Kanäle mit Tor-Knoten-Peers geöffnet waren.</li>
+<li>Wählen Sie „Wallet wiederherstellen“ aus</li>
+<li>Nehmen Sie Ihren 24-Wörter-Seed und fügen Sie ihn in das 1. Feld ein</li>
+<li>Nehmen Sie Ihre Datei channels.backup (die Sie zuvor vom Umbrel LN-Dashboard gespeichert haben), laden Sie sie auf Ihr Mobiltelefon hoch und fügen Sie sie in das Wiederherstellungsfeld von Blixt ein.</li>
+<li>Klicken Sie auf „Wiederherstellen“ und warten Sie eine Weile, bis die App den Neutrino-Knoten (eine kleine Version der Blockchain) synchronisiert hat. Nach der Wiederherstellung sollten die Mittel in der Onchain im Kontostand und auch in den Kanälen erscheinen. Aber denken Sie daran, dass die Kanäle geschlossen und die Mittel zurück in die Onchain fließen. Seien Sie einfach geduldig.</li>
+</ol>
+<p>Ich würde empfehlen, nicht denselben Seed in einer neuen Umbrel LND-Instanz wiederherzustellen, sondern einfach mit einer neuen LND-Instanz zu beginnen und diese alte Wallet in Blixt zu behalten oder die Mittel einfach in die neue Umbrel-Instanz zu verschieben. <a href="/wallets/getting-started-blixt-wallet-de.html">Blixt könnte ein sehr guter Knotenbegleiter</a> für Ihren neuen Umbrel-Knoten sein.</p>
+<p>Es gibt einige Möglichkeiten, den Status in der Blixt-App zu überprüfen, aber ich werde hier nicht näher darauf eingehen.</p>
+<p>Lassen Sie mich wissen, wann/ob Sie diesen Test durchführen möchten, und ich kann Ihnen helfen, aber nur, wenn Ihr Umbrel-Knoten tot ist. Sie können auch mit Hampus, dem Blixt-Entwickler, über die <a href="https://t.me/blixtwallet">Telegram-Blixt-Gruppe</a></p> Kontakt aufnehmen.
+<p>Machen Sie nichts kaputt, nur um andere zu testen. Denken Sie daran, dass dies ein experimenteller Test ist und Sie keine andere Möglichkeit haben.</p>
+<hr style="height:2px">
+
+<h2 id="zeus">Methode 4 – Verwenden von Zeus LN Mobile <a href="#zeus">#</a></h2>
+<p>Ab dem neuen Zeus v 0.8.0 mit eingebettetem LND-Knoten können Sie Ihren toten Umbrel LND-Knoten sehr einfach und schnell wiederherstellen.</p>
+<p>Denken Sie daran, dass „Wiederherstellen“ die Verwendung der SCB-Datei (Static Channel Backup) bedeutet, die ein gemeinsames Schließen Ihrer vorhandenen Kanäle auslöst und die Gelder wieder in die Onchain-Wallet zurückbringt.</p>
+<p>ZEUS erlaubt derzeit nur eine eingebettete Node-Wallet gleichzeitig. Wenn Sie also bereits eine Wallet initialisiert haben, müssen Sie die App deinstallieren und neu installieren.</p>
+<p>Wenn Sie zur Wiederherstellung bereit sind, gehen Sie in ZEUS zum Menü „Einstellungen“. Der Zugriff erfolgt über die obere linke Ecke der Hauptansicht (normalerweise ein Symbol von Zeus), wenn Sie bereits eine Brieftasche konfiguriert haben, oder indem Sie auf dem Begrüßungsbildschirm einer neuen Installation auf „Erweiterte Einrichtung“ drücken.</p>
+<p>Von dort aus können Sie einen neuen Knoten hinzufügen, indem Sie auf das obere Feld drücken (dort steht entweder „Keine Knoten“ oder der Name Ihrer aktiven Verbindung) und dann auf das Pluszeichen (+) in der oberen rechten Ecke klicken.</p>
+<p>Geben Sie von dort aus Ihre 24 Wörter lange Seed-Phrase in das Feld „Recovery Cipher Seed (aezeed)“ ein. Sie können optional eine statische Sicherungszeichenfolge in das Feld „Disaster Recovery-Daten (SCB, Base64)“ eingeben. Wenn Sie die vorherige SCB-Datei von einem anderen Knoten haben, öffnen Sie sie einfach als Textdatei und kopieren Sie die Zeichenfolge.</p>
+<p>Drücken Sie dann auf „Mainnet-Wallet wiederherstellen“, wenn Sie mit echtem Geld arbeiten, oder auf „Testnet-Wallet wiederherstellen“, wenn Sie das Testnetzwerk von Bitcoin verwenden.</p>
+<p>Bitte lassen Sie ZEUS laufen, wenn Sie den Seed zum ersten Mal wiederherstellen. Es muss den Wiederherstellungsprozess durchlaufen, um Ihr Guthaben wiederherzustellen. Es ist nicht ungewöhnlich, dass dies über 10 Minuten dauert, insbesondere wenn Sie ein stark genutztes Wallet haben. Möglicherweise möchten Sie in den Einstellungen Ihres Telefons vorübergehend alle Bildschirm-Timeouts und Energiesparoptionen deaktivieren, damit ZEUS nicht in den Hintergrund geht und LND während des Vorgangs pausiert.</p>
+<p>Sie können auch zuerst den persistenten LND-Dienst aktivieren (Embedded Node – Erweitert – Persistenter Modus). Dadurch bleibt der LND-Dienst im Hintergrund aktiv.</p>
+<p>Wenn Sie feststellen, dass nach langer Zeit immer noch keine alten Verlaufs-Txs angezeigt werden, gehen Sie zu Eingebetteter Knoten – Peers und deaktivieren Sie die Option zur Verwendung der Liste ausgewählter Peers (standardmäßig ist dies btcd.lnolymp.us). Dadurch wird ein Neustart ausgelöst und eine Verbindung zum ersten verfügbaren Neutrino-Knoten mit einer besseren Zeitreaktion hergestellt. Oder verwenden Sie diese bekannten Neutrino-Peers und wählen Sie denjenigen aus, der näher an Ihrem Standort ist:</p>
+<ul>
+<li>btcd1.lnolymp.us | btcd2.lnolymp.us – für die Region USA</li>
+<li>btcd-mainnet.lightning.computer – für die Region USA</li>
+<li>uswest.blixtwallet.com (Seattle) – für die Region USA</li>
+<li>europe.blixtwallet.com (Deutschland) – für die Region EU</li>
+<li>asia.blixtwallet.com – für die Region Asien</li>
+<li>node.eldamar.icu – für die Region USA</li>
+<li>noad.sathoarder.com – für die Region USA</li>
+<li>bb1.breez.technology | bb2.breez.technology – für die Region USA</li>
+<li>neutrino.shock.network – Region USA</li>
+</ul>
+<hr style="height:2px">
+
+<h2 id="zap">Methode 5 – Verwenden des Zap-Desktops <a href="#zap">#</a></h2>
+<h3>WICHTIGE HINWEISE:</h3>
+<ul>
+<li>Es gibt eine Einschränkung für Zap-Apps. LND/Umbrel verwendet jetzt auch Adressen vom Typ Taproot. Dies ist nicht standardmäßig der Fall, aber wenn Sie diese Option in den Einstellungen aktiviert haben, generiert Ihre Umbrel-Wallet Adressen im Taproot-Format. Beachten Sie, dass nicht alle anderen Apps, die xpub oder die vollständige Blixt Aezeed-Wallet importieren können, diese Adressen auch anzeigen/lesen können. Das bedeutet, dass Ihnen einige Sats in Ihrem angezeigten Guthaben fehlen, da diese Taproot-Adressen ignoriert werden. Das bedeutet nicht, dass Sie Ihre Sats verloren haben. Es wird einfach nicht angezeigt, nicht gezeigt, nicht „lesbar“ von der App, die Sie zum Importieren der Wallet verwenden.</li>
+<li>Dies funktioniert nur mit der Desktop-Version von Zap, nicht mit der mobilen Version.</li>
+<li>Die Zap-App wird nicht mehr angeboten, daher sind keine weiteren Updates verfügbar. Verwenden Sie diese Desktop-App nur, wenn Sie Ihre Onchain-Gelder schnell überprüfen möchten.</li>
+</ul>
+<p>Installieren Sie einfach die Zap-App und verwenden Sie Ihren 24-Wörter-Seed, um die AEZEED-Onchain-Wallet wiederherzustellen.</p>
+<p>Dadurch werden die LN-Kanäle NICHT wiederhergestellt! Um die LN-Kanäle wiederherzustellen, müssen Sie weiterhin das Standardverfahren verwenden, das in <a href="#umbrel">Methode 1</a> in diesem Handbuch erläutert wird.</p>
+<hr style="height:2px">
+
+<h2 id="sparoow">Methode 6 – Verwenden der Sparrow-Wallet <a href="#sparrow">#</a></h2>
+<h3>WICHTIGE HINWEISE:</h3>
+<ul>
+<li>Es gibt jedoch eine Einschränkung. Umbrel verwendet jetzt auch Adressen vom Typ Taproot. Dies ist nicht standardmäßig der Fall, aber wenn Sie diese Option in den Einstellungen aktiviert haben, generiert Ihre Umbrel-Wallet Adressen im Taproot-Format. Beachten Sie, dass nicht alle anderen Apps, die xpub oder die vollständige Blixt-Aezeed-Wallet importieren können, diese Adressen auch anzeigen/lesen können. Das bedeutet, dass Ihnen einige Sats in Ihrem angezeigten Guthaben fehlen, da diese Taproot-Adressen ignoriert werden. Das bedeutet nicht, dass Sie Ihre Sats verloren haben. Sie werden nur nicht angezeigt, nicht gezeigt und sind von der App, die Sie zum Importieren der Wallet verwenden, nicht „lesbar“.</li>
+<li>Diese Methode stellt Ihre LN-Kanäle nicht wieder her, sondern nur die Onchain-Wallet! Um Gelder aus LN-Kanälen wiederherzustellen, müssen Sie immer noch das „normale Verfahren“ durchführen, das in Punkt 1 dieser Anleitung erläutert wird.</li>
+</ul>
+<h3>VERFAHREN</h3>
+<ol>
+<li>Gehen Sie zu <a href="https://guggero.github.io/cryptography-toolkit/#!/aezeed">Cryptography Toolkit</a> und laden Sie die HTML-Datei auf Ihren Computer herunter.</li>
+<li>Öffnen Sie diese HTML-Datei im „Offline-Modus“ (ohne Internet) und wählen Sie „aezeed Cipher Seed Scheme“ unter „Tools“. Gehen Sie dann zur 2. Registerkarte „Mnemonik dekodieren“.</li>
+<li>Fügen Sie Ihre 24 Wörter in das Feld „Mnemonik“ ein.</li>
+<p><img src="/assets/images/shtf-cryptographic-tool.png" class="center"></p>
+<li>Wählen Sie das Format BIP84 natives Segwit und warten Sie kurz, bis es dekodiert ist.</li>
+<li>Kopieren Sie den angezeigten zprv in das Feld „HD node root base 58“</li>
+<li>Öffnen Sie die (bereits heruntergeladene) Sparrow Wallet-App und wählen Sie „Neue Wallet“</li>
+<li>Wählen Sie in den „Keystores“ „Neue importierte Software-Wallet“ aus</li>
+<li>Wählen Sie im nächsten Fenster, das sich öffnet, „Master Private Key BIP32“ aus, fügen Sie den zprv-Schlüssel ein, den Sie vom Kryptografie-Tool erhalten, und klicken Sie auf „Importieren“. Es wird Ihnen angezeigt, dass es sich um einen Ableitungspfad m/86'/0'/0 handelt (wie es sein sollte, um alle Ihre zuvor in Umbrel verwendeten Adressen und Txs wiederherzustellen). Wenn Sie jedoch Taproot-Adressen verwendet haben, wählen Sie bei der Wiederherstellung in Sparrow den Ableitungspfad m/86'/0'/0.</li>
+<li>Klicken Sie auf „Keystore importieren“ und Sie gelangen zurück zum Hauptfenster der Wallet-App, wo Sie die gesamte Wallet-Konfiguration sehen können. Klicken Sie auf „Übernehmen“ und Sie werden aufgefordert, ein Kennwort zum Verschlüsseln Ihrer lokalen Wallet-Datei festzulegen.</li>
+<li>Wählen Sie auf der Registerkarte „Wallet-Einstellungen“ das Skript „Taproot“ aus, wenn Sie wissen, dass Sie Taproot-Adressen verwendet haben. Andernfalls lassen Sie es so, wie es ist. Kann auch später geändert werden, falls Sie Ihren alten Txs-Verlauf nicht sehen. Stellen Sie außerdem sicher, dass der Ableitungspfad m/86'/0'/0' ist.</li>
+<p><img src="/assets/images/shtf-sparrow-p2tr.png" class="center"></p>
+<li>Die Sparrow-App beginnt mit dem Scannen aller Ihrer Schlüssel und Transaktionen und wird nach einer Weile auf der Registerkarte „Transaktionen“ angezeigt. Haben Sie Geduld, es wird einige Zeit dauern.</li>
+<li>Für eine schnellere, sichere und private Verbindung ist es besser, Ihre Sparrow-Wallet-App mit Ihrem Knoten zu verbinden. Folgen Sie einfach den Anweisungen in „Umbrel – Wallet verbinden – Sparrow“ und Sie verwenden direkt die Blöcke und Indizes von Ihrem eigenen Knoten.</li>
+</ol>
+<hr style="height:2px">
+
+<h2 id="raw-copy">Methode 7 – Experimentelles Kopieren von Datenbankdateien <a href="#raw-copy">#</a></h2>
+<p>Diese Methode wurde nur von einem Umbrel-Benutzer bestätigt, der sie erfolgreich durchgeführt hat. Aber denken Sie daran, er hat nicht die Raspberry Pi-Version von Umbrel verwendet, sondern eine Maschine mit regulärem Linux und darauf installiertem Umbrel.</p>
+<p>Dieses Verfahren ist NUR für erfahrene Linux-Benutzer! Wenn Sie Linux nicht kennen, sollten Sie sich besser fernhalten.</p>
+<p>Das Verfahren ist einfach. Sind nur diese 2 Dateien und sie befinden sich in:</p>
+<em>`<lnd-Ordner>/data/chain/bitcoin/mainnet/wallet.db`</em>
+<em>`<lnd-Ordner>/data/graph/mainnet/channel.db`</em>
+<p>Sie müssen die Ordner data/... selbst erstellen und dann die Dateien dorthin kopieren, bevor Sie lnd starten.</p>
+<ul>
+<li>Nehmen Sie also eine andere Maschine/ein anderes Laufwerk und installieren Sie Umbrel neu. Verwenden Sie Ihren 24-Wörter-Seed, um die Onchain-AEZEED-Wallet wiederherzustellen. Warten Sie, bis die Synchronisierung ein wenig gestartet ist, und erstellen Sie die restlichen Ordner für LND. Stoppen Sie es dann.</li>
+<li>Gehen Sie zum alten Laufwerk und suchen Sie diese 2 Dateien.</li>
+<li>Kopieren Sie sie in den gleichen Pfad im neuen Knoten.</li>
+<li>Optional: Wenn die Blockchain-Daten in Ordnung sind und die Dateiintegrität in Ordnung ist, können Sie auch die Blockchain kopieren, um Zeit zu sparen. Wenn Sie glauben, dass es beschädigt ist, vergessen Sie es lieber und lassen Sie die Synchronisierung auf normale/natürliche Weise durchführen.</li>
+<li>Starten Sie den Knoten, lassen Sie ihn synchronisieren und ... voilà, Ihre alten LN-Kanäle sind aktiv und nicht geschlossen.</li>
+<li>Wenn beim Neustart des Knotens ein Problem auftritt, führen Sie einfach Folgendes aus: sudo scripts/configure</li>
+</ul>
+<p>ERINNERUNG: Diese Dateien müssen die neueste Version sein, die online war! Wenn Sie ein älteres Backup verwenden, können Sie Geld verlieren und für das Betrügen mit einer älteren Version Ihrer Kanäle bestraft werden. </p>
+<hr style="height:2px">
+
+<h2 id="experimental">Methode 8 – Experimentell – RPi-Knoten in neue Desktop-Maschine <a href="#experimental">#</a></h2>
+<p>Diese Methode wurde noch nicht vollständig getestet, mit einem alten RPi-Gerät mit funktionierendem Umbrel und einem neuen NUC/Desktop/Laptop mit Linux OS + Docker-Abhängigkeiten (vorzugsweise Debian, um dieselben Bibliotheken wie UmbrelOS zu verwenden).</p>
+<p>Das Verfahren ist einfach:</p>
+<ul>
+<li>Installieren Sie eine neue Maschine mit Debian OS + allen erforderlichen Abhängigkeiten (<a href="https://github.com/getumbrel/umbrel#-installation">siehe Umbrel GitHub-Installationshandbuch</a> für Desktop-Linux</li>
+<li>Fügen Sie die alte USB-SSD mit der UmbrelOS-Installation zum neuen Knoten hinzu und beginnen Sie, den gesamten Ordner von Umbrel im selben Speicherortpfad wie zuvor auf das neue Knotenlaufwerk zu kopieren.</li>
+<li>Entfernen Sie das USB-Laufwerk danach Abschluss</li>
+<li>Starten Sie Umbrel aus diesem Ordner mit folgendem Befehl:</li>
+<pre><code>
+sudo ./scripts/start
+</code></pre>
+<li>Wenn beim Neustart des Knotens ein Problem auftritt, führen Sie einfach Folgendes aus: sudo scripts/configure</li>
+</ul>
+<p>Alles sollte einwandfrei starten und der Knoten wird seine Synchronisierung fortsetzen und alle Ihre vorherigen Daten sollten vorhanden sein. Haben Sie Geduld, bis der Knoten die neuesten Blöcke und Indizes eingeholt hat.</p>
+<hr style="height:2px">
+
+<h2 id="th">Methode 9 – Thunderhub / Amboss SCB-Methode in Blixt <a href="#th">#</a></h2>
+<p>Kürzlich hat Amboss eine nette Funktion für Knotenbetreiber mit registriertem Knoten hinzugefügt, um eine SCB-channels.backup-Datei auf Ihr Konto hochzuladen. Diese Datei kann später wiederhergestellt werden, falls Ihr Knoten tot ist.</p>
+<p><img src="/assets/images/shtf-th.png" class="center"></p>
+<p>Diese Option ist mit der Thunderhub-App verknüpft, unter Tools – Backup. Sobald Sie also in Thunderhub die Erstellung von Backups eingerichtet haben, kann es mit Ihrem Amboss-Konto verknüpft werden und eine Kopie auf deren Servern haben.</p>
+<p><img src="/assets/images/shtf-th-backup.jpg" class="center"></p>
+<p><img src="/assets/images/shtf-th-backup2.png" class="center"></p>
+<p>Es besteht kein Risiko, dass Geld aus dieser Datei verloren geht/gestohlen wird. Ohne die Seed-Wörter Ihres Knoten-Wallets ist sie nutzlos.</p>
+<p>Diese Backup-Datei von Thunderhub kann auch lokal an einem sicheren Ort außerhalb des Knotens gespeichert werden. Amboss und Thunderhub bieten diese Option nur als zusätzliche Backup-Möglichkeit an.</p>
+<h3>Vorgehensweise zur Wiederherstellung</h3>
+<p>Ihr Knoten ist also kaputt, aber Sie haben Ihren 24-Wörter-Seed. Die Backups in Amboss wurden automatisch durchgeführt, OK. Sie möchten diese Mittel schnell wiederherstellen, während Sie einen neuen Knoten erstellen.</p>
+<ul>
+<li>Öffnen Sie die Blixt-App auf Ihrem Mobilgerät</li>
+<li>Wählen Sie „Knoten wiederherstellen“</li>
+<li>Geben Sie Ihren 24-Wörter-Seed ein (von Ihrem toten Knoten)</li>
+<li>Blixt benötigt einige Minuten, um über Neutrino zu synchronisieren und Ihre Knoten-ID wiederherzustellen</li>
+<li>In dieser Phase müssen Sie sich nicht für die Wiederherstellung mit Kanal-Backup entscheiden, das kann später erfolgen. Sie müssen sich nur bei Amboss anmelden und Ihren SCB wiederherstellen können.</li>
+<li>Sobald die Synchronisierung erfolgt ist (siehe oberes Drehsymbol), gehen Sie zu amboss.space und melden Sie sich an, indem Sie den Schlüssel mit Ihrer Blixt-App signieren. Ja, Blixt unterstützt LN-Auth, wie viele andere Funktionen auch.</li>
+<li>Sie sind in Ihrem Amboss-Konto angemeldet und laden die SCB-Datei auf Ihr Mobilgerät herunter.</li>
+<li>In diesem Moment müssen Sie die Daten von Ihrem Blixt löschen. Am einfachsten ist es, es zu deinstallieren und neu zu installieren. Alternativ können Sie in Android die Blixt-App-Details aufrufen, Daten und Cache löschen.</li>
+<li>Fügen Sie die HEX-Daten aus dem Amboss-Backup in eine Textdatei ein und nennen Sie sie channels.backup oder wie auch immer Sie möchten.</li>
+<li>Sobald Blixt sauber neu installiert ist, starten Sie den Wiederherstellungsvorgang, indem Sie die Seed- und Channels-Backup-Datei einfügen. In diesem Moment wird der Vorgang zur Wiederherstellung der Mittel ausgelöst. Es dauert eine Weile, bis die Blöcke über Neutrino synchronisiert und die Kanäle geschlossen sind. Normalerweise dauert die Synchronisierung weniger als 5 Minuten und es dauert 44 bis 144 Blöcke, um die Mittel aus der Kanalschließung freizugeben.</li>
+<li>GEDULD! Lassen Sie die Blixt-App in der ersten Phase des Wiederherstellungsverfahrens aktiv, bis die Kanäle geschlossen werden. Sie können dies in den Einstellungen – LND-Protokollen und in der oberen linken Schublade – Lightning-Kanäle überprüfen. Wenn die Kanäle dort im Status „Schließen“ angezeigt werden, ist alles in Ordnung und Sie können die Blixt-App schließen.</li>
+</ul>
+<h4>HINWEISE:</h4>
+<ul>
+<li>Wenn Sie die Mittel in Blixt nicht wiederherstellen möchten, können Sie dieselbe Datei channels.backup in Thunderhub verwenden, sobald Ihr neuer Knoten bereit und synchronisiert ist. Das Verfahren ist das gleiche, wobei die alten Kanäle geschlossen und die Gelder in Ihr Onchain-Wallet zurückgeführt werden.</li>
+<li>Sie können auch den CLI-Befehl verwenden:</li>
+<pre><code>
+lncli restorechanbackup --multi_backup <filename_location>
+</code></pre>
+</ul>
+<hr style="height:2px">
+  
+<h3>Weitere Tools, Dokumentationen und Anleitungen zum Wiederherstellen von Geldern von einem ausgefallenen LND-Knoten:</h3>
+<ul>
+<li><a href="https://docs.lightning.engineering/lightning-network-tools/lnd/recovery-planning-for-failure">Lightning Engineering: Wiederherstellung – Planung für den Fall eines Ausfalls</a></li>
+<li><a href="https://github.com/lightningnetwork/lnd/blob/master/docs/recovery.md">LND Lightning-Knotenwiederherstellung</a></li>
+<li><a href="https://node-recovery.com/">Tools zur Wiederherstellung von Lightning Network-Knoten</a></li>
+</ul>
+</body>
+</html>
+</article>
