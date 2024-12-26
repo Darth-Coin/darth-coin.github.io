@@ -1,0 +1,249 @@
+---
+layout: default
+title: SHTF scenarij - Kako vratiti mrtvi LND čvor?
+---
+<article>
+<!DOCTYPE html>
+<html lang="hr">
+<meta name="description" content="Vodiči za Bitcoin i Lightning čvorove: Različiti načini vraćanja sredstava vašeg LND čvora u slučaju SHTF-a">
+<body>
+<a href="/nodes/shtf-restore-lnd-node-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/shtf-restore-lnd-node-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/shtf-restore-lnd-node-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/shtf-restore-lnd-node-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/shtf-restore-lnd-node-nl.html">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/shtf-restore-lnd-node-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/shtf-restore-lnd-node-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<blockquote style="color:Tomato;"><em>
+<p>Izvorno objavljeno na <a href="https://darthcoin.substack.com/p/umbrel-btcln-node-shtf-scenario">Substack</a> 1. listopada 2021. Ovdje ažurirano 17. listopada , 2024.</p>
+</em></blockquote>
+
+<h3>Različiti načini vraćanja sredstava vašeg LND čvora u slučaju SHTF-a (shit hit the fan - dead node)</h3>
+<p>Ovdje je zasebno poglavlje o upravljanju vašim LND čvorom (Umbrel, myNodeBTC, Raspiblitz, Start9 itd.), o metodama i postupku vraćanja/povrata sredstava novčanika vašeg čvora u slučaju SHTF (shit hit the fan).</p >
+<p>Mnogi su korisnici koji rade lude stvari sa svojim Umbrel čvorovima i ponekad, ne postoji drugi način da to popravite osim da ga vratite u drugu aplikaciju novčanika i počnete ispočetka s novim ili istim LND novčanikom, ali u novoj instanci.< /p>
+<p><img src="/assets/images/shtf-recovery-plan.jpg" class="center"></p>
+
+<h3>Prije nego počnemo... DA ZAPAMTITE:</h3>
+<ul>
+<li>Ostanite mirni i strpljivi.</li>
+<li>Ovaj postupak može potrajati i slijediti precizne korake.</li>
+<li>Ne činite ništa glupo što bi moglo sjebati proces.</li>
+<li>Nemojte prazniti niti premještati sredstva/UTXO iz svog onchain novčanika tijekom procesa oporavka. Mnogi UTXO-i mogu se povezati sa zatvaranjem kanala iz takozvanog UTXO-a "sidrene rezerve".</li>
+<li>Strpljivo pričekajte da se kanali zatvore, može potrajati od 40 do 144 bloka dok se sredstva ne oslobode, čak i ako su txs-ovi potvrđeni u block exploreru.</li>
+<li>Procedura vraćanja sredstava je ZADNJE rješenje, pa prije nego što je započnete, posavjetujte se s drugima i pokušajte imati ispravnu dijagnostiku o tome što se događa s vašim čvorom. Možda je jednostavno ponovno pokretanje dovoljno.</li>
+</ul>
+<p>U nastavku ću vam predstaviti različite metode za "vraćanje" vaših mrtvih sredstava LND čvora.</p>
+<p>Ako imate sredstva SAMO u onchain novčaniku i nemate sredstava u LN kanalima, samo upotrijebite metode 2, 3, 4, 5, 6.</p>
+<p>Ako imate sredstava u onchain novčaniku I u LN kanalima, koristite metode: 1, 3, 4, 7, 8, 9, 10.</p>
+<p><a href="#umbrel">1. Standardan, normalan način korištenjem nove instance čvora Umbrel</a></p>
+<p><a href="#bluewallet">2. Korištenje mobilne aplikacije Bluewallet</a></p>
+<p><a href="#blixt">3. Korištenje mobilne aplikacije Blixt wallet</a></p>
+<p><a href="#zeus">4. Korištenje mobilne aplikacije Zeus LN wallet</a></p>
+<p><a href="#zap">5. Korištenje stolne aplikacije Zap wallet</a></p>
+<p><a href="#sparrow">6. Korištenje stolne aplikacije Sparrow wallet</a></p>
+<p><a href="#raw-copy">7. Korištenje kopije datoteka baze podataka u drugu instancu LND čvora</a></p>
+<p><a href="#experimental">8. Eksperimentalna potpuna kopija podataka s RPi čvora na desktop/NUC Linux stroj</a>
+<p><a href="#th">9. Korištenje sigurnosne kopije Thunderhub / Amboss SCB za vraćanje u Blixt</a>
+<p><a href="https://github.com/guggero/chantools">10. Korištenje Guggerovog Chantoola za zaglavljene kanale</a></p>
+<hr style="height:2px">
+
+<h2 id="umbrel">Metoda 1 - Standardni, normalni način korištenjem nove instance Umbrel čvora <a href="#umbrel">#</a></h2>
+<p>Ova metoda je uobičajeni način, kako je opisao i preporučio <a href="https://umbrel.com">tim Umbrela</a>.</p>
+<p>Pretpostavimo da već imate početnu vrijednost od 24 riječi i prethodno dobivenu datoteku channel.backup. Ako niste napravili tu sigurnosnu kopiju, ali još uvijek imate pristup svom starom pogonu čvora, možete je pronaći u /home/umbrel/umbrel/lnd/data/chain/bitcoin/mainnet/channel.backup</p>
+<p>ili možete zatražiti kopiju od Umbrel devs (kontaktirajte ih u <a href="https://t.me/getumbrel">Umbrel Telegram grupi</a> ili na <a href="https:// community.getumbrel.com/">Forum zajednice Umbrel</a>.</p>
+<p>Instalirajte novu instancu Umbrela. Pokrenite stranicu s nadzornom pločom i od vas će se tražiti da upotrijebite prethodno sigurnosno kopirano početno mjesto od 24 riječi.</p>
+<p>Nakon što se vratite s 24 riječi, može proći nekoliko minuta do nekoliko sati da skenira sve vaše prethodne Bitcoin (u lancu) transakcije i stanja. U međuvremenu, evo kako možete vratiti sredstva u svoje Lightning kanale.</p>
+<p>1. KORAK: KOPIRAJTE DATOTEKU SIGURNOSNE KOPIJE KANALA S VAŠEG RAČUNALA NA VAŠ KIŠOBRAN.</p>
+<p>Uđite koristeći SSH i pokrenite ovo:</p>
+
+<pre><code>
+scp <path/to/your/channel/backup/file> umbrel@umbrel.local:/home/umbrel/umbrel/lnd/channel.backup
+</code></pre>
+
+<p>Zamijenite `<path/to/your/channel/backup/file>` točnim putem do datoteke sigurnosne kopije kanala na vašem računalu</path>
+<p>Lozinka je `moneyprintergobrrr`, osim na verziji 0.3.3 ili novijoj gdje je lozinka vaša osobna korisnička lozinka.</p>
+<p>2. KORAK: POVRAT SREDSTAVA</p>
+<pre><code>
+cd ~/umbrel && ./bin/lncli restorechanbackup --multi_file /data/.lnd/channel.backup
+</code></pre>
+<p>Nakon što ovo pokrenete, pričekajte 1 minutu. Sada biste trebali moći vidjeti kako se vaši kanali zatvaraju na http://umbrel.local/lightning.</p>
+<p>Trebali biste strpljivo pričekati dok se sredstva ne vrate u vaš onchain novčanik. Trebat će najmanje 40 blokova. Pojedinosti o zatvaranju kanala možete vidjeti/provjeriti u <a href="https://community.umbrel.com/t/umbrel-troubleshooting-guide/3632">vodiču za rješavanje problema</a></p>
+<hr style="height:2px">
+
+<h2 id="bluewallet">Metoda 2 - korištenje Bluewalleta <a href="#bluewallet">#</a></h2>
+<h3>VAŽNA NAPOMENA:</h3>
+<p>Postoji ograničenje vrste adresa u <a href="https://bluewallet.com">Bluewallet</a>! LND / Umbrel sada koristi i Taproot vrstu adresa. Nije prema zadanim postavkama, ali ako ste aktivirali tu opciju u Postavkama, vaš Umbrel novčanik će generirati adrese Taproot formata. Imajte na umu da ne mogu sve druge aplikacije koje mogu uvesti xpub ili puni Blixt aezeed novčanik također prikazati/čitati te adrese. To znači da ćete propustiti neke satove u prikazanom saldu jer će te glavne korijenske adrese biti zanemarene. To ne znači da ste izgubili satove. Samo se ne prikazuju, ne prikazuju, ne "čitljive" u aplikaciji koju koristite za uvoz novčanika.</p>
+<p>Da, sada se možete izravno povezati s mobilnom aplikacijom, onchain novčanikom AEZEED čvora. Samo upotrijebite svoje početno mjesto Umbrel čvora u Bluewalletu (dodajte ga kao novi novčanik) i gotovo. Slučajevi upotrebe:</p>
+<ul>
+<li>želite imati pri ruci način za brzu uplatu u svoj novčanik čvora (onchain)</li>
+<li>morate imati pristup svojim onchain sredstvima u slučaju da se vaš čvor sruši i želite oporaviti/pristupiti sredstvima</li>
+</ul>
+<p><strong>PODSJETNIK:</strong></p>
+<ul>
+<li>ovo vraća SAMO onchain novčanik, a ne i LN kanale!</li>
+<li>da biste vratili sredstva sa svojih LN kanala i dalje morate slijediti proceduru za oporavak koristeći standardnu ​​metodu, pogledajte točku 1.</li>
+<li>Preporučio bih da ne vraćate isto početno mjesto u novu Umbrel LND instancu, samo počnite s novom LND instancom i zadržite ovaj stari novčanik u Bluewalletu ili jednostavno premjestite sredstva u novu Umbrel instancu.</li>
+</ul>
+<hr style="height:2px">
+
+<h2 id="blixt">Metoda 3 - Korištenje Blixt mobilnog novčanika <a href="#blixt">#</a></h2>
+<p><a href="/wallets/getting-started-blixt-wallet-hr.html">Blixt Wallet</a> izvrsna je mobilna aplikacija koja koristi LND i sinkronizaciju blokova neutrina, također s mnogim drugim značajkama koje nitko drugi mobilni novčanik zajedno. Vrijedi ga imati u svom telefonu kao upareni čvor s običnim drugim čvorom.</p>
+<p>Ima mogućnost vraćanja LND čvora odmah u prvim koracima otvaranja aplikacije.</p>
+<p>Nećete izgubiti sredstva u ovom testu/scenariju, najgora stvar koja se može dogoditi je da se kanali ne oporave ili su kanali zatvoreni i sredstva vraćena u onchain novčanik. Samo će odbiti "vraćanje" i vaši će kanali i dalje biti aktivni u čvoru Umbrel.</p>
+<h4>Zahtjevi:</h4>
+<ul>
+<li>Vaš Umbrel čvor je mrtav i ne bi trebao biti na mreži u svom procesu.</li>
+<li>imate sigurnosnu kopiju svojih kanala s najnovijim stanjem. Upotrijebite backu datoteku koju dobijete s Umbrelove nadzorne ploče - stranice Lightning. Ne RTL ili Thunderhub. Također možete koristiti mrežnu sigurnosnu kopiju s Umbrel poslužitelja (za to ćete morati kontaktirati Umbrel programere). Ako niste napravili tu sigurnosnu kopiju, ali još uvijek imate pristup svom starom pogonu čvora, možete je pronaći u `/home/umbrel/umbrel/lnd/data/chain/bitcoin/mainnet/channel.backup`</li >
+<li>imate sigurnosnu kopiju svog sjemena od 24 riječi</li>
+</ul>
+<h3>Koraci koje treba učiniti:</h3>
+<ol>
+<li><a href="https://blixtwallet.github.io/">Instalirajte Blixt novčanik</a> na svoj mobitel</li>
+<li>Idite na postavke izbornika i aktivirajte Tor (aplikacija će se ponovno pokrenuti). Ovo je neophodno zbog činjenice da je Umbrel prema zadanim postavkama Tor i da su mnogi vaši prethodni kanali bili otvoreni s ravnopravnim Tor čvorom.</li>
+<li>Odaberite vraćanje novčanika</li>
+<li>Uzmite svoje početno mjesto od 24 riječi i umetnite ga u 1. polje</li>
+<li>Uzmite svoju datoteku channels.backup (koju ste prethodno spremili s nadzorne ploče Umbrel LN) i prenesite je na svoj mobilni telefon te je umetnite u Blixt okvir za vraćanje.</li>
+<li>Kliknite Vrati i pričekajte dosta vremena kako bi aplikacija sinkronizirala neutrino čvor (mala verzija blockchaina). Nakon što se vrati, sredstva u onchainu trebala bi se pojaviti u ravnoteži i kanalima. Ali zapamtite, kanali će biti zatvoreni, a sredstva vraćena u onchain. Samo budi strpljiv.</li>
+</ol>
+<p>Preporučio bih da ne vraćate isto početno mjesto u novu Umbrel LND instancu, samo počnite s novom LND instancom i zadržite ovaj stari novčanik u Blixtu ili jednostavno premjestite sredstva u novu Umbrel instancu. <a href="/wallets/getting-started-blixt-wallet-hr.html">Blixt bi mogao biti vrlo dobar suputnik čvora</a> čvor za vaš novi Umbrel čvor.</p>
+<p>Postoje neki načini za provjeru statusa u aplikaciji Blixt, ali ovdje neću unositi detalje.</p>
+<p>Javite mi kada/ako želite napraviti ovaj test i ja vam mogu pomoći, ali samo ako je vaš Umbrel čvor mrtav. Također možete stupiti u kontakt s Hampusom, Blixt dev-om, koristeći <a href="https://t.me/blixtwallet">Telegram Blixt grupu</a></p>
+<p>Ne lomite stvari samo da biste testirali druge. Imajte na umu da je ovo eksperimentalni test i nemate drugog načina.</p>
+<hr style="height:2px">
+
+<h2 id="zeus">Metoda 4 - Korištenje Zeus LN mobile <a href="#zeus">#</a></h2>
+<p>Počevši s novim Zeusom v 0.8.0 s ugrađenim LND čvorom, svoj mrtvi Umbrel LND čvor možete oporaviti vrlo jednostavno i brzo.</p>
+<p>Zapamtite, "oporavak" znači korištenje SCB (Static Channel Backup) datoteke koja će pokrenuti kolaborativno zatvaranje vaših postojećih kanala i sredstva će se vratiti u onchain novčanik.</p>
+<p>ZEUS trenutno dopušta samo jedan novčanik ugrađenog čvora u isto vrijeme, pa ako ste već inicijalizirali novčanik, morate deinstalirati i ponovno instalirati aplikaciju.</p>
+<p>Kada budete spremni za oporavak, idite na izbornik Postavke u ZEUS-u. Dostupan mu je iz gornjeg lijevog kuta glavnog prikaza (obično ikona Zeusa) ako već imate konfiguriran novčanik ili pritiskom na 'Napredne postavke' na početnom zaslonu nove instalacije.</p>
+<p>Odavde možete dodati novi čvor pritiskom na gornje polje (pisat će se 'Bez čvorova' ili naziv vaše aktivne veze), a zatim pritiskom na ikonu plus (+) u gornjem desnom kutu. </p>
+<p>Odatle unesite početnu frazu od 24 riječi u polje s oznakom 'Recovery Cipher Seed (aezeed)'. Po izboru možete dati niz statičke sigurnosne kopije u polje označeno kao 'Podaci oporavka od katastrofe (SCB, Base64)'. Ako imate prethodnu SCB datoteku iz drugog čvora, samo je otvorite kao tekstualnu datoteku i kopirajte niz.</p>
+<p>Zatim pritisnite 'Restore mainnet wallet' ako imate posla sa stvarnim sredstvima ili 'Restore testnet wallet' ako koristite Bitcoinovu testnu mrežu.</p>
+<p>Molimo ostavite ZEUS pokrenut prvi put kada obnovite početnu vrijednost. Mora proći kroz proces oporavka kako bi uspostavio ravnotežu. Nije neuobičajeno da to traje više od 10 minuta, pogotovo ako imate previše korišten novčanik. Možda biste trebali privremeno isključiti sva vremena čekanja zaslona i opcije uštede energije u postavkama telefona, tako da ZEUS ne ode u pozadinu i ne pauzira LND tijekom procesa.</p>
+<p>Također možete prvo aktivirati trajnu LND uslugu (Emebedded čvor - Napredno - Trajni način). To će održavati LND uslugu u pozadini.</p>
+<p>Ako vidite da nakon dugo vremena još uvijek ne prikazuje staru povijest txs, idite na Ugrađeni čvor - Ravni i onemogućite opciju za korištenje popisa odabranih ravnopravnih (prema zadanim postavkama je btcd.lnolymp.us). To će pokrenuti ponovno pokretanje i spojit će se na prvi dostupni neutrinski čvor s boljim vremenskim odzivom. Ili upotrijebite ove dobro poznate vršnjake neutrina, birajući onaj koji je bliži vašoj lokaciji:</p>
+<ul>
+<li>btcd1.lnolymp.us | btcd2.lnolymp.us - za regiju SAD</li>
+<li>btcd-mainnet.lightning.computer - za regiju SAD</li>
+<li>uswest.blixtwallet.com (Seattle) - za regiju SAD</li>
+<li>europe.blixtwallet.com (Njemačka) - za regiju EU</li>
+<li>asia.blixtwallet.com - za regiju Azije</li>
+<li>node.eldamar.icu - za regiju SAD</li>
+<li>noad.sathoarder.com - za regiju SAD</li>
+<li>bb1.breez.technology | bb2.breez.technology - za regiju SAD</li>
+<li>neutrino.shock.network - regija SAD</li>
+</ul>
+<hr style="height:2px">
+
+<h2 id="zap">Metoda 5 - Korištenje Zap radne površine <a href="#zap">#</a></h2>
+<h3>VAŽNE NAPOMENE:</h3>
+<ul>
+<li>Postoji ograničenje za Zap aplikacije. LND / Umbrel sada koristi i Taproot vrstu adresa. Nije prema zadanim postavkama, ali ako ste aktivirali tu opciju u Postavkama, vaš Umbrel novčanik će generirati adrese Taproot formata. Imajte na umu da ne mogu sve druge aplikacije koje mogu uvesti xpub ili puni Blixt aezeed novčanik također prikazati/čitati te adrese. To znači da ćete propustiti neke satove u prikazanom saldu jer će te glavne korijenske adrese biti zanemarene. To ne znači da ste izgubili satove. Samo se ne prikazuju, ne prikazuju, ne "čitljive" u aplikaciji koju koristite za uvoz novčanika.</li>
+<li>Ovo radi samo s verzijom Zapa za stolna računala, ne i s mobilnom.</li>
+<li>Aplikacija Zap je ukinuta pa nema dostupnih daljnjih ažuriranja. Koristite ovu desktop aplikaciju samo ako želite brzo provjeriti svoja onchain sredstva</li>
+</ul>
+<p>Samo instalirajte aplikaciju Zap i upotrijebite svoju početnu vrijednost od 24 riječi za vraćanje AEZEED onchain novčanika.</p>
+<p>Ovim se NEĆE vratiti LN kanali! Za vraćanje LN kanala i dalje ćete morati koristiti standardni postupak objašnjen u <a href="#umbrel">metodi 1</a> u ovom vodiču.</p>
+<hr style="height:2px">
+
+<h2 id="sparoow">Metoda 6 - Korištenje Sparrow novčanika <a href="#sparrow">#</a></h2>
+<h3>VAŽNE NAPOMENE:</h3>
+<ul>
+<li>U svakom slučaju postoji ograničenje. Umbrel sada koristi i Taproot vrstu adresa. Nije prema zadanim postavkama, ali ako ste aktivirali tu opciju u Postavkama, vaš Umbrel novčanik će generirati adrese Taproot formata. Imajte na umu da ne mogu sve druge aplikacije koje mogu uvesti xpub ili puni Blixt aezeed novčanik također prikazati/čitati te adrese. To znači da ćete propustiti neke satove u prikazanom saldu jer će te glavne korijenske adrese biti zanemarene. To ne znači da ste izgubili satove. Samo se ne prikazuju, ne prikazuju, ne "čitljive" u aplikaciji koju koristite za uvoz novčanika.</li>
+<li>Ova metoda neće vratiti vaše LN kanale, samo onchain novčanik! Za vraćanje sredstava s LN kanala i dalje trebate izvršiti "normalnu proceduru" objašnjenu u točki 1 u ovom vodiču.</li>
+</ul>
+<h3>POSTUPAK</h3>
+<ol>
+<li>Idite na <a href="https://guggero.github.io/cryptography-toolkit/#!/aezeed">Cryptography Toolkit</a> i preuzmite HTML datoteku na svoje računalo.</li>
+<li>Otvorite tu HTML datoteku u "offline modu" (bez interneta) i odaberite "aezeed Cipher Seed Scheme" iz Alata. Zatim idite na 2. karticu "Decode Mnemonic".</li>
+<li>Zalijepite svoje 24 riječi u polje "Mnemotehnika".</li>
+<p><img src="/assets/images/shtf-cryptographic-tool.png" class="center"></p>
+<li>Odaberite format BIP84 izvorni segwit i pričekajte malo da se dekodira.</li>
+<li>Kopirajte zprv prikazan u polje "HD node root base 58"</li>
+<li>Otvorite (već preuzetu) aplikaciju Sparrow novčanik i odaberite "novi novčanik"</li>
+<li>U "Keystores" odaberite "new imported software wallet"</li>
+<li>U sljedećem prozoru koji će se otvoriti odaberite "Master Private Key BIP32" i zalijepite taj zprv ključ koji ste dobili iz kriptografskog alata i kliknite "uvezi". Pokazat će vam da je to m/86'/0'/0 derivacijski put (kao što bi trebao biti, da vratite sve svoje adrese i tx-ove koji su prethodno korišteni u Umbrelu). Ali ako ste koristili Taproot adrese, onda kada je vratite u Sparrow, odaberite putanju derivacije m/86'/0'/0.</li>
+<li>Kliknite na "Uvezi skladište ključeva" i vratit ćete se na glavni prozor aplikacije novčanika gdje možete vidjeti sve konfiguracije novčanika. Kliknite na "primijeni" i od vas će se tražiti da postavite lozinku za šifriranje vaše datoteke lokalnog novčanika.</li>
+<li>U kartici postavki novčanika odaberite skriptu “Taproot” ako znate da ste koristili taproot adrese. Inače ostavite kako jest. Može se promijeniti i kasnije, u slučaju da ne vidite svoju staru txs povijest. Također provjerite je li putanja derivacije m/86'/0'/0'</li>
+<p><img src="/assets/images/shtf-sparrow-p2tr.png" class="center"></p>
+<li>Aplikacija Sparrow počet će skenirati sve vaše ključeve i tx-ove te će se nakon nekog vremena prikazati na kartici "Transakcije". Strpljenje, trebat će neko vrijeme.</li>
+<li>Za bržu, sigurnu i privatnu vezu bolje je povezati svoju aplikaciju Sparrow wallet sa svojim čvorom. Samo slijedite upute u "Umbrel - povežite novčanik - sparrow" i izravno ćete koristiti blokove i indekse iz vlastitog čvora.</li>
+</ol>
+<hr style="height:2px">
+
+<h2 id="raw-copy">Metoda 7 - Eksperimentalna kopija datoteka baze podataka <a href="#raw-copy">#</a></h2>
+<p>Ovu je metodu potvrdio samo jedan korisnik Umbrela koji je to uspješno učinio. Ali zapamtite, on nije koristio Raspberry Pi verziju Umbrela, bio je na računalu s običnim Linuxom i Umbrelom instaliranim na njemu.</p>
+<p>Ovaj postupak je SAMO za eksperimentalne korisnike Linuxa! Ako ne znate koristiti Linux, bolje se klonite.</p>
+<p>Postupak je jednostavan. Jesu li samo ove 2 datoteke i one se nalaze u:</p>
+<em>`<lnd folder>/data/chain/bitcoin/mainnet/wallet.db`</em>
+<em>`<lnd folder>/data/graph/mainnet/channel.db`</em>
+<p>Morate sami konstruirati mape data/... i potom kopirati datoteke u njih prije pokretanja lnd-a.</p>
+<ul>
+<li>Dakle, uzmite drugi stroj/pogon i instalirajte Umbrel, svježe. Upotrijebite svoju početnu vrijednost od 24 riječi da obnovite onchain AEZEED novčanik. Ostavite ga da malo pokrene sinkronizaciju i konstruira ostatak mapa za LND. Onda prestani.</li>
+<li>Idite na stari pogon i pronađite te 2 datoteke.</li>
+<li>Kopirajte ih na istu stazu u novom čvoru.</li>
+<li>Neobavezno, ako imate podatke blockchaina u redu, integritet datoteka je u redu, možete kopirati i blockchain kako biste uštedjeli vrijeme. Ako mislite da je oštećen, bolje ga zaboravite i pustite da se sinkronizacija obavi na normalan/prirodan način.</li>
+<li>Pokrenite čvor, ostavite ga da se sinkronizira i... voila, vaši stari LN kanali tamo su živi i nisu zatvoreni.</li>
+<li>Ako postoji problem s ponovnim pokretanjem čvora, samo pokrenite: sudo scripts/configure</li>
+</ul>
+<p>Podsjetnik: ove datoteke moraju biti najnovija verzija koja je bila online! Ako upotrebljavate stariju sigurnosnu kopiju, možete izgubiti sredstva i biti kažnjeni za varanje sa starijom verzijom svojih kanala. </p>
+<hr style="height:2px">
+
+<h2 id="experimental">Metoda 8 - Eksperimentalna - RPi čvor u novo stolno računalo <a href="#experimental">#</a></h2>
+<p>Ova metoda još nije u potpunosti testirana, korištenjem starog RPi uređaja s ispravnim Umbrelom i novog NUC/stolnog/prijenosnog računala s Linux OS-om + docker ovisnosti (po mogućnosti Debian za korištenje istih biblioteka kao UmbrelOS).</p>
+<p>Postupak je jednostavan:</p>
+<ul>
+<li>instalirajte novi stroj s Debian OS + sve potrebne ovisnosti (<a href="https://github.com/getumbrel/umbrel#-installation">pogledajte Umbrel GitHub vodič za instalaciju</a> za desktop Linux</li >
+<li>dodajte stari USB SSD s instalacijom UmbrelOS-a u novi čvor i počnite kopirati cijelu mapu Umbrela, na istoj stazi lokacije kao prije, u novi pogon čvora.</li>
+<li>uklonite USB disk nakon završetka</li>
+<li>pokrenite Umbrel iz te mape naredbom:</li>
+<pre><code>
+sudo ./skripte/start
+</code></pre>
+<li>Ako postoji problem s ponovnim pokretanjem čvora, samo pokrenite: sudo scripts/configure</li>
+</ul>
+<p>Sve bi trebalo početi dobro i čvor će nastaviti sa sinkronizacijom i svi vaši prethodni podaci trebali bi biti tamo. Imajte strpljenja da čvor uhvati korak s najnovijim blokovima i indeksima.</p>
+<hr style="height:2px">
+
+<h2 id="th">Metoda 9 - Thunderhub / Amboss SCB metoda u Blixt <a href="#th">#</a></h2>
+<p>Nedavno je Amboss dodao zgodnu značajku za operatere čvorova s ​​registriranim čvorom, za prijenos datoteke SCB channels.backup na vaš račun. Ta se datoteka kasnije može oporaviti u slučaju da je vaš čvor mrtav.</p>
+<p><img src="/assets/images/shtf-th.png" class="center"></p>
+<p>Ova je opcija povezana s aplikacijom Thunderhub, u Alati - Sigurnosna kopija. Dakle, nakon što postavite Thunderhub za izradu sigurnosnih kopija, može se povezati s vašim Amboss računom i imati kopiju na njihovim poslužiteljima.</p>
+<p><img src="/assets/images/shtf-th-backup.jpg" class="center"></p>
+<p><img src="/assets/images/shtf-th-backup2.png" class="center"></p>
+<p>Nema rizika od curenja/krađe sredstava iz te datoteke. Beskoristan je bez početnih riječi novčanika čvora.</p>
+<p>Ova datoteka sigurnosne kopije s Thunderhub također se može spremiti lokalno, na sigurno mjesto, izvan čvora. Amboss i Thunderhub ovu opciju nude samo kao dodatni način sigurnosne kopije.</p>
+<h3>Postupak vraćanja</h3>
+<p>Dakle, vaš čvor je mrtav u kvaru, ali imate svoje sjeme od 24 riječi. Sigurnosne kopije u Ambossu su napravljene automatski, OK. Želite brz način povrata tih sredstava, au međuvremenu gradite novi čvor.</p>
+<ul>
+<li>Otvorite aplikaciju Blixt na svom mobilnom uređaju</li>
+<li>Odaberite čvor za oporavak</li>
+<li>Umetnite svoje početno mjesto od 24 riječi (iz mrtvog čvora)</li>
+<li>Blixtu će trebati nekoliko minuta da se sinkronizira kroz Neutrino i obnovi vaš nodeID</li>
+<li>U ovoj fazi ne morate odabrati oporavak pomoću sigurnosne kopije kanala, to možete učiniti kasnije. Samo se trebate moći prijaviti na Amboss i vratiti svoj SCB.</li>
+<li>Nakon sinkronizacije (pogledajte ikonu vrtnje na vrhu), idite na amboss.space i prijavite se, potpisujući ključ svojom aplikacijom Blixt. Da, Blixt podržava LN-auth, kao i mnoge druge značajke.</li>
+<li>Prijavljeni ste na svoj Amboss račun, preuzmite SCB datoteku na svoj mobilni uređaj.</li>
+<li>U ovom trenutku morat ćete obrisati podatke sa svog Blixta. Najlakši način je da ga deinstalirate i ponovno instalirate. Drugi način, u Androidu, detalji aplikacije Blixt, brisanje podataka i predmemorija.</li>
+<li>Zalijepite HEX podatke iz sigurnosne kopije Ambossa u tekstualnu datoteku i nazovite je channels.backup ili kako god želite.</li>
+<li>Nakon što se Blixt ponovo instalira čist, pokrenite postupak vraćanja umetanjem datoteke sigurnosne kopije početnih + kanala. U tom trenutku pokreće se postupak povrata sredstava. Trebat će neko vrijeme dok se blokovi ne sinkroniziraju putem Neutrina i kanali zatvore. obično je potrebno manje od 5 minuta za sinkronizaciju i 44 do 144 bloka za otključavanje sredstava od zatvaranja kanala.</li>
+<li>STRPLJENJE! Držite aplikaciju Blixt aktivnom u prvoj fazi postupka oporavka, dok se kanali ne počnu zatvarati. Možete provjeriti u postavkama - LND zapisnici iu gornjoj lijevoj ladici - Lightning Channels. Ako se kanali tamo pojave u stanju "zatvaranja", onda je sve u redu i možete zatvoriti aplikaciju Blixt.</li>
+</ul>
+<h4>NAPOMENE:</h4>
+<ul>
+<li>Ako ne želite vratiti sredstva u Blixt, možete upotrijebiti istu datoteku channels.backup u Thunderhub-u, kada vaš novi čvor bude spreman i sinkroniziran. Postupak je isti, sa zatvaranjem starih kanala i vraćanjem sredstava u vaš onchain novčanik.</li>
+<li>Možete koristiti i iz cli naredbe:</li>
+<pre><code>
+lncli restorechanbackup --multi_backup <filename_location>
+</code></pre>
+</ul>
+<hr style="height:2px">
+
+<h3>Više alata, dokumentacije, vodiča o vraćanju sredstava s mrtvog LND čvora:</h3>
+<ul>
+<li><a href="https://docs.lightning.engineering/lightning-network-tools/lnd/recovery-planning-for-failure">Lightning Engineering: Oporavak - planiranje za kvar</a></li >
+<li><a href="https://github.com/lightningnetwork/lnd/blob/master/docs/recovery.md">LND Lightning node Recovery</a></li>
+<li><a href="https://node-recovery.com/">Alati za oporavak mrežnog čvora Lightning</a></li>
+</ul>
+</body>
+</html>
+</article>
