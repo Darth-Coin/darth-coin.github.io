@@ -1,0 +1,249 @@
+---
+layout: default
+title: SHTF-scenario - Hoe herstel ik een dood LND-knooppunt?
+---
+<article>
+<!DOCTYPE html>
+<html lang="nl">
+<meta name="description" content="Bitcoin- en Lightning Node-handleidingen: Verschillende manieren om uw LND-nodefondsen te herstellen in geval van SHTF">
+<body>
+<a href="/nodes/shtf-restore-lnd-node-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/shtf-restore-lnd-node-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/shtf-restore-lnd-node-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/shtf-restore-lnd-node-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/shtf-restore-lnd-node-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/shtf-restore-lnd-node-hr.html">Hrvatski <img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/shtf-restore-lnd-node-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<blockquote style="color:Tomato;"><em>
+<p>Oorspronkelijk geplaatst op <a href="https://darthcoin.substack.com/p/umbrel-btcln-node-shtf-scenario">Substack</a> op 1 oktober 2021. Hier bijgewerkt op 17 oktober 2024</p>
+</em></blockquote>
+
+<h3>Verschillende manieren om je LND-nodefondsen te herstellen in geval van SHTF (shit hit the fan - dead node)</h3>
+<p>Hier is een apart hoofdstuk over het beheren van je LND-node (Umbrel, myNodeBTC, Raspiblitz, Start9 etc.), over methoden en procedures om je node-walletfondsen te herstellen/terug te krijgen in geval van SHTF (shit hit the fan).</p>
+<p>Er zijn veel gebruikers die gekke dingen doen met hun Umbrel-nodes en soms is er geen andere manier om het op te lossen dan het herstellen in een andere wallet-app en opnieuw beginnen met een nieuwe of dezelfde LND-wallet maar in een nieuw exemplaar.</p>
+<p><img src="/assets/images/shtf-recovery-plan.jpg" class="center"></p>
+
+<h3>Voordat we beginnen... OM TE ONTHOUDEN:</h3>
+<ul>
+<li>Blijf kalm en geduldig.</li>
+<li>Dit proces kan tijd en precieze stappen kosten om te volgen.</li>
+<li>Doe niets doms dat het proces zou kunnen verpesten.</li>
+<li>Maak geen fondsen/UTXO's leeg of verplaats ze niet van je onchain-wallet tijdens het herstelproces. Veel UTXO's kunnen worden gekoppeld aan de sluiting van kanalen van de zogenaamde "ankerreserve" UTXO.</li>
+<li>Wacht geduldig tot kanalen sluiten, het kan 40 tot 144 blokken duren voordat de fondsen worden vrijgegeven, zelfs als de transacties zijn bevestigd in de blokexplorer.</li>
+<li>De procedure voor het herstellen van fondsen is het LAATSTE redmiddel, dus raadpleeg voordat u begint anderen en probeer een correcte diagnose te stellen van wat er met uw node is gebeurd. Misschien is een simpele herstart al voldoende.</li>
+</ul>
+<p>Hieronder zal ik je verschillende methoden presenteren om je dode LND node-fondsen te "herstellen".</p>
+<p>Als je ALLEEN fondsen in onchain wallet hebt en geen fondsen in LN-kanalen, gebruik dan gewoon de methoden 2, 3, 4, 5, 6.</p>
+<p>Als je fondsen in onchain wallet EN in LN-kanalen hebt, gebruik dan de methoden: 1, 3, 4, 7, 8, 9, 10.</p>
+<p><a href="#umbrel">1. Standaard, normale manier met een nieuw exemplaar van Umbrel node</a></p>
+<p><a href="#bluewallet">2. Met behulp van de Bluewallet mobiele app</a></p>
+<p><a href="#blixt">3. Met behulp van de Blixt wallet mobiele app</a></p>
+<p><a href="#zeus">4. Zeus LN wallet mobiele app gebruiken</a></p>
+<p><a href="#zap">5. Zap wallet desktop app gebruiken</a></p>
+<p><a href="#sparrow">6. Sparrow wallet desktop app gebruiken</a></p>
+<p><a href="#raw-copy">7. Een kopie van databasebestanden gebruiken in een andere LND node instance</a></p>
+<p><a href="#experimental">8. Experimentele volledige kopie van gegevens van RPi node naar desktop/NUC Linux machine</a>
+<p><a href="#th">9. Thunderhub/Amboss SCB backup gebruiken om te herstellen in Blixt</a>
+<p><a href="https://github.com/guggero/chantools">10. Guggero's Chantools gebruiken voor vastgelopen kanalen</a></p>
+<hr style="height:2px">
+
+<h2 id="umbrel">Methode 1 - Standaard, normale manier met een nieuw exemplaar van Umbrel-knooppunt <a href="#umbrel">#</a></h2>
+<p>Deze methode is de normale manier, zoals beschreven en aanbevolen door het <a href="https://umbrel.com">Umbrel-team</a>.</p>
+<p>Veronderstel dat u de seed van 24 woorden en het eerder verkregen channel.backup-bestand al hebt. Als je die back-up niet hebt gemaakt, maar nog steeds toegang hebt tot je oude node-drive, kun je deze vinden in /home/umbrel/umbrel/lnd/data/chain/bitcoin/mainnet/channel.backup</p>
+<p>of je kunt een kopie aanvragen bij Umbrel-ontwikkelaars (neem contact met ze op in de <a href="https://t.me/getumbrel">Umbrel Telegram-groep</a> of op het <a href="https://community.getumbrel.com/">Umbrel Community Forum</a>.</p>
+<p>Installeer een nieuw exemplaar van Umbrel. Start de dashboardpagina en je wordt gevraagd om de eerder gemaakte back-up van 24 woorden te gebruiken.</p>
+<p>Zodra je de 24 woorden hebt hersteld, kan het een paar minuten tot een paar uur duren voordat al je eerdere Bitcoin (on-chain) transacties en saldi zijn gescand. Ondertussen kun je hier lezen hoe je de fondsen in je Lightning kunt herstellen kanalen.</p>
+<p>STAP 1: KOPIEER HET KANAALBACK-UPBESTAND VAN UW COMPUTER NAAR UW UMBREL.</p>
+<p>Ga met SSH naar het bestand en voer dit uit:</p>
+
+<pre><code>
+scp <pad/naar/uw/kanaal/back-up/bestand> umbrel@umbrel.local:/home/umbrel/umbrel/lnd/kanaal.back-up
+</code></pre>
+
+<p>Vervang `<pad/naar/uw/kanaal/back-up/bestand>` door het exacte pad naar het kanaalback-upbestand op uw computer</pad>
+<p>Het wachtwoord is `moneyprintergobrrr`, behalve in versie 0.3.3 of later, waar het wachtwoord uw persoonlijke gebruikerswachtwoord is.</p>
+<p>STAP 2: TERUGVORDEREN</p>
+<pre><code>
+cd ~/umbrel && ./bin/lncli restorechanbackup --multi_file /data/.lnd/channel.backup
+</code></pre>
+<p>Wacht 1 minuut nadat u dit hebt uitgevoerd. U zou nu moeten kunnen zien dat uw kanalen worden gesloten op http://umbrel.local/lightning.</p>
+<p>U moet geduldig wachten totdat de fondsen terug zijn in uw onchain-wallet. Het duurt ten minste 40 blokken. U kunt de details van het sluiten van kanalen bekijken/controleren in de <a href="https://community.umbrel.com/t/umbrel-troubleshooting-guide/3632">handleiding voor probleemoplossing</a></p>
+<hr style="height:2px">
+
+<h2 id="bluewallet">Methode 2 - Bluewallet gebruiken <a href="#bluewallet">#</a></h2>
+<h3>BELANGRIJKE OPMERKING:</h3>
+<p>Er is een beperking van het type adressen in <a href="https://bluewallet.com">Bluewallet</a>! LND / Umbrel gebruikt nu ook Taproot-type adressen. Dit is niet standaard, maar als u die optie in Instellingen hebt geactiveerd, genereert uw Umbrel-wallet Taproot-formaatadressen. Houd er rekening mee dat niet alle andere apps die xpub of volledige Blixt aezeed-wallet kunnen importeren, deze adressen ook kunnen weergeven / lezen. Dat betekent dat u enkele sats in uw weergegeven saldo zult missen omdat die taproot-adressen worden genegeerd. Dat betekent niet dat u uw sats bent kwijtgeraakt. Het is gewoon dat ze niet worden weergegeven, niet getoond, niet "leesbaar" zijn door de app die u gebruikt om de wallet te importeren.</p>
+<p>Ja, nu kunt u direct verbinding maken met een mobiele app, de onchain AEZEED node wallet. Gebruik gewoon uw Umbrel node seed in Bluewallet (voeg het toe als nieuwe wallet) en klaar. Use cases:</p>
+<ul>
+<li>je wilt snel geld kunnen storten op je node wallet (onchain)</li>
+<li>je moet toegang hebben tot je onchain fondsen voor het geval je node crasht en je wilt de fondsen herstellen/openen</li>
+</ul>
+<p><strong>HERINNERING:</strong></p>
+<ul>
+<li>dit is ALLEEN het herstellen van de onchain wallet, niet ook de LN kanalen!</li>
+<li>om de fondsen te herstellen van je LN kanalen moet je nog steeds de procedure volgen voor het herstellen met behulp van de standaardmethode, zie punt 1.</li>
+<li>Ik zou aanraden om niet dezelfde seed te herstellen in een nieuwe Umbrel LND instantie, begin gewoon met een nieuwe LND instantie en bewaar deze oude wallet in Bluewallet, of verplaats de fondsen gewoon naar de nieuwe Umbrel instantie.</li>
+</ul>
+<hr style="height:2px">
+
+<h2 id="blixt">Methode 3 - Gebruik van Blixt mobiele portemonnee <a href="#blixt">#</a></h2>
+<p><a href="/wallets/getting-started-blixt-wallet-nl.html">Blixt Wallet</a> is een uitstekende mobiele app, die LND en neutrino-blokken synchroniseert, en ook veel andere functies heeft die geen enkele andere mobiele portemonnee combineert. Het is de moeite waard om het op je telefoon te hebben als een paarknooppunt met een ander normaal knooppunt.</p>
+<p>Het heeft de optie om een ​​LND-knooppunt te herstellen, direct bij de eerste stappen van het openen van de app.</p>
+<p>Je verliest geen geld in deze test/dit scenario, het ergste wat kan gebeuren is dat de kanalen niet worden hersteld en/of dat kanalen worden gesloten en het geld wordt hersteld in de onchain-portemonnee. Het zal gewoon de "restore" afwijzen en je kanalen zullen nog steeds actief zijn in Umbrel node.</p>
+<h4>Vereisten:</h4>
+<ul>
+<li>Je Umbrel node is dood en zou niet online moeten zijn in dit proces.</li>
+<li>Je hebt een backup van je kanalen met de laatste status. Gebruik het backu-bestand dat je krijgt van het Umbrel dashboard - Lightning-pagina. Niet RTL of Thunderhub. Je kunt ook de online backup van Umbrel servers gebruiken (daarvoor moet je contact opnemen met Umbrel devs). Als je die backup niet hebt gemaakt, maar nog steeds toegang hebt tot je oude node drive, kun je deze vinden in `/home/umbrel/umbrel/lnd/data/chain/bitcoin/mainnet/channel.backup`</li>
+<li>je hebt een backup van je 24 woorden seed</li>
+</ul>
+<h3>Stappen om uit te voeren:</h3>
+<ol>
+<li><a href="https://blixtwallet.github.io/">Installeer Blixt wallet</a> op je mobiel</li>
+<li>Ga naar menu-instellingen en activeer Tor (app wordt opnieuw opgestart). Dit is nodig omdat Umbrel standaard Tor is en veel van je vorige kanalen open waren met Tor node peers.</li>
+<li>Selecteer restore wallet</li>
+<li>Neem je 24 woorden seed en voeg deze toe in het 1e veld</li>
+<li>Neem je channels.backup bestand (dat je eerder hebt opgeslagen van Umbrel LN dashboard) en upload het naar je mobiel en voeg het toe in Blixt restore box.</li>
+<li>Klik op restore en wacht een tijdje totdat de app de neutrino node (een kleine versie van de blockchain) heeft gesynchroniseerd. Zodra het is hersteld, zouden de fondsen in onchain in balans en ook kanalen moeten verschijnen. Maar vergeet niet dat kanalen worden gesloten en de fondsen terug in onchain. Wees gewoon geduldig.</li>
+</ol>
+<p>Ik zou aanraden om niet dezelfde seed te herstellen in een nieuwe Umbrel LND-instantie, begin gewoon met een nieuwe LND-instantie en bewaar deze oude portemonnee in Blixt, of verplaats de fondsen gewoon naar de nieuwe Umbrel-instantie. <a href="/wallets/getting-started-blixt-wallet-nl.html">Blixt zou een hele goede node companion</a> node kunnen zijn voor je nieuwe Umbrel node.</p>
+<p>Er zijn een aantal manieren om de status in de Blixt app te controleren, maar ik zal hier niet in detail treden.</p>
+<p>Laat me weten wanneer/of je deze test wilt doen en ik kan je helpen, maar alleen als je Umbrel node dood is. Je kunt ook contact opnemen met Hampus, Blixt dev, via <a href="https://t.me/blixtwallet">Telegram Blixt group</a></p>
+<p>Maak geen dingen kapot om anderen te testen. Onthoud dat dit een experimentele test is en dat je geen andere manier hebt.</p>
+<hr style="height:2px">
+
+<h2 id="zeus">Methode 4 - Zeus LN mobiel gebruiken <a href="#zeus">#</a></h2>
+<p>Vanaf de nieuwe Zeus v 0.8.0 met ingebedde LND-node, kunt u uw dode Umbrel LND-node heel eenvoudig en snel herstellen.</p>
+<p>Onthoud dat 'herstellen' betekent dat u het SCB-bestand (Static Channel Backup) gebruikt dat een gezamenlijke sluiting van uw bestaande kanalen activeert en de fondsen worden teruggezet in de onchain-wallet.</p>
+<p>ZEUS staat momenteel slechts één ingebedde node-wallet tegelijk toe, dus als u al een wallet hebt geïnitialiseerd, moet u de app verwijderen en opnieuw installeren.</p>
+<p>Zodra u klaar bent om te herstellen, gaat u naar het menu Instellingen in ZEUS. Het is toegankelijk vanuit de linkerbovenhoek van het hoofdscherm (meestal een pictogram van Zeus) als je al een wallet hebt geconfigureerd, of door op 'Advanced set-up' te drukken op het splash screen van een nieuwe installatie.</p>
+<p>Vanaf daar kun je een nieuw knooppunt toevoegen door op het bovenste veld te drukken (het zal ofwel 'No Nodes' zeggen, of de naam van je actieve verbinding), en dan op het plus (+) pictogram in de rechterbovenhoek te drukken.</p>
+<p>Vanaf daar, voer je je 24 woorden tellende seed-zin in het veld met het label 'Recovery Cipher Seed (aezeed)' in. Je kunt optioneel een statische back-upstring opgeven in het veld met het label 'Disaster recovery data (SCB, Base64)'. Als u het vorige SCB-bestand van een ander knooppunt hebt, opent u het gewoon als een tekstbestand en kopieert u de string.</p>
+<p>Druk vervolgens op 'Herstel mainnet wallet' als u met echt geld werkt of op 'Herstel testnet wallet' als u het testnetwerk van Bitcoin gebruikt.</p>
+<p>Laat ZEUS de eerste keer dat u de seed herstelt draaien. Het moet het herstelproces doorlopen om uw saldo te herstellen. Het is niet ongebruikelijk dat dit meer dan 10 minuten duurt, vooral als u een portemonnee hebt die veel wordt gebruikt. U kunt tijdelijk alle schermtime-outs en energiebesparende opties in de instellingen van uw telefoon uitschakelen, zodat ZEUS niet op de achtergrond gaat en LND pauzeert tijdens het proces.</p>
+<p>U kunt ook eerst de persistente LND-service activeren (Emebedded node - Geavanceerd - Persistente modus). Dat houdt de LND-service op de achtergrond actief.</p>
+<p>Als je ziet dat na lange tijd de oude historie-transacties nog steeds niet worden weergegeven, ga dan naar Embedded node - Peers en schakel de optie uit om de lijst met geselecteerde peers te gebruiken (standaard is dit btcd.lnolymp.us). Dat zal een herstart activeren en verbinding maken met de eerste beschikbare neutrino-node met een betere tijdrespons. Of gebruik deze bekende neutrino-peers en kies degene die het dichtst bij je locatie is:</p>
+<ul>
+<li>btcd1.lnolymp.us | btcd2.lnolymp.us - voor de VS-regio</li>
+<li>btcd-mainnet.lightning.computer - voor de VS-regio</li>
+<li>uswest.blixtwallet.com (Seattle) - voor de VS-regio</li>
+<li>europe.blixtwallet.com (Duitsland) - voor de EU-regio</li>
+<li>asia.blixtwallet.com - voor de Aziatische regio</li>
+<li>node.eldamar.icu - voor de VS-regio</li>
+<li>noad.sathoarder.com - voor de VS-regio</li>
+<li>bb1.breez.technology | bb2.breez.technology - voor de regio VS</li>
+<li>neutrino.shock.network - regio VS</li>
+</ul>
+<hr style="height:2px">
+
+<h2 id="zap">Methode 5 - Zap desktop gebruiken <a href="#zap">#</a></h2>
+<h3>BELANGRIJKE OPMERKINGEN:</h3>
+<ul>
+<li>Er is een beperking voor Zap-apps. LND/Umbrel gebruikt nu ook Taproot-adressen. Dit is niet standaard, maar als u die optie in Instellingen hebt geactiveerd, genereert uw Umbrel-wallet adressen in Taproot-formaat. Houd er rekening mee dat niet alle andere apps die xpub of volledige Blixt aezeed-wallet kunnen importeren, deze adressen ook kunnen weergeven/lezen. Dat betekent dat u enkele sats in uw weergegeven saldo mist omdat die taproot-adressen worden genegeerd. Dat betekent niet dat u uw sats bent kwijtgeraakt. Het is gewoon dat ze niet worden weergegeven, niet worden getoond, niet "leesbaar" zijn door de app die u gebruikt om de wallet te importeren.</li>
+<li>Dit werkt alleen met de desktopversie van Zap, niet met de mobiele versie.</li>
+<li>De Zap-app is stopgezet, dus er zijn geen verdere updates beschikbaar. Gebruik deze desktop-app alleen als u snel uw onchain-fondsen wilt controleren</li>
+</ul>
+<p>Installeer gewoon de Zap-app en gebruik uw 24-woordenseed om de AEZEED onchain-wallet te herstellen.</p>
+<p>Hiermee worden de LN-kanalen NIET hersteld! Om de LN-kanalen te herstellen, moet u nog steeds de standaardprocedure gebruiken die wordt uitgelegd in <a href="#umbrel">methode 1</a> in deze handleiding.</p>
+<hr style="height:2px">
+
+<h2 id="sparoow">Methode 6 - Sparrow Wallet gebruiken <a href="#sparrow">#</a></h2>
+<h3>BELANGRIJKE OPMERKINGEN:</h3>
+<ul>
+<li>Er is sowieso een beperking. Umbrel gebruikt nu ook Taproot-adressen. Dit is niet standaard, maar als u die optie in Instellingen hebt geactiveerd, genereert uw Umbrel-wallet Taproot-indelingsadressen. Houd er rekening mee dat niet alle andere apps die xpub of volledige Blixt aezeed-wallet kunnen importeren, deze adressen ook kunnen weergeven/lezen. Dat betekent dat u enkele sats in uw weergegeven saldo zult missen omdat die taproot-adressen worden genegeerd. Dat betekent niet dat u uw sats bent kwijtgeraakt. Het is gewoon dat ze niet worden weergegeven, niet worden getoond en niet "leesbaar" zijn voor de app die u gebruikt om de wallet te importeren.</li>
+<li>Deze methode herstelt niet uw LN-kanalen, alleen de onchain-wallet! Om fondsen van LN-kanalen te herstellen, moet u nog steeds de "normale procedure" uitvoeren die in punt 1 van deze handleiding wordt uitgelegd.</li>
+</ul>
+<h3>PROCEDURE</h3>
+<ol>
+<li>Ga naar <a href="https://guggero.github.io/cryptography-toolkit/#!/aezeed">Cryptography Toolkit</a> en download het HTML-bestand op uw computer.</li>
+<li>Open dat HTML-bestand in de "offline-modus" (geen internet) en selecteer "aezeed Cipher Seed Scheme" in Tools. Ga dan naar het 2e tabblad "Decode Mnemonic".</li>
+<li>Plak je 24 woorden in het veld "Mnemonic".</li>
+<p><img src="/assets/images/shtf-cryptographic-tool.png" class="center"></p>
+<li>Selecteer formaat BIP84 native segwit en wacht even tot het gedecodeerd is.</li>
+<li>Kopieer de weergegeven zprv in het veld "HD node root base 58"</li>
+<li>Open de (al gedownloade) Sparrow wallet-app en selecteer "new wallet"</li>
+<li>Selecteer in de "Keystores" "new imported software wallet"</li>
+<li>Selecteer in het volgende venster dat wordt geopend "Master Private Key BIP32" en plak de zprv-sleutel die je van de cryptografietool hebt gekregen en klik op "import". Het zal je laten zien dat het een m/86'/0'/0 afleidingspad is (zoals het zou moeten zijn, om al je adressen en txs te herstellen die eerder in Umbrel zijn gebruikt). Maar als je Taproot-adressen hebt gebruikt, kies dan bij het herstellen in Sparrow het afleidingspad m/86'/0'/0.</li>
+<li>Klik op "Import Keystore" en het gaat terug naar het hoofdvenster van de wallet-app waar je alle wallet-configuratie kunt zien. Klik op "apply" en je wordt gevraagd om een ​​wachtwoord in te stellen om je lokale wallet-bestand te versleutelen.</li>
+<li>Selecteer in het tabblad wallet-instellingen het script "Taproot", als je weet dat je taproot-adressen hebt gebruikt. Anders laat je het zoals het is. Kan ook later worden gewijzigd, voor het geval je je oude txs-geschiedenis niet ziet. Zorg er ook voor dat het afleidingspad m/86'/0'/0' is</li>
+<p><img src="/assets/images/shtf-sparrow-p2tr.png" class="center"></p>
+<li>De Sparrow-app begint met het scannen van al uw sleutels en txs en wordt na een tijdje weergegeven in het tabblad "Transacties". Geduld, het zal even duren.</li>
+<li>Voor een snellere, veilige en privéverbinding is het beter om uw Sparrow-wallet-app te verbinden met uw node. Volg gewoon de instructies in "Umbrel - connect wallet - sparrow" en u zult direct de blokken en indexen van uw eigen node gebruiken.</li>
+</ol>
+<hr style="height:2px">
+
+<h2 id="raw-copy">Methode 7 - Experimentele kopie van databasebestanden <a href="#raw-copy">#</a></h2>
+<p>Deze methode werd alleen bevestigd door één Umbrel-gebruiker die het met succes deed. Maar vergeet niet dat hij niet de Raspberry Pi-versie van Umbrel gebruikte, maar op een machine met gewone Linux en Umbrel erop geïnstalleerd.</p>
+<p>Deze procedure is ALLEEN voor ervaren Linux-gebruikers! Als u niet weet hoe u Linux moet gebruiken, kunt u beter wegblijven.</p>
+<p>De procedure is eenvoudig. Zijn alleen deze 2 bestanden en ze bevinden zich in:</p>
+<em>`<lnd folder>/data/chain/bitcoin/mainnet/wallet.db`</em>
+<em>`<lnd folder>/data/graph/mainnet/channel.db`</em>
+<p>Je moet de data/... mappen zelf maken en de bestanden er vervolgens naartoe kopiëren, voordat je lnd opstart.</p>
+<ul>
+<li>Dus, neem een ​​andere machine/drive en installeer Umbrel, vers. Gebruik je 24 woorden seed om de onchain AEZEED wallet te herstellen. Laat het even de synchronisatie starten en maak de rest van de mappen voor LND. Stop het dan.</li>
+<li>Ga naar de oude drive en zoek die 2 bestanden.</li>
+<li>Kopieer ze naar hetzelfde pad in de nieuwe node.</li>
+<li>Optioneel, als je de blockchain data OK hebt, is de integriteit van de bestanden in orde, dan kun je ook de blockchain kopiëren om tijd te besparen. Als je denkt dat het corrupt is, kun je het beter gewoon vergeten en de synchronisatie op een normale/natuurlijke manier laten verlopen.</li>
+<li>Start de node, laat hem synchroniseren en... voila, je oude LN-kanalen zijn er nog steeds en niet gesloten.</li>
+<li>Als er een probleem is met het opnieuw opstarten van de node, voer dan gewoon het volgende uit: sudo scripts/configure</li>
+</ul>
+<p>HERINNERING: deze bestanden moeten de nieuwste versie zijn die online was! Als je een oudere back-up gebruikt, kun je geld verliezen omdat je gestraft wordt voor vals spelen met een oudere versie van je kanalen.</p>
+<hr style="height:2px">
+
+<h2 id="experimental">Methode 8 - Experimenteel - RPi-knooppunt in nieuwe desktopcomputer <a href="#experimental">#</a></h2>
+<p>Deze methode is nog niet volledig getest, met behulp van een oud RPi-apparaat met werkende Umbrel en een nieuwe NUC/desktop/laptop met Linux OS + docker-afhankelijkheden (bij voorkeur Debian om dezelfde bibliotheken te gebruiken als UmbrelOS).</p>
+<p>De procedure is eenvoudig:</p>
+<ul>
+<li>Installeer een nieuwe computer met Debian OS + alle vereiste afhankelijkheden (<a href="https://github.com/getumbrel/umbrel#-installation">zie Umbrel GitHub-installatiehandleiding</a> voor desktop Linux</li>
+<li>Voeg de oude USB SSD met UmbrelOS-installatie toe aan het nieuwe knooppunt en begin met het kopiëren van de hele map van Umbrel, in hetzelfde locatiepad als hiervoor, naar het nieuwe knooppuntstation.</li>
+<li>Verwijder de USB-station na voltooiing</li>
+<li>start Umbrel vanuit die map met de opdracht:</li>
+<pre><code>
+sudo ./scripts/start
+</code></pre>
+<li>Als er een probleem is bij het opnieuw opstarten van de node, voer dan gewoon uit: sudo scripts/configure</li>
+</ul>
+<p>Alles zou goed moeten starten en node zal de synchronisatie hervatten en al uw vorige gegevens zouden daar moeten zijn. Heb geduld totdat node de nieuwste blokken en indexen heeft bijgewerkt.</p>
+<hr style="height:2px">
+
+<h2 id="th">Methode 9 - Thunderhub / Amboss SCB-methode in Blixt <a href="#th">#</a></h2>
+<p>Amboss heeft onlangs een leuke functie toegevoegd voor node-operators met een geregistreerde node, om een ​​SCB channels.backup-bestand naar uw account te uploaden. Dat bestand kan later worden hersteld als uw node dood is.</p>
+<p><img src="/assets/images/shtf-th.png" class="center"></p>
+<p>Deze optie is gekoppeld aan de Thunderhub-app, in Tools - Backup. Dus zodra u Thunderhub hebt ingesteld om back-ups te maken, kan het worden gekoppeld aan uw Amboss-account en een kopie op hun servers hebben.</p>
+<p><img src="/assets/images/shtf-th-backup.jpg" class="center"></p>
+<p><img src="/assets/images/shtf-th-backup2.png" class="center"></p>
+<p>Er is geen risico dat er geld uit dat bestand wordt gelekt/gestolen. Zonder de seedwoorden van uw node-wallet is het nutteloos.</p>
+<p>Dit back-upbestand van Thunderhub kan ook lokaal worden opgeslagen, op een veilige plek, buiten de node. Amboss en Thunderhub bieden deze optie alleen aan als een extra manier om een ​​back-up te maken.</p>
+<h3>Procedure om te herstellen</h3>
+<p>Dus, je node is kapot, maar je hebt je 24 woorden seed. De back-ups in Amboss zijn automatisch gedaan, OK. Je wilt een snelle manier om die fondsen te herstellen, terwijl je ondertussen een nieuwe node bouwt.</p>
+<ul>
+<li>Open de Blixt-app op je mobiele apparaat</li>
+<li>Kies herstelnode</li>
+<li>Voer je 24 woorden seed in (van je dode node)</li>
+<li>Blixt heeft een paar minuten nodig om te synchroniseren via Neutrino en je nodeID te herstellen</li>
+<li>In deze fase hoef je niet te kiezen voor herstel met kanaalback-up, dit kan later worden gedaan. U hoeft alleen maar in Amboss in te loggen en uw SCB te herstellen.</li>
+<li>Zodra het is gesynchroniseerd (zie bovenste spin-icoon), gaat u naar amboss.space en logt u in, waarbij u de sleutel ondertekent met uw Blixt-app. Ja, Blixt ondersteunt LN-auth, net als veel andere functies.</li>
+<li>U bent ingelogd op uw Amboss-account, download het SCB-bestand naar uw mobiele apparaat.</li>
+<li>Op dit moment moet u de gegevens van uw Blixt wissen. De eenvoudigste manier is om het te verwijderen en opnieuw te installeren. Een andere manier is om in Android de Blixt-app-details te bekijken, gegevens en cache te verwijderen.</li>
+<li>Plak de HEX-gegevens van de Amboss-back-up in een tekstbestand en noem het channels.backup of wat u maar wilt.</li>
+<li>Zodra Blixt opnieuw is geïnstalleerd, start u de herstelprocedure door het seed + channels-back-upbestand in te voegen. Op dat moment wordt de procedure voor het herstellen van fondsen geactiveerd. Het duurt even voordat de blokken via Neutrino zijn gesynchroniseerd en de kanalen zijn gesloten. Het duurt meestal minder dan 5 minuten om te synchroniseren en 44 tot 144 blokken om de fondsen te ontgrendelen na het sluiten van de kanalen.</li>
+<li>GEDULD! Houd de Blixt-app actief in de eerste fase van de herstelprocedure, totdat de kanalen worden gesloten. U kunt dit controleren in Instellingen - LND-logs en in de bovenste linkerlade - Lightning-kanalen. Als de kanalen daar in de status 'sluiten' verschijnen, is alles in orde en kunt u de Blixt-app sluiten.</li>
+</ul>
+<h4>OPMERKINGEN:</h4>
+<ul>
+<li>Als u de fondsen in Blixt niet wilt herstellen, kunt u hetzelfde bestand channels.backup in Thunderhub gebruiken zodra uw nieuwe node klaar is en gesynchroniseerd. De procedure is hetzelfde, met het sluiten van de oude kanalen en het herstellen van fondsen in uw onchain-wallet.</li>
+<li>U kunt ook de opdracht van de cli gebruiken:</li>
+<pre><code>
+lncli restorechanbackup --multi_backup <filename_location>
+</code></pre>
+</ul>
+<hr style="height:2px">
+  
+<h3>Meer tools, documentatie, handleidingen over het herstellen van fondsen van een dood LND-knooppunt:</h3>
+<ul>
+<li><a href="https://docs.lightning.engineering/lightning-network-tools/lnd/recovery-planning-for-failure">Lightning Engineering: Herstel - Planning voor falen</a></li>
+<li><a href="https://github.com/lightningnetwork/lnd/blob/master/docs/recovery.md">LND Lightning-knooppuntherstel</a></li>
+<li><a href="https://node-recovery.com/">Lightning Network Node Recovery Tools</a></li>
+</ul>
+</body>
+</html>
+</article>
