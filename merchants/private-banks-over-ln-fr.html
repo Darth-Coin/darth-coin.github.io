@@ -14,14 +14,15 @@ title: Les banques privées sur le Lightning Network
 <a href="/merchants/private-banks-over-ln-nl.html">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
 <a href="/merchants/private-banks-over-ln-hr.html">Hrvatski <img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
 <a href="/merchants/private-banks-over-ln-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
-<em><blockquote style="color:Tomato ;">
-<p>Originalement posté sur <a href="https://darthcoin.substack.com/p/bitcoin-private-banks-over-lightning">Substack</a> le 16 décembre 2022</p> <p class="spip">Substack</a>. Mise à jour le 22 octobre 2024</p>
+<em><blockquote style="color:Tomato;">
+<p>Originalement posté sur <a href="https://darthcoin.substack.com/p/bitcoin-private-banks-over-lightning">Substack</a> le 16 décembre 2022. Mise à jour le 22 octobre 2024.</p>
 </em></blockquote>
 
 <h3>Comment gérer un nœud de routage Bitcoin LN pour un usage plus privé comme une banque "Oncle Jim" pour vous-même, pour vos amis et votre famille.</h3>
-<h2>INTRODUCTION</h2>
+<h2 style="color:Orange;">INTRODUCTION</h2>
 <p>Ce guide est un peu plus spécial parce que je vais essayer de présenter un scénario d'utilisation réel pour de nombreux nouveaux utilisateurs de Bitcoin et de Lightning. C'est un cas d'utilisation pour aider plus de gens à embarquer facilement avec Bitcoin, d'une manière plus privée. C'est le cas principal de "l'oncle Jim" qui aide sa communauté locale avec ses connaissances, ses compétences et... la liquidité de LN.</p>
-<p>L'objectif de ce guide n'est pas de "gagner de l'argent".
+<p>L'objectif de ce guide n'est pas de "gagner de l'argent".</p>
+
 <h4><strong>Ce guide n'a pas pour but de "gagner du rendement" avec votre nœud LN!</strong></h4>.
 <p>Pourquoi j'écrirais un tel guide pour un tel scénario d'utilisation ? Parce que la plupart des gens ont besoin de banques, mais pas de banques fiduciaires. Ils ont besoin de banques Bitcoin Lightning, parce que tout le monde ne sera pas capable de gérer son propre nœud de routage, et beaucoup n'en voudront pas. C'est là que le modèle de "l'oncle Jim" entre en jeu. Et il est nécessaire. C'est le début de la construction de <a href="https://www.youtube.com/watch?v=GquPdAFQ40U">l'économie circulaire du Bitcoin</a>.</p>
 <p>Et j'écris ce guide pour qu'il reste dans l'histoire de Bitcoin comme une référence. Je suis sûr que ce n'est qu'une petite partie de ce que nous pouvons faire avec Bitcoin, mais ce n'est qu'un début. Nous l'améliorerons toujours avec de nouvelles solutions, applications, etc.
@@ -44,7 +45,8 @@ title: Les banques privées sur le Lightning Network
 </ul>
 <p>et plus encore à partir de mon Substack ou Github. <a href="https://darthcoin.substack.com/p/darth-about-studying-bitcoin">La courbe d'apprentissage</a> est lente mais doit être nécessaire.</p>
 <hr style="height:2px">
-<h2>OBJECTIF</h2>
+
+<h2 style="color:Orange;">OBJECTIF</h2>
 <p>Ce guide a pour objectif principal de construire une "banque privée de la plèbe" sur le Lightning Network, comment gérer la liquidité du nœud LN derrière la "banque", quel matériel / logiciel et applications mobiles nous pouvons utiliser, des scénarios de cas d'utilisation dans la vie réelle.</p>
 <p>Je vais également aborder l'aspect de l'ajout de plus de confidentialité et d'anonymat à vos transactions.</p> <p>L'aspect de l'ajout de confidentialité et d'anonymat à vos transactions.</p>
 <p>Prenez cet aspect très au sérieux. Il ne s'agit pas d'un jeu ou d'un amusement. Vous êtes responsable des fonds de vos utilisateurs et devez leur fournir de bons services de liquidité. Vous ne le faites pas seulement pour vous, mais aussi pour le reste des participants au réseau.</p>
@@ -57,22 +59,26 @@ title: Les banques privées sur le Lightning Network
 <p>Voici un schéma de ce scénario, comme une carte de tous les processus qui se cachent derrière et dont nous parlerons dans ce guide :</p> <p>La mise en place d'un réseau Lightning est un processus de longue haleine.</p>
 <p><img src="/assets/images/ln-banks.jpg" class="center"></p>  
 <hr style="height:2px">
-<h2>Votre NODE LN CENTRALE = VOTRE BANQUE</h2>
+
+<h2 style="color:Orange;">Votre NODE LN CENTRALE = VOTRE BANQUE</h2>
 <p>C'est le "cerveau de votre système bancaire", alors choisissez judicieusement le type d'infrastructure que vous allez commencer à construire. Oui, il n'est pas nécessaire d'être un ordinateur super haut de gamme coûteux, mais il n'est pas non plus nécessaire d'utiliser un PC bon marché perdu dans votre garage.</p>
-<h3>A. Matériel</h3>
+<h3 style="color:Yellow;">A. Matériel</h3>
 <p>Comme je l'ai expliqué dans <a href="/nodes/lightning-node-maintenance-fr.html">ce guide sur la maintenance des nœuds LN</a>, vous avez différents niveaux de matériel que vous pouvez utiliser, en fonction de votre "vision de l'entreprise" et de la distance que vous voulez parcourir.</p>
 <p>Si vous voulez commencer avec un coût relativement bas tout en étant capable de l'étendre plus tard, je suggérerais d'utiliser un miniPC / barebone / SFF (small form factor), qui peut même être un PC reconditionné, mais un bon, pas de 1995... avec au moins 8 Go de RAM (de préférence ECC), un CPU décent (multi-core) et un disque SSD. De nos jours, vous pouvez trouver de nombreux PC reconditionnés provenant de bureaux fermés, avec du matériel presque neuf. Il suffit d'ajouter un disque SSD de 1 To à l'ordinateur existant et le tour est joué.</p>
 <p>J'utilise personnellement un NUC Gigabyte normal, sans ventilateur. Il est assez vieux, mais pour mes besoins, c'est suffisant. Je fais fonctionner plusieurs nœuds LN avec celui-ci à partir de janvier 2019, testant, apprenant etc.</p>
+
 <figure>
     <img src="/assets/images/mini-node.jpg" class="center">
     <figcaption>Petit et puissant NUC Gigabyte</figcaption>
 </figure>
+
 <p>Si vous pouvez utiliser un PC barebone où vous pouvez placer plus de disques, il sera bon d'avoir un système RAID, au moins RAID1 (2 disques) sinon RAID5 (3 disques) pour une protection en temps réel des défaillances du disque.</p> <p>L'OS Debian fonctionne sur un disque primaire plus petit et les données du nœud sur le plus grand disque de 1 To (simple ou RAID5).</p>
 <p>Exécutez le système d'exploitation Debian sur un disque primaire plus petit et les données de nœuds sur le disque plus grand de 1 To (volume simple ou RAID).</p>
 <p>Assurez-vous d'avoir une bonne connexion internet et utilisez de préférence le nœud en mode hybride (clearnet + Tor) ou seulement clearnet. Tor n'est pas utilisable pour de telles opérations. Si vous ne voulez pas utiliser ou révéler votre IP personnelle, vous pouvez utiliser <a href="https://tunnelsats.com/">TunnelSats.com</a> ou toute autre connexion VPN. L'important est que vous ayez une disponibilité en ligne de 99,99 % de votre nœud.</p>
 <p>Assurez-vous d'avoir un accès complet à votre routeur internet afin de pouvoir ouvrir les ports et effectuer les changements nécessaires.</p>
 <p>Un autre aspect important est de maintenir le nœud en ligne. Cela signifie que vous devez utiliser un UPS (uninterruptible power supply) pour votre nœud et votre routeur internet. Choisissez votre onduleur en fonction de la consommation électrique de vos appareils, généralement un onduleur de 850VA, maximum 1200VA est suffisant pour maintenir votre machine en vie jusqu'à ce que l'alimentation soit rétablie. Mais n'ajoutez pas d'autres appareils à ce circuit UPS. Toute charge supplémentaire le rendra inutilisable.</p>
-<h3>B. Logiciel de nœud</h3>
+
+<h3 style="color:Yellow;">B. Logiciel de nœud</h3>
 <Quel logiciel de nœud pouvez-vous utiliser ? <a href="/nodes/bitcoin-ln-node-software-fr.html">J'ai écrit un guide sur tous les types de logiciels de nœuds</a> et de ressources.</p>
 <h4>Aspects importants:</h4>
 <ul>
@@ -99,14 +105,15 @@ title: Les banques privées sur le Lightning Network
   <li><a href="https://github.com/BitcoinAndLightningLayerSpecs/lsp">Add LSP Spec to your node</a> - Spécifications API pour les fournisseurs de services Lightning (LSP)</li>
   <li><a href="https://darthcoin.substack.com/p/dunder-lsp-and-lightning-box-provider">Dunder LSP et LN Address provider</a> - pour fournir des canaux entrants et de la liquidité à vos utilisateurs</li>
   <li><a href="https://btcpayserver.org/">BTCPay Server</a> si vous voulez exécuter une boutique marchande frontend</li>
-  <li><a href="https://github.com/nbd-wtf/poncho">Poncho</a> - pour fournir des canaux hébergés (basés sur le crédit) pour les nœuds lightning</li>.
+  <li><a href="https://github.com/nbd-wtf/poncho">Poncho</a> - pour fournir des canaux hébergés (basés sur le crédit) pour les nœuds lightning</li>
   <li><a href="https://github.com/nbd-wtf/cliche">Cliche</a> - client pour les canaux hébergés et la liquidité</li>
   <li><a href="https://github.com/GrayFinance/lightning-swap">Service optionnel de Lightning Swap</a></li>
   <li><a href="https://swapmarket.github.io/">Joindre le SwapMarket</a></li>
   <li><a href="https://github.com/lnproxy">Service optionnel Lightning Proxy</a></li>
   </ul>
 </ol>
-<h3>C. Logiciels pour les appareils mobiles</h3>
+
+<h3 style="color:Yellow;">C. Logiciels pour les appareils mobiles</h3>
 <p>Il est recommandé d'utiliser des appareils Android, en particulier avec un système d'exploitation ouvert (GrapheneOS / CalyxOS), dégooglé et exempt de bloatware.</p>
 <p>Installez sur votre appareil mobile et sur les appareils de vos autres utilisateurs les principales applications :</p> <p>Les logiciels de votre appareil mobile et de vos autres utilisateurs sont les suivants</p>
 <ul>
@@ -140,12 +147,14 @@ title: Les banques privées sur le Lightning Network
 </ul>
 </p> <p>Pourquoi ai-je choisi ces principales applications mobiles ? Vous verrez dans le prochain chapitre comment nous allons les utiliser, mais l'objectif principal est l'autodétention et une meilleure façon de gérer vos fonds, les canaux LN, la recherche de chemin, la liquidité, les frais de réseau.
 <hr style="height:2px">
+
 <figure>
     <img src="/assets/images/lagarde-bank.jpg" class="center">
     <figcaption>LNbits ecash mint</figcaption>
 </figure>
-<h2>Vos services bancaires</h2>
-<h3>A. Stratégie de liquidité - Gestion des fonds</h3>
+
+<h2 style="color:Orange;">Vos services bancaires</h2>
+<h3 style="color:Yellow;">A. Stratégie de liquidité - Gestion des fonds</h3>
 <p>Soyons clairs : vous ne dirigez pas une "caisse d'épargne". Vous êtes une BANQUE DE LIQUIDITE. C'est pourquoi nous ne nous attarderons pas sur la manière dont vous et vos utilisateurs gérerez les comptes d'épargne. <a href="/beginner/be-your-own-bank-fr.html">J'ai déjà expliqué comment fonctionne la réserve à trois niveaux dans un autre guide</a>.</p>
 <p>Dans la vraie vie, de quoi une banque a-t-elle besoin ? De fonds et de liquidités.</p>
 <p>D'où à où ? De vos clients aux nombreux services qui acceptent leur argent.</p>
@@ -157,7 +166,8 @@ title: Les banques privées sur le Lightning Network
 <li>nœud de routage fiable</li>
 </ul>
 <p>Dans notre scénario, outre votre propre utilisation du nœud bancaire, d'autres utilisateurs connecteront leurs applications de portefeuille à votre nœud et utiliseront les services spécifiques. Quels sont donc ces "services" à fournir ?</p>
-<h3>B. De bonnes routes de paiement sur le Lightning Network</h3>
+
+<h3 style="color:Yellow;">B. De bonnes routes de paiement sur le Lightning Network</h3>
 <p>Analysez d'abord avec quels pairs de nœuds vous souhaitez vous connecter. Tous ne sont pas bons ou ne fournissent pas les meilleurs itinéraires pour vous. Essayez d'éviter autant que possible les nœuds coûteux (vérifiez leurs frais dans <a href="https://amboss.space/">Amboss explorer page</a>).</p>
 <p><a href="/nodes/lightning-routing-fees-experiment-fr.html">J'ai fait une expérience de routage approfondie ici</a>, où j'ai expliqué que les canaux avec des frais de base nuls et un faible taux de frais, plus un montant HTLC min/max réglable (<a href="https://blog.bitmex.com/the-power-of-htlc_maximum_msat-as-a-control-valve-for-better-flow-control-improved-reliability-and-lower-expected-payment-failure-rates-on-the-lightning-network/">le système de valve a également été expliqué par Rene Pickhardt</a>) sont beaucoup plus efficaces pour trouver les meilleures routes avec un faible coût pour vous et pour les utilisateurs de votre nœud.</p>
 <p>Comme vous pouvez le voir dans mon article sur l'expérience de routage, j'ai utilisé une augmentation progressive des frais sur mes canaux et cela a très bien fonctionné.</p>
@@ -165,15 +175,17 @@ title: Les banques privées sur le Lightning Network
 <p>J'ai plutôt utilisé le taux de frais (ppm), c'est-à-dire un % du montant total. C'est plus logique et plus juste. Je commence progressivement avec 10ppm et l'augmente jusqu'à 1000, rarement plus, seulement lorsque l'équilibre d'un canal doit être ajusté dans une direction spécifique.</p>
 <p>En outre, si je vois un nœud pair qui commence à facturer des frais excessifs sur notre canal, j'augmente progressivement les frais et je limite également le HTLC maximum. De cette façon, l'homologue ne drainera pas mon canal à bon compte. S'il continue à augmenter les frais, je fermerai simplement le canal et je trouverai un autre bon pair.</p>
 <p>Le rééquilibrage excessif des canaux de nœuds n'est PAS nécessaire et pourrait même créer des perturbations dans votre flux de nœuds.</p>
+
 <figure>
     <img src="/assets/images/liquidity-report-th.jpg" class="center">
     <figcaption>Le rapport le plus important - liquidité totale</figcaption>
 </figure>
+
 <p>Dans cette capture d'écran, vous pouvez voir que la liquidité totale (locale et distante) est parfaitement équilibrée. Cela signifie que mon nœud a suffisamment d'espace pour recevoir et envoyer. Vous pouvez y parvenir en contrôlant les canaux d'entrée et de sortie, en fonction de l'utilisation de votre nœud (utilisation des clients), en ajustant en permanence pour ne pas avoir une différence disproportionnée entre l'entrée et la sortie.</p> <p>La liquidité totale (locale et distante) est un autre aspect à considérer ici.</p>
 <p>Un autre aspect à prendre en considération est la taille du canal. Dans ce rapport particulier, la taille exacte n'est pas indiquée, mais vous ne devriez PAS ouvrir de canaux plus petits que 3M sats ou même 5M sats. Ils sont totalement inutiles et vous serez le seul à les fermer. Les canaux de 10-20M jusqu'à 100M sats sont bons, avec suffisamment de liquidités.</p>
 <p>Ne perdez pas de vue l'aspect des réserves des canaux qui est de 1 %. Ces fonds, oui, sont bloqués jusqu'à ce que le canal soit fermé.</p>
 
-<h3>C. Connectez votre nœud LN à des nœuds de destination spécifiques:</h3>
+<h3 style="color:Yellow;">C. Connectez votre nœud LN à des nœuds de destination spécifiques:</h3>
 <ol>
 <li><p><strong>De bons nœuds LSP (Liquidity Service Providers)</strong></p> 
     <p>Il s'agit de sources très importantes, parce qu'elles sont bien connectées.</p>
@@ -202,7 +214,7 @@ title: Les banques privées sur le Lightning Network
 </li>
 </ol>
 
-<h3>D. Quels services pouvez-vous offrir aux clients de votre banque LN ?</h3>
+<h3 style="color:Yellow;">D. Quels services pouvez-vous offrir aux clients de votre banque LN ?</h3>
 <p>OK, maintenant que vous avez une bonne liquidité pour votre banque LN, il est temps de préparer les services pour vos clients (amis et famille).</p>
 <ol>
 <li><p><a href="https://github.com/hsjoberg/dunder-lsp">Canaux Dunder</a> ou canaux 0-conf</p>
@@ -233,7 +245,7 @@ title: Les banques privées sur le Lightning Network
 <li><p><a href="https://github.com/hsjoberg/lightning-box">Lightning Box</a></p> <p>Lightning Box est une boîte de réception de paiement.</p>
 <p>Lightning Box est une boîte de réception de paiement pour <a href="https://lightningaddress.com/">Lightning Addresses</a>. Elle convient principalement aux portefeuilles Lightning non gardiens qui ne sont pas toujours en ligne pour recevoir des paiements. <a href="https://darthcoin.substack.com/p/dunder-lsp-and-lightning-box-provider">Voici un guide</a>.</p>
 </li>
-<li><p><a href="https://github.com/GrayFinance/lightning-swap">Swaps LN ←→ onchain</a></p>.
+<li><p><a href="https://github.com/GrayFinance/lightning-swap">Swaps LN ←→ onchain</a></p>
 <p>Il s'agit d'un service facultatif, uniquement si vos clients l'exigent ou s'ils souhaitent que vous en soyez le fournisseur direct. Ils peuvent également utiliser n'importe quel autre service de swap externe comme : Boltz | Deezy | RoboSats | ZigZag | FixedFloat | CoinOS | Amboss | DiamondHands.</p>
 <p><a href="https://darth-coin.github.io/nodes/lightning-submarine-swaps-fr.html">J'ai également écrit un guide complet sur l'utilisation des swaps sous-marins ici</a>. <a href="https://darth-coin.github.io/nodes/lightning-submarine-swaps-fr.html">J'ai également écrit un guide complet sur l'utilisation des swaps sous-marins ici</a>.</p>
 </li>
@@ -251,10 +263,12 @@ title: Les banques privées sur le Lightning Network
 </li>
 </ol>
 <hr style="height:2px">
+
 <p><img src="/assets/images/lnbits-pos-fruits.jpg" class="center"></p>
-<h2>Vos clients / utilisateurs de la banque</h2>
+
+<h2 style="color:Orange;">Vos clients / utilisateurs de la banque</h2>
 <p>Parlons aussi des utilisateurs de votre banque LN et de ce qu'ils peuvent et doivent faire, de leur tâche et de l'utilisation du Bitcoin Lightning Network.</p> <p>Les utilisateurs de votre banque LN sont les personnes qui utilisent le Bitcoin Lightning Network et qui ont besoin d'une banque LN.</p>
-<h3>Qui utilisera une telle banque Bitcoin LN ? </h3>
+<h3 style="color:Yellow;">Qui utilisera une telle banque Bitcoin LN ? </h3>
 <ol>
 <li><p>Les membres de votre famille</p>
 <p>Ce sont les plus importants, ils ont confiance en vous et en vos connaissances. Ne les décevez pas. Donnez-leur les bons outils pour effectuer des transactions entre eux et avec d'autres utilisateurs de bitcoins.</p>
@@ -271,7 +285,8 @@ title: Les banques privées sur le Lightning Network
 </li>
 </ol>
 <p>Je suggère de ne pas opter pour une méthode "commerciale" pour offrir ce type de services de banque LN à un public plus large d'utilisateurs inconnus. Restez simple, proche de vous, avec des utilisateurs de confiance. Ce que vous pouvez faire, c'est enseigner à d'autres personnes à exécuter le même scénario dans leur communauté et, plus tard, vous pouvez vous connecter avec ces "banques LN amicales" que vous connaissez et créer une couverture plus large en interconnectant les banques. Cela créera de petites banques LN locales "centralisées" dans un grand réseau Lightning décentralisé.</p>
-<h3>Comment ces utilisateurs utiliseront-ils les services de votre banque LN ? </h3>
+
+<h3 style="color:Yellow;">Comment ces utilisateurs utiliseront-ils les services de votre banque LN ? </h3>
 <p>Pour eux, ce sera très simple (si vous leur donnez une bonne formation). Il leur suffit d'installer, de configurer et d'utiliser les applications mobiles ou de bureau spécifiques pour accéder à leur argent. Ils n'ont pas à s'inquiéter outre mesure de la profondeur du fonctionnement des LN, de la liquidité, des itinéraires et d'autres choses de ce genre.</p>
 <p>Oui, à un certain niveau, ils devraient connaître les bases du Bitcoin et du LN, mais seulement en surface, pas de manière vraiment technique. C'est pourquoi vous devrez construire votre page de guides avec les articles dont ils ont le plus besoin.</p>
 <p>N'oubliez pas un aspect important : tous ces nœuds LN mobiles (Blixt, Zeus, Valet, Breez, Phoenix, Electrum) utilisent des "canaux privés" (non annoncés), donc ces canaux NE FAISENT AUCUN ROUTE. Ils sont utilisés exclusivement pour vos propres paiements.</p>
@@ -289,7 +304,8 @@ title: Les banques privées sur le Lightning Network
 <li>Toute autre application de portefeuille LN supplémentaire si nécessaire, comme <a href="/wallets/lightning-wallets-comparison-fr.html">je l'ai décrit dans ce guide de comparaison sur les portefeuilles LN</a>.</li>
 <li>Pour sauvegarder les graines du portefeuille, les détails du compte, etc., je suggère d'utiliser <a href="https://keepass.info/">KeePass</a>, l'application de gestion des mots de passe. Les utilisateurs DOIVENT apprendre à sécuriser leurs portefeuilles et à sauvegarder ces détails dans un endroit sûr.</li>
 </ul>
-<h3>Qu'est-ce que vos clients doivent faire pour maintenir leur flux ?
+
+<h3 style="color:Yellow;">Qu'est-ce que vos clients doivent faire pour maintenir leur flux ?</h3>
 <p>Oui, c'est un autre aspect auquel les utilisateurs doivent faire attention : leurs propres liquidités dans leurs portefeuilles LN.</p>
 <p>Les règles générales sont les suivantes :</p> <p>Les règles générales sont les suivantes :</p>
 <ul>
@@ -306,10 +322,12 @@ title: Les banques privées sur le Lightning Network
 <li><a href="/beginner/buy-bitcoin-fr.html">Acheter des bitcoins sur le réseau Lightning</a> - liste des bourses et des applications de courtage</li>
 <li><a href="/beginner/be-your-own-bank-fr.html">Utilisez la méthode de la réserve à trois niveaux</a>. Ne gardez pas tous vos bitcoins dans vos appareils mobiles. Répartissez votre réserve dans plusieurs portefeuilles différents (onchain ou LN).</li>
 </ul>
+
 <figure>
     <img src="/assets/images/3levels-stash.jpg" class="center">
     <figcaption>Le schéma de la méthode des 3 niveaux de stockage</figcaption>
 </figure>
+
 <p>Et dépensez vos sats avec sagesse. Oui, il est bon de dépenser ses Sats pour créer l'économie circulaire de Bitcoin, mais pas trop non plus. Bitcoin est une technologie d'épargne, pas comme le fiat, la technologie de consommation.</p>
 <p>Dépensez donc vos sats uniquement lorsque vous en avez vraiment besoin et pour des choses utiles et nécessaires. N'achetez pas des choses de merde. Vous le regretterez plus tard.</p>
 <p>N'oubliez pas que les bitcoins sont limités à 21 millions, pour toujours et à jamais. Oui, vous pouvez gagner plus, mais pourquoi ne pas épargner ces actions pour plus tard, quand vous en aurez vraiment besoin.</p>
