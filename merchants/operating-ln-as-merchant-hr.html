@@ -1,0 +1,123 @@
+---
+layout: default
+title: Poslovanje s Bitcoin LN kao trgovac
+---
+<article>
+<!DOCTYPE html>
+<html lang="hr">
+<meta name="description" content="Vodiči za Bitcoin i Lightning Nodes: Kako dodati više privatnosti svojim Lightning transakcijama kao trgovac">
+<body>
+<a href="/merchants/operating-ln-as-merchant-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/operating-ln-as-merchant-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/operating-ln-as-merchant-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/operating-ln-as-merchant-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/operating-ln-as-merchant-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/operating-ln-as-merchant-nl.html">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/operating-ln-as-merchant-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<blockquote style="color:Tomato;"><em>
+<p>Izvorno objavljeno na <a href="https://darthcoin.substack.com/p/operating-with-ln-as-a-merchant">Substack</a> 21. listopada 2022. Ažurirano ovdje 13. prosinca 2024.</p>
+</em></blockquote>
+<h3>Kako dodati više privatnosti svojim Lightning primljenim uplatama kao trgovac</h3>
+<p>Svi znamo da ćete u Lightning Networku kao primatelj platitelju morati otkriti (samo) svoj odredišni ID čvora. Stoga ću vam pokušati dati neke primjere kako djelovati s više anonimnosti kao primatelj satelita putem Lightning Networka.</p>
+<p>Neki će ovaj aspekt smatrati "kršenjem privatnosti". Ja bih to smatrao obratno: kako postaviti lažne zamke za one koji žele ući u trag vašim sredstvima (ako mogu).</p>
+<p>Mnogi su ljudi danas opsjednuti riječju "privatnost", ali ne uzimaju u obzir drugu važnu riječ: anonimnost ili pseudonim.</p>
+<p>Možete dobiti više privatnosti ako ne otkrijete svoj pravi identitet povezan s čvorom, uslugom, adresom, procesom itd.</p>
+<p><img src="/assets/images/bitcoin-private-merchant.jpg" class="center"></p>
+<p>Kao pošiljatelj putem LN-a svi znamo da je vrlo teško ili gotovo nemoguće pratiti plaćanje do izvornog izvora. LN upravlja transakcijama koristeći "onion routing". <a href="https://www.youtube.com/watch?v=toarjBSPFqI">Evo vrlo jednostavnog objašnjenja ovog procesa od strane Renè Pickhardta</a>.</p>
+<p>Dakle, pretpostavimo da ste mali trgovac, prodajete neke proizvode ili usluge na mreži ili u trgovini i želite dodati određenu razinu anonimnosti svojih primljenih sredstava. Ili barem gdje držite većinu svojih bitcoina primljenih od LN plaćanja.</p>
+<h3>RECAP o tome kako funkcionira LN proces plaćanja</h3>
+<p>1 - trgovac kreira LN fakturu (iz svog LN novčanika, povezan s njegovim čvorom ili ne)</p>
+<p>2 - Izrađena LN faktura otkriva platitelju odredišni ID čvora (ali ne i konačne rute)</p>
+<p>3 - kupac plaća LN fakturu i može vidjeti odredišni ID čvora</p>
+<p>4 - trgovac nije mogao vidjeti izvorni izvor uplate, ali može vidjeti samo zadnji hop/peer koji je proslijedio uplatu u njegov novčanik/čvor</p>
+<p>Podsjetnik o tome kako pokrenuti dobar javni čvor za usmjeravanje, o čemu sam napisao nekoliko vodiča:</p>
+<ul>
+<li><a href="https://darthcoin.substack.com/p/umbrel-bitcoin-ln-node">Izradite jednostavan LN čvor za usmjeravanje s Umbrelom</a></li>
+<li><a href="/nodes/bitcoin-ln-node-software-hr.html">Koji je softver dostupan za pokretanje LN čvora?</a></li>
+<li><a href="/nodes/lightning-routing-fees-experiment-hr.html">Eksperiment s naknadama za usmjeravanje Lightning čvora</a></li>
+<li><a href="/nodes/lightning-node-maintenance-hr.html">Održavanje Lightning čvora</a></li>
+<li><a href="/nodes/recommendations-ln-node-operators-hr.html">Preporuke za pokretače/korisnike LN čvorova</a></li>
+<li><a href="/nodes/managing-lightning-node-liquidity-hr.html">Upravljanje likvidnošću Lightning Node</a></li>
+</ul>
+<p>Dakle, koje opcije imamo kao LN primatelj plaćanja?</p>
+<hr style="height:2px">
+
+<h3>Opcije anonimnosti</h3>
+<h4>A. Pokrenite "čvor mamac"</h4>
+<p>Kao trgovac trebat će vam ULAZNA likvidnost i dobre rute prema odredišnom čvoru, kako biste mogli ispravno primati uplate kupaca.</p>
+<p>Ali u isto vrijeme, ne možete prisiliti sve svoje klijente da koriste Tor kako bi mogli platiti vaše LN fakture generirane iz Tor čvora. Zato što znamo da se LN fakture generirane iz Tor čvora mogu čitati SAMO iz LN novčanika koji koriste Tor mrežu.</p>
+<p>Stoga bih predložio korištenje "čvora mamca" s dobrom likvidnošću i rutama te također za bolju povezanost za rad u hibridnom načinu (Tor + clearnet). Čvor mamac imat će izravan privatni kanal s vašim posljednjim čvorom na ruti, koji će prosljeđivati ​​sva plaćanja. Koristite veliki kanal između tako da ga ne morate zatvarati mnogo puta.</p>
+<p>Ne povezujte ove čvorove ni na koji način sa svojim stvarnim identitetom, koristite nyms ako je potrebno za komunikaciju s drugim operaterima čvorova, tijekom procesa stvaranja likvidnosti vašeg javnog čvora. Također pokušajte ne koristiti pseudonime za ove čvorove, samo upotrijebite slučajni ID čvora.</p>
+<p>Na ovaj "javni čvor" možete povezati jednostavan LN čvor, s privatnim (nenajavljenim) kanalom, dovoljno velikim da premjestite sredstva primljena od plaćanja kupaca.</p>
+<h5>U ovom scenariju također možemo imati više opcija:</h5>
+<ul>
+<li>pokrenite oba LN čvora na Tor-u, ali nudite samo zasebnu uslugu na clearnetu za generiranje LN faktura (može biti <a href="https://btcpayserver.org/">BTCPay poslužitelj</a> ili < a href="https://lnbits.com/">LNbits</a>). Ovdje sam napisao vodič o <a href="https://darthcoin.substack.com/p/lnbits-for-small-merchants">korištenju paketa LNbits kao trgovac</a>, također na clearnetu.</li >
+<li>pokrenite LN čvor na Tor-u, ali koristite VPN tunel s vašeg BTCPay poslužitelja ili LNbits hostirane na clearnet VPS-u. <a href="https://darthcoin.substack.com/p/build-your-own-lnbits-app-server">Ovdje sam napisao još jedan vodič koristeći razne scenarije kao što je ovaj s LNbits</a>. Na taj način ne otkrivate stvarnu lokaciju vašeg LN čvora.</li>
+<li>pokrenite javni LN čvor koji prima sva plaćanja, ali na taj čvor povežite drugi privatni LN čvor, koristeći brzi mobilni LN čvor kao <a href="/wallets/getting-started-blixt-wallet-hr.html">Blixt</a>, <a href="/wallets/getting-started-zeus-wallet-hr.html">Zeus</a>, <a href="https://phoenix.acinq.co/">Phoenix</a>, <a href="https://electrum.org/">Electrum</a>, <a href="/wallets/ Getting-started-greenwallet-en.html">Green</a> ili <a href="https://breez.technology/">Breez</a>. Ovi mobilni LN čvorovi uvijek će koristiti privatni (nenajavljeni) kanal. S Blixtom i Zeusom također možete koristiti metodu slanja ključeva za guranje sredstava od vašeg čvora "primatelja" prema vašem čvoru Blixt. Odatle možete zatvoriti kanal i/ili <a href="/nodes/lightning-submarine-swaps-hr.html">koristiti druge kanale prema bilo kojoj swap usluzi</a> (Deezy, Boltz, FixedFloat, RoboSats itd.) . <a href="https://darthcoin.substack.com/p/node-liquidity-guide">Ovdje sam napisao još jedan vodič o ovom scenariju</a>.</li>
+<li>Pokrenite jednokratni LN čvor s trenutnim postavljanjem iz <a href="https://rizful.com/">Rizful</a>. Jednostavno, brzo, anonimno i lako.</li>
+</ul>
+<hr style="height:2px">
+
+<h4>B. Koristite samo privatni mobilni LN čvor</h4>
+<p>Da, ako ste mali trgovac koji nema vremena i novca za infrastrukturu stolnih čvorova, možete primati plaćanja izravno s mobilnog LN čvora.</p>
+<p>Da, postoje prednosti i nedostaci ove opcije, ali ovisno o vašem poslovanju, možete je prilagoditi i koristiti. Uzmimo da ste trgovac koji posluje na mobilnom tržištu, nemate veliki obujam prodaje koristeći BTC/LN i nemate mjesto ili resurse koje biste mogli izdvojiti za stabilan stolni čvor.</p>
+<p>Možete koristiti <a href="/wallets/getting-started-blixt-wallet-hr.html">Blixt</a>, <a href="/wallets/getting-started-zeus-wallet-hr.html">Zevs</a>, <a href="https://phoenix.acinq.co/">Feniks</a>, <a href="https://electrum.org/">Electrum</a>, <a href="/wallets/getting-started-greenwallet-hr.html">Green</a> ili <a href="https://breez.technology/">Breez</a> za ovaj scenarij.</p>
+<h5>Spomenuti neke aspekte ovih aplikacija:</h5>
+<ul>
+<li>Svi su oni SAMOSTALNO SKRBNIŠTVO, vi kontrolirate ključeve i sredstva 100%, svi su otvorenog koda i besplatni.</li>
+<li>Svi su oni LN čvorovi, u vašem vlastitom džepu, a ne mumbo-jumbo opskurni procesi i skrbnički fondovi/ključevi.</li>
+<li>Sve one podržavaju LNURL i Lightning adresu (za slanje). <a href="/wallets/lightning-wallets-comparison-hr.html">Više pojedinosti u ovom vodiču za usporedbu značajki</a>.</li>
+<li>Zeus and Breez nudi PoS aplikaciju unutra. Lako upravljati kao trgovac. Također podržava NFC.</li>
+<li>Electrum nudi zamjene LN <-->onchain izravno u aplikaciju, nije potrebna vanjska usluga. Koristi trampolin i normalne LN kanale. Electrum je također dostupan na svim stolnim platformama.</li>
+<li>Blixt nudi napredno upravljanje LN kanalima i napredne alate za napredne korisnike (kao što je keysend). Blixt je nedavno dodao verziju za Mac desktop. Uskoro za Linux.</li>
+</ul>
+
+<h5>Operacije</h5>
+<p>Dakle, kako biste trebali raditi s ovim aplikacijama LN čvorova da biste dodali više anonimnosti kao primatelj?</p>
+<p>Svi ovi LN čvorovi imat će anonimni ID čvora, koji nije povezan s vašim stvarnim identitetom. Ne postoji KYC ili potvrda identiteta za korištenje ovih aplikacija.</p>
+<p>U slučaju da želite “osvježiti” svoj ID trgovačkog čvora primatelja, predlažem neke scenarije:</p>
+<ul>
+<li>U svakom trenutku možete zatvoriti sve svoje LN kanale, prenijeti BTC u drugi onchain čvor novčanika i pokrenuti novi LN čvor, novi, novi ID čvora. Ovo je najjednostavniji način. Nakon što dobijete novi nodeID, možete kupiti jedan ili nekoliko ulaznih kanala od bilo kojeg LSP-a (<a href="https://lsps1.olympusln.com/">Olympus</a>, <a href="https:/ /lnbig.com/#/">LNBIG</a>, <a href="https://megalithic.me/">Megalit</a>, <a href="https://www.bitrefill.com/thor-lightning-network-channels/">Bitrefill</a>, <a href="https://lnserver.com/">LNServer</a>, <a href="https://stacker.news/items/227488/r/DarthCoin">FlashSats</a> itd.), ali trebate navesti da želite “privatni kanal” nije javni kanal za usmjeravanje. Tada ste spremni odmah primati uplate, s novim ID-jem čvora!</li>
+<li>S Blixtom možete koristiti i <a href="https://blixtwallet.github.io/faq#blixt-restore">“migracijski proces”</a> na drugi novi Blixt čvor. Dakle, ako ste ispraznili svoje prethodne LN kanale pomoću usluge zamjene ili jednostavno želite premjestiti svoj preostali saldo na novi ID čvora, možete jednostavno upotrijebiti <a href="https://darthcoin.substack.com/p/dunder-lsp-and-lightning-box-provider">Dunder usluga koju nudi Blixt čvor</a>. Dakle, možete premjestiti kroz LN sav preostali saldo s jednog Blixt čvora na drugi i u isto vrijeme dobiti nešto ulazne likvidnosti. Kasnije u novom Blixtu možete dodati više <a href="/nodes/managing-lightning-node-liquidity-en.html">dolaznih kanala s više LSP-ova</a>. <a href="https://docs.zeusln.app/for-users/embedded-node/backup-and-recovery#can-i-recover-my-zeus-onchain-wallet-into-other-wallet-applications ">Isto se može učiniti sa Zeusom</a>, čvorovi otvoreni u Blixtu mogu se vratiti u Zeus i obrnuto.</li>
+</ul>
+<hr style="height:2px">
+
+<h4>C. Upotrijebite "mamac" skrbnički Lightning novčanik</h4>
+<p>Da, mnogi se boje "zloglasnih" skrbničkih novčanika, ali u nekim su scenarijima dobar alat za prikrivanje vašeg pravog identiteta.</p>
+<p>Postoje mnogi skrbnički LN novčanici i usluge koje nisu KYC ili ne zahtijevaju nikakav postupak potvrde identiteta, možda samo adresu e-pošte.</p>
+<p>Za ovaj scenarij možete koristiti: CoinOS, Blink, Wallet of Satoshi, Bluewallet, Alby, <a href="/beginner/getting-started-stack-sats-hr.html">pogledajte više primjera i detalja ovdje< /a>, prijatelj ili pružatelj LNbits novčanika <a href="/nodes/ln-bank-with-lnbits-hr.html">kako sam opisao ovdje</a>.</p>
+<p>Jednom kada primite u ove LN novčanike, lako možete <a href="/nodes/lightning-submarine-swaps-hr.html">koristiti bilo koju uslugu zamjene podmornica</a> da biste prenijeli satove na svoje privatni onchain novčanik. Ovdje je također još jedan vodič o korištenju metode <a href="/wallets/lightning-cleaning-machine-hr.html">“Stroj za čišćenje munjom”</a>.</p>
+<p>Primanje u ove novčanike neće otkriti vaš stvarni identitet ili čvor, bit će samo javni čvor pružatelja usluga.</p>
+<p>Zamjena u onchain adrese također neće ostaviti trag vašeg pravog identiteta.</p>
+<h5>Neki važni aspekti koje treba spomenuti o ovim aplikacijama:</h5>
+<ul>
+<li><a href="https://coinos.io/">CoinOS</a> nudi web PoS sučelje za trgovce. Može se pokrenuti na bilo kojem uređaju, bez instaliranja bilo čega, budući da je samo web-aplikacija. Nudi i integrirane zamjene LN ←&gt; onchain, podržava sve LNURL opcije, uključujući Lightning adresu za primanje. Vrlo je moćan alat za male trgovce koji žele početi prihvaćati Bitcoin putem LN-a.</li>
+<li><a href="/wallets/getting-started-alby-hub-hr.html">Alby</a> je proširenje preglednika s opsežnim funkcijama poput LN novčanika. Može se koristiti kao skrbnički novčanik (prijatelja), ali se također može povezati s vašim vlastitim čvorovima ili izvorima (LND, CLN, LNBits, NWC, Blink, LNDhub). Podržava NWC i sve LNURL opcije + Lightning Address plus jednostavnu mobilnu aplikaciju i PoS.</li>
+<li><a href="https://www.walletofsatoshi.com/">Wallet of Satoshi</a> jednostavan je mobilni LN novčanik + PoS, skrbnički. Podržava neke LNURL funkcije + nudi Lightning adresu. Od korisnika se traži adresa e-pošte samo u slučaju da žele koristiti funkciju sigurnosne kopije. Ali ako želite, možete koristiti novi WoS svaki dan, nakon što prebacite sva sredstva iz njega u svoj privatni onchain novčanik, bez otkrivanja bilo kakve e-pošte ili identiteta.</li>
+<li><a href="https://bluewallet.io/">Bluewallet</a> je dobra mobilna aplikacija, onchain i LN (s integriranim LDK čvorom), koja koristi LNDhub novčanike s Bluewallet poslužitelja. Može se koristiti i s drugim privatnim LNDhub računima s čvorova vaših prijatelja ili drugih pružatelja usluga, uključujući LNTXBOT. Nudi zamjene iz vašeg onchain novčanika u LN novčanik.</li>
+<li><a href="https://lnbits.com/">LNbits</a> je moćan paket alata koji se može koristiti s prijateljevog čvora ili pružatelja usluga, kao što sam objasnio u ovim člancima (<a href ="/nodes/ln-bank-with-lnbits-hr.html">Banka LNbits</a> i <a href="https://darthcoin.substack.com/p/lnbits-for-small-merchants">LNbits za male trgovce</a>). NEMOJTE koristiti javnu demo LNbits instancu (demo.lnbits.com)! Taj je samo za testiranje, demo, upoznajte se s njim, ne preporučuje se za stvarne slučajeve korištenja. LNbits također imaju namjensko proširenje za swapove, koristeći Boltz.</li>
+<li><a href="https://lnvoltz.com">LN Voltz</a> je skrbničko rješenje, temeljeno na LNbits-u, koje malim trgovcima nudi vrlo jednostavan LN novčanik. Nema KYC.</li>
+</ul>
+<hr style="height:2px">
+
+<h4>D. Koristite LN proxy</h4>
+<p>Evo jednostavnog web-alata pomoću kojeg možete koristiti proxy za primanje LN fakture:</p>
+<p><a href="https://lnproxy.org/">https://lnproxy.org/</a></p>
+<p>Uz lnproxy, korisnici umjesto toga mogu generirati i izdavati zamotane fakture kako bi prikrili identitet svojih čvorova munjevite mreže od svojih ugovornih strana u transakciji.</p>
+<hr style="height:2px">
+
+<h3>ZAKLJUČAK</h3>
+<p>Dakle… kao što vidite, i kao trgovac, možete dobiti drugačiju razinu privatnosti putem anonimnosti i prikriti svoje konačno odredište svojih sredstava.</p>
+<p>Je li savršeno? Možda i ne. Ali izazivam vas da napravite vlastite testove: pokušajte sebi ući u trag koristeći neke od ovih metoda i vidite možete li sami pronaći podrijetlo i konačno odredište sredstava transakcija ovim metodama. Bit će jako teško, pokušao sam puno puta, s mnogo metoda.</p>
+<p>Ove se metode mogu poboljšati, bez sumnje, upotrijebite svoju maštu i vještine. Samo sam vam htio ponuditi neke trikove od kojih možete početi.</p>
+<p>Samo neka vas ne obeshrabre oni mrzitelji koji kažu da Lightning Network ne pruža nikakvu privatnost i da je ne biste trebali koristiti. Ako više kopate po LN-u, saznat ćete koliko je fascinantan i koliko stvari možete učiniti s njim.</p>
+<p>Lightning Network, kao sloj 2 nad Bitcoin mrežom, pravi je mjenjač igre i moćan alat u rukama korisnika.</p>
+<p>Evo nekoliko primjera nevjerojatnih stvari koje možete učiniti s LN-om:</p>
+<ul>
+<li><a href="https://darthcoin.substack.com/p/lightning-network-is-awesome">Lightning Network je super</a> - zbirka poveznica s LN uslugama</li>
+<li><a href="/merchants/bitcoin-lightning-payments-irl-hr.html">Primjeri korištenja mreže Bitcoin Lightning u stvarnom životu</a></li>
+<li><a href="/merchants/getting-started-bitcoin-small-merchants-hr.html">Prvi koraci s Bitcoinom za male trgovce</a></li>
+</ul>
+</body>
+</html>
+</article>
