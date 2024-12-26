@@ -1,0 +1,330 @@
+---
+layout: default
+title: Privatne banke preko The Lightning Networka
+---
+<article>
+<!DOCTYPE html>
+<html lang="hr">
+<meta name="description" content="Vodiči za Bitcoin i Lightning Nodes: Upravljanje Bitcoin LN čvorom za usmjeravanje za privatnu upotrebu kao Uncle Jim Bank za sebe, za svoje prijatelje i obitelj.">
+<body>
+<a href="/merchants/private-banks-over-ln-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/private-banks-over-ln-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/private-banks-over-ln-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/private-banks-over-ln-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/private-banks-over-ln-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/private-banks-over-ln-nl.html">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/private-banks-over-ln-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<em><blockquote style="color:Tomato;">
+<p>Izvorno objavljeno na <a href="https://darthcoin.substack.com/p/bitcoin-private-banks-over-lightning">Substack</a> 16. prosinca 2022. Ovdje ažurirano 22. listopada 2024.</em></p>
+</em></blockquote>
+
+<h3>Kako upravljati Bitcoin LN usmjernim čvorom za privatniju upotrebu kao banka "Uncle Jim" za sebe, za svoje prijatelje i obitelj.</h3>
+<h2 style="color:Orange;">UVOD</h2>
+<p>Ovaj je vodič malo posebniji jer ću pokušati predstaviti stvarni scenarij upotrebe za mnoge nove korisnike Bitcoina i Lightninga. Slučaj je upotrebe koji pomaže većem broju ljudi da se lakše uključe u Bitcoin, na privatniji način. Glavni je slučaj “ujaka Jima” koji pomaže svojoj lokalnoj zajednici svojim znanjem, vještinama i… LN likvidnošću.</p>
+<h4><strong>Ovaj vodič NIJE o "zarađivanju prinosa" s vašim LN čvorom!</strong></h4>
+<p>Zašto bih napisao takav vodič za takav scenarij upotrebe? Jer većina ljudi treba banke, ali ne banke. Trebaju im Bitcoin Lightning Banks, jer nitko neće moći pokrenuti vlastiti čvor za usmjeravanje, mnogi ga također neće željeti. Ovdje na mjesto dolazi model "ujak Jim". I potrebno je. Ovo je početak izgradnje <a href="https://www.youtube.com/watch?v=GquPdAFQ40U">Bitcoin kružne ekonomije</a>.</p>
+<p>Ovaj vodič pišem da ostane u povijesti Bitcoina kao referenca. Siguran sam da je ovo samo mali dio onoga što možemo učiniti s Bitcoinom, ali to je samo početak. Uvijek ćemo ga poboljšavati novim rješenjima, aplikacijama itd.</p>
+<p>Da, mnogo su me tražili da pišem o ovom scenariju i mnoge ljude zanima kako to provesti u praksi, za osobnu ili čak komercijalnu upotrebu. Pokušat ću, kao i obično, objasniti na jednostavan način, tako da svaki novi korisnik može razumjeti. Znam, teško je preskočiti toliko tehničkih pojmova... ali u isto vrijeme zadržati na niskoj razini tehničkog znanja.</p>
+<p>Ovaj vodič namijenjen je onima koji imaju neko osnovno znanje o tome kako Bitcoin Lightning Network (LN) funkcionira i žele ići prema naprednijoj upotrebi svojih čvorova ili žele pokrenuti LN čvor točno prema ovom scenariju.< /p>
+<p>Vodič bi mogao biti jako dugačak, jer postoji mnogo aspekata o kojima treba govoriti, ali pokušat ću biti kratak.</p>
+<p>Ako ste novi u pokretanju čvora, prije nego što pročitate ovaj vodič ili ga primijenite u praksi, toplo vam preporučujem da pročitate ove vodiče ili ih barem označite jer su neophodni da biste ih imali kao osnovno znanje: </p>
+<ul>
+<li><a href="/beginner/be-your-own-bank-hr.html">₿itcoin - Budite svoja banka, razmišljajte kao banka</a></li>
+<li><a href="/nodes/bitcoin-ln-node-software-hr.html">Koji softver za Bitcoin LN čvor mogu pokrenuti?</a></li>
+<li><a href="https://darthcoin.substack.com/p/lightning-network-is-awesome">⚡️ Lightning Network je sjajan ⚡️</a></li>
+<li><a href="/nodes/managing-lightning-node-liquidity-hr.html">Kako upravljati likvidnošću Lightning čvorova</a></li>
+<li><a href="/nodes/lightning-node-maintenance-hr.html">Održavanje Lightning čvora</a></li>
+<li><a href="/nodes/recommendations-ln-node-operators-hr.html">Preporuke za korisnike LN čvora</a></li>
+<li><a href="/nodes/lightning-routing-fees-experiment-hr.html">Eksperiment s naknadama za Lightning Routing</a></li>
+<li><a href="/nodes/lightning-submarine-swaps-hr.html">Lightning Network zamjene podmornica</a></li>
+<li><a href="/wallets/lightning-wallets-comparison-hr.html">Usporedba Lightning novčanika</a></li>
+<li><a href="/wallets/bitcoin-adoption-using-ecash-hr.html">Usvajanje bitcoina pomoću Ecasha</a></li>
+<li><a href="/nodes/private-ln-nodes-hr.html">Privatni Lightning čvorovi</a></li>
+</ul>
+<p> i više od mog Substacka ili Githuba. <a href="https://darthcoin.substack.com/p/darth-about-studying-bitcoin">Krivulja učenja</a> je spora, ali mora biti neophodna.</p>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">CILJ</h2>
+<p>Ovaj vodič ima glavni cilj izgraditi "plebs privatnu banku" preko Lightning Networka, kako upravljati likvidnošću LN čvora iza "banke", koji hardver/softver i mobilne aplikacije možemo koristiti, scenarije korištenja u stvarnom životu.</p>
+<p>Također će se dotaknuti aspekta dodavanja više privatnosti i anonimnosti vašim transakcijama.</p>
+<p>Ovaj aspekt shvatite vrlo ozbiljno. Ovo nije igra ili to radite iz zabave. Odgovorni ste za sredstva svojih korisnika i pružate im dobre usluge likvidnosti. Ne radite to samo za sebe, već i za ostale sudionike mreže.</p>
+<p>Da, ne može svatko pokrenuti pristojan LN čvor i brinuti se o svim aspektima, pa ste vi iskoračili i postali njihov "ujak Jim" koji upravlja svime za njih, na sigurniji, privatniji i polu-skrbnički način.< /p>
+<p>Ovaj scenarij je dobar za obiteljsku banku, banku lokalne zajednice, čak i internu banku poduzeća. Također će pomoći u pružanju dobre i specifične likvidnosti usmjerene na smjerove u kojima korisnici koriste najviše LN plaćanja, uz niske naknade i manje neuspjelih plaćanja.</p>
+<h4>OVO NIJE ZA PASIVNI PRIHOD! Maknite se od ovog mentaliteta. Molim te.</h4>
+<p>Da, Bitcoin mrežu pokreće čisti anarho-kapitalizam, ali to ne znači da se trebamo usredotočiti na "kako jebati jedni druge, umjesto da jebemo bankstere". Također se ne radi o altruizmu, radi se o izgradnji novog sustava, nečeg plemenitog, trajnog i što čini bolji svijet. Ne možete započeti nešto dobro ako ste usredotočeni samo na "kako mogu uzeti više satova od drugih čvorova i korisnika". Imat ćemo vremena pozabaviti se time kasnije, nakon što se riješimo svih bankstera, vlada i sve zlobe ovog svijeta.</p>
+<p>Nemojte to činiti ako Niste spremni posvetiti vrijeme i resurse. Ovo NIJE lak zadatak, kao što mnogi misle da jest. Uključite vrijeme, novac, hardver i predanost.</p>
+<p>Ako tražite samo jednostavnu osobnu upotrebu Bitcoin Lightning mreže, ovdje imate vodič za <a href="/beginner/getting-started-lightning-hr.html">Početak rada s Lightning mrežom</ a>, to je više nego dovoljno za jednog jednostavnog korisnika.</p>
+<p>Ovdje je shema ovog scenarija, poput mape svih procesa koji stoje iza i o kojima ćemo govoriti u ovom vodiču:</p>
+<p><img src="/assets/images/ln-banks.jpg" class="center"></p>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">VAŠ SREDIŠNJI LN ČVOR = VAŠA BANKA</h2>
+<p>Ovo je "mozak vašeg bankovnog sustava" stoga mudro odaberite kakvu ćete infrastrukturu početi graditi. Da, nije potrebno biti super vrhunsko skupo računalo, ali također ne treba koristiti jeftino računalo izgubljeno u vašoj garaži.</p>
+<h3 style="color:Yellow;">A. Hardver</h3>
+<p>Kao što sam objasnio u <a href="/nodes/lightning-node-maintenance-hr.html">ovom vodiču za održavanje LN čvorova</a>, imate različite razine hardvera koje možete koristiti, ovisno o svoju "poslovnu viziju" i koliko daleko želite ići.</p>
+<p>Ako želite započeti s malo niskom cijenom, ali s mogućnošću proširenja kasnije, predlažem da koristite miniPC / barebone / SFF (faktor malog formata), koji može biti čak i obnovljeno računalo, ali dobro, a ne iz 1995… s najmanje 8 GB RAM-a (po mogućnosti ECC), pristojnim CPU-om (višejezgrenim) i SSD diskom. Danas možete pronaći mnoga obnovljena računala iz zatvorenih ureda, s gotovo novim hardverom. Samo dodajte SSD disk od 1 TB postojećem i spremni ste.</p>
+<p>Ja osobno koristim normalan NUC Gigabyte, bez ventilatora. Dosta je star, ali za moje potrebe sasvim dovoljan. Pokrećem nekoliko LN čvorova s ​​ovim od siječnja 2019., testiram, učim itd.</p>
+
+<figure>
+    <img src="/assets/images/mini-node.jpg" class="center">
+    <figcaption>Mali i moćni Gigabyte NUC</figcaption>
+</figure>
+
+<p>Ako možete koristiti barebone računalo na koje možete staviti više pogona, bilo bi dobro imati RAID sustav, barem RAID1 (2 diska) ako ne i RAID5 (3 diska) za zaštitu u stvarnom vremenu od kvarova diska. </p>
+<p>Pokrenite Debian OS na primarnom manjem disku i podatke čvora na većem disku od 1TB (jedan ili RAID volumen).</p>
+<p>Provjerite imate li dobru internetsku vezu i po mogućnosti pokrenite čvor u hibridnom načinu (clearnet + Tor) ili samo clearnet. Tor je nepouzdan za takve operacije. Ako ne želite koristiti ili otkriti svoj kućni IP, možete koristiti <a href="https://tunnelsats.com/">TunnelSats.com</a> ili bilo koju drugu VPN vezu. Važno je da morate imati 99,99% online dostupnosti svog čvora.</p>
+<p>Provjerite imate li potpuni pristup svom internetskom usmjerivaču kako biste mogli otvoriti portove i napraviti potrebne promjene.</p>
+<p>Također je važan aspekt držati ga online. To znači da koristite UPS (neprekidno napajanje) za svoj čvor i internetski usmjerivač. Zaplijenite svoj UPS ovisno o električnoj potrošnji vaših uređaja, obično je UPS od 850 VA, maksimalno 1200 VA dovoljan da održi vaš stroj na životu dok se napajanje ne vrati. Ali nemojte dodavati nijedan drugi uređaj ovom UPS krugu. Svako dodatno opterećenje učinit će ga beskorisnim.</p>
+
+<h3 style="color:Yellow;">B. Softver čvorova</h3>
+<p>Koji biste softver za čvorove mogli koristiti? <a href="/nodes/bitcoin-ln-node-software-hr.html">Ovdje sam napisao vodič o svim vrstama softverskih čvorova</a> i resursa.</p>
+<h4>Važni aspekti:</h4>
+<ul>
+<li>Postoje različite <a href="https://medium.com/@fulgur.ventures/an-overview-of-lightning-network-implementations-d670255a6cfa">implementacije Lightninga</a> i svaka ima svoju vlastite pro i kontra aspekte. Stoga odaberite onaj koji vam je udobniji i koji odgovara vašim potrebama. Možete pokrenuti 2 LN implementacije na istom stroju, ali imajte na umu da će to zahtijevati više resursa. Bolje ih je pokrenuti odvojeno i imati ih kao rezervne kopije jedan drugome. Ako je vaš stroj dovoljno snažan, nema problema s pokretanjem 2 LN čvora na istom stroju, svaki će imati svoj port za komunikaciju.</li>
+<li>Morat ćete kupiti naziv domene i imati potpunu kontrolu nad njim. Morat ćete dodati zapise domene i usmjeriti na IP vašeg računala. Dakle, ako ne znate kako to raditi, prvo naučite.</li>
+<li>Morat ćete imati barem osnovno znanje o umrežavanju: LAN, WAN, proxiji, vatrozidi, priključci itd. jer ćete se morati nositi sa svim tim. Ako niste upoznati s ovim pojmovima, prvo idite i naučite.</li>
+<li>Morat ćete imati barem osnovno znanje o korištenju Linux OS sustava. Dakle, ako ste “korisnik Windowsa”, počnite učiti, instalirajte na jednostavno računalo Linux Mint ili Ubuntu ili Debian i igrajte se s njim dok ne naučite osnove. Ovdje je također izvrstan Youtube kanal o korištenju <a href="https://www.youtube.com/@402PaymentRequired">Linux za poslužitelje LN čvorova, prema 402 Plaćanje Required</a></li>
+</ul>
+<p>Ako samo želite započeti, na jednostavan način, učiti, predlažem da koristite <a href="https://github.com/openoms/raspiblitz/tree/amd64/alternative.platforms">Raspiblitz x64 </a> postupak instalacije ili <a href="https://minibolt.minibolt.info/">MiniBolt</a>. Također, sada je Start9 pokrenuo <a href="https://docs.start9.com/latest/diy/diy-x86">x86 verziju za Embassy Node</a>. Ako vam odgovara pokretanje LN čvora u oblaku, možete koristiti <a href="https://voltage.cloud/">Voltage</a> ili <a href="https://www.nodl. eu/nodl-cloud/">NODL</a> ili <a href="https://nodana.io/">Nodana</a>, kao udaljeni poslužitelji za vaš čvor. Ili bilo koji drugi VPS poslužitelj.</p>
+<p>U osnovi, koraci su prilično jednostavni:</p>
+<ol>
+<li>Instalirajte Debian OS na glavni mali pogon. Može biti interni pogon SSD ili USB, ali odaberite brži. Pronašao sam Transcend USB JetFlash 920 - 128GB s 400MBps čitanja/pisanja koji jako dobro radi. Poželjno je da to bude unutarnji pogon.</li>
+<li>Dodajte 1TB SSD ili RAID (volumen s više diskova).</li>
+<li>Pokrenite / instalirajte Raspiblitz skriptu (u osnovi je samo 1 naredbeni redak, kopirajte/zalijepite) i strpljivo pričekajte da završi. Za MiniBolt postoji više koraka koje treba učiniti, ali je isto, samo slijedite upute i kopirajte/zalijepite.</li>
+<li>Ponovo pokrenite stroj i prijavite se s namjenskim administratorskim korisnikom kako biste započeli upravljanje svojim čvorom. Započet će potpunom sinkronizacijom Bitcoin čvora tako da će to potrajati neko vrijeme (do 3-4 ili čak 8 dana), pa budite strpljivi, čekajte i provjeravajte status.</li>
+<li>Instalirajte LND ili CLN po potrebi ili oboje. LND radi s Dunder kanalima, CLN radi s Hosted Channels. Oba rade s LNbitovima. Možda ćemo u budućnosti imati podršku u LND-u za hostirane kanale.</li>
+<li>Instalirajte potrebne dodatne aplikacije:</li>
+  <ul>
+ <li><a href="https://github.com/chris-belcher/electrum-personal-server">Electrum poslužitelj</a> | <a href="https://fulcrumserver.org/">Fulcrum Server</a> - omogućite SPV pristup za svoje udaljene novčanike</li>
+ <li><a href="https://www.ridethelightning.info/">RTL</a> | <a href="https://thunderhub.io/">Thunderhub</a> - za upravljanje vašim LN čvorovima s radne površine, u pregledniku</li>
+ <li><a href="https://darthcoin.substack.com/p/getting-started-lnbits">LNbits</a> - za pružanje lndhub računa i velikog broja aplikacija</li>
+ <li><a href="/wallets/getting-started-alby-hub-hr.html">Alby Hub</a> - za omogućavanje jednostavnog pristupa LN računima i NWC vezama</li>
+ <li><a href="https://github.com/shocknet/Lightning.Pub">Lightning Pub</a> - za omogućavanje pristupa LN računima putem NWC</li>
+ <li><a href="https://github.com/BitcoinAndLightningLayerSpecs/lsp">Dodajte LSP specifikaciju svom čvoru</a> - API specifikacije za Lightning Service Providers (LSP)</li>
+ <li><a href="https://darthcoin.substack.com/p/dunder-lsp-and-lightning-box-provider">Dunder LSP i pružatelj LN adresa</a> - za pružanje ulaznih kanala i likvidnosti za svoje korisnike</li>
+ <li><a href="https://btcpayserver.org/">BTCPay poslužitelj</a> ako želite pokrenuti sučelje trgovačke trgovine</li>
+ <li><a href="https://github.com/nbd-wtf/poncho">Poncho</a> - za pružanje Hostiranih kanala (na temelju kredita) za munjevite čvorove</
+ <li><a href="https://github.com/nbd-wtf/cliche">Cliche</a> - klijent za hostirane kanale i likvidnost</li>
+ <li><a href="https://github.com/GrayFinance/lightning-swap">Dodatna usluga Lightning Swap</a></li>
+ <li><a href="https://swapmarket.github.io/">Pridružite se SwapMarketu</a></li>
+ <li><a href="https://github.com/lnproxy">Dodatna usluga Lightning Proxy</a></li>
+ </ul>
+</ol>
+
+<h3 style="color:Yellow;">C. Softver mobilnih uređaja</h3>
+<p>Preporuča se korištenje Android uređaja, posebno s otvorenim OS-om (GrapheneOS / CalyxOS), de-googled i očišćen od bloatwarea.</p>
+<p>Instalirajte glavne aplikacije na svoj mobilni uređaj i uređaje drugih korisnika:</p>
+<ul>
+<li><p><a href="https://zeusln.com/">Zeus</a> - upravljanje mobilnim udaljenim čvorom, integrirani LND čvor i lndhub</p>
+ <ul>
+ <li><a href="https://docs.zeuzln.app/">Dokumentacija</a> | <a href="https://t.me/zeusLN">Telegram grupa</a> | <a href="https://github.com/ZeusLN/zeus/releases">Github izdanja</a> | <a href="/wallets/getting-started-zeus-wallet-hr.html">Vodič za DC</a></li>
+ </ul>
+</li>
+<li><p><a href="https://blixtwallet.com/">Blixt</a> - mobilni novčanik LND čvora, Dunder LSP i normalni kanali</p>
+ <ul>
+ <li><a href="https://blixtwallet.github.io/features">Dokumentacija</a> | <a href="https://t.me/blixtwallet">Telegram grupa</a> | <a href="https://github.com/hsjoberg/blixt-wallet/releases">Github izdanja</a> | <a href="/wallets/getting-started-blixt-wallet-hr.html">Vodič za DC</a></li>
+ </ul>
+</li>
+<li><a href="https://bitbanana.app/">BitBanana</a> - moćna mobilna aplikacija koja se može povezati s udaljenim čvorom, poput Zeusa, ali i pomoću LNDHUB računa s vašeg čvora</li >
+<li><p><a href="https://electrum.org/">Electrum</a> - novčanik LN čvora za stolna i mobilna računala, trampolin i normalni kanali</p>
+ <ul>
+ <li><a href="https://electrum.readthedocs.io/en/latest/">Dokumentacija</a> | <a href="https://github.com/spesmilo/electrum/">Github izdanja</a></li>
+ </ul>
+</li>
+<li><p><a href="https://standardsats.github.io/">Valet</a> - novčanik mobilnog LN čvora, Immortan čvor, Hostirani kanali</p>
+ <ul>
+ <li><a href="https://t.me/StandardSatsCommunity">Telegram grupa</a> | <a href="https://github.com/standardsats">Github izdanja</a> | <a href="https://darthcoin.substack.com/p/obw-open-bitcoin-wallet">Vodič za DC</a></li>
+ </ul>
+</li>
+<li><a href="https://github.com/getAlby/go/">Alby Go</a> - vrlo jednostavna mobilna aplikacija koja se može povezati s vašim Alby Hubom</li>
+<li><p><a href="https://www.enuts.cash/">eNuts</a> / <a href="https://www.minibits.cash/">Minibits</a > - ecash mint novčanici | <a href="/wallets/bitcoin-adoption-using-ecash-hr.html">Vodič za DC</a></p>
+ <ul>
+ <li><a href="/wallets/lightning-wallets-comparison-en.html">Neobavezno instalirajte dodatne LN novčanike</a> - ovdje je potpuni vodič za usporedbu, dobro je imati i druga 2-3 LN novčanika spreman za korištenje, za razne okolnosti.</li>
+ </ul>
+</li>
+</ul>
+<p>Zašto biram ove glavne mobilne aplikacije? Vidjet ćete u sljedećem poglavlju kako ćemo ih koristiti, ali glavna namjena je samoskrbništvo i bolji način upravljanja vašim sredstvima, LN kanalima, pronalaženjem staze, likvidnošću, mrežnim naknadama.</p>
+<hr style="height:2px">
+
+<figure>
+    <img src="/assets/images/lagarde-bank.jpg" class="center">
+    <figcaption>LNbits ecash mint</figcaption>
+</figure>
+
+<h2 style="color:Orange;">USLUGE VAŠE BANKE</h2>
+<h3 style="color:Yellow;">A. Strategija likvidnosti - Upravljanje sredstvima</h3>
+<p>Budimo jasni: ne vodite "štedionicu". Vi ste LIKVIDNA BANKA. Zato se nećemo fokusirati na to kako ćete vi i korisnici vaše banke upravljati štednim računima. <a href="/beginner/be-your-own-bank-hr.html">Već sam objasnio kako funkcionira zaliha s tri razine u drugom vodiču</a>.</p>
+<p>Što banka treba u stvarnom životu? Sredstva i tekuća likvidnost.</p>
+<p>Odakle kamo? Od vaših kupaca do mnogih usluga koje prihvaćaju njihov novac.</p>
+<p>Dakle, vi morate biti taj most između njih, pružajući:</p>
+<ul>
+<li>zaštićeni računi za brzo primanje/trošenje (lndhub i hostirani kanali) i kovnice e-gotovine koristeći LNbits.</li>
+<li>LN usmjerava likvidnost dobrim rutama i niskim naknadama</li>
+<li>dobar ulazni kapacitet</li>
+<li>pouzdan čvor usmjeravanja</li>
+</ul>
+<p>U našem scenariju, osim vaše vlastite upotrebe bankovnog čvora, i drugi će korisnici povezati svoje aplikacije novčanika s vašim čvorom i koristiti određene usluge. Koje su te "usluge" za pružanje?</p>
+
+<h3 style="color:Yellow;">B. Dobri putovi plaćanja preko Lightning Network</h3>
+<p>Prvo analizirajte s kojim se čvorovima ravnopravnim čvorovima želite povezati. Nisu svi dobri niti vam pružaju najbolje rute. Pokušajte izbjegavati koliko god možete skupe čvorove (provjerite njihove naknade na <a href="https://amboss.space/">Amboss explorer stranici</a>).</p>
+<p><a href="/nodes/lightning-routing-fees-experiment-hr.html">Ovdje sam napravio opsežan eksperiment usmjeravanja</a>, gdje sam objasnio da kanali s 0 osnovnom naknadom i niskom stopom naknade, plus podesiva min/max HTLC količina (<a href="https://blog.bitmex.com/the-power-of-htlc_maximum_msat-as-a-control-valve-for-better-flow-control-improved-reliability-and-lower-expected-payment-failure -rates-on-the-lightning-network/">sustav ventila također je objasnio Rene Pickhardt</a>) vrlo su učinkoviti u pronalaženje najboljih ruta s niskom cijenom za vas i za korisnike vašeg čvora.</p>
+<p>Kao što možete vidjeti u mom članku o eksperimentu s usmjeravanjem, koristio sam postupno povećanje naknada na svojim kanalima i stvarno sam dobro radio.</p>
+<p>Uvijek sam koristio 0 osnovnu naknadu - jer kao što je Rene Pickhardt također otkrio, osnovna naknada ne pomaže u pronalaženju dobrog jeftinog puta, posebno za male iznose. Također želim potaknuti korištenje LN-a za male uplate, tako da nema smisla naplaćivati ​​naknadu od 1 sat za plaćanje od 10 sat.</p>
+<p>Koristio sam više stopu naknade (ppm), to je % ukupnog iznosa. Logičnije i pravednije. Počinjem postupno s 10 stranica u minuti i povećavam ih do 1000, rijetko više, samo kada balans kanala treba podesiti u određenom smjeru.</p>
+<p>Također, ako vidim ravnopravni čvor koji počinje naplaćivati ​​pretjerane naknade na našem kanalu, postupno povećavam i naknadu i također ograničavam maksimalni HTLC. Na ovaj način peer neće jeftino iscrpiti moj kanal. Ako nastave povećavati naknade, jednostavno ću zatvoriti kanal i pronaći drugog dobrog partnera.</p>
+<p>Opsesivno ponovno balansiranje kanala čvora NIJE potrebno i čak može stvoriti poremećaje u protoku vašeg čvora.</p>
+
+<figure>
+    <img src="/assets/images/liquidity-report-th.jpg" class="center">
+    <figcaption>Najvažniji izvještaj - ukupna likvidnost</figcaption>
+</figure>
+
+<p>Na ovoj snimci zaslona možete vidjeti da je ukupna likvidnost (lokalna i udaljena) savršeno uravnotežena. To znači da moj čvor ima dovoljno "prostora" za primanje jednako slanje. To možete postići kontroliranjem dolaznih i odlaznih kanala, na temelju vaše upotrebe čvora (korisničke upotrebe), prilagođavajući se cijelo vrijeme kako ne bi došlo do neproporcionalne razlike između dolazne i odlazne.</p>
+<p>Još jedan aspekt koji ovdje treba uzeti u obzir je veličina kanala. U ovom konkretnom izvješću nije točno prikazano koliko je to, ali NE biste trebali otvarati kanale manje od 3 milijuna sati ili čak 5 milijuna sati. Potpuno su beskorisni i samo ćete ih vi zatvoriti. Kanali od 10-20M do 100M sat su dobri, s dovoljno likvidnosti.</p>
+<p>Imajte na umu aspekt rezervi kanala koji iznosi 1%. Ta su sredstva, da, zaključana dok se kanal ne zatvori.</p>
+
+<h3 style="color:Yellow;">C. Povežite svoj LN čvor s određenim odredišnim čvorovima:</h3>
+<ol>
+<li><p><strong>Dobri LSP (pružatelji usluga likvidnosti) čvorovi</strong></p>
+<p>Ovo su vrlo važni izvori, jer su dobro povezani, njihova centralnost je dobra i posvećeni su velikoj pouzdanosti i velikoj likvidnosti. Ne koriste svi niske naknade, ali općenito da, jer razmišljaju o velikoj količini prijenosa.</p>
+<p>Ovi čvorovi trebaju likvidnost na obje strane kanala, pa je dobro da ih promatrate i održavate tu ravnotežu kada je to potrebno. Prilagodite naknade i min/max HTLC u skladu s tim ili čak napravite kružnu ravnotežu između ostalih svojih kanala.</p>
+</li>
+<li><p><strong>Čvorovi pružatelja novčanika.</strong></p>
+<p>Ako želite imati izravne brze rute i interoperabilnost između mnogih mobilnih korisnika, trebali biste biti dobro povezani s tim čvorovima. To će vama i vašim "bankarskim klijentima" ponuditi brzu i pouzdanu rutu za transakcije s drugim korisnicima putem Lightning mreže.</p>
+<p>Ovi čvorovi trebaju likvidnost s obje strane ili promatrajte ponašanje svojih korisnika, možda imate više spasitelja nego potrošača. Ideja je ne začepiti ih, potrebno je ostati bez likvidnosti sa strane.</p>
+</li>
+<li><p><strong>Razmjenjuje čvorove.</strong></p>
+<p>Ljudi počinju koristiti više razmjena koje nude isplate preko LN-a. I njima je potrebna likvidnost, a vi možete biti most između burzi i korisnika. Klijenti vaše banke također žele kupiti više satnica, koristeći kanale vaše banke.</p>
+<p>Ovi čvorovi trebaju više ravnoteže na svojoj strani. Dakle, morat ćete gurnuti više satnica na njihovu stranu, tako da mogu imati više likvidnosti za povlačenja korisnika. Ovo je dobar par za kružno rebalansiranje s trgovačkim kanalima.</p>
+</li>
+<li><p><strong>Trgovački čvorovi.</strong></p>
+<p>Ovo je također važan izvor da klijentima svoje banke ponudite izravne kanale s onim trgovcima koje više koriste. Dakle, ako već znate koje trgovce žele koristiti, otvorite kanale s njima. Ne samo da nudite likvidnost za vlastite bankovne korisnike, već i za vanjske LN korisnike koji plaćaju tim trgovcima. Provjerite na BTCMap one trgovce u blizini i pitajte ih trebaju li likvidnost. Zatim otvorite kanal s njihovim čvorom.</p>
+<p>Ovi čvorovi trebaju više ravnoteže na vašoj strani kanala. Zašto? Jer ćete imati više korisnika koji plaćaju prema njima. Stoga su dobar par za kružno ponovno balansiranje kanala iz razmjena.</p>
+</li>
+<li><p><strong>Čvorovi Rings of Fire (izborno).</strong></p>
+<p>Ovo je posebna kategorija, nije obavezna. Dobro je za početak, kada nemate toliko kanala i želite da vaš čvor postane “vidljiviji” u mreži. Nemojte ga pretjerano koristiti jer nisu svi čvorovi dobri za vaše potrebe. Mnogi od njih samo žele "pasivni prihod" i pokušavaju izvući satove iz vaših naknada za čvorove.</p>
+<p>Ovi će vam čvorovi uvijek nuditi već balansirane kanale, koristeći prstenaste alate. To je dobra stvar za početak, imat ćete likvidnost na obje strane. Također, ako ste novi u pokretanju čvora, RoF zajednica je od velike pomoći i dat će vam najbolje savjete za konfiguriranje vašeg čvora.</p>
+</li>
+<li><p><strong>Drugi ručno odabrani čvorovi (izborno).</strong></p>
+<p>Ovo je kategorija čvorova koje možete proširiti kada je vaš čvor već dobro povezan i želite doseći vanjska ograničenja LN galaksije. Jesu li čvorovi kojima želite pomoći, čvorovi koji su iz drugih “LN banaka” i želite biti povezani te nisu ni iz jedne od prethodnih kategorija.</p>
+<p>Ali budite svjesni, birajte ih s oprezom i promatrajte ih tijekom početnog razdoblja. Ako se ne isplati, zatvorite ih. Čvorovi koji ne pomiču niti jedan sat tijekom određenog razdoblja potpuno su beskorisni.</p>
+</li>
+</ol>
+
+<h3 style="color:Yellow;">D. Koje usluge možete ponuditi svojim klijentima LN banke?</h3>
+<p>U redu, sada imate dobru likvidnost za svoju LN banku, vrijeme je da pripremite usluge za svoje klijente (prijatelje i obitelj).</p>
+<ol>
+<li><p><a href="https://github.com/hsjoberg/dunder-lsp">Dunder kanali</a> ili 0-conf kanali</p>
+<p>Ovi se (trenutačno) nude u <a href="/wallets/getting-started-blixt-wallet-hr.html">Blixt Wallet</a> mobilnoj aplikaciji, ali se također mogu primijeniti na bilo koju drugu LN wallet aplikacija, ako dodaju ovu značajku (je otvorenog koda). Ovaj postupak trenutno radi samo s LND čvorovima. To su kanali koji u potpunosti nisu skrbnički.</p>
+<p>Praktično je tehnika koja omogućuje dolazna plaćanja kada novčanik nema ulazne kanale, da ima posrednički čvor (LSP).</p>
+<p>a. Presretnite dolazni HTLC</p>
+<p>b. Riješite ga sami umjesto da ga nastavite prosljeđivati ​​(davanjem predslike LSP-u)</p>
+<p>c. Otvorite kanal za novčanik s iznosom push</p>
+<p>Da bi to učinio, novčanik može stvoriti fakturu s rutom koja vodi do LSP čvora s lažnim ID-om kratkog kanala. Jednom kada LSP vidi dolazni HTLC s informacijama o prosljeđivanju koje navode navedeni lažni kratki ID kanala, može nastaviti s gore navedenim protokolom.</p>
+<p>U budućnosti se također može koristiti rampa za razmjenu između "banke" (vašeg čvora) i vaših "kupaca", korisnika koji koriste svoj Blixt novčanik za otvaranje Dunder kanala s vašim čvorom.</p>
+<p><a href="https://darthcoin.substack.com/p/dunder-lsp-and-lightning-box-provider">Ovdje imate namjenski vodič o Dunder poslužitelju i LN Boxu</a>. </p>
+<p>Sličan sustav 0-conf kanala nudi <a href="https://docs.zeusln.app/for-users/embedded-node/lightning-onboarding">Olympus by Zeus</a>.</ p>
+</li>
+<li><p><a href="https://fanismichalakis.fr/posts/what-are-hosted-channels/">Hostirani kanali</a></p>
+<p>Ovi se nude pomoću <a href="https://github.com/nbd-wtf/poncho">Poncho dodatka za CLN čvorove</a> (možda će u budućnosti biti dostupni i za LND čvorove) . Ovi hostirani kanali vrlo su dobri za uključivanje novih korisnika, koristeći mobilnu aplikaciju <a href="https://darthcoin.substack.com/p/obw-open-bitcoin-wallet">Valet</a>, nudeći odmah dolazni likvidnost i moći odmah primati sats.</p>
+<p>Također se može koristiti za razmjenu između vašeg čvora i vaših kupaca, Poncho operater može gurnuti ili uzeti satelite s tog kanala i primiti ih/dati ih korisniku na onchain adresu (potrebna je pouzdana veza između , pa nemojte to raditi sa strancima).</p>
+</li>
+<li><p><a href="https://extensions.lnbits.com/lndhub">LNDHUB računi</a></p>
+<p>Ova se usluga pruža pomoću <a href="https://darthcoin.substack.com/p/getting-started-lnbits">moćnog softvera LNbits</a>, koji je računovodstveni sustav povrh vašeg LN čvor, koji nudi veliki izbor proširenja koje korisnici mogu aktivirati i koristiti za vlastitu upotrebu u poslovnim ili stvarnim situacijama.</p>
+<p>lndhub računi, da, skrbnički su računi koji djeluju kao LN novčanici. Već sam u raznim vodičima opisao slučajeve korištenja ovog nevjerojatnog softvera: <a href="/nodes/ln-bank-with-lnbits-hr.html">The LNbits Bank</a>, <a href="https ://darthcoin.substack.com/p/lnbits-for-small-merchants">LNbits za male trgovce</a>.</p>
+</li>
+<li><p><a href="https://cashu.space/">Ecash mints</a></p>
+<p>S ovom uslugom, pokrenutom s vašom LNbits instancom, možete ponuditi ecash tokene na temelju svoje LN likvidnosti, poput digitalnih darovnih kartica ili kredita.</p>
+<p>Pročitajte više o kovnicama ecash na <a href="https://cashu.space/">https://cashu.space/</a> i <a href="/wallets/bitcoin-adoption-using-ecash-hr.html">ovdje je vodič za DC</a>.</p>
+</li>
+<li><p><a href="https://github.com/hsjoberg/lightning-box">Lightning Box</a></p>
+<p>Lightning Box je pretinac za uplate za <a href="https://lightningaddress.com/">Lightning Addresses</a>. Uglavnom je prikladan za Lightning novčanike koji nisu skrbnički i koji možda nisu uvijek na mreži za primanje plaćanja. <a href="https://darthcoin.substack.com/p/dunder-lsp-and-lightning-box-provider">Ovo je vodič</a>.</p>
+</li>
+<li><p><a href="https://github.com/GrayFinance/lightning-swap">Swaps LN ←→ onchain</a></p>
+<p>Ovo je izborna usluga, samo ako je vaši klijenti zahtijevaju ili žele da vi budete izravni pružatelj. Također mogu koristiti bilo koju drugu vanjsku swap uslugu kao što je: Boltz | Deezy | RoboSats | Cik-cak | FixedFloat | CoinOS | Amboss | DiamondHands</p>
+<p><a href="/nodes/lightning-submarine-swaps-hr.html">Ovdje sam također napisao opsežan vodič kako koristiti zamjene podmornica</a>.</p>
+</li>
+<li><p>Bitcoin Core i Electrum Server</p>
+<p>Da, neke mobilne i desktop aplikacije novčanika trebaju privatni pristup Bitcoin blokovima i/ili SPV-u s Electrum / Fulcrum Serverom.</p>
+<p>Možete ih ponuditi, sa svojim čvorom, samo za svoje prijatelje i obitelj, tako da ne moraju vjerovati nepoznatom čvoru, vjeruju vama.</p>
+<p>Na primjer, Blixt treba BIP157 Neutrino sinkronizaciju. Valet treba Electrum/Fulcrum poslužitelj za sinkronizaciju blokova. I mnoge druge aplikacije novčanika mogu koristiti vaš javni čvor kao privatni pouzdani poslužitelj.</p>
+</li>
+<li><p>Podrška i pomoć</p>
+<p>Da, ovaj dio je vrlo važan, posebno za nove korisnike (vaša obitelj i prijatelji, susjedi itd.) koji će početi koristiti vašu LN banku.</p>
+<p>Dakle, počnite graditi vlastitu web stranicu kao "bazu znanja", s posebnim uputama, tutorijalima, video primjerima koji im mogu pomoći da počnu koristiti Bitcoin. Možete kopirati sve moje vodiče za podskup ako želite. Besplatni su i otvoreni za sve, ne polažem nikakva autorska prava niti novac (ali ako želite dati donaciju kao zahvalu za moj rad, pogledajte dno ovog članka).</p>
+<p>Također uz softverski paket LNbits koji instalirate na svom čvoru, možete aktivirati <a href="https://extensions.lnbits.com/lnticket">proširenje ulaznica za podršku</a> i vaši klijenti mogu nazvati vama za plaćenu podršku, ako trebaju naprednu pomoć. <a href="https://extensions.lnbits.com/">LNbits ima mnogo drugih korisnih proširenja</a> koja bi mogla pomoći vašem odnosu s klijentima vaše banke.</p>
+</li>
+</ol>
+<hr style="height:2px">
+
+<p><img src="/assets/images/lnbits-pos-fruits.jpg" class="center"></p>
+
+<h2 style="color:Orange;">VAŠI KLIJENTI / KORISNICI VAŠE BANKE</h2>
+<p>Razgovarajmo također o tome tko su ti korisnici vaše LN banke i što mogu i trebaju raditi, njihov zadatak i korištenje Bitcoin Lightning mreže.</p>
+<h3 style="color:Yellow;">Tko će koristiti takvu Bitcoin LN banku?</h3>
+<ol>
+<li><p>Članovi vaše obitelji</p>
+<p>Najvažniji su, vjeruju vama i vašem znanju. Nemojte ih razočarati. Dajte im prave alate za transakcije jedni s drugima i s drugim korisnicima bitcoina.</p>
+</li>
+<li><p>Vaši prijatelji</p>
+<p>Da, oni koji su vam sve ove godine postavljali glupa pitanja o “cijeni bitcoina” i “vlade će ga zatvoriti”… znate, beskrajni <a href="https://nocoinerexcuse.com/">“ nocoiner excuse”</a>.</p>
+<p>Doći će k vama kada za to dođe vrijeme. Stoga budite spremni s pravim alatima i uslugama za njih. VI ćete biti jedini kome će vjerovati.</p>
+</li>
+<li><p>Vaš lokalni susjed u maloj trgovini</p>
+<p>Da, NEMOJTE IH IGNORIRATI! Oni su najvažniji u Bitcoin prostoru. Bez trgovaca koji prihvaćaju BTC, cijeli smisao ove LN banke je potpuno beskoristan.</p>
+<p>Ovdje sam objavio <a href="/general/bitcoin-adoption-story-hr.html">priču o tome kako sam uvjerio lokalnog vlasnika trgovine</a> da počne koristiti Bitcoin. <a href="https://stacker.news/items/692855/r/DarthCoin">I još jedan ovdje</a>. Nije li tako teško. Također možete početi organizirati okupljanja, poput ovih nevjerojatnih inicijativa: <a href="https://2140meetups.com/">2140Meetups</a> i <a href="https://ambassadeur.decouvrebitcoin.fr/ en/the-map/">Ambasadori Bitcoina</a>.</p>
+<p>Malo malih trgovaca neće biti voljno i sposobno pokrenuti vlastite čvorove. Da, to bi bilo idealno, ali neki su stari ili ne toliko upućeni u tehnologiju, ali vjeruju TEBI, ujaku Jimu i znanju.</p>
+</li>
+</ol>
+<p>Predlažem da ne idete na "komercijalni" način da ponudite ovu vrstu usluga LN Banke većoj publici s nepoznatim korisnicima. Neka bude jednostavno, blizu vas, s pouzdanim korisnicima. Ono što možete učiniti je podučiti druge da pokrenu isti scenarij u svojoj zajednici, a kasnije se možete povezati s tim "prijateljskim LN bankama" koje poznajete i napraviti širu pokrivenost međusobnim povezivanjem banaka. Ovo će stvoriti male "centralizirane" lokalne LN banke u velikoj decentraliziranoj Lightning mreži.</p>
+
+<h3 style="color:Yellow;">Kako će ti korisnici koristiti usluge vaše LN banke?</h3>
+<p>Za njih će biti vrlo jednostavno (ako ih dobro podučite). Oni samo moraju instalirati, konfigurirati i koristiti određene mobilne/stolne aplikacije za pristup svom novcu. Ne moraju se previše brinuti o tome koliko duboko LN radi, likvidnosti, rutama i sličnim stvarima.</p>
+<p>Da, na određenoj razini, morali bi znati osnove Bitcoina i LN-a, ali samo na površini, ne baš tehničke stvari. Zato ćete morati izgraditi svoju stranicu vodiča s člancima koji su im najpotrebniji.</p>
+<p>Imajte na umu važan aspekt: ​​svi ti mobilni LN čvorovi (Blixt, Zeus, Valet, Breez, Phoenix, Electrum) koriste "privatne kanale" (nenajavljene), tako da ti kanali NE VRŠE NIKAKVO ROUTIRANJE. Koriste se isključivo za vlastita plaćanja.</p>
+<p>Prvo, trebali biste im preporučiti upotrebu Android mobilnog uređaja, posebno s čistim OS-om otvorenog koda kao što je GrapheneOS ili CalyxOS.</p>
+<p>Onda kao softverske aplikacije na njihovim mobilnim uređajima rekao bih da koriste ove:</p>
+<ul>
+<li>Za početak - <a href="https://darthcoin.substack.com/p/obw-open-bitcoin-wallet">Valet</a>. Jednostavan za pokretanje, LN mobilni čvor, također s hostiranim kanalima i lakim jednostavnim sučeljem. Nakon što ga pokrenete, možete odabrati jednog ili više HCP-a (davatelji hostiranih kanala) i biti spremni za primanje satelita putem LN-a. Ako trebate više likvidnosti, počnite otvarati normalne LN kanale s drugim čvorovima ili ulaznim LSP čvorovima.</li>
+<li>Za sljedeću razinu - <a href="/wallets/getting-started-blixt-wallet-hr.html">Blixt</a>. Napredniji alati i značajke za pokretanje punog LND čvora na njihovom mobilnom uređaju. Otvaranje Dunder kanala možete koristiti kod svoje LN banke ili kod drugih pružatelja usluga. Također možete otvoriti druge kanale na normalan način s bilo kojim drugim čvorom, uključujući ulazne LSP čvorove.</li>
+<li>Dodatno za lndhub račune - <a href="https://docs.zeusln.app/for-users/remote-connections/lndhub">Zeus</a>, <a href="https://bitbanana .app/">BitBanana</a> ili <a href="/wallets/bluewallet-funding-sources-hr.html">Bluewallet</a>. Jednostavan za korištenje s LNBits lndhub računima, kao jednostavni LN novčanici. Nema potrebe za otvaranjem bilo kakvog kanala, vaša LN banka osigurava likvidnost, vi je jednostavno koristite, odmah.</li>
+<li>Dodatno ili izborno možete ponuditi ecash tokene, a vaši korisnici mogu koristiti <a href="https://enuts.cash/">eNuts</a> ili <a href="https://minibits.cash/ ">Minibits</a> novčanici. Potpuno kompatibilan s bilo kojim LN plaćanjem.</li>
+<li>LN računi putem NWC veza - koristeći <a href="https://shockwallet.app/">Shocknet Wallet</a> s Lightning Pubom i <a href="https://github.com/getAlby/ go/">Alby Go</a> s Alby Hub računima.
+<li>Za vas, kao operatera čvora - <a href="https://docs.zeusln.app/category/remote-connections">Zeus</a>. Potpuna kontrola vašeg čvora s vašeg mobilnog uređaja. Snažna mobilna aplikacija s puno dobrih značajki i može se koristiti s višestrukim računima / vezama / LN implementacijama.</li>
+<li>Za stolne klijente - <a href="https://electrum.org/">Electrum</a> / <a href="https://www.sparrowwallet.com/">Sparoow</a> i <a href="https://blixtwallet.com/">Blixt macOS</a>. Uskoro ćemo imati i Blixt za Linux desktop. Electrum također ima integrirane zamjene.</li>
+<li>Za vas, kao operatera čvora, alati za upravljanje radnom površinom kao što su <a href="https://www.ridethelightning.info/">RTL</a> i <a href="https://thunderhub.io/ ">Thunderhub</a>. Također možete koristiti <a href="https://github.com/edouardparis/lntop">LNTop</a>, <a href="https://github.com/cryptosharks131/lndg">LNDg</a >, <a href="https://github.com/niteshbalusu11/lndboss">LND BoS GUI</a> kao alate za podešavanje vašeg čvor.</li>
+<li>Bilo koja druga dodatna aplikacija LN novčanika ako im je potrebna, kao što sam <a href="/wallets/lightning-wallets-comparison-en.html">opisao u ovom vodiču za usporedbu o LN novčanicima</a>.</li >
+<li>Da biste spremili početnu vrijednost novčanika, detalje o računu itd., predlažem da koristite <a href="https://keepass.info/">KeePass</a> aplikaciju za upravljanje lozinkama. Korisnici MORAJU naučiti kako zaštititi svoje novčanike i spremiti te podatke na sigurno mjesto.</li>
+</ul>
+
+<h3 style="color:Yellow;">Što bi vaši klijenti trebali učiniti da zadrže svoj protok?</h3>
+<p>Da, ovo je još jedan aspekt o kojem korisnici moraju voditi računa: njihova vlastita likvidnost u njihovim LN novčanicima.</p>
+<p>Opća pravila su:</p>
+<ul>
+<li>Držite svoje LN kanale otvorenima koliko god možete</li>
+<li>Otvorite kanale uglavnom sa svojom LN bankom, ali također možete otvoriti odvojeno s drugim čvorovima.</li>
+<li>Vaši kanali trebali bi imati iznos koji redovito koristite za plaćanje potrošnje, tako da neće biti potrebno da bude prevelik. Rekao bih da će kanali između 1M sat i 5-6M sat biti dovoljni. I nema potrebe da ih imate previše, 3-4 kanala po LN aplikaciji će biti dovoljno. I svaki bi mogao imati drugačiji čvor za veću redundantnost i korištenje <a href="https://docs.lightning.engineering/the-lightning-network/pathfinding/multipath-payments-mpp">MPP (višedijelni plaćanja)</a>.</li>
+<li>Za ponovno punjenje ili pražnjenje kanala <a href="/nodes/lightning-submarine-swaps-hr.html">koristite usluge zamjene opisane u ovom vodiču</a> ili koje nudi vaša LN banka.</li >
+<li><p>Koristite što više LN plaćanja, a ne onchain. Ne samo zato što bi naknade mogle biti jeftinije, već i zbog brzine transakcije. Onchain tx-ovi trebaju najmanje 3-6 potvrda da bi se smatrali obavljenima. To znači najmanje 30 m.</p>
+<p>Onchain = je mreža poravnanja, vaša vlastita “središnja banka”, vaš trezor.</p>
+<p>LN = je mreža plaćanja (<a href="/beginner/ln-airport-analogy-hr.html">pogledajte vodič za analogiju zračne luke</a>), vaši džepovi, vaša “komercijalna banka” dnevna potrošnja.</p>
+</li>
+<li>Provjerite na <a href="https://btcmap.org/">BTCMap</a> one trgovce u blizini i obavite kupnju kod njih. <a href="/merchants/bitcoin-lightning-payments-irl-hr.html">Ovdje je i popis primjera</a> plaćanja u stvarnom životu s trgovcima koji prihvaćaju Bitcoin Lightning plaćanja.</li>
+<li><a href="/beginner/pay-with-bitcoin-hr.html">Plaćajte račune za režije Bitcoinom</a> - popis mjesta</li>
+<li><a href="/beginner/buy-bitcoin-hr.html">Kupujte bitcoine putem Lightning Network</a> - popis burzi i brokerskih aplikacija</li>
+<li><a href="/beginner/be-your-own-bank-hr.html">Koristite trorazinsku metodu skrivanja</a>. Nemojte držati sve svoje bitcoine u svojim mobilnim uređajima. Podijelite svoje zalihe u mnogo različitih novčanika (onchain ili LN).</li>
+</ul>
+
+<figure>
+    <img src="/assets/images/3levels-stash.jpg" class="center">
+    <figcaption>Shema metode skrivanja u 3 razine</figcaption>
+</figure>
+
+<p>I mudro trošite satnice. Da, dobro je trošiti svoje satove za stvaranje Bitcoin kružne ekonomije, ali također ne previše. Bitcoin je tehnologija štednje, a ne kao fiat, tehnologija konzumerizma.</p>
+<p>Zato trošite satove samo kada je to stvarno potrebno i za stvari koje su korisne i potrebne. Ne kupujte bezveze. Kasnije ćete požaliti.</p>
+<p>Zapamtite da su bitcoini ograničeni na 21 milijun, uvijek, zauvijek. Da, možete zaraditi više, ali zašto ne sačuvati te satove za kasnije, kada vam stvarno budu najpotrebniji.</p>
+<p>Nadam se da će vam ovaj vodič pomoći da otvorite svoju "viziju" buduće upotrebe Bitcoina i pomoći vam da pokrenete kružno gospodarstvo Bitcoina u svojoj lokalnoj zajednici.</p>
+<p>Taaaako, mislim da je to to... SRETNO MUNJE!</p>
+</body>
+</html>
+</article>
