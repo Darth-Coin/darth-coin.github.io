@@ -1,0 +1,67 @@
+---
+layout: default
+title: Korištenje Tailscale tunela s vašim čvorom
+---
+<article>
+<!DOCTYPE html>
+<html lang="hr">
+<meta name="description" content="Vodiči za Bitcoin i Lightning: Kako se povezati sa svojim kućnim čvorom koristeći Tailscale">
+<body>
+<a href="/nodes/tailscale-vpn-your-node-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/tailscale-vpn-your-node-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/tailscale-vpn-your-node-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/tailscale-vpn-your-node-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/tailscale-vpn-your-node-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/tailscale-vpn-your-node-nl.html">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/tailscale-vpn-your-node-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<blockquote style="color:Tomato;"><em>
+<p>Izvorno objavljeno na <a href="https://darthcoin.substack.com/p/tailscale-to-your-node">Substack</a> 2. listopada 2022. Ažurirano ovdje 27. prosinca 2024. .</p>
+</em></blockquote>
+
+<h3>Kako se povezati s kućnim čvorom koristeći Tailscale privatni VPN tunel</h3>
+<p>Vidio sam mnogo korisnika sa svojim čvorovima preko Tora i koji imaju mnogo problema s povezivanjem mobilnih aplikacija s čvorom. Dakle, jednostavno rješenje je koristiti Tailscale ili ZeroTier (radi na isti način). <a href="https://openoms.github.io/bitcoin-tutorials/zerotier/">Ovdje je i openomov vodič kako postaviti ZeroTier sa svojim čvorom</a>. Druga slična opcija je korištenje <a href="https://holesail.io/">Holesail</a>.</
+<p>Napredniji pristup bit će korištenje <a href="https://www.freecodecamp.org/news/build-your-own-wireguard-vpn-in-five-minutes/">WireGuard VPN< /a></p>
+<p>Nema smisla koristiti Tor za povezivanje vaših mobilnih uređaja s VLASTITIM čvorom. Zar ne vjerujete sebi za to? Razumijem ako se povežete s nekim drugim čvorom preko Tor-a, jer ne želite otkriti svoju IP adresu, ali s vlastitim čvorom to nije potrebno.</p>
+
+<p><img src="/assets/images/tunnel-tailscale.jpg" class="center"></p>
+
+<h3 style="color:Orange;">Što je Tailscale?</h3>
+<p><a href="https://tailscale.com/">Tailscale</a> je VPN bez konfiguracije koji stvara sigurnu mrežu između vašeg kućnog Tor čvora i vaših ostalih uređaja. Čak i kada je odvojen vatrozidom ili podmrežama, Tailscale jednostavno radi. Tailscale će vašem Umbrelu/MyNodeu/Raspiblitzu dodijeliti stabilnu IP adresu i automatski dodijeljenu domenu koja ostaje dosljedna, bez obzira na koju je mrežu povezan vaš Umbrel. To je poput lokalne mreže koja radi posvuda. Tailscale se nadograđuje na WireGuard® Noise protokol enkripcije, recenziranog i pouzdanog standarda.</p>
+<h4>Koja je mreža Tailscale?</h4>
+<p>Ponovimo neke aspekte za one korisnike koji ne razumiju u potpunosti pojmove umrežavanja. Imamo sljedeće vrste mreža, a neke od njih su dio širom otvorene INTERNET mreže:</p>
+<ul>
+<li>Nazivi javnih internetskih domena / IP-ovi: google.com / 142.250.74.78, ovo su nazivi IP-ova/domena koje svatko povezan s internetom može "vidjeti" i njima pristupiti, a održavaju ih javni DNS poslužitelji. Morate kupiti ili unajmiti IP od ISP-a kako biste njime mogli upravljati za vlastite strojeve/sustave.</li>
+<li>Privatni IP-ovi: 192.168.1.x / 10.0.0.x / 172.16.0.x Ovo su IP-ovi vidljivi SAMO unutar vašeg LAN-a (kućne mreže) i održava ih vaš kućni usmjerivač, dodjeljujući po jedan svakom vašem uređaja spojenih na taj router. U konfiguraciji Umbrela također ih možete vidjeti u datoteci lnd.conf kao jednu IP adresu po usluzi /aplikaciji. Dakle, ove IP adrese NISU dostupne izvana, samo ako konfigurirate u svom usmjerivaču da prosljeđuje određene priključke na određene IP adrese unutar vašeg LAN-a.</li>
+<li>Javni VPN IP-ovi: posebne usluge koje vam nude osigurani tunel do određenog poslužitelja, koji vam nudi namjenski javni IP za korištenje za pristup internetu. Kao strawman, lažni identitet za skrivanje vašeg stvarnog IP-a / lokacije. Ove IP adrese su vidljive i dostupne svima na internetu.</li>
+<li>Privatne VPN IP adrese: posebne privatne IP adrese, generirane na javnom poslužitelju, s enkripcijom i sigurnim pristupom, koje korisnicima nude namjenski tunel kroz interni privatni raspon IP adresa, izravno do vaših kućnih uređaja. Svaka točka/uređaj će imati svoj IP, u istom rasponu. Ovo je ono što koristi Tailscale.</li>
+<li>Mreža Tor: posebna mreža koja koristi normalnu internetsku mrežu, ali nije vidljiva i dostupna običnim preglednicima/uređajima, potreban im je namjenski proxy koji pretvara i dekriptira onion adrese kako bi bili dostupni. Sav promet na Tor mreži je šifriran P2P i nije potrebno koristiti otvorene portove, svaka onion adresa može se interno preusmjeriti na određeni port.</li>
+</ul>
+<p>Dakle… s instaliranim Tailscaleom u Umbrel/MyNode/Raspiblitz čvoru praktički možemo preskočiti sporu Tor mrežu s greškama i povezati naše mobilne uređaje s našim čvorom.</p>
+
+<h4>BUDITE SVJESNI!</h4>
+<ul>
+<li>Ovo ne znači da možete samo staviti dodijeljeni Tailscale IP za vaš čvorni stroj u preglednik i prijaviti se. NEE! Nimalo! To je samo za zamjenu onion adrese/veze između vaših mobilnih aplikacija i vašeg čvora.</li>
+<li>Korištenje Tailscalea ne znači da je vaš čvor u potpunosti dostupan u Clearnetu i da više ne koristi Tor! Ne, sve ostaje isto, vaš se čvor i dalje sinkronizira putem Tor-a, još uvijek ne prikazuje vašu stvarnu javnu IP/lokaciju, samo što imate namjenski privatni pristup koristeći bržu vezu od Tor-a.</li>
+<li>Tailscale možda prikuplja minimalne podatke o vašim povezanim uređajima, ali sav promet je šifriran tako da praktički NE ZNAju što radite s tim uređajima ili kakvu vrstu podataka imate. Baš kao što vaš susjed zna da u kući imate hladnjak, televizor ili mikrovalnu pećnicu, ali ne zna koristite li ih i za što ih koristite. Dakle, vaši bitcoini su sigurni, bez brige.</li>
+<li>Ne bih preporučio korištenje Tailscalea za pristup vašem čvoru putem SSH-a, ili barem SAMO ako to radite sa sigurnog čistog uređaja. SSH pristup trebao bi se koristiti SAMO s vašeg lokalnog LAN-a i s vaših sigurnih kućnih uređaja.</li>
+</ul>
+
+<h3 style="color:Orange;">Primjer upotrebe</h3>
+<h4>Povežite mobilnu aplikaciju Zeus sa svojim čvorom</h4>
+<ul>
+<li>Idite na <a href="https://tailscale.com/">tailscale.com</a> i kreirajte račun. Nema potrebe za korištenjem pravog identiteta.</li>
+<li>Instalirajte Tailscale u Umbrel i prijavite se s tim stvorenim računom.</li>
+<li><p>U svom čvoru idite na edit lnd.conf i dodajte redak:</p>
+<p>restlisten=100.x.x.x:8080</p>
+<p>(gdje je 100.x.x.x vaš privatni IP dodijeljen od strane Tailscale za vaš čvor)</p>
+</li>
+<li>Instalirajte Tailscale na svoj mobilni uređaj i prijavite se istim kreiranim računom. Odmah ćete u aplikaciji vidjeti IP adresu vašeg čvora. Bit će privatni IP, a ne javni. Kopiraj.</li>
+<li>Otvorite Zeus i slijedite upute iz Umbrela - Connect wallet - Zeus kako bi trebala biti Tor veza, skenirajte QR kod sa Zeusom i prije nego što pritisnete save config, uklonite Tor prekidač i zamijenite sve onion adrese s tim Tailscale IP-om vašeg čvora (vidi točku 3). Gotovo, pritisnite gumb za spremanje i spojit ćete se za nekoliko trenutaka.</li>
+</ul>
+<p>Dakle, praktički će Tailscale stvoriti šifrirani privatni VPN tunel, ali koristeći internet, između vašeg mobilnog uređaja (koji se nalazi izvan vašeg LAN-a) i dati vam izravnu vezu s vašim čvorom kao da ste kod kuće i povezujete se sa svojim čvorom putem lokalnog IP-a. To je sve što radi Tailscale.</p>
+<p>Sada… možete pokušati isto s drugim aplikacijama koje trebate povezati sa svojim čvorom: Electrum, Bluewallet (samo za Electrum poslužitelj, LNDhub nije podržan s Tailscale), Sparrow, Spectre. Ali zapamtite, svaki put kada želite povezati ove mobilne aplikacije sa svojim čvorom izvan vašeg LAN-a, morate prvo pokrenuti Tailscale klijent kako biste stvorili tu VPN vezu, inače aplikacije ne mogu "vidjeti" ili razumjeti taj Tailscale IP. Isto kao i za Tor, kada ste koristili Orbot.</p>
+<p>Druga upotreba također može biti konfiguracija vašeg Tailscale računa s nazivom javne domene, i u tom trenutku možete pristupiti svojim aplikacijama čvorova kao što su LNbits ili BTCPay poslužitelj putem tog namjenskog naziva domene, iza Tailscale privatnog VPN-a. Ali ovo je napredna usluga i morate kupiti naziv domene i preusmjeriti ga na svoj Tailscale račun. Trenutno značajka “MagicDNS” u Tailscaleu ne nudi jednostavan način povezivanja CNAME-a s jednim od vaših Tailscale strojeva.</p>
+<p>Ali testirao sam, primjerice, na mobilnom uređaju s aktiviranim Tailscale VPN-om za pristup mojim LNBitovima i dobro je radio. Koristite svoj Tailscale IP:3007 u pregledniku i radi savršeno. Ali da, ovo nije za javnu upotrebu, samo za osobnu upotrebu.</p>
+</body>
+</html>
+</article>
