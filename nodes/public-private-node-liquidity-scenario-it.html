@@ -1,0 +1,175 @@
+---
+layout: default
+title: Scenario di liquidità dei nodi pubblici e privati
+---
+<article>
+<!DOCTYPE html>
+<html lang="it">
+<meta name="description" content="Guide su Bitcoin e Lightning: come utilizzare 3 tipi di nodi per la liquidità pubblica e privata">
+<body>
+<a href="/nodes/public-private-node-liquidity-scenario-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/public-private-node-liquidity-scenario-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/public-private-node-liquidity-scenario-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/public-private-node-liquidity-scenario-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/public-private-node-liquidity-scenario-nl.html">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/public-private-node-liquidity-scenario-hr.html">Hrvatski <img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/public-private-node-liquidity-scenario-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<blockquote style="color:Tomato;"><em>
+<p>Pubblicato originariamente su <a href="https://darthcoin.substack.com/p/node-liquidity-guide">Substack</a> il 25 novembre 2021. Aggiornato qui il 27 dicembre 2024.</p>
+</em></blockquote>
+
+<h3>Come utilizzare 3 tipi di nodi per liquidità pubblica e privata</h3>
+<p>Molti nuovi utenti ora utilizzano nodi LN. Ma entrano in questo mondo affascinante senza avere una conoscenza di base su come funziona Lightning Network e cosa dovresti prendere in considerazione come operatore di nodi.</p>
+
+<p><img src="/assets/images/ln-liquidity-management.jpg" class="center"></p>
+
+<p>Ho scritto molte guide sull'uso di app, nodi, strumenti specifici ecc., puoi dare un'occhiata a tutta la <a href="https://darth-coin.github.io/nodes/nodes.html">mia pagina Github</a> per loro.</p>
+<p>In questa cercherò di spiegare come ho fatto per il mio nodo e come lo vedo dal mio punto di vista. Forse mi sbaglio, forse no. Ma almeno darò qualche dritta in più a tutti quei nuovi utenti che ora si stanno lanciando nella gestione di un nodo.</p>
+<p>Questa guida non entrerà nei dettagli, è solo un po' superficiale per darti, come nuovo utente, un suggerimento sulla direzione in cui guardare. Ognuno in seguito potrà creare il proprio scenario, tenendo in considerazione alcuni aspetti spiegati qui.</p>
+
+<h4 style="color:Yellow;">Perché eseguire un nodo?</h4>
+<p>Ci sono molte ragioni, <a href="https://darthcoin.substack.com/p/umbrel-bitcoin-ln-node">come ho descritto nella guida al nodo Umbrel</a>. Le mie ragioni personali sono:</p>
+<ul>
+<li>avere un nodo personale, privato, nelle mie mani</li>
+<li>essere in grado di instradare le mie transazioni (transazioni) quando spendo sats usando LN e non dipendere dalla liquidità di altri nodi</li>
+<li>essere in grado di aiutare anche la rete, con liquidità dove serve (commercianti, in particolare quelli piccoli che gestiscono i propri nodi e hanno bisogno di liquidità in entrata).</li>
+<li>non sono interessato a "arricchirmi" con le commissioni di instradamento, in realtà abbasso le commissioni dei miei canali a un certo punto che sono ridicolmente economiche</li>
+<li>aiutare i principianti con altri nodi e anche testare altre app con il mio nodo</li>
+</ul>
+<blockquote style="color:Tomato;"><em>
+<p>Ritengo che non siamo ancora arrivati ​​al punto in cui questo mercato delle commissioni è abbastanza maturo da essere preso come priorità. Per prima cosa dobbiamo creare una rete solida per i pagamenti. Soffocandolo con commissioni elevate e avidità si faranno più danni che benefici. Alcuni novellini prendono troppo sul serio questo gioco di guadagnare sat dal routing e a volte non sanno usare bene gli script e gli strumenti per gestire le commissioni e questo avrà ripercussioni su tutto il resto della rete, a volte addirittura disabilitano i canali per il routing perché li considerano "non redditizi". È semplicemente stupido, è totalmente contro l'intero concetto di LN.</p>
+</em></blockquote>
+<p>Quindi, come alcuni di voi già sanno, gestisco un nodo Umbrel, non su un RaspPi, ma su un NUC Brix, DebianOS. Questo è il mio "nodo pubblico". Ma gestisco anche un altro nodo, privato, che nessuno sa quale sia. Utilizzato per cose veramente private. A parte questo, utilizzo anche Blixt, un altro tipo di nodo, in un portafoglio mobile. È un ottimo compagno per il mio nodo Umbrel!</p>
+
+<p><img src="/assets/images/secret-node.jpg" class="center"></p>
+
+Quindi, approfondiamo come gestire la liquidità per questi nodi. Questo scenario è una proposta, non è necessario che tu lo faccia esattamente. È solo un riferimento per le cose che puoi fare con i nodi LN.
+<hr style="height:2px">
+
+<h2 style="color:Orange;">A. Nodo LN Umbrel/Raspiblitz/myNode/Start9</h2>
+<h3 style="color:Yellow;">Caratteristiche</h3>
+<ul>
+<li>Questo sarà la tua "banca commerciale pubblica".</li>
+<li>Qui ci saranno la maggior parte del routing e della liquidità. È il tuo HUB principale per la liquidità.</li>
+<li>Può essere utilizzato anche per i pagamenti (onchain o LN).</li>
+<li>Può essere utilizzato come base per i tuoi wallet LNDHUB (zio Jim), con <a href="https://darthcoin.substack.com/p/umbrel-lndhub-bluewallet">Bluewallet LNDHub</a> o <a href="https://darthcoin.substack.com/p/umbrel-node-lnbits">LNBits LNDHub</a> o <a href="https://darth-coin.github.io/wallets/getting-started-alby-hub-it.html">Alby Hub + Alby Go</a>.</li>
+<li>È il tuo processore pubblico di pagamenti. Ma può essere utilizzato come "front-processor" per gli altri pagamenti da Blixt / Zeus Private Node.</li>
+</ul>
+<h3 style="color:Yellow;">Liquidità</h3>
+<p>Cos'è veramente la liquidità? È praticamente liquido, il flusso d'acqua e i tuoi canali LN sono recipienti d'acqua, tubi. Quindi per avere un sistema idrico sano, devi avere tubi sani e acqua pulita. Se è sporco e con colli di bottiglia, il tuo sistema idrico si romperà e potrebbe finire in brutte situazioni. Tieni a mente questo aspetto.</p>
+<p>Come otteniamo questa sana liquidità? Scegli con saggezza i tuoi pari, i nodi a cui collegherai il tuo nodo e aprirai canali con loro.</p>
+<p>Non tutti i giocatori in questa rete sono bravi. Alcuni di loro giocano lealmente, altri no, alcuni mantengono i loro nodi in un buono stato, ad altri non importa troppo. Ma tutti questi aspetti influenzeranno te e l'intera rete allo stesso modo. Se sei connesso solo a nodi/peer scadenti, ci cadrai e non sarai nemmeno in grado di effettuare le tue transazioni.</p>
+<p>Lightning Network è come un organismo vivente: nutrilo bene e otterrai risultati.</p>
+
+<center>
+<video width="640" height="480" commands>
+<source src="https://z-kkb4jvzl1og7.bitchute.com/mXKx9bu48JeM/iARM9iEWbtbU.mp4" type="video/mp4">
+</video>
+</center>
+
+<p>Per un nodo domestico, è bene avere un equilibrio tra la liquidità totale in entrata e quella totale in uscita.</p>
+<p>Non c'è bisogno di avere ogni canale perfettamente bilanciato. Questo è un mito che circola. Stavo testando con canali perfettamente bilanciati e non ha aiutato per niente, sprecavo solo sat in commissioni pagate per ribilanciare. Alcuni utenti usano script per il ribilanciamento. Io no. Li usano per guadagnare qualche sat dall'arbitraggio tra peer. Io lo considero uno spreco di tempo e sat.</p>
+
+<figure>
+<img src="/assets/images/liquidity-report-th.jpg" class="center">
+<figcaption>Questo è il report più importante: report sulla liquidità totale</figcaption>
+</figure>
+
+<p>Ciò che entra da un canale, uscirà da un altro. Mantieni i tuoi canali sempre online, buone commissioni, buoni peer e non avrai mai problemi con canali non bilanciati.</p>
+<p>Se hai un buon numero di canali/connessioni con molti peer e un buon rapporto tra saldo totale remoto e locale, non avrai mai problemi con l'instradamento dei pagamenti e delle transazioni da altri peer. Ma con solo 2-3-5 canali scoprirai che alcuni dei tuoi pagamenti non saranno ben indirizzati, a volte pagherai commissioni elevate o peggio, le tue transazioni non andranno mai a buon fine.</p>
+<p>Quindi, inizia ad aprire canali con:</p>
+<ul>
+<li>quei commercianti/servizi LN che necessitano di liquidità in entrata. Otterrai un buon peer con buone connessioni che può instradare le tue transazioni, ma puoi anche usarlo per indirizzare i pagamenti per i suoi prodotti/servizi, attraverso quel canale diretto. Aiutare i piccoli commercianti con i nodi significa aiutare l'intera rete, non solo te.</li>
+<li>Rings of Fire/LN+ può essere un buon modo per iniziare ad avere dei peer, di solito fanno prima canali bilanciati, per una rapida opportunità di poter inviare e ricevere transazioni. Guarda il mio elenco qui: <a href="https://darthcoin.substack.com/p/lightning-network-is-awesome">Cose fantastiche che puoi fare su LN</a></li>
+<li>Alcuni buoni nodi con punteggio BOS, ma usa una quantità maggiore di sat per quelli, come 5-10-20M sat/canale. Quindi puoi estrarne metà dei fondi per bilanciarli e riutilizzare anche quei sat per aprire più canali.</li>
+<li><a href="/nodes/managing-lightning-node-liquidity-it.html">Qui ho messo un elenco di selezione con nodi interessanti da avere come peer.</a></li>
+</ul>
+<p>Quindi gioca con le commissioni dei canali. Utilizzo l'app Thunderhub perché è facile da capire.</p>
+
+<figure>
+<img src="/assets/images/ln-channels-fees.jpg" class="center">
+<figcaption>Report dettagliato per le commissioni dei canali nell'app Thunderhub</figcaption>
+</figure>
+
+<figure>
+<img src="/assets/images/th-fees.png" class="center">
+<figcaption>Modifica delle commissioni per un canale nell'app Thunderhub</figcaption>
+</figure>
+
+<p>Abbassa le commissioni per canale quando hai la maggior parte dei fondi dalla tua parte e aumenta le commissioni quando perdi più del 50%, mantenendo un giusto rapporto di saldo con le commissioni dei tuoi pari. Ognuno è libero di utilizzare il proprio livello di commissioni. È un libero mercato, ma coloro che agiscono per avidità saranno sempre "puniti" e il protocollo salterà la loro rotta perché troppo costoso.</p>
+<p>Dovrai osservare molto i tuoi pari (<a href="https://amboss.space/">pagina Amboss</a> o <a href="https://mempool.space/lightning">pagina Mempool LN</a> sono un ottimo strumento per questo):</p>
+<ul>
+<li>quali pari hanno, al 2° e 3° livello</li>
+<li>quali commissioni usano, con quale frequenza le cambiano</li>
+<li>quanti canali hanno</li>
+<li>quanti canali chiudono in un certo periodo di tempo. Chiudere troppi mezzi non è così affidabile per mantenere un contratto. Aprire un canale è un contratto. Se il tuo peer lo chiude solo perché dopo un po' non stava instradando troppo (per i suoi calcoli) significa che non è interessato a rendere LN un sistema di pagamento, sta solo cercando profitti rapidi.</li>
+</ul>
+
+<figure>
+<img src="/assets/images/node-community-metrics.png" class="center">
+<figcaption>Amboss Community Metrics per un nodo</figcaption>
+</figure>
+
+<p>Tieni i tuoi canali aperti il ​​più possibile. La cronologia del tuo nodo è molto importante a lungo termine. Ognuna delle tue azioni avrà un risultato nel tempo. Chiudi solo quei canali che sono offline da molto tempo o il peer è "morto". Quelli, in effetti, sono canali inutili.</p>
+<p>I canali di solito iniziano a spostare i sat dopo un po' di tempo e solo se quel nodo è in buone condizioni. Se vedi che il peer non sta aprendo più canali, è in modalità stagnazione, sì, potresti chiudere il canale con quel peer "sonnolento". Un canale che non ha altri percorsi connessi è un canale morto e non ti servirà per niente. Sì, punirai quel peer, ecco perché prova a contattarlo prima e chiedi quali sono i suoi piani. Se non risponde... uccidi il canale.</p>
+<p><a href="https://community.umbrel.com/t/to-read-do-all-lightning-channels-need-to-be-balanced/817">Qui ho messo insieme un ottimo thread di Czino</a>, che spiega un po' di più sul bilanciamento.</p>
+<p>Siamo ancora nella fase iniziale di Lightning Network, gli utenti non effettuano ancora molti pagamenti tramite LN, ma è bene essere preparati da ora, costruendo il tuo nodo, rendendolo noto, forte, stabile, rispettato. Il tuo nodo è la tua banca, è il tuo prestigio, non è solo un gioco.</p>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">B. Nodo Blixt / Zeus LN (mobile)
+
+<h3 style="color:Yellow;">Caratteristiche</h3>
+<ul>
+<li>Questo sarà il nostro "banco di spesa"</li>
+<li>Banca tascabile, la maggior parte dei tuoi piccoli pagamenti di spesa, in movimento.</li>
+<li>Canali privati ​​con il nostro nodo Umbrel / home</li>
+<li>Canali privati ​​che utilizzano Dunder o Olympus LSP</li>
+<li>Canali privati ​​con altri nodi</li>
+</ul>
+<p>Ecco alcune guide su Blixt e Zeus:</p>
+<ul>
+<li><a href="/wallets/getting-started-blixt-wallet-it.html">Introduzione al nodo mobile Blixt</a></li>
+<li><a href="/wallets/getting-started-zeus-wallet-it.html">Introduzione al nodo Blixt Mobile Node</a></li>
+<li><a href="/wallets/zeus-node-advanced-usage-it.html">Zeus LN Node - Utilizzo avanzato</a></li>
+</ul>
+
+<p><img src="/assets/images/blixt-zeus-alby-ism.jpg" class="center"></p>
+
+<h3 style="color:Yellow;">Liquidità</h3>
+<p>Non c'è bisogno di conservare grandi quantità di fondi, ma abbastanza per le spese regolari. Ma tieni presente che aprendo piccoli canali, spenderai di più in commissioni e riserve. Consiglierei questo scenario di utilizzo:</p>
+<ol>
+<li>La prima volta che lo usi, apri un canale Dunder LSP. <a href="/wallets/getting-started-blixt-wallet-it.html">Guarda qui la guida</a>. Questo è un ottimo modo per iniziare, ottieni liquidità in entrata per un certo importo di deposito in un canale Dunder. Quindi dall'inizio puoi inviare e ricevere sat su LN. Puoi avere più di un canale Dunder, ma è meglio non abusarne con molti piccoli, pagherai di più in commissioni. Meglio uno o due più grandi che ricarichi periodicamente.</li>
+<li>Quindi apri un canale verso il tuo nodo Umbrel/home. <a href="https://blixtwallet.github.io/guides">Vedi la pagina delle guide Blixt</a>. Questo ti darà un altro modo per spostare fondi tra, usando keysend ma anche effettuando pagamenti in modo più privato, tramite il tuo nodo pubblico, usato come primo salto.</li>
+<li>Quindi apri canali altri servizi LN di cui hai bisogno. Ma tieni presente che la maggior parte del tuo traffico avverrà tramite il tuo nodo domestico, quindi non c'è bisogno di molti canali, solo abbastanza per avere liquidità di riserva.</li>
+</ol>
+<p>Quindi tieni presente alcuni aspetti dell'utilizzo dell'app portafoglio nodo Blixt sul tuo cellulare:</p>
+<ul>
+<li>Blixt / Zeus è un'app mobile, quindi non sarà sempre connessa online, dipende dal tuo sistema operativo</li>
+<li>L'apertura di canali dal tuo Blixt verso altri nodi sarà un canale privato, NON sarà pubblico (canali di routing). Quindi se vuoi fare un routing normale, come fai con un nodo desktop, Blixt NON è adatto a questo. Blixt è il tuo "nodo privato". Ad esempio, apri i canali con i servizi che stai utilizzando, o semplicemente con il tuo nodo di casa.</li>
+<li>Qualsiasi nodo LN per funzionare deve avere i suoi canali peer online/attivi</li>
+<li>Quindi, prima di effettuare qualsiasi tx con Blixt/Zeus, assicurati che il tuo canale sia attivo/online. Una volta aperto Blixt, non passare direttamente alla creazione di tx. Sii paziente, lascia che si sincronizzi e si connetta prima. Non ci vuole troppo tempo. Vai sui canali Lightning e controllali, in particolare se stai utilizzando una connessione Tor. Questi passaggi sono spiegati in questa guida.</li>
+<li>Puoi usare la funzione keysend che Blixt ha già. Poche altre app ce l'hanno, ma è un ottimo strumento per avere tx privati. <a href="https://www.youtube.com/watch?v=W3rb_26QswM">Una bella spiegazione di keysend in questo video</a> e un po' di storia di keysend.</li>
+</ul>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">C. "Secret LN Node" (facoltativo)</h2>
+<h3 style="color:Yellow;">Caratteristiche</h3>
+<ul>
+<li>Questo può essere il tuo "banca nascosta"</li>
+<li>Mai pubblicato e collegato alla tua identità</li>
+<li>Lavora in background come un normale nodo Tor sconosciuto.</li>
+<li>Puoi fare molte cose con esso. Cose che non puoi fare con i nodi precedenti o che non vuoi siano affatto pubbliche.</li>
+<li>Può essere un semplice nodo LN, nessuna macchina speciale. <a href="/nodes/bitcoin-ln-node-software-it.html">Guarda qui un elenco di software per nodi</a>. Ad esempio, se il tuo nodo principale non è Umbrel, è RaspiBlitz, puoi eseguire due istanze LN sulla stessa macchina (LND e C-Lightning). Presto anche Umbrel lo consentirà.</li>
+</ul>
+
+<h3 style="color:Yellow;">Liquidità</h3>
+<p>Puoi avere anche canali pubblici per un certo routing, ma principalmente saranno canali privati. Dipende da te come vuoi. Ma tieni a mente: non promuoverlo mai in spazi pubblici e non collegarlo alla tua identità, a nessuna identità (reale o falsa).</p>
+<p>Questo nodo lo userai principalmente per scambi privati, trasferimenti privati, spostamento di fondi o anche piccoli instradamenti in "modalità sconosciuta".</p>
+<p>Non c'è bisogno di avere molti fondi in questo nodo, qui sono tutti transitori.</p>
+<p>Puoi scegliere <a href="/nodes/managing-lightning-node-liquidity-it.html">alcuni dei nodi menzionati in questo elenco</a>, come peer, ma principalmente questo nodo sarà connesso agli altri tuoi nodi Umbrel e Blixt, con canali privati.</p>
+<p>Usa la tua immaginazione su come usare questo nodo. È molto utile se usato nel modo giusto.</p>
+
+<h2 style="color:Orange;">BUON LIGHTNING!</h2>
+</body>
+</html>
+</article>
