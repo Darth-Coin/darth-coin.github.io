@@ -1,0 +1,67 @@
+---
+layout: default
+title: Utilizzo del tunnel Tailscale con il tuo nodo
+---
+<article>
+<!DOCTYPE html>
+<html lang="it">
+<meta name="description" content="Guide su Bitcoin e Lightning: come connettersi al tuo nodo domestico utilizzando Tailscale">
+<body>
+<a href="/nodes/tailscale-vpn-your-node-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/tailscale-vpn-your-node-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/tailscale-vpn-your-node-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/tailscale-vpn-your-node-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/tailscale-vpn-your-node-nl.html">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/tailscale-vpn-your-node-hr.html">Hrvatski <img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/tailscale-vpn-your-node-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<blockquote style="color:Tomato;"><em>
+<p>Pubblicato originariamente su <a href="https://darthcoin.substack.com/p/tailscale-to-your-node">Substack</a> il 2 ottobre 2022. Aggiornato qui il 27 dicembre 2024.</p>
+</em></blockquote>
+
+<h3>Come connettersi al nodo di casa tramite il tunnel VPN privato Tailscale</h3>
+<p>Ho visto molti utenti con i loro nodi su Tor e avere molti problemi a connettere le app mobili al nodo. Quindi, una soluzione semplice è usare Tailscale o ZeroTier (funziona allo stesso modo). <a href="https://openoms.github.io/bitcoin-tutorials/zerotier/">Ecco anche una guida di openoms su come configurare ZeroTier con il tuo nodo</a>. Un'altra opzione simile è usare <a href="https://holesail.io/">Holesail</a>.</
+<p>Un approccio più avanzato sarà quello di usare una <a href="https://www.freecodecamp.org/news/build-your-own-wireguard-vpn-in-five-minutes/">WireGuard VPN</a></p>
+<p>Non ha senso usare Tor per connettere i tuoi dispositivi mobili al TUO nodo. Non ti fidi di te stesso per questo? Capisco se ti connetti a un altro nodo tramite Tor, perché non vuoi rivelare il tuo IP, ma con il tuo nodo non è necessario.</p>
+
+<p><img src="/assets/images/tunnel-tailscale.jpg" class="center"></p>
+
+<h3 style="color:Orange;">Cos'è Tailscale?</h3>
+<p><a href="https://tailscale.com/">Tailscale</a> è una VPN a configurazione zero che crea una rete sicura tra il tuo nodo Tor domestico e gli altri tuoi dispositivi. Anche se separati da firewall o subnet, Tailscale funziona e basta. Tailscale assegnerà al tuo Umbrel/MyNode/Raspiblitz un IP stabile e un dominio assegnato automaticamente che rimane coerente, indipendentemente dalla rete a cui è connesso il tuo Umbrel. È come una rete locale che funziona ovunque. Tailscale si basa sulla crittografia del protocollo Noise di WireGuard®, uno standard affidabile e sottoposto a revisione paritaria.</p>
+<h4>Quale rete è Tailscale?</h4>
+<p>Riassumiamo alcuni aspetti per quegli utenti che non comprendono appieno i termini di rete. Abbiamo i seguenti tipi di reti, alcune delle quali fanno parte della rete INTERNET aperta:</p>
+<ul>
+<li>Nomi di dominio pubblico Internet / IP: google.com / 142.250.74.78, si tratta di nomi IP/dominio che chiunque sia connesso a Internet può "vedere" e accedere e sono gestiti da server DNS pubblici. Devi acquistare o affittare un IP da un ISP per poterlo gestire per le tue macchine/sistemi.</li>
+<li>IP privati: 192.168.1.x / 10.0.0.x / 172.16.0.x Questi sono IP visibili SOLO all'interno della tua LAN (rete domestica) e sono gestiti dal router di casa, assegnandone uno a ciascuno dei tuoi dispositivi connessi a quel router. Nella configurazione Umbrel puoi anche vederli nel file lnd.conf come un IP per servizio/app. Quindi questi IP NON SONO accessibili dall'esterno, solo se configuri nel router l'inoltro di porte specifiche a IP specifici all'interno della tua LAN.</li>
+<li>IP VPN pubblici: servizi speciali che ti offrono un tunnel protetto verso un server specifico, che ti offre un IP pubblico dedicato da utilizzare per accedere a Internet. Come un fantoccio, una falsa identità per nascondere il tuo vero IP/posizione. Questi IP sono visibili e accessibili da chiunque su Internet.</li>
+<li>IP VPN privati: IP privati ​​speciali, generati in un server pubblico, con crittografia e accesso protetto, che offrono agli utenti un tunnel dedicato attraverso un intervallo IP privato interno, direttamente ai dispositivi di casa. Ogni punto/dispositivo avrà il proprio IP, nello stesso intervallo. Ecco cosa usa Tailscale.</li>
+<li>Rete Tor: una rete speciale che usa la normale rete Internet, ma non è visibile e accessibile dai normali browser/dispositivi, hanno bisogno di un proxy dedicato che converta e decrittografi gli indirizzi onion per essere accessibili. Tutto il traffico sulla rete Tor è crittografato P2P e non è necessario usare porte aperte, ogni indirizzo onion può essere reindirizzato internamente a una porta specifica.</li>
+</ul>
+<p>Quindi... con Tailscale installato nel nodo Umbrel/MyNode/Raspiblitz possiamo praticamente saltare la lenta e buggata rete Tor e connettere i nostri dispositivi mobili al nostro nodo.</p>
+
+<h4>FATE ATTENZIONE!</h4>
+<ul>
+<li>Questo non significa che puoi semplicemente inserire l'IP Tailscale assegnato per la tua macchina nodo in un browser ed effettuare il login. NOOO! Affatto! Serve solo a sostituire l'indirizzo onion/connessione tra le tue app mobili e il tuo nodo.</li>
+<li>Usare Tailscale non significa che il tuo nodo sia completamente accessibile in clearnet e non utilizzi più Tor! No, tutto rimane uguale, il tuo nodo si sincronizza ancora tramite Tor, non mostra ancora il tuo vero IP pubblico/posizione, solo che hai un accesso privato dedicato utilizzando una connessione più veloce di Tor.</li>
+<li>Tailscale forse raccoglie dati minimi sui tuoi dispositivi connessi, ma tutto il traffico è crittografato, quindi praticamente NON sanno cosa stai facendo con quei dispositivi o che tipo di dati hai. È come se il tuo vicino sapesse che hai un frigorifero, una TV o un microonde in casa, ma non sapesse se li usi o per cosa li usi. Quindi, i tuoi bitcoin sono al sicuro, non preoccuparti.</li>
+<li>Non consiglierei di usare Tailscale per accedere al tuo nodo tramite SSH, o almeno SOLO se lo fai da un dispositivo pulito e protetto. L'accesso SSH dovrebbe essere usato SOLO dalla tua LAN locale e dai tuoi dispositivi domestici protetti.</li>
+</ul>
+
+<h3 style="color:Orange;">Esempio di utilizzo</h3>
+<h4>Collega l'app mobile Zeus al tuo nodo</h4>
+<ul>
+<li>Vai su <a href="https://tailscale.com/">tailscale.com</a> e crea un account. Non c'è bisogno di usare un'identità reale.</li>
+<li>Installa Tailscale in Umbrel e accedi con quell'account creato.</li>
+<li><p>Nel tuo nodo vai a modificare lnd.conf e aggiungi la riga:</p>
+<p>restlisten=100.x.x.x:8080</p>
+<p>(dove 100.x.x.x è il tuo IP privato assegnato da Tailscale per il tuo nodo)</p>
+</li>
+<li>Installa Tailscale sul tuo dispositivo mobile e accedi con lo stesso account creato. Immediatamente vedrai nell'app l'IP del tuo nodo. Sarà un IP privato, non pubblico. Copialo.</li>
+<li>Apri Zeus e segui le istruzioni da Umbrel - Connetti portafoglio - Zeus poiché dovrebbe essere una connessione Tor, scansiona il codice QR con Zeus e prima di premere salva configurazione, rimuovi lo switch Tor e sostituisci tutti gli indirizzi onion con quell'IP Tailscale del tuo nodo (vedi punto 3). Fatto, premi il pulsante salva e ti connetterai in pochi istanti.</li>
+</ul>
+<p>Quindi praticamente Tailscale creerà un tunnel VPN privato crittografato, ma utilizzando Internet, tra il tuo dispositivo mobile (situato al di fuori della tua LAN) e ti fornirà una connessione diretta al tuo nodo come se fossi a casa e ti connetterai al tuo nodo tramite IP locale. Questo è tutto ciò che fa Tailscale.</p>
+<p>Ora... potresti provare lo stesso con altre app che devi connettere al tuo nodo: Electrum, Bluewallet (solo per il server Electrum, LNDhub non è supportato con Tailscale), Sparrow, Specter. Ma ricorda, ogni volta che vuoi connettere queste app mobili al tuo nodo al di fuori della tua LAN, devi prima eseguire il client Tailscale, per creare quella connessione VPN, altrimenti le app non possono "vedere" o comprendere quell'IP Tailscale. Lo stesso vale per Tor, quando usavi Orbot.</p>
+<p>Un altro utilizzo potrebbe essere anche quello di configurare il tuo account Tailscale con un nome di dominio pubblico, e in quel momento potresti accedere alle tue app node come LNbits o al server BTCPay tramite quel nome di dominio dedicato, dietro una VPN privata Tailscale. Ma questo è un servizio avanzato e devi acquistare un nome di dominio e reindirizzarlo al tuo account Tailscale. Per il momento la funzionalità "MagicDNS" in Tailscale non offre un modo semplice per connettere un CNAME a una delle tue macchine Tailscale.</p>
+<p>Ma ho testato ad esempio su un dispositivo mobile con la VPN Tailscale attivata per accedere al mio LNBits e ha funzionato bene. Usa il tuo IP Tailscale:3007 in un browser e funziona perfettamente. Ma sì, questo non è per un uso pubblico, solo per uso personale.</p>
+</body>
+</html>
+</article>
