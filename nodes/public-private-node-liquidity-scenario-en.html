@@ -1,0 +1,162 @@
+---
+layout: default
+title: Public and Private Node Liquidity Scenario
+---
+<article>
+<!DOCTYPE html>
+<html lang="en">
+<meta name="description" content="Bitcoin and Lightning guides: How to use 3 types of nodes for public and private liquidity">
+<body>
+<a href="/nodes/public-private-node-liquidity-scenario-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/public-private-node-liquidity-scenario-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/public-private-node-liquidity-scenario-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/public-private-node-liquidity-scenario-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/public-private-node-liquidity-scenario-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/public-private-node-liquidity-scenario-nl.html">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/public-private-node-liquidity-scenario-hr.html">Hrvatski <img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/public-private-node-liquidity-scenario-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<blockquote style="color:Tomato;"><em>
+<p>Originally posted on <a href="https://darthcoin.substack.com/p/node-liquidity-guide">Substack</a> on Nov 25, 2021. Updated here on Dec 27, 2024.</p>
+</em></blockquote>
+
+<h3>How to use 3 types of nodes for public and private liquidity</h3>
+<p>Many new users are running LN nodes now. But they get into this fascinating world without having a base knowledge about how Lightning Network works and what you should take in consideration as a node operator.</p>
+
+<p><img src="/assets/images/ln-liquidity-management.jpg" class="center"></p>
+
+<p>I wrote many guides about using specific apps, nodes, tools etc, you can look into all my Substack page for them.</p>
+<p>In this one I will try to explain how I did for my node and how I see it from my point of view. Maybe I am wrong, maybe not. But at least will give a bit more guidance to all those new users that are now jumping into running a node.</p>
+<p>This guide will not enter into deep details, is just a bit on the surface to give you as a new user a hint about the direction where to look. Each one later can do his own scenario, taking in consideration some aspects explained here.</p>
+
+<h4 style="color:Yellow;">Why to run a node?</h4>
+<p>Are many reasons, as I described in the Umbrel node guide. My personal reasons are:</p>
+<ul>
+<li>to have a personal node, private, in my hands</li>
+<li>to be able to route my own txs (transactions) when I spend sats using LN and not depend on other nodes liquidity</li>
+<li>to be able to help also the network, with liquidity where is needed (merchants, in special small ones running their own nodes and in need for inbound liquidity).</li>
+<li>not interested into "getting rich" from routing fees, actually I lower my channels fees to a certain point that are ridiculous cheap</li>
+<li>help noobs with other nodes and also testing other apps with my node</li>
+</ul>
+<blockquote style="color:Tomato;"><em>
+<p>I consider that we are not yet there where this fee market is enough mature to be taken as a priority. First we need to create a strong network for payments. By suffocating it with high fees and greed will do more damage than good. Some noobs are taking too serious this game of earning sats from routing and sometimes they don't know to use well the scripts and tools for managing fees and that will affect all the rest of the network, sometimes are even disabling channels for routing because they consider them "not profitable". That's just stupid, is totally against the whole concept of LN.</p>
+</em></blockquote>
+<p>So, as some of you already know, I run an Umbrel node, not on a RaspPi, but on a NUC Brix, DebianOS. This is my "public node". But I run also another node, private, that nobody knows which is. Used for really private stuff. Apart from that I use also Blixt, another type of node, in a mobile wallet. Is a great companion for my Umbrel node!</p>
+
+<p><img src="/assets/images/secret-node.jpg" class="center"></p>
+
+So let's dive in into how to manage liquidity for these nodes. This scenario is a proposal, not really need you do it exactly. Is just as a reference for things you can do with LN nodes.
+<hr style="height:2px">
+
+<h2 style="color:Orange;">A. Umbrel/Raspiblitz/myNode/Start9 LN node</h2>
+<h3 style="color:Yellow;">Characteristics</h3>
+<ul>
+<li>This one will be your own "public commercial bank".</li>
+<li>Here will be most of the routing and liquidity. Is your main HUB for liquidity.</li>
+<li>Could be used also for payments (onchain or LN).</li>
+<li>Can be used as base for your own LNDHUB wallets (uncle Jim, with BW LNDHub or LNBits LNDHub.</li>
+<li>Is your own payments public processor. But can be used as "front-processor" for your other payments from Blixt and Private Node.</li>
+</ul>
+<h3 style="color:Yellow;">Liquidity</h3>
+<p>What really is liquidity? Is practically liquid, water flow and your LN channels are water recipients, pipes. so in order to have a healthy water system, you need to have healthy pipes and clean water. If is dirty and with bottlenecks, your water system will be broken and can end up in bad situations. Keep in mind this aspect.</p>
+<p>How do we achieve this healthy liquidity? Choose wisely your peers, the nodes to where you will connect your node and open channels with them.</p>
+<p>Not all players in this network are good. Some of them play fair, some not, some are maintaining their nodes in a good status, some don't care too much. But all these aspects will affect you and the whole networks in the same way. If you are connected only to bad nodes/peers, you will get down with them and you will not able not even to do your own txs.</p>
+<p>Lightning Network is like a living organism: feed it well and you will get results.</p>
+<p>For a home node, is good to have a balance between your total inbound and total outbound liquidity.</p>
+<p>No need to have each channel perfectly balanced. That is a myth circulating around. I was testing with perfectly balanced channels and it didn't help at all, just wasting sats in fees paid to re-balance. Some users use scripts for rebalancing. I don't. They use them to earn some sats from arbitraging between peers. I consider this wasting time and sats.</p>
+
+<figure>
+    <img src="/assets/images/liquidity-report-th.jpg" class="center">
+    <figcaption>This is the most important report - total liquidity report</figcaption>
+</figure>
+
+<p>What comes in from a channel, will go out through another one. Keep your channels always online, good fees, good peers and you will never have problems with non-balanced channels.</p>
+<p>If you have a good number of channels / connections with many peers and a good ratio between total remote and local balance, you will never have issues with routing payments and txs from other peers. But with just 2-3-5 channels you will find that some of your payments will not be well routed, sometimes you will pay high fees or worse, your txs will never go through.</p>
+<p>So, start opening channels with:</p>
+<ul>
+<li>those merchants/LN services that need inbound liquidity. You will get a good peer with good connections that can route your txs but you can also use it to direct payments for his products/services, through that direct channel. Helping small merchants with nodes is helping the whole network, not just you.</li>
+<li>Rings of Fire / LN+ can be a good way to start having some peers, usually they do first balanced channels, for a quick opportunity to be able to send and receive txs. See my list of them here: Awesome things you can do on LN</li>
+<li>Some good BOS score nodes, but use a larger amount of sats for those, like 5-10-20M sats/channel. Then you can loop out half of the funds to have it balanced and also re-use those sats for opening more channels.</li>
+<li>Here I put up a selection list with interesting nodes to have them as peers.</li>
+</ul>
+<p>Then just play around with channel fees. I use Thunderhub app because is easy to understand.</p>
+
+<figure>
+    <img src="/assets/images/ln-channels-fees.jpg" class="center">
+    <figcaption>Details report for channels fees in Thunderhub app</figcaption>
+</figure>
+
+<figure>
+    <img src="/assets/images/th-fees.png" class="center">
+    <figcaption>Changing fees for a channel in Thunderhub app</figcaption>
+</figure>
+
+<p>Lower your fees per channel when you have most of the funds on your side and increase the fees when you lose more than 50%, keeping a fair balance ratio with your peer fees. Each one is free to use its own fees level. Is a free market, but those acting in greed will always be "punished" and the protocol will skip their route by being too expensive.</p>
+<p>You will need to observe a lot your peers (Amboss page is a great tool for that):</p>
+<ul>
+<li>what peers they have, on 2nd and 3rd level</li>
+<li>what fees they use, how often they change them</li>
+<li>how many channels they have</li>
+<li>how many channels they close in a certain period of time. Closing too many means are not so reliable to keep a contract. Opening a channel is a contract. If your peer close it only because after a while it wasn't routing too much (for his calculations) means that is not interested in making LN a payments system, is only looking for quick profits.</li>
+</ul>
+
+<figure>
+    <img src="/assets/images/node-community-metrics.png" class="center">
+    <figcaption>Amboss Community Metrics for a node</figcaption>
+</figure>
+
+<p>Keep your channels open as much is possible. Your node history is very important in a long run. Each of your actions will have a result in time. Close only those channels that are long time offline or the peer is "dead". Those, indeed, are useless channels.</p>
+<p>Channels use to start moving sats around after some time and only if that node is in a good shape. If you see that the peer is not opening more channels, is in a stagnation mode, yes, you could close the channel with that "sleepy" peer. A channel that do not have other routes connected, is a dead channel and will not serve you at all. yes you will punish that peer, that's why try to contact it first and ask what are his plans. If is not responsive... kill the channel.</p>
+<p>Here I put together a great thread from Czino, that explain a bit more about balancing.</p>
+<p>We are still in early phase of Lightning Network, users still do not make so many payments through LN, but is good to be prepared from now, building your own node, make it known, strong, stable, respected. Your node is your own bank, is your own prestige, is not just a game.</p>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">B. Blixt / Zeus LN node (mobile)</h2>
+<h3 style="color:Yellow;">Characteristics</h3>
+<ul>
+<li>This one will be our "spending bank"</li>
+<li>Pocket bank, most of your small spending payments, on the go.</li>
+<li>Private channels with our own Umbrel / home node</li>
+<li>Private channels using Dunder or Olympus LSP</li>
+<li>Private channels with other nodes</li>
+</ul>
+
+<p><img src="/assets/images/blixt-zeus-alby-ism.jpg" class="center"></p>
+
+<h3 style="color:Yellow;">Liquidity</h3>
+<p>No need to keep large amounts of funds in it, but enough to have for regular spending. But keep in mind that opening tiny small channels, you will spend more on fees and reserves. I would recommend this scenario of use:</p>
+<ol>
+<li>First time you use it, open a Dunder LSP channel. See here the guide. This is a great way to start, you get inbound liquidity for a certain amount of deposit into a Dunder channel. So from the beginning you can send and receive sats on LN. You can have more than one Dunder channel, but is better to not abuse with many small ones, you will pay more in fees. better a bigger one or two that you periodically refill.</li>
+<li>Then open a channel towards your own Umbrel / home node. See the guide. This will give you another way to move funds in between, using keysend but also making payments in a more private way, through your own public node, used as first hop.</li>
+<li>Then open channels other LN services as you need. But keep in mind that most of your traffic will be through your own home node, so no need of many channels, just enough to have as backup liquidity.</li>
+</ol>
+<p>So keep in mind some aspects of using Blixt node wallet app on your mobile:</p>
+<ul>
+<li>Blixt / Zeus  is a mobile app so will not be always online connected, depends of your OS</li>
+<li>Opening channels from your Blixt towards other nodes will be private channels, will NOT be public (routing channels). So if you want to do normal routing, as you do with a desktop node, Blixt is NOT suitable for this. Blixt is your "private node". You open channels with those services you are using for example, or just your own home node.</li>
+<li>Any LN node in order to be functional need to have its peer channels online/active</li>
+<li>So, before doing any txs with Blixt / Zeus, be sure your channel are active/online. Once you open Blixt, don't jump directly into making txs. Be patient, let it to sync and connect first. It doesn't take too long. Go to Lightning channels and check them, in special if you are using Tor connection. These steps are explained in this guide.</li>
+<li>You can use the keysend feature that Blixt already have it. Very few otehr apps have it, but is a great tool to have private txs. A nice explanation of keysend in this video and a bit of history of keysend.</li>
+</ul>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">C. "Secret LN Node" (optional)</h2>
+<h3 style="color:Yellow;">Characteristics</h3>
+<ul>
+<li>This one can be your "hidden bank"</li>
+<li>Never published and linked to your identity</li>
+<li>Working in background as a normal unknown Tor node.</li>
+<li>You can do many things with it. Things that you can't do with previous nodes or you do not want to be public at all.</li>
+<li>Can be a simple LN node, no special machine. See here a list of nodes software. For example if your main node is not Umbrel, is RaspiBlitz, you can run two LN instances on same machine (LND and C-Lightning). Soon also Umbrel will allow it.</li>
+</ul>
+
+<h3 style="color:Orange;">Liquidity</h3>
+<p>You can have also public channels for some routing, but mainly will be with private channels. Is up to you how you want it. But keep in mind: never promote it in public spaces and link it to your identity, to any identity (real of false).</p>
+<p>This node you will use it mostly for private swaps, private transfers, moving funds around or even small routing in "unknown mode".</p>
+<p>No need to have a lot of funds in this node, all are transitory here.</p>
+<p>You can choose some of the mentioned nodes in this list, as peers, but mainly this node will be connected to your other nodes Umbrel and Blixt, with private channels.</p>
+<p>Use your imagination about how to use this node. Is very useful if is used in the right way.</p>
+
+<h2 style="color:Orange;">HAPPY LIGHTNING !</h2>
+</body>
+</html>
+</article>
