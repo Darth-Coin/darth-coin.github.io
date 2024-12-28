@@ -1,0 +1,123 @@
+---
+layout: default
+title: Izgradite vlastiti LNbits poslužitelj aplikacija
+---
+<article>
+<!DOCTYPE html>
+<html lang="hr">
+<meta name="description" content="Vodiči za Bitcoin i Lightning čvorove: Scenariji korištenja vlastitog LN čvora s zasebnom instancom LNbits">
+<body>
+<a href="/merchants/build-lnbits-app-server-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/build-lnbits-app-server-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/build-lnbits-app-server-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/build-lnbits-app-server-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/build-lnbits-app-server-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/build-lnbits-app-server-nl.html">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/build-lnbits-app-server-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<em><blockquote style="color:Tomato;">
+<p>Izvorno objavljeno na <a href="https://darthcoin.substack.com/p/bitcoin-for-small-merchants">Substack</a> 26. listopada 2021. Ovdje ažurirano 3. prosinca 2024. .</p>
+</em></blockquote>
+
+<h3 style="color:Orange;">Koja biste Bitcoin LN rješenja mogli početi koristiti kao mali trgovac.</h3>
+<p>Vidio sam mnogo plebsa koji pokreću svoje skupne čvorove (MyNode, Umbrel, Raspiblitz, Embassy itd.).</p>
+<p>Nemam ništa protiv ovih softverskih paketa!</p>
+<p>Ali mnogi od ovih ljudi počinju otkrivati ​​da s jednostavnim čvornim strojem mogu raditi i mnoge druge produktivne stvari sa specijaliziranim aplikacijama kao što su BTCPay Server, LNbits, LNDhub, Thunderhub, LN Address poslužitelji itd.</p>
+<p>Vrlo dobro! Ovo je način na koji biste trebali koristiti svoj čvor.</p>
+<p><img src="/assets/images/lnbits-apps.png" class="center"></p>
+
+<h4 style="color:Yellow;">Razmatranja:</h4>
+<ul>
+<li>za više aplikacija koje dodate u svoj paket, više složenosti možete dodati svojoj postavci.</li>
+<li>više aplikacija na istom računalu, zahtijevaju različita ažuriranja, različite konfiguracije, različite pristupe.</li>
+<li>redundancija - da, ovo je vrlo važan aspekt.</li>
+</ul>
+<p>Ako odlučite koristiti svoj paketni čvor na javniji ili komercijalniji način i izložiti ga javnom pristupu i ponuditi usluge (<a href="/merchants/ln-bank-with-lnbits-hr.html" >poput LNbits banke</a>), imat ćete veću odgovornost za svoje korisnike koji koriste vašu "banku".</p>
+<h5>Nemojte zanemariti ovaj aspekt!</h5>
+<p>Ako koristite svoj skupni čvor samo za testiranje, učenje, razvoj aplikacija, sasvim je u redu koristiti te aplikacije takve kakve jesu, preko Tor-a, na privatniji način i s ograničenim pristupom. U ovom slučaju (testiranje/učenje) možete koristiti <a href="https://www.cloudflare.com/learning/cdn/glossary/reverse-proxy/">Cloudflare obrnuti DNS</a>, koji pretvara Tor onion adresu vaših LNbitova, u ngrok clearnet adresu. Da, ne može se koristiti s određenom domenom, ali za testiranje je više nego dovoljno.</p>
+<h5>Stoga vam predlažem da razmislite o ovom scenariju:</h5>
+<p>Imate malu tvrtku i odlučili ste koristiti LNbits na primjer (pogledajte <a href="/merchants/lnbits-small-merchants-hr.html">ovdje</a> i <a href="/ merchants/ln-bank-with-lnbits-hr.html">ovdje</a> 2 scenarija koja sam opisao za korištenje LNbits-a). U redu, sve je u redu.</p>
+<p>Ali imate skupni čvor, iza Tora, ograničen pristup s javnog lica, mnogo problema s pristupom, Tor se ne povezuje, ne razumijete kako te stvari funkcioniraju itd.</p>
+<p>Neki od vas koji koristite MyNode i imaju LNbits kao premium uslugu, nisu ga mogli koristiti u besplatnoj verziji. MyNode također ne ažurira najnoviju verziju LNbits. Isto je s Umbrelom, Citadelom itd. uvijek ćete ovisiti o njihovim izdanjima.</p>
+<p>Također, većina ovih paketa ima specifičnu implementaciju docker repozitorija, pa ako niste toliko upoznati s petljanjem unutar linuxa i dockera, bolje se klonite.</p>
+
+<h4 style="color:Yellow;">Koje opcije imate?</h4>
+<p>Ako pokrenete skupni čvor iza Tora, a želite pokrenuti i LNbitove na istom stroju, morat ćete napraviti neke promjene na svom čvornom stroju.</p>
+<p>Ovdje je vodič za <a href="https://community.getumbrel.com/t/how-to-configure-umbrel-lnbits-app-without-tor/">postavljanje Tor-IP tunela< /a> za vaš LNbits čvorni stroj, ali ponekad nije jednostavan za korištenje i neće razumjeti sve tehničke detalje ovih postavki i samo će biti frustriran.</p>
+<p>Drugi način korištenja istog stroja čvora je korištenje Tailscale-a. <a href="/nodes/tailscale-vpn-your-node-en.html">Ovdje sam napisao vodič o korištenju vašeg čvora paketa s Tailscale</a>. Ali i u ovom slučaju, morat ćete konfigurirati DNS naziv za taj privatni IP koji Tailscale pruža, u slučaju da želite ponuditi javni pristup svojim LNbits uslugama.</p>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">Opcija A - vaš skupni čvor + zasebni LNbitovi</h3>
+<p>Samo ostavite paket čvorova kakav jest, sa svojim kanalima LN čvora itd., osnovnim stvarima, nemojte ga nepotrebno opterećivati ​​hrpom aplikacija koje ne koristite.</p>
+<p>Uzmite zasebno računalo, može biti bilo koje drugo rabljeno prijenosno računalo/računalo, nema potrebe za super ultra računalom. Instalirajte Linux OS na njega, bez obzira na debian okus koji bih rekao.</p>
+<p>Zatim počnite instalirati LNbits kao običnu aplikaciju, <a href="https://github.com/lnbits/lnbits/wiki/LNbits-Documentation#install-options">slijedeći upute za instalaciju</a> i < a href="https://github.com/lnbits/lnbits/wiki/LNbits-Documentation#funding-sources">konfigurirajte env datoteku</a> da pokazuje na vaš lokalni čvor paketa. Može biti čak iu istom LAN-u, tako da nema potrebe za dodatnim konfiguracijama preko Tor-a ili VPN-a ili bilo čega otmjenog. Dakle, komunikacija između vašeg čvora i LNbits će biti SAMO kroz LAN. Zaštićeno i privatno. Nitko izvana nije mogao znati za ovu vezu.</p>
+<p>Zatim konfigurirajte svoj LNbits stroj da bude vidljiv na internetskom FQDN-u (puno kvalificirano ime domene). Morat ćete urediti DNS stavke svoje domene kako biste usmjerili naziv poddomene na vašu javnu IP adresu na kojoj ste locirali svoj LNbits stroj, na primjer ln.mydomain.com ili lnbits.mydomain.com ili shop.mydomain.com.</p>
+<p>Zatim konfigurirajte svoj internetski usmjerivač da proslijedi port 443 (SSL, ovo će vam trebati kao lice prema javnosti) na lokalni IP vašeg LNbits stroja. U linuxu također koristite ufw za otvaranje tog priključka u lokalnom fiewallu.</p>
+<p>Nabavite važeći certifikat za tu poddomenu, možete koristiti ZeroSSL ili bilo koji drugi besplatni SSL certifikat, važno je da vaši LNbitovi mogu odgovoriti sigurno putem https-a.</p>
+<p>Da rezimiramo:</p>
+<ul>
+<li>Stvorite unos poddomene u svom DNS-u za tu instancu LNbits-a, npr. lnbits.mydomain.com</li>
+<li>Usmjerite svoj usmjerivač da proslijedi port 443 na taj lokalni IP vaše LNbits instance</
+<li>Povežite svoju LNbits instancu s lokalnim LN čvorom putem lokalnog IP-a (nema potrebe putem clearneta ili Tor-a). Morat ćete dodati unos u lnd.conf za slušanje lokalnog IP-a vašeg čvora. Zatim se povežite koristeći admin-macaroons za taj čvor.</li>
+<li>Konfigurirajte <a href="https://github.com/lnbits/lnbits/blob/main/docs/guide/installation.md#reverse-proxy-with-automatic-https-using-caddy">Caddy reverse proxy</a> na vašem LNbits računalu za korištenje lnbits.mydomain.com. Caddy izrađuje sve https certifikate za vas i također ih obnavlja.</li>
+</ul>
+<p>Gotovo, sada su vaši LNbitovi dostupni u javnoj domeni, pomoću vašeg vlastitog čvora paketa.</p>
+<p>Zašto sam predložio ovaj scenarij?</p>
+<p>Sjećate se kad sam rekao REDUNDANCIJA?</p>
+<p>Recimo da vaš čvor paketa ima problem koji nije povezan s vašom instancom LNbits: kanali su prisilno zatvoreni, oštećeni podaci, ne pokreće se, ima greške ili bilo koji drugi ozbiljan problem zbog kojeg ne možete imati kontinuiranu uslugu za svoje LNbits korisnike. </p>
+<p>Pokrećući vašu aplikaciju LNbits instance na zasebnom računalu, potrebno je točno 30 sekundi za pokretanje i <a href="https://github.com/lnbits/lnbits/wiki/LNbits-Documentation#funding-sources">uređivanje .env datoteku</a> gdje stavljate izvor financiranja čvora (vaš lokalni čvor paketa) i mijenjate ga bilo kojim drugim LN čvorom koji vam je dostupan kao sigurnosna kopija. To bi čak mogao biti <a href="https://github.com/lnbits/lnbits/wiki/LNbits-Documentation#funding-sources">čvor u oblaku kao što je Voltage</a>, još jedan skupni čvor koji ste pripremili. Kao pružatelj usluga LN Banke, trebali biste biti spremni za ove slučajeve, s trenutnim rezervnim planovima.</p>
+<p>Samo promjenom izvora, vaši LNbitovi su spremni i rade. Imajte na umu da imate dovoljno likvidnosti u novom izvoru čvora, koja može odgovarati barem ukupnim saldima vaših LNbits računa.</p>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">Opcija B - Vaš paketni čvor + VPS LNbitovi</h3>
+<p>U redu, ovaj je malo napredniji, ali je vrlo dobra opcija, ako želite poslovni model sa snažnim hardverom.</p>
+<p><img src="/assets/images/vpn-tunnel.jpg" class="center"></p>
+<p>U ovom slučaju i dalje koristite svoj vlastiti kućni čvor paketa, preko Tor-a, ali ćete zadržati LNbits instancu na udaljenom VPS-u (Virtual Private Server) i pristupati mu kroz zaštićeni VPN tunel.</p>
+<p><a href="https://github.com/TrezorHannes/vps-lnbits">Ovo je odličan vodič</a> koji je izradio <a href="https://t.me/Hakezuba"> Hakuna</a>, korak po korak. Nema daljnjih uputa.</p>
+<p>Također provjerite ove <a href="https://github.com/massmux/LNDConnectionKit">jednostavne upute</a> s primjerima konfiguracijskih datoteka, autor Massimo.</p>
+<p><a href="https://www.mobycrypt.com/turn-your-self-hosted-lightning-network-node-to-public-in-10-minutes/">Još jedan dobar vodič od MobyCrypta< /a> - Kako pretvoriti vaš RaspiBlitz čvor koji sami hostirate u clearnet čvor u 10 minuta (gdje možete prilagoditi pristup samo za LNbits instancu ako želite).</p>
+<p>Isto, kao i prethodna opcija, u slučaju da se vaš paketni čvor pokvari, možete samo promijeniti izvor financiranja u LNbits konfiguraciji i bit će spreman za rad za nekoliko minuta.</p>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">Opcija C - LNBits namjenski stroj + paket kao rezerva</h3>
+<p>OK, ovo preporučujem onima koji žele imati poslovnije rješenje, pouzdano i snažno. To bi vrlo lako mogao biti dobar stroj (ne Rpi) u vašem uredu/kući, dobar hardver s baterijskim rezervnim UPS-om i dobrim internetom, ali također može biti profesionalni VPS u oblaku koji sami postavljate.</p>
+<p>Objašnjavao sam više o <a href="/nodes/lightning-node-maintenance-hr.html">vrstama hardvera za čvorove</a> u ovom vodiču .</p>
+<p>Dakle, počnimo:</p>
+<ul>
+<li>Instalirajte <a href="https://www.debian.org/download">Debian OS</a> - kao osnovni operativni sustav, jednostavno, s GUI</li>
+<li>Instalirajte Core Lightning čvor ili LND koji također uključuje demon Bitcoin Core</li>
+<li>Neobavezno, instalirajte Electrum poslužitelj (koji okus želite <a href="https://github.com/chris-belcher/electrum-personal-server">EPS</a> | <a href="https ://github.com/romanz/electrs">Rđa</a> | <a href="https://github.com/cculianu/Fulcrum">Fulcrum</a>). <a href="https://sparrowwallet.com/docs/server-performance.html">Ovdje je dobar članak o testiranju Electrum poslužitelja</a>.</li>
+<li>Izborno: RTL (RideThe Lightning), Thunderhub (ali s novom verzijom Lnbits možete izravno upravljati čvorom), CLBoss i svi drugi alati koji su vam potrebni za upravljanje kanalima i likvidnošću vaših LN čvorova. Ovdje je cijeli popis izvrsnih aplikacija koje biste mogli koristiti sa svojim CLN čvorom.</li>
+<li>Instalirajte LNbits na zasebno računalo, ovdje je vrlo dobar vodič: <a href="https://ereignishorizont.xyz/lnbits-server/en/">Axel LNbits poslužitelj</a></li>
+<li>Neobavezno, postavite uslugu Tor za svoj pristup čvoru ili je koristite na clearnetu, otvarajući samo određene potrebne portove (za CLN, REST za Zeus, SSL za LNbits, Electrum port itd.).</li>
+<li>Postavite DNS unose vaše domene specifične za vaše LNbitove i dodajte SSL certifikat za tu poddomenu.</li>
+</ul>
+<p>Gotovo, otvorite neke LN kanale i vaša <a href="/merchants/ln-bank-with-lnbits-hr.html">LNbits banka</a> je spremna za vaše “kupce”!</p>
+<p>Još uvijek možete zadržati svoj stari stroj s čvorom snopa kao rezervnu kopiju za ovaj, u slučaju SHTF-a i/ili kao još jedno čvorište za usmjeravanje za vaš glavni LNbits čvor (<a href="/nodes/public-private-node- liquidity-scenario-hr.html">kako sam opisao u ovom vodiču</a>). Možete raditi prekrasne stvari između javnog i privatnog LN čvora.</p>
+<p>To je zasad to, nadam se da sam vam dao dovoljno savjeta o tome kako pokrenuti nezavisni i redundantni LNbits poslužitelj.</p>
+<p>Nemojte previše komplicirati, neka bude jednostavno. Odvojite usluge temeljnog čvora od aplikacija koje se mogu jednostavno premjestiti s jednog izvora na drugi.</p>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">Opcija D - Brzi LNBiti s phoenixd poslužiteljem</h3>
+<p>Ova je opcija najbrža instalacija koju možete dobiti za manje od 15 minuta.</p>
+<p>U osnovi na jednostavnom Debian OS-u, instalirajte phoenixd poslužitelj i pored njega LNbits instancu. Nema potrebe za ničim drugim.</p>
+<p>Ovo je odličan vodič od Axela - <a href="https://ereignishorizont.xyz/blitzbank/en/">The Blitz Bank</a>. Samo slijedite upute i za nekoliko minuta imat ćete spremnu LNbits instancu sa svim postavkama za pristup na Clearnetu i svim ostalim. <a href="https://ereignishorizont.xyz/blitzbankextras/en/">Provjerite i daljnji vodič - Savjeti i trikovi The Blitz Bank</a>.</p>
+
+<h4 style="color:Yellow;">Rizful + home LNbits</h4>
+<p>U ovom odjeljku također možemo uključiti brzu opciju s udaljenim hostiranim LN čvorom i instancom LNbits na vašem vlastitom hardveru.</p>
+<p>Ako ne možete / ne želite pokrenuti LN čvor na vlastitom hardveru, ali još uvijek želite lokalno upravljati LNbits instancom, kao izvor financiranja možete koristiti <a href="https://rizful .com/">Rizful daljinski hostirani čvor</a>.</p>
+<p>Rizful su poput besplatnih jednokratnih LN čvorova, ali s plaćenom opcijom produljenja razdoblja korištenja. Stavljate samo vlastitu likvidnost i koristite njihovu infrastrukturu. Čvor i dalje ostaje kao skrbnički. <a href="https://rizful.com/docs">Imaju opsežnu dokumentaciju</a>.</p>
+<p>S Rizful čvorom možete generirati NWC vezu za slanje/primanje i koristiti je kao izvor financiranja za svoje kućne LNbitove.</p>
+<p>Morate samo konfigurirati svoju LNbits instancu da bude dostupna na clearnetu, otvoriti neke kanale s tim Rizful čvorom i gotovo.</p>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">Opcija E - LNbitovi hostirani u oblaku</h3>
+<p>Ovo su neka hitna rješenja, u slučaju da ne možete koristiti vlastiti hardver ili ne želite koristiti vlastitu infrastrukturu za LNbits instancu. Na primjer, želite privremenu instancu, za konferenciju, radionicu, tečaj itd</p>
+<p>Koje su opcije dostupne:</p>
+<ul>
+ <li><a href="https://saas.lnbits.com/">SaaS LNbits</a> - LNbits tim nudi jednostavno i brzo rješenje s virtualnim LNbits instancama kojima upravlja njihov tim. Cijena je jeftina. Samo trebate doći s vlastitim izvorom financiranja, ali imate više opcija.</li>
+ <li><a href="https://nodana.io/">Nodana</a> - hostirane instance koje također nude kombinaciju phoenixd + LNbits i druga rješenja. Pristupačna cijena.</li>
+ <li><a href="https://www.voltage.cloud/">Voltage Cloud</a> - hostirani LN čvorovi s LNbits i BTCPay paketima.</li>
+</ul>
+</body>
+</html>
+</article>
