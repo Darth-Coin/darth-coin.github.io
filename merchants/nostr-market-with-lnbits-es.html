@@ -1,0 +1,165 @@
+---
+layout: default
+title: Inicie su NOSTR-Market con LNbits
+---
+<article>
+<!DOCTYPE html>
+<html lang="es">
+<meta name="description" content="Guías de Bitcoin y Lightning Nodes: Cómo ejecutar un mercado libre, descentralizado, privado e imparable con LNbits, utilizando la extensión NOSTR-market">
+<body>
+<a href="/merchants/nostr-market-with-lnbits-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/nostr-market-with-lnbits-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/nostr-market-with-lnbits-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/nostr-market-with-lnbits-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/nostr-market-with-lnbits-nl.html">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/nostr-market-with-lnbits-hr.html">Hrvatski <img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/nostr-market-with-lnbits-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<em><blockquote style="color:Tomato;">
+<p>Publicado originalmente en <a href="https://darthcoin.substack.com/p/lnbits-nostr-market">Substack</a> el 14 de abril de 2023. Actualizado aquí el 28 de diciembre de 2024.</p>
+<p>Este artículo también se registró con <a href="https://mempool.space/tx/f4ec38d78e90208a9ecd45ef3a4559f054f02c1012a0e1ccf7a1299b892a719e">OP_RETURN</a> a la altura del bloque <a href="https://mempool.space/block/00000000000000000004c9c1ec4753101e2a87fc7df232a70e9f81b956d6168c">#785362</a></p>
+</em></blockquote>
+
+<h3>Cómo ejecutar un mercado libre, descentralizado, privado e imparable con LNbits, utilizando la extensión NOSTR-market, sobre relés wss, sin tráfico http alguno e incluso sin DNS/dominio.</h3>
+<p>Este es un gran logro para NOSTR y LNbits, un protocolo revolucionario para poder comerciar de forma totalmente descentralizada, anunciado por Ben Arc aquí.</p>
+<p>Si eres nuevo en esto y no sabes qué es NOSTR, comienza a leer aquí: <a href="https://nostr.com/">nostr.com</a> | <a href="https://nostr.how/en/what-is-nostr">nostr.how</a> /<p>
+<p>Si eres nuevo en LNbits, nunca lo has usado, nunca has oído hablar de él, empieza a leer aquí:</p>
+<ul>
+<li><a href="/merchants/getting-started-lnbits-es.html">Comenzando con LNbits</a></li>
+<li><a href="https://github.com/lnbits/lnbits/wiki/LNbits-Documentation">Documentación Wiki de LNbits</a></li>
+<li><a href="https://github.com/lnbits/lnbits/wiki/Tutorials-and-Guides">Más guías y tutoriales sobre LNbits</a></li>
+</ul>
+<p>El protocolo original era <a href="https://github.com/lnbits/Diagon-Alley">Diagon-Alley</a>, que luego se convirtió en NOSTR-Market (<a href="https://github.com/nostr-protocol/nips/blob/master/15.md">NIP-15</a>).</p>
+<p><img src="/assets/images/nostr-market-1.png" class="center"></p>
+<p>Diagon Alley es un protocolo descentralizado de puestos de mercado que desplaza el énfasis del mercado de front-end al puesto de los comerciantes. Si un mercado de front-end (indexador) se cae, los comerciantes simplemente dirigen sus puestos a otro lugar. En teoría de juegos, el ganador del Callejón Diagon es el más directo, aunque las sugerencias para limitar el mal comportamiento son muy bienvenidas.</p>
+
+<h4 style="color:Yellow;">Indexadores</h4>
+<p>El indexador es un servidor front-end simple y una GUI que envía información de productos, pagos y envíos entre el comerciante y el comprador. Cada comerciante tiene productos en un puesto. El puesto elige qué productos incluir en la lista con el indexador. Un indexador tiene un punto final.</p>
+
+<h4 style="color:Yellow;">Puestos</h4>
+<p>Un puesto tiene un par de claves que usa para registrarse en los índices y firmar facturas. Ese par de claves no está relacionado con ningún par de claves de Lightning Network, es independiente.</p>
+<p>Un puesto puede elegir incluir algunos o todos los productos en la lista con un indexador. Un puesto es un servidor pequeño que tiene tres puntos finales.</p>
+<p>Pero todo eso se basaba en el protocolo http, por lo que todavía dependía del dominio/DNS y del tráfico a través de http.</p>
+<p>Ahora, NOSTR-market está construido sobre el <a href="https://github.com/nostr-protocol/nostr">protocolo NOSTR</a>, donde todo el tráfico se realiza a través de relés wss. El acceso HTTP puede ser opcional en caso de que el comerciante desee publicar una tienda web pública.</p>
+<p>Pero prácticamente cualquiera puede ejecutar un puesto de venta en una instancia local de LNbits (en 127.0.0.1) y transmitir como notas todos los artículos de su puesto a los relés conectados.</p>
+<p>Lo mismo que para los clientes, podría simplemente ejecutar un cliente NOSTR local y un NOSTR-market y conectarse a cualquier clave pública del comerciante a través de relés wss. Luego compre de forma libre, descentralizada, anónima y sin tráfico http, utilizando para los pagos la red Bitcoin Lightning.</p>
+<h5>¡Comencemos!</h5>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">COMO COMERCIANTE</h2>
+<p>Supongamos que ya ha instalado LNbits (consulte los enlaces anteriores sobre LNbits). No entraré en detalles ahora, ya que esta guía sería demasiado larga.</p>
+<h4 style="color:Yellow;">Una breve lista de verificación antes de comenzar con NOSTR-market:</h4>
+<ul>
+<li>Familiarícese con el funcionamiento de NOSTR y qué es realmente. Muchos piensan que es solo un reemplazo de Twitter, pero están equivocados, es mucho más que eso. El protocolo NOSTR ofrece muchas otras funcionalidades para un mundo más descentralizado.</li>
+<li>Familiarícese con el funcionamiento de LNbits. Es un sistema de contabilidad sobre un nodo LN/fuente de financiación. Considérelo como un "wordpress" para su nodo LN.</li>
+<li>Pruebe que su instancia LNbits funcione bien, probando las billeteras, los usuarios, etc. Lea y preste atención a toda la <a href="https://github.com/lnbits/lnbits/wiki">documentación de LNbits disponible en la página Wiki</a>.</li>
+<li>Considere tener una buena fuente de financiación con buena liquidez (entrada y salida) para su nodo LN, conectado a buenas rutas LN y que ofrezca suficiente liquidez para los pagos que recibirá y también para intercambiar los sats recibidos. Lea, aprenda y familiarícese con el funcionamiento de LN. <a href="https://darthcoin.substack.com/p/lightning-network-is-awesome">Aquí hay una lista completa de guías y tutoriales</a>.</li>
+</ul>
+
+<h4 style="color:Yellow;">Paso 1: instala las extensiones de LNbits requeridas</h4>
+<h5>A: <a href="https://github.com/lnbits/lnbits/wiki/LNbits-Documentation#additional-guides">Activa la función adminUI</a></h5>
+<p>Para una fácil administración de tu servidor LNbits (fuentes de financiación, usuarios, administradores, instalación de extensiones, etc.).</p>
+<h5>Para recordar:</h5>
+<ul>
+<li>Esta adminUI creará un usuario superadministrador que SÓLO se encargará de administrar el servidor y se mostrará solo al iniciar LNbits, en el registro de la consola.</li>
+<li>Puede ser Se accede a través de una URL local como http://127.0.0.1/admin?usr=dfdf87... o dominio/DNS si configura sus LNbits en clearnet o también sobre Tor.</li>
+<li>Guarde esta URL en los marcadores de su navegador si desea acceder a ella más veces.</li>
+<li>¡NO coloque esta URL en ningún motor de búsqueda ni la publique en público!</li>
+<li>NO use un navegador como Google Chrome que también esté conectado con una cuenta de Gmail. Use un navegador decente que respete la privacidad y que tampoco guarde el historial/caché (vea las opciones del navegador y deshabilite esa opción). Cada vez que cierre el navegador, se eliminará todo el historial de navegación. Ver más aquí.</li>
+<li>A partir de la versión 12.0, LNbits ya tiene una forma de iniciar sesión adecuada con usuario y contraseña.</li>
+</ul>
+
+<h5>B - Instalar la extensión User Manager (UM)</h5>
+<p>Esta es una extensión muy útil para administrar y crear usuarios, billeteras y niveles de acceso. <a href="https://github.com/lnbits/lnbits/wiki/LNbits-Extensions#install-extensions">Ver más instrucciones aquí</a>.</p>
+<p>Inicia sesión con el usuario Superadministrador, instala el UM y luego crea un usuario con su billetera también.</p>
+<p>Inicia sesión con ese usuario y guarda la URL en tus marcadores. Este usuario también podría actuar como un usuario administrador (si le das todos los derechos en la sección "Administrar servidor").</p>
+<p>Dentro de este "usuario administrador" puedes crear varios otros usuarios normales, el mismo procedimiento usando la extensión UM. Pero sólo si es necesario.</p>
+<p>Con este "usuario administrador" vamos a crear el comerciante y el puesto con la extensión NOSTR-market.</p>
+
+<h5>C - Instalar la extensión NOSTR-client</h5>
+<p>Esta es una extensión necesaria para NOSTR-market, ya que su mercado necesita conectarse a varios relés NOSTR para poder transmitir su puesto.</p>
+<p>NOSTR-client es una extensión siempre activa que puede abrir múltiples conexiones a relés NOSTR y actuar como un multiplexor para otros clientes: abre un único websocket a nostrclient que luego envía los datos a múltiples relés. Las respuestas de estos relés luego se envían de vuelta al cliente.</p>
+<p><img src="/assets/images/nostr-market-client.jpg" class="center"></p>
+<p>Agregue algunos relés NOSTR al cliente. Si puede agregar un relé proxy (uno que esté conectado a muchos otros relés), será mejor limitar el tráfico de sincronización.</p>
+
+<h5>D - Instalar la extensión NOSTR-Market</h5>
+<p>Esta es la extensión importante que usará para crear y administrar su perfil de comerciante, los puestos, los productos, interactuar con los clientes a través de mensajes privados de NOSTR, administrar pedidos, etc.</p>
+<p><a href="https://github.com/lnbits/lnbits/wiki/LNbits-Extensions#install-extensions">Vea más instrucciones aquí.</a></p>
+<hr style="height:2px">
+
+<h4 style="color:Yellow;">Paso 2: configure su puesto de comerciante NOSTR y sus productos</h4>
+<p>Como comerciante, debe proporcionar un par de claves Nostr, o la extensión puede generar uno para usted. Si ya usas NOSTR para publicar notas y chatear, puedes usar las mismas claves para usar la reputación y verificación NIP-05 ya creadas. Pero es preferible tener una clave separada para la tienda y simplemente publicar en tu "perfil público NOSTR" la clave pública adicional de la tienda.</p>
+<p><img src="/assets/images/nostr-market-welcome.jpg" class="center"></p>
+<p>Una vez que tengas una "cuenta" de comerciante, puedes ver los detalles en el menú desplegable de comerciantes, guardar las claves por separado y/o anunciar la clave pública de tu tienda (¡no la clave privada!) a tus seguidores/clientes.</p>
+<p>¡GUARDA TU CLAVE PRIVADA en un lugar seguro! En caso de que necesites migrar tu mercado LNbits NOSTR o restaurar una instancia LNbits a otra máquina, puedes usar esa clave privada de comerciante para importar tu puesto y artículos anteriores.</p>
+<p><img src="/assets/images/nostr-market-keys.png" class="center"></p>
+<p>Para crear un puesto, primero debes establecer una zona de envío. Haz clic en el botón Zonas y completa los campos:</p>
+<ul>
+<li>Ponle un nombre a tu zona de envío</li>
+<li>Selecciona a qué países se aplica esta zona de envío (puedes establecer una zona "Franca" para bienes digitales)</li>
+<li>Selecciona la unidad de cuenta. Si vas a incluir productos en USD/EUR, la zona de envío debe estar en la misma moneda</li>
+<li>Selecciona el costo de envío</li>
+</ul>
+<p>Ahora puedes crear el puesto. Haga clic en el botón Nuevo puesto y complete los campos necesarios.</p>
+<p><img src="/assets/images/nostr-market-shop.png" class="center"></p>
+<p><img src="/assets/images/nostr-market-wallet.png" class="center"></p>
+<ul>
+<li>Ponga un nombre para su puesto/tienda</li>
+<li>Una descripción opcional (el cliente puede usarla para buscar tiendas)</li>
+<li>Seleccione qué billetera usar para esta tienda</li>
+<li>Seleccione la unidad</li>
+<li>Seleccione una zona de envío (se pueden seleccionar varias zonas)</li>
+</ul>
+<p>Haga clic en el botón "Más" para abrir los detalles del puesto y haga clic en "Nuevo producto" para crear un producto:</p>
+<p><img src="/assets/images/nostr-market-product.png" class="center"></p>
+<p>Complete los campos necesarios en el cuadro de diálogo</p>
+<p><img src="/assets/images/nostr-market-product-2.png" class="center"></p>
+<ul>
+<li>El nombre del producto</li>
+<li>Dale una descripción</li>
+<li>Agregue algunas categorías (los clientes pueden usar esto para buscar productos, así que agregue tantas como puedan describir mejor su artículo)</li>
+<li>Proporcione una URL para la imagen de su producto (se recomienda que las imágenes estén alojadas fuera de LNbits). Puede utilizar PostIMG.cc o cualquier otro CDN.</li>
+<li>Un precio para el producto, en la moneda seleccionada para la tienda (se convertirá a sats cuando un cliente compre)</li>
+<li>La cantidad que tiene en stock, para el producto. Esto se actualizará cuando se realicen/paguen los pedidos</li>
+</ul>
+<p>En la sección Puesto, también puede ver (actualizar o eliminar) los detalles del puesto en la pestaña Información del puesto</p>
+<p><img src="/assets/images/nostr-market-stall.png" class="center"></p>
+<p>Crear, actualizar o eliminar productos en la pestaña Productos</p>
+<p><img src="/assets/images/nostr-market-products-list.png" class="center"></p>
+<p>¡Listo! Tu puesto de comerciante está listo para que lo visiten tus clientes.</p>
+<p>Para probar localmente tu puesto, abre el enlace de la página del Mercado local, ubicada en la página principal de NOSTR-Market, en el panel lateral derecho:</p>
+<p><img src="/assets/images/nostr-market-client-2.png" class="center"></p>
+<p>Este enlace abrirá una nueva pestaña como: http:127.0.0.1/nostrmarket/market o https://your-lnbits.domain.com/nostrmarket/market (si accedes a ella en clearnet).</p>
+<p><img src="/assets/images/nostr-market-link.jpg" class="center"></p>
+<p>Haz clic en el menú del Mercado y ve a Comerciantes. Luego, pega tu clave pública de comerciante (consulta el comienzo de este capítulo sobre cómo mostrar/guardar tu clave pública).</p>
+<p>Una vez que agregues tu clave pública, tu puesto se mostrará y se transmitirá a los relés.</p>
+<p>El botón de inicio de sesión se debe utilizar como cliente o como propietario del puesto o como con tu perfil personal de NOSTR.</p>
+<p>También puedes probar tu puesto de NOSTR desde cualquier otra página pública de NOSTR Market, como <a href="https://market.nostr.com/">https://market.nostr.com/</a>, por ejemplo. Solo tienes que agregar tu clave pública en la sección "Comerciantes" y listo. Cualquiera de tus clientes puede hacer el mismo procedimiento o desde su propia instancia local de LNbits si la tienen.</p>
+<p><img src="/assets/images/nostr-market-products-list-2.jpg" class="center"></p>
+<p>En una página de Market puedes agregar varios comerciantes y comprar desde allí directamente. Como puedes ver en la imagen de arriba, hay 3 comerciantes diferentes, con sus puestos y a todos se puede acceder desde una instancia local de LNbits, simplemente agregando sus claves públicas.</p>
+<p>Cuando recibes un pedido, puedes ver los detalles haciendo clic en el signo "Más" del pedido.</p>
+<p><img src="/assets/images/nostr-market-order.png" class="center"></p>
+<ul>
+<li>Productos pedidos</li>
+<li>ID del pedido</li>
+<li>Dirección de envío del cliente</li>
+<li>Clave pública del cliente</li>
+<li>ID de factura</li>
+</ul>
+<p>Si corresponde, puede establecer como enviado cuando se procese el envío.</p>
+<p>También tiene un cuadro de chat para chatear con el cliente y todos estos mensajes se envían a través del protocolo NOSTR, de forma privada y cifrada.</p>
+<p><img src="/assets/images/nostr-market-chat.png" class="center"></p>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">COMO CLIENTE</h2>
+<p>LNbits también proporciona una aplicación de cliente de Nostr Market.</p>
+<p>Puede compartir con sus clientes la URL del cliente desde el panel del comerciante haciendo clic en el enlace "Cliente de Market" o visitando https://your-LNbits-instance-URL/nostrmarket/market.</p>
+<p>O pueden visitar https://market.nostr.com/ por ejemplo y simplemente agregar su clave pública de puesto. O incluso pueden usar el cuadro de búsqueda y colocar una de sus etiquetas específicas.</p>
+<p>Si ya tienen una instancia de LNbits instalada, incluso pueden acceder a ella desde una URL local como http://127.0.0.1/nostrmarket/market y agregar la clave pública de puesto.</p>
+
+<center>
+<h3 style="color:Yellow;">¡FELICES COMPRAS DESCENTRALIZADAS EN NOSTR CON BTC/LN!</h3>
+</center>
+
+</body>
+</html>
+</article>
