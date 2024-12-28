@@ -1,0 +1,121 @@
+---
+layout: default
+title: Kako koristiti LNbits Streamer Copilot
+---
+<article>
+<!DOCTYPE html>
+<html lang="hr">
+<meta name="description" content="Vodiči za Bitcoin i Lightning Nodes: Vodič korak po korak za podcastere koji se žele zabaviti sa satovima na svom video podcastu uživo. Gledatelji ispuštaju satove i komuniciraju sa smiješnim animacijama, uživo">
+<body>
+<a href="/merchants/lnbits-stream-copilot-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/lnbits-stream-copilot-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/lnbits-stream-copilot-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/lnbits-stream-copilot-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/lnbits-stream-copilot-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/lnbits-stream-copilot-nl.html">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/lnbits-stream-copilot-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<em><blockquote style="color:Tomato;">
+<p>Izvorno objavljeno na <a href="https://darthcoin.substack.com/p/lnbits-streamer-copilot">Substack</a> 14. siječnja 2023. Ovdje ažurirano 28. prosinca 2024.< /p>
+</em></blockquote>
+
+<h3>Vodič korak po korak za podcastere koji se žele zabaviti uz sats na svom podcastu uživo. Gledatelji ispuštaju satove i stupaju u interakciju sa smiješnim animacijama, uživo.</h3>
+<p>U zadnje vrijeme sam vidio mnoge podcastere uživo na YouTubeu ili drugim videoplatformama, ali vrlo malo njih stvarno usvaja Bitcoin, u obliku savjeta, doprinosa, zabavnih animacija aktiviranih donacijama sa satovima preko Lightning Networka.</p>
+<p>Pa se pitam, možda ne znaju kako postaviti jednostavno rješenje za ovo. I ovdje bih im želio predstaviti jednostavan vodič, korak po korak, bez troškova, ali s ogromnim potencijalom:</p>
+<p>Gledatelji su mogli vidjeti da prihvaćate Bitcoin umjesto LN-a, privući pozornost na Bitcoin</p>
+<ul>
+<li>gledatelji bi imali zabavan odgovor/nagradu za svoje skromne donacije i doprinose</li>
+<li>Ako želite, možete čak organizirati kampanju grupnog financiranja uživo</li>
+<li>učinite svoju emisiju uživo interaktivnijom</li>
+<li>i ne posljednji: UČINITE USVAJANJE BITCOINA DA BUDE ZABAVNO</li>
+</ul>
+<p>Dakle, evo kratkog vodiča kako instalirati, konfigurirati i pokrenuti LNbits instancu NA BILO KOJEM PC-u SA LINUXOM i postaviti Streamer Copilot LNbits proširenje. Možete ga koristiti s bilo kojom platformom za strujanje koju inače koristite (ReStream ili OBS Studio).</p>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">FAZA 1 - INSTALACIJA LNBITA</h2>
+<ol>
+<li>
+<p>Ako nemate spreman LinuxOS stroj, predlažem da uzmete bilo koji stari laptop ili računalo s najmanje 4 GB RAM-a i instalirate <a href="https://www.debian.org/download">DebianOS</a > na njemu (ili bilo kojem drugom Linuxu koji želite). Više volim Debian jer je čisti Linux, čist, brz, bez sranja i najkompatibilniji je sa svim repozitorijima. Postavite statički lokalni IP za taj stroj. Instalirajte ufw vatrozid i otvorite port 443 u njemu.</p>
+
+<pre><code>
+sudo apt instalirajte ufw
+sudo ufw dopustiti 443
+</code></pre>
+<p>Otvorite priključak 443 (https) na svom usmjerivaču i proslijedite ga na IP adresu lokalnog računala koje ugošćuje vašu LNbits instancu.</p>
+</li>
+<li><a href="https://docs.lnbits.org/guide/installation.html">Instalirajte LNbits</a> metodom poezije. Samo nekoliko redaka copy/paste, ne morate biti super linux koder da biste ih koristili. Svaki windoze korisnik bi to mogao učiniti :) Nemojte još pokretati lnbits! Prvo se mora konfigurirati.</li>
+<li><a href="https://docs.lnbits.org/guide/installation.html#reverse-proxy-with-automatic-https-using-caddy">Koristite opciju caddy</a> za konfiguraciju https-a pristup vašim LNbitovima. To je najjednostavniji i najčistiji način. Koristite poddomenu za svoju LNbits instancu kao što je lnbits.mydomain.com ili bank.mydomain.com ili bilo što.mydomain.com</li>
+<li>o na webu administratora vaše domene i uredite DNS zapise tako da sadrže zapis za vašu lnbits.mydomain.com za IP koji imate na svom usmjerivaču. Ako imate dinamički IP, možete upotrijebiti bilo koju DynDNS aplikaciju da je konfigurirate koristeći CNAME u svom DNS-u.</li>
+<li><a href="https://docs.lnbits.org/guide/installation.html#option-1-recommended-poetry">Uredite LNbits .env datoteku</a> i aktivirajte <a href=" https://docs.lnbits.org/guide/admin_ui.html">adminUI proširenje</a> kako biste njime mogli upravljati izravno u pregledniku.</li>
+<li>Pokrenite LNbits jednostavnom naredbom "poetry run lnbits" (pokreni u mapi lnbits-legend) i u konzoli za pokretanje vidjet ćete vezu na adminUI. Kopirajte i zalijepite u svoj preglednik i počnite konfigurirati svoje LNbitove.</li>
+<li>Morat ćete postaviti: izvor financiranja, korisnike, ovlaštene korisnike za pristup vašim LNbitovima. Dobro je ograničiti javni pristup samo na korisnike koje ste stvorili.</li>
+<li>Kao izvor financiranja, ako ne pokrećete vlastiti LN čvor (koji ga možete povezati sa svojim LNbitovima), možete koristiti mnoge jednostavne izvore financiranja kao što su: lntxbot, lntipbot, lnpay.co, openNode.com itd. S LNPay.co je vrlo jednostavan za postavljanje i imaju dobre poslužitelje za likvidnost, možete otvoriti besplatan račun ako nemate previše prometa. Samo za ovaj scenarij je dovoljno. Kasnije možete promijeniti izvor financiranja kad god želite.</li>
+<li>Ako ne želite zadržati sredstva u ovim skrbničkim izvorima financiranja, možete postaviti LNbits ekstenziju Scrub i automatski proslijediti sve satove na vanjsku adresu. Ili to učinite ručno kada smatrate da je pravo vrijeme. Ali svejedno, koristite ove skrbničke izvore financiranja kao poligon za testiranje, a ne za proizvodne slučajeve. Možete promijeniti izvor financiranja bilo kada iz adminUI, bez ikakvih drugih promjena u vašim LNbitovima ili utjecaja na konfiguraciju i novčanike.</li>
+<li>Gotovo! Imate pokrenut LNbits, sada možete kreirati korisnike, lndhub račune novčanika i aktivirati proširenje koje vam je potrebno za svakog korisnika. Predlažem da počnete aktivirati ova proširenja: lndhub, lnurl-pay, lnurl-withdraw, streamer copilot, Scrub i sva ostala koja želite/trebate. <a href="https://github.com/lnbits/lnbits/wiki/Powered-by-LNbits">Postoji mnogo više stvari</a> koje možete učiniti s LNbits i stvarno su zanimljive.</li>
+<li>Provedite nekoliko testiranja sa svojim LNURL-p da vidite radi li ispravno primanje.</li>
+</ol>
+<p>Više o početku rada s LNbits i kako njime upravljati, <a href="/merchants/getting-started-lnbits-hr.html">ovdje je detaljan vodič</a> i ovdje dodatni vodič koji objašnjava < a href="/merchants/build-lnbits-app-server-hr.html">više metoda za pokretanje LNbits instance</a>.</p>
+<p><a href="https://www.youtube.com/channel/UCGXU2Ae5x5K-5aKdmKqoLYg/videos">Ovdje pogledajte više videouputa o tome kako postaviti korisnike, proširenja itd.</a></p>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">FAZA 2 - KONFIGURIRANJE KOPILOTA STREAMERA</h2>
+<p>OK, sada imate LNbits koji radi kao backstage za vaš streaming podcast. Pogledajmo kako konfigurirati proširenje Streamer Copilot za rad s vašom platformom za strujanje. To je praktički samo dodana animacija na vaš video feed, povezana s LNBits.</p>
+<p><a href="https://www.youtube.com/watch?v=w5TmWWj2nZY">Ovdje je videouputa</a> koju je napravio Ben Arc (LNbits dev) o Streamer Copilot-u.</p>
+
+<h3 style="color:Yellow;">Stvorite kopilot</h3>
+<p>Idite na svoju LNbits glavnu nadzornu ploču. Ako ste već stvorili namjenskog korisnika (s vlastitim novčanikom) za ovu postavku, uđite na vlastitu korisničku nadzornu ploču. Također možete koristiti glavnog administratorskog korisnika s mnogo različitih novčanika. Na vama je kako ćete to organizirati.</p>
+<p>Zatim idite na “Manage Extensions” - pronađite “Streamer Copilot” i kliknite “activate”. Zatim kliknite "Otvori" i uđite u nadzornu ploču proširenja Streamer Copilot.</p>
+<p><img src="/assets/images/lnbits-copilot-1.png" class="center"></p>
+<p>Stvorit ćemo novog kopilota, staviti naslov, odabrati okvir za QR plaćanja koji će biti prikazan na ekranu. Pojavit će se razine napojnica i svaka se može konfigurirati za prikaz skupa animacija na temelju iznosa napojnice.</p>
+<p>Možete također aktivirati okvir za prikaz LNURL poruka. Gledatelji mogu slati poruke zajedno s LN savjetom. Više zabave!</p>
+<p>Iz padajućeg okvira odaberite LNbits novčanik. Dobro je koristiti namjenski. U LNbits možete kreirati mnoge lndhub novčanike.</p>
+<p>Stavite naslov koji će se prikazati ispod QR koda. Ako želite aktivirati “kutiju s cijenama”, ona će prikazati ukupan iznos prikupljen od napojnica.</p>
+<p>Zatim kliknite stvoriti kopilot. Gotovo. Spremno je za umetanje u vaš prijenos uživo.</p>
+
+<h3 style="color:Yellow;">Testirajte kopilota za strujanje</h3>
+<p><img src="/assets/images/lnbits-copilot-2.png" class="center"></p>
+
+<p>Kliknite na ikonu ploče s popisa kopilota.</p>
+<p>Pojavit će se mali prozor s kontrolama kopilota za testiranje. Kliknite na lice kopilota i otvorit će se prozor u kojem ćete vidjeti feed videokamere s QR kodom koji se preklapa.</p>
+<p>Testirajte neke radnje i pogledajte kako se animacije uklapaju u vaš feed. Gotovo!</p>
+<p>Trenutno ih je samo nekoliko za odabrati, ali uskoro ćemo imati opcije za dodavanje više GIF-ova i animacija. Također opcija za plutajuću QR sliku, koja se može premjestiti gdje želite da bolje stane na vaš stream video.</p>
+
+<h3 style="color:Yellow;">Povežite Streamer Copilot sa svojom platformom za strujanje</h3>
+<p>Držite svoje LNbits prozore za strujanje otvorenima i otvorite OBS studio (ili bilo koju drugu platformu za strujanje).</p>
+<p>U ovom primjeru koristit ćemo <a href="https://obsproject.com/download">OBS Studio</a>, besplatnu platformu za strujanje otvorenog koda.</p>
+<p>Idite na nadzornu ploču OBS studija i kliknite na “izvori +” - odaberite “Snimanje prozora”.</p>
+<p><img src="/assets/images/lnbits-copilot-obs.png" class="center"></p>
+<p>U svojstvima prozora odaberite prozor otvoren iz LNbits kopilota i spremite postavke. Na glavnoj nadzornoj ploči OBS-a vidjet ćete videosadržaj s QR slikom.</p>
+<p><img src="/assets/images/lnbits-copilot-obs-2.jpg" class="center"></p>
+<p>Možete kliknuti na svojstva “izvora” ako želite napraviti promjene.</p>
+<p>Rasporedite video feed kako želite, predlažem da ga malo pomaknete prema gore kako biste sakrili URL LNbits prozora. Povećajte ili smanjite da stane u vaš prozor strujanja.</p>
+<p>Imajte na umu da će OBS donijeti kao "aktivni odabrani prozor" zadnji prozor preglednika koji odaberete. Dakle, ako koristite više kartica u isto vrijeme, svakako ostavite odabran prozor streamera.</p>
+<p>Idite na desnu upravljačku ploču i kliknite na “postavke”.</p>
+<p><img src="/assets/images/obs-telegram.png" class="center"></p>
+<p>Odaberite opciju “Stream” i unesite sve pojedinosti o svom odredištu za strujanje.</p>
+<p>To može biti bilo koji video servis uživo (Youtube, Rumble, Twitch, Telegram itd.). Stoga ćete morati uzeti vezu i ključ poslužitelja s njihovog računa za postavljanje i staviti ih u postavke OBS streama.</p>
+<p>Spremite i idite na desnu kontrolnu ploču i kliknite na “Pokreni strujanje”.</p>
+<p>Sada možete koristiti taj stream na bilo kojoj drugoj platformi kao što su Youtube, Twitch, Rumble, Telegram, bilo što...</p>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">Kako emitirati putem Telegrama</h2>
+<p>Jednostavni koraci kako emitirati LNBits streamer sesiju na Telegram kanalu.</p>
+<p>Recimo da imate Telegram grupu ili kanal i želite prikazati kopilotni prozor LNbits streamera, a članovi te grupe mogu slati satove tijekom audio/video sesije.</p>
+<p>Idite na Telegram grupu i kliknite gornju ikonu za "streaming with..." (morate biti vlasnik grupe, inače nije aktivna).</p>
+<p><img src="/assets/images/lnbits-copilot-tg.png" class="center"></p>
+<p>Kopirajte URL poslužitelja i ključ streama i zalijepite ga u postavke OBS streaminga</p>
+<p><img src="/assets/images/obs-streaming.png" class="center"></p>
+<p><img src="/assets/images/obs-streaming-2.png" class="center"></p>
+<p>Zatvorite postavke OBS streama i kliknite na početak streama, u OBS-u i Telegramu.</p>
+<p>Gotovo, nakon nekoliko trenutaka vidjet ćete strujanje videa.</p>
+<p>Ovo se može primijeniti s bilo kojim medijskim izvorom, čak i ako je uživo ili snimljeno.</p>
+<p>Članovi Telegram grupe mogu ga gledati bilo kada, čak i u petlji.</p>
+<h3 style="color:Yellow;">UŽIVAJTE U STREAMINGU!</h3>
+<p>Gotovo! Sada će se vaš video feed s LNbits kopilotom emitirati. Svi gledatelji mogu vidjeti i komunicirati pomoću prikazanog LNURL QR koda i vidjeti sve animacije pokrenute njihovim uplatama na QR kod u stvarnom vremenu!</p>
+<p>Sva plaćanja idu ravno u vaš LNbits novčanik (zapravo u vaš izvor financiranja).</p>
+<centar>
+<h3 style="color:Yellow;">ZABAVITE SE UZ LIGHTNING NETWORK I LNBITS!</h3>
+</center>
+
+</body>
+</html>
+</article>
