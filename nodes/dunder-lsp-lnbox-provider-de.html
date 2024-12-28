@@ -1,0 +1,146 @@
+---
+layout: default
+title: Dunder LSP und Lightning Box-Anbieter
+---
+<article>
+<!DOCTYPE html>
+<html lang="de">
+<meta name="description" content="Bitcoin- und Lightning-Anleitungen: So stellen Sie den Benutzern mobiler Blixt-Knoten LSP-Dienste und LN-Boxen zur Verfügung">
+<body>
+<a href="/nodes/dunder-lsp-lnbox-provider-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/dunder-lsp-lnbox-provider-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/dunder-lsp-lnbox-provider-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/dunder-lsp-lnbox-provider-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/dunder-lsp-lnbox-provider-nl.html">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/dunder-lsp-lnbox-provider-hr.html">Hrvatski <img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/dunder-lsp-lnbox-provider-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<blockquote style="color:Tomato;"><em>
+<p>Ursprünglich gepostet auf <a href="https://darthcoin.substack.com/p/dunder-lsp-and-lightning-box-provider">Substack</a> am 29. Nov. 2023. Hier aktualisiert am 28. Dez. 2024.</p>
+</em></blockquote>
+
+<h3>Dieser Mini-Leitfaden richtet sich an alle Node-Betreiber, die ihrem LN-Node mehr Sinn geben und mehr Dienste für mobile Benutzer bereitstellen möchten.</h3>
+<p>Ich hoffe wirklich, dass alle Plebnet-Node-Betreiber diesen Mini-Leitfaden lesen und ihre LN-Nodes mehr nutzen. Diese Liquidität ist genau das, was normale mobile Benutzer jetzt brauchen.</p>
+<p>Ich möchte einige einfache Schritte erklären, wie Sie LN-Liquiditätsdienste für mobile Node-Benutzer anbieten können. Dies könnte auch das „Onkel Jim“-Szenario sein, in dem Sie LN-Dienste für Ihre Familie und Freunde anbieten, die keinen eigenen Knoten betreiben können und nur eine Möglichkeit suchen, LN auf sichere und private Weise, in Eigenverwahrung, zu nutzen.</p>
+
+<figure>
+<img src="/assets/images/blixt-ln-box.jpg" class="center">
+<figcaption>Die magische Lightning Box von Blixt: Dunder LSP und Lightning Address</figcaption>
+</figure>
+
+<h3 style="color:Orange;">ERINNERUNG:</h3>
+<ul>
+<li>Diese Anleitung ist nichts für Anfänger! Bitte, wenn Sie keine guten Grundkenntnisse zum Betreiben öffentlicher Routing-Knoten haben, ist dies NICHT das Richtige für Sie.</li>
+<li>LSP hält keine Benutzergelder! Es stellt nur Liquidität bereit. Dies ist KEINE Verwahrung von Benutzergeldern, sondern nur eine Möglichkeit, schnell zu öffnende Kanäle und gute Routen für Benutzerzahlungen bereitzustellen. <a href="https://thebitcoinmanual.com/articles/explained-lsp/">Lesen Sie hier mehr darüber, was ein LSP ist</a> (Liquidity Service Provider).</li>
+<li>LSPs sind für Benutzer mobiler privater Knoten sehr wichtig, um gute Kanäle öffnen zu können, die eine gute Liquidität bieten. Nicht alle LN-Knoten im Netzwerk sind bereit, diese Art von Diensten anzubieten, da ein privater Knoten nicht immer online ist und kein Routing durchführt. Diese Gelder sind daher ausschließlich für ihre eigenen Zahlungen bestimmt und der LSP kann sie daher nicht für das Routing verwenden. In gewisser Weise sind sie also vom Benutzerverkehr abhängig. Wenn der Benutzer diese Gelder nicht für Zahlungen verwendet, verdient der LSP keine Gebühren. Oder noch schlimmer: Wenn ein eingehender Kanal für den Benutzer geöffnet wird, steckt der LSP buchstäblich Geld aus seiner Tasche in einen Kanal, der sich nie bewegt.</li>
+<li>Es ist wichtig, dass diese Kanaldienste für Benutzer gedacht sind, die die meiste Zeit über eingehenden und ausgehenden Verkehr haben.</li>
+</ul>
+
+<h3 style="color:Orange;">Zuerst sind einige Anforderungen zu nennen:</h4>
+<h4 style="color:Yellow;">A. Sie haben einen guten öffentlichen LN-Knoten</h4>
+<p>Das Betreiben eines guten Routing-Knotens ist eine ernste Aufgabe. Sie müssen einen guten Knoten mit Historie, guten Kanälen, guter Liquidität und guter Wartung haben. Es ist nicht für irgendeinen beschissenen neuen Knoten im Netzwerk.</p>
+<p>Sie tragen eine große Verantwortung dafür, alle Zahlungen gut zu routen, nicht nur für Ihre privaten Peers, sondern auch für die öffentlichen.</p>
+<p>Ich habe mehrere Anleitungen zu diesem Aspekt geschrieben, bitte nehmen Sie sich Zeit und lesen Sie sie:</p>
+<ul>
+<li><a href="/nodes/recommendations-ln-node-operators-de.html">Empfehlungen für LN-Benutzer</a></li>
+<li><a href="/nodes/managing-lightning-node-liquidity-de.html">Verwaltung der Lightning-Node-Liquidität</a></li>
+<li><a href="/nodes/lightning-node-maintenance-de.html">Wartung von Lightning-Nodes</a></li>
+<li><a href="/nodes/lightning-routing-fees-experiment-de.html">Lightning-Routing-Gebühren Experiment</a></li>
+<li><a href="/merchants/private-banks-over-ln-de.html">Private Banken über Lightning Network</a></li>
+</ul>
+
+<h4 style="color:Yellow;">B. Sie betreiben einen LND-Knoten.</h4>
+<p>Dieses Szenario ist leider nur für LND-Knoten. Im Moment kein CLN, Eclair, LDK. Wir ermutigen jeden, der gut darin ist, Code zu schreiben, ihn zu nehmen und für andere LN-Implementierungen zu forken. Die Software ist FOSS.</p>
+<p>Ich hoffe, dass wir eines Tages einen Standardcode für alle Arten von LSP- und LN-Implementierungen haben werden, aber bis dahin müssen wir das verwenden, was wir haben, um zu versuchen, voranzukommen.</p>
+
+<h4 style="color:Yellow;">C. Ihr Knoten hat eine gute Liquidität</h4>
+<p>Sie müssen sehr gut wissen, wie Sie Ihre Liquidität so aufrechterhalten, dass reibungslose und schnelle Zahlungen möglich sind.</p>
+<p>Die Gesundheit des Netzwerks hängt enorm von guten öffentlichen Knoten ab. Wenn Ihr Knoten nicht gut gewartet wird, keine sehr gute Liquidität hat und nur Tor ist, dann schaden Sie dem gesamten Netzwerk mehr, als dass Sie etwas Gutes tun.</p>
+
+<h4 style="color:Yellow;">D. Routing-Gebühren, die Sie erheben</h4>
+<p>Die Gebühren sind Ihre Sache, aber ich schlage vor, dass Sie sich nicht von der Gier kontrollieren lassen. Wir sind nicht in der Phase, in der wir uns gegenseitig verarschen. Zuerst müssen wir die Banken und Regierungen verarschen, indem wir die Einführung von Bitcoin und seine weitere Nutzung vorantreiben.</p>
+<p>Gehen Sie also mit Vorsicht vor, haben Sie eine langfristige Präferenz und einen reibungslosen Einkommensfluss mit zufriedenen Kunden Ihrer Liquidität.</p>
+
+<h4 style="color:Yellow;">E. Technische Fähigkeiten</h4>
+<p>Sie müssen mit Linux und CLI sowie der Installation von Software sehr vertraut sein. KEINE Noobs erforderlich, die nur wissen, wie man Umbrel und Windows verwendet.</p>
+<p>Das Debuggen und Warten eines ernsthaften Systems ist nichts für Anfänger. Es kann immer Mist passieren und Sie müssen schnell und mit Wissen handeln. Viele Menschen werden sich auf Ihre Fähigkeiten verlassen, um Probleme rechtzeitig zu beheben.</p>
+
+<h4 style="color:Yellow;">F. Service-Langlebigkeit</h4>
+<p>Bereit, den Service für Ihre Benutzer so lange wie möglich aufrechtzuerhalten. Seien Sie fair und helfen Sie ihnen, so viel Sie können. Wir haben viele Aufgeber gesehen, also analysieren Sie Ihre Optionen, Ihre zukünftigen Gewinne, Ihre langfristige Strategie und beginnen Sie nur damit, wenn Sie wissen, dass Sie das Versprechen halten können.</p>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">LÖSUNGSVORSCHLAG</h2>
+<p>Der Vorschlag besteht aus zwei Teilen:</p>
+<ul>
+<li>Dunder LSP – Liquiditätsdienste für mobile Knoten</li>
+<li>Lightning Box – LN-Adressdienste für private Domänen, Familie und Freunde</li>
+</ul>
+
+<h3 style="color:Orange;">A – Dunder LSP</h3>
+<p>Diese Lösung basiert auf <a href="https://github.com/hsjoberg/dunder-lsp">Dunder LSP-Spezifikationen</a>, die vollständig Open Source sind und <a href="https://nostr.at/npub1v4v57fu60zvc9d2uq23cey4fnwvxlzga9q2vta2n6xalu03rs57s0mxwu8">von Hampus</a>, Entwickler von <a href="https://blixtwallet.com/">Blixt Wallet</a>. Alle Beiträge zur Verbesserung des Codes sind willkommen!</p>
+<p>Dieses Dunder LSP bietet derzeit ein einfaches Onboarding für neue Blixt-Wallet-Benutzer, einen vollständigen LND-Knoten auf Ihrem Handy (<a href="/wallets/getting-started-blixt-wallet-de.html">Ich habe hier eine vollständige Schritt-für-Schritt-Anleitung geschrieben</a>).</p>
+<p>Die Idee ist, dass Sie als Betreiber eines öffentlichen Routing-Knotens zwei Dinge bereitstellen:</p>
+<ul>
+<li>private Kanäle für mobile Knotenbenutzer, sogar mit 0-Conf-Kanälen</li>
+<li>Zugang zu öffentlicher Liquidität über diese privaten Kanäle, bessere Zahlungswege</li>
+</ul>
+<p>Auf diese Weise können die mobilen Benutzer LN schnell und reibungslos in einer selbstverwalteten Methode verwenden, ohne die Komplizenschaft öffentlicher Routing-Knoten. Manche Benutzer können all diese Dinge einfach nicht tun, sie möchten LN nur für ihre eigenen Zahlungen verwenden.</p>
+<p>Ich habe die gesamte Dokumentation für das Blixt-Wallet geschrieben, <a href="https://blixtwallet.github.io/features">in der ich jede App-Funktion erkläre</a>, mit mehreren <a href="https://blixtwallet.github.io/guides">Anleitungen</a> und einer ausführlichen <a href="https://blixtwallet.github.io/faq">FAQ-Seite</a>. Bitte lesen Sie sie alle, es sind sehr interessante Anwendungsfälle.</p>
+<p>Und hier ist einer, in dem speziell darüber gesprochen wird, <a href="https://blixtwallet.github.io/guides#guide-lsp">wie man Dunder LSP in Ihrem Blixt-Wallet verwendet</a>.</p>
+<p>Der Dunder-Prozessablauf wird in diesem einfachen Schema beschrieben:</p>
+
+<p><img src="/assets/images/blixt-dunder-lsp.jpg" class="center"></p>
+
+<h4 style="color:Yellow;">Welche Schritte sollten Sie also als LND-Knoten-Betreiber durchführen?</h4>
+<ol>
+<li>Installieren Sie die Dunder LSP-Software auf Ihrem eigenen Knoten-Rechner</li>
+<li>Legen Sie Ihre eigenen Dunder-Regeln für Gebühren, Kanalgröße usw. fest</li>
+<li>Führen Sie einige Tests mit Ihrem eigenen Blixt-Wallet durch, indem Sie einen On-Demand-Kanal mit 0-conf, Instant öffnen</li>
+<li>Führen Sie weitere Tests mit den Blixt-Benutzern Ihrer Familie/Freunde durch, um sicherzustellen, dass Ihr Knoten gut reagiert und alle Zahlungen gut weiterleiten kann.</li>
+<li>Listen Sie Ihre Dunder LSP-Dienste auf den <a href="https://github.com/hsjoberg/blixt-wallet/issues/1033">Blixt-Community-Peers</a> auf – vielleicht wird diese Liste bald direkt in die Blixt-Benutzeroberfläche integriert, sodass neue Benutzer ihre Peers einfach auswählen können. Im Moment ist es nur eine Liste, in der Blixt-Benutzer ihre bevorzugten Peers zur Verwendung mit Blixt veröffentlichen, wie eine bestätigte Liste von Peers.</li>
+<li>Geben Sie Hampus Feedback, veröffentlichen Sie Probleme im <a href="https://github.com/hsjoberg/dunder-lsp">Dunder Github Repo</a> und beteiligen Sie sich, wenn Sie welche haben, mit PRs für den Code. Da es sich um Open Source handelt, kann es auch zu einem LSP-Standard für andere LN-Implementierungen und mobile LN-Knoten (Zeus, Mutiny, Electrum, Breez, Phoenix) erweitert werden.</li>
+</ol>
+<p>Die Netzwerktopologie wird wie folgt aussehen:</p>
+<p><img src="/assets/images/blixt-network-topology.jpg" class="center"></p>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">B - Lightning Box</h3>
+<p>Dies ist eine neue Funktion für Blixt Wallet, die mit <a href="https://github.com/hsjoberg/blixt-wallet/releases/tag/v0.6.9-420">v0.6.9-420</a> beginnt und auf einem Softwarepaket namens <a href="https://github.com/hsjoberg/lightning-box">Lightning Box</a> basiert, das ebenfalls von Hampus.</p>
+<p>Lightning Box ist ein <a href="https://lightningaddress.com/">Lightning Address</a>-Anbieter für mobile Knoten wie Blixt Wallet, mit dem Sie Zahlungen über Lightning Address direkt auf Ihr Telefon erhalten können.</p>
+<p>Dies funktioniert in Verbindung mit dem in v0.6.9 veröffentlichten Persistent Mode, der es Blixt Wallet ermöglicht, im Hintergrund aktiv zu bleiben, um Zahlungen zu empfangen.</p>
+<p>Sie können dies auch für Nostr-Trinkgeld verwenden.</p>
+<p>Derzeit wird die Standard-Lightning Box auf dem Blixt-Knotenserver ausgeführt und bietet eine @blixtwallet.com-LN-Adresse. Aber JEDER mit einem öffentlichen LND-Knoten kann den Lightning Box-Server ausführen und eine LN-Adresse für seine eigene Domäne anbieten, Selbstverwahrung.</p>
+<p>Derzeit leitet der Blixt-Server die Zahlungen nur an Blixt-Benutzer weiter. Benutzer müssen ihre Blixt-Node-Wallet in den „persistenten Modus“ versetzen, um diese Zahlungen an ihre @ blixtwallet.com LN-Adressen zu erhalten.</p>
+<p>Es gibt also KEINE Verwahrung der Gelder oder das Zurückhalten von Rechnungen, die LN-Box fungiert als Weiterleitungsfunktion.</p>
+<p>Es kann sogar als Chat über LN verwendet werden, sofort und unterhaltsam, und unterstützt auch <a href="https://github.com/lnurl/luds/blob/luds/18.md">LUD-18</a> (Hinzufügen eines Aliasnamens zu einer Zahlung). Sie können der Kontaktliste alle Ihre regelmäßigen LN-Adressen hinzufügen, die Sie häufig verwenden, und sie zum einfachen Chatten oder Senden von Geldern zur Hand haben. Jetzt kann Blixt als vollwertige LN-Chat-App betrachtet werden 😂😂.</p>
+<p>Wie Sie in diesem Demobild sehen können, erscheinen auf dem Hauptbildschirm von Blixt alle „Chats“ über LN mithilfe von LN Box und LUD-18.</p>
+<p><img src="/assets/images/blixt-lud18.jpg" class="center"></p>
+<p>Wie Sie im Screenshot oben sehen können, werden beim Senden vom SN-Konto das Logo + LN-Adresse + Nachricht schön angezeigt. Dasselbe funktioniert für das Senden von Blixt. Sie können Ihre Blixt-LN-Adresse anhängen oder einfach den Aliasnamen hinzufügen (zuvor in den Blixt-Einstellungen festgelegt) oder beides.</p>
+<p>Diese Option von LUD-18 könnte auch für Abonnementdienste nützlich sein, bei denen der Benutzer einen bestimmten Alias ​​senden kann (ist NICHT Ihr Knotenalias oder Ihr richtiger Name!) und auf dieser Grundlage können Sie registriert werden oder eine bestimmte Nachricht oder was auch immer zurückerhalten.</p>
+<p>Das Anhängen eines Aliasnamens (<a href="https://github.com/lnurl/luds/blob/luds/18.md">LUD-18</a>) + Kommentar (<a href="https://github.com/lnurl/luds/blob/luds/12.md">LUD-12</a>) an eine LN-Zahlung kann mehrere Anwendungsfälle haben!</p>
+<p>Sehen Sie sich hier eine Videodemonstration zum Einrichten Ihrer LN-Adresse in Blixt an.</p>
+
+<center>
+<video width="224" height="480" controls>
+<source src="/assets/media/blixt-ln-box-setup.mp4" type="video/mp4">
+</video>
+</center>
+
+<p><a href="https://github.com/hsjoberg/lightning-box">Hier ist der Code für Lightning Box</a>, wenn Sie es für sich selbst, für Ihre Familie und Freunde, auf Ihrem eigenen Knoten, mit Ihrer eigenen Domäne ausführen.</p>
+<p><img src="/assets/images/blixt-tie-interceptor.jpg" class="center"></p>
+
+<center>
+<h3 style="color:Orange;">Viel Spaß mit Lightning mit Blixt Node Wallet!</h3>
+<h4 style="color:Yellow;">Nur durch Zusammenarbeit, Testen, Verwenden und Verbessern können wir vorankommen!</h4>
+</center>
+<hr style="height:2px">
+
+<blockquote style="color:Tomato;"><em>
+<p>HAFTUNGSAUSSCHLUSS</p>
+<p>Ich werde nicht von Blixt oder einem anderen Team/Unternehmen bezahlt. Ich unterstütze lediglich kostenlos ihre Open-Source-Lösungen mit Anleitungen. Wir MÜSSEN uns gegenseitig helfen, wenn wir mit der Einführung von Bitcoin vorankommen wollen. Sie schreiben Code, ich schreibe Anleitungen.</p>
+<p>Ich schreibe kostenlos Anleitungen und Dokumentationen sowie Übersetzungen für viele andere Bitcoin-Lösungen. Mein Leben ist Bitcoin als Ganzes gewidmet, als Weg in eine bessere Welt.</p>
+<p><a href="https://darthcoin.substack.com/p/what-you-did-for-bitcoin">Fragen Sie nicht, was Bitcoin für Sie getan hat, fragen Sie, was SIE für Bitcoin getan haben!</a></p>
+</em></blockquote>
+
+</body>
+</html>
+</article>
