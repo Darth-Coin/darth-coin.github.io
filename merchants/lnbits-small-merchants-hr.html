@@ -1,0 +1,181 @@
+---
+layout: default
+title: LNBits za male trgovce
+---
+<article>
+<!DOCTYPE html>
+<html lang="hr">
+<meta name="description" content="Vodiči za Bitcoin i Lightning Nodes: Slučaj korištenja LNBita u malom hotelskom restoranu kao Bitcoin procesor plaćanja">
+<body>
+<a href="/merchants/lnbits-small-merchants-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/lnbits-small-merchants-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/lnbits-small-merchants-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/lnbits-small-merchants-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/lnbits-small-merchants-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/lnbits-small-merchants-nl.html">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/lnbits-small-merchants-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<em><blockquote style="color:Tomato;">
+<p>Izvorno objavljeno na <a href="https://darthcoin.substack.com/p/lnbits-for-small-merchants">Substack</a> 14. travnja 2022. Ovdje ažurirano 28. prosinca 2024. .</p>
+</em></blockquote>
+
+<h3>Slučaj upotrebe LNBita u malom hotelskom restoranu kao procesor plaćanja Bitcoin</h3>
+<h4>Kako koristiti ovaj prekrasan LNbits paket aplikacija sa svojim Lightning čvorom kao mali trgovac.</h4>
+<p>Da biste pročitali više informacija o LNbits-u, pogledajte ovaj <a href="/merchants/getting-started-lnbits-hr.html">vodič za brzi uvod</a>.</p>
+<p>LNBits se može koristiti kao Bitcoin LN procesor plaćanja. Da, znam, neki od vas bi rekli "ali koristite BTCPay poslužitelj...itd".</p>
+<p>Ovaj put pokušajmo koristiti više alata koji su dostupni trgovcima. Za neke specifične slučajeve LNbits može vrlo dobro pristajati i proširiti upotrebu svojim proširenjima. BTCPay je dobar, radi odličan posao, ali s druge strane LNbits nudi više alata i opcija za trgovca.</p>
+<p><img src="/assets/images/lnbits-funding-sources.jpg" class="center"></p>
+
+<h3 style="color:Orange;">Opis scenarija upotrebe</h3>
+<p>Dakle, uzmimo scenarij slučaja upotrebe: mali hotel i restoran ili caffe bar, s također webshopom za online narudžbe, recimo uobičajenu kombinaciju Wordpress + Woocommerce Plugiin.</p>
+<p>S proširenjem LNbits Market možete izgraditi vlastitu online trgovinu, bez potrebe za instalacijom Wordpressa.</p>
+<p>Trgovac želi sljedeće:</p>
+<ul>
+<li>primati uplate u bitcoinima, s internetskih narudžbi na njegovoj web stranici, bez posrednika i s vrlo niskim naknadama</li>
+<li>Kupci također mogu platiti Bitcoinom putem Lightning mreže u restoranu, na jednostavan način i izravno konobaru. Također bi kupci trebali moći dati napojnice konobaru, u vlastiti novčanik i također odmah podmiriti.</li>
+<li>imati jednostavan TPoS, gdje zaposlenici samo unose vrijednost u svojoj lokalnoj valuti i stvaraju LN fakturu koju treba platiti.</li>
+<li>imajte jednostavnu samoposlužnu izvanmrežnu trgovinu, na primjer tijekom noći, tako da gosti mogu platiti i uzeti neke artikle (pivo, vino, sendviče, grickalice). Korištenje proširenja LNURLVend moglo bi biti lijepo rješenje.</li>
+<li>stvorite vrstu "bodova vjernosti" za redovite kupce i vratite im zarade korištenjem sustava vaučera pomoću proširenja LNURLw.</li>
+<li>kupci također mogu ostaviti napojnice sa satovima u "Tip Jar" ili LNURL-pay</li>
+<li>mušterije mogu pustiti neke lijepe pjesme u salonu bara, ali plaćaju malu naknadu koristeći LNBits Jukebox Livestream proširenje</li>
+</ul>
+<p>.... i još mnogo toga .. LNbits ima mnogo spremnih proširenja, samo ih aktivirajte, konfigurirajte neke jednostavne parametre i gotovo, spremni ste!</p>
+<p>Ali prije svega, moramo pripremiti LNBite kako bi bili spremni za široku dostupnost za bilo kojeg klijenta i uređaj. Kao što znamo, u Umbrelu su sve aplikacije iza Tor mreže, pa budući da neće svi korisnici koristiti Tor (samo oni napredni korisnici), moramo dati pristup i običnim korisnicima povezanim putem takozvanog "clearneta" što je u osnovi ono što " https://” označava.</p>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">Pripremite svoj LN čvor (Umbrel/Raspiblitz itd.) LNBits da bude vidljiv u "clearnetu"</h3>
+<p>Clearnet je uobičajeni pristup internetu, domena.com i/ili javni IP.</p>
+<p>Tor mreža je paralelni internet, koristi .onion adrese preko “http://” i nije (još) široko korištena/poznata i pristupa uslugama plaćanja preko Tor-a, često je problematična i komplicirana za međusobnu interakciju redovitih korisnika .</p>
+<p>Dakle, recimo da mali trgovac ima spreman čvor Umbrel, otvorene neke LN kanale, instalirane LNBite i radi sasvim dobro jer je preko svoje .onion adrese.</p>
+
+<h4 style="color:Yellow;">Neki aspekti koje treba uzeti u obzir:</h4>
+<ul>
+<li>Preporuča se konfigurirati ovaj čvor u hibridnom načinu rada. <a href="https://community.getumbrel.com/t/lnd-tor-clearnet-how-to-setup-hybrid-mode/6133">Ovdje je nevjerojatan vodič (od Hakune)</a> o kako postaviti svoj čvor u hibridnom načinu rada.</li>
+<li>Slanje/primanje između internih LNBits novčanika može se dopustiti pomoću ovog retka u vašoj lnd.conf datoteci: allow-circular-route=1 (ponovno pokrenite lnd nakon uređivanja). Uz to, možete koristiti LNbits novčanike bez interne naknade, u izravnim plaćanjima.</li>
+<li>Naučite kako upravljati LN čvorom i imati dobru likvidnost. Imati dobar čvor, dobre naknade, dobre rute, nudi lijepo iskustvo vašim klijentima i moći će vam platiti brzo i jeftino koristeći LN. Ne budi pohlepan. <a href="/nodes/lightning-routing-fees-experiment-en.html">Ovdje sam napisao namjenski vodič</a>.</li>
+<li>Angažirajte svoje stalne klijente da otvore kanale s vašim čvorom (ako imaju LN čvor). To će riješiti mnoge probleme s ulaznom likvidnošću koja vam je stvarno potrebna. Ulazna likvidnost (mogućnost primanja uplata) ponekad može biti vrlo skupa pa ako su vaši klijenti navikli otvarati kanale s vašim čvorom to će puno pomoći, ne samo njima, već i vašoj trgovini.</li>
+<li>Uvijek imati dovoljno ulazne likvidnosti za primanje uplata. Bolje je da svaki kraj dana ili kada ste imali naporan dan, sa svojih kanala izvučete primljene satove koristeći swap uslugu, <a href="/nodes/lightning-submarine-swaps-en.html">kako je opisano u ovom vodiču</a>. Na ovaj način uvijek ćete započeti dan s više "prostora" u svojim kanalima za primanje uplata. <a href="https://github.com/lnbits/boltz">Također možete koristiti proširenje LNbits Boltz</a>.</li>
+<li>LNBits ne obavlja transakcije na lancu, samo LN. U svakom slučaju, ako stvarno želite naplaćivati ​​putem onchain adrese, moguće je koristiti <a href="https://github.com/lnbits/satspay">SatsPay proširenje</a> povezano s xpub ključem samo za gledanje pomoću <a href="https://github.com/lnbits/watchonly">Proširenje "Samo za gledanje"</a>. Ali naplate na lancu zahtijevaju najmanje 3 potvrde (najmanje 30 minuta čekanja), tako da za kupca nije dobro pustiti ga da čeka. Ali u posebnim slučajevima, da, može se koristiti ova opcija.</li>
+<li>S <a href="https://www.youtube.com/watch?v=BSY9n67uxaw">Boltz Extension</a> možete poslati sav prihod u svoj onchain hardwarewallet kad god se dostigne određeni prag. Ovo je vrlo moćno budući da nakon instaliranja odmah slažete satove na samostalan način.</li>
+<li>Imajte na umu da je LNBits još uvijek u beta fazi pa su uvijek novi razvoji. Također čeka novo očekivano proširenje za upravljanje korisnicima i složeniji pristup.</li>
+<li>Spremite svoj pristupni URL kreiranim korisnicima/novčanicima u svojim oznakama ili upravitelju zaporki, kako biste također mogli pristupiti pojedinostima o lndhub URL-u, ključu administratora, ključu fakture itd. koji bi vam mogli zatrebati za druga proširenja sada i kasnije.< /li>
+</ul>
+<p>Da biste otvorili svoju LNBits instancu u clearnet svijetu, imate ove opcije (nevjerojatne vodiče koje su napravili Hakuna i Uxellodunum):</p>
+<ul>
+<li><a href="https://community.getumbrel.com/t/how-to-configure-umbrel-lnbits-app-without-tor/">Postavite svoju postojeću LNBits instancu u Umbrelu s obrnutim proxyjem nginx </a>.</li>
+<li><a href="https://github.com/TrezorHannes/vps-lnbits">Postavite drugu LNBits instancu izvan vašeg Umbrela, na drugom VPS poslužitelju</a>.</li>
+</ul>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">Postavite webshop s LNBits</h3>
+<p>U redu, sada imamo naše LNBite dostupne izvana</p>
+<p>https://lnbits.my-domain.com</p>
+<p>(ili bilo koju poddomenu koju želite odabrati), svi novčanici i funkcionalnosti testirani su i rade.</p>
+<p>U našoj Wordpress Woocommerce trgovini možemo instalirati <a href="https://wordpress.org/plugins/lnbits-bitcoin-onchain-and-lightning-payment-gateway/">LNbits Woo dodatak</a> i konfigurirajte ga za povezivanje s našom LNbits instancom, s ključevima navedenim u LNBits odjeljku novčanika (walletID, invoiceID, watchonlyID).</p>
+<p>Idite u svoj LNBits novčanik konfiguriran za korištenje za webshop (možete ih imati koliko god želite) i kopirajte niz "invoice/read key".</p>
+
+<figure>
+ <img src="/assets/images/lnbits-wallet-info.png" class="center">
+ <figcaption>Pojedinosti LNBits novčanika</figcaption>
+</figure>
+
+<p>Zatim idite na svoj Wordpress - Woocommerce - Plaćanja - LNbits - i zalijepite taj niz u API ključ i zatim dodajte svoj lnbits URL "https://lnbits.my-domain.com" i gotovo.</p>
+<p>To je to! Možete početi primati plaćanja u bitcoinima putem Lightning Networka. Bez preusmjerenih stranica, bez posrednika, brzo i jednostavno. LNbits dodatak generira LN fakturu na istoj stranici i prikazuje se u koraku plaćanja. Nakon što je gotovo, prikazat će se potvrdna poruka i kupac obično e-poštom prima detalje svoje narudžbe.</p>
+<p>Da, dodatak je vrlo jednostavan, s ne previše opcija, za personalizaciju teksta u plaćanju itd., ali je dovoljno dobar da počnete primati plaćanja bitcoinom.</p>
+<hr style="height:2px">
+  
+<h3 style="color:Orange;">Primanje plaćanja u trgovini (na licu mjesta) od strane zaposlenika</h3>
+<p>Pa... ovo je još jedan razuman aspekt.</p>
+<p>Moramo im dati ograničen pristup novčaniku trgovine, samo za izradu faktura, ne mogu trošiti odatle. A LNbits to može učiniti na prekrasan način.</p>
+<p>Dakle, pretpostavljamo da nemamo nikakvu integraciju u naš vlastiti PoS sustav s LNbits ili bitcoin plaćanjima, BTC smatramo gotovinom, tako da plaćanje možemo primiti na poseban način, kao što radimo s gotovinom. U računovodstvenom sustavu označeno je kao "plaćanje u gotovini" ili kako god želite koristiti naziv, nije važno, je gotovina.</p>
+<p>Tako da će konobar/zaposlenik trebati jednostavan način za generiranje LN fakture ili imati opći LNURL spreman za primanje uplata.</p>
+<p>LNbitovi imaju različite pristupe, možete koristiti onaj koji više odgovara vašoj specifičnoj aktivnosti i vrsti situacija.</p>
+<p>Možemo koristiti sljedeća LNbits proširenja:</p>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=WWrAayAfqaQ">LNDhub</a> (novčanik za fakture) konfiguriran na uređaju konobara/zaposlenika. Svaki konobar/zaposlenik može imati svoju, radi boljeg praćenja</li>
+<li><a href="https://www.youtube.com/watch?v=WZpK4xfGcuY">LNURL-pay</a> QR kod, ispisan na papiru. Svaki konobar može imati svoju LNURL / LN adresu za bolje praćenje. Kada kupac plati, samo će pokazati konobaru potvrdu na zaslonu svog uređaja i gotovo. Prilično je teško i beskorisno lažirati LN plaćanje. Zapamtite, BTC/LN plaćanja su nepovratna.</li>
+<li><a href="https://www.youtube.com/watch?v=6yNBbDWf-RE">TPoS proširenje</a>, konfigurirano na svakom uređaju konobara/zaposlenika</li>
+<li><a href="https://github.com/arcbtc/LNURLPoS">Izvanmrežni LNURL-PoS</a> s malim izvanmrežnim uređajima, u slučaju da nemate dobru WiFi pokrivenost, imate terasu koja nemaju veze. Također dostupna kao mobilna aplikacija (može se pokrenuti na bilo kojem starom Android uređaju, bez interneta).</li>
+<li><a href="https://github.com/lnbits/scrub">Scrub proširenje</a> koje može automatski proslijediti satove na namjensku vanjsku adresu.</li>
+</ul>
+<hr style="height:2px">
+
+<h4 style="color:Yellow;">Savjeti za konobare</h4>
+<p>Zaposlenici/konobari mogu imati svoj osobni LN novčanik za napojnice ili možete postaviti namjenske u svojoj instanci LNBits i dati im puni pristup tim novčanicima kako bi ga mogli koristiti u mobilnoj aplikaciji Bluewallet ili Zeus.</p>
+
+<figure>
+ <img src="/assets/images/lnbits-lndhub.png" class="center">
+ <figcaption>Idite na proširenje LNBits LNDhub i skenirajte QR kod administratora ili fakture za uvoz u mobilne aplikacije BitBanana, Bluewallet ili Zeus</figcaption>
+</figure>
+
+<p>LNBits novčanici također se mogu koristiti kao web aplikacija na mobitelu, samo spremite URL novčanika kao oznaku web widgeta i otvorite ga izravno. Radi savršeno.</p>
+<p>Za općenito uobičajeno Tip Jar može se koristiti namjensko proširenje LNbits, jednostavno za konfiguriranje i predstavljeno kao jednostavna web stranica. Ili se može koristiti namjenski LNUL-pay QR kod, s vlastitim novčanikom, za odvajanje od uobičajenih troškova.</p>
+<p>Drugi način bi mogao biti korištenje <a href="https://github.com/lnbits/splitpayments">SplitPayments proširenja</a> gdje se može definirati iznos satnica koji ide konobaru, od ukupan iznos svake uplate. Vrlo jednostavno za konfigurirati.</p>
+
+<h4 style="color:Yellow;">Računovodstvo</h4>
+<p>Na kraju dana, kada će konobari/zaposlenici obaviti svoje brojanje na kraju dana, u redovnom sustavu i samo usporediti s onim što je naplaćeno u LNBits sustavu. Nadzornik s potpunim pristupom također može izvesti sve transakcije u csv datoteku ili je ispisati.</p>
+<p>U ovom odjeljku možda će LNbits u budućnosti imati bolji računovodstveni sustav, označavanje transakcija, personalizaciju. Sada je samo osnovno, ali dovoljno za rad.</p>
+<p>Također, ovo je trenutak kada će nadzornik/vlasnik trgovine zamijeniti sredstva iz LN kanala u onchain novčanik i ostaviti kanale gotovo prazne kako bi bili spremni za sljedeći dan za primanje više satova.</p>
+<hr style="height:2px">
+
+<h4 style="color:Yellow;">Sustav bodova vjernosti</h4>
+<p>Ako imate stalne kupce koji mogu platiti unaprijed svoju potrošnju i dobiti popuste, možete koristiti sustav učitanih NFC kartica/uređaja ili <a href="https://www.youtube.com/watch? v=E-IjtCHUVBE">jednostavno kreirajte LNDHub novčanik</a> za svakog fidelity klijenta, gdje ga pune sitnicama i troše ih natrag u vašem restoranu. Na taj će način naknade za njih iznositi 0, a vi imate bolju kontrolu nad tim "bodovima vjernosti".</p>
+<p>Klijent također ima potpunu kontrolu nad svojim LN novčanikom, može ga uvesti u svoj uređaj i koristiti ga kao obični LN novčanik ako želi.</p>
+<p>Postoji način za izradu NFC kartica/uređaja za ove novčanike. <a href="https://github.com/taxmeifyoucan/HCPP2021-Badge">Primjer ovdje</a>. Tako klijenti mogu samo koristiti te uređaje plaćajući u trgovini. Nema potrebe za drugim aplikacijama. <a href="https://plebtag.com/">Ovdje više detalja o NFC karticama i kako ih personalizirati</a>.</p>
+<p>Ili jednostavno možete izraditi nekoliko <a href="https://www.youtube.com/watch?v=TUmsHpJtveQ">vaučera za LNURL-povlačenje</a> i dati ih svojim stalnim kupcima kao satsback sustav. Lako, brzo, bez komplikacija, samo ih ispišite svojim uobičajenim pisačem karata, klijent ih povuče kada želi ili ih jednostavno pokloni nekom drugom.</p>
+<hr style="height:2px">
+
+<h4 style="color:Yellow;">Izvanmrežni automat za prodaju</h4>
+<p>Recimo da pored svog restorana imate i uslugu (hotelskog) smještaja i tijekom noći (kada nemate osobne na raspolaganju) želite svojim gostima ponuditi jednostavan način kupnje grickalica ili pića.</ p>
+<p>Ova se opcija može koristiti i za sobni mini-bar.</p>
+<p>Dakle, jednostavna kutija/automat sa sustavom za primanje izvanmrežnih LN plaćanja već je dostupan uz LNbits. Možete odabrati bilo koju veličinu ili vrstu kutije, važno je da je povežete sa svojim LNbitovima kao što je opisano u vodiču.</p>
+<p><a href="https://github.com/arcbtc/bitcoinVend">Ovdje je demo i kako ga izraditi</a>. Sustav je jednostavan: klijent skenira QR, plati, predmet se odlaže. Stroj ne treba pristup internetu.</p>
+<hr style="height:2px">
+
+<h4 style="color:Yellow;">Kupujte izvan mreže</h4>
+<p>Recimo da želite implementirati sustav brze prodaje proizvoda/jelovnika za ponijeti. Dakle neka vrsta polusamoposluživanja.</p>
+<p>Imate monitor izvan trgovine ili samo reklamni pano s popisom vaših proizvoda ponuđenih za ponijeti.</p>
+<p>Kupac skenira LNURL za željeni proizvod, plati i dobije natrag riječ kao "dokaz" plaćanja. Riječi se mogu konfigurirati kako želite i mijenjati kada želite.</p>
+<p>Zatim kupac ulazi u vaš lokal na posebno mjesto gdje isporučujete i prezentirate riječ(e) plaćene za proizvode. Zaposlenik tada ima dokaz o uplati i samo isporučuje.</p>
+<p><a href="https://www.youtube.com/watch?v=_XAvM_LNsoo">Ovdje je demo vodič kako se konfigurira i radi</a>.</p>
+<p><a href="https://xcancel.com/arcbtc/status/1497188876288417796">Ovdje je i demonstracija kako platiti satovima za pivo pomoću pametne slavine</a>.</p>
+<p><a href="https://youtu.be/ZlyPNABZtHk">Još jedan primjer scenarija korištenja ovdje kako kupiti sendviče s LN-om</a>.</p>
+<hr style="height:2px">
+
+<h4 style="color:Yellow;">DJ Lounge glazbeni džuboks</h4>
+<p>Recimo da vaši klijenti žele čuti lijepu glazbu u vašem baru/restoranu, birajući pjesme koje im se sviđaju. Ne želite dopustiti svima da mijenjaju glazbu, već samo onima koji plaćaju naknadu.</p>
+<p>Dakle, možete postaviti jednostavan glazbeni uređaj, povezati ga sa svojim LNbits sustavom i dopustiti korisnicima da plate pjesme i da ih puštaju.</p>
+<p>Poticaj za vaš ambijent i ponudite lijepo iskustvo svojim kupcima.</p>
+<p><a href="https://github.com/lnbits/jukebox">Ovdje je dodatna dokumentacija o tome kako postaviti proširenje Jukebox</a>.</p>
+<p><a href="https://www.youtube.com/watch?v=5YdObUuDzqU">Ovdje je demonstracija video vodiča</a>.</p>
+<hr style="height:2px">
+
+<h4 style="color:Yellow;">Posebna prilagodba i sigurnosna kopija</h4>
+<p>U slučaju da želite ograničiti pristup svojoj "javnoj" LNbits instanci, možete urediti datoteku s postavkama na sljedeći način.</p>
+<p>Dodajte samo određene stvorene korisničke račune u postavkama LNBits env:</p>
+<ul>
+<li>Unesite SSH u svoj Umbrel čvor</li>
+<li>uredite yml conf datoteku: sudo nano ~/umbrel/apps/lnbits/docker-compose.yml</li>
+<li>dodajte u odjeljak #App redak: LNBITS_ALLOWED_USERS: YOUR_USER_ID_FROM_WALLET_URL odvojen zarezom ako imate više korisnika koje možete dopustiti</li>
+<li>ponovno pokrenite lnbits aplikaciju: sudo ~/umbrel/scripts/app stop lnbits && ~/umbrel/scripts/app pokrenite lnbits</li>
+</ul>
+<p>Uskoro će biti dostupno potpuno administratorsko proširenje za upravljanje korisnicima tako da neće biti potrebna ova prilagodba i također ograničavanje stvaranja novih novčanika. Ali do tada ga možete koristiti ovako.</p>
+<p>Ako dobijete pogrešku poput lnurl.Exceptions.InvalidURL kada kreirate LNURL (platite ili povucite), dodajte ovaj redak u .env datoteku ili u istu yml datoteku spomenutu gore.</p>
+<p>FORWARDED_ALLOW_IPS=*</p>
+<p>Također važan aspekt: ​​BACKUP baza podataka.</p>
+<p>Da biste spremili sigurnosnu kopiju svoje LNbits instance (uključujući tx povijest, novčanike, račune), možete spremiti mapu baze podataka koja se nalazi u: ~/umbrel/app-data/lnbits/data</p>
+<p>Posebno sqlite3 datoteka baze podataka, ali dobro je spremiti cijelu mapu podataka za sve korištene ekstenzije.</p>
+<p>Ako trebate uređivati ​​izravno u ovoj sqlite bazi podataka, možete instalirati jednostavan uređivač preglednika za sqlite. <a href="https://sqlitebrowser.org/">Više pojedinosti ovdje</a>. Zatim možete otvoriti sqlite db datoteku i uređivati ​​sve potrebne tablice i stavke, prilagođavajući stanja, uklanjajući uređivanje postojećih korisnika / novčanika.</p>
+<hr style="height:2px">
+
+<h4 style="color:Yellow;">Zaključak</h4>
+<p>Dakle, to je to, potpuni scenarij kako možete koristiti ovo nevjerojatno rješenje LNbits za hotelski restoran. Ovo možete proširiti na svoju specifičnu aktivnost, pokrivajući sve potrebe koje se mogu obaviti s LNBits lndhub novčanicima, sada već vidite koliko je moćan i jednostavan za postavljanje, uz puno skrbništvo nad vašim sredstvima.</p>
+<p>Nadam se da ovaj vodič može nadahnuti više trgovaca da počnu prihvaćati Bitcoin.</p>
+<p>Također, oni Bitcoin entuzijasti pomažu onim trgovcima, koji nemaju dovoljno vještina, u izgradnji lijepih rješenja za bitcoin plaćanja.</p>
+<p>Ako niste tehnički potkovani i sami izrađujete ovo rješenje, ovdje je tim stručnjaka za LNbits iz SparkPaya (Portugal) ili u Njemačkoj / Austriji iz Business Sats koji vam mogu izraditi ovo rješenje.</p>
+<centar>
+<h3 style="color:Orange;">Moramo stvoriti to Bitcoin kružno gospodarstvo!</h3>
+</center>
+
+</body>
+</html>
+</article>
