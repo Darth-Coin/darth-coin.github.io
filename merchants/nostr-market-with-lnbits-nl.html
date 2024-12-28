@@ -1,0 +1,165 @@
+---
+layout: default
+title: Start uw NOSTR-Markt met LNbits
+---
+<article>
+<!DOCTYPE html>
+<html lang="nl">
+<meta name="description" content="Bitcoin en Lightning Nodes-handleidingen: Hoe je een gratis, gedecentraliseerde, privé, onstuitbare marktplaats kunt runnen met LNbits, met behulp van de NOSTR-marktextensie">
+<body>
+<a href="/merchants/nostr-market-with-lnbits-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/nostr-market-with-lnbits-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/nostr-market-with-lnbits-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/nostr-market-with-lnbits-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/nostr-market-with-lnbits-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/nostr-market-with-lnbits-hr.html">Hrvatski <img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/nostr-market-with-lnbits-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<em><blockquote style="color:Tomato;">
+<p>Oorspronkelijk geplaatst op <a href="https://darthcoin.substack.com/p/lnbits-nostr-market">Substack</a> op 14 apr. 2023. Hier bijgewerkt op 28 dec. 2024.</p>
+<p>Dit artikel is ook geregistreerd bij <a href="https://mempool.space/tx/f4ec38d78e90208a9ecd45ef3a4559f054f02c1012a0e1ccf7a1299b892a719e">OP_RETURN</a> op blokhoogte <a href="https://mempool.space/block/000000000000000000004c9c1ec4753101e2a87fc7df232a70e9f81b956d6168c">#785362</a></p>
+</em></blockquote>
+
+<h3>Hoe je een gratis, gedecentraliseerde, privé, onstuitbare marktplaats runt met LNbits, met behulp van de NOSTR-marktextensie, via wss-relays, zonder enig http-verkeer en zelfs zonder DNS/domein..</h3>
+<p>Dit is een geweldige prestatie voor NOSTR en LNbits, een revolutionair protocol om op een volledig gedecentraliseerde manier te kunnen handelen, aangekondigd door Ben Arc hier.</p>
+<p>Als je hier nieuw in bent en niet weet wat NOSTR is, begin dan hier met lezen: <a href="https://nostr.com/">nostr.com</a> | <a href="https://nostr.how/nl/wat-is-nostr">nostr.how</a> /<p>
+<p>Als je nieuw bent met LNbits, het nog nooit hebt gebruikt, er nog nooit van hebt gehoord, begin dan hier met lezen:</p>
+<ul>
+<li><a href="/merchants/getting-started-lnbits-nl.html">Aan de slag met LNbits</a></li>
+<li><a href="https://github.com/lnbits/lnbits/wiki/LNbits-Documentation">LNbits Wiki-documentatie</a></li>
+<li><a href="https://github.com/lnbits/lnbits/wiki/Tutorials-and-Guides">Meer handleidingen en tutorials over LNbits</a></li>
+</ul>
+<p>Het oorspronkelijke protocol was <a href="https://github.com/lnbits/Diagon-Alley">Diagon-Alley</a>, dat later NOSTR-Market werd (<a href="https://github.com/nostr-protocol/nips/blob/master/15.md">NIP-15</a>).</p>
+<p><img src="/assets/images/nostr-market-1.png" class="center"></p>
+<p>Diagon Alley is een gedecentraliseerd marktkraamprotocol, dat de nadruk verschuift van de front-end markt naar de kraam van de handelaar. Als een front-end markt (indexer) wordt verwijderd, richten handelaren hun kraampjes gewoon ergens anders op. Speltheoretisch gezien is de winnaar van Diagon Alley het meest direct, hoewel suggesties om slecht gedrag te beperken zeer welkom zijn.</p>
+
+<h4 style="color:Yellow;">Indexers</h4>
+<p>Indexer is een eenvoudige front-end server en GUI die product-, betalings- en verzendinformatie tussen handelaar en koper routeert. Elke handelaar heeft producten in een kraam. De kraam kiest welke producten worden vermeld met de indexer. Een indexer heeft één eindpunt.</p>
+
+<h4 style="color:Yellow;">Stals</h4>
+<p>Een kraam heeft een sleutelpaar dat het gebruikt om zichzelf te registreren bij indexen en facturen te ondertekenen. Dat sleutelpaar is niet gerelateerd aan een Lightning Network-sleutelpaar, het is onafhankelijk.</p>
+<p>Een kraam kan ervoor kiezen om sommige/alle producten te vermelden met een indexer. Een stall is een kleine server met drie eindpunten.</p>
+<p>Maar dat was allemaal gebaseerd op het http-protocol, dus was nog steeds afhankelijk van domein/DNS en verkeer via http.</p>
+<p>Nu is NOSTR-market gebouwd op <a href="https://github.com/nostr-protocol/nostr">NOSTR-protocol</a>, waarbij al het verkeer via wss-relays gaat. HTTP-toegang kan optioneel zijn als de handelaar een openbare webwinkel wil publiceren.</p>
+<p>Maar vrijwel iedereen kan een winkelstal runnen in een lokale instantie van LNbits (op 127.0.0.1) en als notities uitzenden dat alle items van zijn stall naar de relays zijn verbonden.</p>
+<p>Hetzelfde als voor klanten, kan gewoon een lokale NOSTR-client en een NOSTR-market runnen en verbinding maken met elke pubkey van de handelaar via wss-relays. Shop dan vrij, gedecentraliseerd, anoniem zonder http-verkeer, en gebruik voor betalingen het Bitcoin Lightning Network.</p>
+<h5>Laten we beginnen!</h5>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">ALS HANDELAAR</h2>
+<p>Stel dat u LNbits al hebt geïnstalleerd (zie de bovenstaande links over LNbits). Ik ga nu niet in op die details, want dan wordt deze handleiding te lang.</p>
+<h4 style="color:Yellow;">Een korte checklist voordat u begint met NOSTR-market:</h4>
+<ul>
+<li>Maak u vertrouwd met hoe NOSTR werkt en wat het werkelijk is. Velen denken dat het slechts een vervanging is voor Twitter, maar ze hebben het mis, het is veel meer dan dat. Het NOSTR-protocol biedt veel andere functionaliteiten voor een meer gedecentraliseerde wereld.</li>
+<li>Maak u vertrouwd met hoe LNbits werkt. Het is een boekhoudsysteem bovenop een LN-knooppunt / financieringsbron. Beschouw het als een "wordpress" voor uw LN-knooppunt.</li>
+<li>Test of uw LNbits-instantie goed werkt, test de wallets, gebruikers etc. Lees en besteed aandacht aan alle <a href="https://github.com/lnbits/lnbits/wiki">LNbits-documentatie die beschikbaar is op de Wiki-pagina</a>.</li>
+<li>Overweeg een goede financieringsbron met goede liquiditeit (in en uit) voor uw LN-knooppunt, verbonden met goede LN-routes en bied voldoende liquiditeit voor de betalingen die u ontvangt en ook voor het omwisselen van de ontvangen sats. Lees, leer en raak vertrouwd met hoe LN werkt. <a href="https://darthcoin.substack.com/p/lightning-network-is-awesome">Hier is een volledige lijst met handleidingen en tutorials</a>.</li>
+</ul>
+
+<h4 style="color:Yellow;">Stap 1 - Installeer vereiste LNbits-extensies</h4>
+<h5>A - <a href="https://github.com/lnbits/lnbits/wiki/LNbits-Documentation#additional-guides">Activeer de adminUI-functie</a></h5>
+<p>Voor eenvoudig beheer van uw LNbits-server (financieringsbronnen, gebruikers, beheerders, installatie-extensies, enz.).</p>
+<h5>Om te onthouden:</h5>
+<ul>
+<li>Deze adminUI maakt een super-admin-gebruiker die ALLEEN de server mag beheren en alleen bij het opstarten van LNbits wordt weergegeven in het consolelogboek.</li>
+<li>Het kan worden benaderd via een lokale URL zoals http://127.0.0.1/admin?usr=dfdf87.... of domein / DNS als u uw LNbits in clearnet of via Tor hebt ingesteld.</li>
+<li>Sla deze URL op in de bladwijzers van uw browser als u deze vaker wilt openen.</li>
+<li>Plaats deze URL NIET in een zoekmachine of plaats deze niet openbaar!</li>
+<li>Gebruik GEEN browser zoals Google Chrome die ook is ingelogd met een Gmail-account. Gebruik een fatsoenlijke browser die privacy respecteert en ook de geschiedenis/cache niet opslaat (zie browseropties en schakel die optie uit). Elke keer dat u de browser sluit, wordt alle browsegeschiedenis verwijderd. Zie hier meer.</li>
+<li>Vanaf v 12.0 heeft LNbits al een goede inlogmethode met gebruikersnaam en wachtwoord.</li>
+</ul>
+
+<h5>B - Install User Manager (UM) extensie</h5>
+<p>Dit is een zeer nuttige extensie om gebruikers, wallets en toegangsniveaus te beheren en te maken. <a href="https://github.com/lnbits/lnbits/wiki/LNbits-Extensions#install-extensions">Zie hier meer instructies</a>.</p>
+<p>Log in met de Super Admin-gebruiker, installeer de UM en maak vervolgens ook een gebruiker met zijn wallet.</p>
+<p>Log in met die gebruiker en sla de URL op in uw bladwijzers. Deze gebruiker kan ook fungeren als een admin-gebruiker (als u volledige rechten geeft in de sectie "Manage server").</p>
+<p>Binnen deze "admin-gebruiker" kunt u meerdere andere normale gebruikers maken, dezelfde procedure met behulp van de UM-extensie. Maar alleen als het nodig is.</p>
+<p>Met deze "admin user" gaan we de merchant en stall aanmaken met de NOSTR-market extensie.</p>
+
+<h5>C - NOSTR-client extensie installeren</h5>
+<p>Dit is een vereiste extensie voor NOSTR-market, omdat uw markt verbinding moet maken met meerdere NOSTR-relays om uw kraam te kunnen uitzenden.</p>
+<p>NOSTR-client is een always-on extensie die meerdere verbindingen naar nostr-relays kan openen en kan fungeren als een multiplexer voor andere clients: U opent een enkele websocket naar nostrclient die vervolgens de gegevens naar meerdere relays stuurt. De antwoorden van deze relays worden vervolgens teruggestuurd naar de client.</p>
+<p><img src="/assets/images/nostr-market-client.jpg" class="center"></p>
+<p>Voeg enkele NOSTR-relays toe aan de client. Als u een proxy-relay kunt toevoegen (een die is verbonden met veel andere relais), is het beter om het synchronisatieverkeer te beperken.</p>
+
+<h5>D - NOSTR-Market-extensie installeren</h5>
+<p>Dit is de belangrijke extensie die u zult gebruiken om uw merchant-profiel, de kraampjes, producten, interactie met klanten via NOSTR-privéberichten, beheer van bestellingen, enz. te maken en beheren.</p>
+<p><a href="https://github.com/lnbits/lnbits/wiki/LNbits-Extensions#install-extensions">Zie hier meer instructies.</a></p>
+<hr style="height:2px">
+
+<h4 style="color:Yellow;">Stap 2 - Configureer uw NOSTR-Merchant Stall en producten</h4>
+<p>Als handelaar moet u een Nostr-sleutelpaar opgeven, of de extensie kan er een voor u genereren. Als u NOSTR al gebruikt voor het plaatsen van notities en chatten, kunt u dezelfde sleutels gebruiken om de reeds gemaakte reputatie en verificatie NIP-05 te gebruiken. Maar het is beter om een ​​aparte sleutel voor de winkel te hebben en gewoon de extra winkel-pubkey in uw "openbare NOSTR-profiel" te publiceren.</p>
+<p><img src="/assets/images/nostr-market-welcome.jpg" class="center"></p>
+<p>Zodra u een handelaarsaccount hebt, kunt u de details bekijken in de vervolgkeuzelijst van de handelaar, de sleutels afzonderlijk opslaan en/of uw winkel-pubkey (geen privésleutel!) aan uw volgers/klanten bekendmaken.</p>
+<p>BEWAAR UW PRIVÉSLEUTEL op een veilige plaats! Als u uw LNbits NOSTR-markt moet migreren of een LNbits-instantie naar een andere machine moet herstellen, kunt u die privésleutel van de verkoper gebruiken om uw vorige kraam en artikelen te importeren.</p>
+<p><img src="/assets/images/nostr-market-keys.png" class="center"></p>
+<p>Om een ​​kraam te maken, moet u eerst een verzendzone instellen. Klik op de knop Zones en vul de velden in:</p>
+<ul>
+<li>Geef uw verzendzone een naam</li>
+<li>Selecteer voor welke landen deze verzendzone geldt (u kunt een "Gratis" zone instellen voor digitale goederen)</li>
+<li>Selecteer de rekeneenheid. Als u producten in USD/EUR wilt vermelden, moet de verzendzone dezelfde valuta hebben</li>
+<li>Selecteer de verzendkosten</li>
+</ul>
+<p>Nu kunt u de kraam maken. Klik op de knop Nieuwe kraam en vul de benodigde velden in.</p>
+<p><img src="/assets/images/nostr-market-shop.png" class="center"></p>
+<p><img src="/assets/images/nostr-market-wallet.png" class="center"></p>
+<ul>
+<li>Geef uw kraam/winkel een naam</li>
+<li>Een optionele beschrijving (deze kan door de klant worden gebruikt om winkels te zoeken)</li>
+<li>Selecteer welke portemonnee u voor deze winkel wilt gebruiken</li>
+<li>Selecteer de eenheid</li>
+<li>Selecteer een verzendzone (meerdere zones kunnen worden geselecteerd)</li>
+</ul>
+<p>Klik op de knop "Plus" om de kraamgegevens te openen en klik op "Nieuw product" om een ​​product te maken:</p>
+<p><img src="/assets/images/nostr-market-product.png" class="center"></p>
+<p>Vul de benodigde velden in het dialoogvenster</p>
+<p><img src="/assets/images/nostr-market-product-2.png" class="center"></p>
+<ul>
+<li>De productnaam</li>
+<li>Geef een beschrijving</li>
+<li>Voeg enkele categorieën toe (dit kan door klanten worden gebruikt om naar producten te zoeken, dus voeg er zoveel toe als uw artikel beter kan beschrijven)</li>
+<li>Geef een URL voor uw productafbeelding (het wordt aanbevolen dat de afbeeldingen buiten LNbits worden gehost). U kunt PostIMG.cc of een andere CDN gebruiken.</li>
+<li>Een prijs voor het product, in de valuta die is geselecteerd voor de winkel (dit wordt omgezet naar sats wanneer een klant koopt)</li>
+<li>De hoeveelheid die u op voorraad hebt, voor het product. Dit wordt bijgewerkt wanneer bestellingen worden geplaatst/betaald</li>
+</ul>
+<p>In het gedeelte Kraam kunt u ook de kraamgegevens bekijken (bijwerken of verwijderen) in het tabblad Kraaminfo</p>
+<p><img src="/assets/images/nostr-market-stall.png" class="center"></p>
+<p>Producten maken, bijwerken of verwijderen in het tabblad Producten</p>
+<p><img src="/assets/images/nostr-market-products-list.png" class="center"></p>
+<p>Klaar! Uw Merchant Stall is klaar om door uw klanten bezocht te worden.</p>
+<p>Om uw kraam lokaal te testen, opent u de link van de lokale marktpagina, die zich op de hoofdpagina van NOSTR-Market bevindt, in het rechterpaneel:</p>
+<p><img src="/assets/images/nostr-market-client-2.png" class="center"></p>
+<p>Deze link opent een nieuw tabblad zoals: http:127.0.0.1/nostrmarket/market of https://your-lnbits.domain.com/nostrmarket/market (als u het in clearnet opent).</p>
+<p><img src="/assets/images/nostr-market-link.jpg" class="center"></p>
+<p>Klik op het menu Markt en ga naar Merchants. Plak vervolgens uw merchant pubkey (zie het begin van dit hoofdstuk over het weergeven/opslaan van uw pubkey).</p>
+<p>Zodra u uw pubkey hebt toegevoegd, wordt uw kraam weergegeven en uitgezonden naar de relais.</p>
+<p>De knop Inloggen moet worden gebruikt als klant of als u de eigenaar bent van de kraam of als met uw persoonlijke NOSTR-profiel.</p>
+<p>U kunt uw NOSTR-kraam ook testen vanaf een andere openbare NOSTR-marktpagina, zoals bijvoorbeeld <a href="https://market.nostr.com/">https://market.nostr.com/</a>. U hoeft alleen uw pubkey toe te voegen aan de sectie "Merchants" en klaar. Al uw klanten kunnen dezelfde procedure uitvoeren of vanaf hun eigen lokale LNbits-instantie als ze die hebben.</p>
+<p><img src="/assets/images/nostr-market-products-list-2.jpg" class="center"></p>
+<p>Op een marktpagina kunt u meerdere merchants toevoegen en rechtstreeks vanaf daar winkelen. Zoals u in de afbeelding hierboven kunt zien, zijn er 3 verschillende handelaren, met hun kraampjes en allemaal toegankelijk via een lokale LNbits-instantie, gewoon door hun pubkeys toe te voegen.</p>
+<p>Wanneer u een bestelling ontvangt, kunt u de details bekijken door te klikken op het "Plus"-teken voor de bestelling.</p>
+<p><img src="/assets/images/nostr-market-order.png" class="center"></p>
+<ul>
+<li>Bestelde producten</li>
+<li>De order-ID</li>
+<li>Het verzendadres van de klant</li>
+<li>De openbare sleutel van de klant</li>
+<li>Factuur-ID</li>
+</ul>
+<p>Indien van toepassing, kunt u instellen als verzonden wanneer de verzending is verwerkt.</p>
+<p>U hebt ook een chatbox om te chatten met de klant en al deze berichten worden via het NOSTR-protocol gedaan, privé en gecodeerd.</p>
+<p><img src="/assets/images/nostr-market-chat.png" class="center"></p>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">ALS KLANT</h2>
+<p>LNbits biedt ook een Nostr Market-client-app.</p>
+<p>U kunt de client-URL van het merchant dashboard met uw klanten delen door op de link "Market client" te klikken of door https://your-LNbits-instance-URL/nostrmarket/market te bezoeken.</p>
+<p>Of ze kunnen bijvoorbeeld https://market.nostr.com/ bezoeken en gewoon uw Stall-pubkey toevoegen. Of gebruik het zoekvak en voer een van uw specifieke tags in.</p>
+<p>Als ze al een LNbits-instantie hebben geïnstalleerd, kunnen ze er zelfs toegang toe krijgen via een lokale URL zoals http://127.0.0.1/nostrmarket/market en de pubkey van de stall toevoegen.</p>
+
+<center>
+<h3 style="color:Yellow;">Fijne DECENTRALISATIE VAN WINKELEN OVER NOSTR MET BTC/LN!</h3>
+</center>
+
+</body>
+</html>
+</article>
