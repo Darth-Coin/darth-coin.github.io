@@ -1,0 +1,166 @@
+---
+layout: default
+title: Start your NOSTR-Market with LNbits
+---
+<article>
+<!DOCTYPE html>
+<html lang="en">
+<meta name="description" content="Bitcoin and Lightning Nodes guides: How to run a free, decentralized, private, unstoppable marketplace with LNbits, using the NOSTR-market extension">
+<body>
+<a href="/merchants/nostr-market-with-lnbits-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/nostr-market-with-lnbits-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/nostr-market-with-lnbits-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/nostr-market-with-lnbits-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/nostr-market-with-lnbits-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/nostr-market-with-lnbits-nl.html">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/nostr-market-with-lnbits-hr.html">Hrvatski <img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/nostr-market-with-lnbits-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<em><blockquote style="color:Tomato;">
+<p>Originaly posted on <a href="https://darthcoin.substack.com/p/lnbits-nostr-market">Substack</a> on Apr 14, 2023. Updated here on Dec 28, 2024.</p>
+<p>This article was also registered with <a href="https://mempool.space/tx/f4ec38d78e90208a9ecd45ef3a4559f054f02c1012a0e1ccf7a1299b892a719e">OP_RETURN</a> at block height <a href="https://mempool.space/block/00000000000000000004c9c1ec4753101e2a87fc7df232a70e9f81b956d6168c">#785362</a></p>
+</em></blockquote>
+
+<h3>How to run a free, decentralized, private, unstoppable marketplace with LNbits, using the NOSTR-market extension, over wss relays, with no http traffic whatsoever and even without DNS/domain..</h3>
+<p>This is a great achievement for NOSTR and LNbits, a revolutionary protocol to be able to trade in a total decentralized way, announced by Ben Arc here.</p>
+<p>If you are new to this and don't know what is NOSTR, start reading here: <a href="https://nostr.com/">nostr.com</a> | <a href="https://nostr.how/en/what-is-nostr">nostr.how</a> /<p>
+<p>If you are new to LNbits, never use it, never heard of it, start reading here:</p>
+<ul>
+<li><a href="/merchants/getting-started-lnbits-en.html">Getting started with LNbits</a></li>
+<li><a href="https://github.com/lnbits/lnbits/wiki/LNbits-Documentation">LNbits Wiki Documentation</a></li>
+<li><a href="https://github.com/lnbits/lnbits/wiki/Tutorials-and-Guides">More guides and tutorials about LNbits</a></li>
+</ul>
+<p>The original protocol was <a href="https://github.com/lnbits/Diagon-Alley">Diagon-Alley</a>, that later became NOSTR-Market (<a href="https://github.com/nostr-protocol/nips/blob/master/15.md">NIP-15</a>).</p>
+<p><img src="/assets/images/nostr-market-1.png" class="center"></p>
+<p>Diagon Alley is a decentralized market-stall protocol, that shifts emphasis from the front-end market to the merchants stall. If a front-end market (indexer) gets taken down, merchants just point their stalls elsewhere. Game-theoretically the winner of Diagon Alley is the most forthright, although suggestions on limiting bad behavior are very welcome.</p>
+
+<h4 style="color:Yellow;">Indexers</h4>
+<p>Indexer is a simple front-end server and GUI that routes product, payment and shipping information between merchant and buyer. Each merchant has products in a stall. The stall chooses what products to list with the indexer. An indexer has one endpoint.</p>
+
+<h4 style="color:Yellow;">Stalls</h4>
+<p>A stall has a keypair it uses to register itself to indexes and sign invoices. That keypair isn't related to any Lightning Network keypair, it's independent.</p>
+<p>A stall can choose to list some/all products with an indexer. A stall is a small server that has three endpoints.</p>
+<p>But all that was based on http protocol, so still was depending on domain/DNS and traffic over http.</p>
+<p>Now, NOSTR-market is build over <a href="https://github.com/nostr-protocol/nostr">NOSTR protocol</a>, where all the traffic is over wss relays. HTTP access it can be optional in case the merchant want to publish a public web-shop.</p>
+<p>But practically anybody can run a shop stall in a local instance of LNbits (on 127.0.0.1) and broadcast as notes all the items from its stall to the relays is connected.</p>
+<p>Same as for customers, could just run a local NOSTR-client and a NOSTR-market and connect to any merchant pubkey over wss relays. Then shop freely, decentralized, anonymously with no http traffic whatsoever, using for payments the Bitcoin Lightning Network.</p>
+<h5>Let's get started!</h5>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">AS A MERCHANT</h2>
+<p>Let's consider you already have installed LNbits (see the links above about LNbits). Will not enter into those details now, will make this guide too long.</p>
+<h4 style="color:Yellow;">A short checklist before starting with NOSTR-market:</h4>
+<ul>
+<li>Get familiarized how NOSTR works and what really is. Many think that is just a Twitter replacement, but they're wrong, is much more than that. The NOSTR protocol offers many other functionalities for a more decentralized world.</li>
+<li>Get familiarized how LNbits works. It's an accounting system on top of a LN node / funding source. Consider it as a "wordpress" for your LN node.</li>
+<li>Test your LNbits instance to be working well, testing the wallets, users etc. Please read and pay attention to all <a href="https://github.com/lnbits/lnbits/wiki">LNbits documentation available on the Wiki page</a>.</li>
+<li>Consider having a good funding source with good liquidity (in and out) for your LN node, connected to good LN routes and offer enough liquidity for the payments you will receive and also for swaping out the sats received. Please read, learn and get familiarized with how LN works. <a href="https://darthcoin.substack.com/p/lightning-network-is-awesome">Here is a full list of guides and tutorials</a>.</li>
+</ul>
+
+<h4 style="color:Yellow;">Step 1 - Install required LNbits extensions</h4>
+<h5>A - <a href="https://github.com/lnbits/lnbits/wiki/LNbits-Documentation#additional-guides">Activate the adminUI feature</a></h5>
+<p>For an easy management of your LNbits server (funding sources, users, admins, install extensions etc).</p>
+<h5>To remember:</h5>
+<ul>
+<li>This adminUI will create a super-admin user that is ONLY to manage the server and will be displayed only at LNbits startup, in the console log.</li>
+<li>It can be accessed through local URL like http://127.0.0.1/admin?usr=dfdf87.... or domain / DNS if you setup your LNbits in clearnet or over Tor also.</li>
+<li>Save this URL into your browser bookmarks if you like to access it more times.</li>
+<li>DO NOT put this URL into any search engine or post it in public !</li>
+<li>DO NOT use a browser like Google Chrome that also is logged in with a Gmail account. Use a decent browser that respect privacy and also do not save the history/cache (see browser options and disable that option). Every time you close the browser, will eliminate all browsing history. See more here.</li>
+<li>Starting with v 12.0 LNbits already have a proper login way with user and password.</li>
+</ul>
+
+<h5>B - Install User Manager (UM) extension</h5>
+<p>This is a very useful extension to manage and create users, wallets and levels of access. <a href="https://github.com/lnbits/lnbits/wiki/LNbits-Extensions#install-extensions">See more instructions here</a>.</p>
+<p>Login with the Super Admin user, install the UM, then create a user with its wallet too.</p>
+<p>Login with that user and save the URL in your bookmarks. This user could be also acting as an admin user (if you give full rights in the "Manage server" section).</p>
+<p>Inside this "admin user" you can create several other normal users, same procedure using the UM extension. But only if are needed.</p>
+<p>With this "admin user" we are going to create the merchant and stall with the NOSTR-market extension.</p>
+
+<h5>C - Install NOSTR-client extension</h5>
+<p>This is a required extension for NOSTR-market, because your market needs to connect to several NOSTR relays in order to be able to broadcast your stall.</p>
+<p>NOSTR-client is an always-on extension that can open multiple connections to nostr relays and act as a multiplexer for other clients: You open a single websocket to nostrclient which then sends the data to multiple relays. The responses from these relays are then sent back to the client.</p>
+<p><img src="/assets/images/nostr-market-client.jpg" class="center"></p>
+<p>Add some NOSTR relays into the client. If you can add a proxy relay (one that is connected to many other relays) will be better to limit the sync traffic.</p>
+
+<h5>D - Install NOSTR-Market extension</h5>
+<p>This is the important extension you will use to create and manage your merchant profile, the stalls, products, interact with customers over NOSTR private messages, manage orders etc.</p>
+<p><a href="https://github.com/lnbits/lnbits/wiki/LNbits-Extensions#install-extensions">See more instructions here.</a></p>
+<hr style="height:2px">
+
+<h4 style="color:Yellow;">Step 2 - Configure your NOSTR-Merchant Stall and products</h4>
+<p>As a merchant you need to provide a Nostr key pair, or the extension can generate one for you. If you already use NOSTR for posting notes and chat you can use the same keys, to use the already created reputation and verification NIP-05. But is preferable to have a separate one for the shop and just publish into your "public NOSTR profile" the additional shop pubkey.</p>
+<p><img src="/assets/images/nostr-market-welcome.jpg" class="center"></p>
+<p>Once you have a merchant "account", you can view the details on the merchant dropdown, save the keys separately and/or announce your shop pubkey (not private key!) to your followers / customers.</p>
+<p>SAVE YOUR PRIVATE KEY into a safe place! In case you need to migrate your LNbits NOSTR market or restore a LNbits instance to another machine, you could use that merchant private key to import your previous stall and items.</p>
+<p><img src="/assets/images/nostr-market-keys.png" class="center"></p>
+<p>To create a stall, you first need to set a Shipping zone. Click on the Zones button and fill in the fields:</p>
+<ul>
+<li>Put your shipping zone a name</li>
+<li>Select to which countries does this Shipping zone applies to (you can set a "Free" zone for digital goods)</li>
+<li>Select the unit of account. If your will list products in USD/EUR, the shipping zone must be in the same currency</li>
+<li>Select the cost to ship</li>
+</ul>
+<p>Now you can create the stall. Click on New Stall button and fill the necessary fields.</p>
+<p><img src="/assets/images/nostr-market-shop.png" class="center"></p>
+<p><img src="/assets/images/nostr-market-wallet.png" class="center"></p>
+<ul>
+<li>Put your stall/shop a name</li>
+<li>An optional description (this can be used by client to search shops)</li>
+<li>Select which wallet to use for this shop</li>
+<li>Select the unit</li>
+<li>select a Shipping Zone (multiple zones can be selected)</li>
+</ul>
+<p>Click on the "Plus" button to open the stall details and click "New Product" to create a product:</p>
+<p><img src="/assets/images/nostr-market-product.png" class="center"></p>
+<p>Fill the necessary fields on the dialog</p>
+<p><img src="/assets/images/nostr-market-product-2.png" class="center"></p>
+<ul>
+<li>The product name</li>
+<li>Give it a description</li>
+<li>Add some categories (this can be used by clients to search for products, so add as many as can describe better your item)</li>
+<li>Supply an URL for your product image (it's recommended that the images are hosted outside of LNbits). You could use PostIMG.cc or any other CDN.</li>
+<li>A price for the product, in the currency selected for the shop (this will be converted to sats when a customer buys)</li>
+<li>The quantity you have in stock, for the product. This will update when orders are made/paid</li>
+</ul>
+<p>On the Stall section you can also see (update or delete) the stall details in Stall Info tab</p>
+<p><img src="/assets/images/nostr-market-stall.png" class="center"></p>
+<p>Create, update or delete products in Products tab</p>
+<p><img src="/assets/images/nostr-market-products-list.png" class="center"></p>
+<p>Done! Your Merchant Stall is ready to be visited by your customers.</p>
+<p>To test locally your stall, open the link of the local Market page, located on the main page of NOSTR-Market, on the right-side panel:</p>
+<p><img src="/assets/images/nostr-market-client-2.png" class="center"></p>
+<p>This link will open a new tab like: http:127.0.0.1/nostrmarket/market or https://your-lnbits.domain.com/nostrmarket/market (if you access it in clearnet).</p>
+<p><img src="/assets/images/nostr-market-link.jpg" class="center"></p>
+<p>Click on the Market menu and go to Merchants. Then paste your merchant pubkey (see the beginning of this chapter about displaying / saving your pubkey).</p>
+<p>Once you add your pubkey, your stall will be displayed and broadcast to the relays.</p>
+<p>The Login button is to be used as of customer or as you the owner of the Stall or as with your personal NOSTR profile.</p>
+<p>You could test your NOSTR Stall also from any other public NOSTR Market page, like <a href="https://market.nostr.com/">https://market.nostr.com/</a> for example. You just have to add your pubkey into the “Merchants” section and done. Any of your customers can do the same procedure or from their own local LNbits instance if they have it.</p>
+<p><img src="/assets/images/nostr-market-products-list-2.jpg" class="center"></p>
+<p>In a Market page you can add multiple merchants and shop from there directly. As you can see in the image above, are 3 different merchants, with their stalls and all accessed from a local LNbits instance, just by adding their pubkeys.</p>
+<p>When you get an order, you can see the details by clicking on the "Plus" sign for the order.</p>
+<p><img src="/assets/images/nostr-market-order.png" class="center"></p>
+<ul>
+<li>Ordered products</li>
+<li>The order ID</li>
+<li>Customer's shipping address</li>
+<li>Customer's public key</li>
+<li>Invoice ID</li>
+</ul>
+<p>If applicable, you can set as shipped when shipping is processed.</p>
+<p>You also have a Chat Box to chat with customer and all these messages are done over NOSTR protocol, privately and encrypted.</p>
+<p><img src="/assets/images/nostr-market-chat.png" class="center"></p>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">AS A CUSTOMER</h2>
+<p>LNbits also provides a Nostr Market client app.</p>
+<p>You can share with your customers the client URL from the merchant dashboard by clicking on the "Market client" link or or by visiting https://<LNbits instance URL>/nostrmarket/market.</LNbits>
+<p>Or they can visit https://legend.lnbits.com/nostrmarket/market for example and just add your Stall pubkey. Or even using the search box and put one of your specific tags.</p>
+<p>If they already have a LNbits instance installed, they can even access it from a local URL like http://127.0.0.1/nostrmarket/market and adding the stall pubkey.</p>
+
+<center>
+<h3 style="color:Yellow;">HAPPY DECENTRALIZED SHOPPING OVER NOSTR WITH BTC/LN!</h3>
+</center>
+
+</body>
+</html>
+</article>
