@@ -1,0 +1,146 @@
+---
+layout: default
+title: Dunder LSP i Lightning Box Provider
+---
+<article>
+<!DOCTYPE html>
+<html lang="hr">
+<meta name="description" content="Vodiči za Bitcoin i Lightning: Kako pružiti LSP usluge i LN box korisnicima Blixt mobilnih čvorova">
+<body>
+<a href="/nodes/dunder-lsp-lnbox-provider-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/dunder-lsp-lnbox-provider-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/dunder-lsp-lnbox-provider-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/dunder-lsp-lnbox-provider-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/dunder-lsp-lnbox-provider-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/dunder-lsp-lnbox-provider-nl.html">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/dunder-lsp-lnbox-provider-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<blockquote style="color:Tomato;"><em>
+<p>Izvorno objavljeno na <a href="https://darthcoin.substack.com/p/dunder-lsp-and-lightning-box-provider">Substack</a> 29. studenog 2023. Ažurirano ovdje 28. prosinca 2024.</p>
+</em></blockquote>
+
+<h3>Ovaj mini vodič posvećen je svim onim pokretačima čvorova koji žele dati više svrhe svom LN čvoru i pružiti više usluga mobilnim korisnicima.</h3>
+<p>Stvarno se nadam da svi ti korisnici Plebnet čvorova čitaju ovaj mini vodič i više koriste svoje LN čvorove. Ova likvidnost je ono što je trenutno potrebno redovnim mobilnim korisnicima.</p>
+<p>Želio bih objasniti neke jednostavne korake o tome kako možete ponuditi LN usluge likvidnosti za korisnike mobilnih čvorova. Ovo bi također mogao biti scenarij "ujaka Jima", gdje nudite LN usluge za svoju obitelj i prijatelje, koji nemaju/ne mogu pokrenuti vlastiti čvor i samo žele način da koriste LN na siguran i privatan način, sami -skrbništvo.</p>
+
+<slika>
+ <img src="/assets/images/blixt-ln-box.jpg" class="center">
+ <figcaption>Čarobna kutija munje Blixta: Dunder LSP i adresa munje</figcaption>
+</figure>
+
+<h3 style="color:Orange;">PODSJETNIK:</h3>
+<ul>
+<li>Ovaj vodič nije za noobove! Molimo, ako nemate dobro osnovno znanje o pokretanju javnih čvorova za usmjeravanje, ovo NIJE za vas.</li>
+<li>LSP ne zadržava sredstva korisnika! Samo osigurava likvidnost. Ovo NIJE skrbništvo nad sredstvima korisnika, to je samo način da se osiguraju kanali za brzo otvaranje i dobri putovi za plaćanja korisnika. <a href="https://thebitcoinmanual.com/articles/explained-lsp/">Ovdje pročitajte više što je LSP</a> (Liquidity Service Provider).</li>
+<li>LSP-ovi su vrlo važni za korisnike mobilnih privatnih čvorova kako bi mogli otvoriti dobre kanale koji nude dobru likvidnost. Nisu svi LN čvorovi u mreži voljni ponuditi ovu vrstu usluga, jer privatni čvor nije uvijek online i ne vrši nikakvo usmjeravanje, tako da su ta sredstva isključivo za njihova vlastita plaćanja, tako da ih LSP ne može koristiti za usmjeravanje. Dakle, na neki način ovise o prometu korisnika. Ako korisnik ne koristi ta sredstva za plaćanja, LSP ne zarađuje nikakve naknade. Ili još gore, ako otvara dolazni kanal za korisnika, LSP doslovno stavlja novac iz svog džepa u kanal koji se nikada ne pomiče.</li>
+<li>Važno je da su ove usluge kanala za korisnike koji većinu vremena imaju dolazni i odlazni promet.</li>
+</ul>
+
+<h3 style="color:Orange;">Prvo treba spomenuti neke zahtjeve:</h4>
+<h4 style="color:Yellow;">A. Imate dobar LN javni čvor</h4>
+<p>Vođenje dobrog čvora za usmjeravanje je ozbiljan zadatak, morate imati dobar čvor s poviješću, s dobrim kanalima, dobrom likvidnošću, dobrim održavanjem. Nije za bilo koji usrani novi čvor u mreži.</p>
+<p>Imat ćete veliku odgovornost da dobro usmjerite sva plaćanja, ne samo za svoje privatne već i za javne.</p>
+<p>Napisao sam nekoliko vodiča o ovom aspektu, odvojite vrijeme i pročitajte ih:</p>
+<ul>
+<li><a href="/nodes/recommendations-ln-node-operators-hr.html">Preporuke za LN korisnike</a></li>
+<li><a href="/nodes/managing-lightning-node-liquidity-hr.html">Upravljanje likvidnošću Lightning Node</a></li>
+<li><a href="/nodes/lightning-node-maintenance-hr.html">Održavanje Lightning čvora</a></li>
+<li><a href="/nodes/lightning-routing-fees-experiment-hr.html">Eksperiment s naknadama za Lightning Routing</a></li>
+<li><a href="/merchants/private-banks-over-ln-hr.html">Privatne banke putem Lightning mreže</a></li>
+</ul>
+
+<h4 style="color:Yellow;">B. Pokrećete LND čvor.</h4>
+<p>Ovaj scenarij je nažalost samo za LND čvor. Trenutno nema CLN, Eclair, LDK. Potičemo svakog tko je dobar u pisanju koda da ga uzme i račva za druge LN implementacije. Softver je FOSS.</p>
+<p>Nadam se da ćemo jednog dana imati standardni kod za sve vrste LSP i LN implementacija, ali do tada moramo koristiti ono što imamo, kako bismo pokušali ići naprijed.</p>
+
+<h4 style="color:Yellow;">C. Vaš čvor ima dobru likvidnost</h4>
+<p>Morate vrlo dobro znati kako održavati svoju likvidnost na takav način da možete ponuditi glatka i brza plaćanja.</p>
+<p>Zdravlje mreže uvelike ovisi o dobrim javnim čvorovima. Ako vaš čvor nije dobro održavan, nema baš dobru likvidnost, ako je samo Tor, tada cijeloj mreži činite više štete nego dobro.</p>
+
+<h4 style="color:Yellow;">D. Naknade za usmjeravanje koje primjenjujete</h4>
+<p>Naknade ovise o vama, ali predlažem da ne dopustite da vas kontrolira pohlepa. Nismo u fazi kad ćemo se zajebavati. Prvo moramo zajebati banke i vlade, gurajući naprijed usvajanje Bitcoina i njegovu veću upotrebu.</p>
+<p>Zato nastavite s oprezom, imajte dugotrajnu prednost, imajući nesmetan tijek prihoda sa zadovoljnim klijentima vaše likvidnosti.</p>
+
+<h4 style="color:Yellow;">E. Tehničke vještine</h4>
+<p>Morate dobro poznavati Linux i CLI, instaliranje softvera. NEMA POTREBE za noobovima koji znaju samo koristiti Umbrel i Windows.</p>
+<p>Uklanjanje pogrešaka i održavanje ozbiljnog sustava nije za pripravnike. Sranja se mogu događati stalno i morate djelovati brzo i sa znanjem. Mnogi će ljudi ovisiti o vašim vještinama u rješavanju problema na vrijeme.</p>
+
+<h4 style="color:Yellow;">F. Dugovječnost usluge</h4>
+<p>Spremni ste održavati uslugu za svoje korisnike koliko god možete. Budite pošteni i pomozite im koliko god možete. Vidjeli smo mnogo onih koji su odustali, stoga analizirajte svoje mogućnosti, svoje buduće dobitke, svoju dugoročnu strategiju i započnite ovo samo ako znate da biste mogli održati obećanje.</p>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">PRIJEDLOG RJEŠENJA</h2>
+<p>Postoje dva dijela prijedloga:</p>
+<ul>
+<li>Dunder LSP - usluge likvidnosti za mobilne čvorove</li>
+<li>Lightning Box - usluge LN adresa za privatne domene, obitelj i prijatelje</li>
+</ul>
+
+<h3 style="color:Orange;">A - Dunder LSP</h3>
+<p>Ovo rješenje temelji se na <a href="https://github.com/hsjoberg/dunder-lsp">Dunder LSP specifikacijama</a>, koje su potpuno otvorenog koda, izrađene <a href="https://nostr.at/npub1v4v57fu60zvc9d2uq23cey4fnwvxlzga9q2vta2n6xalu03rs57s0mxwu8">autor Hampus</a>, razvojni programer <a href="https://blixtwallet.com/">Blixt Wallet</a>. Svi doprinosi poboljšanju koda su dobrodošli!</p>
+<p>Ovaj Dunder LSP trenutno nudi jednostavnu integraciju za nove korisnike Blixt novčanika, puni LND čvor na vašem mobitelu (<a href="/wallets/getting-started-blixt-wallet-hr.html">Napisao sam potpuni vodič korak po korak ovdje</a>).</p>
+<p>Ideja je da ćete vi, kao pokretač čvorova javnog usmjeravanja, pružiti 2 stvari:</p>
+<ul>
+<li>privatni kanali za korisnike mobilnih čvorova, čak i s 0-conf kanalima</li>
+<li>pristup javnoj likvidnosti putem tih privatnih kanala, bolji načini plaćanja</li>
+</ul>
+<p>Na ovaj način će mobilni korisnici imati brzo i glatko iskustvo korištenja LN-a u metodi samostalne skrbi, bez suučesništva u pokretanju javnih čvorova za usmjeravanje. Neki korisnici jednostavno ne mogu sve te stvari, samo žele koristiti LN za vlastita plaćanja.</p>
+<p>Napisao sam svu dokumentaciju za Blixt novčanik, <a href="https://blixtwallet.github.io/features">objašnjavajući svaku značajku aplikacije</a>, s više <a href="https:// blixtwallet.github.io/guides">vodiče</a> i detaljan <a href="https://blixtwallet.github.io/faq">FAQ stranicu</a>. Pročitajte ih sve, vrlo su zanimljivi slučajevi upotrebe.</p>
+<p>A evo jednog koji posebno govori o <a href="https://blixtwallet.github.io/guides#guide-lsp">kako koristiti Dunder LSP u vašem Blixt novčaniku</a>.</p >
+<p>Tijek Dunder procesa opisan je u ovoj jednostavnoj shemi:</p>
+
+<p><img src="/assets/images/blixt-dunder-lsp.jpg" class="center"></p>
+
+<h4 style="color:Yellow;">Dakle, koje biste korake trebali učiniti kao pokretač LND čvora?</h4>
+<ol>
+<li>Instalirajte Dunder LSP softver na vlastito čvorno računalo</li>
+<li>Postavite vlastita Dunder pravila za naknade, veličinu kanala itd.</li>
+<li>Napravite neke testove sa svojim vlastitim Blixt novčanikom, otvaranjem kanala na zahtjev s 0-conf, instant</li>
+<li>Napravite još nekoliko testova sa svojom obitelji/prijateljima Blixt korisnicima, kako biste bili sigurni da vaš čvor dobro reagira i može dobro usmjeravati sva plaćanja.</li>
+<li>Navedite svoje Dunder LSP usluge na <a href="https://github.com/hsjoberg/blixt-wallet/issues/1033">vršnjacima Blixt zajednice</a> - uskoro će ovaj popis možda biti izravno integriran u Blixt UI tako da novi korisnici mogu lako izabrati svoje vršnjake. Trenutačno je to samo popis na kojem korisnici Blixta objavljuju svoje željene kolege za korištenje s Blixtom, poput garantiranog popisa kolega.</li>
+<li>Dajte povratne informacije Hampusu, objavljujte probleme na <a href="https://github.com/hsjoberg/dunder-lsp">Dunder Github repo</a>, ako imate, sudjelujte s PR-ovima za kod. Budući da je otvoreni kod, također se može proširiti da bude LSP standard za druge LN implementacije i LN mobilne čvorove (Zeus, Mutiny, Electrum, Breez, Phoenix).</li>
+</ol>
+<p>Topologija mreže bit će sljedeća:</p>
+<p><img src="/assets/images/blixt-network-topology.jpg" class="center"></p>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">B - Kutija munje</h3>
+<p>Ovo je nova značajka za Blixt Wallet, koja počinje s <a href="https://github.com/hsjoberg/blixt-wallet/releases/tag/v0.6.9-420">v0.6.9-420< /a> i temelji se na softverskom paketu pod nazivom <a href="https://github.com/hsjoberg/lightning-box">Lightning Box</a>, također stvorio Hampus.</p>
+<p>Lightning Box je <a href="https://lightningaddress.com/">Lightning Address</a> pružatelj usluga za mobilne čvorove kao što je Blixt Wallet, koji vam omogućuje primanje Lightning Address plaćanja izravno na vaš telefon.</p >
+<p>Ovo radi u kombinaciji s Trajnim načinom rada objavljenim u verziji 0.6.9, koji omogućuje Blixt Walletu da ostane aktivan u pozadini kako bi primao plaćanja.</p>
+<p>Ovo također možete koristiti za davanje napojnica.</p>
+<p>Trenutno se zadani Lightning Box izvodi na poslužitelju Blixt Node i nudi @ blixtwallet.com LN adresu. Ali SVAKO s LND javnim čvorom može pokrenuti Lightning Box poslužitelj i ponuditi LN adresu za vlastitu domenu, samostalno skrbništvo.</p>
+<p>Trenutno poslužitelj Blixta samo prosljeđuje uplate korisnicima Blixta. Korisnici moraju staviti svoj novčanik Blixt čvora u "stalni način rada" kako bi primali ove uplate na svoje @ blixtwallet.com LN adrese.</p>
+<p>Dakle, NEMA čuvanja sredstava ili zadržavanja faktura, LN kutija djeluje kao otpremnik.</p>
+<p>Može se čak koristiti kao chat preko LN-a, trenutačno i zabavno, također podržava <a href="https://github.com/lnurl/luds/blob/luds/18.md">LUD-18< /a> (dodavanje pseudonima uplati). Na popis kontakata možete dodati sve svoje redovne LN adrese koje često koristite i imati ih pri ruci za razgovor ili jednostavno slanje sredstava. Sada se Blixt može smatrati potpunom LN aplikacijom za chat 😂😂.</p>
+<p>Kao što možete vidjeti na ovoj demo slici, na glavnom ekranu Blixta pojavljuju se svi "chatovi" preko LN-a koristeći LN Box i LUD-18.</p>
+<p><img src="/assets/images/blixt-lud18.jpg" class="center"></p>
+<p>Kao što možete vidjeti na gornjoj snimci zaslona, ​​slanje sa SN računa lijepo se prikazuje logo + LN adresa + poruka. Isto vrijedi i za slanje s Blixta, možete priložiti svoju Blixt LN adresu ili jednostavno dodati pseudonim (prethodno postavljeno u postavkama Blixta), ili oboje.</p>
+<p>Ova opcija iz LUD-18 mogla bi biti korisna i za usluge pretplate, gdje korisnik može poslati određeni pseudonim (NIJE pseudonim vašeg čvora ili vaše pravo ime!) i na temelju toga možete biti registrirani ili primiti određenu poruku ili bilo što drugo.</p>
+<p>Dodavanje pseudonima (<a href="https://github.com/lnurl/luds/blob/luds/18.md">LUD-18</a>)+ komentar (<a href=" https://github.com/lnurl/luds/blob/luds/12.md">LUD-12</a>) na LN plaćanje može imati više slučajeva upotrebe!</p>
+<p>Ovdje pogledajte video demonstraciju o tome kako postaviti svoju LN adresu u Blixt.</p>
+
+<center>
+<video width="224" height="480" controls>
+  <source src="/assets/media/blixt-ln-box-setup.mp4" type="video/mp4">
+</video>
+</center>
+
+<p><a href="https://github.com/hsjoberg/lightning-box">Ovdje je kod za Lightning Box</a> ako ga pokrenete za sebe, za svoju obitelj i prijatelje, sami čvor, s vlastitom domenom.</p>
+<p><img src="/assets/images/blixt-tie-interceptor.jpg" class="center"></p>
+
+<centar>
+<h3 style="color:Orange;">Sretna munja uz Blixt Node novčanik!</h3>
+<h4 style="color:Yellow;">Samo suradnjom, testiranjem, korištenjem i poboljšanjem možemo ići naprijed!</h4>
+</center>
+<hr style="height:2px">
+
+<blockquote style="color:Tomato;"><em>
+<p>ODRICANJE OD ODGOVORNOSTI</p>
+<p>Ne plaća me Blixt niti bilo koji drugi tim/tvrtka. Samo besplatno podržavam njihova rješenja otvorenog koda s vodičima. MORAMO pomagati jedni drugima ako želimo ići naprijed s usvajanjem Bitcoina. Oni pišu kod, ja pišem vodiče.</p>
+<p>Pišem vodiče i dokumentaciju, prijevode za mnoga druga Bitcoin rješenja, besplatno. Moj život je posvećen Bitcoinu u cjelini, kao putu naprijed za bolji svijet.</p>
+<p><a href="https://darthcoin.substack.com/p/what-you-did-for-bitcoin">Ne pitajte što je Bitcoin učinio za vas, pitajte što ste VI učinili za Bitcoin!</ a></p>
+</em></blockquote>
+
+</body>
+</html>
+</article>
