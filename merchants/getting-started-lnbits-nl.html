@@ -1,0 +1,172 @@
+---
+layout: default
+title: Aan de slag met LNbits
+---
+<article>
+<!DOCTYPE html>
+<html lang="en">
+<meta name="description" content="Bitcoin- en Lightning-handleidingen: een handleiding voor nieuwe LNbits-gebruikers/beheerders over het starten en beheren van de LN-node achter elke LNbits-instantie">
+<body>
+<a href="/merchants/getting-started-lnbits-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/getting-started-lnbits-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/getting-started-lnbits-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/getting-started-lnbits-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/getting-started-lnbits-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/getting-started-lnbits-hr.html">Hrvatski <img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/getting-started-lnbits-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<em><blockquote style="color:Tomato;">
+<p>Oorspronkelijk gepost op <a href="https://darthcoin.substack.com/p/getting-started-lnbits">Substack</a> op 12 dec. 2022. Hier bijgewerkt op 28 dec. 2024.</p>
+</em></blockquote>
+
+<h3>Een gids voor nieuwe LNbits-gebruikers/beheerders, over hoe je de LN-node achter elke LNbits-instantie start en beheert.</h3>
+<p>Deze gids is bedoeld voor degenen die LNbits in hun bedrijf willen implementeren, maar geen ervaring hebben met het runnen van een Lightning-node achter LNbits.</p>
+<p>Aan het einde van de gids vindt u meer documentatie om te bestuderen. Dit artikel is alleen bedoeld om u wat "eerste begeleiding" te geven. Dit is NIET de ultieme gids voor uw node-liquiditeit. Het is alleen voldoende om u, de nieuwe LN-gebruiker, op het juiste pad te zetten. Nadat u deze handleiding hebt gelezen, zult u veel huiswerk moeten doen.</p>
+<p>Ik zal proberen het in eenvoudige bewoordingen uit te leggen, zodat het kan worden opgenomen door elk type gebruiker dat niet zo bekend is met technische details en laat staan ​​een LN-knooppunt draait, maar LNbits wil gaan gebruiken voor verschillende zakelijke en persoonlijke scenario's.</p>
+<p><img src="/assets/images/lnbits-intro.jpg" class="center"></p>
+
+<h2 style="color:Tomato;">BELANGRIJK ASPECT</h2>
+<h3 style="color:Orange;">LNbits is een boekhoudsysteem bovenop uw LN-knooppunt.</h3>
+<p>Vanaf v12.0 is er ook een knooppuntbeheersoftware!</p>
+<p>Zie LNbits als een "wordpress modulair framework" voor uw knooppunt. Een eenvoudig te beheren platform, gebaseerd op extensies die u kunt combineren voor talloze use cases.</p>
+<p>Zie LNbits als uw eigen financiële beheersoftware voor banken. Uw node biedt kanalen om via te betalen en LNbits breidt uw node uit om meer dan één lightning wallet te kunnen runnen die uw node heeft. Deze wallets hoeven niet per se van u te zijn. Stel dat u, als LN node runner, al voldoende kanaalliquiditeit en fondsen hebt en nu wilt u wat bitcoin banking services aanbieden aan uw vrienden, familie, eigen winkel of andere vaste handelaren.</p>
+<p>U biedt hen een eenvoudige manier om een ​​"bankrekening" te openen op uw node zonder toegang te hebben tot andere wallets op uw node en tot al uw node liquiditeit, maar alleen hun deel. Jouw node (de bank) fungeert alleen als transportprovider voor hun betalingen (in/uit).</p>
+<p>LET OP: alle fondsen die jouw “klanten” storten op hun LNbits bankrekeningen op jouw node, gaan rechtstreeks naar jouw node LN kanalen. Dat betekent dat JIJ de echte eigenaar bent van die fondsen. Je zult een grote verantwoordelijkheid dragen voor hun fondsen. Wees niet slecht en ga er niet vandoor met de fondsen, wees niet slecht en reken geen hoge kosten. We willen de fiat banksters neuken, niet elkaar (bitcoin gebruikers).</p>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">A - Node (bank) liquiditeitsbeheer</h3>
+<p>Dit is een heel belangrijk onderdeel, waar veel nieuwe gebruikers een beetje de weg kwijtraken, omdat ze de basis niet kennen van hoe het Lightning Network werkt en wat er nodig is om goede liquiditeit te bieden voor inkomende en uitgaande betalingen.</p>
+<p>De leercurve is niet eenvoudig, maar ook niet zo moeilijk. Met wat geduld en lezen kan iedereen het. Maar begin alsjeblieft niet met het aanbieden van diensten met je LNbits-bank aan anderen voordat je je LN-node goed hebt voorbereid.</p>
+<p>De meest voorkomende use cases voor een node als deze (LNBits merchant bank, reguliere gebruikers, specifieke backend voor een web-app) hebben een aantal vereisten nodig voor een soepele vaart:</p>
+<ul>
+<li>voldoende inkomende en uitgaande liquiditeit in de LN-kanalen van je node</li>
+<li>lage kosten tot nul kosten tussen je LNbits-accounts</li>
+<li>betrouwbare hardware en installatie, altijd online, snelle verbinding, clearnet (bij voorkeur) en/of Tor (voor degenen die een andere getunnelde toegang willen, maar houd er rekening mee dat Tor erg traag is).</li>
+</ul>
+<p>Wat is inkomende liquiditeit? De capaciteit die een LN-node heeft om betalingen te ontvangen. Niet alleen in totaal, maar ook voor elke betaling.</p>
+<p>Wat is uitgaande liquiditeit? Betekent de totale capaciteit die uw node kan verzenden.</p>
+<p>Denk aan betalingen via uw node als glazen water die, gevuld met water, door een klein of groot rietje of pijp. Het glas (de ontvanger), is het LN-kanaal, kan op een bepaald moment slechts een bepaalde hoeveelheid water transporteren en uw glas kan in totaal niet meer verzenden dan u in uw glas bezit.</p>
+<p>Ik zal nu niet in detail treden, uitleggen hoe LN werkt. Ik heb uitgebreide handleidingen geschreven op <a href="/nodes/nodes.html">mijn handleidingenpagina</a> en hier heb ik <a href="https://darthcoin.substack.com/p/lightning-network-is-awesome">een lijst met LN-bronnen</a> samengesteld om te bestuderen, met documentatie, tutorials, tools, links, services etc.</p>
+<p>Het voorbereiden van een LN-node-liquiditeit vereist geduld, tijd, studie en het selecteren van goede peers, vooral als u het voor commerciële doeleinden gaat uitvoeren. Hier zal ik je wat advies geven over hoe je aan de slag kunt gaan, zodat je nieuwe LNbits sats kunnen ontvangen en verzenden voor al je extra accounts en gebruikers. Je zult je eigen manier vinden om je node te finetunen, zodra je meer hebt geleerd over liquiditeitsbeheer.</p>
+<p>Stel dat je een gloednieuwe node klaar hebt, maar nog geen LN-kanalen. Op dit moment konden uw LNbits geen betalingen ontvangen of verzenden buiten uw "bank", naar het wilde LN (Lightning Network).</p>
+<p>Als belangrijkste hulpmiddel om LN-knooppunten te controleren en te bestuderen, raad ik aan om <a href="https://amboss.space/">Amboss</a> of <a href="https://mempool.space/lightning">Mempool LN</a> explorer-pagina te gebruiken, waar u veel details van een knooppunt kunt leren, inclusief uw eigen.</p>
+
+<figure>
+<img src="/assets/images/node-page-amboss.jpg" class="center">
+<figcaption>Nodepresentatie op Amboss-pagina</figcaption>
+</figure>
+
+<h4 style="color:Yellow;">Belangrijke aspecten bij het zoeken naar een goede peer-knooppunt / kanaalpartner:</h4>
+<ul>
+<li>aantal kanalen, meer is beter (knooppunt met slechts 5-10 kanalen bieden u niet te veel routes)</li>
+<li>levensduur, langer is beter (geeft de toewijding aan om een ​​goede service te bieden)</li>
+<li>totale capaciteit, groter is beter (geeft het totale aantal sats aan dat naar/van uw node kan worden gerouteerd)</li>
+<li>grootte van kanalen, groter is beter (vermoedelijk een langere tijd totdat kanalen zijn opgedroogd en toont ook de maximale grootte van een betaling die kan worden gerouteerd)</li>
+<li>beschouw uw peer niet als een "facebookvriend". LN gaat niet over vrienden, maar over goede routerende peers. Dus verbinding maken met een node alleen omdat de eigenaar uw vriend is, zal u of het netwerk helemaal niet helpen als die node zelf geen goede routes heeft. Ja, als uw node al een goed gepositioneerde node is en u uw noob-vriend wilt helpen om te beginnen met een nieuwe node, kan en moet dit een uitzondering zijn.</li>
+</ul>
+
+<figure>
+<img src="/assets/images/node-channels-amboss.jpg" class="center">
+<figcaption>Details over knooppuntkanalen op de Amboss-pagina</figcaption>
+</figure>
+
+<p>Let op de details op de Amboss-pagina, die u een diepgaand inzicht geven in hoe dat knooppunt zijn kanalen beheert: kanaalgrootte, basistarief, tarief, TimeLock, enz.</p>
+<p>Deze aspecten zijn erg belangrijk wanneer het tijd is om uw eerste peers te kiezen.</p>
+
+<h5>a. Kanaalgrootte</h5>
+<p>Open geen kleine kanalen die minder dan 3M sats zijn. Blijf echter onder de max. 10-21M sats.</p>
+<p>Het hangt allemaal af van uw gebruik per betaling. Als u er zeker van bent dat u zeer grote kanalen kunt gebruiken, kunt u bijvoorbeeld ook een 21M sats-kanaal hebben, maar beperk het aantal sats per enkele betaling tot 1M, met behulp van de min/max HTLC-optie, per kanaal. <a href="/nodes/lightning-routing-fees-experiment-nl.html">Ik heb hier een uitgebreide handleiding geschreven over het resultaat van het gebruik van deze methode</a>.</p>
+
+<h5>b. Totale nodecapaciteit</h5>
+<p>Uw node moet voldoende capaciteit hebben voor alle klanten van uw "bank".</p>
+
+<figure>
+<img src="/assets/images/liquidity-report-th.jpg" class="center">
+<figcaption>Het belangrijkste rapport: Node Total Liquidity</figcaption>
+</figure>
+
+<p>In deze schermafbeelding van Thunderhub (node ​​management-app) ziet u de totale inkomende en uitgaande capaciteit en ook de maximale grootte van inkomende en uitgaande bedragen per transactie.</p>
+<p>Het is aan te raden om dit in evenwicht te houden, ik bedoel om bijna dezelfde capaciteit te hebben voor ontvangen en ook voor verzenden. Alle uitgebreide afvoeren in één richting kunnen resulteren in mislukte betalingen.</p>
+<p>Het maakt niet echt uit of een kanaal niet perfect 50-50 in evenwicht is.</p>
+<p>Uw node LN-kanalen zullen er na een tijdje zo uitzien, één kant die uw sats zijn en de andere kant die de sats van uw peer vertegenwoordigt, altijd heen en weer jonglerend terwijl wallets op uw node het gebruiken en betalingen van anderen worden gerouteerd.</p>
+<p><img src="/assets/images/abacus.jpg" class="center"></p>
+
+<p>Ook wat via het ene kanaal binnenkomt, kan mogelijk via een ander kanaal naar buiten gaan, wat ze na verloop van tijd in evenwicht zal brengen.</p>
+<p>Ja, in het begin is het goed om te beginnen met gebalanceerde kanalen, zodat u rechtstreeks in- en uitgaande betalingen kunt hebben en verstrekken. Dit kan worden bereikt met circulaire rebalancing, waarbij een swap-service wordt gebruikt om sats van uw LN-kanalen terug te verplaatsen naar uw onchain-adres en ze opnieuw te gebruiken om meer kanalen te openen. Ik zal in het volgende hoofdstuk uitleggen hoe dat werkt.</p>
+
+<h5>c. Liquiditeit</h5>
+<p>Een goede strategie zou zijn om 2-3-4-5 kanalen te openen met een aantal goede LSP's (Liquidity Service Providers), om vanaf het begin goede routes te hebben. Bij voorkeur die met wallet provider nodes waar veel andere gebruikers mee verbonden zijn en die goede verbindingen hebben.</p>
+<p>Zie meer voorbeelden in deze gids <a href="/nodes/managing-lightning-node-liquidity-en.html">"Managing Lightning Node Liquidity"</a>.</p>
+<p>Breid vervolgens je verbindingen uit met meer Bitcoin-bedrijfsnodes (services, exchanges, LSP, Rings of Fire etc.). De Amboss-pagina is erg goed om er een te vinden.</p>
+<p>Ik kan je <a href="https://telegra.ph/List-of-good-nodes-11-25">mijn persoonlijke lijst met goede peers</a> laten zien die ik in de loop van de tijd heb verzameld, maar ze zijn misschien niet 100% geschikt voor je eigen behoeften en na verloop van tijd veranderen deze peers hun beleid of sluiten ze zelfs hun nodes. Neem het dus alleen als voorbeeld. Sommige van de nodes daar zijn misschien niet eens meer online.</p>
+<p>Elke node-operator moet zijn eigen lijst met peers bijhouden, deze indien mogelijk bijwerken en aanpassen aan eigen behoeften.</p>
+<p>Je opent een eerste kanaal, laten we zeggen van 10M sats met een van deze peers. Vervolgens gebruik je een swap-service om de helft van de sats (5M min of meer) uit het kanaal te verplaatsen. Op deze manier kun je die sats hergebruiken om het volgende kanaal te openen en ook inkomende liquiditeit te krijgen. <a href="/nodes/lightning-submarine-swaps-nl.html">Zie de speciale gids over submarine swaps die ik hier heb geschreven</a>.</p>
+<p>Herhaal het proces voor de volgende 3-4 nieuwe kanalen en je hebt een mooie liquiditeit om mee te beginnen. Na verloop van tijd kunt u uw aantal peers uitbreiden met behulp van <a href="https://lightningnetwork.plus/">LightningNetworkPlus</a> of <a href="https://t.me/SRROFBOT">Satoshi Radio Rings of Fire</a> of door handmatig andere geselecteerde knooppunten toe te voegen met behulp van specifieke hulpmiddelen om uw peers te analyseren voordat u er verbinding mee maakt: <a href="https://lnrouter.app/">LN Router</a>, <a href="https://lnnodeinsight.com/">LN Node Insight</a>, <a href="https://moneni.com/mcb/nodematch">NodeMatch</a>, <a href="https://stacker.news/items/625563/r/DarthCoin">LN-kanalen TG Bot</a> en <a href="https://stacker.news/items/625563/r/DarthCoin">LN-kanalen TG Bot</a> en <a href="https://lnrouter.app/">LN Router</a> en <a href="https://lnnodeinsight.com/">LN Node Insight</a>. href="https://darthcoin.substack.com/i/42092296/tools-explorers-analyzers-stats">andere meer</a>.</p>
+
+<h5>d. Levensduur</h5>
+<p>Probeer je LN-kanalen zo veel mogelijk open te houden. Vooral de kanalen die meer verkeer genereren. Je zult het gedrag van je node bijna elke dag moeten observeren als je goede routes voor je klanten wilt bieden. Observeer waar en vanwaar je node fondsen ontvangt, waar de meeste sats naartoe gaan, probeer de beste routes voor die bestemmingen te vinden.</p>
+<p>Als andere "jonge nodes" verbinding met je willen maken, maar ze genereren niet veel verkeer en zijn ook meestal offline, moet je die nutteloze kanalen sluiten. Ze genereren alleen maar rommelverzoeken en laden je node met nutteloze time-outs. Een goede tool om dit te observeren is <a href="https://github.com/edouardparis/lntop">LNTop</a>. <a href="/nodes/recommendations-ln-node-operators-nl.html">Ik heb in deze andere handleiding</a> enkele waarschuwingen uitgelegd.</p>
+<p>Over het algemeen moet een LN-kanaal alleen in een paar gevallen worden gesloten, anders moet het online blijven:</p>
+<ul>
+<li>peer is meestal offline</li>
+<li>peer heeft een hele slechte ping (responstijd), de meeste Tor-knooppunten hebben dit</li>
+<li>is een heel klein kanaal; alles onder de 3M wordt als klein beschouwd</li>
+<li>peer levert gedurende een bepaalde periode (2-3 maanden) geen verkeer</li>
+<li>peer heeft zijn knooppunt gecrasht en alle kanalen moeten worden gesloten (ze hebben je geïnformeerd)</li>
+</ul>
+<p>OK, nu heb je een goed knooppunt met goede liquiditeit, je bent meer dan klaar om betalingsdiensten aan anderen aan te bieden. Laten we eens dieper ingaan op het beheren van uw LNbits-server.</p>
+<hr style="height:2px">
+
+<p><img src="/assets/images/lnbits-pos-fruits.jpg" class="center"></p>
+
+<h3 style="color:Orange;">B. LNbits Bank Management</h3>
+<h4 style="color:Yellow;">Installatieprocedure</h4>
+<p>Eerste stap: Waar te installeren? Eigen machine of gehoste oplossing?</p>
+<p>Zoals ik heb uitgelegd <a href="https://darthcoin.substack.com/p/build-your-own-lnbits-app-server">in deze speciale handleiding</a>, kun je het installeren op je bundelknooppunt, maar je kunt het ook standalone installeren op ELKE andere gewone pc-machine.</p>
+<p>Mijn persoonlijke mening over dit aspect is om een ​​speciale LN-knooppuntmachine te draaien (hetzij een thuisbundel, een VPS, een <a href="https://voltage.cloud/">Voltage</a>-knooppunt in de cloud) en de LNbits-instantie op een aparte machine. Dit maakt beide beter beheersbaar, toegankelijker en ik kan de financieringsbron op elk gewenst moment wijzigen.</p>
+<p>Ja, het is fijn om het "alles-in-één" te hebben, maar wat als uw bedrijf te veel afhankelijk is van die LNbits-instantie en uw LN-knooppunt crasht? Het op dezelfde machine hebben als uw LN-knooppunt kan leiden tot verliezen. Maar als u beide op afzonderlijke machines hebt, kunt u eenvoudig de financieringsbron wijzigen met een ander LN-knooppunt en bent u klaar om direct betalingen te blijven ontvangen of doen.</p>
+<p><a href="https://github.com/lnbits/lnbits/wiki/LNbits-Documentation">De installatiehandleiding</a> is heel eenvoudig en in 5-10 minuten hebt u een werkende LNbits. <a href="https://github.com/lnbits/lnbits/wiki/LNbits-Documentation#additional-guides">Ik zou voorstellen om de Caddy</a>-proxy te gebruiken, is heel eenvoudig en snel te installeren en configureren. Met Caddy koppelt u uw LNbits-instantie aan een domein dat bijvoorbeeld uw online-shop kan hosten. Let op, dit is essentieel als u bankdiensten aan anderen wilt aanbieden.</p>
+<p><a href="https://github.com/lnbits/lnbits/wiki/LNbits-Documentation#funding-sources">Het instellen van de financieringsbronnen</a> is in principe het aanpassen van een paar regels in het .env-configuratiebestand en klaar. Start de lnbits-service en … happy lightning.</p>
+
+<h4 style="color:Yellow;">Maak regelmatig een back-up van uw LNbits-database</h4>
+<p>Als u respect hebt voor de klanten van uw "bank", moet u regelmatig back-ups maken van uw LNbits-database. Het is niet moeilijk om dat te doen. Gewoon een kopie van de lnbits/data-map.</p>
+<p>Binnenkort, wanneer de nieuwe admin-extensie klaar is en wordt uitgebracht, zullen er meer automatische en webUI-opties zijn om die back-up/herstel uit te voeren.</p>
+<p>Deze database bevat ALLEEN: gebruikersportemonnee-ID's en toegang, transactiegeschiedenis, saldo, persoonlijke instellingen, enz.</p>
+<p>Houd er rekening mee dat deze database (een sqfile) net als een excel-bestand is. HET IS GEEN portemonnee, kanaal of xpub. Dus als u de LNbits-bank naar een andere financieringsbron wilt verplaatsen (een ander knooppunt in geval van een ramp), kunt u eenvoudig uw LNbits-instantie naar een ander LN-knooppunt verwijzen en klaar, de saldi van de klant zijn er, maar u bent gewoon overgestapt naar een andere "kluis", een andere liquiditeitstransportprovider.</p>
+<p>Als u uw LNbits-instantie naar een andere server wilt verplaatsen, kunt u ook gewoon die database kopiëren en plakken en LNbits opnieuw starten.</p>
+<p>LNbits kan op verschillende financieringsbronnen worden uitgevoerd <a href="https://github.com/lnbits/lnbits/wiki/LNbits-Documentation#funding-sources">zoals beschreven in de installatiehandleiding hier</a>. Dus zelfs als je het eerder had draaien met een LND-knooppunt en je wilt bijvoorbeeld overschakelen naar een CLN-knooppunt, is een eenvoudige wijziging in het .env-bestand voldoende en start je de LNbits-service opnieuw op.</p>
+
+<h4 style="color:Yellow;">Open je LNbits-bank voor clearnet-toegang</h4>
+<p>Een LNbits alleen achter Tor hebben is NIET betrouwbaar. Ja, vandaag de dag kan iedereen een bundelknooppunt starten zoals Umbrel, Citadel, myNode, Raspiblitz, Embassy etc. die standaard achter Tor draait. Ja, je kunt er een van die gebruiken voor je LNbits, die al geïntegreerd is, gemakkelijk te starten met één klik.</p>
+<p>Maar het leuke is dat de klanten van je bank niet weten wat Tor is en waar het voornamelijk voor is. En ook werken niet alle services en functionaliteiten goed achter Tor. Laat staan ​​browsercompatibiliteit en verbinding.</p>
+<p>Dus hier, <a href="https://darthcoin.substack.com/p/build-your-own-lnbits-app-server">in deze speciale gids</a> heb ik geschreven over verschillende scenario's hoe je een LNbits-appserver kunt bouwen en toegankelijk kunt zijn op clearnet (https, IP/domein). Let op alle details en scenario's.</p>
+<hr style="height:2px">
+
+<h4 style="color:Yellow;">Lees meer LNbits-documentatie</h4>
+<p>Hier is een lijst met meer links over LNbits, use case-scenario's, voorbeelden, documentatie, om te lezen en u te inspireren voor uw eigen use cases en scenario's:</p>
+<ul>
+<li><a href="https://lnbits.com/">LNbits-webpagina</a> | <a href="https://github.com/lnbits/lnbits">Github-pagina</a> | <a href="https://t.me/lnbits">Telegram-groep</a> | <a href="https://saas.lnbits.com">LNbits SaaS-instantie</a></li>
+<li><a href="https://github.com/lnbits/lnbits/wiki/LNbits-Documentation">LNbits-documentatiepagina</a> | <a href="https://www.youtube.com/channel/UCGXU2Ae5x5K-5aKdmKqoLYg/videos">YouTube video tutorials</a></li>
+<li><a href="https://github.com/lnbits/lnbits/wiki/Powered-by-LNbits">Powered by LNbits - verzameling projecten met LNbits</a></li>
+<li>Axel's Guides: <a href="https://ereignishorizont.xyz/lnbits-server/en/">LNbits Server Installation</a> | <a href="https://ereignishorizont.xyz/blitzbank/en/">Blitz Bank (LNbits + PhoenixD node)</a></li>
+<li>DC Guides: <a href="/nodes/ln-bank-with-lnbits-en.html">The LNbits Bank</a> | <a href="https://darthcoin.substack.com/p/lnbits-for-small-merchants">LNbits voor kleine handelaren</a> | <a href="https://darthcoin.substack.com/p/lnbits-streamer-copilot">LNbits Streamer Copilot</a></li>
+<li><a href="https://darthcoin.substack.com/p/build-your-own-lnbits-app-server">LNbits uitvoeren op verschillende soorten machines/servers</a></li>
+<li><a href="https://darth-coin.github.io/merchants/bitcoin-lightning-payments-irl-nl.html">Echte handelaren die BTC accepteren via LN</a></li>
+<li><a href="https://darthcoin.substack.com/p/lightning-network-is-awesome">Lightning Network-bronnen</a> - OM MEER TE LEZEN EN TE LEREN</li>
+<li><a href="https://xcancel.com/LN_Capital/status/1602005600929546240">“Lightning Node Operator”</a> is de belangrijkste functietitel van dit decennium</li>
+<li><a href="/nodes/lightning-node-maintenance-nl.html">Lightning Node-onderhoud</a></li>
+<li><a href="/nodes/lightning-routing-fees-experiment-nl.html">Lightning Routing Fees Experiment</a></li>
+<li><a href="/wallets/lightning-wallets-comparison-nl.html">Lightning Wallets Vergelijkingsgids</a></li>
+<li><a href="/nodes/recommendations-ln-node-operators-nl.html">Aanbevelingen voor nieuwe LN-gebruikers</a></li>
+<li><a href="/merchants/operating-ln-as-merchant-nl.html">Werken met LN als handelaar</a> - geavanceerde handleiding</li>
+<li><a href="/nodes/tailscale-vpn-your-node-nl.html">Uw Tor-knooppunt gebruiken via Tailscale</a></li>
+</ul>
+<hr style="height:2px">
+
+<blockquote style="color:Tomato;"><em>
+<p>LET OP: Als u vindt dat deze handleiding niet voldoende is uitgelegd, stuur me dan uw vragen/suggesties over hoe ik deze kan verbeteren of schrijf er zelfs een andere voor een specifiek geval.</p>
+<p>Als u deze handleiding hebt gelezen, maar uw kennisniveau is niet zo technisch (is begrijpelijk), deel dit artikel dan met uw "Uncle Jim"-vriend die meer technisch onderlegd is en u kan helpen bij het instellen van uw eigen LNbits of die het zelfs voor u kan uitvoeren.</p>
+</em></blockquote>
+
+</body>
+</html>
+</article>
