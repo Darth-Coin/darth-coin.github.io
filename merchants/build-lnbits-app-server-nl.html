@@ -1,0 +1,123 @@
+---
+layout: default
+title: Bouw uw eigen LNbits-appserver
+---
+<article>
+<!DOCTYPE html>
+<html lang="nl">
+<meta name="description" content="Handleidingen voor Bitcoin- en Lightning-knooppunten: scenario's voor het gebruik van uw eigen LN-knooppunt met een afzonderlijk LNbits-exemplaar">
+<body>
+<a href="/merchants/build-lnbits-app-server-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/build-lnbits-app-server-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/build-lnbits-app-server-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/build-lnbits-app-server-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/build-lnbits-app-server-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/build-lnbits-app-server-hr.html">Hrvatski <img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/build-lnbits-app-server-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<em><blockquote style="color:Tomato;">
+<p>Oorspronkelijk geplaatst op <a href="https://darthcoin.substack.com/p/bitcoin-for-small-merchants">Substack</a> op 26 oktober 2021. Hier bijgewerkt op 3 december 2024.</p>
+</em></blockquote>
+
+<h3 style="color:Orange;">Welke Bitcoin LN-oplossingen je als kleine handelaar zou kunnen gebruiken.</h3>
+<p>Ik zag veel plebs hun bundelknooppunten draaien (MyNode, Umbrel, Raspiblitz, Embassy etc.).</p>
+<p>Niets tegen deze softwarebundels!</p>
+<p>Maar veel van deze plebs beginnen te ontdekken dat ze met een eenvoudige knooppuntmachine ook veel andere productieve dingen kunnen doen met gespecialiseerde apps zoals BTCPay Server, LNbits, LNDhub, Thunderhub, LN Address-servers etc</p>
+<p>Heel goed! Dit is de manier waarop u uw node moet gebruiken.</p>
+<p><img src="/assets/images/lnbits-apps.png" class="center"></p>
+
+<h4 style="color:Yellow;">Overwegingen:</h4>
+<ul>
+<li>hoe meer apps u aan uw bundel toevoegt, hoe complexer uw opstelling wordt.</li>
+<li>hoe meer apps op dezelfde machine, hoe meer updates, configuraties en toegang u nodig hebt.</li>
+<li>redundantie - ja, dit is een heel belangrijk aspect.</li>
+</ul>
+<p>Als u besluit uw bundelnode op een meer openbare of commerciële manier te gebruiken en deze blootstelt aan openbare toegang en ook diensten aanbiedt (<a href="/merchants/ln-bank-with-lnbits-en.html">zoals LNbits Bank</a>), dan heeft u een grotere verantwoordelijkheid voor uw gebruikers die uw "bank" gebruiken.</p>
+<h5>Negeer dit niet aspect!</h5>
+<p>Als u uw bundelknooppunt alleen gebruikt om apps te testen, leren en ontwikkelen, is het prima om die apps te gebruiken zoals ze zijn, via Tor, op een meer privé manier en met beperkte toegang. In dit geval (testen/leren) kunt u de <a href="https://www.cloudflare.com/learning/cdn/glossary/reverse-proxy/">Cloudflare reverse DNS</a> gebruiken, die een Tor onion-adres van uw LNbits omzet in een ngrok clearnet-adres. Ja, het kan niet worden gebruikt met een specifiek domein, maar voor testen is het meer dan genoeg.</p>
+<h5>Dus wat ik je aanraad, is om na te denken over dit scenario:</h5>
+<p>Je hebt een klein bedrijf en je besluit bijvoorbeeld LNbits te gebruiken (zie <a href="/merchants/lnbits-small-merchants-nl.html">hier</a> en <a href="/merchants/ln-bank-with-lnbits-nl.html">hier</a> 2 scenario's die ik beschreef voor het gebruik van LNbits). Oké, alles is prima.</p>
+<p>Maar je hebt een bundelknooppunt, achter Tor, beperkte toegang vanaf het openbare gezicht, veel problemen met toegang, Tor maakt geen verbinding, je begrijpt niet hoe deze dingen werken, enz.</p>
+<p>Sommigen van jullie die MyNode gebruiken en LNbits als premium service hebben, konden het niet gebruiken in de gratis versie. MyNode werkt ook niet bij naar de nieuwste LNbits-versie. Hetzelfde geldt voor Umbrel, Citadel etc. je zult altijd afhankelijk zijn van hun releases.</p>
+<p>De meeste van deze bundels hebben ook een specifieke implementatie van de docker-repositories, dus als je niet zo bekend bent met knutselen in Linux en Docker, kun je er beter vanaf blijven.</p>
+
+<h4 style="color:Yellow;">Welke opties heb je?</h4>
+<p>Als je een bundelknooppunt achter Tor draait en je wilt ook LNbits op dezelfde machine draaien, zul je wat wijzigingen in je knooppuntmachine moeten aanbrengen.</p>
+<p>Hier is een handleiding om <a href="https://community.getumbrel.com/t/how-to-configure-umbrel-lnbits-app-without-tor/">een Tor naar IP-tunnel in te stellen</a> voor je LNbits-knooppuntmachine, maar soms is het niet gebruiksvriendelijk en begrijp je niet alle technische aspecten van deze opstellingen en krijg je gewoon gefrustreerd.</p>
+<p>Een andere manier om dezelfde node machine te gebruiken, is Tailscale te gebruiken. <a href="/nodes/tailscale-vpn-your-node-nl.html">Hier heb ik een handleiding geschreven over het gebruik van uw bundelnode met Tailscale</a>. Maar ook in dit geval moet u een DNS-naam configureren voor dat privé-IP dat Tailscale levert, voor het geval u openbare toegang tot uw LNbits-services wilt bieden.</p>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">Optie A - uw bundelknooppunt + afzonderlijke LNbits</h3>
+<p>Laat het knooppuntbundel gewoon zoals het is, met zijn LN-knooppuntkanalen enz., basisdingen, laad het niet onnodig vol met een shitload aan apps die u niet gebruikt.</p>
+<p>Neem een ​​aparte machine, kan een andere tweedehands laptop / pc zijn, geen super ultra computer nodig. Installeer er een Linux OS op, welke Debian-variant ik ook zou zeggen.</p>
+<p>Begin dan met het installeren van LNbits als een gewone app, <a href="https://github.com/lnbits/lnbits/wiki/LNbits-Documentation#install-options">volg de installatie-instructies</a> en <a href="https://github.com/lnbits/lnbits/wiki/LNbits-Documentation#funding-sources">configureer het env-bestand</a> om naar je lokale bundelknooppunt te verwijzen. Het kan zelfs in hetzelfde LAN zijn, dus geen extra configuraties via Tor of VPN's of wat voor fancy dingen dan ook nodig. Dus de communicatie tussen je knooppunt en LNbits zal ALLEEN via LAN zijn. Beveiligd en privé. Niemand van buitenaf kan van deze verbinding weten.</p>
+<p>Configureer vervolgens je LNbits-machine zodat deze zichtbaar is op internet FQDN (Full Qualify Domain Name). U moet uw domein-DNS-items bewerken om een ​​subdomeinnaam te laten verwijzen naar uw openbare IP waar u uw LNbits-machine hebt geplaatst, bijvoorbeeld ln.mydomain.com of lnbits.mydomain.com of shop.mydomain.com.</p>
+<p>Configureer vervolgens uw internetrouter om poort 443 (SSL, u hebt dit nodig als gezicht naar het publiek) door te sturen naar het lokale IP van uw LNbits-machine. Gebruik in Linux ook ufw om die poort te openen in de lokale bestandsmuur.</p>
+<p>Haal een geldig certificaat voor dat subdomein, u kunt ZeroSSL of een ander gratis SSL-certificaat gebruiken, belangrijk is dat uw LNbits veilig kan reageren via https.</p>
+<p>Samengevat:</p>
+<ul>
+<li>Maak een subdomeinvermelding in uw DNS voor die LNbits-instantie, bijvoorbeeld. lnbits.mydomain.com</li>
+<li>Laat uw router poort 443 doorsturen naar dat lokale IP van uw LNbits-instantie</li>
+<li>Koppel uw LNbits-instantie aan uw lokale LN-knooppunt via het lokale IP (geen clearnet of Tor nodig). U moet een vermelding toevoegen in lnd.conf om te luisteren naar het lokale IP van uw knooppunt. Maak vervolgens verbinding met behulp van de admin-macaroons voor dat knooppunt.</li>
+<li>Configureer <a href="https://github.com/lnbits/lnbits/blob/main/docs/guide/installation.md#reverse-proxy-with-automatic-https-using-caddy">Caddy reverse proxy</a> op uw LNbits-machine om lnbits.mydomain.com te gebruiken. Caddy maakt alle https-certificaten voor u aan en vernieuwt ze ook.</li>
+</ul>
+<p>Klaar, nu is uw LNbits toegankelijk in het publieke domein, met behulp van uw eigen bundelknooppunt.</p>
+<p>Waarom stelde ik dit scenario voor?</p>
+<p>Weet u nog dat ik REDUNDANCY zei?</p>
+<p>Stel dat uw bundelknooppunt een probleem heeft dat niet gerelateerd is aan uw LNbits-instantie: kanalen worden gedwongen gesloten, beschadigde gegevens, start niet, is buggy of een ander ernstig probleem waardoor u geen continue service kunt hebben voor uw LNbits-gebruikers.</p>
+<p>Als u uw LNbits-instantie-app op een aparte machine uitvoert, duurt het precies 30 seconden om te gaan en <a href="https://github.com/lnbits/lnbits/wiki/LNbits-Documentation#funding-sources">het .env-bestand te bewerken</a> waar u de bron van het financieringsknooppunt (uw lokale bundel) plaatst. node) en verander het met een andere LN node die je beschikbaar hebt als backup. Het kan zelfs een <a href="https://github.com/lnbits/lnbits/wiki/LNbits-Documentation#funding-sources">cloud node zoals Voltage</a> zijn, een andere bundel node die je had voorbereid. Als LN Bank provider zou je voorbereid moeten zijn op deze gevallen, met onmiddellijke backup plannen.</p>
+<p>Dus door alleen de bron te veranderen, is je LNbits up and running. Houd er rekening mee dat u voldoende liquiditeit in de nieuwe nodebron moet hebben, die ten minste overeenkomt met de totale saldi van uw LNbits-accounts.</p>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">Optie B - Uw bundelnode + VPS LNbits</h3>
+<p>Oké, deze is iets geavanceerder, maar is een zeer goede optie als u een bedrijfsmodel met sterke hardware wilt.</p>
+<p><img src="/assets/images/vpn-tunnel.jpg" class="center"></p>
+<p>In dit geval gebruikt u nog steeds uw eigen bundelhomenode, via Tor, maar u houdt de LNbits-instantie op een externe VPS (Virtual Private Server) en krijgt er toegang toe via een beveiligde VPN-tunnel.</p>
+<p><a href="https://github.com/TrezorHannes/vps-lnbits">Hier is een geweldige gids</a> gemaakt door <a href="https://t.me/Hakezuba">Hakuna</a>, stap voor stap. Geen verdere instructies.</p>
+<p>Controleer ook deze <a href="https://github.com/massmux/LNDConnectionKit">eenvoudige instructies</a> met voorbeelden van configuratiebestanden, door Massimo.</p>
+<p><a href="https://www.mobycrypt.com/turn-your-self-hosted-lightning-network-node-to-public-in-10-minutes/">Nog een goede handleiding van MobyCrypt</a> - Hoe je je zelfgehoste RaspiBlitz-node in 10 minuten in een clearnet-node verandert (waar je de toegang alleen voor LNbits-instanties kunt aanpassen als je dat wilt).</p>
+<p>Hetzelfde als de vorige optie, in het geval dat je bundelnode kapot is, kun je gewoon de financieringsbron in de LNbits-configuratie wijzigen en binnen enkele minuten weer up and running zijn.</p>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">Optie C - LNBits dedicated machine + bundel als backup</h3>
+<p>OK, deze raad ik aan voor degenen die een meer zakelijke oplossing willen, betrouwbaar en sterk. Het zou heel makkelijk een goede machine (geen Rpi) kunnen zijn op je kantoor/thuis, goede hardware met batterijback-up UPS en goed internet, maar het zou ook een professionele cloud VPS kunnen zijn en je zou het zelf kunnen instellen.</p>
+<p>Ik heb meer uitgelegd over <a href="/nodes/lightning-node-maintenance-nl.html">typen hardware voor nodes</a> in deze handleiding.</p>
+<p>Dus laten we beginnen:</p>
+<ul>
+<li>Installeer een <a href="https://www.debian.org/download">Debian OS</a> - als basisbesturingssysteem, eenvoudig, met GUI</li>
+<li>Installeer Core Lightning node of LND die ook Bitcoin Core daemon bevat</li>
+<li>Optioneel, installeer een Electrum-server (welke smaak je wilt <a href="https://github.com/chris-belcher/electrum-personal-server">EPS</a> | <a href="https://github.com/romanz/electrs">Rust</a> | <a href="https://github.com/cculianu/Fulcrum">Fulcrum</a>). <a href="https://sparrowwallet.com/docs/server-performance.html">Hier is een goed artikel over het testen van Electrum-servers</a>.</li>
+<li>Optioneel: RTL (RideThe Lightning), Thunderhub (maar met de nieuwe Lnbits-versie kunt u de node rechtstreeks beheren), CLBoss en alle andere tools die u nodig hebt om uw LN-nodekanalen en liquiditeit te beheren. Hier is een volledige lijst met geweldige apps die je met je CLN-knooppunt kunt gebruiken.</li>
+<li>Installeer LNbits op een aparte machine, hier is een erg goede gids: <a href="https://ereignishorizont.xyz/lnbits-server/en/">Axel LNbits Server</a></li>
+<li>Optioneel, stel de Tor-service in voor toegang tot je knooppunt, of gebruik het op clearnet, waarbij je alleen specifieke noodzakelijke poorten opent (voor CLN, REST voor Zeus, SSL voor LNbits, Electrum-poort, enz.).</li>
+<li>Stel je domein-DNS-vermeldingen in die specifiek zijn voor je LNbits en voeg een SSL-certificaat toe voor dat subdomein.</li>
+</ul>
+<p>Klaar, open een aantal LN-kanalen en je <a href="/merchants/ln-bank-with-lnbits-nl.html">LNbits Bank</a> is klaar voor je "klanten"!</p>
+<p>Je kunt je oude bundel nog steeds houden node machine als back-up voor deze, in geval van SHTF en/of als een andere routing hub voor uw belangrijkste LNbits node (<a href="/nodes/public-private-node-liquidity-scenario-nl.html">zoals ik beschreef in deze handleiding</a>). U kunt prachtige dingen doen tussen een openbare en een privé LN node.</p>
+<p>Dat is het voor nu, ik hoop dat ik u genoeg hints heb gegeven over hoe u een onafhankelijke en redundante LNbits server kunt uitvoeren.</p>
+<p>Maak het niet te ingewikkeld, houd het simpel. Scheid uw kernknooppuntservices van apps die eenvoudig van de ene bron naar de andere kunnen worden gemigreerd.</p>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">Optie D - Snelle LNBits met phoenixd-server</h3>
+<p>Deze optie is de snelste installatie die u in minder dan 15 minuten kunt krijgen.</p>
+<p>In principe installeert u op een eenvoudig Debian OS de phoenixd-server en ernaast een LNbits-instantie. Er is niets anders nodig.</p>
+<p>Hier is een uitstekende gids van Axel - <a href="https://ereignishorizont.xyz/blitzbank/en/">The Blitz Bank</a>. Volg gewoon de instructies en binnen een paar minuten hebt u een LNbits-instantie klaar met alle instellingen om toegankelijk te zijn op clearnet en alles. <a href="https://ereignishorizont.xyz/blitzbankextras/en/">Bekijk ook de vervolggids - De Blitz Bank tips & trucs</a>.</p>
+
+<h4 style="color:Yellow;">Rizful + home LNbits</h4>
+<p>In deze sectie kunnen we ook een snelle optie opnemen met een op afstand gehoste LN-node en de LNbits-instantie op uw eigen hardware.</p>
+<p>Als u geen LN-node op uw eigen hardware kunt/wilt uitvoeren, maar u toch lokaal een LNbits-instantie wilt beheren, kunt u als financieringsbron een <a href="https://rizful.com/">Rizful op afstand gehoste node</a> gebruiken.</p>
+<p>Rizful zijn als gratis wegwerp-LN-nodes, maar met de betaalde optie om de gebruiksperiode te verlengen. U zet alleen uw eigen liquiditeit in en gebruikt hun infrastructuur. De node blijft nog steeds als bewaarder. <a href="https://rizful.com/docs">Ze hebben uitgebreide documentatie</a>.</p>
+<p>Met een Rizful-knooppunt kunt u een NWC-verbinding genereren voor verzenden/ontvangen en deze gebruiken als financieringsbron voor uw thuis-LNbits.</p>
+<p>U hoeft alleen uw LNbits-instantie te configureren om toegankelijk te zijn op clearnet, enkele kanalen te openen met dat Rizful-knooppunt en klaar.</p>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">Optie E - Cloud hosted LNbits</h3>
+<p>Dit zijn enkele urgente oplossingen, voor het geval u uw eigen hardware niet kunt gebruiken of u uw eigen infrastructuur niet wilt gebruiken voor een LNbits-instantie. U wilt bijvoorbeeld een tijdelijke instantie voor een conferentie, workshop, les etc.</p>
+<p>Welke opties zijn beschikbaar:</p>
+<ul>
+<li><a href="https://saas.lnbits.com/">SaaS LNbits</a> - Het LNbits-team biedt een eenvoudige en snelle oplossing met virtuele LNbits-instanties die worden beheerd door hun team. De prijs is laag. U hoeft alleen uw eigen financieringsbron mee te nemen, maar u hebt meerdere opties.</li>
+<li><a href="https://nodana.io/">Nodana</a> - gehoste instanties die ook een combinatie van phoenixd + LNbits en andere oplossingen bieden. Toegankelijke prijs.</li>
+<li><a href="https://www.voltage.cloud/">Voltage Cloud</a> - gehoste LN-knooppunten met LNbits en BTCPay-bundels.</li>
+</ul>
+</body>
+</html>
+</article>
