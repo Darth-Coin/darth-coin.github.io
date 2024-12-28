@@ -1,0 +1,165 @@
+---
+layout: default
+title: Pokrenite svoje NOSTR-Market s LNbits
+---
+<article>
+<!DOCTYPE html>
+<html lang="hr">
+<meta name="description" content="Vodiči za Bitcoin i Lightning Nodes: Kako pokrenuti besplatno, decentralizirano, privatno, nezaustavljivo tržište s LNbitovima, koristeći NOSTR-market proširenje">
+<body>
+<a href="/merchants/nostr-market-with-lnbits-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/nostr-market-with-lnbits-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/nostr-market-with-lnbits-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/nostr-market-with-lnbits-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/nostr-market-with-lnbits-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/nostr-market-with-lnbits-nl.html">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/nostr-market-with-lnbits-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<em><blockquote style="color:Tomato;">
+<p>Izvorno objavljeno na <a href="https://darthcoin.substack.com/p/lnbits-nostr-market">Substack</a> 14. travnja 2023. Ovdje ažurirano 28. prosinca 2024.< /p>
+<p>Ovaj članak je također registriran s <a href="https://mempool.space/tx/f4ec38d78e90208a9ecd45ef3a4559f054f02c1012a0e1ccf7a1299b892a719e">OP_RETURN</a> na visini bloka <a href="https://mempool.space/block/00000000000000000004c9c1ec4753101e2a87fc7df232a70e9f81b956d6168c">#785362</a></p>
+</em></blockquote>
+
+<h3>Kako pokrenuti besplatno, decentralizirano, privatno, nezaustavljivo tržište s LNbits, korištenjem NOSTR-market ekstenzije, preko wss releja, bez ikakvog http prometa, čak i bez DNS-a/domene..</h3>
+<p>Ovo je veliko postignuće za NOSTR i LNbits, revolucionarni protokol za mogućnost trgovanja na potpuno decentraliziran način, što je ovdje najavio Ben Arc.</p>
+<p>Ako ste novi u ovome i ne znate što je NOSTR, počnite čitati ovdje: <a href="https://nostr.com/">nostr.com</a> | <a href="https://nostr.how/en/what-is-nostr">nostr.how</a> /<p>
+<p>Ako ste novi u LNbitsu, nikada ga ne koristite, nikada niste čuli za njega, počnite čitati ovdje:</p>
+<ul>
+<li><a href="/merchants/getting-started-lnbits-hr.html">Početak rada s LNbits</a></li>
+<li><a href="https://github.com/lnbits/lnbits/wiki/LNbits-Documentation">LNbits Wiki dokumentacija</a></li>
+<li><a href="https://github.com/lnbits/lnbits/wiki/Tutorials-and-Guides">Više vodiča i tutorijala o LNbits</a></li>
+</ul>
+<p>Izvorni protokol bio je <a href="https://github.com/lnbits/Diagon-Alley">Diagon-Alley</a>, koji je kasnije postao NOSTR-Market (<a href="https:/ /github.com/nostr-protocol/nips/blob/master/15.md">NIP-15</a>).</p>
+<p><img src="/assets/images/nostr-market-1.png" class="center"></p>
+<p>Diagon Alley je decentralizirani protokol štandova na tržnici koji naglasak prebacuje s prednjeg tržišta na štand trgovaca. Ako se pristupno tržište (indeksator) ukine, trgovci samo usmjere svoje štandove negdje drugdje. Teoretski gledano, pobjednik Diagon Alleyja je najiskreniji, iako su prijedlozi o ograničavanju lošeg ponašanja vrlo dobrodošli.</p>
+
+<h4 style="color:Yellow;">Indeksatori</h4>
+<p>Indexer je jednostavan front-end poslužitelj i GUI koji usmjerava informacije o proizvodu, plaćanju i otpremi između trgovca i kupca. Svaki trgovac ima proizvode na štandu. Štand odabire koje će proizvode navesti indeksatorom. Indekser ima jednu krajnju točku.</p>
+
+<h4 style="color:Yellow;">Standovi</h4>
+<p>Štang ima par ključeva koje koristi za registraciju u indekse i potpisivanje faktura. Taj par ključeva nije povezan ni s jednim parom ključeva Lightning Networka, neovisan je.</p>
+<p>Štodnica može odabrati popis nekih/svih proizvoda s indeksom. Stall je mali poslužitelj koji ima tri krajnje točke.</p>
+<p>Ali sve se to temeljilo na http protokolu, pa je i dalje ovisilo o domeni/DNS-u i prometu preko http-a.</p>
+<p>Sada je NOSTR tržište izgrađeno na <a href="https://github.com/nostr-protocol/nostr">NOSTR protokolu</a>, gdje se sav promet odvija preko WSS releja. HTTP pristup može biti neobavezan u slučaju da trgovac želi objaviti javnu web-trgovinu.</p>
+<p>Ali praktički svatko može pokrenuti prodavnicu u lokalnoj instanci LNbits-a (na 127.0.0.1) i emitirati kao bilješke sve stavke iz te trgovine na releje koji su povezani.</p>
+<p>Isto kao i za kupce, možete samo pokrenuti lokalni NOSTR-klijent i NOSTR-tržište i povezati se s bilo kojim trgovačkim ključem preko wss releja. Zatim kupujte slobodno, decentralizirano, anonimno bez ikakvog http prometa, koristeći za plaćanja Bitcoin Lightning Network.</p>
+<h5>Počnimo!</h5>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">KAO TRGOVAC</h2>
+<p>Zamislimo da ste već instalirali LNbits (pogledajte gornje veze o LNbits). Neću sada ulaziti u te detalje jer će ovaj vodič biti predug.</p>
+<h4 style="color:Yellow;">Kratak kontrolni popis prije početka rada s NOSTR-marketom:</h4>
+<ul>
+<li>Upoznajte se kako NOSTR radi i što je zapravo. Mnogi misle da je to samo zamjena za Twitter, no nisu u pravu, radi se o puno više od toga. NOSTR protokol nudi mnoge druge funkcije za decentraliziraniji svijet.</li>
+<li>Upoznajte se kako LNbits radi. To je računovodstveni sustav na vrhu LN čvora/izvora financiranja. Smatrajte to "wordpressom" za svoj LN čvor.</li>
+<li>Testirajte svoju LNbits instancu da dobro radi, testirajući novčanike, korisnike itd. Pročitajte i obratite pažnju na svu <a href="https://github.com/lnbits/lnbits/wiki">LNbits dokumentaciju dostupnu na Wiki stranicu</a>.</li>
+<li>Razmislite o tome da imate dobar izvor financiranja s dobrom likvidnošću (ulaznom i izlaznom) za vaš LN čvor, povezan s dobrim LN rutama i ponudite dovoljno likvidnosti za plaćanja koja ćete primiti, kao i za razmjenu primljenih satnica. Pročitajte, naučite i upoznajte se s načinom rada LN. <a href="https://darthcoin.substack.com/p/lightning-network-is-awesome">Ovdje je cijeli popis vodiča i tutorijala</a>.</li>
+</ul>
+
+<h4 style="color:Yellow;">1. korak - Instalirajte potrebna LNbits proširenja</h4>
+<h5>A - <a href="https://github.com/lnbits/lnbits/wiki/LNbits-Documentation#additional-guides">Aktivirajte značajku adminUI</a></h5>
+<p>Za jednostavno upravljanje vašim LNbits poslužiteljem (izvori financiranja, korisnici, administratori, instalacija proširenja itd.).</p>
+<h5>Da zapamtimo:</h5>
+<ul>
+<li>Ovo adminUI će stvoriti super-admin korisnika koji SAMO upravlja poslužiteljem i bit će prikazan samo pri pokretanju LNbits-a, u zapisniku konzole.</li>
+<li>Može mu se pristupiti putem lokalnog URL-a kao što je http://127.0.0.1/admin?usr=dfdf87.... ili domene / DNS-a ako svoje LNbitove postavite u Clearnetu ili također preko Tor-a.</li>
+<li>Spremite ovaj URL u svoje knjižne oznake preglednika ako mu želite više puta pristupati.</li>
+<li>NEMOJTE stavljati ovaj URL ni u jednu tražilicu niti ga objavljivati ​​javno!</li>
+<li>NEMOJTE koristiti preglednik poput Google Chromea koji je također prijavljen putem Gmail računa. Koristite pristojan preglednik koji poštuje privatnost i također ne spremajte povijest/predmemoriju (pogledajte opcije preglednika i onemogućite tu opciju). Svaki put kada zatvorite preglednik, uklonit će se sva povijest pregledavanja. Pogledajte više ovdje.</li>
+<li>Počevši od verzije 12.0, LNbits već ima ispravan način prijave s korisnikom i lozinkom.</li>
+</ul>
+
+<h5>B - Instalirajte proširenje User Manager (UM)</h5>
+<p>Ovo je vrlo korisno proširenje za upravljanje i stvaranje korisnika, novčanika i razina pristupa. <a href="https://github.com/lnbits/lnbits/wiki/LNbits-Extensions#install-extensions">Više uputa pogledajte ovdje</a>.</p>
+<p>Prijavite se s korisnikom Super Admin, instalirajte UM, zatim kreirajte korisnika s njegovim novčanikom.</p>
+<p>Prijavite se s tim korisnikom i spremite URL u svoje oznake. Ovaj korisnik također može djelovati kao admin korisnik (ako date puna prava u odjeljku "Upravljanje poslužiteljem").</p>
+<p>Unutar ovog "admin korisnika" možete stvoriti nekoliko drugih normalnih korisnika, isti postupak koristeći UM proširenje. Ali samo ako su potrebni.</p>
+<p>S ovim "administratorskim korisnikom" kreirat ćemo trgovca i štand s proširenjem NOSTR-market.</p>
+
+<h5>C - Instalirajte NOSTR-klijentsko proširenje</h5>
+<p>Ovo je potrebno proširenje za NOSTR-market, jer se vaša tržnica mora povezati s nekoliko NOSTR releja kako bi mogla emitirati vašu štandu.</p>
+<p>NOSTR-client je stalno uključeno proširenje koje može otvoriti višestruke veze s nostr relejima i djelovati kao multiplekser za druge klijente: otvarate jednu web utičnicu nostrclientu koji zatim šalje podatke na više releja. Odgovori iz tih releja se zatim šalju natrag klijentu.</p>
+<p><img src="/assets/images/nostr-market-client.jpg" class="center"></p>
+<p>Dodajte nekoliko NOSTR releja u klijent. Ako možete dodati proxy relej (onaj koji je povezan s mnogim drugim relejima), bit će bolje ograničiti promet sinkronizacije.</p>
+
+<h5>D - Instalirajte proširenje NOSTR-Market</h5>
+<p>Ovo je važno proširenje koje ćete koristiti za izradu i upravljanje svojim trgovačkim profilom, štandovima, proizvodima, interakciju s kupcima preko NOSTR privatnih poruka, upravljanje narudžbama itd.</p>
+<p><a href="https://github.com/lnbits/lnbits/wiki/LNbits-Extensions#install-extensions">Više uputa pogledajte ovdje.</a></p>
+<hr style="height:2px">
+
+<h4 style="color:Yellow;">Korak 2 - Konfigurirajte svoj NOSTR-Merchant Stall i proizvode</h4>
+<p>Kao trgovac trebate osigurati par ključeva Nostr ili ga proširenje može generirati za vas. Ako već koristite NOSTR za objavljivanje bilješki i chat, možete koristiti iste ključeve, za korištenje već stvorene reputacije i provjere NIP-05. Ali poželjno je imati zasebnu za trgovinu i samo objaviti u svom "javnom NOSTR profilu" dodatni pubključ trgovine.</p>
+<p><img src="/assets/images/nostr-market-welcome.jpg" class="center"></p>
+<p>Nakon što imate "račun" trgovca, možete vidjeti pojedinosti na padajućem izborniku trgovca, odvojeno spremiti ključeve i/ili objaviti svoj prodajni ključ (ne privatni ključ!) svojim sljedbenicima/kupcima.</p>
+<p>SPREMITE SVOJ PRIVATNI KLJUČ na sigurno mjesto! U slučaju da trebate migrirati svoje LNbits NOSTR tržište ili vratiti LNbits instancu na drugo računalo, možete upotrijebiti taj privatni ključ trgovca za uvoz vašeg prethodnog štanda i artikala.</p>
+<p><img src="/assets/images/nostr-market-keys.png" class="center"></p>
+<p>Da biste stvorili štand, prvo morate postaviti zonu otpreme. Pritisnite gumb Zone i ispunite polja:</p>
+<ul>
+<li>Dodijelite naziv zoni isporuke</li>
+<li>Odaberite na koje se zemlje ova zona dostave odnosi (možete postaviti zonu "besplatno" za digitalnu robu)</li>
+<li>Odaberite obračunsku jedinicu. Ako ćete navesti proizvode u USD/EUR, zona isporuke mora biti u istoj valuti</li>
+<li>Odaberite cijenu slanja</li>
+</ul>
+<p>Sada možete stvoriti štand. Pritisnite gumb New Stall i ispunite potrebna polja.</p>
+<p><img src="/assets/images/nostr-market-shop.png" class="center"></p>
+<p><img src="/assets/images/nostr-market-wallet.png" class="center"></p>
+<ul>
+<li>Dodijelite naziv svom štandu/trgovini</li>
+<li>Neobavezni opis (ovo klijent može koristiti za pretraživanje trgovina)</li>
+<li>Odaberite koji novčanik želite koristiti za ovu trgovinu</li>
+<li>Odaberite jedinicu</li>
+<li>odaberite zonu otpreme (možete odabrati više zona)</li>
+</ul>
+<p>Kliknite na gumb "Plus" da biste otvorili detalje štanda i kliknite na "Novi proizvod" da biste izradili proizvod:</p>
+<p><img src="/assets/images/nostr-market-product.png" class="center"></p>
+<p>Ispunite potrebna polja u dijaloškom okviru</p>
+<p><img src="/assets/images/nostr-market-product-2.png" class="center"></p>
+<ul>
+<li>Naziv proizvoda</li>
+<li>Dajte opis</li>
+<li>Dodajte neke kategorije (to mogu koristiti klijenti za traženje proizvoda, stoga dodajte onoliko koliko može bolje opisati vašu stavku)</li>
+<li>Navedite URL za sliku vašeg proizvoda (preporučuje se da se slike hostiraju izvan LNbits-a). Možete koristiti PostIMG.cc ili bilo koji drugi CDN.</li>
+<li>Cijena za proizvod, u valuti odabranoj za trgovinu (to će se pretvoriti u sat kada kupac kupi)</li>
+<li>Količina koju imate na zalihi za proizvod. Ovo će se ažurirati kada se narudžbe izvrše/plaće</li>
+</ul>
+<p>U odjeljku Stall također možete vidjeti (ažurirati ili izbrisati) detalje o štandu na kartici Stall Info</p>
+<p><img src="/assets/images/nostr-market-stall.png" class="center"></p>
+<p>Stvorite, ažurirajte ili izbrišite proizvode na kartici Proizvodi</p>
+<p><img src="/assets/images/nostr-market-products-list.png" class="center"></p>
+<p>Gotovo! Vaš trgovački štand je spreman da ga posjete vaši kupci.</p>
+<p>Kako biste lokalno testirali svoj štand, otvorite vezu stranice lokalne tržnice koja se nalazi na glavnoj stranici NOSTR-Marketa, na desnoj ploči:</p>
+<p><img src="/assets/images/nostr-market-client-2.png" class="center"></p>
+<p>Ova će veza otvoriti novu karticu poput: http:127.0.0.1/nostrmarket/market ili https://your-lnbits.domain.com/nostrmarket/market (ako joj pristupite u Clearnetu).</p>
+<p><img src="/assets/images/nostr-market-link.jpg" class="center"></p>
+<p>Kliknite na izbornik Tržište i idite na Trgovce. Zatim zalijepite svoj trgovački pubkey (pogledajte početak ovog poglavlja o prikazivanju/spremanju vašeg pubkey-a).</p>
+<p>Nakon što dodate svoj pubkey, vaš će se štand prikazati i emitirati relejima.</p>
+<p>Gumb za prijavu treba koristiti kao kupac ili kao vlasnik štanda ili kao s vašim osobnim NOSTR profilom.</p>
+<p>Možete testirati svoj NOSTR Stall i na bilo kojoj drugoj javnoj stranici NOSTR Marketa, kao što je <a href="https://market.nostr.com/">https://market.nostr.com/</a> na primjer. Samo trebate dodati svoj pubkey u odjeljak "Trgovci" i gotovo. Bilo koji od vaših kupaca može napraviti isti postupak ili iz vlastite lokalne LNbits instance ako je ima.</p>
+<p><img src="/assets/images/nostr-market-products-list-2.jpg" class="center"></p>
+<p>Na stranici Market možete dodati više trgovaca i kupovati izravno od tamo. Kao što možete vidjeti na gornjoj slici, postoje 3 različita trgovca, sa svojim štandovima i svima kojima se pristupa s lokalne LNbits instance, samo dodavanjem njihovih pubkeyeva.</p>
+<p>Kada dobijete narudžbu, detalje možete vidjeti klikom na znak "Plus" za narudžbu.</p>
+<p><img src="/assets/images/nostr-market-order.png" class="center"></p>
+<ul>
+<li>Naručeni proizvodi</li>
+<li>ID narudžbe</li>
+<li>Adresa za dostavu kupca</li>
+<li>Klijentov javni ključ</li>
+<li>ID fakture</li>
+</ul>
+<p>Ako je primjenjivo, možete postaviti kao otpremljeno kada se otprema obrađuje.</p>
+<p>Također imate Chat Box za razgovor s korisnikom i sve te poruke šalju se preko NOSTR protokola, privatno i šifrirano.</p>
+<p><img src="/assets/images/nostr-market-chat.png" class="center"></p>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">KAO KUPAC</h2>
+<p>LNbits također nudi klijentsku aplikaciju Nostr Market.</p>
+<p>Sa svojim kupcima možete podijeliti URL klijenta s nadzorne ploče trgovca klikom na vezu "Klijent tržišta" ili posjetom https://your-LNbits-instance-URL/nostrmarket/market.</p>
+<p>Ili mogu posjetiti https://market.nostr.com/ na primjer i samo dodati vaš Stall pubkey. Ili čak pomoću okvira za pretraživanje i stavite jednu od svojih specifičnih oznaka.</p>
+<p>Ako već imaju instaliranu instancu LNbits, mogu joj pristupiti čak i s lokalnog URL-a kao što je http://127.0.0.1/nostrmarket/market i dodaju stall pubkey.</p>
+
+<centar>
+<h3 style="color:Yellow;">SRETNA DECENTRALIZIRANA KUPOVINA PREKO NOSTRA UZ BTC/LN!</h3>
+</center>
+
+</body>
+</html>
+</article>
