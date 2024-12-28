@@ -1,0 +1,121 @@
+---
+layout: default
+title: Comment utiliser LNbits Streamer Copilot
+---
+<article>
+<!DOCTYPE html>
+<html lang="fr">
+<meta name="description" content="Guides Bitcoin et Lightning Nodes : Un guide étape par étape pour les podcasteurs qui veulent s'amuser avec les sats sur leur podcast vidéo en direct. Les téléspectateurs déposent des sats et interagissent avec des animations amusantes, en direct">
+<body>
+<a href="/merchants/lnbits-stream-copilot-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/lnbits-stream-copilot-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/lnbits-stream-copilot-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/lnbits-stream-copilot-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/lnbits-stream-copilot-nl.html">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/lnbits-stream-copilot-hr.html">Hrvatski <img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/lnbits-stream-copilot-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<em><blockquote style="color:Tomato;">
+<p>Publié à l'origine sur <a href="https://darthcoin.substack.com/p/lnbits-streamer-copilot">Substack</a> le 14 janvier 2023. Mis à jour ici le 28 décembre 2024.</p>
+</em></blockquote>
+
+<h3>Un guide étape par étape pour les podcasteurs qui veulent s'amuser avec les sats sur leur podcast vidéo en direct. Les téléspectateurs déposent des sats et interagissent avec des animations amusantes, en direct.</h3>
+<p>J'ai vu récemment de nombreux podcasteurs en direct sur YouTube ou d'autres plateformes vidéo, mais très peu adoptent vraiment Bitcoin, sous forme de conseils, de contributions, d'animations amusantes activées avec des dons avec des sats sur Lightning Network.</p>
+<p>Je me demande donc s'ils ne savent peut-être pas comment mettre en place une solution simple pour cela. Et ici, je voudrais leur présenter un guide simple, étape par étape, sans frais, mais avec un potentiel énorme :</p>
+<p>les téléspectateurs pourraient voir que vous acceptez Bitcoin sur LN, créer de l'attention pour Bitcoin</p>
+<ul>
+<li>les téléspectateurs auraient une réponse / récompense amusante pour leurs humbles dons et contributions</li>
+<li>si vous le souhaitez, vous pouvez même organiser une campagne de financement participatif en direct</li>
+<li>rendre votre émission en direct plus interactive</li>
+<li>et pas le dernier : FAITES EN SORTE QUE L'ADOPTION DU BITCOIN SOIT AMUSANTE</li>
+</ul>
+<p>Voici donc un guide rapide sur la façon d'installer, de configurer et d'exécuter une instance LNbits SUR N'IMPORTE QUEL PC AVEC LINUX et de configurer l'extension Streamer Copilot LNbits. Vous pouvez l'utiliser avec n'importe quelle plateforme de streaming que vous utilisez normalement (ReStream ou OBS Studio).</p>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">ÉTAPE 1 - INSTALLER LNBITS</h2>
+<ol>
+<li>
+<p>Si vous n'avez pas de machine LinuxOS prête, je vous suggère de prendre un vieux PC portable ou de bureau avec au moins 4 Go de RAM et d'installer <a href="https://www.debian.org/download">DebianOS</a> dessus (ou tout autre Linux de votre choix). Je préfère Debian parce que c'est du pur Linux, propre, rapide, sans conneries et c'est le plus compatible avec tous les dépôts. Définissez une adresse IP locale statique pour cette machine. Installez le pare-feu ufw et ouvrez-y le port 443.</p>
+
+<pre><code>
+sudo apt install ufw
+sudo ufw allow 443
+</code></pre>
+<p>Ouvrez le port 443 (https) sur votre routeur et transférez-le vers l'IP de votre machine locale qui héberge votre instance LNbits.</p>
+</li>
+<li><a href="https://docs.lnbits.org/guide/installation.html">Installez LNbits</a> en utilisant la méthode poetry. Ce ne sont que quelques lignes à copier/coller, pas besoin d'être un super codeur Linux pour les utiliser. N'importe quel utilisateur de Windows peut le faire :) Ne démarrez pas encore les lnbits ! Doit être configuré en premier.</li>
+<li><a href="https://docs.lnbits.org/guide/installation.html#reverse-proxy-with-automatic-https-using-caddy">Utilisez l'option caddy</a> pour configurer l'accès https à vos LNbits. C'est la méthode la plus simple et la plus propre. Utilisez un sous-domaine pour votre instance LNbits comme lnbits.mydomain.com ou bank.mydomain.com ou whatever.mydomain.com</li>
+<li>Accédez à votre site Web d'administration de domaine et modifiez les enregistrements DNS pour qu'ils contiennent un enregistrement pour votre lnbits.mydomain.com pour l'IP que vous avez sur votre routeur. Si vous avez une IP dynamique, vous pouvez utiliser n'importe quelle application DynDNS pour la configurer en utilisant CNAME dans votre DNS.</li>
+<li><a href="https://docs.lnbits.org/guide/installation.html#option-1-recommended-poetry">Modifiez le fichier .env de LNbits</a> et activez l'<a href="https://docs.lnbits.org/guide/admin_ui.html">extension adminUI</a> afin de pouvoir la gérer directement dans le navigateur.</li>
+<li>Démarrez LNbits avec la simple commande "poetry run lnbits" (exécutez dans le dossier lnbits-legend) et dans la console de démarrage, vous verrez le lien vers l'interface utilisateur d'administration. Copiez et collez dans votre navigateur et commencez à configurer vos LNbits.</li>
+<li>Vous devrez configurer : la source de financement, les utilisateurs, les utilisateurs autorisés à accéder à vos LNbits. Il est bon de limiter l'accès public uniquement aux utilisateurs que vous créez.</li>
+<li>En tant que source de financement, si vous n'exécutez pas votre propre nœud LN (que vous pouvez lier à vos LNbits), vous pouvez utiliser de nombreuses sources de financement simples telles que : lntxbot, lntipbot, lnpay.co, openNode.com, etc. Avec LNPay.co, il est très facile à configurer et ils ont de bons serveurs de liquidité, vous pouvez ouvrir un compte gratuit si vous n'avez pas trop de trafic. Ce scénario suffit. Plus tard, vous pouvez changer de source de financement à tout moment.</li>
+<li>Si vous ne souhaitez pas conserver les fonds dans ces sources de financement de garde, vous pouvez configurer l'extension LNbits Scrub et transférer automatiquement tous les satellites vers une adresse externe. Ou faites-le manuellement lorsque vous estimez que c'est le bon moment. Mais de toute façon, utilisez ces sources de financement de garde comme terrain de jeu de test, pas pour les cas de production. Vous pouvez modifier la source de financement à tout moment depuis l'interface d'administration, sans aucune autre modification de vos LNbits ni affecter la configuration et les portefeuilles.</li>
+<li>C'est fait ! Vous avez un LNbits en cours d'exécution, vous pouvez maintenant créer des utilisateurs, des comptes de portefeuille lndhub et activer l'extension dont vous avez besoin pour chaque utilisateur. Je suggère de commencer à activer ces extensions : lndhub, lnurl-pay, lnurl-withdraw, streamer copilot, Scrub et toutes les autres dont vous avez besoin/souhaitez. <a href="https://github.com/lnbits/lnbits/wiki/Powered-by-LNbits">Il y a beaucoup plus de choses</a> que vous pouvez faire avec LNbits et c'est vraiment intéressant.</li>
+<li>Faites quelques tests avec votre LNURL-p pour voir si cela fonctionne pour recevoir correctement.</li>
+</ol>
+<p>Pour en savoir plus sur la prise en main de LNbits et comment le gérer, <a href="/merchants/getting-started-lnbits-fr.html">voici un guide détaillé</a> et ici un guide facultatif expliquant <a href="/merchants/build-lnbits-app-server-fr.html">plusieurs méthodes pour exécuter une instance LNbits</a>.</p>
+<p><a href="https://www.youtube.com/channel/UCGXU2Ae5x5K-5aKdmKqoLYg/videos">Voir ici d'autres didacticiels vidéo comment configurer les utilisateurs, les extensions, etc.</a></p>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">ÉTAPE 2 - CONFIGURATION DU COPILOTE DU STREAMER</h2>
+<p>OK, vous avez maintenant un LNbits fonctionnel comme backstage pour votre podcast en streaming. Voyons comment configurer l'extension Streamer Copilot pour qu'elle fonctionne avec votre plateforme de streaming. Il s'agit pratiquement d'une simple animation ajoutée à votre flux vidéo, liée à LNBits.</p>
+<p><a href="https://www.youtube.com/watch?v=w5TmWWj2nZY">Voici un tutoriel vidéo</a> réalisé par Ben Arc (développeur LNbits) sur Streamer Copilot.</p>
+
+<h3 style="color:Yellow;">Créer le copilote</h3>
+<p>Accédez à votre tableau de bord principal LNbits. Si vous avez déjà créé un utilisateur dédié (avec son propre portefeuille) pour cette configuration, accédez à son propre tableau de bord utilisateur. Vous pouvez également utiliser l'utilisateur administrateur principal avec plusieurs portefeuilles différents. C'est à vous de décider comment l'organiser.</p>
+<p>Allez ensuite dans « Gérer les extensions » - recherchez « Streamer Copilot » et cliquez sur « Activer ». Cliquez ensuite sur « Ouvrir » et accédez au tableau de bord de l'extension Streamer Copilot.</p>
+<p><img src="/assets/images/lnbits-copilot-1.png" class="center"></p>
+<p>Nous allons créer un nouveau copilote, mettre un titre, cocher la case pour que le QR de paiement s'affiche à l'écran. Les niveaux de pourboires apparaîtront et chacun peut être configuré pour afficher un ensemble d'animations en fonction du montant du pourboire.</p>
+<p>Vous pouvez également activer la case pour afficher les messages LNURL. Les spectateurs peuvent envoyer des messages avec le pourboire LN. Plus amusant !</p>
+<p>Sélectionnez un portefeuille LNbits dans la liste déroulante. Il est préférable d'en utiliser un dédié. Dans LNbits, vous pouvez créer de nombreux portefeuilles lndhub.</p>
+<p>Mettez un titre à afficher sous le code QR. Si vous souhaitez activer la « case prix », elle affichera le montant total accumulé à partir des pourboires.</p>
+<p>Cliquez ensuite sur créer un copilote. Terminé. Est prêt à être inséré dans votre flux en direct.</p>
+
+<h3 style="color:Yellow;">Tester le copilote de streaming</h3>
+<p><img src="/assets/images/lnbits-copilot-2.png" class="center"></p>
+
+<p>Cliquez sur l'icône du panneau dans la liste des copilotes.</p>
+<p>Une petite fenêtre apparaîtra avec les commandes du copilote pour le test. Cliquez sur le visage du copilote et une fenêtre s'ouvrira dans laquelle vous verrez le flux de la caméra vidéo avec le code QR superposé.</p>
+<p>Testez quelques actions et voyez comment les animations s'intègrent dans votre flux. C'est fait !</p>
+<p>Pour le moment, il n'y en a que quelques-uns à sélectionner, mais nous aurons bientôt des options pour ajouter plus de gifs et d'animations. Il existe également une option pour une image QR flottante, qui peut être déplacée là où vous le souhaitez pour mieux s'adapter à votre vidéo en streaming.</p>
+
+<h3 style="color:Yellow;">Liez Streamer Copilot à votre plateforme de streaming</h3>
+<p>Gardez vos fenêtres de streaming LNbits ouvertes et ouvrez OBS Studio (ou toute autre plateforme de streaming).</p>
+<p>Dans cet exemple, nous utiliserons <a href="https://obsproject.com/download">OBS Studio</a>, une plateforme de streaming open source et gratuite.</p>
+<p>Accédez au tableau de bord d'OBS Studio et cliquez sur « sources + » - sélectionnez « Capture de fenêtre ».</p>
+<p><img src="/assets/images/lnbits-copilot-obs.png" class="center"></p>
+<p>Dans les propriétés de la fenêtre, sélectionnez la fenêtre ouverte à partir de LNbits copilot et enregistrez les paramètres. Vous verrez dans le tableau de bord principal d'OBS le flux vidéo, avec l'image QR.</p>
+<p><img src="/assets/images/lnbits-copilot-obs-2.jpg" class="center"></p>
+<p>Vous pouvez cliquer sur les propriétés « source » si vous souhaitez apporter des modifications.</p>
+<p>Organisez le flux vidéo comme vous le souhaitez, je suggère de le déplacer légèrement vers le haut pour masquer l'URL de la fenêtre LNbits. Agrandissez-le ou réduisez-le pour qu'il s'adapte à votre fenêtre de streaming.</p>
+<p>Gardez à l'esprit qu'OBS affichera comme « fenêtre sélectionnée active » la dernière fenêtre de navigateur que vous sélectionnez. Donc, si vous utilisez plusieurs onglets en même temps, assurez-vous de garder la fenêtre du streamer sélectionnée.</p>
+<p>Allez dans le panneau de contrôle de droite et cliquez sur « Paramètres ».</p>
+<p><img src="/assets/images/obs-telegram.png" class="center"></p>
+<p>Sélectionnez l'option « Stream » et indiquez tous les détails concernant votre destination de streaming.</p>
+<p>Il peut s'agir de n'importe quel service de vidéo en direct (Youtube, Rumble, Twitch, Telegram, etc.). Vous devrez donc prendre le lien du serveur et la clé de leur compte de configuration et les placer dans les paramètres de flux OBS.</p>
+<p>Enregistrez et allez dans le panneau de contrôle de droite et cliquez sur « Démarrer le streaming ».</p>
+<p>Vous pouvez désormais utiliser ce flux sur n'importe quelle autre plateforme comme Youtube, Twitch, Rumble, Telegram, etc.</p>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">Comment diffuser avec Telegram</h2>
+<p>Des étapes simples pour diffuser une session de streamer LNBits dans un canal Telegram.</p>
+<p>Disons que vous avez un groupe ou un canal Telegram et que vous souhaitez afficher une fenêtre de copilote de streamer LNbits et que les membres de ce groupe peuvent envoyer des satellites pendant la session audio/vidéo.</p>
+<p>Accédez au groupe Telegram et cliquez sur l'icône supérieure pour « streaming avec » (vous devez être propriétaire du groupe, sinon il n'est pas actif).</p>
+<p><img src="/assets/images/lnbits-copilot-tg.png" class="center"></p>
+<p>Copiez l'URL du serveur et la clé de diffusion et collez-les dans les paramètres de diffusion OBS</p>
+<p><img src="/assets/images/obs-streaming.png" class="center"></p>
+<p><img src="/assets/images/obs-streaming-2.png" class="center"></p>
+<p>Fermez les paramètres de diffusion OBS et cliquez sur Démarrer la diffusion, dans OBS et dans Telegram.</p>
+<p>Terminé, après quelques instants, vous verrez la vidéo en streaming.</p>
+<p>Cela peut être appliqué à n'importe quelle source multimédia, même si elle est en direct ou enregistrée.</p>
+<p>Les membres du groupe Telegram peuvent la regarder à tout moment, même en boucle.</p>
+<h3 style="color:Yellow;">PROFITEZ DU STREAMING !</h3>
+<p>C'est fait ! Votre flux vidéo avec le copilote LNbits sera désormais diffusé en streaming. Tous les spectateurs peuvent voir et interagir en utilisant le code QR LNURL affiché et voir toutes les animations déclenchées par leurs paiements sur le code QR en temps réel !</p>
+<p>Tous les paiements vont directement dans votre portefeuille LNbits (dans votre source de financement en fait).</p>
+<center>
+<h3 style="color:Yellow;">AMUSEZ-VOUS AVEC LIGHTNING NETWORK ET LNBITS !</h3>
+</center>
+
+</body>
+</html>
+</article>
