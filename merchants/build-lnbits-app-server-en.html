@@ -1,0 +1,124 @@
+---
+layout: default
+title: Build your own LNbits app server
+---
+<article>
+<!DOCTYPE html>
+<html lang="en">
+<meta name="description" content="Bitcoin and Lightning Nodes guides: Scenarios of using your own LN node with a separate LNbits instance">
+<body>
+<a href="/merchants/build-lnbits-app-server-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/build-lnbits-app-server-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/build-lnbits-app-server-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/build-lnbits-app-server-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/build-lnbits-app-server-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/build-lnbits-app-server-nl.html">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/build-lnbits-app-server-hr.html">Hrvatski <img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/build-lnbits-app-server-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<em><blockquote style="color:Tomato;">
+<p>Originaly posted on <a href="https://darthcoin.substack.com/p/bitcoin-for-small-merchants">Substack</a> on October 26, 2021. Updated here on Dec 03, 2024.</p>
+</em></blockquote>
+
+<h3 style="color:Orange;">What Bitcoin LN solutions you could start using as a small merchant.</h3>
+<p>I saw many plebs running their bundle nodes (MyNode, Umbrel, Raspiblitz, Embassy etc).</p>
+<p>Nothing against these software bundles!</p>
+<p>But many of these plebs start discovering that with a simple node machine they can do also many other productive things with specialized apps like BTCPay Server, LNbits, LNDhub, Thunderhub, LN Address servers etc</p>
+<p>Very good! This is the way you should use your node.</p>
+<p><img src="/assets/images/lnbits-apps.png" class="center"></p>
+
+<h4 style="color:Yellow;">Considerations:</h4>
+<ul>
+<li>for more apps you add to your bundle, more complexity you add to your setup.</li>
+<li>more apps on the same machine, require various updates, various configurations, various access.</li>
+<li>redundancy - yes this is very important aspect.</li>
+</ul>
+<p>If you decide to use your bundle node in a more public or commercial way and expose it to the public access and also offering services (<a href="/merchants/ln-bank-with-lnbits-en.html">like LNbits Bank</a>), you will have a bigger responsibility for your users using your “bank”.</p>
+<h5>Do not ignore this aspect!</h5>
+<p>If you use your bundle node just to test, learn, develop apps, yes is just fine to use those apps as it is, over Tor, in a more private way and with limited access. In this case (testing/learning) you could use the <a href="https://www.cloudflare.com/learning/cdn/glossary/reverse-proxy/">Cloudflare reverse DNS</a>, that converts a Tor onion address of your LNbits, into a ngrok clearnet address. Yes, it can’t be used with a specific domain, but for testing is more than enough.</p>
+<h5>So what I suggest you, is to think about this scenario:</h5>
+<p>You have a small business, and you decide to use LNbits for example (see <a href="/merchants/lnbits-small-merchants-en.html">here</a> and <a href="/merchants/ln-bank-with-lnbits-en.html">here</a> 2 scenarios I described for using LNbits). Ok all fine.</p>
+<p>But you have a bundle node, behind Tor, limited access from public face, many problems accessing it, Tor is not connecting, you do not understand how these things works etc.</p>
+<p>Some of you using MyNode that have LNbits as premium service, could not use it in the free version. MyNode also is not updating the latest LNbits version. Same with Umbrel, Citadel etc. you will always depend on their releases.</p>
+<p>Also most of these bundles have specific deploy of the docker repositories, so if you are not so familiar with tinkering inside linux and docker, you better stay away.</p>
+
+<h4 style="color:Yellow;">What options do you have?</h4>
+<p>If you run a bundle node behind Tor, and you want to run also LNbits on the same machine, you will have to do some changes in your node machine.</p>
+<p>Here is a guide to <a href="https://community.getumbrel.com/t/how-to-configure-umbrel-lnbits-app-without-tor/">setup a Tor to IP tunnel</a> for your LNbits node machine, but sometimes is not user friendly and will not understand all the technicalities of these setups and will just get frustrated.</p>
+<p>Another way to use the same node machine, will be to use Tailscale. <a href="/nodes/tailscale-vpn-your-node-en.html">Here I wrote a guide about using your bundle node with Tailscale</a>. But also in this case, you will have to configure a DNS name for that private IP that Tailscale is providing, in case you want to offer public access to your LNbits services.</p>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">Option A - your bundle node + separate LNbits</h3>
+<p>Just leave the node bundle as it is, with its LN node channels etc, basic stuff, don’t load it unnecessarily with shit load of apps that you do not use them.</p>
+<p>Take a separate machine, could be whatever other 2nd hand laptop / PC, no need for super ultra computer. Install a Linux OS on it, whatever debian flavor I would say.</p>
+<p>Then start installing LNbits as a regular app, <a href="https://github.com/lnbits/lnbits/wiki/LNbits-Documentation#install-options">following the install instructions</a> and <a href="https://github.com/lnbits/lnbits/wiki/LNbits-Documentation#funding-sources">configure the env file</a> to point to your local bundle node. It could be even in the same LAN, so no need for extra configurations over Tor or VPNs or whatever fancy stuff. So the communication between your node and LNbits will be ONLY through LAN. Secured and private. Nobody from outside could know about this connection.</p>
+<p>Then configure your LNbits machine to be visible on internet FQDN (Full Qualify Domain Name). You will have to edit your domain DNS items to point a subdomain name to your public IP where you have located your LNbits machine, for example ln.mydomain.com or lnbits.mydomain.com or shop.mydomain.com.</p>
+<p>Then configure your internet router to forward the port 443 (SSL, you will need this as face to the public) to the local IP of your LNbits machine. In linux also use ufw to open that port in local fiewall.</p>
+<p>Get a valid certificate for that subdomain, you could use ZeroSSL or whatever other free SSL certificate, important is that your LNbits could respond securely through https.</p>
+<p>To recap:</p>
+<ul>
+<li>Create a subdomain entry in your DNS for that LNbits instance eg. lnbits.mydomain.com</li>
+<li>Point your router to forward the port 443 to that local IP of your LNbits instance</
+<li>Link your LNbits instance to your local LN node by local IP (no need through clearnet or Tor). You will need to add an entry in lnd.conf to listen for your node local IP. Then connect using the admin-macaroons for that node.</li>
+<li>Configure <a href="https://github.com/lnbits/lnbits/blob/main/docs/guide/installation.md#reverse-proxy-with-automatic-https-using-caddy">Caddy reverse proxy</a> on your LNbits machine to use the lnbits.mydomain.com. Caddy is creating all https certificates for you and also renew them.</li>
+</ul>
+<p>Done, now your LNbits is accessible in public domain, using your own bundle node.</p>
+<p>Now, why I was suggesting this scenario?</p>
+<p>Remember when I said REDUNDANCY ?</p>
+<p>Let’s say your bundle node have an issue, that is not related to your LNbits instance: channels forced closed, corrupted data, is not starting, is buggy or whatever serious issue that you cannot have a continuous service for your LNbits users.</p>
+<p>Running your LNbits instance app on a separate machine, it takes exactly 30 seconds to go and <a href="https://github.com/lnbits/lnbits/wiki/LNbits-Documentation#funding-sources">edit the .env file</a> where you put the funding node source (your local bundle node) and change it with whatever other LN node you have available as backup. It could be even a <a href="https://github.com/lnbits/lnbits/wiki/LNbits-Documentation#funding-sources">cloud node like Voltage</a>, another bundle node you had prepared. As a LN Bank provider, you should be prepared for these cases, with immediate backup plans.</p>
+<p>So with just changing the source, your LNbits is up and running. Keep in mind to have enough liquidity in the new node source, that can match at least the total balances of your LNbits accounts.</p>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">Option B - Your bundle node + VPS LNbits</h3>
+<p>Ok this one is a bit more advanced but is a very good option, if you want a business model with a strong hardware.</p>
+<p><img src="/assets/images/vpn-tunnel.jpg" class="center"></p>
+<p>In this case you still use your own bundle home node, over Tor, but you will keep the LNbits instance on a remote VPS (Virtual Private Server) and access it through a secured VPN tunnel.</p>
+<p><a href="https://github.com/TrezorHannes/vps-lnbits">Here is a great guide</a> made by <a href="https://t.me/Hakezuba">Hakuna</a>, step by step. No further instructions.</p>
+<p>Also check these <a href="https://github.com/massmux/LNDConnectionKit">simple instructions</a> with configuration file examples, by Massimo.</p>
+<p><a href="https://www.mobycrypt.com/turn-your-self-hosted-lightning-network-node-to-public-in-10-minutes/">Another good guide by MobyCrypt</a> - How to turn your self hosted RaspiBlitz node into a clearnet node in 10 min (where you can adapt the access only for LNbits instance if you want).</p>
+<p>Same, as previous option, in case your bundle node is wrecked, you could just change the funding source in the LNbits configuration and will be up and running in minutes.</p>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">Option C - LNBits dedicated machine + bundle as backup</h3>
+<p>OK, this one I recommend it for those who want to have a more business solution, reliable and strong. It could be very easily a good machine (not Rpi) in your office/home, good hardware with battery backup UPS and good internet, but also could be a professional cloud VPS and you setup yourself.</p>
+<p>I was explaining more about <a href="https://darth-coin.github.io/nodes/lightning-node-maintenance-en.html">types of hardware for nodes</a> in this guide.</p>
+<p>So, let’s get started:</p>
+<ul>
+<li>Install a <a href="https://www.debian.org/download">Debian OS</a> - as base operating system, simple, with GUI</li>
+<li>Install Core Lightning node or LND that also include Bitcoin Core daemon</li>
+<li>Optional, install an Electrum server (which flavor you want <a href="https://github.com/chris-belcher/electrum-personal-server">EPS</a> | <a href="https://github.com/romanz/electrs">Rust</a> | <a href="https://github.com/cculianu/Fulcrum">Fulcrum</a>). <a href="https://sparrowwallet.com/docs/server-performance.html">Here is a good article about testing Electrum servers</a>.</li>
+<li>Optional: RTL (RideThe Lightning), Thunderhub (but with the new Lnbits version you can manage directly the node), CLBoss and any other tools you need to manage your LN node channels and liquidity. Here is a full list of awesome apps you could use with your CLN node.</li>
+<li>Install LNbits on a separate machine, here is a very good guide: <a href="https://ereignishorizont.xyz/lnbits-server/en/">Axel LNbits Server</a></li>
+<li>Optional, setup Tor service for your node access, or use it on clearnet, opening only specific necessary ports (for CLN, REST for Zeus, SSL for LNbits, Electrum port etc).</li>
+<li>Setup your domain DNS entries specific for your LNbits and add a SSL certificate for that subdomain.</li>
+</ul>
+<p>Done, open some LN channels and your <a href="/merchants/ln-bank-with-lnbits-en.html">LNbits Bank</a> is ready for your “customers”!</p>
+<p>You can still keep your old bundle node machine as a backup for this one, in case of SHTF and / or as another routing hub for your main LNbits node (<a href="/nodes/public-private-node-liquidity-scenario-en.html">as I described in this guide</a>). You can do wonderful things between a public and a private LN node.</p>
+<p>That’s it for the moment, I hope I gave you enough hints about how to run a Independent and Redundant LNbits Server.</p>
+<p>Don’t complicate it too much, keep it simple. Separate your core node services from apps that can be migrated easily from one source to another.</p>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">Option D - Fast LNBits with phoenixd server</h3>
+<p>This option is the fastest install you can get in less than 15 min.</p>
+<p>Basically on a simnple Debian OS, install phoenixd server and next to it a LNbits instance. No need for enything else.</p>
+<p>Here is an excellent guide by Axel - <a href="https://ereignishorizont.xyz/blitzbank/en/">The Blitz Bank</a>. Just follow the instructions and in few minutes you have ready a LNbits instance with all the settings for being accesible on clearnet and all the stuff. <a href="https://ereignishorizont.xyz/blitzbankextras/en/">Check also the follow up guide - The Blitz Bank tips & tricks</a>.</p>
+
+<h4 style="color:Yellow;">Rizful + home LNbits</h4>
+<p>In this section we can also include a quick option with a remote hosted LN node and the LNbits instance on your own hardware.</p>
+<p>If you can't / don't want run on your own hardware a LN node, but you still want to manage locally a LNbits instance,  you can use as funding sources a <a href="https://rizful.com/">Rizful remote hosted node</a>.</p>
+<p>Rizful are like free disposable LN nodes, but with the paid option to extend the period of use. You only put your own liquidity and use their infrastructure. The node still remain as custodial. <a href="https://rizful.com/docs">They have extensive documentation</a>.</p>
+<p>With a Rizful node you can generate a NWC connection for send/receive and use that one as funding source for your home LNbits.</p>
+<p>You just have to configure your LNbits instance to be accessible on clearnet, open some channels with that Rizful node and done.</p>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">Option E - Cloud hosted LNbits</h3>
+<p>These are some urgent solutions, in case you can't use your own hardware or you do not want to use your own infrastructure for a LNbits instance. For example you want a temporary instance, for a conference, workshop, class etc</p>
+<p>What options are available:</p>
+<ul>
+  <li><a href="https://saas.lnbits.com/">SaaS LNbits</a> - LNbits team is offering a simple and quick solution with virtual LNbits instances managed by their team. The price is cheap. You only need to come with your own funding source, but you have multiple options.</li>
+  <li><a href="https://nodana.io/">Nodana</a> - hosted instances that also offer a combo of phoenixd + LNbits and other solutions. Accesible price.</li>
+  <li><a href="https://www.voltage.cloud/">Voltage Cloud</a> - hosted LN nodes with LNbits and BTCPay bundles.</li>
+</ul>
+</body>
+</html>
+</article>
