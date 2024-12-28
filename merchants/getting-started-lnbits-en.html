@@ -1,0 +1,174 @@
+---
+layout: default
+title: Getting Started with LNbits
+---
+<article>
+<!DOCTYPE html>
+<html lang="de">
+<meta name="description" content="Bitcoin and Lightning guides: A guide for new LNbits users / admins, on how to start and manage the LN node behind each LNbits instance">
+<body>
+<a href="/merchants/getting-started-lnbits-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/getting-started-lnbits-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/getting-started-lnbits-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/getting-started-lnbits-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/getting-started-lnbits-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/getting-started-lnbits-nl.html">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/getting-started-lnbits-hr.html">Hrvatski <img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/getting-started-lnbits-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<em><blockquote style="color:Tomato;">
+<p>Originally posted on <a href="https://darthcoin.substack.com/p/getting-started-lnbits">Substack</a> on Dec 12, 2022. Updated here on Dec 28, 2024.</p>
+</em></blockquote>
+
+<h3>A guide for new LNbits users / admins, on how to start and manage the LN node behind each LNbits instance.</h3>
+<p>This guide is dedicated to those who want to implement LNbits into their business but do not have experience with running a Lightning node behind LNbits.</p>
+<p>At the end of the guide, you will find more documentation to study. This article is only meant to give you some “first guidance”. This is NOT the ultimate guide for your node liquidity, is just enough to put you, the new LN user on the right path. After reading this guide, you will have to do a lot of homework.</p>
+<p>I will try to explain it in easy terms so it could be assimilated by any type of user, that is not so familiar with technical details and let alone running a LN node, but want to start using LNbits for various business and personal scenarios.</p>
+<p><img src="/assets/images/lnbits-intro.jpg" class="center"></p>
+
+<h2 style="color:Tomato;">IMPORTANT ASPECT</h2>
+<h3 style="color:Orange;">LNbits is an accounting system on top of your LN node.</h3>
+<p>Starting with v12.0 is also a node management software!</p>
+<p>Think of LNbits like a “wordpress modular framework” for your node. An easy to manage platform, based on extensions that you can combine for numerous use cases.</p>
+<p>Think of LNbits as your own bank financial management software. Your node offers channels to pay through and LNbits extends you node to be able to run more than one lightning wallet your node comes with. These wallets to not necessarily need to belong to yourself. Let’s say you, as the LN node runner, already have enough channel liquidity and funds and now you want to offer some bitcoin banking services to your friends, family, own shop or other regular merchants.</p>
+<p>You will offer a simple way to them to open a “banking account” on your node without having access to other wallets on your node and to all your node liquidity, but only their part. Your node (the bank) only acts as a transport provider for their payments (in/out).</p>
+<p>NOTE: all funds that your “customers” deposit into their LNbits bank accounts on your node, will go straight into your node LN channels. That means YOU are actually the real owner of those funds. You will have a big responsibility for their funds. Don’t be evil and run away with the funds, don’t be evil and charge high fees. We want to fuck the fiat banksters, not to fuck each others (bitcoin users).</p>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">A - Node (bank) liquidity management</h3>
+<p>This is a very important part, where many new users are getting a bit lost, not knowing the basics on how the Lightning Network works and what is needed in order to provide good liquidity for inbound and outbound payments.</p>
+<p>The learning curve is not easy, but also not that hard. With some patience and reading, anybody can do it. But please, do not start offering services with your LNbits bank to others before you prepared your LN node properly.</p>
+<p>The most regular use cases for a node like this (LNBits merchant bank, regular users, specific backend for a web app), would need some pre-requisites for a smooth sailing:</p>
+<ul>
+<li>enough inbound and outbound liquidity in your node’s LN channels</li>
+<li>low fees to zero fees between your LNbits accounts</li>
+<li>reliable hardware and setup, always online, fast connection, clearnet (preferred) and/or Tor (for those who want a different tunneled access, but keep in mind that Tor is really slow).</li>
+</ul>
+<p>What is Inbound liquidity ? The capacity a LN node has to receive payments. Not just in total, but also for each payment.</p>
+<p>What is Outbound liquidity? Means the total capacity your node is able to send.</p>
+<p>Think about payments through your node like glasses of water that, filled with water, through a small or big straw or pipe. The glass (the recipient), is the LN channel, can at a time only transport a certain amount of water and your glass can in total not send more than you own in your glass.</p>
+<p>I will not enter now in details, explaining how LN works. I wrote extensive guides on <a href="/nodes/nodes.html">my guides page</a> and here I put together <a href="https://darthcoin.substack.com/p/lightning-network-is-awesome">a list of LN resources</a> to be studied, with documentations, tutorials, tools, links, services etc.</p>
+<p>Preparing a LN node liquidity takes patience, time, studying and selecting good peers, especially if you will run it for commercial purpose. Here, I will give you some advice about how to get started, so your new LNbits can start receiving and sending sats, for all your additional accounts and users. You will find your own way to fine tune your node, once you learned more about liquidity management.</p>
+<p>Let’s consider you have a brand new node ready, but no LN channels yet. In this moment your LNbits could not receive or send any payment outside your “bank”, into the wild LN (Lightning Network).</p>
+<p>As main tool to check and study LN nodes peers, I recommend using <a href="https://amboss.space/">Amboss</a> or <a href="https://mempool.space/lightning">Mempool LN</a> explorer page, where you can learn about many details of a node, including your own.</p>
+
+<figure>
+    <img src="/assets/images/node-page-amboss.jpg" class="center">
+    <figcaption>Node presentation on Amboss page</figcaption>
+</figure>
+
+<h4 style="color:Yellow;">Important aspects when looking for a good peer node / channel partner:</h4>
+<ul>
+<li>number of channels, more are better (node with only 5-10 channels will not provide you too much routes)</li>
+<li>longevity, longer is better (states the commitment to provide a good service)</li>
+<li>total capacity, bigger is better (indicates the total amount of sats that can route to / from your node)</li>
+<li>size of channels, bigger is better (presumably a longer time until channels get dried and also shows the maximum size of a payment that can be routed)</li>
+<li>do not consider your peer as a “facebook friend”. LN is not about friends but about good routing peers. So connecting to a node just because the owner is your friend will not help you or the network at all if that node does not have good routes itself. Yes, if your node is already a good positioned node and you want to help your noob friend to get started with a new node, could and should be an exception.</li>
+</ul>
+
+<figure>
+    <img src="/assets/images/node-channels-amboss.jpg" class="center">
+    <figcaption>Node channels details on Amboss page</figcaption>
+</figure>
+
+<p>Notice the details on Amboss page, that gives you a deep understanding about how that node is managing its channels: channel size, base fee, rate fee, TimeLock etc.</p>
+<p>These aspects are very important when it’s about time to choose your first peers.</p>
+
+<h5>a. Channel size</h5>
+<p>Don’t open small channels that are less than 3M sats. Stay however beneath of max 10-21M sats.</p>
+<p>All depends on your usage per payment. I you are confident in using very big channels you can have also a 21M sats channel for example, but limit the amount of sats per single payment to 1M, using the min/max HTLC option, per channel. <a href="/nodes/lightning-routing-fees-experiment-en.html">I wrote here an extensive guide about the result of using this method</a>.</p>
+
+<h5>b. Total node capacity</h5>
+<p>Your node should be able to have enough capacity for all your “bank’s” customers.</p>
+
+<figure>
+    <img src="/assets/images/liquidity-report-th.jpg" class="center">
+    <figcaption>The most important report: Node Total Liquidity</figcaption>
+</figure>
+
+<p>In this screenshot from Thunderhub (node management app), you can see the total inbound and outbound capacity and also the max size of incoming and outgoing amounts per transaction.</p>
+<p>It is recommended to keep this balanced, I mean to have almost the same capacity for receiving and also for sending. Any expansive drains into one direction could end up in failed payments.</p>
+<p>It doesn’t really matter if a a channel is not perfectly balanced 50-50.</p>
+<p>Your node LN channels, will look like this, after a while, one side that is your sats and the other side that represent your peer’s sats, always juggling back and forth while wallets on your node use it and payments from others are routed.</p>
+<p><img src="/assets/images/abacus.jpg" class="center"></p>
+
+<p>Also what will enter through one channel can possibly go out through another one, which in time in time will balance them overall.</p>
+<p>Yes, in the beginning, it is good to start with balanced channels, so you can have and provide directly in and out payments. This can be achieved with circular rebalancing, using a swap service to move out sats from your LN channels back into your onchain address and use them again to open more channels. I will explain in the next chapter how that works.</p>
+
+<h5>c. Liquidity</h5>
+<p>A good strategy would be to open 2-3-4-5 channels with some good LSP (Liquidity Service Providers), to have good routes right from the start. Preferably those with wallet provider nodes where many other users are connected and that have good connections.</p>
+<p>See mopre examples in this guide <a href="/nodes/managing-lightning-node-liquidity-en.html">"Managing Lightning Node Liquidity"</a>.</p>
+<p>Then expand your connections with more Bitcoin companies nodes (services, exchanges, LSP, Rings of Fire etc). Amboss page is very good to find ones.</p>
+<p>I could show you <a href="https://telegra.ph/List-of-good-nodes-11-25">my personal list of good peers</a> that I accumulated in time, but they might not be 100% suitable for your own needs and also in time these peers are changing their policies or even shut down their nodes. So please take it only as an example. Some of the nodes there maybe are not even online anymore.</p>
+<p>Each node operator should keep his own list of peers, update them if possible and adjusted for own needs.</p>
+<p>You open a first channel, let’s say of 10M sats with one of these peers. Then you use a swap service to move half of the sats (5M more or less) out of the channel. In this way you can re-use those sats to open the next channel and also get inbound liquidity. <a href="/nodes/lightning-submarine-swaps-en.html">See the dedicated guide about submarine swaps I wrote here</a>.</p>
+<p>Repeat the process for the next 3-4 new channels and you will have a nice liquidity to start. By time you can expand your number of peers using the <a href="https://lightningnetwork.plus/">LightningNetworkPlus</a> or <a href="https://t.me/SRROFBOT">Satoshi Radio Rings of Fire</a> or manually adding other selected nodes using specific tools to analyze your peers before you connect to them: <a href="https://lnrouter.app/">LN Router</a>, <a href="https://lnnodeinsight.com/">LN Node Insight</a>, <a href="https://moneni.com/mcb/nodematch">NodeMatch</a>, <a href="https://stacker.news/items/625563/r/DarthCoin">LN channels TG Bot</a> and <a href="https://darthcoin.substack.com/i/42092296/tools-explorers-analyzers-stats">others more</a>.</p>
+
+<h5>d. Longevity</h5>
+<p>Try to keep your LN channels open as much as possible. Especially those ones that are showing more traffic. You will need to observe your node’s behavior almost every day if you want to provide good routes for your customers. Observe where and from where your node receives funds, where are most of the sats going to, try to find the best routes for those destinations.</p>
+<p>If some other “young nodes” will connect to you but they do not do much traffic and also are mostly offline you should close those useless channels. The only generate garbage requests and load your node with useless timeouts. A good tool for this to observe is <a href="https://github.com/edouardparis/lntop">LNTop</a>. <a href="/nodes/recommendations-ln-node-operators-en.html">I explained in this another guide</a> some warnings.</p>
+<p>In general a LN channel should be closed only in a few cases otherwise keep it online:</p>
+<ul>
+<li>peer is mostly offline</li>
+<li>peer is having really bad ping (response access time), most of Tor nodes have this</li>
+<li>is a very small channel; anything below 3M is considered small</li>
+<li>peer does not provide any traffic during a certain period (2-3 months)</li>
+<li>peer had his node crashed and all channels need to be closed (they informed you)</li>
+</ul>
+<p>OK, now you have a good node with good liquidity, you are more than ready to offer payment services to others. Let’s dive a bit into managing your LNbits server.</p>
+<hr style="height:2px">
+
+<p><img src="/assets/images/lnbits-pos-fruits.jpg" class="center"></p>
+
+<h3 style="color:Orange;">B. LNbits Bank Management</h3>
+<h4 style="color:Yellow;">Installation procedure</h4>
+<p>First step: Where to install ? Own machine or hosted solution ?</p>
+<p>As I explained <a href="https://darthcoin.substack.com/p/build-your-own-lnbits-app-server">in this dedicated guide</a>, you can install it on your bundle node, but could as well install it standalone on ANY other regular PC machine.</p>
+<p>My personal take on this aspect is to run a dedicated LN node machine (be it a home bundle, a VPS, a <a href="https://voltage.cloud/">Voltage</a> node in the cloud) and the LNbits instance on a separate machine. This makes both better manageable, more accessible and I can switch the funding source at any time.</p>
+<p>Yes, is nice to have it “all-in-one” but what about your business depends too much on that LNbits instance and your LN node crashes? Having it on the same machine as your LN node could end-up in losses. But if you have both on separate machines, you can easily just change the funding source with another LN node and be ready to continue receiving or making payments immediately.</p>
+<p><a href="https://github.com/lnbits/lnbits/wiki/LNbits-Documentation">The installation manual</a> is very simple and in 5-10 min you have a running LNbits. <a href="https://github.com/lnbits/lnbits/wiki/LNbits-Documentation#additional-guides">I would suggest to use the Caddy</a> proxy, is very easy and fast to install and configure. With Caddy you connect your LNbits instance to a domain which could e.g. host your online-shop. Please note that this is essential if you want to offer banking services to others.</p>
+<p><a href="https://github.com/lnbits/lnbits/wiki/LNbits-Documentation#funding-sources">Setting up the funding sources</a> are basically modifying few lines in the .env config file and done. Start the lnbits service and … happy lightning.</p>
+
+<h4 style="color:Yellow;">Regularly backup your LNbits database</h4>
+<p>If you respect your “bank’s” customers, you should make regular backups of your LNbits database. Is not hard to do it. Just a copy of the lnbits/data folder.</p>
+<p>Soon, when the new admin extension will be ready and released, there will be more automatic and webUI options to do that backup/ restore.</p>
+<p>This database contain ONLY: users wallet IDs and access, transaction history, balance, personal settings etc.</p>
+<p>Keep in mind that, this database (an sqfile) is just like an excel file IT IS NOT a wallet, channel or xpub. So if you want to move the LNbits bank to another source of funding (another node in case of disaster) you can easily just point your LNbits instance to another LN node and done, the customer’s balances are there, but you’ve just switched to another “vault”, another liquidity transport provider.</p>
+<p>If you want to move your LNbits instance into another server, you could also just copy paste that database and start LNbits again.</p>
+<p>LNbits can run on top of various funding sources <a href="https://github.com/lnbits/lnbits/wiki/LNbits-Documentation#funding-sources">as described in the installation guide here</a>. So even if you previously had it running with a LND node and want to switch to a CLN node for example a simple change in the .env file is enough and restart the LNbits service.</p>
+<p>
+
+<h4 style="color:Yellow;">Open up your LNbits bank to clearnet access</h4>
+<p>Having a LNbits only behind Tor is NOT reliable. Yes, today everybody can start a bundle node like Umbrel, Citadel, myNode, Raspiblitz, Embassy etc that by default is running behind Tor. Yes, you can use one of those for your LNbits, that is already integrated, easy to start with one click.</p>
+<p>But the fun part comes when your bank’s customers don’t know what Tor is and what it is mainly for. And also not all services and functionalities works well behind Tor. Let alone browser compatibility and connection.</p>
+<p>So here, <a href="https://darthcoin.substack.com/p/build-your-own-lnbits-app-server">in this dedicated guide</a> I wrote about several scenarios how you could build a LNbits app server and be accessible on clearnet (https, IP/domain). Please pay attention to all details and scenarios.</p>
+<hr style="height:2px">
+
+<h4 style="color:Yellow;">Read more LNbits documentation</h4>
+<p>Here is a list with more links about LNbits, use case scenarios, examples, documentation, for you to read and inspire you for your own use cases and scenarios:</p>
+<ul>
+<li><a href="https://lnbits.com/">LNbits webpage</a> | <a href="https://github.com/lnbits/lnbits">Github page</a> | <a href="https://t.me/lnbits">Telegram group</a> | <a href="https://saas.lnbits.com">LNbits SaaS instance</a></li>
+<li><a href="https://github.com/lnbits/lnbits/wiki/LNbits-Documentation">LNbits Documentation Page</a> | <a href="https://www.youtube.com/channel/UCGXU2Ae5x5K-5aKdmKqoLYg/videos">Youtube video tutorials</a></li>
+<li><a href="https://github.com/lnbits/lnbits/wiki/Powered-by-LNbits">Powered by LNbits - collection of projects using LNbits</a></li>
+<li>Axel's Guides: <a href="https://ereignishorizont.xyz/lnbits-server/en/">LNbits Server Installation</a> | <a href="https://ereignishorizont.xyz/blitzbank/en/">Blitz Bank (LNbits + PhoenixD node)</a></li>
+<li>DC Guides: <a href="/nodes/ln-bank-with-lnbits-en.html">The LNbits Bank</a> | <a href="https://darthcoin.substack.com/p/lnbits-for-small-merchants">LNbits for small merchants</a> | <a href="https://darthcoin.substack.com/p/lnbits-streamer-copilot">LNbits Streamer Copilot</a></li>
+<li><a href="https://darthcoin.substack.com/p/build-your-own-lnbits-app-server">Run LNbits on different type of machines / servers</a></li>
+<li><a href="https://darth-coin.github.io/merchants/bitcoin-lightning-payments-irl-en.html">Real life merchants accepting BTC over LN</a></li>
+<li><a href="https://darthcoin.substack.com/p/lightning-network-is-awesome">Lightning Network resources</a> - TO READ MORE AND LEARN</li>
+<li><a href="https://xcancel.com/LN_Capital/status/1602005600929546240">“Lightning Node Operator”</a> is the most important job title of this decade</li>
+<li><a href="/nodes/lightning-node-maintenance-en.html">Lightning Node maintenance</a></li>
+<li><a href="/nodes/lightning-routing-fees-experiment-en.html">Lightning Routing Fees Experiment</a></li>
+<li><a href="/wallets/lightning-wallets-comparison-en.html">Lightning Wallets Comparison guide</a></li>
+<li><a href="/nodes/recommendations-ln-node-operators-en.html">Recommendations for new LN users</a></li>
+<li><a href="/merchants/operating-ln-as-merchant-en.html">Operating with LN as a merchant</a> - advanced guide</li>
+<li><a href="/nodes/tailscale-vpn-your-node-en.html">Using your Tor node over Tailscale</a></li>
+</ul>
+<hr style="height:2px">
+
+<blockquote style="color:Tomato;"><em>
+<p>NOTE: If you consider that this guide is not enough explained, please send me your questions / suggestions on how to improve it or even write another one for a specific case.</p>
+<p>If you read this guide, but your knowledge level is not so technical (is understandable) please share this article with your “Uncle Jim” friend that is more tech savy and can help you setting up your own LNbits or who even can run it for you.</p>
+</em></blockquote>
+
+</body>
+</html>
+</article>
