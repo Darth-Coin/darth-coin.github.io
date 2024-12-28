@@ -1,0 +1,172 @@
+---
+layout: default
+title: Erste Schritte mit LNbits
+---
+<article>
+<!DOCTYPE html>
+<html lang="de">
+<meta name="description" content="Bitcoin- und Lightning-Anleitungen: Eine Anleitung für neue LNbits-Benutzer/-Administratoren zum Starten und Verwalten des LN-Knotens hinter jeder LNbits-Instanz">
+<body>
+<a href="/merchants/getting-started-lnbits-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/getting-started-lnbits-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/getting-started-lnbits-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/getting-started-lnbits-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/getting-started-lnbits-nl.html">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/getting-started-lnbits-hr.html">Hrvatski <img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/getting-started-lnbits-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<em><blockquote style="color:Tomato;">
+<p>Ursprünglich gepostet auf <a href="https://darthcoin.substack.com/p/getting-started-lnbits">Substack</a> am 12. Dezember 2022. Hier aktualisiert am 28. Dezember 2024.</p>
+</em></blockquote>
+
+<h3>Eine Anleitung für neue LNbits-Benutzer/-Administratoren zum Starten und Verwalten des LN-Knotens hinter jeder LNbits-Instanz.</h3>
+<p>Diese Anleitung richtet sich an diejenigen, die LNbits in ihr Unternehmen implementieren möchten, aber keine Erfahrung mit dem Betrieb eines Lightning-Knotens hinter LNbits haben.</p>
+<p>Am Ende der Anleitung finden Sie weitere Dokumentation zum Studium. Dieser Artikel soll Ihnen nur eine „erste Anleitung“ geben. Dies ist NICHT die ultimative Anleitung für Ihre Knotenliquidität, sondern reicht gerade aus, um Sie als neuen LN-Benutzer auf den richtigen Weg zu bringen. Nach dem Lesen dieses Handbuchs müssen Sie eine Menge Hausaufgaben machen.</p>
+<p>Ich werde versuchen, es in einfachen Worten zu erklären, damit es von jedem Benutzertyp verstanden werden kann, der mit technischen Details nicht so vertraut ist und noch nicht einmal einen LN-Knoten betreibt, aber LNbits für verschiedene geschäftliche und persönliche Szenarien verwenden möchte.</p>
+<p><img src="/assets/images/lnbits-intro.jpg" class="center"></p>
+
+<h2 style="color:Tomato;">WICHTIGER ASPEKT</h2>
+<h3 style="color:Orange;">LNbits ist ein Buchhaltungssystem über Ihrem LN-Knoten.</h3>
+<p>Ab v12.0 ist auch eine Knotenverwaltungssoftware verfügbar!</p>
+<p>Stellen Sie sich LNbits wie ein „modulares WordPress-Framework“ für Ihren Knoten vor. Eine einfach zu verwaltende Plattform, basierend auf Erweiterungen, die Sie für zahlreiche Anwendungsfälle kombinieren können.</p>
+<p>Stellen Sie sich LNbits als Ihre eigene Finanzverwaltungssoftware vor. Ihr Knoten bietet Kanäle zum Bezahlen und LNbits erweitert Ihren Knoten, um mehr als eine Lightning-Wallet ausführen zu können, mit der Ihr Knoten ausgestattet ist. Diese Wallets müssen nicht unbedingt Ihnen selbst gehören. Nehmen wir an, Sie als LN-Knotenbetreiber verfügen bereits über genügend Kanalliquidität und Geldmittel und möchten nun Ihren Freunden, Ihrer Familie, Ihrem eigenen Geschäft oder anderen regulären Händlern einige Bitcoin-Bankdienstleistungen anbieten.</p>
+<p>Sie bieten ihnen eine einfache Möglichkeit, ein „Bankkonto“ auf Ihrem Knoten zu eröffnen, ohne Zugriff auf andere Wallets auf Ihrem Knoten und auf die gesamte Liquidität Ihres Knotens zu haben, sondern nur auf ihren Teil. Ihr Knoten (die Bank) fungiert nur als Transportanbieter für ihre Zahlungen (eingehend/ausgehend).</p>
+<p>HINWEIS: Alle Gelder, die Ihre „Kunden“ auf ihre LNbits-Bankkonten auf Ihrem Knoten einzahlen, fließen direkt in die LN-Kanäle Ihres Knotens. Das bedeutet, dass SIE der eigentliche Eigentümer dieser Gelder sind. Sie tragen eine große Verantwortung für deren Gelder. Seien Sie nicht böse und rennen Sie mit den Geldern weg, seien Sie nicht böse und verlangen Sie hohe Gebühren. Wir wollen die Fiat-Bankster ficken, nicht uns gegenseitig (Bitcoin-Benutzer).</p>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">A - Liquiditätsmanagement des Knotens (der Bank)</h3>
+<p>Dies ist ein sehr wichtiger Teil, bei dem viele neue Benutzer ein wenig verloren gehen, da sie die Grundlagen der Funktionsweise des Lightning Network und der Anforderungen zur Bereitstellung guter Liquidität für eingehende und ausgehende Zahlungen nicht kennen.</p>
+<p>Die Lernkurve ist nicht einfach, aber auch nicht so schwer. Mit etwas Geduld und Lektüre kann es jeder schaffen. Aber bitte beginnen Sie nicht, anderen Dienste mit Ihrer LNbits-Bank anzubieten, bevor Sie Ihren LN-Knoten richtig vorbereitet haben.</p>
+<p>Die häufigsten Anwendungsfälle für einen Knoten wie diesen (LNBits-Handelsbank, normale Benutzer, spezielles Backend für eine Web-App) erfordern einige Voraussetzungen für einen reibungslosen Ablauf:</p>
+<ul>
+<li>genügend eingehende und ausgehende Liquidität in den LN-Kanälen Ihres Knotens</li>
+<li>geringe bis keine Gebühren zwischen Ihren LNbits-Konten</li>
+<li>zuverlässige Hardware und Einrichtung, immer online, schnelle Verbindung, Clearnet (bevorzugt) und/oder Tor (für diejenigen, die einen anderen getunnelten Zugang wünschen, aber denken Sie daran, dass Tor wirklich langsam ist).</li>
+</ul>
+<p>Was ist eingehende Liquidität? Die Kapazität, die ein LN-Knoten hat, um Zahlungen zu empfangen. Nicht nur insgesamt, sondern auch für jede Zahlung.</p>
+<p>Was ist ausgehende Liquidität? Bedeutet die Gesamtkapazität, die Ihr Knoten senden kann.</p>
+<p>Stellen Sie sich Zahlungen über Ihren Knoten wie Wassergläser vor, die mit Wasser gefüllt durch einen kleinen oder großen Strohhalm oder ein Rohr laufen. Das Glas (der Empfänger), der LN-Kanal, kann zu einem Zeitpunkt nur eine bestimmte Menge Wasser transportieren und Ihr Glas kann insgesamt nicht mehr senden, als Sie in Ihrem Glas haben.</p>
+<p>Ich werde jetzt nicht ins Detail gehen und erklären, wie LN funktioniert. Ich habe ausführliche Anleitungen auf <a href="/nodes/nodes.html">meiner Anleitungsseite</a> geschrieben und hier habe ich <a href="https://darthcoin.substack.com/p/lightning-network-is-awesome">eine Liste von LN-Ressourcen</a> zusammengestellt, die untersucht werden sollen, mit Dokumentationen, Tutorials, Tools, Links, Diensten usw.</p>
+<p>Die Vorbereitung der Liquidität eines LN-Knotens erfordert Geduld, Zeit, Studium und die Auswahl guter Peers, insbesondere wenn Sie ihn zu kommerziellen Zwecken betreiben. Hier gebe ich Ihnen einige Ratschläge zum Einstieg, damit Ihre neuen LNbits mit dem Empfangen und Senden von Sats für alle Ihre zusätzlichen Konten und Benutzer beginnen können. Sie werden Ihren eigenen Weg finden, Ihren Knoten zu optimieren, sobald Sie mehr über Liquiditätsmanagement gelernt haben.</p>
+<p>Nehmen wir an, Sie haben einen brandneuen Knoten bereit, aber noch keine LN-Kanäle. In diesem Moment können Ihre LNbits keine Zahlungen außerhalb Ihrer „Bank“ empfangen oder senden, in das wilde LN (Lightning Network).</p>
+<p>Als Haupttool zum Überprüfen und Studieren von LN-Knoten-Peers empfehle ich die Verwendung der Explorer-Seite <a href="https://amboss.space/">Amboss</a> oder <a href="https://mempool.space/lightning">Mempool LN</a>, auf der Sie viele Details eines Knotens erfahren können, einschließlich Ihres eigenen.</p>
+
+<figure>
+<img src="/assets/images/node-page-amboss.jpg" class="center">
+<figcaption>Knotenpräsentation auf der Amboss-Seite</figcaption>
+</figure>
+
+<h4 style="color:Yellow;">Wichtige Aspekte bei der Suche nach einem guten Peer-Knoten/Kanalpartner:</h4>
+<ul>
+<li>Anzahl der Kanäle, mehr sind besser (Knoten mit nur 5-10 Kanälen bieten Ihnen nicht zu viel viele Routen)</li>
+<li>Langlebigkeit, länger ist besser (zeigt die Verpflichtung an, einen guten Service zu bieten)</li>
+<li>Gesamtkapazität, größer ist besser (zeigt die Gesamtmenge der Satelliten an, die zu/von Ihrem Knoten routen können)</li>
+<li>Größe der Kanäle, größer ist besser (vermutlich eine längere Zeit, bis die Kanäle ausgetrocknet sind und zeigt auch die maximale Größe einer Zahlung an, die geroutet werden kann)</li>
+<li>Betrachten Sie Ihren Peer nicht als „Facebook-Freund“. Bei LN geht es nicht um Freunde, sondern um Peers mit gutem Routing. Sich also mit einem Knoten zu verbinden, nur weil der Besitzer Ihr Freund ist, wird Ihnen oder dem Netzwerk überhaupt nicht helfen, wenn dieser Knoten selbst keine guten Routen hat. Ja, wenn Ihr Knoten bereits ein gut positionierter Knoten ist und Sie Ihrem Neuling-Freund helfen möchten, mit einem neuen Knoten zu beginnen, könnte und sollte dies eine Ausnahme sein.</li>
+</ul>
+
+<figure>
+<img src="/assets/images/node-channels-amboss.jpg" class="center">
+<figcaption>Details zu Knotenkanälen auf der Amboss-Seite</figcaption>
+</figure>
+
+<p>Beachten Sie die Details auf der Amboss-Seite, die Ihnen ein tiefes Verständnis darüber vermitteln, wie dieser Knoten seine Kanäle verwaltet: Kanalgröße, Grundgebühr, Tarifgebühr, TimeLock usw.</p>
+<p>Diese Aspekte sind sehr wichtig, wenn es an der Zeit ist, Ihre ersten Peers auszuwählen.</p>
+
+<h5>a. Kanalgröße</h5>
+<p>Öffnen Sie keine kleinen Kanäle mit weniger als 3 Mio. Sats. Bleiben Sie jedoch unter maximal 10–21 Mio. Sats.</p>
+<p>Alles hängt von Ihrer Nutzung pro Zahlung ab. Wenn Sie sich sicher sind, dass Sie sehr große Kanäle verwenden können, können Sie beispielsweise auch einen 21-Mio.-Sats-Kanal haben, aber begrenzen Sie die Anzahl der Sats pro Einzelzahlung auf 1 M, indem Sie die Min/Max-HTLC-Option pro Kanal verwenden. <a href="/nodes/lightning-routing-fees-experiment-en.html">Ich habe hier eine ausführliche Anleitung zu den Ergebnissen dieser Methode geschrieben</a>.</p>
+
+<h5>b. Gesamtknotenkapazität</h5>
+<p>Ihr Knoten sollte über genügend Kapazität für alle Kunden Ihrer „Bank“ verfügen.</p>
+
+<figure>
+<img src="/assets/images/liquidity-report-th.jpg" class="center">
+<figcaption>Der wichtigste Bericht: Gesamtknotenliquidität</figcaption>
+</figure>
+
+<p>In diesem Screenshot von Thunderhub (Knotenverwaltungs-App) können Sie die gesamte eingehende und ausgehende Kapazität sowie die maximale Größe der eingehenden und ausgehenden Beträge pro Transaktion sehen.</p>
+<p>Es wird empfohlen, dies ausgewogen zu halten, d. h., für den Empfang und auch für das Senden nahezu die gleiche Kapazität zu haben. Jeder ausgedehnte Abfluss in eine Richtung könnte zu fehlgeschlagenen Zahlungen führen.</p>
+<p>Es spielt keine Rolle, ob ein Kanal nicht perfekt 50:50 ausgewogen ist.</p>
+<p>Ihre Knoten-LN-Kanäle werden nach einer Weile so aussehen: Eine Seite sind Ihre Sats und die andere Seite repräsentiert die Sats Ihres Peers. Sie jonglieren immer hin und her, während Wallets auf Ihrem Knoten sie verwenden und Zahlungen von anderen weitergeleitet werden.</p>
+<p><img src="/assets/images/abacus.jpg" class="center"></p>
+
+<p>Außerdem kann das, was über einen Kanal eingeht, möglicherweise über einen anderen ausgehen, was sie mit der Zeit insgesamt ausgleichen wird.</p>
+<p>Ja, am Anfang ist es gut, mit ausgeglichenen Kanälen zu beginnen, damit Sie direkte Ein- und Auszahlungen haben und bereitstellen können. Dies kann durch zirkuläres Rebalancing erreicht werden, indem man einen Swap-Dienst verwendet, um Sats aus Ihren LN-Kanälen zurück in Ihre Onchain-Adresse zu verschieben und sie erneut zu verwenden, um weitere Kanäle zu öffnen. Ich werde im nächsten Kapitel erklären, wie das funktioniert.</p>
+
+<h5>c. Liquidität</h5>
+<p>Eine gute Strategie wäre, 2-3-4-5 Kanäle mit einigen guten LSP (Liquidity Service Providers) zu öffnen, um von Anfang an gute Routen zu haben. Vorzugsweise solche mit Wallet-Provider-Knoten, mit denen viele andere Benutzer verbunden sind und die gute Verbindungen haben.</p>
+<p>Weitere Beispiele finden Sie in diesem Handbuch <a href="/nodes/managing-lightning-node-liquidity-de.html">„Liquidität von Lightning-Knoten verwalten“</a>.</p>
+<p>Erweitern Sie dann Ihre Verbindungen mit weiteren Knoten von Bitcoin-Unternehmen (Dienste, Börsen, LSP, Rings of Fire usw.). Die Amboss-Seite ist sehr gut, um solche zu finden.</p>
+<p>Ich könnte Ihnen <a href="https://telegra.ph/List-of-good-nodes-11-25">meine persönliche Liste guter Peers</a> zeigen, die ich im Laufe der Zeit angesammelt habe, aber sie sind möglicherweise nicht 100 % für Ihre eigenen Bedürfnisse geeignet und außerdem ändern diese Peers mit der Zeit ihre Richtlinien oder schließen sogar ihre Knoten. Betrachten Sie sie also bitte nur als Beispiel. Einige der Knoten dort sind möglicherweise nicht einmal mehr online.</p>
+<p>Jeder Knotenbetreiber sollte seine eigene Liste von Peers führen, diese wenn möglich aktualisieren und an die eigenen Bedürfnisse anpassen.</p>
+<p>Sie öffnen einen ersten Kanal, sagen wir von 10 Mio. Sats mit einem dieser Peers. Dann verwenden Sie einen Swap-Dienst, um die Hälfte der Sats (5 Mio. mehr oder weniger) aus dem Kanal zu verschieben. Auf diese Weise können Sie diese Sats wiederverwenden, um den nächsten Kanal zu öffnen und auch eingehende Liquidität zu erhalten. <a href="/nodes/lightning-submarine-swaps-en.html">Lesen Sie hier den speziellen Leitfaden zu Submarine-Swaps, den ich geschrieben habe</a>.</p>
+<p>Wiederholen Sie den Vorgang für die nächsten 3–4 neuen Kanäle, und Sie werden zu Beginn über eine gute Liquidität verfügen. Mit der Zeit können Sie die Anzahl Ihrer Peers mithilfe von <a href="https://lightningnetwork.plus/">LightningNetworkPlus</a> oder <a href="https://t.me/SRROFBOT">Satoshi Radio Rings of Fire</a> erweitern oder manuell andere ausgewählte Knoten mithilfe bestimmter Tools hinzufügen, um Ihre Peers zu analysieren, bevor Sie eine Verbindung zu ihnen herstellen: <a href="https://lnrouter.app/">LN Router</a>, <a href="https://lnnodeinsight.com/">LN Node Insight</a>, <a href="https://moneni.com/mcb/nodematch">NodeMatch</a>, <a href="https://stacker.news/items/625563/r/DarthCoin">LN-Kanäle TG Bot</a> und <a href="https://darthcoin.substack.com/i/42092296/tools-explorers-analyzers-stats">andere mehr</a>.</p>
+
+<h5>d. Langlebigkeit</h5>
+<p>Versuchen Sie, Ihre LN-Kanäle so lange wie möglich offen zu halten. Besonders diejenigen, die mehr Verkehr aufweisen. Sie müssen das Verhalten Ihres Knotens fast täglich beobachten, wenn Sie Ihren Kunden gute Routen anbieten möchten. Beobachten Sie, wo und von wo Ihr Knoten Gelder erhält, wohin die meisten Satelliten gehen, und versuchen Sie, die besten Routen für diese Ziele zu finden.</p>
+<p>Wenn sich einige andere „junge Knoten“ mit Ihnen verbinden, aber nicht viel Verkehr haben und auch meistens offline sind, sollten Sie diese nutzlosen Kanäle schließen. Sie generieren nur Müllanfragen und belasten Ihren Knoten mit nutzlosen Timeouts. Ein gutes Tool zur Beobachtung ist <a href="https://github.com/edouardparis/lntop">LNTop</a>. <a href="/nodes/recommendations-ln-node-operators-en.html">Ich habe in diesem anderen Leitfaden</a> einige Warnungen erklärt.</p>
+<p>Im Allgemeinen sollte ein LN-Kanal nur in wenigen Fällen geschlossen werden, andernfalls sollte er online bleiben:</p>
+<ul>
+<li>Peer ist meistens offline</li>
+<li>Peer hat einen wirklich schlechten Ping (Antwortzugriffszeit), die meisten Tor-Knoten haben das</li>
+<li>ist ein sehr kleiner Kanal; alles unter 3M wird als klein angesehen</li>
+<li>Peer liefert während eines bestimmten Zeitraums (2-3 Monate) keinen Verkehr</li>
+<li>Peer hatte einen Knotenabsturz und alle Kanäle müssen geschlossen werden (Sie wurden informiert)</li>
+</ul>
+<p>OK, jetzt haben Sie einen guten Knoten mit guter Liquidität, Sie sind mehr als bereit, anderen Zahlungsdienste anzubieten. Lassen Sie uns etwas tiefer in die Verwaltung Ihres LNbits-Servers eintauchen.</p>
+<hr style="height:2px">
+
+<p><img src="/assets/images/lnbits-pos-fruits.jpg" class="center"></p>
+
+<h3 style="color:Orange;">B. LNbits Bank Management</h3>
+<h4 style="color:Yellow;">Installationsverfahren</h4>
+<p>Erster Schritt: Wo installieren? Eigene Maschine oder gehostete Lösung?</p>
+<p>Wie ich <a href="https://darthcoin.substack.com/p/build-your-own-lnbits-app-server">in dieser speziellen Anleitung</a> erklärt habe, können Sie es auf Ihrem Bundle-Knoten installieren, aber auch eigenständig auf JEDEM anderen normalen PC-Rechner.</p>
+<p>Meine persönliche Meinung zu diesem Aspekt ist, eine dedizierte LN-Knotenmaschine (sei es ein Home-Bundle, ein VPS, ein <a href="https://voltage.cloud/">Voltage</a>-Knoten in der Cloud) und die LNbits-Instanz auf einer separaten Maschine laufen zu lassen. Dadurch sind beide besser verwaltbar, zugänglicher und ich kann die Finanzierungsquelle jederzeit wechseln.</p>
+<p>Ja, es ist schön, alles in einem zu haben, aber was ist mit Ihrem Unternehmen, das zu sehr von dieser LNbits-Instanz abhängt und Ihr LN-Knoten abstürzt? Wenn Sie es auf derselben Maschine wie Ihren LN-Knoten haben, könnte das zu Verlusten führen. Wenn Sie jedoch beide auf separaten Maschinen haben, können Sie die Finanzierungsquelle einfach mit einem anderen LN-Knoten ändern und sofort wieder Zahlungen empfangen oder leisten.</p>
+<p><a href="https://github.com/lnbits/lnbits/wiki/LNbits-Documentation">Die Installationsanleitung</a> ist sehr einfach und in 5-10 Minuten haben Sie ein laufendes LNbits. <a href="https://github.com/lnbits/lnbits/wiki/LNbits-Documentation#additional-guides">Ich würde vorschlagen, den Caddy-Proxy zu verwenden</a>, der sehr einfach und schnell zu installieren und zu konfigurieren ist. Mit Caddy verbinden Sie Ihre LNbits-Instanz mit einer Domäne, die beispielsweise Ihren Online-Shop hosten könnte. Bitte beachten Sie, dass dies unerlässlich ist, wenn Sie anderen Bankdienstleistungen anbieten möchten.</p>
+<p><a href="https://github.com/lnbits/lnbits/wiki/LNbits-Documentation#funding-sources">Das Einrichten der Finanzierungsquellen</a> besteht im Wesentlichen darin, einige Zeilen in der .env-Konfigurationsdatei zu ändern, und fertig. Starten Sie den lnbits-Dienst und … viel Spaß beim Blitzen.</p>
+
+<h4 style="color:Yellow;">Sichern Sie Ihre LNbits-Datenbank regelmäßig</h4>
+<p>Wenn Sie die Kunden Ihrer „Bank“ respektieren, sollten Sie regelmäßig Backups Ihrer LNbits-Datenbank erstellen. Das ist nicht schwer. Nur eine Kopie des Ordners lnbits/data.</p>
+<p>Wenn die neue Admin-Erweiterung bald fertig und freigegeben ist, wird es mehr automatische und WebUI-Optionen für die Sicherung/Wiederherstellung geben.</p>
+<p>Diese Datenbank enthält NUR: Wallet-IDs und Zugriff der Benutzer, Transaktionsverlauf, Kontostand, persönliche Einstellungen usw.</p>
+<p>Denken Sie daran, dass diese Datenbank (eine SQ-Datei) wie eine Excel-Datei ist, NICHT eine Wallet, ein Kanal oder ein xpub. Wenn Sie also die LNbits-Bank auf eine andere Finanzierungsquelle (einen anderen Knoten im Katastrophenfall) verschieben möchten, können Sie Ihre LNbits-Instanz einfach auf einen anderen LN-Knoten verweisen und fertig, die Guthaben des Kunden sind da, aber Sie sind gerade zu einem anderen „Tresor“, einem anderen Liquiditätstransportanbieter gewechselt.</p>
+<p>Wenn Sie Ihre LNbits-Instanz auf einen anderen Server verschieben möchten, können Sie diese Datenbank auch einfach kopieren und einfügen und LNbits erneut starten.</p>
+<p>LNbits kann auf verschiedenen Finanzierungsquellen ausgeführt werden, <a href="https://github.com/lnbits/lnbits/wiki/LNbits-Documentation#funding-sources">wie in der Installationsanleitung hier beschrieben</a>. Selbst wenn Sie es also zuvor mit einem LND-Knoten ausgeführt haben und beispielsweise zu einem CLN-Knoten wechseln möchten, reicht eine einfache Änderung in der .env-Datei aus und starten Sie den LNbits-Dienst neu.</p>
+
+<h4 style="color:Yellow;">Öffnen Sie Ihre LNbits-Bank für den Clearnet-Zugriff</h4>
+<p>Ein LNbits nur hinter Tor zu haben, ist NICHT zuverlässig. Ja, heute kann jeder einen Bundle-Knoten wie Umbrel, Citadel, myNode, Raspiblitz, Embassy usw. starten, der standardmäßig hinter Tor läuft. Ja, Sie können einen davon für Ihr LNbits verwenden, der bereits integriert ist und sich einfach mit einem Klick starten lässt.</p>
+<p>Aber der lustige Teil kommt, wenn die Kunden Ihrer Bank nicht wissen, was Tor ist und wofür es hauptsächlich gedacht ist. Und auch nicht alle Dienste und Funktionen funktionieren gut hinter Tor. Von Browserkompatibilität und -verbindung ganz zu schweigen.</p>
+<p>Hier, <a href="https://darthcoin.substack.com/p/build-your-own-lnbits-app-server">in dieser speziellen Anleitung</a> habe ich über mehrere Szenarien geschrieben, wie Sie einen LNbits-App-Server erstellen und über Clearnet (https, IP/Domain) erreichbar sein können. Bitte beachten Sie alle Details und Szenarien.</p>
+<hr style="height:2px">
+
+<h4 style="color:Yellow;">Lesen Sie weitere LNbits-Dokumentation</h4>
+<p>Hier ist eine Liste mit weiteren Links zu LNbits, Anwendungsszenarien, Beispielen und Dokumentation, die Sie lesen und sich für Ihre eigenen Anwendungsfälle und Szenarien inspirieren lassen können:</p>
+<ul>
+<li><a href="https://lnbits.com/">LNbits-Webseite</a> | <a href="https://github.com/lnbits/lnbits">Github-Seite</a> | <a href="https://t.me/lnbits">Telegram-Gruppe</a> | <a href="https://saas.lnbits.com">LNbits SaaS-Instanz</a></li>
+<li><a href="https://github.com/lnbits/lnbits/wiki/LNbits-Documentation">LNbits-Dokumentationsseite</a> | <a href="https://www.youtube.com/channel/UCGXU2Ae5x5K-5aKdmKqoLYg/videos">Youtube-Video-Tutorials</a></li>
+<li><a href="https://github.com/lnbits/lnbits/wiki/Powered-by-LNbits">Powered by LNbits – Sammlung von Projekten, die LNbits verwenden</a></li>
+<li>Axels Anleitungen: <a href="https://ereignishorizont.xyz/lnbits-server/en/">LNbits-Serverinstallation</a> | <a href="https://ereignishorizont.xyz/blitzbank/en/">Blitz Bank (LNbits + PhoenixD-Knoten)</a></li>
+<li>DC-Anleitungen: <a href="/nodes/ln-bank-with-lnbits-en.html">Die LNbits Bank</a> | <a href="https://darthcoin.substack.com/p/lnbits-for-small-merchants">LNbits für kleine Händler</a> | <a href="https://darthcoin.substack.com/p/lnbits-streamer-copilot">LNbits Streamer Copilot</a></li>
+<li><a href="https://darthcoin.substack.com/p/build-your-own-lnbits-app-server">LNbits auf verschiedenen Arten von Maschinen/Servern ausführen</a></li>
+<li><a href="https://darth-coin.github.io/merchants/bitcoin-lightning-payments-irl-de.html">Echte Händler, die BTC über LN akzeptieren</a></li>
+<li><a href="https://darthcoin.substack.com/p/lightning-network-is-awesome">Lightning Network-Ressourcen</a> – MEHR LESEN UND LERNEN</li>
+<li><a href="https://xcancel.com/LN_Capital/status/1602005600929546240">„Lightning Node Operator“</a> ist die wichtigste Berufsbezeichnung dieses Jahrzehnts</li>
+<li><a href="/nodes/lightning-node-maintenance-de.html">Lightning Node-Wartung</a></li>
+<li><a href="/nodes/lightning-routing-fees-experiment-de.html">Lightning Routing Fees Experiment</a></li>
+<li><a href="/wallets/lightning-wallets-comparison-de.html">Lightning Wallets Vergleichsleitfaden</a></li>
+<li><a href="/nodes/recommendations-ln-node-operators-de.html">Empfehlungen für neue LN-Benutzer</a></li>
+<li><a href="/merchants/operating-ln-as-merchant-de.html">Als Händler mit LN arbeiten</a> - erweiterte Anleitung</li>
+<li><a href="/nodes/tailscale-vpn-your-node-de.html">Ihren Tor-Knoten über Tailscale verwenden</a></li>
+</ul>
+<hr style="height:2px">
+
+<blockquote style="color:Tomato;"><em>
+<p>HINWEIS: Wenn Sie meinen, dass diese Anleitung nicht ausreichend erklärt ist, senden Sie mir bitte Ihre Fragen/Vorschläge zur Verbesserung oder schreiben Sie sogar eine neue für einen bestimmten Fall.</p>
+<p>Wenn Sie diese Anleitung lesen, Ihr Wissensniveau aber nicht so technisch ist (was verständlich ist), teilen Sie diesen Artikel bitte mit Ihrem „Onkel Jim“-Freund, der technisch versierter ist und Ihnen beim Einrichten Ihrer eigenen LNbits helfen oder diese sogar für Sie ausführen kann.</p>
+</em></blockquote>
+
+</body>
+</html>
+</article>
