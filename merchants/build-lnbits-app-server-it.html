@@ -1,0 +1,123 @@
+---
+layout: default
+title: Crea il tuo server di applicazioni LNbits
+---
+<article>
+<!DOCTYPE html>
+<html lang="it">
+<meta name="description" content="Guide sui nodi Bitcoin e Lightning: scenari di utilizzo del tuo nodo LN con un'istanza LNbits separata">
+<body>
+<a href="/merchants/build-lnbits-app-server-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/build-lnbits-app-server-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/build-lnbits-app-server-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/build-lnbits-app-server-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/build-lnbits-app-server-nl.html">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/build-lnbits-app-server-hr.html">Hrvatski <img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/build-lnbits-app-server-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<em><blockquote style="color:Tomato;">
+<p>Pubblicato originariamente su <a href="https://darthcoin.substack.com/p/bitcoin-for-small-merchants">Substack</a> il 26 ottobre 2021. Aggiornato qui il 3 dicembre 2024.</p>
+</em></blockquote>
+
+<h3 style="color:Orange;">Quali soluzioni Bitcoin LN potresti iniziare a usare come piccolo commerciante.</h3>
+<p>Ho visto molti plebei gestire i loro nodi bundle (MyNode, Umbrel, Raspiblitz, Embassy ecc.).</p>
+<p>Niente contro questi pacchetti software!</p>
+<p>Ma molti di questi plebei iniziano a scoprire che con una semplice macchina node possono fare anche molte altre cose produttive con app specializzate come BTCPay Server, LNbits, LNDhub, Thunderhub, server LN Address ecc</p>
+<p>Molto bene! Ecco come dovresti usare il tuo nodo.</p>
+<p><img src="/assets/images/lnbits-apps.png" class="center"></p>
+
+<h4 style="color:Yellow;">Considerazioni:</h4>
+<ul>
+<li>più app aggiungi al tuo bundle, più complessità aggiungi alla tua configurazione.</li>
+<li>più app sulla stessa macchina, richiedono vari aggiornamenti, varie configurazioni, vari accessi.</li>
+<li>ridondanza - sì, questo è un aspetto molto importante.</li>
+</ul>
+<p>Se decidi di usare il tuo nodo bundle in un modo più pubblico o commerciale e di esporlo all'accesso pubblico e anche di offrire servizi (<a href="/merchants/ln-bank-with-lnbits-it.html">come LNbits Bank</a>), avrai una maggiore responsabilità per i tuoi utenti che usano la tua "banca".</p>
+<h5>Non ignorare questo aspetto!</h5>
+<p>Se usi il tuo nodo bundle solo per testare, imparare, sviluppare app, sì, va bene usare quelle app così come sono, su Tor, in un modo più privato e con accesso limitato. In questo caso (test/apprendimento) potresti usare il <a href="https://www.cloudflare.com/learning/cdn/glossary/reverse-proxy/">DNS inverso di Cloudflare</a>, che converte un indirizzo onion Tor dei tuoi LNbits in un indirizzo clearnet ngrok. Sì, non può essere utilizzato con un dominio specifico, ma per i test è più che sufficiente.</p>
+<h5>Quindi quello che ti suggerisco è di pensare a questo scenario:</h5>
+<p>Hai una piccola attività e decidi di utilizzare LNbits ad esempio (vedi <a href="/merchants/lnbits-small-merchants-it.html">qui</a> e <a href="/merchants/ln-bank-with-lnbits-it.html">qui</a> 2 scenari che ho descritto per l'utilizzo di LNbits). Ok, tutto bene.</p>
+<p>Ma hai un nodo bundle, dietro Tor, accesso limitato dal pubblico, molti problemi di accesso, Tor non si connette, non capisci come funzionano queste cose ecc.</p>
+<p>Alcuni di voi che utilizzano MyNode e hanno LNbits come servizio premium, non potrebbero utilizzarlo nella versione gratuita. Inoltre, MyNode non aggiorna l'ultima versione di LNbits. Lo stesso vale per Umbrel, Citadel ecc. dipenderai sempre dalle loro release.</p>
+<p>Inoltre la maggior parte di questi bundle ha una distribuzione specifica dei repository Docker, quindi se non hai molta familiarità con il tinkering all'interno di Linux e Docker, è meglio che tu stia alla larga.</p>
+
+<h4 style="color:Yellow;">Quali opzioni hai?</h4>
+<p>Se esegui un nodo bundle dietro Tor e vuoi eseguire anche LNbits sulla stessa macchina, dovrai apportare alcune modifiche alla tua macchina nodo.</p>
+<p>Ecco una guida per <a href="https://community.getumbrel.com/t/how-to-configure-umbrel-lnbits-app-without-tor/">impostare un tunnel Tor su IP</a> per la tua macchina nodo LNbits, ma a volte non è intuitiva e non capirai tutti gli aspetti tecnici di queste configurazioni e otterrai solo frustrato.</p>
+<p>Un altro modo per usare la stessa macchina nodo, sarà usare Tailscale. <a href="/nodes/tailscale-vpn-your-node-it.html">Qui ho scritto una guida su come usare il tuo nodo bundle con Tailscale</a>. Ma anche in questo caso, dovrai configurare un nome DNS per quell'IP privato che Tailscale sta fornendo, nel caso in cui tu voglia offrire l'accesso pubblico ai tuoi servizi LNbits.</p>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">Opzione A - il tuo nodo bundle + LNbit separati</h3>
+<p>Lascia semplicemente il bundle del nodo così com'è, con i suoi canali del nodo LN ecc., cose di base, non caricarlo inutilmente con un sacco di app che non usi.</p>
+<p>Prendi una macchina separata, potrebbe essere qualsiasi altro laptop / PC di seconda mano, non c'è bisogno di un computer super ultra. Installa un sistema operativo Linux, qualunque sia la versione Debian direi.</p>
+<p>Quindi inizia a installare LNbits come un'app normale, <a href="https://github.com/lnbits/lnbits/wiki/LNbits-Documentation#install-options">seguendo le istruzioni di installazione</a> e <a href="https://github.com/lnbits/lnbits/wiki/LNbits-Documentation#funding-sources">configura il file env</a> in modo che punti al tuo nodo bundle locale. Potrebbe anche essere nella stessa LAN, quindi non c'è bisogno di configurazioni extra su Tor o VPN o altre cose sofisticate. Quindi la comunicazione tra il tuo nodo e LNbits avverrà SOLO tramite LAN. Protetta e privata. Nessuno dall'esterno potrebbe sapere di questa connessione.</p>
+<p>Quindi configura la tua macchina LNbits in modo che sia visibile su Internet FQDN (Full Qualify Domain Name). Dovrai modificare gli elementi DNS del tuo dominio per puntare un nome di sottodominio al tuo IP pubblico dove hai posizionato la tua macchina LNbits, ad esempio ln.mydomain.com o lnbits.mydomain.com o shop.mydomain.com.</p>
+<p>Quindi configura il tuo router Internet per inoltrare la porta 443 (SSL, ti servirà come faccia al pubblico) all'IP locale della tua macchina LNbits. In Linux usa anche ufw per aprire quella porta nel fiewall locale.</p>
+<p>Ottieni un certificato valido per quel sottodominio, potresti usare ZeroSSL o qualsiasi altro certificato SSL gratuito, l'importante è che il tuo LNbits possa rispondere in modo sicuro tramite https.</p>
+<p>Per ricapitolare:</p>
+<ul>
+<li>Crea una voce di sottodominio nel tuo DNS per quell'istanza LNbits, ad esempio lnbits.mydomain.com</li>
+<li>Punta il router in modo che inoltri la porta 443 a quell'IP locale della tua istanza LNbits</
+<li>Collega la tua istanza LNbits al tuo nodo LN locale tramite IP locale (non c'è bisogno di clearnet o Tor). Dovrai aggiungere una voce in lnd.conf per ascoltare l'IP locale del tuo nodo. Quindi connettiti utilizzando admin-macaroons per quel nodo.</li>
+<li>Configura <a href="https://github.com/lnbits/lnbits/blob/main/docs/guide/installation.md#reverse-proxy-with-automatic-https-using-caddy">proxy inverso Caddy</a> sulla tua macchina LNbits per utilizzare lnbits.mydomain.com. Caddy sta creando tutti i certificati https per te e li sta anche rinnovando.</li>
+</ul>
+<p>Fatto, ora il tuo LNbits è accessibile nel pubblico dominio, utilizzando il tuo nodo bundle.</p>
+<p>Ora, perché suggerivo questo scenario?</p>
+<p>Ricordi quando ho detto RIDONDANZA?</p>
+<p>Supponiamo che il tuo nodo bundle abbia un problema, che non è correlato alla tua istanza LNbits: canali forzati chiusi, dati corrotti, non si avvia, è buggato o qualsiasi problema serio che non ti consente di avere un servizio continuo per i tuoi utenti LNbits.</p>
+<p>Eseguendo la tua app istanza LNbits su una macchina separata, ci vogliono esattamente 30 secondi per andare e <a href="https://github.com/lnbits/lnbits/wiki/LNbits-Documentation#funding-sources">modificare il file .env</a> in cui inserisci la fonte del nodo di finanziamento (il tuo bundle locale node) e cambialo con qualsiasi altro nodo LN che hai a disposizione come backup. Potrebbe essere anche un <a href="https://github.com/lnbits/lnbits/wiki/LNbits-Documentation#funding-sources">nodo cloud come Voltage</a>, un altro nodo bundle che avevi preparato. Come fornitore di LN Bank, dovresti essere preparato per questi casi, con piani di backup immediati.</p>
+<p>Quindi, cambiando semplicemente la fonte, il tuo LNbits è attivo e funzionante. Ricorda di avere abbastanza liquidità nella nuova fonte del nodo, che possa corrispondere almeno ai saldi totali dei tuoi account LNbits.</p>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">Opzione B - Il tuo nodo bundle + VPS LNbits</h3>
+<p>Ok, questa è un po' più avanzata, ma è un'ottima opzione, se vuoi un modello aziendale con un hardware potente.</p>
+<p><img src="/assets/images/vpn-tunnel.jpg" class="center"></p>
+<p>In questo caso utilizzi ancora il tuo nodo bundle home, su Tor, ma manterrai l'istanza LNbits su un VPS (Virtual Private Server) remoto e vi accederai tramite un tunnel VPN protetto.</p>
+<p><a href="https://github.com/TrezorHannes/vps-lnbits">Ecco un'ottima guida</a> realizzata da <a href="https://t.me/Hakezuba">Hakuna</a>, passo dopo passo. Nessuna ulteriore istruzione.</p>
+<p>Controlla anche queste <a href="https://github.com/massmux/LNDConnectionKit">semplici istruzioni</a> con esempi di file di configurazione, di Massimo.</p>
+<p><a href="https://www.mobycrypt.com/turn-your-self-hosted-lightning-network-node-to-public-in-10-minutes/">Un'altra buona guida di MobyCrypt</a> - Come trasformare il tuo nodo RaspiBlitz self-hosted in un nodo clearnet in 10 minuti (dove puoi adattare l'accesso solo per l'istanza LNbits se vuoi).</p>
+<p>Come l'opzione precedente, nel caso in cui il tuo nodo bundle venga distrutto, puoi semplicemente cambiare la fonte di finanziamento nella configurazione LNbits e sarai operativo in pochi minuti.</p>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">Opzione C - Macchina dedicata LNBits + bundle come backup</h3>
+<p>OK, questo lo consiglio a chi vuole avere una soluzione più aziendale, affidabile e potente. Potrebbe essere molto facilmente una buona macchina (non Rpi) nel tuo ufficio/casa, un buon hardware con batteria di backup UPS e una buona connessione Internet, ma potrebbe anche essere un VPS cloud professionale e lo configuri tu stesso.</p>
+<p>Stavo spiegando di più sui <a href="https://darth-coin.github.io/nodes/lightning-node-maintenance-it.html">tipi di hardware per i nodi</a> in questa guida.</p>
+<p>Quindi, iniziamo:</p>
+<ul>
+<li>Installa un <a href="https://www.debian.org/download">sistema operativo Debian</a> - come sistema operativo di base, semplice, con GUI</li>
+<li>Installa il nodo Core Lightning o LND che includa anche il demone Bitcoin Core</li>
+<li>Facoltativo, installa un server Electrum (quale versione desideri <a href="https://github.com/chris-belcher/electrum-personal-server">EPS</a> | <a href="https://github.com/romanz/electrs">Rust</a> | <a href="https://github.com/cculianu/Fulcrum">Fulcrum</a>). <a href="https://sparrowwallet.com/docs/server-performance.html">Ecco un buon articolo sui test dei server Electrum</a>.</li>
+<li>Facoltativo: RTL (RideThe Lightning), Thunderhub (ma con la nuova versione di Lnbits puoi gestire direttamente il nodo), CLBoss e qualsiasi altro strumento di cui hai bisogno per gestire i canali e la liquidità del tuo nodo LN. Ecco un elenco completo di fantastiche app che potresti usare con il tuo nodo CLN.</li>
+<li>Installa LNbits su una macchina separata, ecco un'ottima guida: <a href="https://ereignishorizont.xyz/lnbits-server/en/">Axel LNbits Server</a></li>
+<li>Facoltativo, imposta il servizio Tor per l'accesso al tuo nodo, oppure usalo su clearnet, aprendo solo porte specifiche necessarie (per CLN, REST per Zeus, SSL per LNbits, porta Electrum ecc.).</li>
+<li>Imposta le voci DNS del tuo dominio specifiche per il tuo LNbits e aggiungi un certificato SSL per quel sottodominio.</li>
+</ul>
+<p>Fatto, apri alcuni canali LN e la tua <a href="/merchants/ln-bank-with-lnbits-it.html">LNbits Bank</a> è pronta per i tuoi "clienti"!</p>
+<p>Puoi comunque mantenere il tuo vecchio nodo bundle macchina come backup per questa, in caso di SHTF e/o come altro hub di routing per il tuo nodo LNbits principale (<a href="/nodes/public-private-node-liquidity-scenario-it.html">come ho descritto in questa guida</a>). Puoi fare cose meravigliose tra un nodo LN pubblico e uno privato.</p>
+<p>Questo è tutto per il momento, spero di averti dato abbastanza suggerimenti su come eseguire un server LNbits indipendente e ridondante.</p>
+<p>Non complicarlo troppo, mantienilo semplice. Separa i servizi del tuo nodo principale dalle app che possono essere migrate facilmente da una fonte all'altra.</p>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">Opzione D - LNBits veloce con server phoenixd</h3>
+<p>Questa opzione è l'installazione più veloce che puoi ottenere in meno di 15 minuti.</p>
+<p>In pratica su un semplice sistema operativo Debian, installa il server phoenixd e accanto a esso un'istanza LNbits. Non serve altro.</p>
+<p>Ecco un'eccellente guida di Axel - <a href="https://ereignishorizont.xyz/blitzbank/en/">The Blitz Bank</a>. Segui semplicemente le istruzioni e in pochi minuti avrai pronta un'istanza LNbits con tutte le impostazioni per essere accessibile su clearnet e tutto il resto. <a href="https://ereignishorizont.xyz/blitzbankextras/en/">Controlla anche la guida di follow-up - Suggerimenti e trucchi di Blitz Bank</a>.</p>
+
+<h4 style="color:Yellow;">Rizful + home LNbits</h4>
+<p>In questa sezione possiamo anche includere un'opzione rapida con un nodo LN ospitato remoto e l'istanza LNbits sul tuo hardware.</p>
+<p>Se non puoi / non vuoi eseguire sul tuo hardware un nodo LN, ma vuoi comunque gestire localmente un'istanza LNbits, puoi usare come fonti di finanziamento un <a href="https://rizful.com/">nodo ospitato remoto Rizful</a>.</p>
+<p>Rizful sono come nodi LN usa e getta gratuiti, ma con l'opzione a pagamento per estendere il periodo di utilizzo. Metti solo la tua liquidità e usi la loro infrastruttura. Il nodo rimane comunque in custodia. <a href="https://rizful.com/docs">Hanno una documentazione estesa</a>.</p>
+<p>Con un nodo Rizful puoi generare una connessione NWC per inviare/ricevere e usarla come fonte di finanziamento per i tuoi LNbits domestici.</p>
+<p>Devi solo configurare la tua istanza LNbits per essere accessibile su clearnet, aprire alcuni canali con quel nodo Rizful e il gioco è fatto.</p>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">Opzione E - LNbits ospitati nel cloud</h3>
+<p>Queste sono alcune soluzioni urgenti, nel caso in cui non potessi usare il tuo hardware o non volessi usare la tua infrastruttura per un'istanza LNbits. Ad esempio, vuoi un'istanza temporanea, per una conferenza, un workshop, una lezione, ecc.</p>
+<p>Quali opzioni sono disponibili:</p>
+<ul>
+<li><a href="https://saas.lnbits.com/">SaaS LNbits</a> - Il team LNbits offre una soluzione semplice e veloce con istanze virtuali LNbits gestite dal proprio team. Il prezzo è conveniente. Devi solo arrivare con la tua fonte di finanziamento, ma hai più opzioni.</li>
+<li><a href="https://nodana.io/">Nodana</a> - istanze ospitate che offrono anche una combinazione di phoenixd + LNbits e altre soluzioni. Prezzo accessibile.</li>
+<li><a href="https://www.voltage.cloud/">Voltage Cloud</a> - nodi LN ospitati con pacchetti LNbits e BTCPay.</li>
+</ul>
+</body>
+</html>
+</article>
