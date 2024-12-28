@@ -1,0 +1,179 @@
+---
+layout: default
+title: LNBits pour les petits commerçants
+---
+<article>
+<!DOCTYPE html>
+<html lang="fr">
+<meta name="description" content="Guides Bitcoin et Lightning Nodes : cas d'utilisation de LNBits dans un petit restaurant d'hôtel en tant que processeur de paiement Bitcoin">
+<body>
+<a href="/merchants/lnbits-small-merchants-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/lnbits-small-merchants-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/lnbits-small-merchants-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/lnbits-small-merchants-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/lnbits-small-merchants-nl.html">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/lnbits-small-merchants-hr.html">Hrvatski <img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/lnbits-small-merchants-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<em><blockquote style="color:Tomato;">
+<p>Publié à l'origine sur <a href="https://darthcoin.substack.com/p/lnbits-for-small-merchants">Substack</a> le 14 avril 2022. Mis à jour ici le 28 décembre 2024.</p>
+</em></blockquote>
+
+<h3>Cas d'utilisation de LNBits dans un petit restaurant d'hôtel comme processeur de paiement Bitcoin</h3>
+<h4>Comment utiliser cette merveilleuse suite d'applications LNbits avec votre nœud Lightning en tant que petit commerçant.</h4>
+<p>Pour en savoir plus sur LNbits, consultez ce <a href="/merchants/getting-started-lnbits-fr.html">guide d'introduction rapide</a>.</p>
+<p>LNBits pourrait être utilisé comme processeur de paiement Bitcoin LN. Oui, je sais, certains d'entre vous diront "mais utilisez BTCPay Server...etc".</p>
+<p>Cette fois, essayons d'utiliser davantage d'outils disponibles pour les commerçants. Pour certains cas spécifiques, LNbits peut très bien s'adapter et étendre l'utilisation avec ses extensions. BTCPay est bon, il fait un excellent travail, mais d'un autre côté, LNbits offre plus d'outils et d'options pour un commerçant.</p>
+<p><img src="/assets/images/lnbits-funding-sources.jpg" class="center"></p>
+
+<h3 style="color:Orange;">Description du scénario de cas d'utilisation</h3>
+<p>Prenons donc un scénario de cas d'utilisation : un petit hôtel et un restaurant ou un café-bar, avec également une boutique en ligne pour les commandes en ligne, disons la combinaison courante de plugins Wordpress + Woocommerce.</p>
+<p>Avec l'extension LNbits Market, vous pouvez créer votre propre boutique en ligne, sans avoir besoin d'une installation Wordpress.</p>
+<p>Un commerçant souhaite :</p>
+<ul>
+<li>recevoir des paiements en bitcoins, à partir des commandes en ligne de son site Web, sans intermédiaire et avec des frais très bas</li>
+<li>les clients peuvent également payer avec Bitcoin via le réseau Lightning dans le restaurant, de manière simple et directement au serveur. Les clients devraient également pouvoir donner des pourboires au serveur, dans leur propre portefeuille et également être réglés immédiatement.</li>
+<li>avoir un TPoS simple, où les employés mettent simplement la valeur dans leur monnaie locale et créent la facture LN à payer.</li>
+<li>avoir une boutique en libre-service simple hors ligne, par exemple pendant la nuit, afin que les clients puissent payer et emporter certains articles (bière, vin, sandwichs, snacks). L'utilisation de l'extension LNURLVend pourrait être une bonne solution.</li>
+<li>créez un type de « points de fidélité » pour les clients réguliers et restituez-leur des sats en utilisant un système de bons en utilisant l'extension LNURLw.</li>
+<li>les clients peuvent également laisser des pourboires avec des sats dans un « pot à pourboires » ou LNURL-pay</li>
+<li>les clients peuvent écouter de belles chansons dans le bar-salon, mais en payant une somme modique en utilisant l'extension LNBits Jukebox Livestream</li>
+</ul>
+<p>... et bien d'autres... LNbits a beaucoup d'extensions prêtes, il suffit de les activer, de configurer quelques paramètres simples et c'est fait, vous êtes prêt à partir !</p>
+<p>Mais avant tout, nous devons préparer LNBits pour qu'il soit prêt pour une large accessibilité pour n'importe quel client et appareil. Comme nous le savons, dans Umbrel, toutes les applications sont derrière le réseau Tor, donc comme tous les clients n'utiliseront pas Tor (uniquement les utilisateurs avancés), nous devons également donner accès aux utilisateurs réguliers connectés via le soi-disant « clearnet », qui est essentiellement ce qu'indique « https:// ».</p>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">Préparez votre nœud LN (Umbrel/Raspiblitz etc) LNBits pour qu'il soit visible dans « clearnet »</h3>
+<p>Clearnet est l'accès Internet régulier, domain.com et/ou IP publique.</p>
+<p>Le réseau Tor est un Internet parallèle, utilisant des adresses .onion via « http:// » et n'est pas (encore) largement utilisé/connu et accédant aux services de paiement via Tor, souvent bogué et compliqué pour les utilisateurs réguliers d'interagir les uns avec les autres.</p>
+<p>Donc, disons que le petit commerçant a un nœud Umbrel prêt, quelques canaux LN ouverts, des LNBits installés et fonctionnant parfaitement tels quels .adresse onion.</p>
+
+<h4 style="color:Yellow;">Quelques aspects à prendre en considération :</h4>
+<ul>
+<li>Il est recommandé de configurer ce nœud en mode hybride. <a href="https://community.getumbrel.com/t/lnd-tor-clearnet-how-to-setup-hybrid-mode/6133">Voici un guide incroyable (par Hakuna)</a> sur la façon de configurer votre nœud en mode hybride.</li>
+<li>L'envoi/la réception entre les portefeuilles LNBits internes peut être autorisé avec cette ligne dans votre fichier lnd.conf : allow-circular-route=1 (redémarrez lnd après modification). Avec cela, vous pouvez utiliser les portefeuilles LNbits avec des frais internes nuls, dans les paiements directs.</li>
+<li>Apprenez à gérer le nœud LN et à avoir une bonne liquidité. Avoir un bon nœud, de bons frais, de bonnes routes, c'est offrir une expérience agréable à vos clients en leur permettant de vous payer rapidement et à moindre coût en utilisant LN. Ne soyez pas gourmand. <a href="/nodes/lightning-routing-fees-experiment-en.html">Ici, j'ai écrit un guide dédié</a>.</li>
+<li>Engagez vos clients réguliers à ouvrir des canaux avec votre nœud (s'ils ont un nœud LN). Cela résoudra de nombreux problèmes de liquidité entrante dont vous avez vraiment besoin. La liquidité entrante (capable de recevoir des paiements) peut parfois être très coûteuse, donc si vos clients sont habitués à ouvrir des canaux avec votre nœud, cela aidera beaucoup, non seulement eux, mais aussi votre boutique.</li>
+<li>Ayez toujours suffisamment de liquidité entrante pour recevoir des paiements. Il est préférable qu'à chaque fin de journée ou lorsque vous avez eu une journée chargée, vous sortiez de vos canaux les sats reçus, en utilisant un service d'échange, <a href="/nodes/lightning-submarine-swaps-en.html">comme décrit dans ce guide</a>. De cette façon, vous commencerez toujours la journée avec plus d'"espace" dans vos canaux pour recevoir des paiements. <a href="https://github.com/lnbits/boltz">Vous pouvez également utiliser l'extension LNbits Boltz</a>.</li>
+<li>LNBits n'effectue pas de transactions onchain, uniquement LN. Quoi qu'il en soit, si vous souhaitez vraiment facturer en utilisant l'adresse onchain, c'est possible en utilisant l'<a href="https://github.com/lnbits/satspay">extension SatsPay</a> liée à une clé xpub watch only en utilisant l'<a href="https://github.com/lnbits/watchonly">extension "Watch-Only"</a>. Mais les frais onchain nécessitent au moins 3 confirmations (au moins 30 minutes d'attente), donc pour un client, ce n'est pas une bonne idée de le faire attendre. Mais dans des cas particuliers, oui, cette option peut être utilisée.</li>
+<li>Avec l'extension Boltz, vous pouvez envoyer tous les revenus vers votre portefeuille matériel en chaîne dès qu'un certain seuil est atteint. C'est très puissant car une fois installé, vous empilez immédiatement des sats de manière autonome.</li>
+<li>Gardez à l'esprit que LNBits est toujours en version bêta, il y a donc toujours de nouveaux développements. En attendant également une nouvelle extension attendue pour la gestion des utilisateurs et un accès plus complexe.</li>
+<li>Enregistrez votre URL d'accès à vos utilisateurs / portefeuilles créés dans vos favoris ou votre gestionnaire de mots de passe, pour pouvoir également accéder aux détails sur l'URL lndhub, la clé d'administration, la clé de facture, etc. dont vous pourriez avoir besoin pour d'autres extensions maintenant et plus tard.</li>
+</ul>
+<p>Pour ouvrir votre instance LNBits au monde clearnet, vous avez ces options (guides étonnants réalisés par Hakuna et Uxellodunum) :</p>
+<ul>
+<li><a href="https://community.getumbrel.com/t/how-to-configure-umbrel-lnbits-app-without-tor/">Configurez votre instance LNBits existante dans Umbrel avec un proxy inverse nginx</a>.</li>
+<li><a href="https://github.com/TrezorHannes/vps-lnbits">Configurez une autre instance LNBits en dehors de votre Umbrel, dans un autre serveur VPS</a>.</li>
+</ul>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">Configurer la boutique en ligne avec LNBits</h3>
+<p>Ok, nous avons maintenant nos LNBits accessibles depuis l'extérieur avec</p>
+<p>https://lnbits.my-domain.com</p>
+<p>(ou tout autre sous-domaine que vous souhaitez choisir), tous les portefeuilles et fonctionnalités sont testés et fonctionnent.</p>
+<p>Dans notre boutique Wordpress Woocommerce, nous pouvons installer le <a href="https://wordpress.org/plugins/lnbits-bitcoin-onchain-and-lightning-payment-gateway/">plugin LNbits Woo</a> et le configurer pour se connecter à notre instance LNbits, avec les clés fournies dans la section du portefeuille LNBits (walletID, billid, watchonlyID).</p>
+<p>Accédez à votre portefeuille LNBits configuré pour être utilisé pour la boutique en ligne (vous pouvez en avoir autant (vous le souhaitez) et copiez la chaîne « facture/clé de lecture ».</p>
+
+<figure>
+<img src="/assets/images/lnbits-wallet-info.png" class="center">
+<figcaption>Détails du portefeuille LNBits</figcaption>
+</figure>
+
+<p>Allez ensuite dans votre Wordpress - Woocommerce - Paiements - LNbits - et collez cette chaîne dans la clé API, puis ajoutez votre URL lnbits « https://lnbits.my-domain.com » et c'est fait.</p>
+<p>C'est tout ! Vous pouvez commencer à accepter des paiements en bitcoins via Lightning Network. Pas de pages redirigées, pas d'intermédiaires, rapide et simple. Le plugin LNbits génère la facture LN sur la même page et s'affiche à l'étape de paiement. Une fois terminé, un message de confirmation s'affichera et le client recevra normalement par e-mail les détails de sa commande.</p>
+<p>Oui, le plugin est très basique, avec peu d'options, pour personnaliser le texte dans le paiement, etc., mais il est suffisant pour commencer à accepter des paiements en bitcoin.</p>
+<hr style="height:2px">
+  
+<h3 style="color:Orange;">Prendre des paiements en magasin (sur place) par les employés</h3>
+<p>Eh bien... c'est un autre aspect judicieux.</p>
+<p>Nous devons leur donner un accès limité aux fonds du portefeuille du magasin, uniquement pour créer des factures, sans pouvoir dépenser à partir de là. Et LNbits peut le faire de manière merveilleuse.</p>
+<p>Nous supposons donc que nous n'avons aucune intégration dans notre propre système PoS avec LNbits ou les paiements en bitcoins, nous considérons le BTC comme de l'argent liquide, nous pouvons donc simplement prendre le paiement de manière séparée, comme nous le faisons avec de l'argent liquide. Dans le système de comptabilité, il est marqué comme « payer en espèces » ou quel que soit le nom que vous souhaitez utiliser, cela n'a pas d'importance, c'est en espèces.</p>
+<p>Le serveur/employé aura donc simplement besoin d'un moyen simple de générer une facture LN ou d'avoir une LNURL générale prête à recevoir les paiements.</p>
+<p>Les LNbits ont différentes approches, vous pouvez utiliser celle qui convient le mieux à votre activité spécifique et au type de situations.</p>
+<p>Nous pouvons utiliser les extensions LNbits suivantes :</p>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=WWrAayAfqaQ">LNDhub</a> (portefeuille de factures) configuré sur l'appareil du serveur/employé. Chaque serveur/employé peut avoir le sien, pour un meilleur suivi</li>
+<li><a href="https://www.youtube.com/watch?v=WZpK4xfGcuY">LNURL-pay</a> QR code, imprimé sur un papier. Chaque serveur peut avoir sa propre adresse LNURL / LN pour un meilleur suivi. Lorsque le client paie, il affichera simplement au serveur la confirmation sur l'écran de son appareil et c'est fait. Il est assez difficile et inutile de falsifier un paiement LN. N'oubliez pas que les paiements BTC / LN sont irréversibles.</li>
+<li><a href="https://www.youtube.com/watch?v=6yNBbDWf-RE">Extension TPoS</a>, configurée sur chaque appareil de serveur / employé</li>
+<li><a href="https://github.com/arcbtc/LNURLPoS">LNURL-PoS hors ligne</a> avec les petits appareils hors ligne, au cas où vous n'auriez pas une bonne couverture WiFi, vous avez une terrasse qui n'a pas de connexion. Également disponible en application mobile (peut être exécutée sur n'importe quel ancien appareil Android, sans Internet).</li>
+<li><a href="https://github.com/lnbits/scrub">Extension Scrub</a> qui peut transférer automatiquement les sats vers une adresse externe dédiée.</li>
+
+<h4 style="color:Yellow;">Pourboires des serveurs</h4>
+<p>Les employés/serveurs peuvent avoir leur propre portefeuille LN personnel pour les pourboires, ou vous pouvez en configurer des dédiés dans votre instance LNBits et leur donner un accès complet à ces portefeuilles afin qu'ils puissent les utiliser dans l'application mobile Bluewallet ou Zeus.</p>
+
+<figure>
+<img src="/assets/images/lnbits-lndhub.png" class="center">
+<figcaption>Accédez à l'extension LNBits LNDhub et scannez le code QR de l'administrateur ou de la facture à importer dans BitBanana, Bluewallet ou Zeus mobile applications</figcaption>
+</figure>
+
+<p>Les portefeuilles LNBits peuvent également être utilisés comme application Web sur mobile, il suffit d'enregistrer l'URL du portefeuille comme signet de widget Web et de l'ouvrir directement. Cela fonctionne parfaitement.</p>
+<p>Pour les pots de pourboires courants, l'extension LNbits dédiée peut être utilisée, facile à configurer et présentée sous la forme d'une simple page Web. Ou peut être utilisé un code QR LNUL-pay dédié, avec son propre portefeuille, pour séparer les frais réguliers.</p>
+<p>Une autre façon pourrait être d'utiliser l'<a href="https://github.com/lnbits/splitpayments">extension SplitPayments</a> où peut être défini le montant de sats qui va au serveur, à partir du total de chaque paiement. Très facile à configurer.</p>
+
+<h4 style="color:Yellow;">Comptabilité</h4>
+<p>À la fin de la journée, lorsque les serveurs/employés effectueront leur comptage de fin de journée, dans le système habituel et compareront simplement avec ce qui a été facturé dans le système LNBits. Un superviseur avec un accès complet pourrait également exporter toutes les transactions dans un fichier csv et/ou l'imprimer.</p>
+<p>À ce stade, peut-être qu'à l'avenir, LNbits disposera d'un meilleur système de comptabilité, d'étiquetage des transactions et de personnalisation. Pour l'instant, c'est juste basique mais suffisant pour fonctionner.</p>
+<p>C'est également le moment où un superviseur/propriétaire de magasin échangera les fonds des canaux LN dans un portefeuille en chaîne et laissera les canaux presque vides pour être prêts le lendemain à recevoir plus de sats.</p>
+<hr style="height:2px">
+
+<h4 style="color:Yellow;">Système de crédits de fidélité</h4>
+<p>Si vous avez des clients réguliers qui peuvent payer à l'avance leur consommation et obtenir des réductions, vous pouvez utiliser un système de cartes / appareils NFC chargés, ou <a href="https://www.youtube.com/watch?v=E-IjtCHUVBE">créer simplement un portefeuille LNDHub</a> pour chaque client fidèle, où ils le chargeront avec des sats et les dépenseront dans votre restaurant. De cette façon, les frais seront nuls pour eux et vous aurez un meilleur contrôle de ces « points de fidélité ».</p>
+<p>Le client a également le contrôle total de son portefeuille LN, il peut l'importer dans son appareil et l'utiliser comme un portefeuille LN ordinaire s'il le souhaite.</p>
+<p>Il existe un moyen de créer des cartes / appareils NFC pour ces portefeuilles. <a href="https://github.com/taxmeifyoucan/HCPP2021-Badge">Un exemple ici</a>. Ainsi, les clients peuvent simplement utiliser ces appareils pour payer en magasin. Aucune autre application n'est nécessaire. <a href="https://plebtag.com/">Voici plus de détails sur les cartes NFC et comment les personnaliser</a>.</p>
+<p>Vous pouvez également créer simplement des <a href="https://www.youtube.com/watch?v=TUmsHpJtveQ">bons de retrait LNURL</a> et les donner à vos clients réguliers, sous forme de système de remboursement par carte. Facile, rapide, sans complications, il suffit de les imprimer avec votre imprimante de tickets habituelle, le client les retire quand il le souhaite ou les donne simplement à quelqu'un d'autre.</p>
+<hr style="height:2px">
+
+<h4 style="color:Yellow;">Distributeur automatique hors ligne</h4>
+<p>Supposons que vous ayez également un service d'hébergement (hôtel) à côté de votre restaurant et que pendant la nuit (quand vous n'avez pas de personnel disponible) vous souhaitiez offrir à vos clients un moyen simple d'acheter des collations ou des boissons.</p>
+<p>Cette option pourrait également être utilisée pour le mini-bar de la chambre.</p>
+<p>Ainsi, une simple boîte / distributeur automatique avec un système pour recevoir des paiements LN hors ligne est déjà disponible avec LNbits. Vous pouvez choisir la taille ou le type de la boîte, l'important est de la lier à vos LNbits comme décrit dans le tutoriel.</p>
+<p><a href="https://github.com/arcbtc/bitcoinVend">Voici une démo et comment la construire</a>. Le système est simple : le client scanne le QR, paie, l'article est jeté. La machine n'a pas besoin d'accès à Internet.</p>
+<hr style="height:2px">
+
+<h4 style="color:Yellow;">Boutique hors ligne</h4>
+<p>Disons que vous souhaitez mettre en place un système de vente rapide de produits/menus à emporter. Donc une sorte de semi-libre-service.</p>
+<p>Vous avez un moniteur à l'extérieur de la boutique ou simplement un panneau d'affichage, répertoriant vos produits proposés à emporter.</p>
+<p>Le client scanne l'URL LN du produit souhaité, paie et reçoit en retour un mot comme « preuve » de paiement. Les mots peuvent être configurés comme vous le souhaitez et modifiés quand vous le souhaitez.</p>
+<p>Ensuite, le client entre dans votre local dans un endroit spécial où vous livrez et présentez le(s) mot(s) payé(s) pour les produits. L'employé a ensuite la preuve de paiement et vient de livrer.</p>
+<p><a href="https://www.youtube.com/watch?v=_XAvM_LNsoo">Voici un tutoriel de démonstration de la configuration et du fonctionnement</a>.</p>
+<p><a href="https://xcancel.com/arcbtc/status/1497188876288417796">Voici également une démonstration de la façon de payer avec des sats pour une bière avec un robinet intelligent</a>.</p>
+<p><a href="https://youtu.be/ZlyPNABZtHk">Un autre exemple de scénario de cas d'utilisation ici comment acheter des sandwichs avec LN</a>.</p>
+<hr style="height:2px">
+
+<h4 style="color:Yellow;">Jukebox de musique DJ Lounge</h4>
+<p>Disons que vos clients veulent entendre une belle musique dans votre bar / restaurant, en choisissant leurs propres chansons préférées. Vous ne voulez pas laisser tout le monde changer la musique, mais seulement ceux qui paient des frais.</p>
+<p>Vous pouvez donc configurer un simple appareil de musique, le relier à votre système LNbits et permettre aux clients de payer pour les chansons et de les écouter.</p>
+<p>Incitatif pour votre ambiance et offrez une expérience agréable à vos clients.</p>
+<p><a href="https://github.com/lnbits/jukebox">Voici plus de documentation sur la façon de configurer l'extension Jukebox</a>.</p>
+<p><a href="https://www.youtube.com/watch?v=5YdObUuDzqU">Voici une démo de didacticiel vidéo</a>.</p>
+<hr style="height:2px">
+
+<h4 style="color:Yellow;">Personnalisation spéciale et sauvegarde</h4>
+<p>Si vous souhaitez restreindre l'accès à votre instance LNbits « publique », vous pouvez modifier le fichier de paramètres en procédant comme suit.</p>
+<p>Ajoutez uniquement des comptes utilisateurs spécifiques créés dans les paramètres d'environnement LNBits :</p>
+<ul>
+<li>Entrez SSH dans votre nœud Umbrel</li>
+<li>éditez le fichier de configuration yml : sudo nano ~/umbrel/apps/lnbits/docker-compose.yml</li>
+<li>ajoutez dans la section #App la ligne : LNBITS_ALLOWED_USERS : YOUR_USER_ID_FROM_WALLET_URL avec des virgules séparées si vous avez plus d'utilisateurs à autoriser</li>
+<li>redémarrez l'application lnbits : sudo ~/umbrel/scripts/app stop lnbits && ~/umbrel/scripts/app start lnbits</li>
+</ul>
+<p>Bientôt, une extension d'administration complète de gestion des utilisateurs sera disponible, il ne sera donc plus nécessaire d'effectuer cette personnalisation et la création de nouveaux portefeuilles ne sera plus restreinte. Mais jusque là, vous pouvez l'utiliser comme ceci.</p>
+<p>Si vous obtenez une erreur comme lnurl.Exceptions.InvalidURL lorsque vous créez une LNURL (payer ou retirer), ajoutez cette ligne dans le fichier .env ou dans le même fichier yml mentionné ci-dessus.</p>
+<p>FORWARDED_ALLOW_IPS=*</p>
+<p>Aussi un aspect important : la SAUVEGARDE de la base de données.</p>
+<p>Pour sauvegarder une sauvegarde de votre instance LNbits (y compris l'historique des transactions, les portefeuilles, les comptes), vous pouvez sauvegarder le dossier de base de données situé dans : ~/umbrel/app-data/lnbits/data</p>
+<p>En particulier le fichier de base de données sqlite3, mais il est bon de sauvegarder l'intégralité du dossier de données pour toutes les extensions utilisées.</p>
+<p>Si vous devez éditer directement dans cette base de données sqlite, vous pouvez installer un éditeur de visualisation simple pour sqlite. <a href="https://sqlitebrowser.org/">Plus de détails ici</a>. Ensuite, vous pouvez ouvrir le fichier de base de données sqlite et modifier toutes les tables et éléments nécessaires, en ajustant les soldes, en supprimant et en modifiant les utilisateurs/portefeuilles existants.</p>
+<hr style="height:2px">
+
+<h4 style="color:Yellow;">Conclusion</h4>
+<p>Voilà donc un scénario complet sur la façon dont vous pourriez utiliser cette incroyable solution LNbits pour un restaurant d'hôtel. Vous pouvez étendre cela à votre activité spécifique, en couvrant tous les besoins qui peuvent être satisfaits avec les portefeuilles LNBits lndhub, vous voyez maintenant à quel point il est puissant et facile à configurer, en ayant la garde complète de vos fonds.</p>
+<p>J'espère que ce guide pourra inspirer davantage de commerçants à commencer à accepter Bitcoin.</p>
+<p>De plus, les passionnés de Bitcoin aident les commerçants qui n'ont pas suffisamment de compétences à créer de belles solutions pour les paiements en bitcoins.</p>
+<p>Si vous n'êtes pas doué en technologie pour créer vous-même cette solution, voici une équipe de spécialistes de LNbits de SparkPay (Portugal) ou d'Allemagne/Autriche par Business Sats qui peuvent créer cette solution pour vous.</p>
+<center>
+<h3 style="color:Orange;">Nous devons créer cette économie circulaire Bitcoin !</h3>
+</center>
+
+</body>
+</html>
+</article>
