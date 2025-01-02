@@ -19,7 +19,7 @@ title: Aan de slag met Zeus Mobile Node
 <p>Deze gids is een viering van het 5-jarig bestaan ​​van de Zeus LN-app, <a href="https://github.com/ZeusLN/zeus/releases/tag/v0.0.1">de eerste release v0.0.1 was op 19 feb. 2019</a>, 5 jaar van voortdurende verbeteringen en toewijding aan de self-custody FOSS-app voor bitcoiners. Een geweldige reis voor een zeer krachtige mobiele app, die zijn plaats aan de top van de Bitcoin-bouwers verdient. Ik zou kunnen zeggen dat je geen echte bitcoiner bent als je Zeus niet op je mobiele apparaat hebt geïnstalleerd. Dank aan Evan Kaloudis!</p>
 </em></blockquote>
 
-<h3>Een stapsgewijze handleiding over hoe u een krachtige LND-node op uw mobiele apparaat kunt gebruiken met Zeus LN embedded node.</h3>
+<h3 class="center">Een stapsgewijze handleiding over hoe u een krachtige LND-node op uw mobiele apparaat kunt gebruiken met Zeus LN embedded node.</h3>
 <p>Ik draag deze handleiding op aan alle nieuwe Lightning Network (LN)-gebruikers die een nieuwe soevereine reis willen beginnen met een self-custody node-wallet op hun mobiele apparaten.</p>
 <p>Laten we aannemen dat u al door al die overvloed aan LN-wallets met zelfbeheer bent gegaan, maar dat u nog niet klaar bent om een ​​PUBLIC routing LN-node te gaan runnen. U wilt gewoon meer sats op LN stapelen op een meer self-custodial manier en uw reguliere betalingen via LN doen.<p>
 <p><img src="/assets/images/zeus-intro-logo.jpg" class="center"></p>
@@ -41,11 +41,11 @@ title: Aan de slag met Zeus Mobile Node
 </ul>
 <hr style="height:2px">
 
-<h3>Hoe je aan de slag gaat met Zeus LN Node (LND embedded)</h3>
+<h3 class="center">Hoe je aan de slag gaat met Zeus LN Node (LND embedded)</h3>
 <p><img src="/assets/images/zeus-laser-eyes.gif" class="center"></p>
 <p>In deze handleiding zal ik het alleen hebben over de embedded LND node, en niet over de andere manieren om deze geweldige app te gebruiken (remote node management en LNDhub accounts). Voor de andere soorten verbindingen, raadpleeg je de <a href="https://docs.zeusln.app/category/getting-started">Zeus Docs pagina</a>, die heel goed wordt uitgelegd en waar je geen speciale handleiding voor hoeft te schrijven.</p>
 
-<h2 style="color:Orange;">STAP 1 - EERSTE INSTALLATIE</h2>
+<h2 id="step1" style="color:Orange;">STAP 1 - EERSTE INSTALLATIE <a href="#step1">#</a></h2>
 <p>Aangezien Zeus een volledige LND-node is, heb ik een aantal eerste aanbevelingen:</p>
 <ul>
 <li>Gebruik geen oud apparaat, dat kan het gebruik van deze krachtige app beïnvloeden. Vooral in de synchronisatieperiode kan de app intensief gebruikmaken van de CPU en het RAM. Het ontbreken hiervan kan het zelfs onmogelijk maken om de Zeus-app te gebruiken.</li>
@@ -244,7 +244,7 @@ title: Aan de slag met Zeus Mobile Node
 <p>In dit laatste gedeelte vindt u links naar de Zeus-documentatiepagina, Github-problemen (als u een bug of verzoek rechtstreeks aan app-ontwikkelaars wilt posten), e-mailondersteuning.</p>
 <hr style="height:2px">
 
-<h2 style="color:Orange;">STAP 2 - BEGIN MET HET GEBRUIKEN VAN ZEUS NODE</h2>
+<h2 id="step2" style="color:Orange;">STAP 2 - BEGIN MET HET GEBRUIKEN VAN ZEUS NODE <a href="#step2">#</a></h2>
 <p>Onthoud dat Zeus voornamelijk moet worden gebruikt als een LN-wallet, voor eenvoudige en snelle betalingen via LN. Zeker, het bevat ook een onchain wallet, maar die moet uitsluitend worden gebruikt voor het openen/sluiten van LN-kanalen en niet voor regelmatige betalingen van een kopje koffie.</p>
 <p>Lees mijn andere gids over <a href="/beginner/be-your-own-bank-nl.html">hoe je je eigen bank kunt zijn met behulp van de 3 niveaus van stash</a>.</p>
 <p>Op dit moment heeft de gebruiker 2 manieren om Zeus te gebruiken:</p>
@@ -308,7 +308,7 @@ title: Aan de slag met Zeus Mobile Node
 <p>Dus als je praktisch een leeg LN-kanaal nodig hebt (het saldo is vanaf het begin 100% aan de peer-kant), om meer betalingen te ontvangen dan je aankan op je bestaande gevulde kanalen, dan kan dit een hele goede optie zijn. U betaalt een specifieke vergoeding voor het openen van deze kanalen en u krijgt voldoende inbound-ruimte.</p>
 <hr style="height:2px">
 
-<h3 style="color:Orange;">TIPS EN TRUCS</h3>
+<h3 id="tips" style="color:Orange;">TIPS EN TRUCS <a href="#tips">#</a></h3>
 <h4 style="color:Yellow;">Inbound-reservelimieten</h4>
 <p>Op dit moment is het vanwege enkele LN-codebeperkingen niet mogelijk om precies te ontvangen hoeveel wordt weergegeven in "Inbound". Houd er altijd rekening mee dat u uw facturen moet maken met een iets lager bedrag, respectievelijk het "Channel Local Reserve"-bedrag.</p>
 <p><img src="/assets/images/zeus-chan-reserves.jpg" class="center"></p>
@@ -328,6 +328,18 @@ title: Aan de slag met Zeus Mobile Node
 <p>Om een ​​ingepakte factuur te verkrijgen, gaat u naar het hoofdscherm van het toetsenbord, voert u het bedrag in en klikt u op aanvragen. Er wordt een normale QR-code voor uw factuur weergegeven. Klik nu op de knop "X" rechtsboven en u wordt doorgestuurd naar meer opties voor de factuur.</p>
 <p><img src="/assets/images/zeus-wrapped-invoice2.jpg" class="center"></p>
 <p>Nu moet u die optie bovenaan activeren "LSP inschakelen" en op de knop "Factuur maken" klikken. Met die optie wordt de ingepakte factuur gemaakt en vergeet niet dat er een kleine vergoeding voor in rekening wordt gebracht.</p>
+
+<h4 style="color:Yellow;">Facturen met route hints</h4>
+<p>Dit is een erg handige functie als je meerdere inbound kanalen liquiditeit wilt beheren. Praktisch gezien kun je aangeven naar welk inbound kanaal je de sats van een factuur wilt ontvangen.</p>
+<p>Deze functie kan ook worden gebruikt voor circulaire herverdeling, wanneer je liquiditeit wilt verplaatsen van een gevuld kanaal naar een ander leeg kanaal.</p>
+<p>Hoe maak je een factuur met route hints?</p>
+<ul>
+<li>Schuif op het hoofdscherm de LN-lade naar rechts en klik op "Ontvangen"</li>
+<li>Ga in de factuurinstellingen naar het onderste gedeelte en activeer de knop "Route hints invoegen", selecteer vervolgens het tabblad "Aangepast". Er wordt een scherm geopend met al je beschikbare kanalen. Selecteer degene die u wilt ontvangen.</li>
+<li>Vul alle andere factuurgegevens, bedrag, memo etc. in en klik op "maak factuur".</li>
+<li>Het betalen van die factuur brengt de sats in het aangegeven kanaal.</li>
+</ul>
+<p>Als u die factuur aan uzelf wilt betalen (circulaire herverdeling), selecteert u, wanneer u deze betaalt vanaf uw Zeus-knooppunt, in het betalingsscherm het uitgaande kanaal (een met meer liquiditeit) dat u wilt gebruiken om betalingen te verzenden.</p>
 
 <h4 style="color:Yellow;">Betalen met Keysend</h4>
 <p>Keysend is een zeer onderschatte LN-functie en gebruikers zouden deze vaker moeten gebruiken.</p>
