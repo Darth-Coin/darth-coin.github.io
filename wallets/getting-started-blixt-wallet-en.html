@@ -207,9 +207,25 @@ image: /assets/images/blixt-darth-moms.jpg
 <p>And that’s it. Just wait patiently until all channels are closed and funds back into your onchain wallet.</p>
 
 <details>
-  <summary>Secret restore method <span class="icon">👇</span>
-  </summary>
+  <summary><span class="icon">👇</span> <h4 style="color:Yellow;">Secret restore method</h4></summary>
   <p>There's another method to restore your Blixt LND node without even closing the channels. But is hidden from usual noob users, because this method is ONLY for those who knows what they are doing.</p>
+  <p>In case you need to migrate your existing (working) Blixt node to another new device, without closing the existing LN channels, you will have to do these steps:</p>
+  <ul>
+    <li>We suppose that you already saved the Blixt Wallet seed (24 words aezeed)</li>
+    <li>On the old device, go to "Settings" - debug section - "Compact LND database". This step is optional but recommended if you want a smaller size of the channel.db file. Usually is quite big, depending of your node activity. This will restart Blixt and compact the db file size.</li>
+    <li>Once restarted, go to "Settings" and change your regular alias name to "Hampus". This will activate the hidden options, only for advanced users.</li>
+    <li>Go way down to "Debug" section and you will see a new option "Export channel.db file". WARNING! Once you do this export, the existing Blixt LN node will be disabled on this old device and will export the entire node database (channel.db) ready to be imported into a new device.</li>
+    <li>This db file will be saved into a designated folder on your old device (Documents or Downloads) and from there you will have to move it as it is to your new device. You can use for example <a href="https://github.com/localsend/localsend">LocalSend FOSS app</a> to transfer the file directly between devices.</li>
+    <li>In this moment your old Blixt MUST stay shut down. DO NOT OPEN IT AGAIN!</li>
+    <li>Once you transfer the channel.db file to the new device, start the new installation of Blixt and choose "Restore wallet" in the first screen.</li>
+    <li>On the button where it says "Select SCB file" long press (NOT simple click!) and then you will see the option to select a channel.db file where you save it locally in the new device. If you just simple press that button it will use by default a SCB file (with closing channels), it doesn't work for full backup live channels.</li>
+    <li>Put the 24 words seed and then click "Restore"</li>
+    <li>You will see that Blixt will start syncing with Neutrino. You can watch the sync logs too.</li>
+    <li>KEEP IN MIND! Try to keep Blixt open all the time on this phase! Do not let it go on sleep or close the app screen. That could intrerrupte the initial sync and you have to do it again. Wait patiently, is not taking more then few minutes.</li>
+    <li>Once the initial blocks sync is finished it will quickly scan your previous wallet addresses and then your channels will be back online, alive and well.</li>
+    <li>Unfortunately the previous payments history and contacts is not possible (yet) to be restored. But that is not so important anyways.</li>
+  </ul>
+<p>And DONE! Now you have a fully restored Blixt LN node. It could work also with other LND backups (Umbrel, Raspiblitz etc) if you saved correctly previously the channel.db file. So Blixt can literally save any LND dead node.</p>
 </details>
 
 <hr style="height:2px">
