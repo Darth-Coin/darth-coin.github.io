@@ -58,7 +58,7 @@ title: Prvi koraci s Blixt Mobile Node
 <li>Uskoro će tamo biti dodan jezik, tako da korisnik može odmah početi s jezikom koji mu je udoban. Ako želite doprinijeti ovom projektu otvorenog koda s prijevodima na druge jezike, <a href="https://explore.transifex.com/blixt-wallet/blixt-wallet/">pridružite se ovdje</a>.< /li>
 </ul>
 
-<h3>OPCIJA A - Stvorite novi novčanik</h3>
+<h3 id="option-a">OPCIJA A - Stvorite novi novčanik</h3>
 <p>Ako odaberete “kreiranje novog novčanika”, bit ćete preusmjereni ravno na glavni ekran Blixt novčanika.</p>
 <p>Ovo je vaš "kokpit", a također je i "Glavni LN novčanik", stoga imajte na umu da će vam pokazati samo stanje vašeg LN novčanika. Onchain novčanik zasebno je prikazan (pogledajte C).</p>
 
@@ -152,7 +152,7 @@ title: Prvi koraci s Blixt Mobile Node
 <h3 style="color:Orange;">Blixt - treći kontakt</h3>
 <p>Zapamtite, u prvom poglavlju “Prvi kontakt” bile su 2 opcije na ekranu dobrodošlice:</p>
 <ul>
-<li>Opcija A - Stvorite novi novčanik</li>
+<li><a href="#option-a">Opcija A</a> - Stvorite novi novčanik</li>
 <li>Opcija B - Vratite novčanik</li>
 </ul>
 <p>Razgovarajmo sada o tome kako vratiti Blixt novčanik ili bilo koji drugi LND srušeni čvor. Ovo je malo više tehnički, ali obratite pozornost. Nije li tako teško.</p>
@@ -200,6 +200,27 @@ title: Prvi koraci s Blixt Mobile Node
 
 <p>Taj blok broj 764272 je kada će sredstva biti upotrebljiva na vašoj bitcoin onchain adresi. Moglo bi proći do 144 bloka od 1. bloka potvrde do puštanja. <a href="https://mempool.space/">Provjerite to u mempoolu</a>.</p>
 <p>I to je to. Samo strpljivo pričekajte dok se svi kanali ne zatvore i sredstva vrate u vaš onchain novčanik.</p>
+<detalji>
+    <summary><h4 style="color:Yellow;"><span class="icon">👇</span> Tajna metoda vraćanja</h4></summary>
+    <p>Postoji još jedna metoda za vraćanje vašeg Blixt LND čvora čak i bez zatvaranja kanala. Ali je skriven od običnih noob korisnika, jer je ova metoda SAMO za one koji znaju što rade.</p>
+    <p>U slučaju da trebate migrirati svoj postojeći (radni) Blixt čvor na drugi novi uređaj, bez zatvaranja postojećih LN kanala, morat ćete učiniti ove korake:</p>
+    <ul>
+    <li>Pretpostavljamo da ste već spremili početnu vrijednost Blixt novčanika (24 riječi aezeed)</li>
+    <li>Na starom uređaju idite na "Postavke" - odjeljak za uklanjanje pogrešaka - "Kompaktna LND baza podataka". Ovaj korak nije obavezan, ali se preporučuje ako želite manju veličinu datoteke channel.db. Obično je prilično velik, ovisno o aktivnosti vašeg čvora. Ovo će ponovno pokrenuti Blixt i sabiti veličinu db datoteke.</li>
+    <li>Nakon ponovnog pokretanja idite na "Postavke" i promijenite svoj uobičajeni alias u "Hampus". Ovo će aktivirati skrivene opcije, samo za napredne korisnike.</li>
+    <li>Idite malo dolje do odjeljka "Debug" i vidjet ćete novu opciju "Export channel.db file". UPOZORENJE! Nakon što izvršite ovaj izvoz, postojeći Blixt LN čvor bit će onemogućen na ovom starom uređaju i izvest će cijelu bazu podataka čvorova (channel.db) spremnu za uvoz u novi uređaj.</li>
+    <li>Ova db datoteka bit će spremljena u određenu mapu na vašem starom uređaju (Dokumenti ili Preuzimanja) i odatle ćete je morati premjestiti na svoj novi uređaj. Možete koristiti, na primjer, <a href="https://github.com/localsend/localsend">aplikaciju LocalSend FOSS</a> za izravni prijenos datoteke između uređaja.</li>
+    <li>U ovom trenutku vaš stari Blixt MORA ostati isključen. NEMOJTE GA VIŠE OTVARATI!</li>
+    <li>Nakon što prenesete datoteku channel.db na novi uređaj, pokrenite novu instalaciju Blixta i odaberite "Vrati novčanik" na prvom ekranu.</li>
+    <li>Na gumbu gdje piše "Odaberi SCB datoteku" dugo pritisnite (NE jednostavni klik!) i tada ćete vidjeti opciju odabira datoteke channel.db gdje ćete je spremiti lokalno na novi uređaj. Ako jednostavno pritisnete taj gumb, prema zadanim postavkama koristit će SCB datoteku (sa zatvaranjem kanala), to ne radi za punu sigurnosnu kopiju kanala uživo.</li>
+    <li>Stavite početnu vrijednost od 24 riječi, a zatim kliknite "Vrati"</li>
+    <li>Vidjet ćete da će se Blixt početi sinkronizirati s Neutrinom. Također možete gledati zapisnike sinkronizacije.</li>
+    <li>IMAJTE NA UMU! Pokušajte držati Blixt otvorenim cijelo vrijeme u ovoj fazi! Ne dopustite da prijeđe u stanje mirovanja ili zatvorite zaslon aplikacije. To bi moglo prekinuti početnu sinkronizaciju i morate je ponoviti. Strpljivo pričekajte, ne traje više od nekoliko minuta.</li>
+    <li>Nakon završetka početne sinkronizacije blokova, brzo će skenirati vaše prethodne adrese novčanika i tada će vaši kanali biti ponovno na mreži, živi i zdravi.</li>
+    <li>Nažalost, prethodnu povijest plaćanja i kontakte nije moguće (još) vratiti. Ali to ionako nije toliko važno.</li>
+    </ul>
+   <p>I GOTOVO! Sada imate potpuno obnovljeni Blixt LN čvor. Može raditi i s drugim LND sigurnosnim kopijama (Umbrel, Raspiblitz itd.) ako ste prethodno ispravno spremili datoteku channel.db. Dakle, Blixt može doslovno spasiti bilo koji LND mrtvi čvor.</p>
+</details>
 <hr style="height:2px">
 
 <h3 style="color:Orange;">Blixt - četvrti kontakt</h3>

@@ -58,7 +58,7 @@ title: Erste Schritte mit Blixt Mobile Node
 <li>Dort wird bald die Sprache hinzugefügt, sodass der Benutzer direkt mit einer Sprache beginnen kann, die ihm gefällt. Wenn Sie mit Übersetzungen in andere Sprachen zu diesem Open-Source-Projekt beitragen möchten, <a href="https://explore.transifex.com/blixt-wallet/blixt-wallet/">treten Sie bitte hier bei</a>.</li>
 </ul>
 
-<h3>OPTION A – Neues Wallet erstellen</h3>
+<h3 id="option-a">OPTION A – Neues Wallet erstellen</h3>
 <p>Wenn Sie „Neues Wallet erstellen“ wählen, werden Sie direkt zum Hauptbildschirm von Blixt Wallet weitergeleitet.</p>
 <p>Dies ist Ihr „Cockpit“ und auch das „Haupt-LN-Wallet“. Beachten Sie also, dass Ihnen nur der Kontostand Ihres LN-Wallets angezeigt wird. Das Onchain-Wallet wird separat angezeigt (siehe C).</p>
 
@@ -152,7 +152,7 @@ title: Erste Schritte mit Blixt Mobile Node
 <h3 style="color:Orange;">Blixt – Dritter Kontakt</h3>
 <p>Denken Sie daran, dass es im ersten Kapitel „Erster Kontakt“ auf dem Willkommensbildschirm zwei Optionen gab:</p>
 <ul>
-<li>Option A – Neues Wallet erstellen</li>
+<li><a href="#option-a">Option A</a> - Neues Wallet erstellen</li>
 <li>Option B – Wallet wiederherstellen</li>
 </ul>
 <p>Besprechen wir nun, wie man ein Blixt-Wallet oder einen anderen abgestürzten LND-Knoten wiederherstellt. Dies ist etwas technischer, aber seien Sie bitte aufmerksam. Ist nicht so schwer.</p>
@@ -200,6 +200,28 @@ title: Erste Schritte mit Blixt Mobile Node
 
 <p>Bei dieser Blocknummer 764272 sind die Gelder in Ihrer Bitcoin-Onchain-Adresse nutzbar. Und es kann bis zu 144 Blöcke vom ersten Bestätigungsblock bis zur Freigabe dauern. <a href="https://mempool.space/">Überprüfen Sie das also im Mempool</a>.</p>
 <p>Und das war’s. Warten Sie einfach geduldig, bis alle Kanäle geschlossen sind und das Geld wieder in Ihrem Onchain-Wallet ist.</p>
+
+<details>
+    <summary><h4 style="color:Yellow;"><span class="icon">👇</span> Geheime Wiederherstellungsmethode</h4></summary>
+    <p>Es gibt eine andere Methode, um Ihren Blixt LND-Knoten wiederherzustellen, ohne die Kanäle zu schließen. Sie ist jedoch für normale Neulinge verborgen, da diese Methode NUR für diejenigen gedacht ist, die wissen, was sie tun.</p>
+    <p>Falls Sie Ihren vorhandenen (funktionierenden) Blixt-Knoten auf ein anderes neues Gerät migrieren müssen, ohne die vorhandenen LN-Kanäle zu schließen, müssen Sie diese Schritte ausführen:</p>
+    <ul>
+    <li>Wir gehen davon aus, dass Sie den Blixt Wallet-Seed (24 Wörter aezeed) bereits gespeichert haben.</li>
+    <li>Gehen Sie auf dem alten Gerät zu „Einstellungen“ – Debug-Bereich – „LND-Datenbank komprimieren“. Dieser Schritt ist optional, wird jedoch empfohlen, wenn Sie eine kleinere Größe der Datei channel.db wünschen. Normalerweise ist sie ziemlich groß, abhängig von Ihrer Knotenaktivität. Dadurch wird Blixt neu gestartet und die Größe der Datenbankdatei komprimiert.</li>
+    <li>Gehen Sie nach dem Neustart zu „Einstellungen“ und ändern Sie Ihren normalen Aliasnamen in „Hampus“. Dadurch werden die versteckten Optionen aktiviert, nur für fortgeschrittene Benutzer.</li>
+    <li>Gehen Sie ganz nach unten zum Abschnitt „Debuggen“ und Sie sehen eine neue Option „Datei channel.db exportieren“. WARNUNG! Sobald Sie diesen Export durchführen, wird der vorhandene Blixt LN-Knoten auf diesem alten Gerät deaktiviert und die gesamte Knotendatenbank (channel.db) wird exportiert, bereit zum Import in ein neues Gerät.</li>
+    <li>Diese Datenbankdatei wird in einem dafür vorgesehenen Ordner auf Ihrem alten Gerät (Dokumente oder Downloads) gespeichert und von dort müssen Sie sie so wie sie ist auf Ihr neues Gerät verschieben. Sie können beispielsweise die <a href="https://github.com/localsend/localsend">LocalSend FOSS-App</a> verwenden, um die Datei direkt zwischen Geräten zu übertragen.</li>
+    <li>In diesem Moment MUSS Ihr altes Blixt ausgeschaltet bleiben. ÖFFNEN SIE ES NICHT WIEDER!</li>
+    <li>Sobald Sie die Datei channel.db auf das neue Gerät übertragen haben, starten Sie die Neuinstallation von Blixt und wählen Sie im ersten Bildschirm „Wallet wiederherstellen“.</li>
+    <li>Drücken Sie lange auf die Schaltfläche „SCB-Datei auswählen“ (NICHT einfach klicken!) und dann wird die Option angezeigt, eine channel.db-Datei auszuwählen und sie lokal auf dem neuen Gerät zu speichern. Wenn Sie einfach nur auf diese Schaltfläche drücken, wird standardmäßig eine SCB-Datei verwendet (mit geschlossenen Kanälen). Dies funktioniert nicht für vollständige Backups von Live-Kanälen.</li>
+    <li>Geben Sie den 24-Wörter-Seed ein und klicken Sie dann auf „Wiederherstellen“.</li>
+    <li>Sie werden sehen, dass Blixt mit der Synchronisierung mit Neutrino beginnt. Sie können sich auch die Synchronisierungsprotokolle ansehen.</li>
+    <li>DENKEN SIE DARAN! Versuchen Sie, Blixt in dieser Phase immer geöffnet zu lassen! Lassen Sie es nicht in den Ruhezustand wechseln oder schließen Sie den App-Bildschirm. Dies könnte die anfängliche Synchronisierung unterbrechen und Sie müssen sie erneut durchführen. Warten Sie geduldig, es dauert nicht länger als ein paar Minuten.</li>
+    <li>Sobald die anfängliche Blocksynchronisierung abgeschlossen ist, werden Ihre vorherigen Wallet-Adressen schnell gescannt und Ihre Kanäle sind dann wieder online, aktiv und gesund.</li>
+    <li>Leider können der vorherige Zahlungsverlauf und die Kontakte (noch) nicht wiederhergestellt werden. Aber das ist sowieso nicht so wichtig.</li>
+    </ul>
+    <p>Und FERTIG! Jetzt haben Sie einen vollständig wiederhergestellten Blixt LN-Knoten. Er könnte auch mit anderen LND-Backups (Umbrel, Raspiblitz usw.) funktionieren, wenn Sie zuvor die Datei channel.db korrekt gespeichert haben. Blixt kann also buchstäblich jeden toten LND-Knoten retten.</p>
+</details>
 <hr style="height:2px">
 
 <h3 style="color:Orange;">Blixt – Vierter Kontakt</h3>

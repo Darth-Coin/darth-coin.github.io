@@ -58,7 +58,7 @@ title: Introduzione al nodo mobile Blixt
 <li>Presto verrà aggiunta la lingua lì, così l'utente potrà iniziare direttamente con una lingua che sia comoda. Se vuoi contribuire a questo progetto open source con traduzioni in altre lingue, <a href="https://explore.transifex.com/blixt-wallet/blixt-wallet/">unisciti qui</a>.</li>
 </ul>
 
-<h3>OPZIONE A - Crea un nuovo portafoglio</h3>
+<h3 id="option-a">OPZIONE A - Crea un nuovo portafoglio</h3>
 <p>Se scegli di "creare un nuovo portafoglio", verrai reindirizzato direttamente alla schermata principale di Blixt Wallet.</p>
 <p>Questo è il tuo "cockpit" ed è anche il "portafoglio LN principale", quindi tieni presente che ti mostrerà solo il saldo del tuo portafoglio LN. Il portafoglio onchain è visualizzato separatamente (vedi C).</p>
 
@@ -152,7 +152,7 @@ title: Introduzione al nodo mobile Blixt
 <h3 style="color:Orange;">Blixt - Terzo contatto</h3>
 <p>Ricorda, nel capitolo uno "Primo Contact" erano 2 opzioni nella schermata di benvenuto:</p>
 <ul>
-<li>Opzione A - Crea un nuovo portafoglio</li>
+<li><a href="#option-a">Opzione A</a> - Crea un nuovo portafoglio</li>
 <li>Opzione B - Ripristina portafoglio</li>
 </ul>
 <p>Quindi ora parliamo di come ripristinare un portafoglio Blixt o qualsiasi altro nodo LND in crash. Questo è un po' più tecnico, ma fai attenzione. Non è così difficile.</p>
@@ -200,6 +200,27 @@ title: Introduzione al nodo mobile Blixt
 
 <p>Quel numero di blocco 764272 è quando i fondi saranno utilizzabili nel tuo indirizzo onchain bitcoin. E potrebbero volerci fino a 144 blocchi dal primo blocco di conferma prima che vengano rilasciati. <a href="https://mempool.space/">Quindi controllalo nel mempool</a>.</p>
 <p>E questo è tutto. Aspetta pazientemente che tutti i canali siano chiusi e i fondi siano tornati nel tuo portafoglio onchain.</p>
+<details>
+  <summary><h4 style="color:Yellow;"><span class="icon">👇</span> Metodo di ripristino segreto</h4></summary>
+  <p>Esiste un altro metodo per ripristinare il tuo nodo Blixt LND senza nemmeno chiudere i canali. Ma è nascosto ai soliti utenti noob, perché questo metodo è SOLO per coloro che sanno cosa stanno facendo.</p>
+  <p>Nel caso in cui tu abbia bisogno di migrare il tuo nodo Blixt esistente (funzionante) su un altro nuovo dispositivo, senza chiudere i canali LN esistenti, dovrai seguire questi passaggi:</p>
+  <ul>
+  <li>Supponiamo che tu abbia già salvato il seed del portafoglio Blixt (24 parole aezeed)</li>
+  <li>Sul vecchio dispositivo, vai su "Impostazioni" - sezione debug - "Compatta database LND". Questo passaggio è facoltativo ma consigliato se desideri una dimensione più piccola del file channel.db. Di solito è piuttosto grande, a seconda dell'attività del tuo nodo. Questo riavvierà Blixt e compatterà le dimensioni del file db.</li>
+  <li>Una volta riavviato, vai su "Impostazioni" e cambia il tuo nome alias normale in "Hampus". Questo attiverà le opzioni nascoste, solo per utenti avanzati.</li>
+  <li>Vai in fondo alla sezione "Debug" e vedrai una nuova opzione "Esporta file channel.db". ATTENZIONE! Una volta eseguita questa esportazione, il nodo Blixt LN esistente verrà disabilitato su questo vecchio dispositivo ed esporterà l'intero database del nodo (channel.db) pronto per essere importato in un nuovo dispositivo.</li>
+  <li>Questo file db verrà salvato in una cartella designata sul tuo vecchio dispositivo (Documenti o Download) e da lì dovrai spostarlo così com'è sul tuo nuovo dispositivo. Ad esempio, puoi usare <a href="https://github.com/localsend/localsend">l'app FOSS LocalSend</a> per trasferire il file direttamente tra dispositivi.</li>
+  <li>In questo momento il tuo vecchio Blixt DEVE rimanere spento. NON APRIRLO PIÙ!</li>
+  <li>Una volta trasferito il file channel.db sul nuovo dispositivo, avvia la nuova installazione di Blixt e scegli "Ripristina portafoglio" nella prima schermata.</li>
+  <li>Sul pulsante in cui è scritto "Seleziona file SCB" tieni premuto (NON fai clic!) e poi vedrai l'opzione per selezionare un file channel.db dove salvarlo localmente nel nuovo dispositivo. Se premi semplicemente quel pulsante, utilizzerà di default un file SCB (con canali di chiusura), non funziona per i canali live di backup completo.</li>
+  <li>Inserisci il seed di 24 parole e poi clicca su "Ripristina"</li>
+  <li>Vedrai che Blixt inizierà a sincronizzarsi con Neutrino. Puoi anche guardare i log di sincronizzazione.</li>
+  <li>TIENI PRESENTE! Cerca di tenere Blixt sempre aperto in questa fase! Non lasciarlo andare in modalità sospensione o chiudere la schermata dell'app. Ciò potrebbe interrompere la sincronizzazione iniziale e dovrai farlo di nuovo. Attendi pazientemente, non ci vorranno più di pochi minuti.</li>
+  <li>Una volta terminata la sincronizzazione iniziale dei blocchi, analizzerà rapidamente i tuoi precedenti indirizzi wallet e quindi i tuoi canali saranno di nuovo online, vivi e vegeti.</li>
+  <li>Purtroppo la cronologia dei pagamenti e i contatti precedenti non possono (ancora) essere ripristinati. Ma questo non è poi così importante.</li>
+  </ul>
+  <p>E FATTO! Ora hai un nodo Blixt LN completamente ripristinato. Potrebbe funzionare anche con altri backup LND (Umbrel, Raspiblitz ecc.) se hai salvato correttamente in precedenza il file channel.db. Quindi Blixt può letteralmente salvare qualsiasi nodo LND morto.</p>
+</details>
 <hr style="height:2px">
 
 <h3 style="color:Orange;">Blixt - Quarto contatto</h3>

@@ -58,7 +58,7 @@ title: Aan de slag met Blixt Mobile Node
 <li>Binnenkort wordt de taal daar toegevoegd, zodat de gebruiker direct kan beginnen met een taal die comfortabel is. Als je wilt bijdragen aan dit open source project met vertalingen in andere talen, <a href="https://explore.transifex.com/blixt-wallet/blixt-wallet/">meld je dan hier aan</a>.</li>
 </ul>
 
-<h3>OPTIE A - Nieuwe wallet aanmaken</h3>
+<h3 id="option-a">OPTIE A - Nieuwe wallet aanmaken</h3>
 <p>Als u ervoor kiest om “een nieuwe wallet te maken”, wordt u direct doorgestuurd naar het hoofdscherm van Blixt Wallet.</p>
 <p>Dit is uw “cockpit” en ook de “Main LN Wallet”, dus wees u ervan bewust dat u alleen het saldo van uw LN wallet ziet. De onchain wallet wordt apart weergegeven (zie C).</p>
 
@@ -152,7 +152,7 @@ title: Aan de slag met Blixt Mobile Node
 <h3 style="color:Orange;">Blixt - Derde contact</h3>
 <p>Onthoud, in hoofdstuk één "Eerste contact" waren er 2 opties in het Welkomstscherm:</p>
 <ul>
-<li>Optie A - Nieuwe wallet aanmaken</li>
+<li><a href="#option-a">Optie A</a> - Nieuwe wallet aanmaken</li>
 <li>Optie B - Wallet herstellen</li>
 </ul>
 <p>Laten we het nu hebben over hoe je een Blixt-wallet of een andere LND-gecrashte node kunt herstellen. Dit is wat technischer, maar let op. Dat is niet zo moeilijk.</p>
@@ -200,6 +200,27 @@ title: Aan de slag met Blixt Mobile Node
 
 <p>Dat bloknummer 764272 is wanneer de fondsen bruikbaar zijn in je bitcoin onchain adres. En het kan tot 144 blokken duren vanaf het eerste bevestigingsblok totdat ze worden vrijgegeven. <a href="https://mempool.space/">Controleer dat dus in de mempool</a>.</p>
 <p>En dat is alles. Wacht gewoon geduldig tot alle kanalen gesloten zijn en het geld terug in je onchain wallet staat.</p>
+<details>
+    <summary><h4 style="color:Yellow;"><span class="icon">👇</span> Geheime herstelmethode</h4></summary>
+    <p>Er is nog een andere methode om je Blixt LND-knooppunt te herstellen zonder de kanalen te sluiten. Maar deze is verborgen voor gewone noob-gebruikers, omdat deze methode ALLEEN is voor degenen die weten wat ze doen.</p>
+    <p>Als je je bestaande (werkende) Blixt-knooppunt naar een ander nieuw apparaat moet migreren, zonder de bestaande LN-kanalen te sluiten, moet je deze stappen uitvoeren:</p>
+    <ul>
+    <li>We gaan ervan uit dat je de Blixt Wallet-seed (24 woorden aezeed) al hebt opgeslagen</li>
+    <li>Ga op het oude apparaat naar "Instellingen" - debugsectie - "Compacte LND-database". Deze stap is optioneel, maar wordt aanbevolen als je een kleinere omvang van het channel.db-bestand wilt. Meestal is het vrij groot, afhankelijk van je node-activiteit. Dit zal Blixt opnieuw opstarten en de db-bestandsgrootte comprimeren.</li>
+    <li>Ga na het opnieuw opstarten naar "Instellingen" en verander je normale aliasnaam in "Hampus". Dit zal de verborgen opties activeren, alleen voor geavanceerde gebruikers.</li>
+    <li>Ga helemaal naar beneden naar het gedeelte "Debug" en je zult een nieuwe optie zien "Exporteer channel.db-bestand". WAARSCHUWING! Zodra je deze export uitvoert, zal de bestaande Blixt LN-node op dit oude apparaat worden uitgeschakeld en zal de volledige node-database (channel.db) worden geëxporteerd, klaar om te worden geïmporteerd in een nieuw apparaat.</li>
+    <li>Dit db-bestand zal worden opgeslagen in een aangewezen map op je oude apparaat (Documenten of Downloads) en van daaruit zul je het moeten verplaatsen zoals het is naar je nieuwe apparaat. U kunt bijvoorbeeld de <a href="https://github.com/localsend/localsend">LocalSend FOSS-app</a> gebruiken om het bestand rechtstreeks tussen apparaten over te zetten.</li>
+    <li>Op dit moment MOET uw oude Blixt uitgeschakeld blijven. OPEN HET NIET MEER!</li>
+    <li>Zodra u het channel.db-bestand naar het nieuwe apparaat hebt overgezet, start u de nieuwe installatie van Blixt en kiest u "Restore wallet" in het eerste scherm.</li>
+    <li>Druk lang op de knop waar "Select SCB file" staat (NIET gewoon klikken!) en dan ziet u de optie om een ​​channel.db-bestand te selecteren waar u het lokaal op het nieuwe apparaat opslaat. Als u gewoon op die knop drukt, wordt standaard een SCB-bestand gebruikt (met sluitende kanalen), het werkt niet voor volledige back-up livekanalen.</li>
+    <li>Plaats de seed van 24 woorden en klik vervolgens op "Restore"</li>
+    <li>U zult zien dat Blixt begint met synchroniseren met Neutrino. U kunt ook de synchronisatielogs bekijken.</li>
+    <li>HOUD ER REKENING MEE! Probeer Blixt de hele tijd open te houden in deze fase! Laat het niet in slaapstand gaan of sluit het app-scherm. Dat kan de eerste synchronisatie verstoren en u moet het opnieuw doen. Wacht geduldig, het duurt niet langer dan een paar minuten.</li>
+    <li>Zodra de synchronisatie van de eerste blokken is voltooid, worden uw vorige wallet-adressen snel gescand en zijn uw kanalen weer online, actief en wel.</li>
+    <li>Helaas is het (nog) niet mogelijk om de vorige betalingsgeschiedenis en contacten te herstellen. Maar dat is hoe dan ook niet zo belangrijk.</li>
+    </ul>
+    <p>En KLAAR! Nu hebt u een volledig herstelde Blixt LN-node. Het zou ook kunnen werken met andere LND-back-ups (Umbrel, Raspiblitz etc.) als u eerder het channel.db-bestand correct hebt opgeslagen. Blixt kan dus letterlijk elke dode LND-node opslaan.</p>
+</details>
 <hr style="height:2px">
 
 <h3 style="color:Orange;">Blixt - Fourth Contact</h3>
