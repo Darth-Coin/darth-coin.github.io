@@ -33,6 +33,7 @@ title: Empezando con Blixt Mobile Node
 <p>Este nodo Blixt, es necesario que esté en línea y sincronizado SÓLO ANTES de que vayas a hacer tus transacciones. Es por eso que verás un ícono en la parte superior que indica el estado de sincronización. Solo toma unos minutos, dependiendo de cuánto tiempo lo mantuviste fuera de línea.</p>
 </li>
 <li>Blixt está usando LND (aezeed) como backend de billetera, así que no intentes importar otros tipos de billeteras de bitcoin en él. <a href="https://coldbit.com/what-types-of-mnemonic-seeds-are-used-in-bitcoin/">Aquí has ​​explicado los tipos de semillas mnemotécnicas de billetera</a>. Y aquí hay <a href="https://walletsrecovery.org/">una lista más extensa de todos los tipos de billeteras</a>. Entonces, si ya tenías un nodo LND, puedes importar la semilla y los canales de respaldo a Blixt, <a href="/nodes/shtf-restore-lnd-node-es.html">como se explica en esta guía</a>.</li>
+<li>Al final de esta guía encontrarás una sección especial con <a href="#tips">"consejos y trucos"</a></li>
 <li>Enlaces importantes de Blixt: consúltalos al final de esta guía, por favor, márcalos como favoritos:</li>
 </ol>
 <p><img src="/assets/images/blixt-darth-moms.jpg" class="center"></p>
@@ -280,6 +281,96 @@ title: Empezando con Blixt Mobile Node
 </ul>
 
 <p><img src="/assets/images/blixt-always-backup.jpg" class="center"></p>
+
+<hr style="height:2px">
+
+<h3 id="tips" style="color:Orange;">Blixt - Consejos y trucos <a href="#tips">#</a></h3>
+<h4 style="color:Yellow;">CASO 1 - PROBLEMAS DE SINCRONIZACIÓN</h4>
+<blockquote style="color:Tomato;"><em>
+Mi Blixt no se sincroniza... Mi Blixt no muestra el saldo... Mi Blixt no puede abrir canales... Intenté restaurarlo en otro dispositivo... etc.
+</em></blockquote>
+<p>Todos estos problemas comienzan porque SU DISPOSITIVO NO SE SINCRONIZA CORRECTAMENTE. Por favor, comprenda este aspecto importante: Blixt es un nodo LND móvil que utiliza Neutrino para sincronizar/leer los bloques.</p>
+<ul>
+<li>A continuación, se incluye una explicación menos técnica de <a href="https://bitcoinmagazine.com/technical/why-bitcoin-wallets-need-block-filters">Bitcoin Magazine</a></li>
+<li>A continuación, se incluyen más recursos técnicos de <a href="https://bitcoinops.org/en/topics/compact-block-filters/">Bitcoin Optech</a></li>
+<li>A continuación, se muestra cómo puede activar Neutrino en su propio nodo local y proporcionar filtros de bloques para su nodo móvil, desde <a href="https://docs.lightning.engineering/lightning-network-tools/lnd/enable-neutrino-mode-in-bitcoin-core">Docs Lightning Engineering</a></li>
+</ul>
+<p><span style="color:yellow;">RECORDATORIO:</span> Usar Neutrino sobre clearnet es totalmente seguro, tu IP o xpub no se filtran. Solo estás leyendo bloques desde un nodo remoto con Neutrino. Eso es todo. Todo el resto se hace en tu dispositivo local.</p>
+<p>Por lo tanto, NO HAY NECESIDAD de usarlo con Tor. Tor agregará una gran latencia en tu proceso de sincronización y hará que tu Blixt sea muy inestable. Si realmente quieres usarlo sobre Tor, asegúrate de lo que estás haciendo y ten una buena conexión y paciencia. Lo mismo ocurre con el uso de una VPN. Ten cuidado con la latencia que te proporciona esa VPN.</p>
+<p>Puedes probar la latencia de un servidor de neutrino simplemente haciéndole ping, desde una PC o desde tu móvil.</p>
+<p><img src="/assets/images/blixt.ping-peer.jpg" class="center"></p>
+<p>Este es un ping habitual al servidor de neutrino europe.blixtwallet.com, que muestra que la conexión es muy buena con un tiempo de respuesta de 50 ms de media y un TTL de 51. El tiempo de respuesta puede variar, pero no demasiado. El TTL debe ser estable.</p>
+<p>Si estos valores son superiores a 100-150 ms, el proceso de sincronización se estancará o, peor aún, podría provocar que los pares cierren los canales. No ignores este aspecto.</p>
+<p>Sin una sincronización adecuada, tampoco podrás ver el balance correcto o tus canales LN no se pondrán en línea ni operativos. No importa cuántos gigabits ultra terra mbps tengas, la velocidad de descarga NO IMPORTA. Importa el tiempo de respuesta y el TTL (tiempo de vida).</p>
+<p>Este es un caso general para los usuarios de LATAM. No sé qué pasa allí, pero ustedes tienen una conexión terrible con pings de más de 200 ms que pueden interrumpir cualquier sincronización.</p>
+<p style="color:yellow;">Entonces, ¿cuál es la solución para estos usuarios desesperados?</p>
+<ul>
+<li>Deja de usar Blixt con Tor. Es totalmente inútil.</li>
+<li>Puedes usar una VPN, pero elígela sabiamente y monitorea el ping todo el tiempo. Usa una que esté más cerca de tu ubicación geográfica. La distancia significa más tiempo de respuesta en ms, recuerda.</li>
+<li>Selecciona sabiamente a tus pares de neutrinos, aquí hay una lista de servidores de neutrinos públicos conocidos:</li>
+</ul>
+<pre><code>
+For US region
+btcd1.lnolymp.us | btcd2.lnolymp.us
+btcd-mainnet.lightning.computer
+swest.blixtwallet.com (Seattle)
+node.eldamar.icu
+noad.sathoarder.com
+bb1.breez.technology | bb2.breez.technology
+neutrino.shock.network
+For EU region
+europe.blixtwallet.com (Germany)
+For Asia region
+sg.lnolymp.us
+asia.blixtwallet.com
+</code></pre>
+
+<p>Otra forma es seleccionar uno de esta lista de nodos que anuncian los "filtros compactos" (BIP157/neutrino) - <a href="https://bitnodes.io/nodes/?q=NODE_COMPACT_FILTERS">Bitnodes Page Neutrino filter</a>. Elige uno que esté más cerca de tu ubicación geográfica.</p>
+<p>Otra forma (la mejor forma) es conectarte a un nodo de la comunidad local, administrado por un amigo o un grupo que conozcas y que ofrezca conexión con neutrinos. <a href="https://docs.lightning.engineering/lightning-network-tools/lnd/enable-neutrino-mode-in-bitcoin-core">Aquí están las instrucciones para hacerlo.</a> Su nodo no se verá afectado de ninguna manera, solo necesitan una conexión pública y estable.</p>
+<p>Existe la necesidad de más servidores Neutrino en la región LATAM, para una sincronización mejor y más rápida. Así que por favor organízate, con tu comunidad Bitcoin local y decide quién y dónde está ejecutando un Bitcoin Core + Neutrino para tu propio uso. Con solo una IP pública es suficiente. Si no tienes acceso a una IP pública, puedes usar una IP VPS y hacer un túnel Wireguard a tu nodo local. De esa manera redirige todo el tráfico a tu IP VPS local, sin revelar ninguna información privada sobre tu nodo local.</p>
+
+<h4 style="color:Yellow;">CASO 2 - NUNCA TERMINO DE SINCRONIZAR</h4>
+<blockquote style="color:Tomato;"><em>
+Mi Blixt tiene buena conexión con el servidor Neutrino pero se bloquea al sincronizar.
+</em></blockquote>
+
+<h5>Servidor de hora</h5>
+<p>A veces, las personas usan varios dispositivos antiguos o no están conectados correctamente a un servidor de hora. Neutrino se sincroniza correctamente hasta que alcanza los bloques reales que no corresponden a la hora local real. Verás en los registros de Blixt lnd un error que dice que "la marca de tiempo del bloque está lejos del futuro" o algo relacionado con "el encabezado no pasa la verificación de integridad".</p>
+<p><span style="color:yellow;">Solución rápida:</span> configura la fecha y hora correctas para tu dispositivo y reinicia Blixt.</p>
+
+<h5>Poco espacio en el dispositivo</h5>
+<p>A veces, al usar un dispositivo antiguo, con poco espacio, puede alcanzar un límite de umbral y quedarse atascado. De hecho, cuanto más uses este nodo LND móvil, los archivos de neutrinos se harán más grandes y también el archivo channel.db.</p>
+<p><span style="color:yellow;">Solución rápida:</span> ve a Opciones de Blixt - Sección de depuración - Selecciona "detener LND y eliminar archivos de neutrinos". Reiniciará la aplicación y comenzará una nueva sincronización. A veces, esta solución rápida también puede reparar datos dañados. Ten en cuenta que llevará un tiempo, entre 1 y 3 minutos, volver a sincronizar por completo. NO está eliminando los fondos o canales existentes, pero sí, después de la resincronización podría activar un nuevo escaneo de sus direcciones de bitcoin y eso podría llevar más tiempo.</p>
+<p>El siguiente paso es verificar cuántos datos todavía están ocupados. Puede verlo en la información de la aplicación de Android: datos. Si aún es mayor a 400-500 MB, puede compactar los archivos lnd. Entonces, vaya a Opciones de Blixt - Sección de depuración - Seleccione "Compactar DB LND". Reinicie la aplicación Blixt si no se está haciendo automáticamente. La compactación se lleva a cabo al inicio y solo es una vez. Ahora verá que los datos de Blixt están menos ocupados.</p>
+
+<h5>Modo persistente</h5>
+<p>A veces, las personas no abren Blixt durante mucho tiempo, por lo que la sincronización es demasiado antigua. Pero esperan que se sincronice instantáneamente cuando lo abren.</p>
+<p>Tenga paciencia y observe la rueda giratoria superior. Opcionalmente, puedes ir a Opciones - Ver información del nodo y ver si está sincronizado con la cadena y con el gráfico marcado como "verdadero". Sin esa mención de "verdadero", no puedes usar Blixt correctamente, no puedes ver correctamente el saldo, no puedes ver los canales de LN en línea, no puedes hacer pagos.</p>
+<p><span style="color:yellow;">Solución rápida:</span> Hay una opción poderosa para "mantener vivo" tu nodo Blixt. Ve a Opciones - Experimentos - Selecciona "Activar modo persistente". Eso reiniciará tu Blixt y pondrá el servicio lnd en modo persistente, es decir, siempre estará activo y mantendrá en línea tu sincronización, incluso si cambias a otra aplicación o simplemente cierras Blixt (no fuerces el cierre ni elimines la tarea). Puedes mantenerlo así todo el día si tienes una conexión estable y necesitas usar Blixt varias veces. No consumirá demasiada batería.</p>
+
+<h4 style="color:Yellow;">CASO 3 - QUIERO MIGRAR A OTRO DISPOSITIVO</h4>
+<p>Bien, sobre este escenario, escribí una guía extensa en la <a href="https://blixtwallet.github.io/faq#blixt-restore">página de preguntas frecuentes</a>: con 2 opciones, rápida (cierre cooperativo de canales antes de la migración) y lenta (cierre forzado de canales porque el dispositivo anterior está inactivo).</p>
+<p>Pero quiero reiterar aquí algunos aspectos importantes y agregar un nuevo procedimiento "secreto".</p>
+<p style="color:yellow;">RECORDATORIO:</p>
+<ul>
+<li>Siempre haga una copia de seguridad del estado de sus canales (SCB) DESPUÉS de cada vez que abra o cierre un canal. Solo lleva unos segundos hacerlo.</li>
+<li>No conserve los archivos SCB antiguos, para no confundirse y restaurarlos. Son totalmente inútiles y podrían desencadenar un procedimiento de penalización si los ve. Utilice siempre la última versión del archivo SCB si procede a restaurar.</li>
+<li>Guarde el archivo SCB (es un texto cifrado con la extensión .bin) fuera de su dispositivo, en un lugar seguro. Puede utilizar <a href="https://github.com/localsend/localsend">LocalSend</a> para mover este archivo a una PC u otro dispositivo.</li>
+<li>Guarde también la semilla de su billetera Blixt en un lugar seguro, por ejemplo, un administrador de contraseñas sin conexión o un USB cifrado.</li>
+</ul>
+
+<p><span style="color:yellow;">Método secreto:</span> Cómo migrar el nodo Blixt sin cerrar los canales existentes. Para ello, deberá leer atentamente la sección anterior "Tercer contacto" en esta guía sobre "Restaurar billetera".</p>
+<p>¡Este procedimiento NO ES PARA NOVATOS, es solo para usuarios avanzados! Es por eso que no está ampliamente abierto y recomiendo hacerlo solo con la ayuda de los desarrolladores de Blixt o mi soporte. No ignore este consejo.</p>
+
+<h4 style="color:Yellow;">CASO 4 - ¿QUÉ PEERS USAR PARA ABRIR CANALES?</h4>
+<p>Como escribí en la <a href="https://blixtwallet.github.io/guides">página de guías de Blixt</a> hay muchas formas de abrir canales con este nodo LND móvil. Pero me gustaría recordarles algunos aspectos importantes:</p>
+<ul>
+<li>Abran con nodos LSP conocidos y con pares avalados por la comunidad. <a href="https://github.com/hsjoberg/blixt-wallet/issues/1033">Vean aquí una lista</a></li>
+<li>No abran con nodos Tor aleatorios. Esos no sirven y solo tendrán problemas por no poder hacer pagos. No importa cuán bueno sea su amigo "el corredor de nodos" con un nodo Tor de mierda en una jungla, nunca les dará las mejores rutas para un nodo privado móvil. No abren canales con alguien porque es su amigo. ¡Esto no es Facebook! Abren un canal por: buenas rutas, tarifas pequeñas, disponibilidad.</li>
+<li>No hay necesidad de abrir un montón de canales pequeños, 2-3 o máximo 4, pero con una buena cantidad de sats. No abran canales pequeños, son totalmente inútiles. Menos de 200k para un móvil no tiene mucha utilidad.</li>
+<li>Ten en cuenta los LSP que ofrecen canales de entrada y canales JIT (just in time). Son muy útiles porque no necesitas usar ninguno de tus UTXO, puedes pagar el canal de apertura con fondos que ya tienes en otras billeteras de LN, apilándolos y preparándolos para que se abra un canal más grande. Deberías usar estos canales JIT a tu favor. <a href="/nodes/managing-lightning-node-liquidity-en.html">He explicado en esta guía</a> más opciones de pares para nodos privados como Blixt. También <a href="https://stacker.news/items/679242/r/DarthCoin">aquí en esta guía publicada en SN</a> expliqué cómo administrar la liquidez de los nodos móviles privados.</li>
+</ul>
+<hr style="height:2px">
 
 <h3>Conclusión</h3>
 <p>Bien, hay muchas otras características sorprendentes que ofrece Blixt, te dejaré que las descubras una por una y te diviertas.</p>
