@@ -39,6 +39,7 @@ image: /assets/images/blixt-darth-moms.jpg
   <p>This Blixt node, is necessary to be online and synced ONLY BEFORE you are going to do your transactions. That’s why you will see an icon on top that indicate the sync status. It takes only few moments, depending how much time you kept it offline.</p>
 </li>
 <li>Blixt is using LND (aezeed) as wallet backend, so don’t try to import other types of bitcoin wallets into it. <a href="https://coldbit.com/what-types-of-mnemonic-seeds-are-used-in-bitcoin/">Here you have explained the types of wallet mnemonic seeds</a>. And here is <a href="https://walletsrecovery.org/">a more extensive list of all types of wallets</a>. So if you had previously a LND node, you can import the seed and the backup.channels into Blixt, <a href="/nodes/shtf-restore-lnd-node-en.html">as it is explained in this guide</a>.</li>
+<li>At the end of this guide you will find a special section with <a href=#"tips">"tips and tricks"</a>.</li>
 <li>Blixt important links - see them at the end of this guide, please bookmark them:</li>  
 </ol>
 <hr style="height:2px">
@@ -234,7 +235,7 @@ image: /assets/images/blixt-darth-moms.jpg
 <p>This chapter is about customization and know better you Blixt Node. I will not describe all the features available, are too many and were already explained in the <a href="https://blixtwallet.github.io/features">Blixt Features Page</a>.</p>
 <p>But I will point out some of those necessary to go forward using your Blixt and have a great experience.</p>
 
-<h3>A - Name (NameDesc)</h3>
+<h4>A - Name (NameDesc)</h4>
 
 <p><img src="/assets/images/blixt-name-desc.jpg" class="center"></p>
 
@@ -249,7 +250,7 @@ image: /assets/images/blixt-darth-moms.jpg
 
 <p><img src="/assets/images/blixt-sbw-namedesc.jpg" class="center"></p>
 
-<h3>B - Lightning Box</h3>
+<h4>B - Lightning Box</h4>
 <p>Starting with the new v0.6.9-420 <a href="https://github.com/hsjoberg/blixt-wallet/releases/tag/v0.6.9-420">recently announced</a>, Blixt introduced a new powerful feature for Lightning Address in Blixt.</p>
 <p>This new feature is optional opt-in, is not ON by default!</p>
 <p>For the moment the default LN Box is run by Blixt server and offer a @blixtwallet.com LN Address. But ANYBODY with a LND public node can run the Lightning Box server and offer LN Address for its own domain, self-custody.</p>
@@ -265,7 +266,7 @@ image: /assets/images/blixt-darth-moms.jpg
 <p>Here is the code for <a href="https://github.com/hsjoberg/lightning-box">Lightning Box</a> if you run it for yourself, for your family and friends, on your own node.</p>
 <p>Here also you can run the <a href="https://github.com/hsjoberg/dunder-lsp">LSP Dunder server</a> for Blixt mobile nodes and offer liquidity for Blixt users if you have a good public LN node (works only with LND).</p>
 
-<h3>C - Backup LN Channels and seed words</h3>
+<h4>C - Backup LN Channels and seed words</h4>
 <p>This is a very important feature !</p>
 <p>After opening or closing a LN channel you should do a backup. It can be done manually saving a small file on local device (download folder usually) or using a Google Drive or iCloud account.</p>
 
@@ -287,6 +288,95 @@ image: /assets/images/blixt-darth-moms.jpg
 
 <p><img src="/assets/images/blixt-always-backup.jpg" class="center"></p>
 
+<hr style="height:2px">
+
+<h3 id="tips" style="color:Orange;">Blixt - Tips and Tricks <a href="#tips">#</a></h3>
+<h4 style="color:Yellow;">CASE 1 - SYNCING PROBLEMS</h4>
+<blockquote style="color:Tomato;"><em>
+My Blixt is not syncing... My Blixt do not show the balance... My Blixt cannot open channels... I tried to restore it in another device... etc
+</em></blockquote>
+<p>All these issues start because YOUR DEVICE IS NOT SYNCING PROPERLY. Please understand this important aspect: Blixt is a mobile LND node, that uses Neutrino for syncing / reading the blocks.</p>
+<ul>
+<li>Here's a less technical explanation from <a href="https://bitcoinmagazine.com/technical/why-bitcoin-wallets-need-block-filters">Bitcoin Magazine</a></li>
+<li>Here are more technical resources from <a href="https://bitcoinops.org/en/topics/compact-block-filters/">Bitcoin Optech</a></li>
+<li>Here is how you can activate Neutrino on your own home node and serve blocks filters for your mobile node, from <a href="https://docs.lightning.engineering/lightning-network-tools/lnd/enable-neutrino-mode-in-bitcoin-core">Docs Lightning Engineering</a></li>
+</ul>
+<p><span style="color:yellow;">REMINDER:</span> Using Neutrino over clearnet is totally safe, your IP or xpub are not leaked. You are just reading blocks from a remote node with neutrino. That's all. All the rest is done on your local device.</p>
+<p>So there's NO NEED to use it with Tor. Tor will add a huge latency on your syncing process and will make your Blixt very unstable. If you really want to use over Tor, be sure what are you doing and have a good connection and patience. Same case for using a VPN. Be careful what latency is given to you from that VPN.</p>
+<p>You can test the latency of a neutrino server by simply ping it, from a PC or from your mobile.</p>
+<p><img src="/assets/images/blixt.ping-peer.jpg" class="center"></p>
+<p>This is an usual ping to the neutrino server europe.blixtwallet.com, this shows that the connection is very good with a response time of avg 50ms and a TTL of 51. The response time can vary but not too much. TTL must be stable.</p>
+<p>If these values are higher than 100-150ms then your syncing process will stale or even worse, it could cause closed channels by peers ! Do not ignore this aspect.</p>
+<p>Without a proper sync, you also cannot see the correct balance or your LN channels will not get online and operational. No matter how many giga ultra terra mbps you have the download speed IT DOESN'T MATTER. It matter the time response and TTL (time to live).</p>
+<p>This is like a general case for LATAM users. I don't know what happen down there but you guys have a terrible connection with pings of over 200ms that can disrupt any sync.</p>
+<p style="color:yellow;">So what is the solution for these desperate users?</p>
+<ul>
+<li>stop using Blixt with Tor. Is totally useless</li>
+<li>you can use a VPN but choose it wisely and monitor all the time the ping. Use one that is closer to your geographical location. Distance means more ms response time, remember.</li>
+<li>select wisely your neutrino peers, here is a list of well known public neutrino servers:</li>
+</ul>
+<pre><code>
+For US region
+btcd1.lnolymp.us | btcd2.lnolymp.us
+btcd-mainnet.lightning.computer
+swest.blixtwallet.com (Seattle)
+node.eldamar.icu
+noad.sathoarder.com
+bb1.breez.technology | bb2.breez.technology
+neutrino.shock.network
+For EU region
+europe.blixtwallet.com (Germany)
+For Asia region
+sg.lnolymp.us
+asia.blixtwallet.com
+</code></pre>
+
+<p>Another way is to select one from this list of nodes announcing the "compact filters" (BIP157 / neutrino) - <a href="https://bitnodes.io/nodes/?q=NODE_COMPACT_FILTERS">Bitnodes Page Neutrino filter</a>. Choose one that is closer to your geographical location.</p>
+<p>Another way (the best way) is to connect to a local community node, run by a friend or group that you know them, and is offering neutrino connection. <a href="https://docs.lightning.engineering/lightning-network-tools/lnd/enable-neutrino-mode-in-bitcoin-core">Here are the instructions how to do it.</a> Their node will not be affected in any way, they just need a stable and public connection.</p>
+<p>There is a need for more neutrino servers in the LATAM region, for a better and fast sync. So please organize yourself, with your local Bitcoin community and decide who and where is running a Bitcoin Core + Neutrino for your own use. With just a public IP is enough. If you do not have access to a public IP, you can use a VPS IP and make wireguard tunnel to your home node. That way you redirect all the traffic to your local VPS IP, without revealing any private information about your home node.</p>
+
+<h4 style="color:Yellow;">CASE 2 - NEVER FINISH SYNCING</h4>
+<blockquote style="color:Tomato;"><em>
+My Blixt have good connection with neutrino server but is stuck syncing.
+</em></blockquote>
+
+<h5>Time Server</h5>
+<p>Sometimes people use various old devices or are not properly connected to a time server. Neutrino is syncing ok until reached the actual blocks that do not correspond to real local time. You will see in Blixt lnd logs an error saying that "block time stamp is far from future" or something related with "header don't pass sanity check".</p>
+<p><span style="color:yellow;">Quick fix:</span> set the correct time and date for your device and restart Blixt.</p>
+
+<h5>Low space on device</h5>
+<p>Sometimes using an old device, with low space, it can reach a threshold limit and stuck. Indeed for more you are using this mobile LND node, the neutrino files get bigger and also the channel.db file.</p>
+<p><span style="color:yellow;">Quick fix:</span> Go to Blixt Options - Debug section - Select "stop LND and delete neutrino files". It will restart the app and start a new fresh sync. Sometimes this quick fix can repair also corrupted data. Keep in mind that will take some time, between 1 and 3 min to fully resync. It is NOT deleting existing funds or channels, but yes, after resync it could trigger a re-scan of your bitcoin addresses and that could take more time.</p>
+<p>Next step is to check how much data is still occupied. You can see this in Android App info - data. If is still bigger than 400-500MB, you can compact the lnd files. So go to Blixt Options - Debug section - Select "Compact DB LND". Restart Blixt app if is not doing automatically. The compaction is taking place at startup and is only once. Now you will see that Blixt data is more less occupied.</p>
+
+<h5>Persistent mode</h5>
+<p>Sometimes people do not open Blixt for long time, so is way too old the sync. But they expect to be synced instantly when they open it.</p>
+<p>Please have patience, and look at the top spinning wheel. Optional you can go to Options - See Node Info and see if is synced to chain and synced to graph marked as "true". Without that "true" mention you cannot use properly Blixt, you cannot see correctly the balance, you cannot see the LN channels online, you cannot do payments.</p>
+<p><span style="color:yellow;">Quick fix:</span> There's a powerful option to "keep alive" your Blixt node. Go to Options - Experiments - Select "Activate Persistent Mode". That will restart your Blixt and will put the lnd service in persistent mode, aka will always be active and keep online your sync, even if you switch to another app or simply close Blixt (not force close or kill the task). You can keep it like that all day if you are in a stable connection and you need to use Blixt several times. It will not consume too much the battery.</p>
+
+<h4 style="color:Yellow;">CASE 3 - I WANT TO MIGRATE TO ANOTHER DEVICE</h4>
+<p>OK about this scenario I wrote extensive guide on the <a href="https://blixtwallet.github.io/faq#blixt-restore">FAQ page</a>: with 2 options, fast (cooperative close of channels before migration) and slow (force close channels because old device is dead).</p>
+<p>But I want to reiterate here some important aspects and add a new "secret" procedure.</p>
+<p style="color:yellow;">REMINDER:</p>
+<ul>
+<li>Always do a backup of your channels status (SCB) AFTER each time you open or close a channel. It takes just few seconds to do it.</li>
+<li>Do not keep the old SCB files, to not get confused and restore them. Are totally useless and could trigger a penalty procedure if you se them. Always use the last version of the SCB file if you proceed to restore.</li>
+<li>Save the SCB file (is an encrypted text with the extension .bin) out of your device, in a safe place. You can use <a href="https://github.com/localsend/localsend">LocalSend</a> for moving this file onto a PC or other device.</li>
+<li>Save also the seed of your Blixt wallet in a safe place, for example an offline password manager / encrypted USB.</li>
+
+<p><span style="color:yellow;">Secret method:</span> How to migrate Blixt node without closing the existing channels. For this you will need to read carefully the previous section in this guide about "Restore wallet".</p>
+<p>This procedure IT IS NOT FOR NOOBS, it is only for advanced users! That's why is not widely open and I recommend to do it only with assistance from Blixt devs or my support. Please do not ignore this advice.</p>
+
+<h4 style="color:Yellow;">CASE 4 - WHAT PEERS TO USE TO OPEN CHANNELS?</h4>
+<p>As I wrote in <a href="https://blixtwallet.github.io/guides">Blixt guides page</a> there are many ways to open channels with this mobile LND node. But some important aspects I would like to remind you here:</p>
+<ul>
+<li>open with well known LSP nodes and with community vouched peers. <a href="https://github.com/hsjoberg/blixt-wallet/issues/1033">See here a list</a></li>
+<li>do not open with random Tor only nodes. Those are worthless and you will get only issues of not being able to do payments. No matter how good is your friend "the node runner" with a shity Tor node in a jungle, it will never give you the best routes for a mobile private node. You do not open channels with somebody because is your friend. This is not Facebook! You open a channel for: good routes, small fees, availability.</li>
+<li>there's no need to open a shit ton of small channels, 2-3 or max 4, but with a good amount of sats. Do not open small channels, are totally useless. Smaller than 200k for a mobile have not much use.</li>
+<li>keep in mind the LSPs that offer inbound channels and JIT (just in time) channels. Those are very useful because you do not need to use any of your UTXOs, you can pay the opening channel with funds you already have in other LN wallets, stacking and preparing them for a bigger channel to open. You should use these JIT channels in your favor. <a href="/nodes/managing-lightning-node-liquidity-en.html">I've explained in this guide</a> more options for peers for private nodes like Blixt. Also <a href="https://stacker.news/items/679242/r/DarthCoin">here in this guide posted on SN</a> I explained how to manage the private mobile nodes liquidity.</li>
+</ul>
+<hr style="height:2px">
+
 <h3>Conclusion</h3>
 <p>OK, there are many other amazing features that Blixt offers, I will let you discover them one by one and have fun.</p>
 <p>This app is really underestimated, mainly because is not backed by any VCs funding, is community driven, build with love and passion for Bitcoin and Lightning Network.</p>
@@ -304,7 +394,7 @@ image: /assets/images/blixt-darth-moms.jpg
 <li><a href="https://twitter.com/BlixtWallet">Twitter</a></li>
 <li><a href="https://geyser.fund/project/blixt">Geyser crowdfunding page</a> - donate sats as you like to support the project</li>
 <li><a href="https://chat.blixtwallet.com/">LNURL Chat Blixt</a> - anonymous LN chat</li>
-<li><a href="https://lightning.video/06fdf68f99e246a6ec6ba1470677b9e632faaad4aa0ca9773c38714b682a4ac1">Blixt presentation - promo video</a></li
+<li><a href="https://lightning.video/06fdf68f99e246a6ec6ba1470677b9e632faaad4aa0ca9773c38714b682a4ac1">Blixt presentation - promo video</a></li>
 <li><a href="https://lightning.video/eeb744202ad3f14c18bf6d719970ebd9c53f0f13b79c94d299c6be623fba64b6">Blixt Girls Calendar</a> - promo video (you can test your 1st use of LN)</li>
 <li><a href="https://github.com/BlixtWallet/blixtwallet.github.io/tree/master/assets/flyer">Printable A4 flyer with first steps using Blixt, in various languages</a>.</li>
 <li><a href="https://blixt-wallet-git-master-hsjoberg.vercel.app/">Blixt also offers a full functional demo</a> right on its website or on a dedicated version web, to have a full experience testing, before start using in real world.</li>
