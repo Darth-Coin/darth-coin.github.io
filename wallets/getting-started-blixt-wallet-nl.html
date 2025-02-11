@@ -33,6 +33,7 @@ title: Aan de slag met Blixt Mobile Node
 <p>Deze Blixt-node moet online zijn en ALLEEN gesynchroniseerd zijn VOORDAT u uw transacties gaat doen. Daarom ziet u bovenaan een pictogram dat de synchronisatiestatus aangeeft. Het duurt slechts enkele ogenblikken, afhankelijk van hoe lang u het offline hebt gehouden.</p>
 </li>
 <li>Blixt gebruikt LND (aezeed) als wallet-backend, dus probeer geen andere typen bitcoin-wallets erin te importeren. <a href="https://coldbit.com/what-types-of-mnemonic-seeds-are-used-in-bitcoin/">Hier hebt u de typen wallet-mnemonic seeds uitgelegd</a>. En hier is <a href="https://walletsrecovery.org/">een uitgebreidere lijst van alle typen wallets</a>. Dus als je eerder een LND-knooppunt had, kun je de seed en de backup.channels importeren in Blixt, <a href="/nodes/shtf-restore-lnd-node-nl.html">zoals uitgelegd in deze handleiding</a>.</li>
+<li>Aan het einde van deze gids vindt u een speciaal gedeelte met <a href="#tips">"tips en trucs"</a></li>
 <li>Belangrijke links voor Blixt - zie ze aan het einde van deze handleiding, voeg ze toe aan je bladwijzers:</li>
 </ol>
 <p><img src="/assets/images/blixt-darth-moms.jpg" class="center"></p>
@@ -279,6 +280,96 @@ title: Aan de slag met Blixt Mobile Node
 </ul>
 
 <p><img src="/assets/images/blixt-always-backup.jpg" class="center"></p>
+
+<hr style="height:2px">
+
+<h3 id="tips" style="color:Orange;">Blixt - Tips en trucs <a href="#tips">#</a></h3>
+<h4 style="color:Yellow;">CASE 1 - SYNCHRONISATIEPROBLEMEN</h4>
+<blockquote style="color:Tomato;"><em>
+Mijn Blixt synchroniseert niet... Mijn Blixt toont het saldo niet... Mijn Blixt kan geen kanalen openen... Ik heb geprobeerd het te herstellen op een ander apparaat... etc.
+</em></blockquote>
+<p>Al deze problemen beginnen omdat UW APPARAAT NIET GOED SYNCHRONISEERT. Begrijp dit belangrijke aspect: Blixt is een mobiele LND-node, die Neutrino gebruikt voor het synchroniseren/lezen van de blokken.</p>
+<ul>
+<li>Hier is een minder technische uitleg van <a href="https://bitcoinmagazine.com/technical/why-bitcoin-wallets-need-block-filters">Bitcoin Magazine</a></li>
+<li>Hier zijn meer technische bronnen van <a href="https://bitcoinops.org/en/topics/compact-block-filters/">Bitcoin Optech</a></li>
+<li>Hier is hoe je Neutrino op je eigen home node kunt activeren en blockfilters voor je mobiele node kunt serveren, van <a href="https://docs.lightning.engineering/lightning-network-tools/lnd/enable-neutrino-mode-in-bitcoin-core">Docs Lightning Engineering</a></li>
+</ul>
+<p><span style="color:yellow;">HERINNERING:</span> Neutrino gebruiken via clearnet is volkomen veilig, uw IP of xpub worden niet gelekt. U leest gewoon blokken van een externe node met neutrino. Dat is alles. De rest gebeurt op uw lokale apparaat.</p>
+<p>Het is dus NIET NODIG om het met Tor te gebruiken. Tor zal een enorme latentie toevoegen aan uw synchronisatieproces en zal uw Blixt erg instabiel maken. Als u echt via Tor wilt gebruiken, wees dan zeker van wat u doet en heb een goede verbinding en geduld. Hetzelfde geldt voor het gebruik van een VPN. Wees voorzichtig met de latentie die je van die VPN krijgt.</p>
+<p>Je kunt de latentie van een neutrino-server testen door deze eenvoudig te pingen, vanaf een pc of vanaf je mobiel.</p>
+<p><img src="/assets/images/blixt.ping-peer.jpg" class="center"></p>
+<p>Dit is een gebruikelijke ping naar de neutrino-server europe.blixtwallet.com, dit laat zien dat de verbinding erg goed is met een responstijd van gemiddeld 50 ms en een TTL van 51. De responstijd kan variëren, maar niet te veel. TTL moet stabiel zijn.</p>
+<p>Als deze waarden hoger zijn dan 100-150 ms, dan zal je synchronisatieproces verouderd zijn of, nog erger, het kan gesloten kanalen door peers veroorzaken! Negeer dit aspect niet.</p>
+<p>Zonder een goede synchronisatie kun je ook niet de juiste balans zien of zullen je LN-kanalen niet online en operationeel worden. Het maakt niet uit hoeveel giga ultra terra mbps je hebt, de downloadsnelheid MAAKT NIET UIT. Het gaat om de tijdrespons en TTL (time to live).</p>
+<p>Dit is een algemeen geval voor LATAM-gebruikers. Ik weet niet wat er daar gebeurt, maar jullie hebben een vreselijke verbinding met pings van meer dan 200 ms die elke synchronisatie kunnen verstoren.</p>
+<p style="color:yellow;">Dus wat is de oplossing voor deze wanhopige gebruikers?</p>
+<ul>
+<li>stop met het gebruiken van Blixt met Tor. Is totaal nutteloos</li>
+<li>je kunt een VPN gebruiken, maar kies deze verstandig en houd de ping voortdurend in de gaten. Gebruik er een die dichter bij je geografische locatie is. Afstand betekent meer ms responstijd, onthoud dat.</li>
+<li>selecteer verstandig je neutrino-peers, hier is een lijst met bekende openbare neutrino-servers:</li>
+</ul>
+<pre><code>
+For US region
+btcd1.lnolymp.us | btcd2.lnolymp.us
+btcd-mainnet.lightning.computer
+swest.blixtwallet.com (Seattle)
+node.eldamar.icu
+noad.sathoarder.com
+bb1.breez.technology | bb2.breez.technology
+neutrino.shock.network
+For EU region
+europe.blixtwallet.com (Germany)
+For Asia region
+sg.lnolymp.us
+asia.blixtwallet.com
+</code></pre>
+
+<p>Een andere manier is om er een te selecteren uit deze lijst met nodes die de "compacte filters" (BIP157 / neutrino) aankondigen - <a href="https://bitnodes.io/nodes/?q=NODE_COMPACT_FILTERS">Bitnodes Page Neutrino filter</a>. Kies er een die dichter bij uw geografische locatie ligt.</p>
+<p>Een andere manier (de beste manier) is om verbinding te maken met een lokale community node, gerund door een vriend of groep die u kent, en die een neutrino-verbinding aanbiedt. <a href="https://docs.lightning.engineering/lightning-network-tools/lnd/enable-neutrino-mode-in-bitcoin-core">Hier zijn de instructies hoe je het moet doen.</a> Hun node zal op geen enkele manier worden beïnvloed, ze hebben alleen een stabiele en openbare verbinding nodig.</p>
+<p>Er is behoefte aan meer neutrino-servers in de LATAM-regio, voor een betere en snelle synchronisatie. Organiseer jezelf dus, met je lokale Bitcoin-community en bepaal wie en waar een Bitcoin Core + Neutrino voor je eigen gebruik draait. Alleen een openbaar IP is voldoende. Als je geen toegang hebt tot een openbaar IP, kun je een VPS-IP gebruiken en een wireguard-tunnel maken naar je thuisnode. Op die manier leidt u al het verkeer om naar uw lokale VPS IP, zonder dat u privé-informatie over uw home node prijsgeeft.</p>
+
+<h4 style="color:Yellow;">CASE 2 - SYNCHRONISATIE NOOIT AFRONDEN</h4>
+<blockquote style="color:Tomato;"><em>
+Mijn Blixt heeft een goede verbinding met de neutrino-server, maar blijft hangen bij het synchroniseren.
+</em></blockquote>
+
+<h5>Tijdserver</h5>
+<p>Soms gebruiken mensen verschillende oude apparaten of zijn ze niet goed verbonden met een tijdserver. Neutrino synchroniseert goed totdat de werkelijke blokken worden bereikt die niet overeenkomen met de echte lokale tijd. U ziet in Blixt lnd logs een foutmelding die zegt dat "block time stamp is far from future" of iets dat te maken heeft met "header don't pass sanity check".</p>
+<p><span style="color:yellow;">Snelle oplossing:</span> stel de juiste tijd en datum in voor uw apparaat en start Blixt opnieuw op.</p>
+
+<h5>Weinig ruimte op apparaat</h5>
+<p>Soms kan het gebruik van een oud apparaat met weinig ruimte een drempelwaarde bereiken en vastlopen. Als u deze mobiele LND-node vaker gebruikt, worden de neutrino-bestanden groter en ook het channel.db-bestand.</p>
+<p><span style="color:yellow;">Snelle oplossing:</span> Ga naar Blixt Options - Debug-sectie - Selecteer "stop LND and delete neutrino files". De app wordt opnieuw opgestart en er wordt een nieuwe, frisse synchronisatie gestart. Soms kan deze snelle oplossing ook beschadigde gegevens repareren. Houd er rekening mee dat het enige tijd duurt, tussen 1 en 3 minuten om volledig opnieuw te synchroniseren. Het verwijdert GEEN bestaande fondsen of kanalen, maar ja, na het opnieuw synchroniseren kan het een herscan van je bitcoinadressen activeren en dat kan meer tijd kosten.</p>
+<p>De volgende stap is om te controleren hoeveel data er nog bezet is. Je kunt dit zien in Android App info - data. Als het nog steeds groter is dan 400-500 MB, kun je de lnd-bestanden comprimeren. Ga dus naar Blixt Options - Debug-sectie - Selecteer "Compact DB LND". Start de Blixt-app opnieuw als dit niet automatisch gebeurt. Het comprimeren vindt plaats bij het opstarten en is slechts één keer. Nu zul je zien dat de Blixt-data minder bezet is.</p>
+
+<h5>Persistent mode</h5>
+<p>Soms openen mensen Blixt lange tijd niet, dus is de synchronisatie veel te oud. Maar ze verwachten dat het direct wordt gesynchroniseerd wanneer ze het openen.</p>
+<p>Heb geduld en kijk naar het bovenste draaiende wiel. Optioneel kunt u naar Opties - Node-info bekijken gaan en kijken of het is gesynchroniseerd met de keten en gesynchroniseerd met de grafiek die is gemarkeerd als "true". Zonder die "true"-vermelding kunt u Blixt niet goed gebruiken, kunt u het saldo niet correct zien, kunt u de LN-kanalen niet online zien, kunt u geen betalingen doen.</p>
+<p><span style="color:yellow;">Snelle oplossing:</span> Er is een krachtige optie om uw Blixt-knooppunt "in leven te houden". Ga naar Opties - Experimenten - Selecteer "Activeer persistente modus". Dat zal uw Blixt opnieuw opstarten en de lnd-service in persistente modus zetten, oftewel altijd actief zijn en uw synchronisatie online houden, zelfs als u naar een andere app overschakelt of Blixt gewoon sluit (niet geforceerd sluiten of de taak beëindigen). U kunt het de hele dag zo laten als u een stabiele verbinding hebt en u Blixt meerdere keren moet gebruiken. Het zal niet te veel batterij verbruiken.</p>
+
+<h4 style="color:Yellow;">CASE 3 - IK WIL MIGREREN NAAR EEN ANDER APPARAAT</h4>
+<p>Oké, over dit scenario heb ik een uitgebreide handleiding geschreven op de <a href="https://blixtwallet.github.io/faq#blixt-restore">FAQ-pagina</a>: met 2 opties, snel (coöperatief sluiten van kanalen vóór migratie) en langzaam (geforceerd sluiten van kanalen omdat het oude apparaat dood is).</p>
+<p>Maar ik wil hier enkele belangrijke aspecten herhalen en een nieuwe "geheime" procedure toevoegen.</p>
+<p style="color:yellow;">HERINNERING:</p>
+<ul>
+<li>Maak ALTIJD een back-up van de status van je kanalen (SCB) NADAT je een kanaal opent of sluit. Het duurt maar een paar seconden om dit te doen.</li>
+<li>Bewaar de oude SCB-bestanden niet, om niet in de war te raken en ze te herstellen. Ze zijn totaal nutteloos en kunnen een strafprocedure activeren als je ze ziet. Gebruik altijd de laatste versie van het SCB-bestand als u doorgaat met herstellen.</li>
+<li>Sla het SCB-bestand (een gecodeerde tekst met de extensie .bin) op een veilige plek op van uw apparaat. U kunt <a href="https://github.com/localsend/localsend">LocalSend</a> gebruiken om dit bestand naar een pc of ander apparaat te verplaatsen.</li>
+<li>Sla ook de seed van uw Blixt-portemonnee op een veilige plek op, bijvoorbeeld een offline wachtwoordbeheerder / gecodeerde USB.</li>
+</ul>
+
+<p><span style="color:yellow;">Geheime methode:</span> Hoe u een Blixt-knooppunt migreert zonder de bestaande kanalen te sluiten. Hiervoor moet u de vorige sectie "Derde contactpersoon" in deze handleiding over "Portemonnee herstellen" aandachtig lezen.</p>
+<p>Deze procedure is NIET VOOR NOOBS, maar alleen voor gevorderde gebruikers! Daarom is het niet algemeen toegankelijk en raad ik aan om het alleen te doen met hulp van Blixt-ontwikkelaars of mijn ondersteuning. Negeer dit advies alstublieft niet.</p>
+
+<h4 style="color:Yellow;">CASE 4 - WELKE PEERS MOET U GEBRUIKEN OM KANALEN TE OPENEN?</h4>
+<p>Zoals ik schreef op de <a href="https://blixtwallet.github.io/guides">Blixt-handleidingenpagina</a> zijn er veel manieren om kanalen te openen met deze mobiele LND-node. Maar ik wil u hier graag herinneren aan een aantal belangrijke aspecten:</p>
+<ul>
+<li>Open met bekende LSP-nodes en met peers die door de community zijn goedgekeurd. <a href="https://github.com/hsjoberg/blixt-wallet/issues/1033">Zie hier een lijst</a></li>
+<li>Open niet met willekeurige Tor-only-nodes. Die zijn waardeloos en u krijgt alleen problemen met het niet kunnen uitvoeren van betalingen. Hoe goed je vriend "de node runner" ook is met een shitty Tor node in een jungle, het zal je nooit de beste routes geven voor een mobiele private node. Je opent geen kanalen met iemand omdat het je vriend is. Dit is geen Facebook! Je opent een kanaal voor: goede routes, kleine kosten, beschikbaarheid.</li>
+<li>het is niet nodig om een ​​shit ton aan kleine kanalen te openen, 2-3 of max 4, maar met een goede hoeveelheid sats. Open geen kleine kanalen, ze zijn totaal nutteloos. Kleiner dan 200k voor een mobiel hebben niet veel nut.</li>
+<li>houd de LSP's in gedachten die inbound kanalen en JIT (just in time) kanalen aanbieden. Die zijn erg handig omdat je geen van je UTXO's hoeft te gebruiken, je kunt het openingskanaal betalen met fondsen die je al in andere LN wallets hebt, ze stapelen en voorbereiden voor een groter kanaal om te openen. Je zou deze JIT kanalen in je voordeel moeten gebruiken. <a href="/nodes/managing-lightning-node-liquidity-en.html">Ik heb in deze gids</a> meer opties voor peers voor private nodes zoals Blixt uitgelegd. Ook <a href="https://stacker.news/items/679242/r/DarthCoin">hier in deze gids die op SN is geplaatst</a> heb ik uitgelegd hoe je de liquiditeit van private mobiele nodes kunt beheren.</li>
+</ul>
+<hr style="height:2px">
 
 <h3>Conclusie</h3>
 <p>Oké, er zijn nog veel meer geweldige functies die Blixt biedt, ik laat je ze één voor één ontdekken en veel plezier.</p>

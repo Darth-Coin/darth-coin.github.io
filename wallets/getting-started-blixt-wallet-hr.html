@@ -33,6 +33,7 @@ title: Prvi koraci s Blixt Mobile Node
  <p>Ovaj Blixt čvor je neophodan da bude na mreži i sinkroniziran SAMO PRIJE nego počnete obavljati svoje transakcije. Zato ćete na vrhu vidjeti ikonu koja označava status sinkronizacije. Traje samo nekoliko trenutaka, ovisno o tome koliko ste ga vremena držali izvan mreže.</p>
 </li>
 <li>Blixt koristi LND (aezeed) kao pozadinu novčanika, stoga ne pokušavajte u njega uvesti druge vrste bitcoin novčanika. <a href="https://coldbit.com/what-types-of-mnemonic-seeds-are-used-in-bitcoin/">Ovdje ste objasnili vrste mnemoničkih sjemenki novčanika</a>. A ovdje je <a href="https://walletsrecovery.org/">opširniji popis svih vrsta novčanika</a>. Dakle, ako ste prethodno imali LND čvor, možete uvesti početnu vrijednost i backup.channels u Blixt, <a href="/nodes/shtf-restore-lnd-node-hr.html">kako je objašnjeno u ovom vodiču </a>.</li>
+<li>Na kraju ovog vodiča pronaći ćete poseban odjeljak s <a href="#tips">"savjetima i trikovima"</a></li>
 <li>Blixt važne veze - pogledajte ih na kraju ovog vodiča, označite ih kao oznake:</li>
 </ol>
 <p><img src="/assets/images/blixt-darth-moms.jpg" class="center"></p>
@@ -279,6 +280,95 @@ title: Prvi koraci s Blixt Mobile Node
 </ul>
 
 <p><img src="/assets/images/blixt-always-backup.jpg" class="center"></p>
+<hr style="height:2px">
+
+<h3 id="tips" style="color:Orange;">Blixt - Savjeti i trikovi <a href="#tips">#</a></h3>
+<h4 style="color:Yellow;">PRVI SLUČAJ - PROBLEMI S SINKRONIZACIJOM</h4>
+<blockquote style="color:Tomato;"><em>
+Moj Blixt se ne sinkronizira... Moj Blixt ne pokazuje ravnotežu... Moj Blixt ne može otvoriti kanale... Pokušao sam ga vratiti na drugom uređaju... itd.
+</em></blockquote>
+<p>Svi ovi problemi počinju jer se VAŠ UREĐAJ NE SINKRONIZIRA ISPRAVNO. Molimo vas da shvatite ovaj važan aspekt: ​​Blixt je mobilni LND čvor koji koristi Neutrino za sinkronizaciju/čitanje blokova.</p>
+<ul>
+<li>Evo manje tehničkog objašnjenja iz <a href="https://bitcoinmagazine.com/technical/why-bitcoin-wallets-need-block-filters">Bitcoin Magazine</a></li>
+<li>Ovdje je još tehničkih resursa tvrtke <a href="https://bitcoinops.org/en/topics/compact-block-filters/">Bitcoin Optech</a></li>
+<li>Evo kako možete aktivirati Neutrino na vlastitom kućnom čvoru i poslužiti filtre blokova za svoj mobilni čvor, iz <a href="https://docs.lightning.engineering/lightning-network-tools/lnd/enable-neutrino-mode-in-bitcoin-core">Docs Lightning Engineering</a></li>
+</ul>
+<p><span style="color:yellow;"> PODSJETNIK:</span> Korištenje Neutrina preko Clearneta potpuno je sigurno, vaš IP ili xpub nisu otkriveni. Vi samo čitate blokove s udaljenog čvora pomoću neutrina. to je sve Sve ostalo obavlja se na vašem lokalnom uređaju.</p>
+<p>Dakle, NEMA POTREBE koristiti ga s Torom. Tor će dodati veliku latenciju vašem procesu sinkronizacije i učinit će vaš Blixt vrlo nestabilnim. Ako stvarno želite koristiti Tor, budite sigurni što radite i imajte dobru vezu i strpljenje. Isti slučaj za korištenje VPN-a. Budite oprezni kakvu vam latenciju daje taj VPN.</p>
+<p>Latenciju neutrino poslužitelja možete testirati jednostavnim pingom s računala ili mobilnog telefona.</p>
+<p><img src="/assets/images/blixt.ping-peer.jpg" class="center"></p>
+<p>Ovo je uobičajeni ping prema neutrino poslužitelju europe.blixtwallet.com, pokazuje da je veza vrlo dobra s prosječnim vremenom odziva od 50 ms i TTL-om od 51. Vrijeme odgovora može varirati, ali ne previše. TTL mora biti stabilan.</p>
+<p>Ako su te vrijednosti veće od 100-150 ms, tada će vaš proces sinkronizacije biti ustajao ili još gore, mogao bi uzrokovati zatvaranje kanala od strane ravnopravnih uređaja! Nemojte ignorirati ovaj aspekt.</p>
+<p>Bez pravilne sinkronizacije, također ne možete vidjeti ispravnu ravnotežu ili vaši LN kanali neće biti online i operativni. Bez obzira koliko giga ultra terra mbps imate, brzina preuzimanja NIJE BITNA. Važan je vremenski odgovor i TTL (vrijeme života).</p>
+<p>Ovo je kao opći slučaj za LATAM korisnike. Ne znam što se tamo dolje događa, ali vi imate užasnu vezu s pingovima od preko 200 ms koji mogu poremetiti svaku sinkronizaciju.</p>
+<p style="color:yellow;">Dakle, koje je rješenje za ove očajne korisnike?</p>
+<ul>
+<li>prestanite koristiti Blixt s Torom. Potpuno je beskoristan</li>
+<li>možete koristiti VPN, ali ga odaberite mudro i cijelo vrijeme pratite ping. Koristite onaj koji je bliži vašem zemljopisnom položaju. Udaljenost znači više ms vremena odgovora, zapamtite.</li>
+<li>mudro odaberite svoje neutrino vršnjake, ovdje je popis dobro poznatih javnih neutrino poslužitelja:</li>
+</ul>
+<pre><code>
+For US region
+btcd1.lnolymp.us | btcd2.lnolymp.us
+btcd-mainnet.lightning.computer
+swest.blixtwallet.com (Seattle)
+node.eldamar.icu
+noad.sathoarder.com
+bb1.breez.technology | bb2.breez.technology
+neutrino.shock.network
+For EU region
+europe.blixtwallet.com (Germany)
+For Asia region
+sg.lnolymp.us
+asia.blixtwallet.com
+</code></pre>
+
+<p>Drugi način je odabrati jedan s ovog popisa čvorova koji najavljuju "kompaktne filtre" (BIP157 / neutrino) - <a href="https://bitnodes.io/nodes/?q=NODE_COMPACT_FILTERS">Neutrino filtar stranice Bitnodes</a>. Odaberite onaj koji je bliži vašem zemljopisnom položaju.</p>
+<p>Drugi način (najbolji način) je povezivanje s čvorom lokalne zajednice, koji vodi prijatelj ili grupa koju poznajete, a nudi neutrinsku vezu. <a href="https://docs.lightning.engineering/lightning-network-tools/lnd/enable-neutrino-mode-in-bitcoin-core">Ovdje su upute kako to učiniti.</a> To ni na koji način neće utjecati na njihov čvor, samo im je potrebna stabilna i javna veza.</p>
+<p>Postoji potreba za više neutrino poslužitelja u LATAM regiji, za bolju i bržu sinkronizaciju. Zato vas molimo da se organizirate, sa svojom lokalnom Bitcoin zajednicom i odlučite tko i gdje pokreće Bitcoin Core + Neutrino za vašu vlastitu upotrebu. Dovoljan je samo javni IP. Ako nemate pristup javnom IP-u, možete koristiti VPS IP i napraviti zaštitni tunel do svog kućnog čvora. Na taj način preusmjeravate sav promet na vaš lokalni VPS IP, bez otkrivanja bilo kakvih privatnih informacija o vašem matičnom čvoru.</p>
+
+<h4 style="color:Yellow;">SLUČAJ 2 - NIKAD NEMOJTE DOVRŠAVATI SINKRONIZACIJU</h4>
+<blockquote style="color:Tomato;"><em>
+Moj Blixt ima dobru vezu s neutrino poslužiteljem, ali je zapela sinkronizacija.
+</em></blockquote>
+
+<h5>Vremenski poslužitelj</h5>
+<p>Ponekad ljudi koriste razne stare uređaje ili nisu pravilno povezani s vremenskim poslužiteljem. Neutrino se dobro sinkronizira dok ne dosegne stvarne blokove koji ne odgovaraju stvarnom lokalnom vremenu. U zapisnicima Blixt lnd vidjet ćete pogrešku koja kaže da je "vremenska oznaka bloka daleko od budućnosti" ili nešto povezano s "zaglavlje ne prolazi provjeru ispravnosti".</p>
+<p><span style="color:yellow;">Brzo rješenje:</span> postavite točno vrijeme i datum za svoj uređaj i ponovno pokrenite Blixt.</p>
+
+<h5>Malo prostora na uređaju</h5>
+<p>Ponekad korištenjem starog uređaja, s malo prostora, može doći do granične vrijednosti i zaglaviti se. Zaista ako više koristite ovaj mobilni LND čvor, datoteke neutrina postaju veće, a također i datoteka channel.db.</p>
+<p><span style="color:yellow;">Brzo rješenje:</span> Idite na Blixt Options - Debug section - Odaberite "stop LND and delete neutrino files". Ponovno će pokrenuti aplikaciju i pokrenuti novu svježu sinkronizaciju. Ponekad ovaj brzi popravak može popraviti i oštećene podatke. Imajte na umu da će za potpunu ponovnu sinkronizaciju trebati neko vrijeme, između 1 i 3 minute. NE briše postojeća sredstva ili kanale, ali da, nakon ponovne sinkronizacije moglo bi pokrenuti ponovno skeniranje vaših bitcoin adresa i to bi moglo potrajati više vremena.</p>
+<p>Sljedeći korak je provjeriti koliko je podataka još zauzeto. To možete vidjeti u podacima o Android aplikaciji. Ako je i dalje veći od 400-500 MB, možete kompaktirati lnd datoteke. Dakle, idite na Blixt Options - Debug section - Odaberite "Compact DB LND". Ponovno pokrenite aplikaciju Blixt ako ne radi automatski. Sažimanje se odvija pri pokretanju i samo jednom. Sada ćete vidjeti da su Blixt podaci više manje zauzeti.</p>
+
+<h5>Trajni način rada</h5>
+<p>Ponekad ljudi dugo ne otvaraju Blixt, pa je sinkronizacija prestara. Ali očekuju da će biti sinkronizirani čim ga otvore.</p>
+<p>Molimo vas za strpljenje i pogledajte gornji kotač koji se okreće. Opcionalno možete otići na Opcije - Pogledajte informacije o čvoru i provjerite je li sinkroniziran s lancem i sinkroniziran s grafom označenim kao "true". Bez tog "pravog" spominjanja ne možete pravilno koristiti Blixt, ne možete ispravno vidjeti stanje, ne možete vidjeti LN kanale na mreži, ne možete vršiti plaćanja.</p>
+<p><span style="color:yellow;">Brzo rješenje:</span> Postoji moćna opcija za "održavanje na životu" vašeg Blixt čvora. Idite na Opcije - Eksperimenti - Odaberite "Aktiviraj trajni način". To će ponovno pokrenuti vaš Blixt i staviti lnd uslugu u trajni način rada, odnosno uvijek će biti aktivan i održavati vašu sinkronizaciju online, čak i ako se prebacite na drugu aplikaciju ili jednostavno zatvorite Blixt (ne prisilno zatvorite ili ukinite zadatak). Možete ga držati tako cijeli dan ako ste u stabilnoj vezi i trebate koristiti Blixt nekoliko puta. Neće previše trošiti bateriju.</p>
+
+<h4 style="color:Yellow;">SLUČAJ 3 - ŽELIM PRESJELI NA DRUGI UREĐAJ</h4>
+<p>OK o ovom scenariju napisao sam opširan vodič na <a href="https://blixtwallet.github.io/faq#blixt-restore">stranici s često postavljanim pitanjima</a>: s 2 opcije, brzo (kooperativno zatvaranje kanala prije migracije) i sporo (prisilno zatvaranje kanala jer je stari uređaj mrtav).</p>
+<p>Ali želim ovdje ponoviti neke važne aspekte i dodati novu "tajnu" proceduru.</p>
+<p style="color:yellow;">PODSJETNIK:</p>
+<ul>
+<li>Uvijek napravite sigurnosnu kopiju statusa kanala (SCB) NAKON svakog otvaranja ili zatvaranja kanala. Za to je potrebno samo nekoliko sekundi.</li>
+<li>Nemojte čuvati stare SCB datoteke da se ne zbunite i vratite ih. Potpuno su beskorisni i mogli bi pokrenuti kazneni postupak ako ih vidite. Uvijek koristite posljednju verziju SCB datoteke ako nastavite s vraćanjem.</li>
+<li>Spremite SCB datoteku (kriptirani tekst s nastavkom .bin) izvan svog uređaja na sigurno mjesto. Možete koristiti <a href="https://github.com/localsend/localsend">LocalSend</a> za premještanje ove datoteke na računalo ili drugi uređaj.</li>
+<li>Spremite i početnu vrijednost svog Blixt novčanika na sigurno mjesto, na primjer izvanmrežni upravitelj lozinki / šifrirani USB.</li>
+</ul>
+
+<p><span style="color:yellow;">Tajna metoda:</span> Kako migrirati Blixt čvor bez zatvaranja postojećih kanala. Za ovo ćete morati pažljivo pročitati prethodni odjeljak "Treći kontakt" u ovom vodiču o "Vraćanju novčanika".</p>
+<p>Ovaj postupak NIJE ZA NOOBE, samo je za napredne korisnike! Zato nije široko otvoren i preporučam da to učinite samo uz pomoć Blixt devs ili moju podršku. Nemojte zanemariti ovaj savjet.</p>
+
+<h4 style="color:Yellow;">SLUČAJ 4 - KOJE PIROVE KORISTITI ZA OTVORENJE KANALA?</h4>
+<p>Kao što sam napisao na <a href="https://blixtwallet.github.io/guides">stranici vodiča za Blixt</a> postoji mnogo načina za otvaranje kanala s ovim mobilnim LND čvorom. Ali ovdje bih vas želio podsjetiti na neke važne aspekte:</p>
+<ul>
+<li>otvoreno s dobro poznatim LSP čvorovima i s ravnopravnim korisnicima za koje jamči zajednica. <a href="https://github.com/hsjoberg/blixt-wallet/issues/1033">Ovdje pogledajte popis</a></li>
+<li>nemojte otvarati s nasumičnim Tor samo čvorovima. Oni su bezvrijedni i imat ćete samo probleme s nemogućnošću plaćanja. Bez obzira koliko je dobar vaš prijatelj "trkač čvorova" sa usranim Tor čvorom u džungli, on vam nikada neće dati najbolje rute za mobilni privatni čvor. Ne otvarate kanale s nekim zato što vam je prijatelj. Ovo nije Facebook! Otvarate kanal za: dobre rute, male naknade, dostupnost.</li>
+<li>nema potrebe za otvaranjem gomile malih kanala, 2-3 ili najviše 4, ali s dobrom količinom satelita. Ne otvarajte male kanale, potpuno su beskorisni. Manji od 200k za mobitel nema mnogo koristi.</li>
+<li>imajte na umu LSP-ove koji nude ulazne kanale i JIT (just in time) kanale. One su vrlo korisne jer ne morate koristiti nijedan od svojih UTXO-ova, možete platiti početni kanal sredstvima koja već imate u drugim LN novčanicima, slažući ih i pripremajući za otvaranje većeg kanala. Trebali biste koristiti ove JIT kanale u svoju korist. <a href="/nodes/managing-lightning-node-liquidity-en.html">Objasnio sam u ovom vodiču</a> više opcija za ravnopravne čvorove za privatne čvorove kao što je Blixt. Također sam <a href="https://stacker.news/items/679242/r/DarthCoin">ovdje u ovom vodiču objavljenom na SN</a> objasnio kako upravljati likvidnošću privatnih mobilnih čvorova.</li>
+</ul>
+<hr style="height:2px">
 
 <h3>Zaključak</h3>
 <p>U redu, postoje mnoge druge nevjerojatne značajke koje Blixt nudi, dopustit ću vam da ih otkrijete jednu po jednu i zabavite se.</p>
