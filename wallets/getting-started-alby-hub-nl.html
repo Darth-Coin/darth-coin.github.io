@@ -74,19 +74,21 @@ title: Aan de slag met Alby Hub
 <p>Wat ik zou aanraden is om een ​​LND-instantie te installeren in <a href="https://docs.lightning.engineering/lightning-network-tools/lnd/enable-neutrino-mode-in-bitcoin-core">“neutrino mode”</a> op dezelfde machine waarop u Alby Hub gaat draaien. Op deze manier hoeft u niet ook een zware bitcoin core node te draaien, met volledige blokken die bijna alle machinebronnen opeten. En maak je geen zorgen, de "neutrino-modus" is geen "privacyprobleem", neutrino levert alleen blokken, datafilters, leest geen xpub of adressen, IP's etc. Het wordt ook gebruikt door Zeus (embedded), Blixt, Breez.</p>
 <p><strong>Installeren van lnd vanaf bron</strong></p>
 <p>Nu de voorbereidende stappen zijn voltooid, voer je de volgende opdrachten uit om lnd, lncli en alle gerelateerde afhankelijkheden te installeren:</p>
-<pre><code>git clone https://github.com/lightningnetwork/lnd
+<pre class="bash"><code>
+git clone https://github.com/lightningnetwork/lnd
 cd lnd
 make install
 </code></pre>
 <p>De opdracht hierboven installeert de huidige masterbranch van lnd. Als je een getagde release van lnd wilt installeren (omdat de masterbranch soms instabiel kan zijn), <a href="https://github.com/lightningnetwork/lnd/releases">ga dan naar de releasepagina om de nieuwste release te vinden. Ervan uitgaande dat de naam van de release v0.x.x</a> is, kunt u deze release compileren vanuit de bron met een kleine aanpassing aan de bovenstaande opdracht:</p>
-<pre><code>git clone https://github.com/lightningnetwork/lnd
+<pre class="bash"><code>
+git clone https://github.com/lightningnetwork/lnd
 cd lnd
 git checkout v0.x.x
 make install
 </code></pre>
 <p><a href="https://docs.lightning.engineering/lightning-network-tools/lnd/run-lnd">Lees hier meer over het installeren en configureren van een LND-instantie.</a></p>
 <p>In dat document vindt u ook de volgende lnd.conf-configuratie voor neutrino mode:</p>
-<pre><code>
+<pre class="bash"><code>
 <p>bitcoin.node=neutrino
 <p>feeurl=https://nodes.lightning.computer/fees/v1/btc-fee-estimates.json</p>
 </code></pre>
@@ -96,10 +98,10 @@ make install
 
 <p>Open Terminal en typ:</p>
 
-<pre><code>xxd -ps -u -c 1000 /home/user/.lnd/tls.cert</code></pre>
+<pre class="bash"><code>xxd -ps -u -c 1000 /home/user/.lnd/tls.cert</code></pre>
 <p>U ontvangt een HEX-code voor uw TLS-certificaat en plakt deze in de Alby Hub - "TLS Certificate box".</p>
 
-<pre><code>xxd -ps -u -c 1000 /path/to.macaroon</code></pre>
+<pre class="bash"><code>xxd -ps -u -c 1000 /path/to.macaroon</code></pre>
 <p>U ontvangt een HEX-code voor uw macaroonbestand en plakt deze in de Alby Hub - "Admin Macaroon box".</p>
 <blockquote>
 <p style="color:Tomato;"><em>LND-adres - uw lokale LND-instantie, bijv. 127.0.0.1:10009</em></p>

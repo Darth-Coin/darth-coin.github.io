@@ -72,19 +72,21 @@ title: Erste Schritte mit Alby Hub
 <p>Ich würde empfehlen, eine LND-Instanz im <a href="https://docs.lightning.engineering/lightning-network-tools/lnd/enable-neutrino-mode-in-bitcoin-core">„Neutrino-Modus“</a> auf derselben Maschine zu installieren, auf der Sie Alby Hub ausführen möchten. Auf diese Weise müssen Sie nicht auch einen schweren Bitcoin-Kernknoten mit vollen Blöcken ausführen, der fast alle Maschinenressourcen aufbraucht. Und keine Sorge, der „Neutrino-Modus“ ist kein „Datenschutzproblem“, Neutrino liefert nur Blockdatenfilter, liest keine xpub oder Adressen, IPs usw. Er wird auch von Zeus (eingebettet), Blixt, Breez verwendet.</p>
 <p><strong>lnd aus der Quelle installieren</strong></p>
 <p>Nachdem die vorbereitenden Schritte abgeschlossen sind, führen Sie die folgenden Befehle aus, um lnd, lncli und alle zugehörigen Abhängigkeiten zu installieren:</p>
-<pre><code>git clone https://github.com/lightningnetwork/lnd
+<pre class="bash"><code>
+git clone https://github.com/lightningnetwork/lnd
 cd lnd
 make install
 </code></pre>
 <p>Der obige Befehl installiert den aktuellen Master-Zweig von lnd. Wenn Sie eine getaggte Version von lnd installieren möchten (da der Master-Zweig manchmal instabil sein kann), <a href="https://github.com/lightningnetwork/lnd/releases">besuchen Sie die Versionsseite, um die neueste Version zu finden. Angenommen, der Name der Version lautet v0.x.x</a>, dann können Sie diese Version mit einer kleinen Änderung des obigen Befehls aus dem Quellcode kompilieren:</p>
-<pre><code>git clone https://github.com/lightningnetwork/lnd
+<pre class="bash"><code>
+git clone https://github.com/lightningnetwork/lnd
 cd lnd
 git checkout v0.x.x
 make install
 </code></pre>
 <p><a href="https://docs.lightning.engineering/lightning-network-tools/lnd/run-lnd">Weitere Einzelheiten zur Installation und Konfiguration der LND-Instanz finden Sie hier.</a></p>
 <p>In diesem Dokument finden Sie auch die folgende lnd.conf-Konfiguration für den Neutrino-Modus:</p>
-<pre><code>
+<pre class="bash"><code>
 <p>bitcoin.node=neutrino
 <p>feeurl=https://nodes.lightning.computer/fees/v1/btc-fee-estimates.json</p>
 </code></pre>
@@ -94,10 +96,10 @@ make install
 
 <p>Öffnen Sie Terminal und geben Sie ein:</p>
 
-<pre><code>xxd -ps -u -c 1000 /home/user/.lnd/tls.cert</code></pre>
+<pre class="bash"><code>xxd -ps -u -c 1000 /home/user/.lnd/tls.cert</code></pre>
 <p>Sie erhalten einen HEX-Code für Ihr TLS-Zertifikat und fügen ihn in das Feld „TLS-Zertifikat“ des Alby Hub ein.</p>
 
-<pre><code>xxd -ps -u -c 1000 /path/to.macaroon</code></pre>
+<pre class="bash"><code>xxd -ps -u -c 1000 /path/to.macaroon</code></pre>
 <p>Sie erhalten einen HEX-Code für Ihre Macaroon-Datei und fügen ihn in der Alby Hub – „Admin Macaroon Box“.</p>
 <blockquote>
 <p style="color:Tomato;"><em>LND-Adresse – Ihre lokale LND-Instanz, z. B. 127.0.0.1:10009</em></p>
