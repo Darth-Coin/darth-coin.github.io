@@ -1,24 +1,29 @@
 ---
 layout: default-hi
 title: लाइटनिंग नोड रखरखाव
+description: आपके LN नोड रखरखाव के लिए अच्छे अभ्यासों के बारे में एक सरल मार्गदर्शिका
+image: /assets/images/ln-node-backup.jpg
 ---
 <article>
 <!DOCTYPE html>
 <html lang="hi">
 <meta name="description" content="बिटकॉइन और लाइटनिंग नोड्स गाइड: आपके LN नोड रखरखाव के लिए अच्छे अभ्यासों के बारे में एक सरल गाइड">
 <body>
-<a href="/nodes/lightning-node-maintenance-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
-<a href="/nodes/lightning-node-maintenance-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
-<a href="/nodes/lightning-node-maintenance-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
-<a href="/nodes/lightning-node-maintenance-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
-<a href="/nodes/lightning-node-maintenance-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
-<a href="/nodes/lightning-node-maintenance-nl.html">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
-<a href="/nodes/lightning-node-maintenance-hr.html">Hrvatski <img src="/assets/images/flag-HR.png" alt="HR" title="Hravtaski" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<center>
+<h2 style="color:Orange;">आपके LN नोड रखरखाव के लिए अच्छे अभ्यासों के बारे में एक सरल मार्गदर्शिका</h2>
+<p><img src="/assets/images/ln-node-backup.jpg" class="center"></p>
+| <a href="/nodes/lightning-node-maintenance-en.html"><img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-node-maintenance-es.html"><img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-node-maintenance-de.html"><img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-node-maintenance-fr.html"><img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-node-maintenance-it.html"><img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-node-maintenance-nl.html"><img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-node-maintenance-hr.html"><img src="/assets/images/flag-HR.png" alt="HR" title="Hravtaski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+</center>
 <blockquote style="color:Tomato;"><em>
 <p>मूल रूप से <a href="https://darthcoin.substack.com/p/lightning-node-maintenance">Substack</a> पर 30 अप्रैल, 2022 को पोस्ट किया गया। 25 दिसंबर, 2024 को यहां अपडेट किया गया।</p>
 </em></blockquote>
 
-<h3>आपके LN नोड रखरखाव के लिए अच्छे अभ्यासों के बारे में एक सरल मार्गदर्शिका</h3>
 <blockquote style="color:Tomato;"><em>
 <p>यहां सभी पहलू मेरे दृष्टिकोण से प्रस्तुत किए गए हैं, अंतिम उपयोगकर्ताओं, सर्वरों और उद्यमों के लिए आईटी तकनीक और समर्थन में 25+ वर्षों के अनुभव के बाद। बिटकॉइनलैंडिया में 10+ साल काम करने के बाद, कई ऐप और समाधानों का परीक्षण करने के बाद, पिछले 2 सालों में मैंने बहुत से अम्ब्रेल उपयोगकर्ताओं की मदद करना शुरू कर दिया है और LN नोड का उपयोग करने में उनके व्यवहार का निरीक्षण किया है।</p>
 <p>इस गाइड का अनुरोध मेरे एक सबस्टैक रीडर ने किया था। इसलिए मैंने इसे डिलीवर किया।</p>
@@ -34,7 +39,6 @@ title: लाइटनिंग नोड रखरखाव
 <li>एक अविश्वसनीय नोड मृत चैनलों में फंड को लॉक कर देगा, पीयर उन फंडों पर निर्भर करता है।</li>
 <li>मैं यहां कुछ अच्छी प्रथाओं के बारे में बताऊंगा जिन्हें एक नोड ऑपरेटर को एक अच्छा विश्वसनीय नोड रखने के लिए ध्यान में रखना चाहिए। इससे कोई फर्क नहीं पड़ता कि आप व्यक्तिगत उपयोग के लिए नोड चलाते हैं या व्यावसायिक उपयोग (व्यापारी), फर्क इस बात से पड़ता है कि आप अपने नोड की कितनी परवाह करते हैं।</li>
 </ul>
-<p><img src="/assets/images/ln-node-backup.jpg" class="center"></p>
 <hr style="height:2px">
 
 <h3 style="color:Yellow;">मुख्य पहलू</h3>

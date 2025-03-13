@@ -1,50 +1,47 @@
 ---
 layout: default-fr
 title: Expérience sur les frais de routage des nœuds Lightning
+description: Définir différentes politiques de frais chaque mois et observer le routage des nœuds LN
+image: /assets/images/mini-node.jpg
 ---
 <article>
 <!DOCTYPE html>
 <html lang="fr">
 <meta name="description" content="Guides Bitcoin et Lightning : Définir différentes politiques de frais chaque mois et observer le routage des nœuds LN">
 <body>
-<a href="/nodes/lightning-routing-fees-experiment-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
-<a href="/nodes/lightning-routing-fees-experiment-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
-<a href="/nodes/lightning-routing-fees-experiment-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
-<a href="/nodes/lightning-routing-fees-experiment-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
-<a href="/nodes/lightning-routing-fees-experiment-nl.html">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
-<a href="/nodes/lightning-routing-fees-experiment-hr.html">Hrvatski <img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
-<a href="/nodes/lightning-routing-fees-experiment-hi.html">Hindi <img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<center>
+<h2 style="color:Orange;">Définir différentes politiques de frais chaque mois et observer le routage des nœuds LN</h2>
+<figure>
+<img src="/assets/images/mini-node.jpg" class="center">
+<figcaption>Umbrel node on Gigabyte Brix NUC (fanless) - i3 CPU, 8GB RAM, 1TB HDD(int), Debian OS 10</figcaption>
+</figure>
+| <a href="/nodes/lightning-routing-fees-experiment-en.html"><img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-routing-fees-experiment-es.html"><img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-routing-fees-experiment-de.html"><img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-routing-fees-experiment-it.html"><img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-routing-fees-experiment-nl.html"><img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-routing-fees-experiment-hr.html"><img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-routing-fees-experiment-hi.html"><img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+</center>
 <blockquote style="color:Tomato;"><em>
 <p>Publié à l'origine sur <a href="https://darthcoin.substack.com/p/lightning-routing-fees-experiment">Substack</a> le 25 mars 2022. Mis à jour ici le 20 décembre 2024</p>
 </em></blockquote>
 
-<h3 style="color:Orange;">Définition de différentes politiques de frais chaque mois et observation du routage des nœuds LN</h3>
 <h3>Introduction</h3>
 <p>Mon expérience avec les nœuds LN a commencé en 2019 avec un simple nœud C-Lightning. Cela a bien fonctionné, j'ai appris beaucoup de choses sur Lightning Network en général et sur la façon de gérer un nœud BTC/LN, quels avantages et quels inconvénients vous pouvez avoir. Mais ce n'était que le début de LN.</p>
 <p>En 2020, j'ai découvert Umbrel. J'ai donc remplacé mon nœud C-Lightning par un nouveau nœud Umbrel. J'ai maintenant un NUC Gigabyte Brix avec Debian OS.</p>
-
-<figure>
-<img src="/assets/images/mini-node.jpg" class="center">
-<figcaption>Nœud Umbrel sur NUC Gigabyte Brix (sans ventilateur) - CPU i3, 8 Go de RAM, disque dur 1 To (int), Debian OS 10</figcaption>
-</figure>
-
 <p>Juste pour en savoir plus et aussi pour aider la pléthore de nouveaux utilisateurs qui commencent à installer Umbrel mais n'ont aucune idée de ce qu'est LN et d'un nœud LN.</p>
 <p>La meilleure façon était donc de le tester, d'apprendre à l'utiliser, de le découvrir, puis de documenter lentement toutes mes étapes dans des guides simples, afin de pouvoir partager mes connaissances avec de nouveaux utilisateurs, avides de ces informations et de ces étapes pratiques.</p>
 <p>J'ai donc construit lentement ce nœud, en ouvrant des canaux, en étudiant attentivement les pairs et <a href="/nodes/managing-lightning-node-liquidity-en.html">créer ma propre liste de pairs</a> (qui contient également la célèbre <a href="https://basefee.ln.rene-pickhardt.de/">liste René Pickhardt des nœuds ZeroBaseFee</a>).</p>
 <p>Je ne dis pas que mes procédures, politiques, approches sont les meilleures ou même bonnes. Ce sont juste mes observations et mes propres conclusions sur la façon de gérer un nœud LN. Je ne suis pas un expert ou un codeur LN, ou un "gourou", juste un plébéien qui observe et passe par mon propre bon sens tout ce qui se passe avec mon nœud.</p>
 <p>OK, donc j'ai rejoint certains Rings of Fire, anneaux LN+, groupes privés etc et je me suis également connecté à des nœuds spécifiques, pendant 2 ans avec ce nœud Umbrel. Jusqu'à ce que j'atteigne une limite de 40 canaux, de bons canaux stables et des pairs. Avec beaucoup, je garde un contact direct. C'est bien de s'entraider (je ferais peut-être un autre guide à ce sujet).</p>
 <p>Ensuite, en 2022, je lance un nœud secondaire, un nœud privé, sans alias, Tor uniquement, sans aucun lien avec ma véritable identité ou toute autre identité en ligne. <a href="/nodes/public-private-node-liquidity-scenario-fr.html">Cela fait partie d'une autre expérience décrite dans ce guide</a>.</p>
-<p>Je ne suis PAS DU TOUT intéressé à "gagner de l'argent" ou à "gagner" avec LN. Mon objectif est de contribuer à faire de LN un réseau de paiements très liquide, afin que les utilisateurs commencent à l'utiliser au jour le jour et arrêtent d'utiliser ce foutu fiat. Nous n'aurons pas un réseau de paiement sain si nous commençons par nous voler les uns les autres et essayons de bloquer le réseau pour quelques misérables sats.
-
-Lorsque LN sera vraiment stable avec une très bonne recherche de chemin et des nœuds sains, de nombreux utilisateurs l'utilisant comme base quotidienne pour les paiements (pas seulement un rééquilibrage stupide), alors nous pourrons parler d'augmenter les frais et construire lentement un modèle d'incitation pour les nœuds de routage.
-
-Nous n'y sommes PAS encore, peu importe ce que les autres diraient qu'ils ont gagné x montant de sats/mois. VOUS N'Y ARRIVEREZ PAS !
-
-Et rappelez-vous : le but est de FUCK THE BANKS, pas de se foutre les uns des autres...
-
-Si nous commençons maintenant à facturer des frais élevés aux nouveaux utilisateurs qui rejoignent LN, alors ils auront très peur et s'enfuiront, en disant que ce LN est un système de paiement très cher.
-
-Ne les effrayez pas, aidez-les à commencer à utiliser cette technologie incroyable. Nous aurons plus tard tout le temps d'augmenter les frais jusqu'à ce qu'ils restent une incitation.</p>
+<p>Je ne suis PAS DU TOUT intéressé à "gagner de l'argent" ou à "gagner" avec LN. Mon objectif est de contribuer à faire de LN un réseau de paiements très liquide, afin que les utilisateurs commencent à l'utiliser au jour le jour et arrêtent d'utiliser ce foutu fiat. Nous n'aurons pas un réseau de paiement sain si nous commençons par nous voler les uns les autres et essayons de bloquer le réseau pour quelques misérables sats.</p>
+<p>Lorsque LN sera vraiment stable avec une très bonne recherche de chemin et des nœuds sains, de nombreux utilisateurs l'utilisant comme base quotidienne pour les paiements (pas seulement un rééquilibrage stupide), alors nous pourrons parler d'augmenter les frais et construire lentement un modèle d'incitation pour les nœuds de routage.</p>
+<p>Nous n'y sommes PAS encore, peu importe ce que les autres diraient qu'ils ont gagné x montant de sats/mois. VOUS N'Y ARRIVEREZ PAS !</p>
+<p>Et rappelez-vous : le but est de FUCK THE BANKS, pas de se foutre les uns des autres...</p>
+<p>Si nous commençons maintenant à facturer des frais élevés aux nouveaux utilisateurs qui rejoignent LN, alors ils auront très peur et s'enfuiront, en disant que ce LN est un système de paiement très cher.</p>
+<p>Ne les effrayez pas, aidez-les à commencer à utiliser cette technologie incroyable. Nous aurons plus tard tout le temps d'augmenter les frais jusqu'à ce qu'ils restent une incitation.</p>
 <p>LA CUPIDITÉ FOLLE EST CE QUI TUE L'INNOVATION.</p>
 
 <figure>
@@ -201,11 +198,9 @@ Ne les effrayez pas, aidez-les à commencer à utiliser cette technologie incroy
 
 <h4 style="color:Yellow;">Conclusion de mars :</h4>
 <p>Ce fut un mois plutôt bon, avec une politique de frais de 0/1. Il faut également mentionner que pour tous les canaux de plus de 1 million de satellites, j'ai défini le HTLC minimum à 9 satellites. Tous les autres canaux de petite taille restent avec un minimum de 1 satellite.</p>
-<p>Au total, j'ai routé 1 779 transmissions et j'ai obtenu 113 satellites en frais, avec un total de 123 218 850 satellites déplacées, dans les deux sens, avec 43 canaux toujours en ligne. J'avais 2 ou 3 chaînes qui étaient mortes (les opérateurs m'ont informé de leurs problèmes et je ne les ai pas fermées).
-
-La méthode d'ajustement du HTLC max pour chaque chaîne en fonction de ma liquidité latérale semble fonctionner plutôt bien. Je remarque que certaines chaînes plus « dormantes » se réveillent et déplacent quelques satellites. Certaines chaînes plus actives ont connu de bons moments, déplaçant une assez bonne quantité de satellites.
-
-Tout dépend également des pairs et des pairs de vos pairs. Si vous n'avez que des pairs dormants qui attendent simplement que d'autres déplacent des satellites et qu'ils n'effectuent aucun paiement LN, alors ces pairs sont dans une impasse et vous feriez mieux de chercher à les remplacer. LN doit circuler pour croître.</p>
+<p>Au total, j'ai routé 1 779 transmissions et j'ai obtenu 113 satellites en frais, avec un total de 123 218 850 satellites déplacées, dans les deux sens, avec 43 canaux toujours en ligne. J'avais 2 ou 3 chaînes qui étaient mortes (les opérateurs m'ont informé de leurs problèmes et je ne les ai pas fermées).</p>
+<p>La méthode d'ajustement du HTLC max pour chaque chaîne en fonction de ma liquidité latérale semble fonctionner plutôt bien. Je remarque que certaines chaînes plus « dormantes » se réveillent et déplacent quelques satellites. Certaines chaînes plus actives ont connu de bons moments, déplaçant une assez bonne quantité de satellites.</p>
+<p>Tout dépend également des pairs et des pairs de vos pairs. Si vous n'avez que des pairs dormants qui attendent simplement que d'autres déplacent des satellites et qu'ils n'effectuent aucun paiement LN, alors ces pairs sont dans une impasse et vous feriez mieux de chercher à les remplacer. LN doit circuler pour croître.</p>
 
 <figure>
 <img src="/assets/images/march-total-txs.png" class="center">

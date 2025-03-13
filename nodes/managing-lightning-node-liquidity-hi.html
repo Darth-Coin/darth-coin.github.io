@@ -1,24 +1,29 @@
 ---
 layout: default-hi
 title: लाइटनिंग नोड लिक्विडिटी का प्रबंधन
+description: एलएन नोड को कैसे चलाना शुरू करें और इसकी तरलता को कैसे संचालित करें, इसके तरीके, रणनीतियां, प्रकार, सिफारिशें
+image: /assets/images/ln-liquidity-management.jpg
 ---
 <article>
 <!DOCTYPE html>
 <html lang="hi">
 <meta name="description" content="बिटकॉइन और लाइटनिंग गाइड: अपने एलएन नोड लिक्विडिटी का प्रबंधन कैसे करें और सार्वजनिक रूटिंग नोड के रूप में कैसे काम करें">
 <body>
-<a href="/nodes/managing-lightning-node-liquidity-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
-<a href="/nodes/managing-lightning-node-liquidity-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
-<a href="/nodes/managing-lightning-node-liquidity-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
-<a href="/nodes/managing-lightning-node-liquidity-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
-<a href="/nodes/managing-lightning-node-liquidity-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
-<a href="/nodes/managing-lightning-node-liquidity-nl.html">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
-<a href="/nodes/managing-lightning-node-liquidity-hr.html">Hrvatski <img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<center>
+<h2 style="color:Orange;">एलएन नोड को कैसे चलाना शुरू करें और इसकी तरलता को कैसे संचालित करें, इसके तरीके, रणनीतियां, प्रकार, सिफारिशें</h2>
+<p><img src="/assets/images/ln-liquidity-management.jpg" class="center"></p>
+| <a href="/nodes/managing-lightning-node-liquidity-en.html"><img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/managing-lightning-node-liquidity-es.html"><img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/managing-lightning-node-liquidity-de.html"><img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/managing-lightning-node-liquidity-fr.html"><img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/managing-lightning-node-liquidity-it.html"><img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/managing-lightning-node-liquidity-nl.html"><img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/managing-lightning-node-liquidity-hr.html"><img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+</center>
 <blockquote style="color:Tomato;"><em>
 <p>मूल रूप से <a href="https://darthcoin.substack.com/p/managing-lightning-node-liquidity">Substack</a> पर 02 मई, 2023 को पोस्ट किया गया। यहाँ 25 दिसंबर, 2024 को अपडेट किया गया</p>
 </em></blockquote>
 
-<h3>LN नोड को कैसे चलाना शुरू करें और इसकी लिक्विडिटी को कैसे संचालित करें, इसके तरीके, रणनीतियाँ, प्रकार, सुझाव।</h3>
 <p>यह गाइड उन सभी नए उपयोगकर्ताओं के लिए समर्पित है, जो (LN) लाइटनिंग नेटवर्क नोड्स के बारे में सीखना शुरू करना चाहते हैं और अपनी ज़रूरत के हिसाब से सही तरह की विधि चुनना चाहते हैं।</p>
 <p>इस गाइड के अंदर आपको कई अन्य विशिष्ट गाइड के कई लिंक मिलेंगे। कृपया उन्हें अनदेखा न करें। यह गाइड उन सभी के बीच एक मार्गदर्शन है, ताकि आपको लाइटनिंग नेटवर्क के माध्यम से अपना सर्वश्रेष्ठ मार्ग चुनने में मदद मिल सके।</p>
 <p>नए बिटकॉइनर्स के बारे में एक गलत धारणा है कि कुछ LN भुगतान करने में सक्षम होने के लिए आपको एक समर्पित सार्वजनिक रूटिंग नोड चलाना होगा।</p>
@@ -31,7 +36,6 @@ title: लाइटनिंग नोड लिक्विडिटी का 
 <li>आपको किन नोड पीयर से जुड़ना चाहिए?</li>
 <li>आप चैनल लिक्विडिटी का प्रबंधन कैसे करेंगे?</li>
 </ul>
-<p><img src="/assets/images/ln-liquidity-management.jpg" class="center"></p>
 
 <h2 style="color:Orange;">आप LN नोड क्यों चलाना चाहते हैं?</h2>
 

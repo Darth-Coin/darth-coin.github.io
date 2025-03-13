@@ -1,29 +1,32 @@
 ---
 layout: default-hi
 title: अपने नोड के साथ टेलस्केल टनल का उपयोग करना
+description: टेलस्केल प्राइवेट वीपीएन टनल का उपयोग करके अपने होम नोड से कैसे कनेक्ट करें
+image: /assets/images/tunnel-tailscale.jpg
 ---
 <article>
 <!DOCTYPE html>
 <html lang="hi">
 <meta name="description" content="बिटकॉइन और लाइटनिंग गाइड: टेलस्केल का उपयोग करके अपने होम नोड से कैसे कनेक्ट करें">
 <body>
-<a href="/nodes/tailscale-vpn-your-node-en.html">English <img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
-<a href="/nodes/tailscale-vpn-your-node-es.html">Español <img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
-<a href="/nodes/tailscale-vpn-your-node-de.html">Deutsch <img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
-<a href="/nodes/tailscale-vpn-your-node-fr.html">Français <img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
-<a href="/nodes/tailscale-vpn-your-node-it.html">Italiano <img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
-<a href="/nodes/tailscale-vpn-your-node-nl.html">Dutch <img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
-<a href="/nodes/tailscale-vpn-your-node-hr.html">Hrvatski <img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a>
+<center>
+<h2 style="color:Orange;">टेलस्केल प्राइवेट वीपीएन टनल का उपयोग करके अपने होम नोड से कैसे कनेक्ट करें</h2>
+<p><img src="/assets/images/tunnel-tailscale.jpg" class="center"></p>
+| <a href="/nodes/tailscale-vpn-your-node-en.html"><img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/tailscale-vpn-your-node-es.html"><img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/tailscale-vpn-your-node-de.html"><img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/tailscale-vpn-your-node-fr.html"><img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/tailscale-vpn-your-node-it.html"><img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/tailscale-vpn-your-node-nl.html"><img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/tailscale-vpn-your-node-hr.html"><img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+</center>
 <blockquote style="color:Tomato;"><em>
 <p>मूल रूप से <a href="https://darthcoin.substack.com/p/tailscale-to-your-node">Substack</a> पर 02 अक्टूबर, 2022 को पोस्ट किया गया। 27 दिसंबर, 2024 को यहाँ अपडेट किया गया।</p>
 </em></blockquote>
 
-<h3>टेलस्केल प्राइवेट VPN टनल का उपयोग करके अपने होम नोड से कैसे कनेक्ट करें</h3>
 <p>मैंने कई उपयोगकर्ताओं को अपने नोड्स को Tor पर इस्तेमाल करते हुए देखा और मोबाइल ऐप को नोड से कनेक्ट करने में बहुत सारी समस्याएँ आ रही थीं। इसलिए, एक सरल समाधान टेलस्केल या ज़ीरोटियर (उसी तरह काम करता है) का उपयोग करना है। <a href="https://openoms.github.io/bitcoin-tutorials/zerotier/">यहाँ ओपनओम्स द्वारा एक गाइड भी है कि अपने नोड के साथ ज़ीरोटियर को कैसे सेटअप करें</a>। एक और समान विकल्प <a href="https://holesail.io/">Holesail</a> का उपयोग करना है।</
 <p>एक अधिक उन्नत दृष्टिकोण <a href="https://www.freecodecamp.org/news/build-your-own-wireguard-vpn-in-five-minutes/">WireGuard VPN</a> का उपयोग करना होगा</p>
 <p>अपने मोबाइल डिवाइस को अपने स्वयं के नोड से कनेक्ट करने के लिए Tor का उपयोग करना समझदारी नहीं है। क्या आप इसके लिए खुद पर भरोसा नहीं कर रहे हैं? मैं समझता हूँ कि यदि आप Tor पर किसी और नोड से कनेक्ट करते हैं, क्योंकि आप अपना IP प्रकट नहीं करना चाहते हैं, लेकिन अपने स्वयं के नोड के साथ यह आवश्यक नहीं है।</p>
-
-<p><img src="/assets/images/tunnel-tailscale.jpg" class="center"></p>
 
 <h3 style="color:Orange;">Tailscale क्या है?</h3>
 
