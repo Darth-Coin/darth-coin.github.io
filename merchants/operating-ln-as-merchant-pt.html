@@ -1,0 +1,131 @@
+---
+layout: default-pt
+title: Operando com Bitcoin LN como um comerciante
+description: Como adicionar mais privacidade aos seus pagamentos recebidos do Lightning como comerciante
+image: /assets/images/bitcoin-private-merchant.jpg
+---
+<article>
+<!DOCTYPE html>
+<html lang="pt">
+<meta name="description" content="Guias de Bitcoin e Lightning Nodes: Como adicionar mais privacidade às suas transações Lightning como comerciante">
+<body>
+<center>
+<h2 style="color:Orange;">Como adicionar mais privacidade aos seus pagamentos recebidos do Lightning como comerciante</h2>
+<p><img src="/assets/images/bitcoin-private-merchant.jpg" class="center"></p>
+
+| <a href="/merchants/operating-ln-as-merchant-en.html"><img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/operating-ln-as-merchant-es.html"><img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/operating-ln-as-merchant-de.html"><img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/operating-ln-as-merchant-fr.html"><img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/operating-ln-as-merchant-it.html"><img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/operating-ln-as-merchant-nl.html"><img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/operating-ln-as-merchant-hr.html"><img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/operating-ln-as-merchant-hi.html"><img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+</center>
+<blockquote style="color:Tomato;"><em>
+<p>Postado originalmente em <a href="https://darthcoin.substack.com/p/operating-with-ln-as-a-merchant">Substack</a> em 21 de outubro de 2022. Atualizado aqui em 13 de dezembro de 2024</p>
+</em></blockquote>
+
+<p>Todos nós sabemos que na Lightning Network, como um receptor, você terá que revelar ao pagador (apenas) seu nodeID de destino. Então, tentarei dar alguns exemplos de como operar com mais anonimato como um receptor de sats pela Lightning Network.</p>
+<p>Alguns considerarão esse aspecto uma "violação de privacidade". Eu consideraria o caminho inverso: como definir armadilhas falsas para aqueles que querem rastrear seus fundos (se puderem).</p>
+<p>Muitas pessoas hoje são obcecadas com a palavra "privacidade", mas não levam em consideração a outra palavra importante: anonimato ou pseudônimo.</p>
+<p>Você pode obter mais privacidade não revelando sua verdadeira identidade vinculada a um nó, serviço, endereço, processo etc.</p>
+
+<p>Como remetente por meio do LN, todos sabemos que é muito difícil ou quase impossível rastrear um pagamento até a fonte original. O LN está operando as transações usando "roteamento cebola". <a href="https://www.youtube.com/watch?v=toarjBSPFqI">Aqui está uma explicação muito simples desse processo por Renè Pickhardt</a>.</p>
+<p>Então, vamos supor que você seja um pequeno comerciante, vendendo alguns produtos ou serviços on-line ou em uma loja e deseja adicionar um certo nível de anonimato aos seus fundos recebidos. Ou pelo menos onde você está guardando a maioria dos seus bitcoins recebidos de pagamentos LN.</p>
+<h3>RECAPITULAÇÃO de como o processo de pagamento LN está funcionando</h3>
+<p>1 - o comerciante cria a fatura LN (de sua carteira LN, vinculada ao seu nó ou não)</p>
+<p>2 - A fatura LN criada revela ao pagador o nodeID de destino (mas não as rotas finais)</p>
+<p>3 - o cliente paga a fatura LN e pode ver o nodeID de destino</p>
+<p>4 - o comerciante não consegue ver a fonte original do pagamento, mas pode ver apenas o último salto/peer que encaminha o pagamento para sua carteira/nó</p>
+<p>Um lembrete sobre como executar um bom nó de roteamento público, escrevi vários guias sobre:</p>
+<ul>
+<li><a href="https://darthcoin.substack.com/p/umbrel-bitcoin-ln-node">Construa um nó de roteamento LN simples com Umbrel</a></li>
+<li><a href="/nodes/bitcoin-ln-node-software-en.html">Qual ​​software está disponível para executar um nó LN?</a></li>
+<li><a href="/nodes/lightning-routing-fees-experiment-en.html">Experimento de taxas de roteamento de nó Lightning</a></li>
+<li><a href="/nodes/lightning-node-maintenance-en.html">Manutenção de nó Lightning</a></li>
+<li><a href="/nodes/recommendations-ln-node-operators-en.html">Recomendações para corredores/usuários de nó LN</a></li>
+<li><a href="/nodes/managing-lightning-node-liquidity-en.html">Gerenciando a liquidez do nó Lightning</a></li>
+</ul>
+<p>Então, quais opções temos como um recebedor de pagamento LN?</p>
+<hr style="height:2px">
+
+<h3>Opções de anonimato</h3>
+<h4>A. Execute um “nó de isca”</h4>
+<p>Como comerciante, você precisará de liquidez de ENTRADA e boas rotas para seu nó de destino, para poder receber adequadamente os pagamentos dos clientes.</p>
+<p>Mas, ao mesmo tempo, você não pode forçar todos os seus clientes a usar o Tor para poder pagar suas faturas LN geradas a partir de um nó Tor. Porque sabemos que as faturas LN geradas a partir de um nó Tor podem ser lidas SOMENTE de carteiras LN usando a rede Tor.</p>
+<p>Então, eu sugeriria usar um “nó de isca” com boa liquidez e rotas e também para melhor conectividade para executar em um modo híbrido (Tor + clearnet). O nó de isca terá um canal privado direto com seu nó final na rota, que encaminhará todos os pagamentos. Use um canal grande no meio para que você não tenha que fechá-lo muitas vezes.</p>
+<p>Não vincule esses nós de forma alguma com nenhuma de suas identidades reais, use nyms se for necessário para se comunicar com outros operadores de nós, durante o processo de criação de sua liquidez de nó público. Também tente não usar aliases para esses nós, apenas use o nodeID aleatório.</p>
+<p>A este "nó público" você pode conectar um nó LN simples, com um canal privado (não anunciado), grande o suficiente para mover os fundos recebidos dos pagamentos dos clientes.</p>
+<h5>Neste cenário, também podemos ter várias opções:</h5>
+<ul>
+<li>execute ambos os nós LN no Tor, mas ofereça apenas um serviço separado no clearnet para gerar as faturas LN (pode ser um <a href="https://btcpayserver.org/">servidor BTCPay</a> ou <a href="https://lnbits.com/">LNbits</a>). Aqui eu escrevi um guia sobre <a href="/merchants/lnbits-small-merchants-en.html">usando o pacote LNbits como um comerciante</a>, no clearnet também.</li>
+<li>execute um nó LN no Tor, mas use um túnel VPN do seu servidor BTCPay ou LNbits hospedado em um VPS clearnet. <a href="/merchants/build-lnbits-app-server-en.html">Aqui eu escrevi outro guia usando vários cenários como este com LNbits</a>. Dessa forma, você não está revelando a localização real do seu nó LN.</li>
+<li>execute um nó LN público que receba todos os pagamentos, mas conecte a esse nó outro nó LN privado, usando um nó LN móvel rápido como <a href="/wallets/getting-started-blixt-wallet-en.html">Blixt</a>, <a href="/wallets/getting-started-zeus-wallet-en.html">Zeus</a>, <a href="https://phoenix.acinq.co/">Phoenix</a>, <a href="https://electrum.org/">Electrum</a>, <a href="/wallets/getting-started-greenwallet-en.html">Green</a> ou <a href="https://breez.technology/">Breez</a>. Esses nós LN móveis sempre usarão um canal privado (não anunciado). Com Blixt e Zeus, você também pode usar o método keysend para enviar fundos do seu nó "receptor" para o seu nó Blixt. De lá, você pode fechar o canal e/ou <a href="/nodes/lightning-submarine-swaps-en.html">usar outros canais para qualquer serviço de swap</a> (Deezy, Boltz, FixedFloat, RoboSats etc). <a href="/nodes/public-private-node-liquidity-scenario-en.html">Eu escrevi outro guia sobre esse cenário aqui</a>.</li>
+<li>Execute um nó LN descartável com configuração instantânea do <a href="https://rizful.com/">Rizful</a>. Simples, rápido, anônimo e fácil.</li>
+</ul>
+<hr style="height:2px">
+
+<h4>B. Use apenas um nó LN móvel privado</h4>
+<p>Sim, se você for um pequeno comerciante, que não tem tempo e dinheiro para gastar em infraestrutura de nós de desktop, você pode receber pagamentos diretamente com um nó LN móvel.</p>
+<p>Sim, há prós e contras sobre essa opção, mas dependendo das especificidades do seu negócio, você pode adaptá-la e usá-la. Vamos considerar que você é um comerciante que opera em um mercado móvel, você não tem um grande volume de vendas usando BTC/LN e você não tem um lugar ou recursos onde alocar para um nó de desktop estável.</p>
+<p>Você pode usar <a href="/wallets/getting-started-blixt-wallet-en.html">Blixt</a>, <a href="/wallets/getting-started-zeus-wallet-en.html">Zeus</a>, <a href="https://phoenix.acinq.co/">Phoenix</a>, <a href="https://electrum.org/">Electrum</a>, <a href="/wallets/getting-started-greenwallet-en.html">Green</a> ou <a href="https://breez.technology/">Breez</a> para este cenário.</p>
+<h5>Alguns aspectos desses aplicativos para menção:</h5>
+<ul>
+<li>Todos eles são de AUTOCUSTODIA, você controla as chaves e os fundos 100%, todos de código aberto e gratuitos.</li>
+<li>Todos eles são nós LN, no seu próprio bolso, não processos obscuros e fundos/chaves de custódia.</li>
+<li>Todos eles suportam LNURL e endereço Lightning (para enviar). <a href="/wallets/lightning-wallets-comparison-en.html">Mais detalhes neste guia de comparação de recursos</a>.</li>
+<li>Zeus e Breez oferecem um aplicativo PoS interno. Fácil de gerenciar como um comerciante. Também suporta NFC.</li>
+<li>Electrum oferece swaps LN <-->onchain diretamente no aplicativo, sem necessidade de serviço externo. Ele usa trampolim e canais LN normais. O Electrum também está disponível em todas as plataformas de desktop.</li>
+<li>O Blixt oferece gerenciamento avançado de canais LN e ferramentas avançadas para usuários avançados (como keysend). O Blixt adicionou recentemente a versão para desktop Mac. Em breve para Linux.</li>
+</ul>
+
+<h5>Operações</h5>
+<p>Então, como você deve operar com esses aplicativos de nó LN para adicionar mais anonimato como receptor?</p>
+<p>Todos esses nós LN terão um nodeID anônimo, não vinculado à sua identidade real. Não há KYC ou verificação de identidade para usar esses aplicativos.</p>
+<p>Caso você queira "atualizar" seu nodeID de comerciante receptor, sugiro alguns cenários:</p>
+<ul>
+<li>Você pode, a qualquer momento, fechar todos os seus canais LN, levar o BTC para outro nó de carteira onchain e iniciar um novo nó LN, novo, nodeID. Este é o método mais simples. Depois de ter um novo nodeID, você pode comprar um ou vários canais de entrada de qualquer LSP (<a href="https://lsps1.olympusln.com/">Olympus</a>, <a href="https://lnbig.com/#/">LNBIG</a>, <a href="https://megalithic.me/">Megalith</a>, <a href="https://www.bitrefill.com/thor-lightning-network-channels/">Bitrefill</a>, <a href="https://lnserver.com/">LNServer</a>, <a href="https://stacker.news/items/227488/r/DarthCoin">FlashSats</a> etc.), mas você precisa especificar que deseja um "canal privado", não um canal de roteamento público. Então você está pronto para receber pagamentos imediatamente, com um novo nodeID!</li>
+<li>Com o Blixt, você também pode usar o <a href="https://blixtwallet.github.io/faq#blixt-restore">“processo de migração”</a> para outro novo nó Blixt. Então, se você esvaziou seus canais LN anteriores usando um serviço de swap ou simplesmente quer mover seu saldo restante para um novo nodeID, você pode simplesmente usar o <a href="https://darthcoin.substack.com/p/dunder-lsp-and-lightning-box-provider">serviço Dunder oferecido pelo nó Blixt</a>. Então você pode mover através do LN todo o saldo restante de um nó Blixt para outro e ao mesmo tempo obter alguma liquidez de entrada. Mais tarde, no novo Blixt, você pode adicionar mais <a href="/nodes/managing-lightning-node-liquidity-en.html">canais de entrada com mais LSPs</a>. <a href="https://docs.zeusln.app/for-users/embedded-node/backup-and-recovery#can-i-recover-my-zeus-onchain-wallet-into-other-wallet-applications">O mesmo pode ser feito com Zeus</a>, nós abertos no Blixt podem ser restaurados no Zeus e vice-versa.</li>
+</ul>
+<hr style="height:2px">
+
+<h4>C. Use uma carteira Lightning custodial "isca"</h4>
+<p>Sim, muitos têm medo das "infames" carteiras custodiais, mas em alguns cenários são uma boa ferramenta para serem usadas para obscurecer sua identidade real.</p>
+<p>Existem muitas carteiras e serviços LN custodiais que não são KYC ou não solicitam nenhum processo de verificação de identidade, talvez apenas um endereço de e-mail.</p>
+<p>Para este cenário, você pode usar: CoinOS, Blink, Wallet of Satoshi, Bluewallet, Alby, <a href="/beginner/getting-started-stack-sats-en.html">veja mais exemplos e detalhes aqui</a>, um amigo ou provedor da carteira LNbits <a href="/nodes/ln-bank-with-lnbits-en.html">como descrevi aqui</a>.</p>
+<p>Depois de receber essas carteiras LN, você pode facilmente <a href="/nodes/lightning-submarine-swaps-en.html">use qualquer serviço de troca de submarino</a> para retirar os sats para sua carteira onchain privada. Aqui está também outro guia sobre como usar um método <a href="/wallets/lightning-cleaning-machine-en.html">"Lightning Cleaning Machine"</a>.</p>
+<p>Receber nessas carteiras não revelará nenhuma de suas identidades ou nós reais, será apenas o nó público do provedor.</p>
+<p>A troca em endereços onchain também não deixará vestígios de sua identidade real.</p>
+<h5>Alguns aspectos importantes a serem mencionados sobre esses aplicativos:</h5>
+<ul>
+<li><a href="https://coinos.io/">CoinOS</a> oferece uma interface PoS web para comerciantes. Pode ser executado em qualquer dispositivo, sem instalar nada, sendo apenas um aplicativo web. Oferece também swaps integrados LN ←&gt; onchain, suporta todas as opções LNURL, incluindo um Lightning Address para receber. É uma ferramenta muito poderosa para um pequeno comerciante que deseja começar a aceitar Bitcoin através do LN.</li>
+<li><a href="/wallets/getting-started-alby-hub-en.html">Alby</a> é uma extensão de navegador com funcionalidades extensas como uma carteira LN. Pode ser usada como uma carteira de custódia (de um amigo), mas também pode ser conectada aos seus próprios nós ou fontes (LND, CLN, LNBits, NWC, Blink, LNDhub). Suporta NWC e todas as opções LNURL + Lightning Address mais um aplicativo móvel simples e PoS.</li>
+<li><a href="https://www.walletofsatoshi.com/">Wallet of Satoshi</a> é uma carteira LN móvel simples + PoS, custodial. Suporta algumas funcionalidades LNURL + oferece um Lightning Address. Os usuários são solicitados a fornecer um endereço de e-mail apenas no caso de quererem usar a função de backup. Mas se quiser, você pode usar um novo WoS todos os dias, depois de trocar todos os fundos dele para sua carteira privada onchain, sem revelar nenhum e-mail ou identidade.</li>
+<li><a href="https://bluewallet.io/">Bluewallet</a> é um bom aplicativo móvel, onchain e LN (com nó LDK integrado), usando carteiras LNDhub de servidores Bluewallet. Ele pode ser usado também com outras contas LNDhub privadas de nós de seus amigos ou outros provedores, incluindo LNTXBOT. Ele oferece swaps da sua carteira onchain para a carteira LN.</li>
+<li><a href="https://lnbits.com/">LNbits</a> é uma ferramenta de suíte poderosa, que pode ser usada no nó ou provedor de um amigo, como expliquei nestes artigos (<a href="/nodes/ln-bank-with-lnbits-en.html">The Bank of LNbits</a> e <a href="https://darthcoin.substack.com/p/lnbits-for-small-merchants">LNbits para pequenos comerciantes</a>). NÃO use a instância de demonstração pública do LNbits (demo.lnbits.com)! Essa é apenas para testes, demonstrações, familiarização com ela, não é recomendada para casos de uso reais. LNbits também tem uma extensão dedicada para swaps, usando Boltz.</li>
+<li><a href="https://lnvoltz.com">LN Voltz</a> é uma solução de custódia, baseada em LNbits, que oferece uma carteira LN muito fácil de usar para pequenos comerciantes. Sem KYC.</li>
+</ul>
+<hr style="height:2px">
+
+<h4>D. Use um proxy LN</h4>
+<p>Aqui está uma ferramenta web simples onde você pode usar um proxy para sua fatura LN de recebimento:</p>
+<p><a href="https://lnproxy.org/">https://lnproxy.org/</a></p>
+<p>Com o lnproxy, os usuários podem gerar e distribuir faturas encapsuladas para ofuscar a identidade de seus nós de rede lightning de suas contrapartes de transação.</p>
+<hr style="height:2px">
+
+<h3>CONCLUSÃO</h3>
+<p>Então... como você pode ver, também como comerciante, você pode obter um nível diferente de privacidade por meio do anonimato e obscurecer o destino final de seus fundos.</p>
+<p>É perfeito? Talvez não. Mas eu desafio você a fazer seus próprios testes: tente rastrear a si mesmo, usando alguns desses métodos e veja se você consegue encontrar a origem e o destino final dos fundos transacionados com esses métodos. Vai ser muito difícil, eu tentei várias vezes, com muitos métodos.</p>
+<p>Esses métodos podem ser melhorados, sem dúvida, use sua imaginação e habilidades. Eu só queria oferecer alguns truques de onde você pode começar.</p>
+<p>Só não desanime com aqueles haters dizendo que a Lightning Network não fornece nenhuma privacidade e que você não deve usá-la. Quanto mais você se aprofundar no LN, mais você descobrirá o quão fascinante ele é e quantas coisas você pode fazer com ele.</p>
+<p>A Lightning Network, como uma camada 2 sobre a Bitcoin Network, é uma verdadeira virada de jogo e uma ferramenta poderosa nas mãos do usuário.</p>
+<p>Aqui estão alguns exemplos de coisas incríveis que você pode fazer com o LN:</p>
+<ul>
+<li><a href="https://darthcoin.substack.com/p/lightning-network-is-awesome">A Lightning Network é incrível</a> - uma coleção de links com serviços LN</li>
+<li><a href="/merchants/bitcoin-lightning-payments-irl-en.html">Exemplos de uso real do Bitcoin Lightning Network</a></li>
+<li><a href="/merchants/getting-started-bitcoin-small-merchants-en.html">Começando com Bitcoin para pequenos comerciantes</a></li>
+</ul>
+</body>
+</html>
+</article>

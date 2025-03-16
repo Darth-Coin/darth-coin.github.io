@@ -1,0 +1,178 @@
+---
+layout: default-pt
+title: Introdução ao LNbits
+description: Um guia para novos usuários/administradores do LNbits sobre como iniciar e gerenciar o nó LN por trás de cada instância do LNbits
+image: /assets/images/lnbits-intro.jpg
+---
+<article>
+<!DOCTYPE html>
+<html lang="pt">
+<meta name="description" content="Guias de Bitcoin e Lightning: Um guia para novos usuários/administradores do LNbits, sobre como iniciar e gerenciar o nó LN por trás de cada instância do LNbits">
+<body>
+<center>
+<h2 style="color:Orange;">Um guia para novos usuários/administradores do LNbits sobre como iniciar e gerenciar o nó LN por trás de cada instância do LNbits</h2>
+<p><img src="/assets/images/lnbits-intro.jpg" class="center"></p>
+
+| <a href="/merchants/getting-started-lnbits-en.html"><img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/getting-started-lnbits-es.html"><img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/getting-started-lnbits-de.html"><img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/getting-started-lnbits-fr.html"><img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/getting-started-lnbits-it.html"><img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/getting-started-lnbits-nl.html"><img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/getting-started-lnbits-hr.html"><img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/merchants/getting-started-lnbits-hi.html"><img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+</center>
+<em><blockquote style="color:Tomato;">
+<p>Postado originalmente em <a href="https://darthcoin.substack.com/p/getting-started-lnbits">Substack</a> em 12 de dezembro de 2022. Atualizado aqui em 28 de dezembro de 2024.</p>
+</em></blockquote>
+
+<p>Este guia é dedicado àqueles que desejam implementar LNbits em seus negócios, mas não têm experiência em executar um nó Lightning por trás de LNbits.</p>
+<p>No final do guia, você encontrará mais documentação para estudar. Este artigo tem como objetivo apenas fornecer algumas "primeiras orientações". Este NÃO é o guia definitivo para a liquidez do seu nó, é apenas o suficiente para colocar você, o novo usuário do LN, no caminho certo. Depois de ler este guia, você terá que fazer muita lição de casa.</p>
+<p>Tentarei explicar em termos fáceis para que possa ser assimilado por qualquer tipo de usuário, que não esteja tão familiarizado com detalhes técnicos e muito menos com a execução de um nó LN, mas queira começar a usar o LNbits para vários cenários comerciais e pessoais.</p>
+
+<h2 style="color:Tomato;">ASPECTO IMPORTANTE</h2>
+<h3 style="color:Orange;">O LNbits é um sistema de contabilidade sobre o seu nó LN.</h3>
+<p>Começando com a v12.0 também é um software de gerenciamento de nós!</p>
+<p>Pense no LNbits como uma "estrutura modular do wordpress" para o seu nó. Uma plataforma fácil de gerenciar, baseada em extensões que você pode combinar para vários casos de uso.</p>
+<p>Pense no LNbits como seu próprio software de gerenciamento financeiro bancário. Seu nó oferece canais para pagar e a LNbits estende seu nó para poder executar mais de uma carteira lightning que seu nó vem com. Essas carteiras não precisam necessariamente pertencer a você. Digamos que você, como o executor do nó LN, já tenha liquidez e fundos de canal suficientes e agora queira oferecer alguns serviços bancários de bitcoin para seus amigos, familiares, sua própria loja ou outros comerciantes regulares.</p>
+<p>Você oferecerá uma maneira simples para eles abrirem uma "conta bancária" em seu nó sem ter acesso a outras carteiras em seu nó e a toda a liquidez do seu nó, mas apenas a parte deles. Seu nó (o banco) atua apenas como um provedor de transporte para seus pagamentos (entrada/saída).</p>
+<p>NOTA: todos os fundos que seus "clientes" depositam em suas contas bancárias LNbits em seu nó, irão direto para os canais LN do seu nó. Isso significa que VOCÊ é realmente o verdadeiro dono desses fundos. Você terá uma grande responsabilidade pelos fundos deles. Não seja mau e fuja com os fundos, não seja mau e cobre altas taxas. Queremos foder os banqueiros fiduciários, não foder uns aos outros (usuários de bitcoin).</p>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">A - Gerenciamento de liquidez do Node (banco)</h3>
+<p>Esta é uma parte muito importante, onde muitos novos usuários estão ficando um pouco perdidos, sem saber o básico sobre como a Lightning Network funciona e o que é necessário para fornecer boa liquidez para pagamentos de entrada e saída.</p>
+<p>A curva de aprendizado não é fácil, mas também não é tão difícil. Com um pouco de paciência e leitura, qualquer um pode fazer isso. Mas, por favor, não comece a oferecer serviços com seu banco LNbits para outros antes de preparar seu nó LN adequadamente.</p>
+<p>Os casos de uso mais regulares para um nó como este (banco comercial LNBits, usuários regulares, backend específico para um aplicativo da web) precisariam de alguns pré-requisitos para uma navegação tranquila:</p>
+<ul>
+<li>liquidez de entrada e saída suficiente nos canais LN do seu nó</li>
+<li>taxas baixas a zero entre suas contas LNbits</li>
+<li>hardware e configuração confiáveis, sempre online, conexão rápida, clearnet (preferencial) e/ou Tor (para aqueles que querem um acesso tunelado diferente, mas tenha em mente que o Tor é muito lento).</li>
+</ul>
+<p>O que é liquidez de entrada? A capacidade que um nó LN tem de receber pagamentos. Não apenas no total, mas também para cada pagamento.</p>
+<p>O que é liquidez de saída? Significa a capacidade total que seu nó é capaz de enviar.</p>
+<p>Pense nos pagamentos através do seu nó como copos de água que, cheios de água, através de um canudo pequeno ou grande ou canudo. O copo (o recipiente), é o canal LN, pode transportar por vez apenas uma certa quantidade de água e seu copo não pode enviar mais do que você tem em seu copo.</p>
+<p>Não entrarei em detalhes agora, explicando como o LN funciona. Escrevi guias extensos na <a href="/nodes/nodes-en.html">minha página de guias</a> e aqui juntei <a href="https://darthcoin.substack.com/p/lightning-network-is-awesome">uma lista de recursos LN</a> a serem estudados, com documentações, tutoriais, ferramentas, links, serviços etc.</p>
+<p>Preparar a liquidez de um nó LN exige paciência, tempo, estudo e seleção de bons pares, especialmente se você for executá-lo para fins comerciais. Aqui, darei alguns conselhos sobre como começar, para que seus novos LNbits possam começar a receber e enviar sats, para todas as suas contas e usuários adicionais. Você encontrará sua própria maneira de ajustar seu nó, depois de aprender mais sobre gerenciamento de liquidez.</p>
+<p>Vamos considerar que você tem um nó totalmente novo pronto, mas nenhum canal LN ainda. Neste momento, seus LNbits não puderam receber ou enviar nenhum pagamento para fora do seu "banco", para o LN selvagem (Lightning Network).</p>
+<p>Como ferramenta principal para verificar e estudar nós pares do LN, recomendo usar a página do explorador <a href="https://amboss.space/">Amboss</a> ou <a href="https://mempool.space/lightning">Mempool LN</a>, onde você pode aprender sobre muitos detalhes de um nó, incluindo o seu.</p>
+
+<figure>
+<img src="/assets/images/node-page-amboss.jpg" class="center">
+<figcaption>Apresentação do nó na página Amboss</figcaption>
+</figure>
+
+<h4 style="color:Yellow;">Aspectos importantes ao procurar um bom nó par/parceiro de canal:</h4>
+<ul>
+<li>número de canais, mais é melhor (nó com apenas 5-10 canais não fornecer muitas rotas)</li>
+<li>longevidade, quanto maior, melhor (declara o compromisso de fornecer um bom serviço)</li>
+<li>capacidade total, quanto maior, melhor (indica a quantidade total de sats que podem ser roteados para/do seu nó)</li>
+<li>tamanho dos canais, quanto maior, melhor (presumivelmente um tempo maior até que os canais sequem e também mostra o tamanho máximo de um pagamento que pode ser roteado)</li>
+<li>não considere seu peer como um "amigo do Facebook". O LN não é sobre amigos, mas sobre bons peers de roteamento. Portanto, conectar-se a um nó apenas porque o proprietário é seu amigo não ajudará você ou a rede em nada se esse nó não tiver boas rotas. Sim, se seu nó já estiver bem posicionado e você quiser ajudar seu amigo novato a começar com um novo nó, pode e deve ser uma exceção.</li>
+</ul>
+
+<figure>
+<img src="/assets/images/node-channels-amboss.jpg" class="center">
+<figcaption>Detalhes dos canais do nó na página Amboss</figcaption>
+</figure>
+
+<p>Observe os detalhes na página Amboss, que lhe dão uma compreensão profunda sobre como esse nó está gerenciando seus canais: tamanho do canal, taxa base, taxa de taxa, TimeLock etc.</p>
+<p>Esses aspectos são muito importantes quando é hora de escolher seus primeiros pares.</p>
+
+<h5>a. Tamanho do canal</h5>
+<p>Não abra canais pequenos com menos de 3 milhões de sats. Fique, no entanto, abaixo do máximo de 10-21 milhões de sats.</p>
+<p>Tudo depende do seu uso por pagamento. Se você estiver confiante em usar canais muito grandes, você pode ter também um canal de 21M sats, por exemplo, mas limitar a quantidade de sats por pagamento único para 1M, usando a opção min/max HTLC, por canal. <a href="/nodes/lightning-routing-fees-experiment-en.html">Eu escrevi aqui um guia extenso sobre o resultado do uso deste método</a>.</p>
+
+<h5>b. Capacidade total do nó</h5>
+<p>Seu nó deve ter capacidade suficiente para todos os clientes do seu "banco".</p>
+
+<figure>
+<img src="/assets/images/liquidity-report-th.jpg" class="center">
+<figcaption>O relatório mais importante: Liquidez Total do Nó</figcaption>
+</figure>
+
+<p>Nesta captura de tela do Thunderhub (aplicativo de gerenciamento de nós), você pode ver a capacidade total de entrada e saída e também o tamanho máximo dos valores de entrada e saída por transação.</p>
+<p>É recomendável manter isso equilibrado, quero dizer, ter quase a mesma capacidade para receber e também para enviar. Qualquer drenagem expansiva em uma direção pode acabar em pagamentos com falha.</p>
+<p>Realmente não importa se um canal não está perfeitamente equilibrado 50-50.</p>
+<p>Seus canais LN do nó ficarão assim, depois de um tempo, um lado que são seus sats e o outro lado que representam os sats do seu par, sempre fazendo malabarismos para frente e para trás enquanto as carteiras em seu nó o usam e os pagamentos de outros são roteados.</p>
+<p><img src="/assets/images/abacus.jpg" class="center"></p>
+
+<p>Além disso, o que entrará por um canal pode possivelmente sair por outro, o que com o tempo os equilibrará no geral.</p>
+<p>Sim, no começo, é bom começar com canais equilibrados, para que você possa ter e fornecer pagamentos de entrada e saída diretamente. Isso pode ser alcançado com rebalanceamento circular, usando um serviço de swap para mover sats de seus canais LN de volta para seu endereço onchain e usá-los novamente para abrir mais canais. Explicarei no próximo capítulo como isso funciona.</p>
+
+<h5>c. Liquidez</h5>
+<p>Uma boa estratégia seria abrir canais 2-3-4-5 com alguns bons LSP (Liquidity Service Providers), para ter boas rotas desde o início. De preferência aqueles com nós de provedores de carteira onde muitos outros usuários estão conectados e que têm boas conexões.</p>
+<p>Veja exemplos mopre neste guia <a href="/nodes/managing-lightning-node-liquidity-en.html">"Gerenciando a Liquidez do Lightning Node"</a>.</p>
+<p>Então expanda suas conexões com mais nós de empresas Bitcoin (serviços, exchanges, LSP, Rings of Fire etc). A página Amboss é muito boa para encontrar alguns.</p>
+<p>Eu poderia mostrar a você <a href="https://telegra.ph/List-of-good-nodes-11-25">minha lista pessoal de bons pares</a> que acumulei ao longo do tempo, mas eles podem não ser 100% adequados para suas próprias necessidades e também com o tempo esses pares estão mudando suas políticas ou até mesmo desligando seus nós. Então, por favor, tome isso apenas como um exemplo. Alguns dos nós lá talvez nem estejam mais online.</p>
+<p>Cada operador de nó deve manter sua própria lista de pares, atualizá-los se possível e ajustá-los para suas próprias necessidades.</p>
+<p>Você abre um primeiro canal, digamos de 10 milhões de sats com um desses pares. Então você usa um serviço de swap para mover metade dos sats (5 milhões mais ou menos) para fora do canal. Dessa forma, você pode reutilizar esses sats para abrir o próximo canal e também obter liquidez de entrada. <a href="/nodes/lightning-submarine-swaps-en.html">Veja o guia dedicado sobre swaps de submarinos que escrevi aqui</a>.</p>
+<p>Repita o processo para os próximos 3-4 novos canais e você terá uma boa liquidez para começar. Com o tempo, você pode expandir seu número de pares usando o <a href="https://lightningnetwork.plus/">LightningNetworkPlus</a> ou <a href="https://t.me/SRROFBOT">Satoshi Radio Rings of Fire</a> ou adicionando manualmente outros nós selecionados usando ferramentas específicas para analisar seus pares antes de se conectar a eles: <a href="https://lnrouter.app/">LN Router</a>, <a href="https://lnnodeinsight.com/">LN Node Insight</a>, <a href="https://moneni.com/mcb/nodematch">NodeMatch</a>, <a href="https://stacker.news/items/625563/r/DarthCoin">LN channels TG Bot</a> e <a href="https://darthcoin.substack.com/i/42092296/tools-explorers-analyzers-stats">outros mais</a>.</p>
+
+<h5>d. Longevidade</h5>
+<p>Tente manter seus canais LN abertos o máximo possível. Especialmente aqueles que estão mostrando mais tráfego. Você precisará observar o comportamento do seu nó quase todos os dias se quiser fornecer boas rotas para seus clientes. Observe onde e de onde seu nó recebe fundos, para onde vai a maioria dos satélites, tente encontrar as melhores rotas para esses destinos.</p>
+<p>Se alguns outros "nós jovens" se conectarem a você, mas eles não fizerem muito tráfego e também estiverem principalmente offline, você deve fechar esses canais inúteis. Eles só geram solicitações de lixo e carregam seu nó com tempos limite inúteis. Uma boa ferramenta para observar isso é o <a href="https://github.com/edouardparis/lntop">LNTop</a>. <a href="/nodes/recommendations-ln-node-operators-en.html">Expliquei neste outro guia</a> alguns avisos.</p>
+<p>Em geral, um canal LN deve ser fechado apenas em alguns casos, caso contrário, mantenha-o online:</p>
+<ul>
+<li>o peer está quase sempre offline</li>
+<li>o peer está com um ping muito ruim (tempo de acesso de resposta), a maioria dos nós Tor tem isso</li>
+<li>é um canal muito pequeno; qualquer coisa abaixo de 3M é considerado pequeno</li>
+<li>o peer não fornece tráfego durante um certo período (2 a 3 meses)</li>
+<li>o peer teve seu nó travado e todos os canais precisam ser fechados (eles informaram você)</li>
+</ul>
+<p>OK, agora você tem um bom nó com boa liquidez, você está mais do que pronto para oferecer serviços de pagamento a outros. Vamos mergulhar um pouco no gerenciamento do seu servidor LNbits.</p>
+<hr style="height:2px">
+
+<p><img src="/assets/images/lnbits-pos-fruits.jpg" class="center"></p>
+
+<h3 style="color:Orange;">B. Gerenciamento do Banco LNbits</h3>
+<h4 style="color:Yellow;">Procedimento de instalação</h4>
+<p>Primeiro passo: Onde instalar? Máquina própria ou solução hospedada?</p>
+<p>Como expliquei <a href="/merchants/build-lnbits-app-server-en.html">neste guia dedicado</a>, você pode instalá-lo em seu nó de pacote, mas também pode instalá-lo de forma autônoma em QUALQUER outra máquina de PC comum.</p>
+<p>Minha opinião pessoal sobre esse aspecto é executar uma máquina de nó LN dedicada (seja um pacote doméstico, um VPS, um nó <a href="https://voltage.cloud/">Voltage</a> na nuvem) e a instância LNbits em uma máquina separada. Isso torna ambos mais gerenciáveis, mais acessíveis e posso alternar a fonte de financiamento a qualquer momento.</p>
+<p>Sim, é bom ter "tudo em um", mas e se o seu negócio depender muito dessa instância LNbits e seu nó LN travar? Tê-lo na mesma máquina que seu nó LN pode acabar em perdas. Mas se você tiver ambos em máquinas separadas, você pode facilmente mudar a fonte de financiamento com outro nó LN e estar pronto para continuar recebendo ou fazendo pagamentos imediatamente.</p>
+<p><a href="https://github.com/lnbits/lnbits/wiki/LNbits-Documentation">O manual de instalação</a> é muito simples e em 5-10 minutos você tem um LNbits em execução. <a href="https://github.com/lnbits/lnbits/wiki/LNbits-Documentation#additional-guides">Eu sugeriria usar o proxy Caddy</a>, é muito fácil e rápido de instalar e configurar. Com o Caddy você conecta sua instância LNbits a um domínio que pode, por exemplo, hospedar sua loja online. Observe que isso é essencial se você deseja oferecer serviços bancários a outros.</p>
+<p><a href="https://github.com/lnbits/lnbits/wiki/LNbits-Documentation#funding-sources">Configurar as fontes de financiamento</a> é basicamente modificar algumas linhas no arquivo de configuração .env e pronto. Inicie o serviço lnbits e... raios felizes.</p>
+
+<h4 style="color:Yellow;">Faça backup regularmente do seu banco de dados LNbits</h4>
+<p>Se você respeita os clientes do seu "banco", você deve fazer backups regulares do seu banco de dados LNbits. Não é difícil fazer isso. Apenas uma cópia da pasta lnbits/data.</p>
+<p>Em breve, quando a nova extensão de administrador estiver pronta e lançada, haverá mais opções automáticas e webUI para fazer esse backup/restauração.</p>
+<p>Este banco de dados contém SOMENTE: IDs de carteira e acesso de usuários, histórico de transações, saldo, configurações pessoais, etc.</p>
+<p>Tenha em mente que este banco de dados (um sqfile) é como um arquivo excel. NÃO É uma carteira, canal ou xpub. Então, se você quiser mover o banco LNbits para outra fonte de financiamento (outro nó em caso de desastre), você pode facilmente apontar sua instância LNbits para outro nó LN e pronto, os saldos do cliente estão lá, mas você acabou de mudar para outro "cofre", outro provedor de transporte de liquidez.</p>
+<p>Se você quiser mover sua instância LNbits para outro servidor, você também pode simplesmente copiar e colar esse banco de dados e iniciar o LNbits novamente.</p>
+<p>O LNbits pode ser executado em cima de várias fontes de financiamento <a href="https://github.com/lnbits/lnbits/wiki/LNbits-Documentation#funding-sources">conforme descrito no guia de instalação aqui</a>. Então, mesmo se você o tinha executado anteriormente com um nó LND e deseja mudar para um nó CLN, por exemplo, uma simples mudança no arquivo .env é suficiente e reinicie o serviço LNbits.</p>
+
+<h4 style="color:Yellow;">Abra seu banco LNbits para acesso clearnet</h4>
+<p>Ter um LNbits somente atrás do Tor NÃO é confiável. Sim, hoje todos podem iniciar um nó de pacote como Umbrel, Citadel, myNode, Raspiblitz, Embassy etc. que por padrão está sendo executado atrás do Tor. Sim, você pode usar um desses para seu LNbits, que já está integrado, fácil de iniciar com um clique.</p>
+<p>Mas a parte divertida vem quando os clientes do seu banco não sabem o que é Tor e para que ele serve principalmente. E também nem todos os serviços e funcionalidades funcionam bem atrás do Tor. Muito menos compatibilidade e conexão do navegador.</p>
+<p>Então aqui, <a href="/merchants/build-lnbits-app-server-en.html">neste guia dedicado</a> eu escrevi sobre vários cenários de como você pode construir um servidor de aplicativo LNbits e ser acessível no clearnet (https, IP/domínio). Preste atenção a todos os detalhes e cenários.</p>
+<hr style="height:2px">
+
+<h4 style="color:Yellow;">Leia mais sobre a documentação do LNbits</h4>
+<p>Aqui está uma lista com mais links sobre o LNbits, cenários de uso, exemplos, documentação, para você ler e se inspirar para seus próprios casos de uso e cenários:</p>
+<ul>
+<li><a href="https://lnbits.com/">página da web do LNbits</a> | <a href="https://github.com/lnbits/lnbits">página do Github</a> | <a href="https://t.me/lnbits">grupo do Telegram</a> | <a href="https://saas.lnbits.com">Instância LNbits SaaS</a></li>
+<li><a href="https://github.com/lnbits/lnbits/wiki/LNbits-Documentation">Página de documentação do LNbits</a> | <a href="https://www.youtube.com/channel/UCGXU2Ae5x5K-5aKdmKqoLYg/videos">Tutoriais em vídeo do YouTube</a></li>
+<li><a href="https://github.com/lnbits/lnbits/wiki/Powered-by-LNbits">Powered by LNbits - coleção de projetos usando LNbits</a></li>
+<li>Guias do Axel: <a href="https://ereignishorizont.xyz/lnbits-server/en/">Instalação do servidor LNbits</a> | <a href="https://ereignishorizont.xyz/blitzbank/en/">Blitz Bank (LNbits + nó PhoenixD)</a></li>
+<li>Guias DC: <a href="/nodes/ln-bank-with-lnbits-en.html">O LNbits Bank</a> | <a href="/merchants/lnbits-small-merchants-en.html">LNbits para pequenos comerciantes</a> | <a href="/merchants/lnbits-stream-copilot-en.html">LNbits Streamer Copilot</a></li>
+<li><a href="/merchants/build-lnbits-app-server-en.html">Execute LNbits em diferentes tipos de máquinas/servidores</a></li>
+<li><a href="/merchants/bitcoin-lightning-payments-irl-en.html">Comerciantes da vida real aceitando BTC por LN</a></li>
+<li><a href="https://darthcoin.substack.com/p/lightning-network-is-awesome">Recursos da Lightning Network</a> - PARA LER MAIS E APRENDER</li>
+<li><a href="https://xcancel.com/LN_Capital/status/1602005600929546240">“Operador de nó Lightning”</a> é o cargo mais importante deste década</li>
+<li><a href="/nodes/lightning-node-maintenance-en.html">Manutenção do Lightning Node</a></li>
+<li><a href="/nodes/lightning-routing-fees-experiment-en.html">Experimento de taxas de roteamento Lightning</a></li>
+<li><a href="/wallets/lightning-wallets-comparison-en.html">Guia de comparação de carteiras Lightning</a></li>
+<li><a href="/nodes/recommendations-ln-node-operators-en.html">Recomendações para novos usuários do LN</a></li>
+<li><a href="/merchants/operating-ln-as-merchant-en.html">Operando com o LN como um comerciante</a> - guia avançado</li>
+<li><a href="/nodes/tailscale-vpn-your-node-en.html">Usando seu nó Tor Tailscale</a></li>
+</ul>
+<hr style="height:2px">
+
+<blockquote style="color:Tomato;"><em>
+<p>NOTA: Se você considera que este guia não está bem explicado, envie-me suas perguntas/sugestões sobre como melhorá-lo ou até mesmo escrever outro para um caso específico.</p>
+<p>Se você leu este guia, mas seu nível de conhecimento não é tão técnico (é compreensível), compartilhe este artigo com seu amigo "Tio Jim" que é mais experiente em tecnologia e pode ajudá-lo a configurar seus próprios LNbits ou que pode até mesmo executá-lo para você.</p>
+</em></blockquote>
+
+</body>
+</html>
+</article>
