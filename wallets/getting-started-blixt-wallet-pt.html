@@ -1,0 +1,419 @@
+---
+layout: default-pt
+title: Introdução ao Blixt Mobile Node
+description: Como começar a usar um nó LN poderoso no seu celular, autocustódia, código aberto, guia passo a passo fácil
+image: /assets/images/blixt-darth-moms.jpg
+---
+<article>
+<!DOCTYPE html>
+<html lang="pt">
+<meta name="description" content="Guias de Bitcoin e Lightning: Introdução ao Blixt Wallet Mobile Node">
+<body>
+<center>
+<h2 style="color:Orange;">Como começar a usar um nó LN poderoso no seu celular, autocustódia, código aberto, guia passo a passo fácil</h2>
+<p><img src="/assets/images/blixt-darth-moms.jpg" class="center"></p>
+
+| <a href="/wallets/getting-started-blixt-wallet-en.html"><img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/getting-started-blixt-wallet-es.html"><img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/getting-started-blixt-wallet-de.html"><img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/getting-started-blixt-wallet-fr.html"><img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> | 
+<a href="/wallets/getting-started-blixt-wallet-it.html"><img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/getting-started-blixt-wallet-nl.html"><img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> | 
+<a href="/wallets/getting-started-blixt-wallet-hr.html"><img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/getting-started-blixt-wallet-hi.html"><img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+</center>
+<blockquote style="color:Tomato;"><em>
+<p>Postado originalmente em <a href="https://darthcoin.substack.com/p/getting-started-with-blixt-mobile">Substack</a> em 22 de novembro de 2022</p>
+<p>Atualizado aqui em 11 de fevereiro de 2025</p>
+</em></blockquote>
+
+<p>Este guia é dedicado a todos os novos usuários que desejam começar a usar a Bitcoin Lightning Network (LN) de forma GRATUITA, CÓDIGO ABERTO, TOTALMENTE SEM CUSTÓDIA.</p>
+<p>Usando <a href="https://blixtwallet.com/">Blixt Wallet</a>, um nó LN completo no seu celular, onde quer que você esteja.</p>
+<p>Se você nunca usou a Bitcoin Lightning Network, antes de começar, <a href="/beginner/ln-airport-analogy-en.html">por favor leia esta analogia de explicação simples sobre Lightning Network (LN)</a>.</p>
+
+<h3>ASPECTOS IMPORTANTES:</h3>
+<ol>
+<li>
+<p>Blixt é um nó privado, NÃO um nó de roteamento! Tenha isso em mente.</p>
+<p>Isso significa que todos os canais LN no Blixt não serão anunciados para o gráfico LN (os chamados canais privados). Isso significa que ESTE NÓ NÃO FARÁ ROTEAMENTO de outros pagamentos através do nó Blixt.</p>
+<p>Este nó Blixt NÃO é para roteamento, repito. É principalmente para poder gerenciar seus próprios canais LN e fazer seus pagamentos LN de forma privada, sempre que precisar.</p>
+<p>Este nó Blixt, é necessário estar online e sincronizado SOMENTE ANTES de você fazer suas transações. É por isso que você verá um ícone no topo que indica o status da sincronização. Leva apenas alguns minutos, dependendo de quanto tempo você o manteve offline.</p>
+</li>
+<li>O Blixt está usando LND (aezeed) como backend de carteira, então não tente importar outros tipos de carteiras bitcoin para ele. <a href="https://coldbit.com/what-types-of-mnemonic-seeds-are-used-in-bitcoin/">Aqui você explicou os tipos de sementes mnemônicas de carteira</a>. E aqui está <a href="https://walletsrecovery.org/">uma lista mais extensa de todos os tipos de carteiras</a>. Então, se você tinha um nó LND anteriormente, você pode importar a semente e os backup.channels para o Blixt, <a href="/nodes/shtf-restore-lnd-node-en.html">conforme explicado neste guia</a>.</li>
+<li>No final deste guia, você encontrará uma seção especial com <a href="#tips">"dicas e truques"</a></li>
+<li>Links importantes do Blixt - veja-os no final deste guia, por favor, adicione-os aos favoritos:</li>
+</ol>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">Blixt - Primeiro Contato</h3>
+<p>Então... a mãe de Darth decidiu começar a usar o LN com o Blixt. Decisão difícil, mas sábia. O Blixt é apenas para pessoas inteligentes e aquelas que realmente querem aprender mais, uso profundo do LN.</p>
+<p>Darth avisa sua mãe:</p>
+
+<blockquote style="color:Tomato;"><em>
+<p>“Mãe, se você começar a usar o Blixt LN Node, você precisará primeiro saber o que é Lightning Network e como ele funciona, pelo menos em um nível básico. <a href="https://blixtwallet.github.io/faq#what-is-ln">Aqui eu juntei uma lista simples de recursos sobre Lightning Network</a>. Por favor, leia-os primeiro.”</p>
+</em></blockquote>
+
+<p>A mãe de Darth leu os recursos e deu seu primeiro passo: instalou o Blixt em seu novo dispositivo Android. O Blixt também está disponível para iOS e macOS (desktop). Mas eles não são para a mãe de Darth... No entanto, é recomendado usar uma versão mais recente do Android, pelo menos 9 ou 10 para melhor compatibilidade e experiência. Executar um nó LN completo em um dispositivo móvel não é uma tarefa fácil e pode ocupar algum espaço (mínimo de 600 MB) e memória.</p>
+<p>Depois de abrir o Blixt, a tela "Bem-vindo" lhe dará algumas opções:</p>
+
+<p><img src="/assets/images/blixt-welcome-start.jpg" class="center"></p>
+
+<p>No canto superior direito, você verá 3 pontos que ativam um menu com:</p>
+<ul>
+<li>“habilitar Tor” - o usuário pode começar com a rede Tor, em especial se quiser restaurar um nó LND antigo que estava sendo executado apenas com pares Tor.</li>
+<li>“Definir nó Bitcoin” - se o usuário quiser se conectar diretamente ao seu próprio nó, para sincronizar os blocos por meio do Neutrino, pode fazê-lo diretamente na tela de boas-vindas. Esta opção também é boa caso sua conexão com a internet ou Tor não seja tão estável para se conectar ao nó bitcoin padrão (node.blixtwallet.com).</li>
+<li>Em breve, o idioma será adicionado lá, para que o usuário possa começar diretamente com um idioma que seja confortável. Se você quiser contribuir para este projeto de código aberto com traduções em outros idiomas, <a href="https://explore.transifex.com/blixt-wallet/blixt-wallet/">por favor, junte-se aqui</a>.</li>
+</ul>
+
+<h3 id="option-a">OPÇÃO A - Criar nova carteira</h3>
+<p>Se você escolher "criar uma nova carteira", você será redirecionado diretamente para a tela principal da Carteira Blixt.</p>
+<p>Este é o seu "cockpit" e também é a "Carteira LN principal", então esteja ciente de que ele mostrará apenas o saldo da sua carteira LN. A carteira onchain é exibida separadamente (veja C).</p>
+
+<p><img src="/assets/images/blixt-main-screen.jpg" class="center"></p>
+
+<p>A - Ícone indicador de sincronização de blocos Blixt. Esta é a coisa mais importante para um nó LN: estar sincronizado com a rede. Se esse ícone ainda estiver lá funcionando, significa que seu nó NÃO ESTÁ PRONTO! Então tenha paciência, especialmente para a primeira sincronização inicial. Pode levar de 6 a 8 minutos, dependendo do seu dispositivo e conexão de internet.</p>
+<p>Você pode clicar nele e ver o status da sincronização:</p>
+
+<p><img src="/assets/images/blixt-initial-sync.jpg" class="center"></p>
+
+<p>Você também pode clicar no botão "Mostrar Log LND" (A) se quiser ver e ler mais detalhes técnicos do log LND, em tempo real. É muito útil para depurar e aprender mais sobre como o LN funciona.</p>
+<p>B - Aqui você pode acessar todas as configurações do Blixt, e são muitas! O Blixt está oferecendo muitos recursos e opções avançados para gerenciar seu nó LN como um profissional. Todas essas opções são explicadas em detalhes na “<a href="https://blixtwallet.github.io/features#blixt-options">Página de recursos do Blixt</a> - Menu de opções”.</p>
+<p>C - Aqui você tem o menu “Magic Drawer”, <a href="https://blixtwallet.github.io/features#blixt-drawer">também explicado em detalhes aqui</a>. Aqui está a “Onchain Wallet” (B), Lightning Channels (C), Contatos, ícone de status dos canais (A), Keysend (D).</p>
+
+<p><img src="/assets/images/blixt-drawer.jpg" class="center"></p>
+
+<p>D - É o menu de ajuda, com links para a página FAQ/Guias, contate o desenvolvedor, página do Github e grupo de suporte do Telegram.</p>
+<p>E - Indique seu primeiro endereço BTC, onde você pode depositar seus primeiros sats de teste. ISTO É OPCIONAL! Se você depositar diretamente nesse endereço, estará abrindo um canal LN em direção ao Blixt Node. Isso significa que você verá seus sats depositados, indo para outra transação onchain (tx), para abrir esse canal LN. Você pode verificar isso na carteira onchain Blixt (veja o ponto C), clicando no menu TX superior direito.</p>
+
+<p><img src="/assets/images/blixt-onchain-tx-logs.jpg" class="center"></p>
+
+<p>Como você pode ver no Onchain Transaction Log, as etapas são muito detalhadas, indicando para onde os sats estão indo (depósito, abertura, fechamento do canal).</p>
+<p>RECOMENDAÇÃO:</p>
+<p>Após testar várias situações, chegamos à conclusão de que é muito mais eficiente abrir canais entre 1 e 5 M sats. Canais menores tendem a se esgotar rapidamente e pagar uma porcentagem maior de taxas em comparação com canais maiores.</p>
+<p>F - Indique o saldo principal da sua carteira Lightning. Este NÃO é o saldo total da sua carteira Blixt, ele representa apenas os sats que você tem nos Canais Lightning, disponíveis para enviar. Como foi indicado antes, a carteira Onchain é separada. Tenha em mente este aspecto. A carteira onchain é separada por um motivo importante: ela é usada principalmente para abrir/fechar canais LN.</p>
+<p>Ok, então agora a mãe de Darth depositou alguns sats naquele endereço onchain exibido na tela principal. É recomendado que, quando você fizer isso, mantenha seu aplicativo Blixt online e ativo por um tempo, até que o BTC tx seja levado pelos mineradores para o primeiro bloco.</p>
+<p>Depois disso, pode levar de 20 a 30 minutos até que seja totalmente confirmado e o canal esteja aberto e você o verá na Magic Drawer - Lightning Channels como ativo. Além disso, o pequeno ponto colorido na parte superior da gaveta, se estiver verde, indicará que seu canal LN está online e pronto para ser usado para enviar satélites pelo LN.</p>
+<p>O endereço e a mensagem de boas-vindas exibidos desaparecerão. Não há mais necessidade de abrir um canal automático agora. Você também pode desativar a opção no menu Configurações.</p>
+<p>É hora de seguir em frente, testando outros recursos e opções para abrir canais LN.</p>
+<p>Agora, vamos abrir outro canal com outro nó peer. A comunidade Blixt reuniu <a href="https://github.com/hsjoberg/blixt-wallet/issues/1033">uma lista de bons nós para começar a usar com o Blixt</a>.</p>
+<p><strong>Procedimento para abrir um canal LN no Blixt</strong></p>
+<p>Isso é muito simples, basta alguns passos e um pouco de paciência:</p>
+<ul>
+<li>Vá para a lista de pares da <a href="https://github.com/hsjoberg/blixt-wallet/issues/1033">Comunidade Blixt</a></li>
+<li>Selecione um nó e clique no link do título do nome, ele abrirá sua página Amboss</li>
+<li>Clique para exibir o código QR para o endereço URI do nó</li>
+</ul>
+
+<p><img src="/assets/images/blixt-nodeid-qr.jpg" class="center"></p>
+
+<p>Abra o Blixt e vá para a gaveta superior - Canais Lightning e clique no botão “+”</p>
+
+<p><img src="/assets/images/blixt-open-channel.jpg" class="center"></p>
+
+<p>Agora, clique na câmera (A) para escanear o código QR da página Amboss e os detalhes do nó serão preenchidos. Adicione a quantidade de sats para o canal que você deseja e então selecione a taxa de taxa para a tx. Você pode deixá-lo automático (B) para uma confirmação mais rápida ou ajustá-lo manualmente deslizando o botão. Você também pode pressionar longamente o número e editá-lo como quiser.</p>
+<p>Não coloque menos de 1 sat/vbyte! Geralmente é melhor consultar as <a href="https://mempool.space/">taxas do mempool</a> antes de abrir um canal e selecionar uma taxa conveniente.</p>
+<p>Pronto, agora é só clicar no botão "abrir canal" e esperar por 3 confirmações, que normalmente levam 30 min (1 bloco aproximadamente a cada 10 min).</p>
+<p>Depois de confirmado, você verá o canal ativo na sua seção "Canais Lightning".</p>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">Blixt - Segundo Contato</h3>
+<p>Ok, agora temos um canal LN com apenas liquidez de SAÍDA. Isso significa que podemos apenas ENVIAR, ainda não podemos RECEBER sats pelo LN.</p>
+
+<p><img src="/assets/images/darth-read-guides.jpg" class="center"></p>
+
+<p>Por quê? Você leu os guias indicados no começo? Não? Volte e leia-os. É muito importante entender como os canais LN funcionam.</p>
+<p><img src="/assets/images/blixt-channel-liquidity.jpg" class="center"></p>
+<p>Como você pode ver neste exemplo, o canal aberto com o primeiro depósito, não tem muita liquidez de ENTRADA ("Pode receber"), mas tem muita liquidez de SAÍDA ("Pode enviar").</p>
+<p>Então, quais opções você tem, se quiser receber mais sats pelo LN?</p>
+<ul>
+<li>Gaste alguns sats do canal existente. Sim, o LN é uma rede de pagamento de Bitcoin, usada principalmente para gastar seus sats de forma mais rápida, barata, privada e fácil. O LN NÃO é uma forma de hodling, para isso você tem a carteira onchain.</li>
+<li>Troque alguns sats de volta para sua carteira onchain, usando um serviço de swap submarino. Dessa forma, você não está gastando seus sats, mas devolvendo-os para sua própria carteira onchain. Aqui você pode ver em detalhes alguns métodos, na <a href="https://blixtwallet.github.io/guides">Página de Guias Blixt</a>.</li>
+<li><p>Abra um canal INBOUND de qualquer provedor LSP. Aqui está uma demonstração em vídeo sobre como usar o LNBig LSP para abrir um canal inbound.</p>
+
+<center>
+<video width="320" height="640" controls>
+  <source src="/assets/media/blixt-lnbig.mp4" type="video/mp4">
+</video>
+</center>
+
+<p>Isso significa que você pagará uma pequena taxa por um canal VAZIO (do seu lado) e poderá receber mais sats nesse canal. Se você for um comerciante que recebe mais do que gasta, essa é uma boa opção. Também se você estiver comprando sats por LN, usando Robosats ou qualquer outra bolsa LN.</p></li>
+<li>Abra um canal Dunder, com o nó Blixt ou qualquer outro provedor Dunder LSP. Um canal Dunder é uma maneira simples de obter alguma liquidez de ENTRADA, mas ao mesmo tempo você deposita alguns sats nesse canal. Também é bom porque abrirá o canal com um <a href="https://en.bitcoin.it/wiki/UTXO">UTXO</a> que não é da sua carteira Blixt. Isso adiciona alguma privacidade. Também é bom porque, se você não tiver sats em uma carteira onchain, para abrir um canal LN normal, mas você os tiver em outra carteira LN, você pode simplesmente pagar dessa outra carteira através da LN a abertura e o depósito (do seu lado) desse canal Dunder. <a href="https://github.com/hsjoberg/dunder-lsp">Mais detalhes sobre como o Dunder funciona e como executar seu próprio servidor aqui</a>.</li>
+</ul>
+
+<p><img src="/assets/images/blixt-dunder-channels.jpg" class="center"></p>
+
+<p>Aqui estão as etapas para ativar a abertura de um canal Dunder:</p>
+<ul>
+<li>Vá para Configurações, na seção "Experimentos" ative a caixa para "Habilitar Dunder LSP".</li>
+<li>Depois de fazer isso, volte para a seção "Lightning Network" e você verá que apareceu a opção "Definir servidor Dunder LSP". Lá, por padrão, está definido “https://dunder.blixtwallet.com”, mas você pode alterá-lo com qualquer outro endereço de provedor Dunder LSP. <a href="https://github.com/hsjoberg/blixt-wallet/issues/1033">Aqui está uma lista da comunidade Blixt</a> com nós que podem fornecer canais Dudner LSP para seu Blixt.</li>
+<li>Agora você pode ir para a tela principal e clicar no botão “Receber”. Então siga este procedimento <a href="https://blixtwallet.github.io/guides#guide-lsp">explicado neste guia</a>.</li>
+</ul>
+<p>OK, então depois que o canal Dunder for confirmado (levará alguns minutos) você acabará tendo 2 canais LN: um aberto inicialmente com piloto automático (canal A) e um com mais liquidez de entrada, aberto com Dunder (canal B).</p>
+
+<p><img src="/assets/images/blixt-channels-screen.jpg" class="center"></p>
+
+<p>Ótimo, agora você está pronto para enviar e receber sats suficientes pela LN!</p>
+<p>FELIZ BITCOIN LIGHTNING!</p>
+<hr style="height:2px">
+
+<h3 style="color:Orange;">Blixt - Terceiro Contato</h3>
+<p>Lembre-se, no capítulo um "Primeiro Contato" havia 2 opções na tela de boas-vindas:</p>
+<ul>
+<li><a href="#option-a">Opção A</a> - Criar nova carteira</li>
+<li>Opção B - Restaurar carteira</li>
+</ul>
+<p>Então agora vamos discutir sobre como restaurar uma carteira Blixt ou qualquer outro nó LND travado. Isso é um pouco mais técnico, mas preste atenção. Não é tão difícil.</p>
+
+<h3>OPÇÃO B - Restaurar carteira</h3>
+<p>No passado, escrevi um guia dedicado sobre <a href="/nodes/shtf-restore-lnd-node-en.html">como restaurar um nó Umbrel travado</a>, onde mencionei também o método de usar o Blixt como um processo de restauração rápida, usando o arquivo seed + channel.backup do Umbrel.</p>
+<p>Também escrevi um guia sobre como restaurar seu nó Blixt ou migrar seu Blixt para outro dispositivo, <a href="https://blixtwallet.github.io/faq#blixt-restore">aqui</a>.</p>
+
+<p><img src="/assets/images/blixt-restore.jpg" class="center"></p>
+
+<p>Mas vamos explicar em etapas simples esse processo. Como você pode ver na imagem acima, há 2 coisas que você deve fazer para restaurar seu nó Blixt/LND anterior:</p>
+<ul>
+<li>a caixa superior é onde você deve preencher com todas as 24 palavras da sua semente (nó antigo/morto)</li>
+<li>abaixo estão duas opções de botão para inserir/carregar o arquivo channel.backup, salvo anteriormente do seu nó Blixt/LND antigo. Pode ser de um arquivo local (você o carrega no seu dispositivo anteriormente) ou pode ser de um local remoto do Google Drive/iCloud. O Blixt tem esta opção para salvar o backup dos seus canais diretamente em um Google Drive/iCloud. Veja mais detalhes na <a href="https://blixtwallet.github.io/features#blixt-options">Página de recursos do Blixt</a>.</li>
+</ul>
+<p>No entanto, se você não tinha nenhum canal LN aberto anteriormente, não há necessidade de carregar nenhum arquivo channels.backup. Basta inserir a semente de 24 palavras e clicar no botão restaurar.</p>
+<p>Não se esqueça de ativar o Tor, no menu dos 3 pontos superiores, como explicamos na seção Opção A. Esse é o caso quando você SOMENTE tinha pares Tor e não podia ser contatado pela clearnet (domínio/IP). Caso contrário, não é necessário.</p>
+<p>Outro recurso útil é definir um nó Bitcoin específico no menu superior. Por padrão, ele sincroniza blocos de node.blixtwallet.com (modo neutrino), mas você pode definir qualquer outro nó Bitcoin que forneça sincronização de neutrino.</p>
+<p>Então, depois de preencher essas opções e clicar no botão de restauração, o Blixt começará primeiro a sincronizar os blocos por meio do Neutrino, como explicamos no capítulo Primeiro contato. Portanto, seja paciente e observe o processo de restauração na tela principal, clicando no ícone de sincronização.</p>
+
+<p><img src="/assets/images/blixt-restore-process.jpg" class="center"></p>
+
+<p>Como você pode ver neste exemplo, ele mostra que os blocos de bitcoin estão 100% sincronizados (A) e o processo de recuperação está em andamento (B). Isso significa que os canais LN que você tinha anteriormente serão fechados e os fundos restaurados em sua carteira onchain Blixt.</p>
+<p>Esse processo leva tempo! Então, por favor, seja paciente e tente manter seu Blixt ativo e online. A sincronização inicial pode levar de 6 a 8 minutos e o fechamento dos canais pode levar de 10 a 15 minutos. Então é melhor você ter o dispositivo bem carregado.</p>
+<p>Assim que esse processo for iniciado, você pode verificar na Magic Drawer - Lightning Channels, o status de cada um dos seus canais anteriores, mostrando que estão no status "pendente para fechar". Uma vez que cada canal é fechado, você pode ver o tx de fechamento na carteira onchain (veja Magic Drawer - Onchain), e abrir o log do menu tx.</p>
+
+<p><img src="/assets/images/blixt-closed-channels.jpg" class="center"></p>
+
+<p>Também será bom verificar e adicionar, se não estiverem lá, seus pares anteriores que você tinha no seu antigo nó LN. Então vá para o menu Configurações, desça até "Rede Lightning" e entre na opção "Mostrar pares Lightning".</p>
+
+<p><img src="/assets/images/blixt-add-peers.jpg" class="center"></p>
+
+<p>Dentro da seção você verá os pares aos quais você está conectado naquele momento e você pode adicionar mais, melhor adicionar aqueles aos quais você tinha canais antes. Basta ir para <a href="https://amboss.space/">página do Amboss</a>, procurar pelos aliases ou nodeID dos nós pares e escanear o URI do nó.</p>
+
+<p><img src="/assets/images/blixt-add-peers-amboss.jpg" class="center"></p>
+
+<p>Como você pode ver na imagem acima, há 3 aspectos:</p>
+<p>A - representa o URI do endereço do nó clearnet (domínio/IP)</p>
+<p>B - representa o URI do endereço do nó onion Tor (.onion)</p>
+<p>C - é o código QR para escanear com sua câmera Blixt ou o botão de cópia.</p>
+<p>Este URI do endereço do nó você tem que adicioná-lo à sua lista de pares. Portanto, esteja ciente de que não basta apenas o nome do alias do nó ou o nodeID.</p>
+<p>Agora você pode ir para Magic Drawer (menu superior esquerdo) - Lightning Channels, e pode ver em qual altura do bloco de maturidade os fundos serão devolvidos ao seu endereço onchain.</p>
+
+<p><img src="/assets/images/blixt-channel-status.jpg" class="center"></p>
+
+<p>Esse número de bloco 764272 é quando os fundos serão utilizáveis ​​no seu endereço onchain bitcoin. E pode levar até 144 blocos do primeiro bloco de confirmação até que sejam liberados. <a href="https://mempool.space/">Então verifique isso no mempool</a>.</p>
+<p>E é isso. Apenas espere pacientemente até que todos os canais sejam fechados e os fundos retornem à sua carteira onchain.</p>
+
+<details>
+<summary style="color:Yellow;">👈 Método de restauração secreto</summary>
+<p>Há outro método para restaurar seu nó Blixt LND sem nem mesmo fechar os canais. Mas está oculto para usuários novatos, porque esse método é SOMENTE para aqueles que sabem o que estão fazendo.</p>
+<p>Caso precise migrar seu nó Blixt existente (funcionando) para outro dispositivo novo, sem fechar os canais LN existentes, você terá que seguir estas etapas:</p>
+<ul>
+<li>Supomos que você já salvou a semente da Blixt Wallet (24 palavras aezeed)</li>
+<li>No dispositivo antigo, vá para "Configurações" - seção de depuração - "Banco de dados LND compacto". Esta etapa é opcional, mas recomendada se você quiser um tamanho menor do arquivo channel.db. Normalmente é bem grande, dependendo da atividade do seu nó. Isso reiniciará o Blixt e compactará o tamanho do arquivo db.</li>
+<li>Depois de reiniciado, vá para "Configurações" e altere seu nome de alias regular para "Hampus". Isso ativará as opções ocultas, apenas para usuários avançados.</li>
+<li>Vá até a seção "Depuração" e você verá uma nova opção "Exportar arquivo channel.db". AVISO! Depois de fazer essa exportação, o nó Blixt LN existente será desabilitado neste dispositivo antigo e exportará todo o banco de dados do nó (channel.db) pronto para ser importado para um novo dispositivo.</li>
+<li>Este arquivo db será salvo em uma pasta designada no seu dispositivo antigo (Documentos ou Downloads) e de lá você terá que movê-lo como está para o seu novo dispositivo. Você pode usar, por exemplo, <a href="https://github.com/localsend/localsend">aplicativo LocalSend FOSS</a> para transferir o arquivo diretamente entre dispositivos.</li>
+<li>Neste momento, seu antigo Blixt DEVE permanecer desligado. NÃO ABRA NOVAMENTE!</li>
+<li>Depois de transferir o arquivo channel.db para o novo dispositivo, inicie a nova instalação do Blixt e escolha "Restaurar carteira" na primeira tela.</li>
+<li>No botão onde diz "Selecionar arquivo SCB", pressione e segure (NÃO clique simples!) e então você verá a opção de selecionar um arquivo channel.db onde você o salva localmente no novo dispositivo. Se você apenas pressionar esse botão, ele usará por padrão um arquivo SCB (com canais de fechamento), não funciona para backup completo de canais ao vivo.</li>
+<li>Coloque a semente de 24 palavras e clique em "Restaurar"</li>
+<li>Você verá que o Blixt começará a sincronizar com o Neutrino. Você também pode assistir aos logs de sincronização.</li>
+<li>TENHA EM MENTE! Tente manter o Blixt aberto o tempo todo nesta fase! Não o deixe entrar no modo de espera ou fechar a tela do aplicativo. Isso pode interromper a sincronização inicial e você terá que fazer isso novamente. Espere pacientemente, não vai demorar mais do que alguns minutos.</li>
+<li>Assim que a sincronização dos blocos iniciais for concluída, ela escaneará rapidamente seus endereços de carteira anteriores e seus canais estarão online novamente, vivos e bem.</li>
+<li>Infelizmente, o histórico de pagamentos e contatos anteriores não podem (ainda) ser restaurados. Mas isso não é tão importante de qualquer maneira.</li>
+</ul>
+<p>E PRONTO! Agora você tem um nó Blixt LN totalmente restaurado. Ele pode funcionar também com outros backups LND (Umbrel, Raspiblitz etc) se você salvou corretamente o arquivo channel.db anteriormente. Então o Blixt pode literalmente salvar qualquer nó LND morto.</p>
+</details>
+
+<hr style="height:2px">
+
+<h3 style="color:Orange;">Blixt - Quarto Contato</h3>
+<p>Este capítulo é sobre personalização e conheça melhor o Blixt Node. Não descreverei todos os recursos disponíveis, são muitos e já foram explicados na <a href="https://blixtwallet.github.io/features">Página de recursos do Blixt</a>.</p>
+<p>Mas vou apontar alguns dos necessários para continuar usando seu Blixt e ter uma ótima experiência.</p>
+
+<h4>A - Nome (NameDesc)</h4>
+
+<p><img src="/assets/images/blixt-name-desc.jpg" class="center"></p>
+
+<p><a href="https://github.com/lightning/blips/blob/master/blip-0011.md">O NamDesc</a> é um padrão para transmitir "nome do destinatário" em faturas BOLT11.</p>
+<p>Pode ser qualquer nome e pode ser alterado a qualquer momento.</p>
+<p>Esta opção é realmente útil em vários casos, quando você deseja enviar um nome junto com a descrição da fatura, para que o destinatário possa ter uma dica de quem recebeu esses sats. Isso é totalmente opcional e também na tela de pagamento, o usuário tem que marcar a caixa indicando para enviar o nome do alias.</p>
+<p>Aqui está um exemplo de como apareceria quando você usa <a href="https://chat.blixtwallet.com/">chat.blixtwallet.com</a></p>
+
+<p><img src="/assets/images/blixt-chat.png" class="center"></p>
+
+<p>Este é outro exemplo enviando para outro aplicativo de carteira que suporta NameDesc:</p>
+
+<p><img src="/assets/images/blixt-sbw-namedesc.jpg" class="center"></p>
+
+<h4>B - Lightning Box</h4>
+<p>Começando com a nova v0.6.9-420 <a href="https://github.com/hsjoberg/blixt-wallet/releases/tag/v0.6.9-420">anunciado recentemente</a>, o Blixt introduziu um novo recurso poderoso para o Lightning Address no Blixt.</p>
+<p>Este novo recurso é opcional, não está ATIVADO por padrão!</p>
+<p>No momento, o LN Box padrão é executado pelo servidor Blixt e oferece um endereço LN @blixtwallet.com. Mas QUALQUER UM com um nó público LND pode executar o servidor Lightning Box e oferecer o endereço LN para seu próprio domínio, autocustódia.</p>
+<p>No momento, o servidor Blixt está apenas encaminhando os pagamentos enviados para endereços LN @blixtwallet.com para os usuários Blixt que definiram seu endereço LN. Os usuários devem colocar sua carteira de nó Blixt em "modo persistente" para receber esses pagamentos em seus endereços LN @blixtwallet.com.</p>
+<p>Veja nas notas de lançamento a demonstração em vídeo sobre como configurar seu endereço LN no Blixt.</p>
+<p>Este endereço LN implementado no aplicativo de carteira Blixt é como um bate-papo pelo LN, instantâneo e divertido, também suportando <a href="https://github.com/lnurl/luds/blob/luds/18.md">LUD-18</a> (adicionando um nome de alias a um pagamento). Você pode adicionar na lista de contatos todos os seus endereços LN regulares que você usa com frequência e tê-los à mão para bater papo. Agora o Blixt pode ser considerado um aplicativo de bate-papo LN completo 😂😂.</p>
+<p>Outro recurso útil é o suporte total para LUD-18 (que também <a href="https://stacker.news/r/DarthCoin">Stacker.News</a> e outros estão dando suporte a ele).</p>
+
+<p><img src="/assets/images/blixt-main-screen2.jpg" class="center"></p>
+
+<p>Como você pode ver na captura de tela acima, enviando de uma conta do Stacker News, ele exibiu bem o logotipo + endereço LN + mensagem. A mesma maneira funciona para enviar do Blixt, você pode anexar seu endereço LN do Blixt ou simplesmente adicionar o nome do alias (previamente definido nas configurações do Blixt) ou até mesmo ambos.</p>
+<p>Esta opção do LUD-18 pode ser útil também para serviços de assinatura, onde o usuário pode enviar um alias específico (NÃO é o alias do seu nó ou seu nome real!) e com base nisso você pode ser registrado ou receber de volta uma mensagem específica ou qualquer outra coisa. Anexar um nome de alias (<a href="https://github.com/lnurl/luds/blob/luds/18.md">LUD-18</a>) + comentário (<a href="https://github.com/lnurl/luds/blob/luds/12.md">LUD-12</a>) a um pagamento LN pode ter vários casos de uso!</p>
+<p>Aqui está o código para <a href="https://github.com/hsjoberg/lightning-box">Lightning Box</a> se você executá-lo para você mesmo, para sua família e amigos, em seu próprio nó.</p>
+<p>Aqui também você pode executar o <a href="https://github.com/hsjoberg/dunder-lsp">servidor LSP Dunder</a> para nós móveis Blixt e oferecer liquidez para usuários Blixt se você tiver um bom nó LN público (funciona apenas com LND).</p>
+
+<h4>C - Backup de canais LN e palavras-semente</h4>
+<p>Este é um recurso muito importante!</p>
+<p>Após abrir ou fechar um canal LN, você deve fazer um backup. Isso pode ser feito manualmente salvando um pequeno arquivo no dispositivo local (pasta de download geralmente) ou usando uma conta do Google Drive ou iCloud.</p>
+
+<p><img src="/assets/images/blixt-backup.jpg" class="center"></p>
+
+<p>Vá para Configurações do Blixt - seção Carteira. Lá você tem as opções para salvar todos os dados importantes para sua carteira Blixt:</p>
+<ul>
+<li>“Mostrar mnemônico” - exibirá as 24 palavras-semente para anotá-las</li>
+<li>“Remover mnemônico do dispositivo” - isso é opcional e use-o somente se você realmente quiser remover as palavras-semente do seu dispositivo. Isso NÃO limpará sua carteira, apenas a semente. Mas esteja ciente! Não há como recuperá-los se você não os anotou primeiro.</li>
+<li>“Exportar backup do canal” - esta opção salvará um pequeno arquivo no seu dispositivo local, geralmente na pasta “downloads”, de onde você pode pegá-lo e movê-lo para fora do seu dispositivo, para mantê-lo seguro.</li>
+<li>“Verificar backup do canal” - esta é uma boa opção se você usa o Google Drive ou o iCloud para verificar a integridade do backup feito remotamente.</li>
+<li>“Backup do canal do Google Drive” - salvará o arquivo de backup no seu Google Drive pessoal. O arquivo é criptografado e armazenado em um repositório separado dos seus arquivos usuais do Google. Portanto, não há preocupações de que possam ser lidos por ninguém. De qualquer forma, esse arquivo é totalmente inútil sem as palavras-semente, então ninguém pode tirar seus fundos apenas desse arquivo.</li>
+</ul>
+<p>Eu recomendaria para esta seção o seguinte:</p>
+<ul>
+<li>use um gerenciador de senhas para armazenar com segurança seu arquivo de semente e backup. KeePass ou Bitwarden são muito bons para isso e podem ser usados ​​em multiplataforma e auto-hospedados ou offline.</li>
+<li>FAÇA O BACKUP TODA VEZ que abrir ou fechar um canal. Esse arquivo é atualizado com as informações dos canais. Não há necessidade de fazer isso após cada transação que você fez no LN. O backup do canal não está armazenando essas informações, está armazenando apenas o status do canal.</li>
+</ul>
+
+<p><img src="/assets/images/blixt-always-backup.jpg" class="center"></p>
+
+<hr style="height:2px">
+
+<h3 id="tips" style="color:Orange;">Blixt - Dicas e Truques <a href="#tips">#</a></h3>
+<h4 style="color:Yellow;">CASO 1 - PROBLEMAS DE SINCRONIZAÇÃO</h4>
+<blockquote style="color:Tomato;"><em>
+Meu Blixt não está sincronizando... Meu Blixt não mostra o saldo... Meu Blixt não consegue abrir canais... Tentei restaurá-lo em outro dispositivo... etc
+</em></blockquote>
+<p>Todos esses problemas começam porque SEU DISPOSITIVO NÃO ESTÁ SINCRONIZANDO CORRETAMENTE. Por favor, entenda este aspecto importante: Blixt é um nó LND móvel, que usa Neutrino para sincronizar/ler os blocos.</p>
+<ul>
+<li>Aqui está uma explicação menos técnica da <a href="https://bitcoinmagazine.com/technical/why-bitcoin-wallets-need-block-filters">Bitcoin Magazine</a></li>
+<li>Aqui estão mais recursos técnicos da <a href="https://bitcoinops.org/en/topics/compact-block-filters/">Bitcoin Optech</a></li>
+<li>Aqui está como você pode ativar o Neutrino em seu próprio nó doméstico e servir filtros de blocos para seu nó móvel, da <a href="https://docs.lightning.engineering/lightning-network-tools/lnd/enable-neutrino-mode-in-bitcoin-core">Docs Lightning Engineering</a></li>
+</ul>
+<p><span style="color:yellow;">LEMBRETE:</span> Usar Neutrino sobre clearnet é totalmente seguro, seu IP ou xpub não são vazados. Você está apenas lendo blocos de um nó remoto com o neutrino. Isso é tudo. Todo o resto é feito no seu dispositivo local.</p>
+<p>Portanto, NÃO HÁ NECESSIDADE de usá-lo com o Tor. O Tor adicionará uma latência enorme no seu processo de sincronização e tornará seu Blixt muito instável. Se você realmente quiser usar o Tor, tenha certeza do que está fazendo e tenha uma boa conexão e paciência. O mesmo caso para usar uma VPN. Tenha cuidado com a latência que lhe é dada por essa VPN.</p>
+<p>Você pode testar a latência de um servidor neutrino simplesmente fazendo ping nele, de um PC ou do seu celular.</p>
+<p><img src="/assets/images/blixt.ping-peer.jpg" class="center"></p>
+<p>Este é um ping comum para o servidor neutrino europe.blixtwallet.com, isso mostra que a conexão é muito boa com um tempo de resposta médio de 50 ms e um TTL de 51. O tempo de resposta pode variar, mas não muito. O TTL deve ser estável.</p>
+<p>Se esses valores forem maiores que 100-150 ms, seu processo de sincronização ficará obsoleto ou, pior ainda, poderá causar o fechamento de canais por pares! Não ignore esse aspecto.</p>
+<p>Sem uma sincronização adequada, você também não poderá ver o equilíbrio correto ou seus canais LN não ficarão online e operacionais. Não importa quantos giga ultra terra mbps você tenha, a velocidade de download NÃO IMPORTA. Importa o tempo de resposta e o TTL (tempo de vida).</p>
+<p>Este é um caso geral para usuários da América Latina. Não sei o que acontece lá, mas vocês têm uma conexão terrível com pings de mais de 200 ms que podem interromper qualquer sincronização.</p>
+<p style="color:yellow;">Então, qual é a solução para esses usuários desesperados?</p>
+<ul>
+<li>pare de usar Blixt com Tor. É totalmente inútil</li>
+<li>você pode usar uma VPN, mas escolha-a com sabedoria e monitore o tempo todo o ping. Use uma que esteja mais perto de sua localização geográfica. Distância significa mais tempo de resposta em ms, lembre-se.</li>
+<li>selecione sabiamente seus pares de neutrinos, aqui está uma lista de servidores públicos de neutrinos bem conhecidos:</li>
+</ul>
+<pre class="bash"><code>
+For US region
+btcd1.lnolymp.us | btcd2.lnolymp.us
+btcd-mainnet.lightning.computer
+swest.blixtwallet.com (Seattle)
+node.eldamar.icu
+noad.sathoarder.com
+bb1.breez.technology | bb2.breez.technology
+neutrino.shock.network
+For EU region
+europe.blixtwallet.com (Germany)
+For Asia region
+sg.lnolymp.us
+asia.blixtwallet.com
+</code></pre>
+
+<p>Outra maneira é selecionar um desta lista de nós anunciando os "filtros compactos" (BIP157 / neutrino) - <a href="https://bitnodes.io/nodes/?q=NODE_COMPACT_FILTERS">Filtro Neutrino da página Bitnodes</a>. Escolha um que esteja mais próximo da sua localização geográfica.</p>
+<p>Outra maneira (a melhor maneira) é conectar-se a um nó da comunidade local, administrado por um amigo ou grupo que você conhece e que esteja oferecendo conexão de neutrino. <a href="https://docs.lightning.engineering/lightning-network-tools/lnd/enable-neutrino-mode-in-bitcoin-core">Aqui estão as instruções de como fazer isso.</a> O nó deles não será afetado de forma alguma, eles só precisam de uma conexão estável e pública.</p>
+<p>Há uma necessidade de mais servidores de neutrino na região LATAM, para uma sincronização melhor e mais rápida. Então, organize-se com sua comunidade Bitcoin local e decida quem e onde está executando um Bitcoin Core + Neutrino para seu próprio uso. Com apenas um IP público é o suficiente. Se você não tiver acesso a um IP público, você pode usar um IP VPS e fazer um túnel wireguard para seu nó doméstico. Dessa forma, você redireciona todo o tráfego para seu IP VPS local, sem revelar nenhuma informação privada sobre seu nó doméstico.</p>
+
+<h4 style="color:Yellow;">CASO 2 - NUNCA TERMINA A SINCRONIZAÇÃO</h4>
+<blockquote style="color:Tomato;"><em>
+Meu Blixt tem boa conexão com o servidor Neutrino, mas está travado na sincronização.
+</em></blockquote>
+
+<h5>Servidor de horário</h5>
+<p>Às vezes, as pessoas usam vários dispositivos antigos ou não estão conectadas corretamente a um servidor de horário. O Neutrino está sincronizando ok até atingir os blocos reais que não correspondem ao horário local real. Você verá nos logs do Blixt lnd um erro dizendo que "o carimbo de data/hora do bloco está longe do futuro" ou algo relacionado a "o cabeçalho não passa na verificação de integridade".</p>
+<p><span style="color:yellow;">Correção rápida:</span> defina a hora e a data corretas para seu dispositivo e reinicie o Blixt.</p>
+
+<h5>Pouco espaço no dispositivo</h5>
+<p>Às vezes, usar um dispositivo antigo, com pouco espaço, pode atingir um limite e travar. De fato, quanto mais você usa este nó LND móvel, os arquivos de neutrinos ficam maiores e também o arquivo channel.db.</p>
+<p><span style="color:yellow;">Correção rápida:</span> Vá para Opções do Blixt - seção Depuração - Selecione "parar LND e excluir arquivos de neutrinos". Ele reiniciará o aplicativo e iniciará uma nova sincronização. Às vezes, essa correção rápida pode reparar também dados corrompidos. Lembre-se de que levará algum tempo, entre 1 e 3 minutos para ressincronizar completamente. NÃO está excluindo fundos ou canais existentes, mas sim, após a ressincronização, pode disparar uma nova varredura de seus endereços de bitcoin e isso pode levar mais tempo.</p>
+<p>O próximo passo é verificar quantos dados ainda estão ocupados. Você pode ver isso em Informações do aplicativo Android - dados. Se ainda for maior que 400-500 MB, você pode compactar os arquivos lnd. Então vá para Opções do Blixt - seção Depuração - Selecione "Compactar DB LND". Reinicie o aplicativo Blixt se não estiver fazendo isso automaticamente. A compactação está ocorrendo na inicialização e é apenas uma vez. Agora você verá que os dados do Blixt estão mais ou menos ocupados.</p>
+
+<h5>Modo persistente</h5>
+<p>Às vezes, as pessoas não abrem o Blixt por muito tempo, então a sincronização é muito antiga. Mas elas esperam ser sincronizadas instantaneamente quando o abrem.</p>
+<p>Tenha paciência e olhe para a roda giratória superior. Opcionalmente, você pode ir para Opções - Ver informações do nó e ver se está sincronizado com a cadeia e sincronizado com o gráfico marcado como "verdadeiro". Sem essa menção "verdadeiro", você não pode usar o Blixt corretamente, não pode ver corretamente o saldo, não pode ver os canais LN online, não pode fazer pagamentos.</p>
+<p><span style="color:yellow;">Correção rápida:</span> Há uma opção poderosa para "manter vivo" seu nó Blixt. Vá para Opções - Experimentos - Selecione "Ativar modo persistente". Isso reiniciará seu Blixt e colocará o serviço lnd no modo persistente, ou seja, sempre estará ativo e manterá sua sincronização online, mesmo se você alternar para outro aplicativo ou simplesmente fechar o Blixt (não forçar o fechamento ou encerrar a tarefa). Você pode mantê-lo assim o dia todo se estiver em uma conexão estável e precisar usar o Blixt várias vezes. Não consumirá muita bateria.</p>
+<p>Aqui está uma demonstração em vídeo de como o "Modo persistente funciona no Android com o Blixt</p>
+<center>
+  <video width="320" height="640" controls>
+    <source src="/assets/media/blixt-persistent.mp4" type="video/mp4">
+  </video>
+</center>
+
+<h4 style="color:Yellow;">CASO 3 - QUERO MIGRAR PARA OUTRO DISPOSITIVO</h4>
+<p>OK, sobre esse cenário, escrevi um guia extenso na <a href="https://blixtwallet.github.io/faq#blixt-restore">página de perguntas frequentes</a>: com 2 opções, rápido (fechamento cooperativo de canais antes da migração) e lento (forçar o fechamento de canais porque o dispositivo antigo está morto).</p>
+<p>Mas quero reiterar aqui alguns aspectos importantes e adicionar um novo procedimento "secreto".</p>
+<p style="color:yellow;">LEMBRETE:</p>
+<ul>
+<li>Sempre faça um backup do status dos seus canais (SCB) DEPOIS de cada vez que abrir ou fechar um canal. Leva apenas alguns segundos para fazer isso.</li>
+<li>Não guarde os arquivos SCB antigos, para não se confundir e restaurá-los. Eles são totalmente inúteis e podem desencadear um procedimento de penalidade se você os vir. Sempre use a última versão do arquivo SCB se você prosseguir com a restauração.</li>
+<li>Salve o arquivo SCB (é um texto criptografado com a extensão .bin) fora do seu dispositivo, em um lugar seguro. Você pode usar <a href="https://github.com/localsend/localsend">LocalSend</a> para mover este arquivo para um PC ou outro dispositivo.</li>
+<li>Salve também a semente da sua carteira Blixt em um lugar seguro, por exemplo, um gerenciador de senhas offline / USB criptografado.</li>
+</ul>
+
+<p><span style="color:yellow;">Método secreto:</span> Como migrar o nó Blixt sem fechar os canais existentes. Para isso, você precisará ler atentamente a seção anterior "Terceiro contato" neste guia sobre "Restaurar carteira".</p>
+<p>Este procedimento NÃO É PARA NOOBS, é apenas para usuários avançados! É por isso que não é amplamente aberto e eu recomendo fazê-lo apenas com a assistência dos desenvolvedores do Blixt ou meu suporte. Por favor, não ignore este conselho.</p>
+
+<h4 style="color:Yellow;">CASO 4 - QUAIS PEERS USAR PARA ABRIR CANAIS?</h4>
+<p>Como escrevi na <a href="https://blixtwallet.github.io/guides">página de guias do Blixt</a>, há muitas maneiras de abrir canais com este nó LND móvel. Mas alguns aspectos importantes que gostaria de lembrar aqui:</p>
+<ul>
+<li>abra com nós LSP bem conhecidos e com pares garantidos pela comunidade. <a href="https://github.com/hsjoberg/blixt-wallet/issues/1033">Veja aqui uma lista</a></li>
+<li>não abra com nós aleatórios somente Tor. Eles são inúteis e você só terá problemas de não conseguir fazer pagamentos. Não importa o quão bom seja seu amigo "o node runner" com um nó Tor de merda em uma selva, ele nunca lhe dará as melhores rotas para um nó privado móvel. Você não abre canais com alguém porque é seu amigo. Isso não é Facebook! Você abre um canal para: boas rotas, pequenas taxas, disponibilidade.</li>
+<li>não há necessidade de abrir uma tonelada de canais pequenos, 2-3 ou no máximo 4, mas com uma boa quantidade de sats. Não abra canais pequenos, eles são totalmente inúteis. Menores que 200k para um celular não têm muita utilidade.</li>
+<li>tenha em mente os LSPs que oferecem canais de entrada e canais JIT (just in time). Eles são muito úteis porque você não precisa usar nenhum dos seus UTXOs, você pode pagar o canal de abertura com fundos que você já tem em outras carteiras LN, acumulando e preparando-os para um canal maior abrir. Você deve usar esses canais JIT a seu favor. <a href="/nodes/managing-lightning-node-liquidity-en.html">Eu expliquei neste guia</a> mais opções para pares para nós privados como Blixt. Também <a href="https://stacker.news/items/679242/r/DarthCoin">aqui neste guia postado no SN</a> eu expliquei como gerenciar a liquidez dos nós móveis privados.</li>
+</ul>
+<hr style="height:2px">
+
+<h3>Conclusão</h3>
+<p>OK, há muitos outros recursos incríveis que o Blixt oferece, vou deixar você descobri-los um por um e se divertir.</p>
+<p>Este aplicativo é realmente subestimado, principalmente porque não é apoiado por nenhum financiamento de VC, é conduzido pela comunidade, construído com amor e paixão pelo Bitcoin e pela Lightning Network.</p>
+<p>Este nó LN móvel, Blixt, é uma ferramenta muito poderosa nas mãos de muitos usuários, se eles souberem como usá-lo bem. Imagine só, você está andando pelo mundo com um nó LN no seu bolso e ninguém vai saber.</p>
+<p>E sem falar de todos os outros recursos avançados que vêm com ele, que muito poucos ou nenhum outro aplicativo de carteira poderia oferecer.</p>
+<p>Enquanto isso, aqui estão todos os links sobre este incrível nó Bitcoin Lightning:</p>
+<ul>
+<li><a href="https://blixtwallet.com/">Página oficial do Blixt</a></li>
+<li><a href="https://github.com/hsjoberg/blixt-wallet/">Página do Blixt no Github</a></li>
+<li><a href="https://blixtwallet.github.io/features">Página de recursos do Blixt</a> - explicando um por um cada recurso e funcionalidade.</li>
+<li><a href="https://blixtwallet.github.io/faq">Página de perguntas frequentes do Blixt</a> - Lista de perguntas e respostas e solução de problemas de Blixt</li>
+<li><a href="https://blixtwallet.github.io/guides">Página de guias do Blixt</a> - demonstrações, tutoriais em vídeo, guias extras e casos de uso para o Blixt</li>
+<li>Download: <a href="https://play.google.com/store/apps/details?id=com.blixtwallet">Android Play Store</a> | <a href="https://testflight.apple.com/join/EXvGhRzS">iOS</a> | <a href="https://github.com/hsjoberg/blixt-wallet/releases">Download direto do APK</a></li>
+<li><a href="https://t.me/blixtwallet">Grupo do Telegram para suporte direto</a></li>
+<li><a href="https://twitter.com/BlixtWallet">Twitter</a></li>
+<li><a href="https://geyser.fund/project/blixt">Página de financiamento coletivo do Geyser</a> - doe sats como quiser para apoiar o projeto</li>
+<li><a href="https://chat.blixtwallet.com/">LNURL Chat Blixt</a> - bate-papo LN anônimo</li>
+<li><a href="https://lightning.video/06fdf68f99e246a6ec6ba1470677b9e632faaad4aa0ca9773c38714b682a4ac1">Apresentação do Blixt - vídeo promocional</a></li>
+<li><a href="https://lightning.video/eeb744202ad3f14c18bf6d719970ebd9c53f0f13b79c94d299c6be623fba64b6">Calendário das Garotas do Blixt</a> - vídeo promocional (você pode testar seu primeiro uso do LN)</li>
+<li><a href="https://github.com/BlixtWallet/blixtwallet.github.io/tree/master/assets/flyer">Flyer A4 para impressão com os primeiros passos usando o Blixt, em vários idiomas</a>.</li>
+<li><a href="https://blixt-wallet-git-master-hsjoberg.vercel.app/">O Blixt também oferece uma demonstração funcional completa</a> diretamente em seu site ou em uma versão dedicada da web, para ter uma experiência completa de teste, antes de começar a usar no mundo real.</li>
+</ul>
+<hr style="height:2px">
+
+<h3>AVISO LEGAL:</h3>
+<blockquote style="color:Tomato;"><em>
+<p>Não sou pago nem apoiado de forma alguma pelos desenvolvedores deste aplicativo. Escrevi este guia porque vi que o interesse neste aplicativo de carteira está aumentando e novos usuários ainda não entendem como começar a usá-lo. Também para ajudar Hampus (o desenvolvedor principal) com a documentação sobre o uso desta carteira de nó.</p>
+<p>Não tenho nenhum outro interesse em promover este aplicativo LN, além de impulsionar a adoção do Bitcoin e do LN. Esta é a única maneira!</p>
+</em></blockquote>
+</body>
+</html>
+</article>

@@ -1,0 +1,76 @@
+---
+layout: default-pt
+title: Migrar Electrum para Sparrow
+description: Um passo a passo sobre como importar ou migrar sua antiga carteira Electrum BTC para a Sparrow Wallet
+image: /assets/images/electrum-sparrow-1.jpg
+---
+<article>
+<!DOCTYPE html>
+<html lang="pt">
+<meta name="description" content="Guias de Bitcoin e Lightning: Como importar ou migrar sua antiga carteira Electrum BTC para a Sparrow Wallet">
+<body>
+<center>
+<h2 style="color:Orange;">Um passo a passo sobre como importar ou migrar sua antiga carteira Electrum BTC para a Sparrow Wallet</h2>
+<p><img src="/assets/images/electrum-sparrow-1.jpg" class="center"></p>
+
+| <a href="/wallets/migrate-electrum-sparrow-en.html"><img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/migrate-electrum-sparrow-es.html"><img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/migrate-electrum-sparrow-de.html"><img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/migrate-electrum-sparrow-fr.html"><img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> | 
+<a href="/wallets/migrate-electrum-sparrow-it.html"><img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/migrate-electrum-sparrow-nl.html"><img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> | 
+<a href="/wallets/migrate-electrum-sparrow-hr.html"><img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/migrate-electrum-sparrow-hi.html"><img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+</center>
+<blockquote style="color:Tomato;"><em>
+<p>Postado originalmente em <a href="https://darthcoin.substack.com/p/electrum-to-sparrow">Substack</a> em 20 de fevereiro de 2022</p>
+<p>Atualizado aqui em 20 de dezembro de 2024</p>
+</em></blockquote>
+
+<p>Muitos usuários estão me perguntando sobre como usar a semente Electrum BIP39 em outros aplicativos de carteira. Então agora eu explicaria como eu faço isso.</p>
+<p>Então, vamos considerar que você cria suas carteiras frias, usando meus guias anteriores ou você simplesmente tem uma semente BIP39 antiga e agora quer usá-la na carteira Sparrow.</p>
+<p>Existem dois métodos para importar uma carteira Bitcoin criada anteriormente no Electrum, para o aplicativo Sparrow:</p>
+<ul>
+<li>O simples - usando o arquivo de backup da carteira Electrum.</li>
+<li>O avançado - converte a semente BIP39 em BIP84 com seu caminho de derivação.</li>
+</ul>
+<p>Recursos usados:</p>
+<ul>
+<li>Carteira Electrum: página <a href="https://electrum.org/#download">download</a> e página <a href="https://electrum.readthedocs.io/en/latest/">documentação</a></li>
+<li>Carteira Sparrow: <a href="https://www.sparrowwallet.com/">página de download</a> e <a href="https://www.sparrowwallet.com/docs/">página de documentação</a></li>
+<li><a href="https://guggero.github.io/cryptography-toolkit">página de ferramentas de criptografia</a></li>
+</ul>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">A. Importar arquivo da carteira Electrum para o Sparrow</h2>
+<ol>
+<li>Depois de criar a carteira Electrum e tudo funcionar bem, vá para o menu Arquivo - Salvar backup. Ele perguntará onde salvá-lo, clique na caixa e selecione onde. Mantenha-o seguro!</li>
+<li>Este arquivo é criptografado! Então você terá que usar sua senha Electrum para abri-lo/usá-lo no Sparrow. É essa senha que você colocou (duas vezes) quando criou a carteira Electrum. NÃO é a senha adicional, caso você tenha usado uma junto com a semente de 12 palavras. É a senha usada para abrir sua carteira Electrum.</li>
+<li>Abra o aplicativo Sparrow. Selecione importar carteira e selecione Electrum. Procure o arquivo anterior salvo no ponto 1. Ele pedirá que você coloque a senha da carteira.</li>
+</ol>
+<p><img src="/assets/images/electrum-sparrow-2.png" class="center"></p>
+<p>Basta seguir os passos e o Sparrow começará a importar todos os UTXOs, transações etc. anteriores. Você será solicitado a definir uma senha para essa carteira. Isso também criptografa o arquivo da carteira local e depois pode ser salvo em um local seguro (gerenciador de senhas - KeePass), use o menu Arquivo - opção Exportar.</p>
+<p>Feito!</p>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">B. Conversão avançada de sementes de BIP39 para BIP84
+<ol>
+<li>Você tem a semente BIP39 de 12 palavras e para verificar se você a converteu corretamente é melhor ter em mãos alguns dos primeiros endereços BTC gerados, caminho de derivação, MPK (chave pública mestra), chave privada base.</li>
+<li>Vá para https://guggero.github.io/cryptography-toolkit/#!/hd-wallet (você pode salvar a página e usá-la offline, por segurança).</li>
+<li>Coloque sua semente BIP39 de 12 palavras da Electrum</li>
+<p><img src="/assets/images/electrum-sparrow-3.png" class="center"></p>
+<li>Selecione BIP39 e na chave raiz do nó HD selecione BTC native segwit BIP84 (ou o formato que você tem no Electrum gerado, legado ou segwit). No próximo bloco de tela, você verá a conversão em BIP84</li>
+<p><img src="/assets/images/electrum-sparrow-4.png" class="center"></p>
+<li>Selecione o tipo de moeda native segwit. Salve esse caminho de derivação e todos os detalhes mostrados no seu gerenciador de senhas. Agora, copie a saída "Derived key base58".</li>
+<li>Abra o aplicativo Sparrow. Selecione no menu File - New wallet. Escolha um nome.</li>
+<p><img src="/assets/images/electrum-sparrow-5.png" class="center"></p>
+<li>Então, na próxima tela, você pode colar a chave derivada base58 e importá-la.</li>
+</ol>
+<p><img src="/assets/images/electrum-sparrow-6.png" class="center"></p>
+<p>Siga as telas e você verá como está importando os UTXOs e transações anteriores. Agora, você pode ir e verificá-los, devem ser os mesmos endereços BTC da carteira Electrum nativa segwit (bech32) anterior.</p>
+<p><img src="/assets/images/electrum-sparrow-7.jpg" class="center"></p>
+<p>Feito! Agora você importou sua carteira Electrum bech32 anterior para o Sparrow.</p>
+<p>Meu conselho é migrar todas as suas carteiras BIP39 HODL antigas para carteiras do tipo Taproot (P2TR). <a href="/wallets/move-btc-taproot-address-en.html">Leia aqui o guia sobre isso</a>.</p>
+</body>
+</html>
+</article>

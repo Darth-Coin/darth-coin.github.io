@@ -1,0 +1,107 @@
+---
+layout: default-pt
+title: Crie sua carteira fria HODL BTC
+description: Como usar o TailsOS em um pendrive, com Electrum e KeePass, construindo sua própria carteira fria
+image: /assets/images/tails.png
+---
+<article>
+<!DOCTYPE html>
+<html lang="pt">
+<meta name="description" content="Guias de Bitcoin e Lightning: Construindo sua própria carteira fria de Bitcoin">
+<body>
+<center>
+<h2 style="color:Orange;">Como usar o TailsOS em um pendrive, com Electrum e KeePass, construindo sua própria carteira fria</h2>
+<p><img src="/assets/images/tails.png" class="center"></p>
+
+| <a href="/wallets/tails-hodl-cold-wallet-en.html"><img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/tails-hodl-cold-wallet-es.html"><img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/tails-hodl-cold-wallet-de.html"><img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/tails-hodl-cold-wallet-fr.html"><img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/tails-hodl-cold-wallet-it.html"><img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/tails-hodl-cold-wallet-nl.html"><img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/tails-hodl-cold-wallet-hr.html"><img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/tails-hodl-cold-wallet-hi.html"><img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+</center>
+<blockquote style="color:Tomato;"><em>
+<p>Postado originalmente em <a href="https://darthcoin.substack.com/p/build-your-hodl-btc-cold-wallet">Substack</a> em 30 de dezembro de 2021</p>
+<p>Atualizado aqui em 20 de dezembro de 2024</p>
+</em></blockquote>
+
+<p>Muitos novos usuários de BTC me pediram para escrever este guia sobre como criar sua própria carteira fria e não usar uma carteira de hardware. Então, descreverei aqui como usar o <a href="https://tails.boum.org/install/download/index.en.html">TailsOS</a> em um pendrive, com <a href="https://electrum.org/">Electrum</a> e <a href="https://keepass.info/">KeePass</a> (também tem um gerador de senhas integrado).</p>
+<p>Este método de armazenamento é para aqueles usuários que se sentem confortáveis ​​com o uso de computadores, sistemas e já têm um conhecimento básico sobre Bitcoin.</p>
+<p>Este método NÃO é para aqueles muito novos nessa tecnologia e não são tão técnicos. Para esses, recomendo apenas comprar uma carteira de hardware e esquecer esse método.</p>
+<p>Aspectos importantes sobre carteiras frias:</p>
+<ul>
+<li>uma carteira fria sempre tem que ter pelo menos uma cópia (mesmo em outra forma de backup) e armazenada em outro lugar geográfico. Você nunca sabe o que pode acontecer.</li>
+<li>uma carteira fria NÃO é sua carteira de uso diário! <a href="/beginner/be-your-own-bank-en.html">Como expliquei aqui no guia</a>, você deve manter seu estoque em três níveis de carteiras. Qualquer carteira fria/HODL, em qualquer formato que você a mantenha, deve ser armazenada em um local seguro, que ninguém mais saiba e não a use. Para depositar na mesma carteira, você precisa apenas de alguns endereços BTC e/ou chave MPK/Xpub importados para um aplicativo de carteira "somente observação". Somente observação significa que as chaves privadas nunca tocarão no mundo online, você só pode depositar nessa carteira e verificar o saldo. <a href"=https://darthcoin.substack.com/p/deposit-only-bitcoin-wallets">Aqui está um guia</a> sobre como usar carteiras "somente para assistir".</li>
+<li>uma carteira fria pode ser acessada somente quando você realmente precisa mover fundos de lá (assunto urgente) ou deseja atualizar o sistema de carteira, firmware, SO etc.</li>
+<li>sempre teste o procedimento de recuperação ANTES de colocar quaisquer fundos nessa carteira. Muitas vezes até que você se sinta confortável com o processo e tenha certeza de que será capaz de restaurar sua carteira em caso de SHTF. A prática é a chave para a proficiência.</li>
+</ul>
+<h3>Por que eu recomendo esse método, vamos chamá-lo de "carteira Tails"?</h3>
+
+<p>Há muitas razões das quais podemos mencionar:</p>
+<ul>
+<li>é muito barato (o único custo é o(s) pendrive(s) USB). Então por que não acumular mais sats em vez de comprar (para alguns) carteiras de hardware caras?</li>
+<li>TailsOS é um sistema operacional Linux Debian forte, portátil, com Tor integrado e muitos outros aplicativos úteis.</li>
+<li>não está recebendo atenção. Ninguém saberá que em um USB normal simples você pode carregar as chaves para suas carteiras HODL. Em vez de andar por aí com um Trezor, ledger, cold card etc., agora todos reconhecerão que eles estão "carregando BTC", então você pode ser um alvo por padrão. No passado, vi usuários em uma cafeteria abrindo seu Trezor e conectando-o a um laptop, apenas para pagar a conta. ERRADO, totalmente errado.</li>
+<li>O mesmo sistema operacional USB pode ser usado como sistema de limpeza de emergência para outras tarefas. Digamos que você esteja viajando e precise de um computador limpo para usar. O TailsOS é ótimo para isso, basta inicializá-lo e você terá um sistema operacional limpo somente leitura. Acessando de forma segura seus dados pessoais, carteiras BTC etc. E vem com muitas ferramentas simples e úteis.</li>
+<li>Ele pode armazenar várias carteiras, pode ser copiado e armazenado em muitos locais diferentes. Ele pode ser usado também para armazenar mais dados pessoais (documentos digitalizados, gerenciador de senhas, coisas privadas), todos criptografados, protegidos de olhares inimigos.</li>
+<li>Oferece acesso fácil e rápido a qualquer momento às suas carteiras frias, sem nenhum software adicional suscetível a malware, phishing, computadores infectados. O TailsOS está SEMPRE LIMPO, não importa qual computador você use. Muitos usuários estão perdendo o controle da carteira porque as estão usando em computadores infectados e são desleixados com a segurança.</li>
+</ul>
+
+<h3>Vamos começar</h3>
+<h3 style="color:Orange;">A. Crie e prepare sua Tails Wallet</h3>
+<ol>
+<li><p>Baixe o <a href="https://tails.boum.org/install/download/index.en.html">TailsOS</a>, live USB e use o <a href="https://rufus.ie/">Rufus</a> para criar a unidade USB inicializável com a imagem ISO do TailsOS. O Rufus apagará e formatará essa unidade USB.</p>
+<p>Opcionalmente, você pode usar o <a href="https://github.com/DesobedienteTecnologico/dtails">conjunto DTails</a> personalizado (inclui mais aplicativos e ferramentas).</p></li>
+<li>Inicialize com essa unidade USB (altere as configurações no BIOS do computador para iniciar com a unidade USB ou pressione F12 para alguns sistemas) e selecione EXECUTAR/Executar, não instalar, offline. Este sistema operacional ativo já inclui o aplicativo de carteira Electrum BTC e o KeePass (gerenciador de senhas).</li>
+<li>Se você planeja reutilizar este LiveUSB TailsOS, você pode criar também uma partição ativa oculta, que será criptografada, para salvar informações importantes, como o arquivo de banco de dados KeePass, backup da carteira Electrum. Aqui estão as instruções de como usar <a href="https://tails.boum.org/doc/persistent_storage/index.en.html">“Partição Persistente”</a> e um tutorial em vídeo <a href="https://www.youtube.com/watch?v=nRztIE_hRzM">aqui</a>. Coloque uma senha forte para abrir esse espaço de partição persistente e NÃO ESQUEÇA!</li>
+<li>Depois de terminar a criação da partição persistente, abra o aplicativo KeePass e crie um novo banco de dados de senhas. Salve uma cópia em outra memória USB e também use o espaço criptografado persistente do Tails. Nesse banco de dados, você começa a salvar todas as suas carteiras (palavras-semente, XPUB, endereços BTC, MPK) e outras informações pessoais. Não se esqueça de fazer cópias desse arquivo em outros lugares seguros. <a href="https://www.youtube.com/watch?v=1Vm68e-Jn7I">Aqui está um guia</a> sobre como usar o KeePass e sincronizar entre dispositivos.</li>
+<li>Se quiser usar uma versão mais recente do Electrum e não a versão do Tails já instalada, você pode baixar o AppImage (para Linux) diretamente da página do Electrum <a href="https://electrum.org/#download">https://electrum.org/#download</a></li>
+<li>e salvá-lo em sua partição persistente. Você só precisa iniciá-lo, não precisa instalá-lo. Mas qualquer versão do Electrum do Tails é suficiente para criar uma carteira offline. A versão mais recente é necessária somente se você quiser usar o Tails para transmitir uma transação dessa carteira fria.</li>
+<li>Abra o aplicativo Electrum e crie uma nova carteira. Salve as palavras-semente no seu arquivo KeePass. Depois de criado, vá para o menu Electrum - informações da carteira - copie o MPK (chave pública mestra) e salve-o no seu banco de dados KeePass (onde você salvou a semente também). Vá para o menu - ative os endereços de visualização, depois vá para a aba Endereços e copie os endereços 3-4-5 e coloque-os no seu arquivo Keepass. Mais tarde será usado para teste do procedimento de restauração.</li>
+</ol>
+
+<figure>
+<img src="/assets/images/keepass.jpg" class="center">
+<figcaption>Nova senha de entrada do KeePass</figcaption>
+</figure>
+
+<p>CONCLUÍDO! Você acabou de criar sua carteira fria no TailsOS. Feche todos os aplicativos e desligue seu TailsOS.</p>
+<p>OPCIONAL você pode baixar e salvar em sua partição persistente o aplicativo <a href="https://sparrowwallet.com/">Sparrow wallet</a> se quiser usar um tipo de endereço mais avançado e com suporte a Taproot, <a href="/wallets/move-btc-taproot-address-en.html">como expliquei neste guia</a>. Quase os mesmos procedimentos a seguir para criar carteira, salvar backup e chaves como para o aplicativo Electrum.</p>
+
+<h3 style="color:Orange;">B. Teste o procedimento de restauração da carteira</h3>
+<ol>
+<li>Inicie novamente o TailsOS, desbloqueie a partição persistente, para poder abrir seu arquivo de banco de dados KeePass.</li>
+<li>Abra o aplicativo Electrum, selecione restaurar carteira, eu já tenho seed e então siga as instruções passo a passo. Selecione segwit nativo e também o botão de opção para seed BIP39. <a href="https://electrum.readthedocs.io/en/latest/">Veja mais detalhes sobre como usar o aplicativo Electrum</a> aqui.</li>
+<li>Abra seu KeePass e a entrada para os detalhes da sua carteira Electrum.</li>
+<li>Coloque as palavras-semente para restaurar e verifique-as uma por uma.</li>
+<li>Assim que o processo de restauração for concluído, a carteira será carregada, vá para o menu - ative "visualizar endereços", depois vá para a aba Endereços e verifique os primeiros 3-4 endereços gerados que são os mesmos que você salvou no seu arquivo KeePass. Se forem os mesmos, você acabou de fazer uma restauração correta da sua carteira. Opcionalmente, você pode verificar também o MPK se for o mesmo, veja o menu - informações da carteira.</li>
+</ol>
+<p>Pronto! Agora você está pronto para ir, você pode depositar fundos na sua carteira fria. Você pode usar o MPK em um aplicativo somente para relógio ou apenas usando alguns endereços BTC da sua carteira.</p>
+
+<h3 style="color:Orange;">C. Faça backups e cópias dessa carteira!</h3>
+<p>OK, agora que você testou o procedimento de restauração, você depositou alguns fundos nessa carteira, é hora de fazer cópias de segurança.</p>
+<ol>
+<li>Abra o TailsOS, abra a carteira Electrum</li>
+<li>Vá para o menu Arquivo - Carteira de backup. Salve a cópia do arquivo da carteira em sua partição persistente e também em outro USB criptografado como uma cópia junto com uma cópia do seu arquivo de banco de dados KeePass. Aqui estão alguns guias sobre como criptografar uma unidade USB, com <a href="https://www.digitalcitizen.life/encrypt-files-usb-memory-stick-bitlocker-go/">Windows</a> e com <a href="https://www.howtoforge.com/tutorial/encrypt-usb-drive-on-ubuntu/">Linux</a>.</li>
+<li>A cópia dessa carteira Electrum também é criptografada com sua senha Electrum que você colocou quando criou a carteira pela primeira vez. Essa senha também é usada quando você tem que transmitir uma tx, para o processo de assinatura. Então, tenha em mente que é muito importante, salve-a também no seu arquivo KeePass.</li>
+<li>Então agora, você pode simplesmente abrir esse arquivo de carteira com o aplicativo Electrum, sem ter que restaurar a partir da semente, apenas pedirá para você abri-lo com sua senha Electrum para descriptografar o arquivo. A semente será necessária apenas no caso deste arquivo ser corrompido ou perdido. Este arquivo também contém todos os txs que você fez, rótulos, histórico e com o tempo pode ficar maior.</li>
+<li>Na cópia da unidade USB (criptografada), você pode armazenar muitos outros arquivos também, como um arquivo de imagem que incorpore uma semente usando <a href="https://openstego.com/">esteganografia</a>, documentos privados, qualquer coisa digital que seja importante para você. Faça mais cópias deste "armazenamento offline privado" e salve-as em locais diferentes. Opcionalmente, você pode colocá-los em um recipiente de metal, protegido de EMF, água, sol, calor etc.</li>
+</ol>
+
+<figure>
+<img src="/assets/images/recipients.jpg" class="center">
+<figcaption>Sobrevivência EDC de metal ao ar livre à prova d'água</figcaption>
+</figure>
+
+<p>Aqui está um link para comprar esses <a href="https://www.amazon.de/gp/product/B07D5DVXCD/">recipientes</a> e <a href="https://www.amazon.de/gp/product/B07HPS8GQM">memória USB</a>.</p>
+
+<h3 style="color:Orange;">D. Use-a como uma carteira "somente para assistir"</h3>
+<p><a href="/wallets/deposit-only-btc-wallets-en.html">Aqui está um guia mais detalhado</a> sobre como importar e usar o MPK desta carteira fria em um aplicativo para carteira somente para depósito.</p>
+<p>Fato engraçado:</p>
+<p>Tenho vários destinatários como esses escondidos em florestas profundas/montanhas, fácil (para mim) recuperá-los em qualquer caso SHTF. Mesmo se forem encontrados por outra pessoa (eu realmente duvido), não podem ser acessados ​​devido à criptografia rígida. Estou muito confortável com essa criptografia e o lugar secreto onde estão escondidos. Mas cabe a cada indivíduo onde e como salvar essas cópias. Também pode estar em um armazenamento online, basta que o arquivo KeePass seja armazenado e, opcionalmente, uma cópia do arquivo da sua carteira electrum (não mais do que algumas centenas de kb de dados).</p>
+
+</body>
+</html>
+</article>
