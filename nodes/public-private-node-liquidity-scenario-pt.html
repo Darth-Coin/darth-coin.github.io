@@ -1,0 +1,179 @@
+---
+layout: default-pt
+title: Cenário de Liquidez de Nó Público e Privado
+description: Como usar 3 tipos de nós para liquidez pública e privada
+image: /assets/images/ln-liquidity-management.jpg
+---
+<article>
+<!DOCTYPE html>
+<html lang="pt">
+<meta name="description" content="Guias de Bitcoin e Lightning: Como usar 3 tipos de nós para liquidez pública e privada">
+<body>
+<center>
+<h2 style="color:Orange;">Como usar 3 tipos de nós para liquidez pública e privada</h2>
+<p><img src="/assets/images/ln-liquidity-management.jpg" class="center"></p>
+
+| <a href="/nodes/public-private-node-liquidity-scenario-en.html"><img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/public-private-node-liquidity-scenario-es.html"><img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/public-private-node-liquidity-scenario-de.html"><img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/public-private-node-liquidity-scenario-fr.html"><img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/public-private-node-liquidity-scenario-it.html"><img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/public-private-node-liquidity-scenario-nl.html"><img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/public-private-node-liquidity-scenario-hr.html"><img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/public-private-node-liquidity-scenario-hi.html"><img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+</center>
+<blockquote style="color:Tomato;"><em>
+<p>Postado originalmente em <a href="https://darthcoin.substack.com/p/node-liquidity-guide">Substack</a> em 25 de novembro de 2021. Atualizado aqui em 27 de dezembro de 2024.</p>
+</em></blockquote>
+
+<p>Muitos novos usuários estão executando nós LN agora. Mas eles entram neste mundo fascinante sem ter um conhecimento básico sobre como a Lightning Network funciona e o que você deve levar em consideração como um operador de nó.</p>
+
+<p>Eu escrevi muitos guias sobre o uso de aplicativos, nós, ferramentas etc. específicos, você pode dar uma olhada em todas as <a href="/nodes/nodes-en.html">minhas páginas do Github</a> para eles.</p>
+<p>Neste, tentarei explicar como fiz para meu nó e como o vejo do meu ponto de vista. Talvez eu esteja errado, talvez não. Mas pelo menos dará um pouco mais de orientação a todos os novos usuários que agora estão começando a executar um nó.</p>
+<p>Este guia não entrará em detalhes profundos, é apenas um pouco superficial para dar a você, como novo usuário, uma dica sobre a direção para onde olhar. Cada um depois pode fazer seu próprio cenário, levando em consideração alguns aspectos explicados aqui.</p>
+
+<h4 style="color:Yellow;">Por que executar um nó?</h4>
+<p>Existem muitos motivos, <a href="https://darthcoin.substack.com/p/umbrel-bitcoin-ln-node">como descrevi no guia do nó Umbrel</a>. Meus motivos pessoais são:</p>
+<ul>
+<li>ter um nó pessoal, privado, em minhas mãos</li>
+<li>poder rotear meus próprios txs (transações) quando gasto sats usando LN e não depender da liquidez de outros nós</li>
+<li>poder ajudar também a rede, com liquidez onde for necessário (comerciantes, em especial os pequenos que executam seus próprios nós e precisam de liquidez de entrada).</li>
+<li>não estou interessado em "ficar rico" com taxas de roteamento, na verdade, reduzo minhas taxas de canais a um certo ponto que são ridiculamente baratas</li>
+<li>ajudar novatos com outros nós e também testar outros aplicativos com meu nó</li>
+</ul>
+<blockquote style="color:Tomato;"><em>
+<p>Considero que ainda não chegamos onde esse mercado de taxas esteja maduro o suficiente para ser considerado uma prioridade. Primeiro, precisamos criar uma rede forte para pagamentos. Sufocá-la com altas taxas e ganância causará mais danos do que benefícios. Alguns novatos estão levando muito a sério esse jogo de ganhar sats com roteamento e às vezes eles não sabem usar bem os scripts e ferramentas para gerenciar taxas e isso afetará todo o resto da rede, às vezes estão até desabilitando canais para roteamento porque os consideram "não lucrativos". Isso é simplesmente estúpido, é totalmente contra todo o conceito de LN.</p>
+</em></blockquote>
+<p>Então, como alguns de vocês já sabem, eu executo um nó Umbrel, não em um RaspPi, mas em um NUC Brix, DebianOS. Este é meu "nó público". Mas eu também executo outro nó, privado, que ninguém sabe qual é. Usado para coisas realmente privadas. Além disso, eu também uso Blixt, outro tipo de nó, em uma carteira móvel. É um ótimo companheiro para meu nó Umbrel!</p>
+
+<p><img src="/assets/images/secret-node.jpg" class="center"></p>
+
+Então, vamos mergulhar em como gerenciar a liquidez para esses nós. Este cenário é uma proposta, não precisa realmente que você o faça exatamente. É apenas uma referência para coisas que você pode fazer com nós LN.
+<hr style="height:2px">
+
+<h2 style="color:Orange;">A. Umbrel/Raspiblitz/myNode/Start9 LN node</h2>
+<h3 style="color:Yellow;">Características</h3>
+<ul>
+<li>Este será seu próprio "banco comercial público".</li>
+<li>Aqui estará a maior parte do roteamento e liquidez. É seu principal HUB para liquidez.</li>
+<li>Pode ser usado também para pagamentos (onchain ou LN).</li>
+<li>Pode ser usado como base para suas próprias carteiras LNDHUB (tio Jim), com <a href="https://darthcoin.substack.com/p/umbrel-lndhub-bluewallet">Bluewallet LNDHub</a> ou <a href="https://darthcoin.substack.com/p/umbrel-node-lnbits">LNBits LNDHub</a> ou <a href="https://darth-coin.github.io/wallets/getting-started-alby-hub-en.html">Alby Hub + Alby Go</a>.</li>
+<li>É seu próprio processador público de pagamentos. Mas pode ser usado como "processador frontal" para seus outros pagamentos do Blixt / Zeus Private Node.</li>
+</ul>
+<h3 style="color:Yellow;">Liquidez</h3>
+<p>O que realmente é liquidez? É praticamente líquido, fluxo de água e seus canais LN são recipientes de água, canos. Então, para ter um sistema de água saudável, você precisa ter canos saudáveis ​​e água limpa. Se estiver sujo e com gargalos, seu sistema de água estará quebrado e pode acabar em situações ruins. Tenha esse aspecto em mente.</p>
+<p>Como alcançamos essa liquidez saudável? Escolha sabiamente seus pares, os nós aos quais você conectará seu nó e abra canais com eles.</p>
+<p>Nem todos os jogadores nesta rede são bons. Alguns deles jogam limpo, outros não, alguns estão mantendo seus nós em um bom status, alguns não se importam muito. Mas todos esses aspectos afetarão você e todas as redes da mesma forma. Se você estiver conectado apenas a nós/pares ruins, você vai se dar mal com eles e não conseguirá nem fazer suas próprias transações.</p>
+<p>A Lightning Network é como um organismo vivo: alimente-a bem e você obterá resultados.</p>
+
+<center>
+<video width="640" height="480" controls>
+<source src="https://z-kkb4jvzl1og7.bitchute.com/mXKx9bu48JeM/iARM9iEWbtbU.mp4" type="video/mp4">
+</video>
+</center>
+
+<p>Para um nó doméstico, é bom ter um equilíbrio entre sua liquidez total de entrada e saída.</p>
+<p>Não há necessidade de ter cada canal perfeitamente balanceado. Esse é um mito que circula por aí. Eu estava testando com canais perfeitamente balanceados e não ajudou em nada, apenas desperdiçando sats em taxas pagas para rebalancear. Alguns usuários usam scripts para rebalancear. Eu não. Eles os usam para ganhar alguns sats com arbitragem entre pares. Considero isso perda de tempo e sats.</p>
+
+<figure>
+<img src="/assets/images/liquidity-report-th.jpg" class="center">
+<figcaption>Este é o relatório mais importante - relatório de liquidez total</figcaption>
+</figure>
+
+<p>O que entra de um canal, sairá por outro. Mantenha seus canais sempre online, boas taxas, bons pares e você nunca terá problemas com canais não balanceados.</p>
+<p>Se você tiver um bom número de canais/conexões com muitos pares e uma boa proporção entre o saldo total remoto e local, você nunca terá problemas com o roteamento de pagamentos e txs de outros pares. Mas com apenas 2-3-5 canais, você descobrirá que alguns dos seus pagamentos não serão bem roteados, às vezes você pagará altas taxas ou pior, seus txs nunca serão processados.</p>
+<p>Então, comece a abrir canais com:</p>
+<ul>
+<li>aqueles comerciantes/serviços LN que precisam de liquidez de entrada. Você obterá um bom peer com boas conexões que podem rotear seus txs, mas também pode usá-lo para direcionar pagamentos para seus produtos/serviços, por meio desse canal direto. Ajudar pequenos comerciantes com nós é ajudar toda a rede, não apenas você.</li>
+<li>Rings of Fire / LN+ pode ser uma boa maneira de começar a ter alguns peers, geralmente eles fazem canais balanceados primeiro, para uma oportunidade rápida de poder enviar e receber txs. Veja minha lista deles aqui: <a href="https://darthcoin.substack.com/p/lightning-network-is-awesome">Coisas incríveis que você pode fazer na LN</a></li>
+<li>Alguns bons nós de pontuação BOS, mas use uma quantidade maior de sats para eles, como 5-10-20 milhões de sats/canal. Então você pode fazer um loop de metade dos fundos para equilibrá-los e também reutilizar esses sats para abrir mais canais.</li>
+<li><a href="/nodes/managing-lightning-node-liquidity-en.html">Aqui eu coloco uma lista de seleção com nós interessantes para tê-los como pares.</a></li>
+</ul>
+<p>Então é só brincar com as taxas de canal. Eu uso o aplicativo Thunderhub porque é fácil de entender.</p>
+
+<figure>
+<img src="/assets/images/ln-channels-fees.jpg" class="center">
+<figcaption>Relatório de detalhes para taxas de canais no aplicativo Thunderhub</figcaption>
+</figure>
+
+<figure>
+<img src="/assets/images/th-fees.png" class="center">
+<figcaption>Alterando taxas para um canal no aplicativo Thunderhub</figcaption>
+</figure>
+
+<p>Reduza suas taxas por canal quando tiver a maioria dos fundos do seu lado e aumente as taxas quando perder mais de 50%, mantendo uma proporção de equilíbrio justa com suas taxas de pares. Cada um é livre para usar seu próprio nível de taxas. É um mercado livre, mas aqueles que agem com ganância sempre serão "punidos" e o protocolo pulará sua rota por ser muito caro.</p>
+<p>Você precisará observar muito seus pares (<a href="https://amboss.space/">página Amboss</a> ou <a href="https://mempool.space/lightning">página Mempool LN</a> são uma ótima ferramenta para isso):</p>
+<ul>
+<li>quais pares eles têm, no 2º e 3º nível</li>
+<li>quais taxas eles usam, com que frequência eles as mudam</li>
+<li>quantos canais eles têm</li>
+<li>quantos canais eles fecham em um determinado período de tempo. Fechar muitos meios não é tão confiável para manter um contrato. Abrir um canal é um contrato. Se seu peer o fecha somente porque depois de um tempo não estava roteando muito (para seus cálculos) significa que ele não está interessado em fazer do LN um sistema de pagamentos, está apenas procurando lucros rápidos.</li>
+</ul>
+
+<figure>
+<img src="/assets/images/node-community-metrics.png" class="center">
+<figcaption>Métricas da Comunidade Amboss para um nó</figcaption>
+</figure>
+
+<p>Mantenha seus canais abertos o máximo possível. O histórico do seu nó é muito importante a longo prazo. Cada uma de suas ações terá um resultado com o tempo. Feche apenas os canais que estão offline há muito tempo ou o peer está "morto". Esses, de fato, são canais inúteis.</p>
+<p>Os canais costumam começar a mover sats depois de algum tempo e somente se esse nó estiver em boas condições. Se você perceber que o peer não está abrindo mais canais, está em modo de estagnação, sim, você pode fechar o canal com aquele peer "sonolento". Um canal que não tem outras rotas conectadas é um canal morto e não vai te servir de jeito nenhum. Sim, você vai punir esse peer, é por isso que tente contatá-lo primeiro e pergunte quais são seus planos. Se não responder... mate o canal.</p>
+<p><a href="https://community.umbrel.com/t/to-read-do-all-lightning-channels-need-to-be-balanced/817">Aqui eu montei um ótimo tópico do Czino</a>, que explica um pouco mais sobre balanceamento.</p>
+<p>Ainda estamos na fase inicial da Lightning Network, os usuários ainda não fazem tantos pagamentos pelo LN, mas é bom estar preparado desde já, construindo seu próprio nó, tornando-o conhecido, forte, estável, respeitado. Seu nó é seu próprio banco, é seu próprio prestígio, não é apenas um jogo.</p>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">B. Blixt / nó Zeus LN (móvel)</h2>
+<h3 style="color:Yellow;">Características</h3>
+<ul>
+<li>Este será nosso "banco de gastos"</li>
+<li>Banco de bolso, a maioria dos seus pequenos pagamentos de gastos, em qualquer lugar.</li>
+<li>Canais privados com nosso próprio nó Umbrel / home</li>
+<li>Canais privados usando Dunder ou Olympus LSP</li>
+<li>Canais privados com outros nós</li>
+</ul>
+<p>Aqui estão alguns guias sobre Blixt e Zeus:</p>
+<ul>
+<li><a href="/wallets/getting-started-blixt-wallet-en.html">Começando com o Blixt Mobile Node</a></li>
+<li><a href="/wallets/getting-started-zeus-wallet-en.html">Começando com o Blixt Mobile Node</a></li>
+<li><a href="/wallets/zeus-node-advanced-usage-en.html">Zeus LN Node - Uso avançado</a></li>
+</ul>
+
+<p><img src="/assets/images/blixt-zeus-alby-ism.jpg" class="center"></p>
+
+<h3 style="color:Yellow;">Liquidez</h3>
+<p>Não há necessidade de manter grandes quantias de fundos nele, mas o suficiente para gastos regulares. Mas tenha em mente que ao abrir pequenos canais, você gastará mais em taxas e reservas. Eu recomendaria este cenário de uso:</p>
+<ol>
+<li>Primeira vez que você usar, abra um canal Dunder LSP. <a href="/wallets/getting-started-blixt-wallet-en.html">Veja aqui o guia</a>. Esta é uma ótima maneira de começar, você obtém liquidez de entrada para uma certa quantia de depósito em um canal Dunder. Então, desde o começo, você pode enviar e receber sats no LN. Você pode ter mais de um canal Dunder, mas é melhor não abusar com muitos pequenos, você pagará mais em taxas. melhor um ou dois maiores que você reabasteça periodicamente.</li>
+<li>Então abra um canal para seu próprio Umbrel / nó inicial. <a href="https://blixtwallet.github.io/guides">Veja a página de guias do Blixt</a>. Isso lhe dará outra maneira de movimentar fundos entre eles, usando keysend, mas também fazendo pagamentos de uma forma mais privada, por meio de seu próprio nó público, usado como primeiro salto.</li>
+<li>Então abra canais de outros serviços LN conforme necessário. Mas tenha em mente que a maior parte do seu tráfego será por meio de seu próprio nó doméstico, então não há necessidade de muitos canais, apenas o suficiente para ter como liquidez de backup.</li>
+</ol>
+<p>Portanto, tenha em mente alguns aspectos do uso do aplicativo de carteira de nó Blixt em seu celular:</p>
+<ul>
+<li>Blixt / Zeus é um aplicativo móvel, então não estará sempre conectado online, depende do seu sistema operacional</li>
+<li>Abrir canais do seu Blixt para outros nós será canais privados, NÃO será público (canais de roteamento). Então, se você quiser fazer o roteamento normal, como faz com um nó de desktop, o Blixt NÃO é adequado para isso. O Blixt é seu "nó privado". Você abre canais com os serviços que está usando, por exemplo, ou apenas seu próprio nó doméstico.</li>
+<li>Qualquer nó LN para ser funcional precisa ter seus canais pares online/ativos</li>
+<li>Portanto, antes de fazer qualquer txs com Blixt/Zeus, certifique-se de que seu canal esteja ativo/online. Depois de abrir o Blixt, não pule diretamente para fazer txs. Seja paciente, deixe-o sincronizar e conectar primeiro. Não demora muito. Vá para os canais Lightning e verifique-os, especialmente se estiver usando a conexão Tor. Essas etapas são explicadas neste guia.</li>
+<li>Você pode usar o recurso keysend que o Blixt já tem. Pouquíssimos outros aplicativos o têm, mas é uma ótima ferramenta para ter txs privados. <a href="https://www.youtube.com/watch?v=W3rb_26QswM">Uma boa explicação do keysend neste vídeo</a> e um pouco da história do keysend.</li>
+</ul>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">C. "Nó LN Secreto" (opcional)</h2>
+<h3 style="color:Yellow;">Características</h3>
+<ul>
+<li>Este pode ser seu "banco oculto"</li>
+<li>Nunca publicado e vinculado à sua identidade</li>
+<li>Trabalhando em segundo plano como um nó Tor desconhecido normal.</li>
+<li>Você pode fazer muitas coisas com ele. Coisas que você não pode fazer com nós anteriores ou que você não quer que sejam públicas.</li>
+<li>Pode ser um nó LN simples, sem máquina especial. <a href="/nodes/bitcoin-ln-node-software-en.html">Veja aqui uma lista de softwares de nodes</a>. Por exemplo, se seu node principal não for Umbrel, for RaspiBlitz, você pode executar duas instâncias LN na mesma máquina (LND e C-Lightning). Em breve, Umbrel também permitirá isso.</li>
+</ul>
+
+<h3 style="color:Yellow;">Liquidez</h3>
+<p>Você também pode ter canais públicos para algum roteamento, mas principalmente será com canais privados. Depende de você como você quer. Mas tenha em mente: nunca promova em espaços públicos e vincule-o à sua identidade, a qualquer identidade (real ou falsa).</p>
+<p>Este nó você usará principalmente para trocas privadas, transferências privadas, movimentação de fundos ou mesmo pequenos roteamentos em "modo desconhecido".</p>
+<p>Não precisa ter muitos fundos neste nó, todos são transitórios aqui.</p>
+<p>Você pode escolher <a href="/nodes/managing-lightning-node-liquidity-en.html">alguns dos nós mencionados nesta lista</a>, como pares, mas principalmente este nó será conectado aos seus outros nós Umbrel e Blixt, com canais privados.</p>
+<p>Use sua imaginação sobre como usar este nó. É muito útil se usado da maneira correta.</p>
+
+<h2 style="color:Orange;">FELIZ LIGHTNING!</h2>
+</body>
+</html>
+</article>

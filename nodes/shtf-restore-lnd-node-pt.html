@@ -1,0 +1,256 @@
+---
+layout: default-pt
+title: Cenário SHTF - Como restaurar um nó LND morto?
+description: Várias maneiras de restaurar os fundos do seu nó LND em caso de SHTF (merda atingiu o ventilador - nó morto)
+image: /assets/images/shtf-recovery-plan.jpg
+---
+<article>
+<!DOCTYPE html>
+<html lang="pt">
+<meta name="description" content="Guias de Bitcoin e Lightning Nodes: Várias maneiras de restaurar os fundos do seu nó LND em caso de SHTF">
+<body>
+<center>
+<h2 style="color:Orange;">Várias maneiras de restaurar os fundos do seu nó LND em caso de SHTF (merda atingiu o ventilador - nó morto)</h2>
+<p><img src="/assets/images/shtf-recovery-plan.jpg" class="center"></p>
+
+| <a href="/nodes/shtf-restore-lnd-node-en.html"><img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/shtf-restore-lnd-node-es.html"><img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/shtf-restore-lnd-node-de.html"><img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/shtf-restore-lnd-node-fr.html"><img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/shtf-restore-lnd-node-nl.html"><img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/shtf-restore-lnd-node-it.html"><img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/shtf-restore-lnd-node-hr.html"><img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/shtf-restore-lnd-node-hi.html"><img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+</center>
+<blockquote style="color:Tomato;"><em>
+<p>Postado originalmente em <a href="https://darthcoin.substack.com/p/umbrel-btcln-node-shtf-scenario">Substack</a> em 01 de outubro de 2021. Atualizado aqui em 17 de outubro de 2024</p>
+</em></blockquote>
+
+<p>Aqui está um capítulo separado sobre como gerenciar seu nó LND (Umbrel, myNodeBTC, Raspiblitz, Start9 etc.), sobre métodos e procedimentos para restaurar/recuperar os fundos da sua carteira de nó em caso de SHTF (merda atingiu o ventilador).</p>
+<p>Existem muitos usuários que fazem coisas malucas com seus nós Umbrel e, às vezes, não há outra maneira de consertar isso do que restaurá-lo em outro aplicativo de carteira e começar de novo com um novo ou a mesma carteira LND, mas em uma nova instância.</p>
+
+<h3>Antes de começarmos... PARA LEMBRE-SE:</h3>
+<ul>
+<li>Mantenha a calma e seja paciente.</li>
+<li>Este processo pode levar tempo e etapas precisas para serem seguidas.</li>
+<li>Não faça nada estúpido que possa estragar o processo.</li>
+<li>Não esvazie ou mova fundos/UTXOs da sua carteira onchain durante o processo de recuperação. Muitos UTXOs podem ser vinculados ao fechamento de canais do chamado UTXO de "reserva âncora".</li>
+<li>Aguarde pacientemente o fechamento dos canais, pode levar de 40 a 144 blocos até que os fundos sejam liberados, mesmo que as transações sejam confirmadas no explorador de blocos.</li>
+<li>O procedimento de restauração de fundos é o ÚLTIMO recurso, então antes de iniciá-lo, consulte outras pessoas e tente ter um diagnóstico correto do que aconteceu com seu nó. Talvez uma simples reinicialização seja suficiente.</li>
+</ul>
+<p>Abaixo, apresentarei vários métodos para "restaurar" seus fundos de nó LND mortos.</p>
+<p>Se você tem fundos SOMENTE na carteira onchain e não tem fundos nos canais LN, use apenas os métodos 2, 3, 4, 5, 6.</p>
+<p>Se você tem fundos na carteira onchain E nos canais LN, use os métodos: 1, 3, 4, 7, 8, 9, 10.</p>
+<p><a href="#umbrel">1. Maneira padrão e normal usando uma nova instância do nó Umbrel</a></p>
+<p><a href="#bluewallet">2. Usando o aplicativo móvel Bluewallet</a></p>
+<p><a href="#blixt">3. Usando o aplicativo móvel da carteira Blixt</a></p>
+<p><a href="#zeus">4. Usando o aplicativo móvel Zeus LN wallet</a></p>
+<p><a href="#zap">5. Usando o aplicativo desktop Zap wallet</a></p>
+<p><a href="#sparrow">6. Usando o aplicativo desktop Sparrow wallet</a></p>
+<p><a href="#raw-copy">7. Usando uma cópia dos arquivos de banco de dados em outra instância do nó LND</a></p>
+<p><a href="#experimental">8. Dados experimentais de cópia completa do nó RPi para a máquina desktop/NUC Linux</a>
+<p><a href="#th">9. Usando o backup Thunderhub / Amboss SCB para restaurar no Blixt</a>
+<p><a href="https://github.com/guggero/chantools">10. Usando o Chantools do Guggero para canais travados</a></p>
+<hr style="height:2px">
+
+<h2 id="umbrel">Método 1 - Maneira padrão e normal usando uma nova instância do nó Umbrel <a href="#umbrel">#</a></h2>
+<p>Este método é a maneira normal, conforme descrito e recomendado pela <a href="https://umbrel.com">equipe Umbrel</a>.</p>
+<p>Suponha que você já tenha a semente de 24 palavras e o arquivo channel.backup obtidos anteriormente. Se você não fez esse backup, mas ainda tem acesso ao seu antigo node drive, você pode encontrá-lo em /home/umbrel/umbrel/lnd/data/chain/bitcoin/mainnet/channel.backup</p>
+<p>ou você pode solicitar uma cópia dos desenvolvedores da Umbrel (entre em contato com eles no <a href="https://t.me/getumbrel">grupo do Telegram da Umbrel</a> ou no <a href="https://community.getumbrel.com/">Fórum da Comunidade da Umbrel</a>.</p>
+<p>Instale uma nova instância do Umbrel. Inicie a página do painel e você será solicitado a usar a semente de 24 palavras de backup anterior.</p>
+<p>Depois de restaurar as 24 palavras, pode levar de alguns minutos a algumas horas para que ele escaneie todas as suas transações e saldos anteriores de Bitcoin (na cadeia). Enquanto isso, veja como você pode restaurar os fundos em seus canais Lightning.</p>
+<p>ETAPA 1: COPIE O ARQUIVO DE BACKUP DO CANAL DO SEU COMPUTADOR PARA O SEU UMBREL.</p>
+<p>Entre usando SSH e execute isto:</p>
+
+<pre class="bash"><code>
+scp <caminho/para/seu/arquivo/backup/do/canal> umbrel@umbrel.local:/home/umbrel/umbrel/lnd/channel.backup
+</code></pre>
+
+<p>Substitua `<caminho/para/seu/arquivo/backup/do/canal>` pelo caminho exato para o arquivo de backup do canal no seu computador</path>
+<p>A senha é `moneyprintergobrrr`, exceto na versão 0.3.3 ou posterior, onde a senha é sua senha de usuário pessoal.</p>
+<p>ETAPA 2: RECUPERAR FUNDOS</p>
+<pre class="bash"><code>
+cd ~/umbrel && ./bin/lncli restorechanbackup --multi_file /data/.lnd/channel.backup
+</code></pre>
+<p>Depois de executar isso, aguarde 1 minuto. Agora você deve conseguir ver seus canais sendo fechados em http://umbrel.local/lightning.</p>
+<p>Você deve esperar pacientemente até que os fundos retornem para sua carteira onchain. Levará pelo menos 40 blocos. Você pode ver/verificar os detalhes do fechamento de canais no <a href="https://community.umbrel.com/t/umbrel-troubleshooting-guide/3632">guia de solução de problemas</a></p>
+<hr style="height:2px">
+
+<h2 id="bluewallet">Método 2 - Usando Bluewallet <a href="#bluewallet">#</a></h2>
+<h3>NOTA IMPORTANTE:</h3>
+<p>Há uma limitação de tipo de endereços no <a href="https://bluewallet.com">Bluewallet</a>! LND/Umbrel agora também está usando endereços do tipo Taproot. Não é por padrão, mas se você ativou essa opção em Configurações, sua carteira Umbrel gerará endereços no formato Taproot. Tenha em mente que nem todos os outros aplicativos que podem importar carteiras xpub ou Blixt aezeed completas também podem exibir/ler esses endereços. Isso significa que você perderá alguns sats em seu saldo exibido porque esses endereços taproot serão ignorados. Isso não significa que você perdeu seus sats. É que eles não são exibidos, não são mostrados, não são "legíveis" pelo aplicativo que você usa para importar a carteira.</p>
+<p>Sim, agora você pode se conectar diretamente a um aplicativo móvel, a carteira de nó onchain AEZEED. Basta usar sua semente de nó Umbrel no Bluewallet (adicionando-a como nova carteira) e pronto. Casos de uso:</p>
+<ul>
+<li>você quer ter em mãos uma maneira de depositar rapidamente em sua carteira de nó (onchain)</li>
+<li>você precisa ter acesso aos seus fundos onchain caso seu nó seja travado e queira recuperar/acessar os fundos</li>
+</ul>
+<p><strong>LEMBRETE:</strong></p>
+<ul>
+<li>isso está restaurando SOMENTE a carteira onchain, não também os canais LN!</li>
+<li>para restaurar os fundos de seus canais LN, você ainda precisa seguir o procedimento para recuperação usando o método padrão, veja o ponto 1.</li>
+<li>Eu recomendaria não restaurar a mesma semente em uma nova instância Umbrel LND, apenas comece com uma nova instância LND e mantenha esta carteira antiga no Bluewallet, ou simplesmente mova os fundos para a nova instância Umbrel.</li>
+</ul>
+<hr style="height:2px">
+
+<h2 id="blixt">Método 3 - Usando Carteira móvel Blixt <a href="#blixt">#</a></h2>
+<p><a href="/wallets/getting-started-blixt-wallet-en.html">Blixt Wallet</a> é um excelente aplicativo móvel, usando sincronização de blocos LND e neutrinos, também com muitos outros recursos que nenhuma outra carteira móvel oferece. Vale a pena tê-lo em seu telefone como um nó de par com outro nó regular.</p>
+<p>Ele tem a opção de restaurar um nó LND, logo nas primeiras etapas da abertura do aplicativo.</p>
+<p>Você não perderá fundos neste teste/cenário, a pior coisa que pode acontecer é não recuperar os canais e/ou os canais são fechados e os fundos recuperados na carteira onchain. Ele apenas rejeitará a "restauração" e seus canais continuarão ativos no nó Umbrel.</p>
+<h4>Requisitos:</h4>
+<ul>
+<li>Seu nó Umbrel está morto e não deve estar online neste processo.</li>
+<li>Você tem um backup de seus canais com o estado mais recente. Use o arquivo backu que você obtém do painel Umbrel - página Lightning. Não RTL ou Thunderhub. Você também pode usar o backup online dos servidores Umbrel (você precisará entrar em contato com os desenvolvedores Umbrel para isso). Se você não fez esse backup, mas ainda tem acesso à sua unidade de nó antiga, você pode encontrá-lo em `/home/umbrel/umbrel/lnd/data/chain/bitcoin/mainnet/channel.backup`</li>
+<li>Você tem um backup da sua semente de 24 palavras</li>
+</ul>
+<h3>Etapas a serem seguidas:</h3>
+<ol>
+<li><a href="https://blixtwallet.github.io/">Instale a carteira Blixt</a> no seu celular</li>
+<li>Vá para as configurações do menu e ative o Tor (o aplicativo será reiniciado). Isso é necessário devido ao fato de que o Umbrel é o Tor por padrão e muitos dos seus canais anteriores estavam abertos com pares de nós Tor.</li>
+<li>Selecione restaurar carteira</li>
+<li>Pegue sua semente de 24 palavras e insira-a no primeiro campo</li>
+<li>Pegue seu arquivo channels.backup (que você salvou anteriormente do painel do Umbrel LN) e carregue-o no seu celular e insira-o na caixa de restauração do Blixt.</li>
+<li>Clique em restaurar e aguarde um bom tempo para que o aplicativo sincronize o nó neutrino (uma versão pequena do blockchain). Uma vez restaurado, os fundos na onchain devem aparecer no saldo e também nos canais. Mas lembre-se, os canais serão fechados e os fundos de volta na onchain. Apenas seja paciente.</li>
+</ol>
+<p>Eu recomendaria não restaurar a mesma semente em uma nova instância Umbrel LND, apenas começar com uma nova instância LND e manter esta carteira antiga no Blixt, ou simplesmente mover os fundos para a nova instância Umbrel. <a href="/wallets/getting-started-blixt-wallet-en.html">Blixt pode ser um ótimo companheiro de nó</a> para seu novo nó Umbrel.</p>
+<p>Existem algumas maneiras de verificar o status no aplicativo Blixt, mas não entrarei em detalhes aqui.</p>
+<p>Avise-me quando/se você quiser fazer este teste e eu posso ajudar, mas apenas se seu nó Umbrel estiver morto. Você também pode entrar em contato com Hampus, Blixt dev, usando o <a href="https://t.me/blixtwallet">grupo Telegram Blixt</a></p>
+<p>Não quebre as coisas apenas para testar outras. Lembre-se de que este é um teste experimental e você não tem outra maneira.</p>
+<hr style="height:2px">
+
+<h2 id="zeus">Método 4 - Usando Zeus LN mobile <a href="#zeus">#</a></h2>
+<p>Começando com o novo Zeus v 0.8.0 com nó LND incorporado, você pode recuperar seu nó Umbrel LND morto de forma muito fácil e rápida.</p>
+<p>Lembre-se, "recuperar" significa usar o arquivo SCB (Static Channel Backup) que acionará um fechamento colaborativo de seus canais existentes e os fundos estarão de volta na carteira onchain.</p>
+<p>Atualmente, o ZEUS permite apenas uma carteira de nó incorporado por vez, então se você já inicializou uma carteira, você deve desinstalar e reinstalar o aplicativo.</p>
+<p>Quando estiver pronto para recuperar, vá para o menu Configurações no ZEUS. Ele é acessível no canto superior esquerdo da visualização principal (normalmente um ícone do Zeus) se você já tiver uma carteira configurada, ou pressionando 'Configuração avançada' na tela inicial de uma nova instalação.</p>
+<p>De lá, você pode adicionar um novo nó pressionando o campo superior (ele dirá 'Nenhum nó' ou o nome da sua conexão ativa) e, em seguida, clicando no ícone de mais (+) no canto superior direito.</p>
+<p>De lá, insira sua frase de semente de 24 palavras no campo denominado 'Semente de cifra de recuperação (aezeed)'. Você pode opcionalmente fornecer uma sequência de backup estática no campo denominado 'Dados de recuperação de desastres (SCB, Base64)'. Se você tiver o arquivo SCB anterior de outro nó, basta abri-lo como um arquivo de texto e copiar a sequência.</p>
+<p>Então pressione 'Restaurar carteira mainnet' se estiver lidando com fundos reais ou 'Restaurar carteira testnet' se estiver usando a rede de teste do Bitcoin.</p>
+<p>Por favor, deixe o ZEUS em execução na primeira vez que restaurar a semente. Ele precisa passar pelo processo de recuperação para restaurar seu saldo. Não é incomum que isso leve mais de 10 minutos, especialmente se você tiver uma carteira muito usada. Você pode querer desativar temporariamente quaisquer tempos limite de tela e opções de economia de energia nas configurações do seu telefone, para que o ZEUS não entre em segundo plano e pause o LND durante o processo.</p>
+<p>Você também pode ativar primeiro o serviço LND persistente (nó Emebedded - Avançado - Modo persistente). Isso manterá o serviço LND ativo em segundo plano.</p>
+<p>Se você vir que depois de um longo tempo ainda não está mostrando o histórico antigo txs, vá para Nó incorporado - Pares e desabilite a opção para usar a lista de pares selecionados (por padrão é o btcd.lnolymp.us). Isso acionará uma reinicialização e conectará ao primeiro nó de neutrino disponível com uma melhor resposta de tempo. Ou use esses pares de neutrino bem conhecidos, escolhendo aquele que estiver mais próximo de sua localização:</p>
+<ul>
+<li>btcd1.lnolymp.us | btcd2.lnolymp.us - para a região dos EUA</li>
+<li>btcd-mainnet.lightning.computer - para a região dos EUA</li>
+<li>uswest.blixtwallet.com (Seattle) - para a região dos EUA</li>
+<li>europe.blixtwallet.com (Alemanha) - para a região da UE</li>
+<li>asia.blixtwallet.com - para a região da Ásia</li>
+<li>node.eldamar.icu - para a região dos EUA</li>
+<li>noad.sathoarder.com - para a região dos EUA</li>
+<li>bb1.breez.technology | bb2.breez.technology - para a região dos EUA</li>
+<li>neutrino.shock.network - região dos EUA</li>
+</ul>
+<hr style="height:2px">
+
+<h2 id="zap">Método 5 - Usando o Zap desktop <a href="#zap">#</a></h2>
+<h3>NOTAS IMPORTANTES:</h3>
+<ul>
+<li>Há uma limitação para aplicativos Zap. LND/Umbrel agora também está usando endereços do tipo Taproot. Não é por padrão, mas se você ativou essa opção em Configurações, sua carteira Umbrel gerará endereços no formato Taproot. Tenha em mente que nem todos os outros aplicativos que podem importar xpub ou carteira Blixt aezeed completa também podem exibir/ler esses endereços. Isso significa que você perderá alguns sats em seu saldo exibido porque esses endereços taproot serão ignorados. Isso não significa que você perdeu seus sats. Apenas que eles não são exibidos, não são mostrados, não são "legíveis" pelo aplicativo que você usa para importar a carteira.</li>
+<li>Isso funciona apenas com a versão desktop do Zap, não para dispositivos móveis.</li>
+<li>O aplicativo Zap foi descontinuado, então não há mais atualizações disponíveis. Use este aplicativo de desktop somente se quiser verificar seus fundos onchain rapidamente</li>
+</ul>
+<p>Basta instalar o aplicativo Zap e usar sua semente de 24 palavras para restaurar a carteira onchain AEZEED.</p>
+<p>Isso NÃO restaurará os canais LN! Para restaurar os canais LN, você ainda precisará usar o procedimento padrão explicado no <a href="#umbrel">método 1</a> neste guia.</p>
+<hr style="height:2px">
+
+<h2 id="sparrow">Método 6 - Usando a carteira Sparrow <a href="#sparrow">#</a></h2>
+<h3>NOTAS IMPORTANTES:</h3>
+<ul>
+<li>De qualquer forma, há uma limitação. A Umbrel agora também está usando endereços do tipo Taproot. Não é por padrão, mas se você ativou essa opção em Configurações, sua carteira Umbrel gerará endereços no formato Taproot. Tenha em mente que nem todos os outros aplicativos que podem importar xpub ou carteira Blixt aezeed completa também podem exibir/ler esses endereços. Isso significa que você perderá alguns sats em seu saldo exibido porque esses endereços taproot serão ignorados. Isso não significa que você perdeu seus sats. Apenas que eles não são exibidos, não são mostrados, não são "legíveis" pelo aplicativo que você usa para importar a carteira.</li>
+<li>Este método não restaurará seus canais LN, apenas a carteira onchain! Para restaurar fundos dos canais LN, você ainda precisa fazer o "procedimento normal" explicado no ponto 1 deste guia.</li>
+</ul>
+<h3>PROCEDIMENTO</h3>
+<ol>
+<li>Vá para <a href="https://guggero.github.io/cryptography-toolkit/#!/aezeed">Cryptography Toolkit</a> e baixe o arquivo HTML para o seu computador.</li>
+<li>Abra o arquivo HTML no "modo offline" (sem internet) e selecione "aezeed Cipher Seed Scheme" em Ferramentas. Em seguida, vá para a 2ª aba "Decode Mnemonic".</li>
+<li>Cole suas 24 palavras no campo "Mnemonic".</li>
+<p><img src="/assets/images/shtf-cryptographic-tool.png" class="center"></p>
+<li>Selecione o formato BIP84 native segwit e espere um pouco para ser decodificado.</li>
+<li>Copie o zprv exibido no campo "HD node root base 58"</li>
+<li>Abra o aplicativo Sparrow wallet (já baixado) e selecione "new wallet"</li>
+<li>Em "Keystores" selecione "new imported software wallet"</li>
+<li>Na próxima janela que será aberta, selecione "Master Private Key BIP32" e cole a chave "zprv" que você obteve da ferramenta de criptografia e clique em "import". Ele mostrará que é um caminho de derivação m/84'/0'/0. Isso importará apenas o tipo de endereço segwit P2WPKH. Mas se você usou endereços Taproot P2TR, então você deve alterá-lo para "m/86'/0'/0".</li>
+<li>Clique em "Import Keystore" e ele retornará para a janela principal do aplicativo de carteira, onde você pode ver todas as configurações da carteira. Clique em "aplicar" e solicitará que você defina uma senha para criptografar seu arquivo de carteira local.</li>
+<li>Se você usou ambos os tipos de endereços no Zeus, sugerimos importá-los como duas carteiras no Sparrow, usando a mesma chave "xprv", mas cada uma com um caminho de derivação diferente. Dessa forma, você pode evitar confusões.</li>
+<li>Você também pode alternar entre segwit e taproot em uma carteira já importada, acessando as Configurações da carteira e alternando o "Tipo Scrypt" ("bc1q" <a href="https://github.com/bitcoin/bips/blob/master/bip-0084.mediawiki">BIP84</a> segwit P2WPKH ou "bc1p" <a href="https://github.com/bitcoin/bips/blob/master/bip-0086.mediawiki">BIP86</a> taproot P2TR) e então reimportar as chaves BIP32 xprv para fazer a troca.</li>
+<p><img src="/assets/images/shtf-sparrow-p2tr.png" class="center"></p>
+<li>O aplicativo Sparrow começará a escanear todas as suas chaves e txs e será exibido depois de um tempo na aba "Transações". Paciência, vai levar algum tempo.</li>
+<li>Para uma conexão mais rápida, segura e privada, é melhor conectar seu aplicativo de carteira Sparrow ao seu nó. Basta seguir as instruções em "Umbrel - conectar carteira - sparrow" e você usará diretamente os blocos e índices do seu próprio nó.</li>
+</ol>  
+<hr style="height:2px">  
+  
+<h2 id="raw-copy">Método 7 - Cópia experimental de arquivos de banco de dados <a href="#raw-copy">#</a></h2>
+<p>Este método foi confirmado apenas por um usuário do Umbrel que o fez com sucesso. Mas lembre-se, ele não estava usando a versão Raspberry Pi do Umbrel, estava em uma máquina com Linux regular e Umbrel instalado.</p>
+<p>Este procedimento é SOMENTE para usuários experientes do Linux! Se você não sabe usar o Linux, é melhor ficar longe.</p>
+<p>O procedimento é simples. São apenas esses 2 arquivos e eles estão localizados em:</p>
+<em>`<pasta lnd>/data/chain/bitcoin/mainnet/wallet.db`</em>
+<em>`<pasta lnd>/data/graph/mainnet/channel.db`</em>
+<p>Você tem que construir as pastas data/... você mesmo e então copiar os arquivos para elas, antes de iniciar o lnd.</p>
+<ul>
+<li>Então, pegue outra máquina/unidade e instale o Umbrel, do zero. Use sua semente de 24 palavras para restaurar a carteira AEZEED onchain. Deixe-a iniciar a sincronização um pouco e construa o resto das pastas para LND. Então pare.</li>
+<li>Vá para a unidade antiga e localize esses 2 arquivos.</li>
+<li>Copie-os para o mesmo caminho no novo nó.</li>
+<li>Opcional, se você tiver os dados do blockchain OK, a integridade dos arquivos estiver boa, você pode copiar também o blockchain para economizar tempo. Se você acha que está corrompido, é melhor esquecer e deixar a sincronização ser feita de forma normal/natural.</li>
+<li>Inicie o nó, deixe-o sincronizar e... voilà, seus antigos canais LN estão lá vivos e não fechados.</li>
+<li>Se houver um problema em reiniciar o nó, basta executar: sudo scripts/configure</li>
+</ul>
+<p>LEMBRETE: esses arquivos precisam ser a versão mais recente que estava online! Se você usar um backup mais antigo, poderá perder fundos sendo punido por trapacear com uma versão mais antiga de seus canais. </p>
+<hr style="height:2px">
+
+<h2 id="experimental">Método 8 - Experimental - Nó RPi em uma nova máquina desktop <a href="#experimental">#</a></h2>
+<p>Este método ainda não foi totalmente testado, usando um dispositivo RPi antigo com Umbrel funcionando e um novo NUC/desktop/laptop com Linux OS + dependências do docker (de preferência Debian para usar as mesmas bibliotecas do UmbrelOS).</p>
+<p>O procedimento é simples:</p>
+<ul>
+<li>instale uma nova máquina com Debian OS + todas as dependências necessárias (<a href="https://github.com/getumbrel/umbrel#-installation">veja o guia de instalação do Umbrel GitHub</a> para Linux desktop</li>
+<li>adicione o antigo SSD USB com a instalação do UmbrelOS ao novo nó e comece a copiar toda a pasta do Umbrel, no mesmo caminho de localização de antes, para o novo nó drive.</li>
+<li>remova o drive USB após a conclusão</li>
+<li>inicie o Umbrel a partir dessa pasta com o comando:</li>
+<pre class="bash"><code>
+sudo ./scripts/start
+</code></pre>
+<li>Se houver um problema ao reiniciar o nó, basta executar: sudo scripts/configure</li>
+</ul>
+<p>Tudo deve iniciar bem e o nó retomará sua sincronização e todos os seus dados anteriores devem estar lá. Tenha paciência para que o nó alcance os blocos e índices mais recentes.</p>
+<hr style="height:2px"> 
+  
+<h2 id="th">Método 9 - Método Thunderhub / Amboss SCB no Blixt <a href="#th">#</a></h2>
+<p>Recentemente, Amboss adicionou um recurso interessante para operadores de nó com nó registrado, para carregar um arquivo SCB channels.backup para sua conta. Esse arquivo pode ser recuperado posteriormente caso seu nó esteja morto.</p>
+<p><img src="/assets/images/shtf-th.png" class="center"></p>
+<p>Esta opção está vinculada ao aplicativo Thunderhub, em Ferramentas - Backup. Então, uma vez que você configura no Thunderhub para fazer backups, ele pode ser vinculado à sua conta Amboss e ter uma cópia em seus servidores.</p>
+<p><img src="/assets/images/shtf-th-backup.jpg" class="center"></p>
+<p><img src="/assets/images/shtf-th-backup2.png" class="center"></p>
+<p>Não há risco de vazamento/roubo de fundos desse arquivo. Sem suas palavras-semente da carteira do nó, é inútil.</p>
+<p>Este arquivo de backup do Thunderhub também pode ser salvo localmente, em um lugar seguro, fora do nó. Amboss e Thunderhub estão oferecendo esta opção apenas como uma forma extra de backup.</p>
+<h3>Procedimento para restaurar</h3>
+<p>Então, seu nó está quebrado, mas você tem sua semente de 24 palavras. Os backups no Amboss foram feitos automaticamente, OK. Você quer uma maneira rápida de recuperar esses fundos, enquanto isso você está construindo um novo nó.</p>
+<ul>
+<li>Abra o aplicativo Blixt no seu dispositivo móvel</li>
+<li>Escolha o nó de recuperação</li>
+<li>Insira sua semente de 24 palavras (do seu nó morto)</li>
+<li>O Blixt levará alguns minutos para sincronizar através do Neutrino e recuperar seu nodeID</li>
+<li>Nesta fase, você não precisa escolher recuperar com backup de canais, isso pode ser feito mais tarde. Você só precisa conseguir entrar no Amboss e recuperar seu SCB.</li>
+<li>Depois de sincronizado (veja o ícone de giro superior), vá para amboss.space e faça login, assinando a chave com seu aplicativo Blixt. Sim, o Blixt suporta LN-auth, como muitos outros recursos.</li>
+<li>Você está logado na sua conta Amboss, baixe o arquivo SCB no seu dispositivo móvel.</li>
+<li>Neste momento, você precisará limpar os dados do seu Blixt. A maneira mais fácil é desinstalá-lo e reinstalá-lo. De outra forma, no Android, os detalhes do aplicativo Blixt excluem dados e cache.</li>
+<li>Cole os dados HEX do backup de Amboss em um arquivo de texto e nomeie-o como channels.backup ou o que você quiser.</li>
+<li>Depois que o Blixt for reinstalado limpo, inicie o procedimento de restauração inserindo o arquivo de backup seed + channels. Nesse momento, o procedimento de recuperação de fundos é acionado. Levará um tempo até que os blocos sejam sincronizados pelo Neutrino e os canais sejam fechados. Normalmente, leva menos de 5 minutos para sincronizar e 44 a 144 blocos para desbloquear os fundos do fechamento dos canais.</li>
+<li>PACIÊNCIA! Mantenha o aplicativo Blixt ativo na primeira fase do procedimento de recuperação, até que os canais comecem a ser fechados. Você pode verificar em Configurações - Logs LND e na gaveta superior esquerda - Canais Lightning. Se os canais aparecerem lá no estado "fechando", então está tudo bem e você pode fechar o aplicativo Blixt.</li>
+</ul>
+<h4>NOTAS:</h4>
+<ul>
+<li>Se você não quiser restaurar os fundos no Blixt, você pode usar o mesmo arquivo channels.backup no Thunderhub, assim que seu novo nó estiver pronto e sincronizado. O procedimento é o mesmo, com o fechamento dos canais antigos e os fundos recuperados em sua carteira onchain.</li>
+<li>Você também pode usar o comando from cli:</li>
+<pre class="bash"><code>
+lncli restorechanbackup --multi_backup <filename_location>
+</code></pre>
+</ul>
+<hr style="height:2px">
+
+<h3>Mais ferramentas, documentação, guias sobre como restaurar fundos de um nó LND morto:</h3>
+<ul>
+<li><a href="https://docs.lightning.engineering/lightning-network-tools/lnd/recovery-planning-for-failure">Lightning Engineering: Recuperação - Planejamento para falhas</a></li>
+<li><a href="https://github.com/lightningnetwork/lnd/blob/master/docs/recovery.md">Recuperação do nó LND Lightning</a></li>
+<li><a href="https://node-recovery.com/">Ferramentas de recuperação de nó de rede Lightning</a></li>
+</ul>
+</body>
+</html>
+</article>

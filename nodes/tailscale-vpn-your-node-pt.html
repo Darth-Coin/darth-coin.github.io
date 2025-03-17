@@ -1,0 +1,72 @@
+---
+layout: default-pt
+title: Usando o túnel Tailscale com seu nó
+description: Como se conectar ao seu nó doméstico usando o túnel VPN privado Tailscale
+image: /assets/images/tunnel-tailscale.jpg
+---
+<article>
+<!DOCTYPE html>
+<html lang="pt">
+<meta name="description" content="Guias de Bitcoin e Lightning: Como se conectar ao seu nó doméstico usando Tailscale">
+<body>
+<center>
+<h2 style="color:Orange;">Como se conectar ao seu nó doméstico usando o túnel VPN privado Tailscale</h2>
+<p><img src="/assets/images/tunnel-tailscale.jpg" class="center"></p>
+
+| <a href="/nodes/tailscale-vpn-your-node-en.html"><img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/tailscale-vpn-your-node-es.html"><img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/tailscale-vpn-your-node-de.html"><img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/tailscale-vpn-your-node-fr.html"><img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/tailscale-vpn-your-node-it.html"><img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/tailscale-vpn-your-node-nl.html"><img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/tailscale-vpn-your-node-hr.html"><img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/tailscale-vpn-your-node-hi.html"><img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+</center>
+<blockquote style="color:Tomato;"><em>
+<p>Postado originalmente em <a href="https://darthcoin.substack.com/p/tailscale-to-your-node">Substack</a> em 02 de outubro de 2022. Atualizado aqui em 27 de dezembro de 2024.</p>
+</em></blockquote>
+
+<p>Vi muitos usuários com seus nós no Tor e tendo muitos problemas para conectar os aplicativos móveis ao nó. Então, uma solução simples é usar Tailscale ou ZeroTier (funciona da mesma maneira). <a href="https://openoms.github.io/bitcoin-tutorials/zerotier/">Aqui também está um guia da openoms sobre como configurar o ZeroTier com seu nó</a>. Outra opção semelhante é usar <a href="https://holesail.io/">Holesail</a>.</
+<p>Uma abordagem mais avançada será usar uma <a href="https://www.freecodecamp.org/news/build-your-own-wireguard-vpn-in-five-minutes/">VPN WireGuard</a></p>
+<p>Não faz sentido usar o Tor para conectar seus dispositivos móveis ao seu PRÓPRIO nó. Você não está confiando em si mesmo para isso? Eu entendo se você se conectar a outro nó pelo Tor, porque você não quer revelar seu IP, mas com seu próprio nó não é necessário.</p>
+
+<h3 style="color:Orange;">O que é Tailscale?</h3>
+<p><a href="https://tailscale.com/">Tailscale</a> é uma VPN de configuração zero que cria uma rede segura entre seu nó Tor doméstico e seus outros dispositivos. Mesmo quando separados por firewalls ou sub-redes, o Tailscale simplesmente funciona. O Tailscale atribuirá ao seu Umbrel/MyNode/Raspiblitz um IP estável e um domínio atribuído automaticamente que permanece consistente, não importa a qual rede seu Umbrel esteja conectado. É como uma rede local que funciona em qualquer lugar. O Tailscale é construído sobre a criptografia do protocolo Noise do WireGuard®, um padrão confiável e revisado por pares.</p>
+<h4>Qual ​​rede é o Tailscale?</h4>
+<p>Vamos recapitular alguns aspectos para os usuários que não entendem completamente os termos de rede. Temos os seguintes tipos de redes, algumas delas fazem parte da ampla rede de INTERNET aberta:</p>
+<ul>
+<li>Nomes de domínio público da Internet / IPs: google.com / 142.250.74.78, esses são nomes de IP/domínio que qualquer pessoa conectada à Internet pode "ver" e acessá-los e são mantidos por servidores DNS públicos. Você precisa comprar ou alugar um IP de um ISP para poder gerenciá-lo para suas próprias máquinas/sistemas.</li>
+<li>IPs privados: 192.168.1.x / 10.0.0.x / 172.16.0.x Esses são IPs visíveis SOMENTE dentro de sua LAN (rede doméstica) e são mantidos pelo seu roteador doméstico, atribuindo um a cada um dos seus dispositivos conectados a esse roteador. Na configuração do Umbrel, você também pode vê-los no arquivo lnd.conf como um IP por serviço/aplicativo. Portanto, esses IPs NÃO são acessíveis de fora, apenas se você configurar em seu roteador para encaminhar portas específicas para IPs específicos dentro de sua LAN.</li>
+<li>IPs VPN públicos: serviços especiais que oferecem a você um túnel seguro para um servidor específico, que oferece a você um IP público dedicado para ser usado para acessar a internet. Como um espantalho, uma identidade falsa para esconder seu IP/localização real. Esses IPs são visíveis e acessíveis por qualquer pessoa na internet.</li>
+<li>IPs VPN privados: IPs privados especiais, gerados em um servidor público, com criptografia e acesso seguro, que oferecem aos usuários um túnel dedicado por meio de um intervalo de IP privado interno, diretamente para seus dispositivos domésticos. Cada ponto/dispositivo terá seu próprio IP, no mesmo intervalo. É isso que está usando o Tailscale.</li>
+<li>Rede Tor: uma rede especial que usa a rede normal da Internet, mas não é visível e acessível por navegadores/dispositivos comuns, eles precisam de um proxy dedicado que converte e descriptografa os endereços onion para serem acessíveis. Todo o tráfego na rede Tor é criptografado P2P e não é necessário usar portas abertas, cada endereço onion pode ser redirecionado internamente para uma porta específica.</li>
+</ul>
+<p>Então... com o Tailscale instalado no nó Umbrel/MyNode/Raspiblitz, praticamente podemos pular a rede Tor lenta e cheia de bugs e conectar nossos dispositivos móveis ao nosso nó.</p>
+
+<h4>ESTEJA ATENTO!</h4>
+<ul>
+<li>Isso não significa que você pode simplesmente colocar o IP Tailscale atribuído para sua máquina de nó em um navegador e fazer login. NÃO! De jeito nenhum! É apenas para substituir o endereço onion/conexão entre seus aplicativos móveis e seu nó.</li>
+<li>Usar o Tailscale não significa que seu nó está totalmente acessível em clearnet e não está mais usando o Tor! Não, tudo continua igual, seu nó ainda está sincronizando através do Tor, ainda não está mostrando seu IP/localização pública real, apenas você tem um acesso privado dedicado usando uma conexão mais rápida que o Tor.</li>
+<li>O Tailscale talvez esteja coletando dados mínimos sobre seus dispositivos conectados, mas todo o tráfego é criptografado, então praticamente eles NÃO sabem o que você está fazendo com esses dispositivos ou que tipo de dados você tem. É como se seu vizinho soubesse que você tem uma geladeira, uma TV ou um micro-ondas em casa, mas não soubesse se você os usa ou para que os usa. Então, seus bitcoins estão seguros, não se preocupe.</li>
+<li>Eu não recomendaria usar o Tailscale para acessar seu nó por SSH, ou pelo menos SOMENTE se você fizer isso de um dispositivo limpo e seguro. O acesso SSH deve ser usado SOMENTE de sua LAN local e de seus dispositivos domésticos seguros.</li>
+</ul>
+
+<h3 style="color:Orange;">Exemplo de uso</h3>
+<h4>Conecte o aplicativo móvel Zeus com seu nó</h4>
+<ul>
+<li>Vá para <a href="https://tailscale.com/">tailscale.com</a> e crie uma conta. Não há necessidade de usar identidade real.</li>
+<li>Instale o Tailscale no Umbrel e faça login com a conta criada.</li>
+<li><p>No seu nó, vá para editar lnd.conf e adicione a linha:</p>
+<p>restlisten=100.x.x.x:8080</p>
+<p>(onde 100.x.x.x é seu IP privado atribuído pelo Tailscale para seu nó)</p>
+</li>
+<li>Instale o Tailscale no seu dispositivo móvel e faça login com a mesma conta criada. Imediatamente você verá no aplicativo o IP do seu nó. Será um IP privado, não público. Copie-o.</li>
+<li>Abra o Zeus e siga as instruções do Umbrel - Connect wallet - Zeus, pois deve ser uma conexão Tor, escaneie o código QR com o Zeus e antes de clicar em salvar configuração, remova o switch Tor e substitua todos os endereços onion pelo IP do Tailscale do seu nó (veja o ponto 3). Pronto, clique no botão salvar e você se conectará em alguns instantes.</li>
+</ul>
+<p>Então, praticamente, o Tailscale criará um túnel VPN privado criptografado, mas usando a internet, entre seu dispositivo móvel (localizado fora da sua LAN) e lhe dará uma conexão direta com seu nó como se você estivesse em casa e se conectasse ao seu nó por meio do IP local. Isso é tudo que o Tailscale está fazendo.</p>
+<p>Agora... você pode tentar o mesmo com outros aplicativos que você precisa para se conectar ao seu nó: Electrum, Bluewallet (apenas para o servidor Electrum, o LNDhub não é suportado com o Tailscale), Sparrow, Specter. Mas lembre-se, toda vez que você quiser conectar esses aplicativos móveis ao seu nó fora da sua LAN, você precisa executar o cliente Tailscale primeiro, para criar essa conexão VPN, caso contrário, os aplicativos não podem "ver" ou entender esse IP Tailscale. O mesmo que para o Tor, quando você estava usando o Orbot.</p>
+<p>Outro uso poderia ser também configurar sua conta Tailscale com um nome de domínio público, e naquele momento você poderia acessar seus aplicativos de nó como LNbits ou servidor BTCPay através desse nome de domínio dedicado, atrás de uma VPN privada Tailscale. Mas este é um serviço avançado e você precisa comprar um nome de domínio e redirecioná-lo para sua conta Tailscale. No momento, o recurso “MagicDNS” no Tailscale não oferece uma maneira simples de conectar um CNAME a uma de suas máquinas Tailscale.</p>
+<p>Mas eu testei, por exemplo, em um dispositivo móvel com Tailscale VPN ativado para acessar meus LNBits e funcionou bem. Use seu Tailscale IP:3007 em um navegador e funciona perfeitamente. Mas sim, isso não é para uso público, apenas para uso pessoal.</p>
+</body>
+</html>
+</article>

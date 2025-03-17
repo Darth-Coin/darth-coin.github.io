@@ -1,0 +1,164 @@
+---
+layout: default-pt
+title: Manutenção do nó Lightning
+description: Um guia simples sobre boas práticas para manutenção do seu nó LN
+image: /assets/images/ln-node-backup.jpg
+---
+<article>
+<!DOCTYPE html>
+<html lang="pt">
+<meta name="description" content="Guias de Bitcoin e Lightning Nodes: Um guia simples sobre boas práticas para a manutenção do seu nó LN">
+<body>
+<center>
+<h2 style="color:Orange;">Um guia simples sobre boas práticas para manutenção do seu nó LN</h2>
+<p><img src="/assets/images/ln-node-backup.jpg" class="center"></p>
+
+| <a href="/nodes/lightning-node-maintenance-en.html"><img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-node-maintenance-es.html"><img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-node-maintenance-de.html"><img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-node-maintenance-fr.html"><img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-node-maintenance-it.html"><img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-node-maintenance-nl.html"><img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-node-maintenance-hr.html"><img src="/assets/images/flag-HR.png" alt="HR" title="Hravtaski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/lightning-node-maintenance-hi.html"><img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+</center>
+<blockquote style="color:Tomato;"><em>
+<p>Postado originalmente em <a href="https://darthcoin.substack.com/p/lightning-node-maintenance">Substack</a> em 30 de abril de 2022. Atualizado aqui em 25 de dezembro de 2024.</p>
+</em></blockquote>
+
+<blockquote style="color:Tomato;"><em>
+<p>Todos os aspectos aqui são apresentados do meu ponto de vista, após mais de 25 anos em tecnologia de TI e suporte para usuários finais, servidores e empresas. Após mais de 10 anos na Bitcoinlândia, testando vários aplicativos e soluções, nos últimos 2 anos comecei a ajudar muitos usuários do Umbrel e a observar seu comportamento ao usar um nó LN.</p>
+<p>Este guia foi solicitado por um dos meus leitores do substack. Então eu entreguei.</p>
+</em></blockquote>
+
+<h2 style="color:Orange;">Introdução</h2>
+<p>Como um operador de nó LN, também temos grandes responsabilidades com nossos colegas e até mesmo amigos e familiares que estão conectados ao nosso nó. Isso significa que devemos cuidar com atenção de nossas máquinas de nó. Executar um nó é uma tarefa séria e os usuários não devem considerá-lo um jogo para diversão.</p>
+<p>Portanto, uma boa manutenção e bons cuidados com sua máquina de nó são OBRIGATÓRIOS. Vi muitos novos operadores de nós que não estão levando esses aspectos a sério e que isso afeta todos nós, não apenas eles.</p>
+<p>Por que está afetando todos os outros?</p>
+<ul>
+<li>um nó peer que não é confiável (99% disponível) pode interromper muitos caminhos de pagamento.</li>
+<li>um nó não confiável afeta todos os seus pares e pontua como bons nós.</li>
+<li>um nó não confiável bloqueará fundos em canais mortos, os pares dependem desses fundos.</li>
+<li>Explicarei aqui algumas boas práticas que um operador de nó deve levar em consideração para ter um bom nó confiável. Não importa se você executa um nó para uso pessoal ou comercial (comerciantes), o que importa é o quanto você se importa com seu nó.</li>
+</ul>
+<hr style="height:2px">
+
+<h3 style="color:Yellow;">PRINCIPAIS ASPECTOS</h3>
+<ul>
+<li>Desligue/reinicie seu nó somente quando for necessário para algumas atualizações de software, limpeza de bancos de dados, alterações na configuração.</li>
+<li>Mantenha seu nó on-line o máximo que puder e for possível. Desligá-lo por um curto período de tempo está OK, os canais estarão OK, ninguém os fechará se você anunciar o período de manutenção para seus colegas.</li>
+<li>Use um UPS (Uninterruptible Power Supply) com bateria suficiente para manter sua máquina de nó + roteador de internet on-line em caso de cortes de energia. Ou pelo menos tempo suficiente para desligá-lo em um modo de graça, se a energia estiver desligada por mais horas ou dias. O importante é proteger seus dados contra perda e corrupção.</li>
+<li>Se seu orçamento e seu uso de nó são muito importantes para um negócio, então use uma máquina com implementação RAID. Não software, mas hardware RAID.</li>
+<li>Hardware. É muito importante ter hardware confiável, não brinquedos. Brinquedos são bons para começar a aprender, porque são baratos, mas não são confiáveis ​​a longo prazo. Então escolha sabiamente seu hardware, com base em seu "estágio" (aprendizado, avanço, produção, empreendimento).</li>
+<li>Faça backups! Backups são como quedas de preço do BTC, você nunca sabe quando são necessários. Então faça-os periodicamente.</li>
+<li>LND está escrevendo o tempo todo em channel.db e wallet.db e contém todos os dados importantes. Esses são os arquivos mais importantes do seu nó. Todo o resto pode ser reconstruído facilmente a qualquer momento. Mas esses 2 arquivos não podem ser copiados em tempo real e também somente a última versão é válida.</li>
+<li>O backup do SCB é como uma exportação leve de channels.db, em um momento específico, que contém informações básicas sobre seus canais, o suficiente para serem usadas para fechá-los e recuperar os fundos na onchain.</li>
+<li>A implementação do CLN está usando outro tipo de arquivo, em hsm.secret e é muito mais fácil fazer cópias deste banco de dados.</li>
+</ul>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">PRÁTICAS DE CASO DE USO</h2>
+<h3 style="color:Yellow;">A. Hardware</h3>
+<p>Quando você começa com um novo nó, a primeira coisa que você deve se perguntar é: para que estou usando este nó? Então construa o hardware da sua máquina com base na necessidade e mude com o tempo para outra configuração somente quando for necessário.</p>
+<h4>Máquina de aprendizagem/estudo</h4>
+<p>Neste nível poderia ser qualquer máquina RaspberryPi, barata, fácil de instalar e montar, baixo consumo de energia e bonitinha. Não confie muito nessas máquinas minúsculas. Para praticar e aprender são muito boas, você aprenderá muito. Mas não são 100% confiáveis.</p>
+<p>Além disso, mesmo se você optar por um dispositivo Rpi, use pelo menos 8 GB de memória RAM e uma boa unidade SSD. Além disso, o adaptador de energia é muito importante. Um com defeito ou não original criará uma série de falhas em cascata e você não saberá o porquê. É por causa daquele pequeno adaptador de energia.</p>
+<p>Os cartões mSD também estão falhando muito, então sempre tenha um backup extra, pronto para ser instalado e para ser substituído pelo antigo em caso de falha. Eles são muito sensatos em cortes de energia.</p>
+<p>Essas máquinas minúsculas são famosas pela taxa de falhas, por vários motivos. Então, mesmo se você estiver em "fase de aprendizado", é recomendável usar um no-break. Vai lhe dar mais paz de espírito e um bom sono à noite.</p>
+
+<figure>
+<img src="/assets/images/node-example1.jpg" class="center">
+<figcaption>RPis precisam de boa ventilação :)</figcaption>
+</figure>
+
+<h4>Máquina avançada</h4>
+<p>Quando você estiver pronto e aprender mais sobre como executar um nó, é hora de aumentar seu nível de hardware. Agora você quer uma máquina mais confiável, que possa lidar com mais conexões, mais canais, pagamentos mais rápidos e lhe dar a tranquilidade de que seus fundos não ficarão bloqueados em dias ou semanas no modo de recuperação por causa de uma falha.</p>
+<p>Se seu orçamento não for tão "generoso", você pode optar por uma boa máquina de mesa de segunda mão. Hoje em dia, muitos escritórios estão vendendo suas máquinas de 1-2 anos por centavos. E algumas delas, mesmo as mais simples, são máquinas muito boas para um nó. Geralmente já vêm com no mínimo 8 GB de RAM, às vezes barganhas com 16 GB (!!!).</p>
+<h5>Por que barebones?</h5>
+<ul>
+<li>porque são relativamente pequenos (o meu é do mesmo tamanho de um RPi e não tem ventoinha)</li>
+<li>porque em alguns deles você pode adicionar 2 drives SSD ou até mesmo drives NVM (muito melhor que SSD)</li>
+<li>porque eles têm melhor ventilação e alguns deles são passivos (sem ventoinhas barulhentas)</li>
+<li>porque você se livra da conexão de drive USB que um dispositivo RPi usa. Essa conexão USB é o ponto mais fraco de um nó RPi.</li>
+<li>porque o hardware é mais robusto e durável do que um RPi.</li>
+</ul>
+
+<figure>
+<img src="/assets/images/mini-node.jpg" class="center">
+<figcaption>Meu humilde nó barebone, unidade interna, sem ventoinha</figcaption>
+</figure>
+
+<p>CPU, não importa muito, basta adicionar 2 boas unidades SSD para RAID e pronto!</p>
+<p>O UPS ainda é essencial. Por quê? Porque geralmente quando ocorre um corte de energia, ele volta com voltagem diferente, picos, amperes ou apenas piscando etc. Isso pode danificar a fonte de alimentação da sua máquina. Normalmente, a fonte de alimentação é a primeira a cair, protegendo o resto. Mas nunca se sabe. Um UPS manterá um fluxo bom e saudável de eletricidade para sua máquina e também manterá a conexão de internet online.</p>
+<blockquote style="color:Tomato;"><em>
+<p>Lembre-se: um nó não precisa ser sofisticado, ele deve ser confiável.</p>
+</em></blockquote>
+<p>Eu recomendaria aqui encontrar uma boa máquina, com chip RAID na placa-mãe, que possa lidar com pelo menos a configuração RAID 1 no nível do BIOS. O que isso significa? Significa que você pode construir um volume RAID, diretamente no BIOS, a partir de 2 unidades, para que os dados sejam gravados ao mesmo tempo em ambos os discos. Portanto, se uma unidade ficar "doente" ou morrer, você ainda poderá ter seus dados seguros na unidade dupla, ainda funcionando. Você pode desligar sua máquina, substituir a unidade doente e o sistema RAID reconstruirá o sistema RAID duplo a partir do saudável em poucos minutos. Sem perda de dados, sem canais fechados, sem fundos perdidos.</p>
+
+<h4>Máquina empresarial</h4>
+<p>Quando você executa um nó para um negócio sério que depende 100% desse nó, é hora de pensar seriamente em ter uma máquina de nó 24/7/365. Apenas a parte central do nó, não os aplicativos que você instala em cima. Proteger seu nó principal lhe dá mais flexibilidade sobre onde e como você gerencia seus aplicativos e soluções empresariais.</p>
+
+<figure>
+<img src="/assets/images/node-example2.jpg" class="center">
+<figcaption>Um servidor de rack pessoal com vários nós</figcaption>
+</figure>
+<p>Eu recomendaria o seguinte cenário para isso:</p>
+<ul>
+<li>use uma solução de nó hospedado (<a href="https://voltage.cloud/">Voltage</a>, <a href="https://nodl.it/">Nodl</a>, <a href="https://nodana.io">Nodana</a>, VPS de nó dedicado) que é gerenciado por profissionais em arquitetura de nós, fornecendo apenas a parte principal (Bitcoin + nó LN) com alta disponibilidade e suporte.</li>
+<li>use qualquer outra máquina, pode ser em casa/escritório/VPS remoto onde você instala seus aplicativos necessários para gerenciar seu nó: BTCPay, LNbits, Thunderhub, RTL etc. e aponte sua configuração para seu nó LN remoto.</li>
+</ul>
+<p>Isso é tudo o que você precisa para uma solução de alta disponibilidade, com quase nenhuma chance de perder fundos, canais, pares, tempo, clientes etc.</p>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">B. Backup e restauração de dados</h2>
+<p>A coisa mais importante é a semente da carteira. Esta é a primeira coisa que você deve salvar e manter segura, em um gerenciador de senhas offline, por exemplo (Keepass ou Vaultwarden).</p>
+<h3 style="color:Yellow;">Backups de banco de dados de nós LND</h3>
+<p>Para nós LND, há dois tipos de armazenamento de dados que podem ser recuperados:</p>
+<ul>
+<li>Backups SCB - uma cópia offline do estado de seus canais, contendo apenas as informações suficientes para serem usadas para fechar os canais (junto com sua semente) e recuperar os fundos dos canais de volta para sua carteira onchain. Lembre-se: este arquivo channels.backup pode ser usado SOMENTE com sua semente de nó! Faça uma cópia deste arquivo SCB toda vez que abrir e/ou fechar um canal. Ou faça scripts que possam criar este arquivo SCB na unidade local toda vez que abrir/fechar canais e, em seguida, sincronizar o arquivo em um local remoto. Não precisa ser em todas as transações que você fez com seu nó.</li>
+<li>Último estado de channels.db e wallet.db. Esses arquivos NÃO PODERIAM ser recuperados imediatamente ou mesmo se você desligar o nó e fizer uma cópia, não são úteis, porque uma vez que você iniciar o nó novamente, ele será alterado.</li>
+</ul>
+<p>Por "último estado" significa que são úteis SOMENTE o estado antes de recuperar um nó morto. Quando sua máquina está morta por razões de hardware ou não está iniciando o software, mas você ainda pode acessar os arquivos. Então faça uma cópia desses 2 arquivos em uma unidade externa (pode ser grande) e use-os mais tarde após reconstruir o novo nó.</p>
+<p>Você tem 2 maneiras de restaurar/recuperar um nó LND:</p>
+<ol>
+<li><p>SEM canais de estado</p>
+<p>Para recuperar seus fundos SEM os canais, você pode usar o backup SCB que fechará automaticamente e recuperará fundos na carteira onchain. Esta é a maneira mais fácil e <a href="/nodes/shtf-restore-lnd-node-en.html">eu a descrevo neste guia</a> (veja os métodos 2,3,4,5,6).</p>
+<p>Eu sugiro fortemente usar a opção 3 e enquanto você estiver recuperando os fundos no Blixt, você pode reconstruir um novo nodeID, nova semente, nova carteira, nova identidade com sua máquina antiga. Mais tarde, você pode simplesmente mover os fundos para seu novo nó do Blixt ou apenas usá-los, <a href="https://darthcoin.substack.com/p/node-liquidity-guide">como um nó móvel privado, como um pequeno nó companheiro para seu nó doméstico</a>.</p>
+</li>
+<li><p>COM o estado dos canais</p>
+<p>Para restaurar um nó COM os canais intactos, como estava no último estado, você precisará seguir alguns passos para preparar o ambiente. <a href="/nodes/shtf-restore-lnd-node-en.html">Explicado neste guia</a>, veja os métodos 1, 3, 4, 7, 8, 9, 10.</p>
+<p>Se seu nó travou, mas você ainda consegue acessar os arquivos, este é o melhor momento de sorte, você tem 2 tarefas a fazer:</p>
+<ul>
+<li>1. copie o wallet.db e channel.db daquele nó "não iniciando" em outro lugar, para fora. channel.db pode ser grande, então não é suficiente apenas um pendrive. Verifique primeiro seu tamanho.</li>
+<li>2. depois de ter esses 2 arquivos seguros, comece a construir seu nó inteiro do zero ou se você tiver uma cópia anterior, restaure-a completamente. ESTEJA ATENTO! quando você restaurar, se puder pular esses 2 arquivos, se não, você terá que sobrescrevê-los com a última cópia que você acabou de tirar daquele nó morto. Sempre tem que ser o último estado.</li>
+</ul>
+<p>Quando você reconstruir o software do nó, escolha a opção "restaurar da semente" para que você possa ter o mesmo nodeID e chaves de criptografia do seu nó anterior, sendo capaz de usar o mesmo wallet.db e channel.db. Se você usar outra semente/nodeID, esses arquivos não serão utilizáveis, não poderão ser desbloqueados!</p>
+<p>Esta é a parte onde você tem que "reconstruir" as pastas de dados. Se você não restaurar de uma cópia completa que já contenha as pastas onde a carteira e o channel.db estavam antes, você precisará instalar o software do node do zero, deixá-lo iniciar, reconstruir as pastas e sincronizar o db e então pará-lo. Copie os 2 arquivos em seus locais e reinicie o node. Pronto.</p>
+<p>Então você pode reiniciar seu node. Ele começará a recuperar e reutilizar os 2 arquivos bem, todos os seus canais estarão lá, só levará um tempo para recuperar os blocos e sincronizar.</p>
+</li>
+</ol>
+<h3>Backups de banco de dados de nós CLN</h3>
+<p>Para esses nós de implementação é muito mais fácil e é apenas uma cópia recursiva de um pequeno arquivo de banco de dados simples hsm_secret.</p>
+<p><a href="https://lightning.readthedocs.io/BACKUP.html">Todo o processo é explicado neste guia manual para CLN</a>.</p>
+<hr style="height:2px">
+
+<h2 style="color:Orange;">C. Manutenção e atualizações de software</h2>
+<p>OK, muitos usuários perguntaram sobre atualizações e com que frequência fazê-las.</p>
+<p>A resposta é simples: a qualquer momento é necessário. Exatamente, não o tempo todo, mas apenas quando for necessário.</p>
+<p>Por quê? Porque nem todo o tempo é necessário :) Se algo funciona perfeitamente, sem erros, uma nova versão não significa automaticamente melhor. Novos recursos ou aplicativos que você não usa, não significa que você deve atualizar. Estabilidade é mais importante do que coisas novas.</p>
+<h4 style="color:Yellow;">Recomendações:</h4>
+<ul>
+<li>não comece a atualizar o software do seu nó impulsivamente, imediatamente após o lançamento ou se ele nem estiver corrigindo os problemas do seu nó. Algumas atualizações são pequenas, outras são importantes.</li>
+<li>Leia atentamente as notas de lançamento e veja se a atualização é uma vantagem ou está corrigindo um erro que você teve com seu nó. Se não afetar você diretamente, não há necessidade de começar e fazer a atualização. Aguarde um lançamento mais importante. Às vezes, as atualizações de lançamento rápido também podem conter bugs, não verificados a tempo pelos desenvolvedores. Merda pode acontecer, eles também são humanos. Então espere mais 1-2 dias e veja o que outros usuários impacientes dizem depois de atualizar.</li>
+<li>Atualizações do sistema operacional são mais importantes do que atualizações do software do nó. Portanto, verifique as atualizações do sistema operacional com mais frequência e faça-as quando necessário.</li>
+<li>Ao atualizar o sistema operacional, sempre pare o nó primeiro. Alguns requisitos podem ser componentes do docker ou outros módulos que afetam o software do nó. Então, o sistema operacional atualiza e desliga a máquina. Sim, não simplesmente reinicie, mas desligue, deixe alguns segundos para limpar a memória e comece novamente. Esta é uma boa prática também para manter os clusters de unidades em boas condições e limpar a memória de coisas ruins.</li>
+<li>Sempre, antes de atualizar o software do nó, atualize primeiro o sistema operacional.</li>
+<li>Usuários do RPi geralmente não precisam fazer atualizações do sistema operacional, porque o software do nó é integrado junto com o sistema operacional, geralmente é uma versão modificada do sistema operacional Debian, adaptada para RPi.</li>
+<li>Para usuários não RPi, recomendo fortemente usar como sistema operacional um Linux Debian. É mais robusto, melhor verificação do sistema de arquivos, menos coisas desnecessárias de desktop, para um sistema operacional de nó você precisa ser minimalista, você não o usa o tempo todo.</li>
+<li>Não complique as coisas com VMs, servidores Ubuntu que só consomem uma grande quantidade de recursos. Um nó não precisa disso. Você precisa apenas da base para executar um nó.</li>
+</ul>
+<p>Acho que esses são aspectos suficientes para você, o novo operador de nó que começa agora sua jornada neste fascinante mundo de nós.</p>
+<p>Espero que você esteja executando o melhor nó possível e que eu tenha lhe dado informações suficientes para executar um nó em boas condições. Feliz relâmpago!</p>
+</body>
+</html>
+</article>

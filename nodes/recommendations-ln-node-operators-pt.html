@@ -1,0 +1,118 @@
+---
+layout: default-pt
+title: Recomendações para operadores de nó BTC LN
+description: Um aviso a todos os operadores de nós públicos sobre o uso real da Lightning Network
+image: /assets/images/darth-aprentice-failed.jpg
+---
+<article>
+<!DOCTYPE html>
+<html lang="pt">
+<meta name="description" content="Guias de Bitcoin e Lightning Nodes: Um aviso a todos os operadores de nós LN públicos sobre o uso real da Lightning Network">
+<body>
+<center>
+<h2 style="color:Orange;">Um aviso a todos os operadores de nós públicos sobre o uso real da Lightning Network</h2>
+<p><img src="/assets/images/darth-aprentice-failed.jpg" class="center"></p>
+
+| <a href="/nodes/recommendations-ln-node-operators-en.html"><img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/recommendations-ln-node-operators-es.html"><img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/recommendations-ln-node-operators-de.html"><img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/recommendations-ln-node-operators-fr.html"><img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/recommendations-ln-node-operators-it.html"><img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/recommendations-ln-node-operators-nl.html"><img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/recommendations-ln-node-operators-hr.html"><img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/recommendations-ln-node-operators-hi.html"><img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+</center>
+<blockquote style="color:Tomato;"><em>
+<p>Postado originalmente em <a href="https://darthcoin.substack.com/p/recommendations-for-ln-users">Substack</a> em 23 de maio de 2022, atualizado aqui em 20 de dezembro de 2024.</p>
+</em></blockquote>
+
+<p>Este artigo é dedicado a todos os novos usuários que começam agora ou querem começar a executar agora um nó BTC LN</p>
+
+<h2 style="color:Orange;">INTRODUÇÃO</h2>
+<p>Estas são minhas observações e recomendações pessoais após mais de 25 anos em sistemas de TI, mais de 10 anos na Bitcoinlândia e mais de 2 anos executando vários nós LN, dedicando muito tempo testando e usando várias soluções para nós LN, ajudando outros operadores de nós.</p>
+<p>Meu único objetivo é fazer o LN funcionar melhor para todos os participantes e apresentar algumas aspectos de um ponto de vista muito objetivo.</p>
+<p>Não me importo se muitos não concordarão ou até me odiarão pelo que direi aqui. Sim, para alguns não serão palavras agradáveis. Não estou aqui para agradar ninguém, estou apresentando fatos. Se você está procurando palavras bonitas e "beijar a bunda", não ouvirá isso de mim. Sempre falarei a verdade do meu jeito, se você não gosta das minhas palavras, o problema é seu, não meu.</p>
+<p>Em 2020, depois que a Umbrel lançou o pacote BTC/LN Umbrel Node, muitas pessoas novas entraram e o instalaram, pensando que era divertido, fácil e até mesmo uma "renda passiva". Mas eles ignoraram um aspecto importante: EDUCAÇÃO sobre a Lightning Network.</p>
+<p>Em quase 1 ano, vimos o número de nós LN aumentar com pelo menos 9000 nós. Esse é um número insano em tão pouco tempo. E principalmente no Tor.</p>
+<p>Sim, é bom ver o interesse em executar um nó LN, mas pelo que vi em grupos e fóruns do Telegram, 90% não têm ideia do que estão fazendo.</p>
+<p>Acho que esse lançamento foi um erro, ou pelo menos foi o que aconteceu. Muitos usuários com conhecimento total de 0 entraram e criaram um caos. Não sei quem promove isso como "muito fácil de instalar um nó em 3 cliques", mas executar um nó não é sobre você poder instalá-lo com apenas 3 cliques. É mais sobre ter muito conhecimento sobre Bitcoin e como o LN está funcionando em segundo plano. Caso contrário, é apenas criar uma rede caótica de pessoas sem ideia do que estão fazendo. Sim, eu os ajudei muito com meus guias e estando disponível quase 24 horas por dia, 7 dias por semana, com conselhos. Mas não é o suficiente. Eles têm que fazer grandes esforços para ler e aprender sobre nós. Caso contrário, é tudo em vão.</p>
+<p>Sim, alguns deles começam a se educar lentamente e se tornam bons operadores de nós. Mas a maioria não deu a mínima para os avisos e ainda continua a executar seus nós de maneiras muito ruins, sem manutenção adequada, sem conhecimento básico sobre como o LN funciona, alguns deles o único foco que eles têm é "ganhar sats".</p>
+<p>Essa situação está piorando a cada dia, porque esses "nós ruins" estão criando um pesadelo para TODOS NÓS na rede.</p>
+
+<h3 style="color:Yellow;">PROBLEMAS REAIS NO LN</h3>
+<p>Aqui mencionarei alguns aspectos desse pesadelo (talvez alguns problemas já tenham sido corrigidos):</p>
+<ul>
+<li>Nós que ficam offline com muita frequência. Isso torna os canais muito instáveis ​​e inutilizáveis.</li>
+<li>Nós que não têm uma conexão de internet estável e, em especial, bons relés Tor.</li>
+<li>Nós que são SOMENTE Tor e ainda não usam um modo híbrido (Tor + clearnet). Tor como rede de comunicação para nós é realmente ruim, porque é instável. Os nós LN precisam ser capazes de se comunicar o tempo todo por meio do protocolo gossip. Caso contrário, não podem "ver uns aos outros", mesmo que o nó Bitcoin ainda esteja sincronizando.</li>
+<li>HTLCs travados, que no final provocam o fechamento forçado dos canais. Esta é uma situação muito irritante e custosa. Muitos operadores de nós não pensam ou sabem que se um HTLC passar por seu nó e seu nó ficar offline ou simplesmente não puder se comunicar com o LN por meio do protocolo gossip, esse HTLC é uma verdadeira dor de cabeça para TODOS. É um contrato não cumprido e se no período de expiração o HTLC não for cumprido, então ele acionará um fechamento forçado de canais em cascata para todos os pares conectados a esse HTLC. Isso afeta a todos. <a href="https://xcancel.com/zerofeerouting/status/1528754778041372674">Aqui está um alerta do nó ZFR</a>.</li>
+<li>Configurações erradas ou caóticas para <a href="https://github.com/lightning/bolts/blob/master/02-peer-protocol.md#cltv_expiry_delta-selection">delta CLTV</a>, taxas, HTLC min/max. Vi usuários brincando com essas configurações sem ter nenhum conhecimento básico sobre o que estão mudando. Isso torna muito difícil trabalhar com eles como pares. Ou pior ainda, se eles forem pares dos seus pares e você não souber o que eles fazem, isso afetará você indiretamente.</li>
+<li>Rebalanceamento obsessivo. Essa é outra história, que muitos abraçam e eu não entendo essa obsessão em rebalancear o tempo todo seus canais. Na minha humilde opinião, isso é idiota e inútil. Ele pode mover liquidez exatamente quando é necessário para um HTLC pendente. É inútil e não ajuda de forma alguma, mas piora com tráfego "falso" que não representa de forma alguma o tráfego real do LN. Em vez de fazer esse rebalanceamento, é melhor ajustar o HTLC mínimo/máximo, reduzi-lo para uma quantidade normal de uma tx e o usuário deve começar a <a href="https://lightning.engineering/posts/2020-05-07-mpp/">usar MPP</a> o tempo todo.</li>
+<li>Desabilitando canais. Ainda existem "ferramentas LN" por aí, scripts que desabilitam canais, se o canal específico "não for lucrativo" para rotear. Isso é idiota e improdutivo. É apenas fechar portas para possíveis rotas.</li>
+<li>Os usuários ainda não usam <a href="https://lightning.engineering/posts/2020-05-07-mpp/">MPP</a> como opção principal quando fazem pagamentos por LN. Isso faz com que os canais possam ser drenados muito rapidamente e também não usando rotas eficientes, os nós sempre terão que adaptar o tráfego com métodos diferentes (rebalanceamento, ajuste de taxas, ajuste de HTLC máximo, abertura de mais canais). O MPP não é apenas dividir o valor de um pagamento em muitas partes pequenas, mas também procurar a melhor rota para cada divisão. Um HTLC menor terá uma taxa mais rápida e melhor de encontrar um bom caminho do que uma grande quantidade.</li>
+<li>Encontrar caminho. Sim, esta é uma questão muito importante no LN e é principalmente devido a todos os aspectos mencionados acima.</li>
+</ul>
+<p><img src="/assets/images/change-my-mind-restart-node.jpg" class="center"></p>
+
+<h3 style="color:Yellow;">RECOMENDAÇÕES PARA NOVOS EXECUTORES DE NÓS PÚBLICOS DO LN</h3>
+<p>Então, como um novo usuário neste mundo fascinante da Lightning Network, o que você deve fazer:</p>
+<ul>
+<li>Antes de começar a executar um nó, pergunte a si mesmo: por que você precisa executar um nó LN completo? Como mencionei no guia sobre <a href="https://darthcoin.substack.com/p/umbrel-bitcoin-ln-node">Introdução ao Umbrel</a>, há uma lista de respostas lá que as pessoas devem considerar antes de começar a executar um nó.</li>
+<li>Se você quer apenas brincar com o LN e até mesmo ter um nó LN privado, NÃO HÁ NECESSIDADE de executar um nó de roteamento! Você pode facilmente executar sua <a href="/wallets/getting-started-blixt-wallet-en.html">Blixt Node Wallet</a> móvel ou <a href="/wallets/getting-started-zeus-wallet-en.html">Zeus Node wallet</a> com canais privados, sem necessidade de estar 100% online, gerenciamento total de seus canais, mais privado, fácil de gerenciar, sem necessidade de ter muitos fundos no LN. Veja mais <a href="/wallets/lightning-wallets-comparison-en.html">carteiras LN para celulares aqui</a> com todos os recursos detalhados e um <a href="/nodes/private-ln-nodes-en.html">guia dedicado para nós LN PRIVADOS aqui</a>.</li>
+<li>Se você quiser usar uma carteira LN de desktop, você pode facilmente usar o Electrum, funciona perfeitamente. Em breve, o Blixt também terá uma versão desktop, mais avançada e poderosa.</li>
+<li>Se você não é tão técnico e não gosta de ler documentação, é melhor não executar esses nós desktop/RPI. Você não está ajudando em nada a rede por não saber nada sobre LN e apenas manter um nó de merda na rede. Você está fazendo mais mal do que bem.</li>
+<li>Se você realmente quer executar um nó de roteamento desktop completo, então é melhor estar bem preparado: <a href="https://www.lightning-network.tech/">leia bastante toda a documentação disponível</a>, estude todos os tutoriais em vídeo, tenha preparado uma boa máquina forte para seu nó como mencionei <a href="/nodes/lightning-node-maintenance-en.html">neste guia dedicado para manutenção de nós</a>, observe proativamente seus pares e canais, mantenha um bom tráfego com taxas baixas e boas rotas. Pares que são difíceis de manter online, não os mantenha, estão dificultando suas rotas.</li>
+<li>Use hardware forte! É muito importante. Para nós com mais de 50-100 canais, uma máquina RPi está ficando realmente problemática, especialmente usando LND.</li>
+<li>Comece a usar o método de ajuste de HTLC máximo por canais, até um certo nível em que você veja que o tráfego de seus pares está indo bem em ambos os lados. <a href="/nodes/lightning-routing-fees-experiment-en.html">Como expliquei no outro guia aqui</a>. Isso ajudará muito a encontrar o caminho para as rotas e fará com que os sats fluam mais rápido pelo seu nó, passando pelos canais corretos, onde há liquidez suficiente indicada.</li>
+<li>Taxas altas não ajudarão você de forma alguma, mas piorarão as coisas. Nunca se conecte a nós com taxas altas. ISOLE-OS! Veja alguns exemplos desses nós idiotas com taxas altíssimas: <a href="https://amboss.space/node/028e9e578efe5f09f3edfd98ef0fad51007014401d8b7ff62236b89d6867529635">Sweet16Joe</a>, <a href="https://amboss.space/node/038f8f113c580048d847d6949371726653e02b928196bad310e3eda39ff61723f6">Magnetron</a> (carteira Muun) e muitos outros assim. Estamos aqui para foder os banqueiros, não para foder uns aos outros.</li>
+</ul>
+<figure>
+<img src="/assets/images/waiting-for-problem.jpg" class="center">
+<figcaption>Exemplo de usuário do Umbrel, que quer ser um "operador de nó" sem ideia do que está fazendo</figcaption>
+</figure>
+
+<h3 style="color:Yellow;">PEDIDOS PARA DESENVOLVEDORES LIGHTNING</h3>
+<p>Por favor, considere encontrar uma maneira de melhorar o código LN com esses aspectos. Esses pedidos não são apenas para desenvolvedores de implementação LN, mas também para gerenciar ferramentas e carteiras como Thunderhub, RTL, Zeus etc. Talvez seus objetivos sejam diferentes, mas por favor, pelo menos ouça o que os usuários dizem e solicitem:</p>
+<ul>
+<li>Adicione no código uma opção para não fechar um canal até uma certa altura de bloco, estabelecida por ambos os pares abrindo o canal. Temos hoje muitos mercados de canais, vendendo canais de liquidez, mas não há uma maneira simples de "bloquear" esses canais, para ser quase impossível fechá-los até um certo número de bloco. Isso também evitará trapaças nesses contratos de liquidez e também estabelecerá certas regras.</li>
+<li>Mude a maneira como o HTLC está acionando um fechamento forçado. Por que punir um nó que já estava roteando o HTLC, se o próximo par na rota é aquele que não cumpre o HTLC? Esses canais fechados à força são literalmente IDIOTAS, não fazem sentido e são caros. Ou pelo menos dê a chance ao par de manter o canal aberto e funcional e disputar de outra forma os HTLCs pendentes. Use um sistema de reservas, onde cada par depositará uma reserva primeiro. Isso fará com que os nós pensem duas vezes sobre quem e como eles abrirão os canais.</li>
+<li>Faça o protocolo de fofoca ser mais eficiente e confiável. É realmente doloroso ver que os pares estão literalmente online, você pode fazer ping neles, mas a fofoca está dizendo que o canal está offline. Isso faz com que muitos HTLC fiquem em estado pendente e até perdidos devido a não serem bem comunicados por meio da fofoca.</li>
+<li>Adicione uma opção simples para definir o HTLC máximo para um canal com base na liquidez desse canal para cada lado, anunciando literalmente o saldo quando um pagamento chegar ao nó. Sim, muitos dirão que isso "violará a privacidade", mas sejamos honestos, já temos muitas maneiras de encontrar o saldo de um canal, sem precisar se esconder atrás do dedo. Esses são nós de roteamento, que precisam anunciar muito bem a liquidez, não são nós privados. Agora mesmo descobri que apenas ajustando manualmente o HTLC máximo para um canal melhorou muito o tráfego, sem fazer nenhum rebalanceamento estúpido ou ajustar taxas com base na liquidez disponível. <a href="https://xcancel.com/zerofeerouting/status/1522226213439389697">Eu concordo totalmente com a proposta do nó ZFR aqui</a>.</li>
+<li>Adicione melhores opções para gerenciar rotas em canais específicos, com um conjunto de regras que podem ser facilmente gerenciadas pelo operador do nó. Exemplo: quero que todos os canais privados sejam roteados por canais públicos específicos. Ou para aplicativos LNDhub como Bluewallet e LNbits, gostaria de ter canais dedicados para serem usados. Sim, tentei muitas maneiras de definir taxas específicas, HTLC mínimo/máximo, mas não está funcionando bem.</li>
+<li>Adicione melhor suporte para nós somente Tor ou encontre outro protocolo para se comunicar de forma privada. O Tor é realmente não confiável para nós LN. Ele cria muitos problemas.</li>
+<li>Por que temos 3 implementações LN com 3 delta CLTV diferentes? Por que não são todos iguais? Como os usuários devem definir, com base em quais métricas? Vi alguns nós brincando com essas configurações padrão (CLN=34, LND=40, Eclair=144) e o roteamento está ficando maluco e até mesmo acabando com canais fechados à força. Por que não pode ser algo estável e confiável?</li>
+<li>deixe toda essa besteira de lado por um tempo, pare de adicionar "novos recursos e tokens inúteis" em cima do LN e concentre-se em fazer o LN funcionar melhor. Porque agora... ele não está funcionando bem. Está longe de ser uma rede de pagamento eficiente. E se não lidarmos com esses problemas, em breve teremos um projeto fracassado ou apenas tentando corrigir um patch após o outro.</li>
+<li>Para desenvolvedores do Umbrel em especial: por favor, não adicionem tantos aplicativos de bloatware! Os usuários estão apenas instalando-os apenas por curiosidade e carregando esses pequenos RPis com aplicativos inúteis. Concentre-se mais na parte de ter um nó LN forte e adicione opções importantes para gerenciar esse nó LN. Todos os aplicativos não relacionados a nós não são úteis e podem ser facilmente empacotados em outro conjunto de "servidores pessoais" se eles realmente quiserem usá-los. Não misture essas coisas! Eu sei que suas intenções são criar um "servidor pessoal soberano", mas não vai funcionar assim! Eu mesmo executo um nó Umbrel, mas apenas como um nó LN, nada mais. Todos os outros aplicativos eu os executo separadamente em outra máquina ou mesmo no meu Qnap NAS. Não preciso inchar meu nó com eles. Mas muitos novatos não conhecem esse aspecto. Melhor separar.</li>
+</ul>
+
+<h2 style="color:Orange;">CONCLUSÃO</h2>
+<p>Espero que este artigo abra muito mais olhos e faça as pessoas perceberem que ainda temos trabalho a fazer para melhorar o LN. Ainda temos tempo para consertá-lo e podemos começar com coisas simples: educação para novos usuários e consertar/melhorar o código do LN.</p>
+<p>Você pode reabrir um canal, mas os sats perdidos do fechamento forçado e da reabertura foram jogados em vão...</p>
+<p>E quando você começa a ter 4-5 FC / semana, você não vê isso como algo tão confiável para executar um nó de roteamento.</p>
+<p>Eu mesmo tenho 2 nós LN em execução e estou pensando em desligar totalmente um deles. Talvez ambos (CLN e LND) e apenas executarão um <a href="/wallets/getting-started-blixt-wallet-en.html">Blixt</a> ou <a href="/wallets/getting-started-zeus-wallet-en.html">Zeus</a> no desktop ou celular, de forma privada e não dou a mínima para todo o roteamento e ajuda à rede.</p>
+<p>Estou disposto a rotear de graça, mas pagar fechamentos forçados por erros de outros... não é aceitável./<
+<p>Começamos a construir uma rede de pagamento, mas outros do outro lado estão tentando fechá-la. Agora temos mercados de liquidez, compramos canais, mas se esses "contratos" não forem respeitados e estabelecidos com certas regras, ninguém dará a mínima e simplesmente fechará seus canais. A reputação não lhe dará de volta nenhum sats que você perdeu com esse fechamento forçado e a rede que você começou a construir e agora está perdida.</p>
+<p>Exemplo aqui, um vendedor que vendeu um canal e depois quis fechá-lo. Sim, o peer pode estar offline ou online. Mas você tem um contrato quando vendeu esse canal. E isso criará um precedente. As pessoas venderão canais para você e depois os fecharão. Todo o seu trabalho se foi.</p>
+<p><img src="/assets/images/question-inbound-channel.jpg" class="center"></p>
+<p>Sim, este vendedor está certo, está preocupado com o motivo pelo qual o peer está offline. Mas o contrato é um contrato. Deve ser respeitado.</p>
+<p>Também pode ser a porra da fofoca, que às vezes é muito louca, mostrando alguns peers offline, mas na verdade eles não estão.</p>
+<p>Eu mesmo estava em uma situação em que alguns dias seguidos, 3-4-5 peers apareceram offline (de 55 peers no total). Um deles era até mesmo meu outro nó CLN, que eu estava assistindo ao mesmo tempo e estava OK, online e bem. Então, a LND decidiu fechar a conexão com esses pares, sem motivo.</p>
+<p>Tentei me reconectar com os pares, alguns funcionaram, outros não. Entrei em contato com os pares, eles disseram que estão online e bem. Meu CLN incluído.</p>
+<p>Por que isso está acontecendo? Ninguém sabe ou tenta consertar. E a partir desse problema começam os outros problemas com HTLCs pendentes, depois fechamentos forçados.</p>
+<p>Estou levantando um AVISO aqui, agora, e talvez em alguns anos as pessoas se lembrem das minhas palavras.</p>
+<p>Se esse problema no LN, com canais fechados à força, não for corrigido de alguma forma, ou adicionar novas regras específicas no código, veremos uma enorme centralização em um punhado de grandes nós que lidarão com a liquidez, com taxas enormes.</p>
+<p>Ou talvez em alguns anos, veremos surgir um novo LN, o plebs LN, em paralelo, onde outro sistema de pagamento nascerá, mas que pode ser "atrelado" ao "LN centralizado" que está se formando hoje.</p>
+<p>No momento em que este artigo foi escrito, o LND lançou também a versão 0.15 e o CLN v0.11.1, corrigindo alguns problemas, mas ao mesmo tempo causando fechamentos forçados massivos para muitos nós.</p>
+<p>Como você pode ver aqui neste gráfico de https://bitcoinvisuals.com/ln-nodes:</p>
+<p><img src="/assets/images/bitcoin-visuals-drop-nodes.png" class="center"></p>
+<p>Muitos desses nós "desapareceram" do gráfico, são:</p>
+<ul>
+<li>nós que estão se movendo para nós "privados" (não anunciados, não públicos), não roteando mais ou roteando em privado.</li>
+<li>novatos percebendo que o modelo de "nó RPi com Umbrel" não traz "renda passiva" e eles simplesmente desistem</li>
+<li>muitos canais e operadores forçados que simplesmente desligam nós</li>
+</ul>
+<p><img src="/assets/images/have-spoken.gif" class="center"></p>
+<p><em>Nota: uma continuação deste artigo <a href="/beginner/getting-started-lightning-en.html">está aqui com um guia</a> sobre como usar o LN em 3 níveis</em></p>
+</body>
+</html>
+</article>
