@@ -56,8 +56,11 @@ image: /assets/images/lightning-cleaning-machine.jpg
 <li><a href="https://coinos.io/">CoinOS</a> - carteira LN web incrivelmente simples, com controle total e swaps onchain/LN e L-BTC/LN, opcional se você quiser trocar fundos entre Liquid e LN para ser outro passo em seu procedimento de mixagem.</li>
 <li><a href="https://bitbanana.app/">BitBanana</a> - pode ser usado de 2 maneiras, conectado ao seu próprio nó (como gerenciador de nó) ou como uma carteira de contas LNDHUB.</li>
 <li><a href="https://blixtwallet.com">Blixt mobile wallet</a> - é um aplicativo de carteira poderoso que usa LND + Neutrino no seu celular. Você pode abrir canais para seu nó e outros e usá-lo como um nó totalmente funcional em seu celular. Pode ser usado também como uma solução de backup para seu nó LN regular, ele suporta importação de carteira de outras sessões LND (mas não ao mesmo tempo, apenas em caso de SHTF).</li>
+<ul>
 <li><a href="/wallets/getting-started-blixt-wallet-pt.html">Aqui você tem uma apresentação detalhada sobre a carteira de nó Blixt</a>.</li>
 <li><a href="/nodes/public-private-node-liquidity-scenario-pt.html">Aqui você tem um caso de uso do nó Blixt como companheiro de outros 2 nós, em um processo de "limpeza"</a>.</li>
+<li><a href="https://blixtwallet.github.io/guides#guide-ism">Aqui escrevi um guia rápido sobre como usar a Carteira Blixt para "ISM - Máquina de gastos de infraestrutura"</a>.</li>
+</ul>
 <p><img src="/assets/images/blixt-washing-machine.jpg" class="center"></p>
 <li>Aplicativos de gerenciamento de nó RTL e Thunderhub LN com swaps integrados</li>
 <li>Qualquer outra carteira LN que você desejar e com a qual se sinta confortável. <a href="/beginner/getting-started-stack-sats-pt.html">Aqui eu escrevi outro guia</a> sobre como começar a usá-los, passo a passo. Sim, alguns deles são custodiais, mas isso não significa que também sejam invasivos de KYC. Os custodiais não KYC são um frontend de chamariz muito bom para seus nós privados.</li>
@@ -82,6 +85,22 @@ image: /assets/images/lightning-cleaning-machine.jpg
 <center>
 <iframe width="640" height="480" src="https://www.youtube.com/embed/toarjBSPFqI" title="Roteamento onion com HTLCs na Lightning Network explicado! - Iniciante / Especialistas" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 </center>
+
+<h4 style="color:Yellow;">CONSIDERAÇÕES GERAIS SOBRE CENÁRIOS</h4>
+<ul>
+<li>Você pode usar <a href="/nodes/private-ln-nodes-pt.html">nós LN privados</a></li> descartáveis
+<li>Você pode usar vários LSPs que podem "vender" canais LN de entrada. Isso significa que você não está usando seu UTXO para abrir os canais e também são canais taproot privados.</li>
+<li>Através de um único canal LN phat, você pode passar por sats infinitos sem fechá-lo. Isso significa que, através de um único canal, você pode "limpar" quantos sats quiser sem fechá-lo. Somente quando você fecha o canal, você deixa um rastro onchain.</li>
+</ul>
+<p>Pense nestes cenários simples, nos quais é impossível rastrear qualquer sats de entrada ou saída:</p>
+<p>CENÁRIO A</p>
+<p>Crie a fatura LN em qualquer nó LN privado --> use a fatura encapsulada com <a href="https://lnproxy.org/">lnproxy</a> --> troque para onchain.</p>
+<p>Cada uma dessas etapas terá de 2 a 3 saltos entre elas com roteamento onion.</p>
+<p>CENÁRIO B</p>
+<p>Inicie um nó LN anônimo <a href="https://rizful.com/">Rizful</a>. Sem KYC, sem informações privadas necessárias. Compre um canal privado de entrada do LSP deles ou de <a href="https://stacker.news/items/890432/r/DarthCoin">qualquer outro LSP</a>.</p>
+<p>Você pode vincular esse nó Rizful usando NWC a uma instância LNbits ou usar o aplicativo Zeus ou qualquer aplicativo NWC. Receba sats e troque para onchain usando os <a href="/nodes/lightning-submarine-swaps-pt.html">serviços de swap disponíveis</a>.</p>
+<p>CENÁRIO C</p>
+<p>Use o nó Zeus incorporado (você pode ter vários nós no mesmo aplicativo!) --> abra um canal LSP com a Olympus --> use faturas encapsuladas da Olympus (lnproxy) - troque para onchain.</p>
 
 <h4 style="color:Yellow;">1 - PREPARE O NÓ LN PÚBLICO</h4>
 <p>Este será seu LSP frontend. Se você não quiser que a liquidez deste nó seja dedicada ao roteamento, você pode ignorá-lo e usar qualquer outro LSP público. Às vezes é ainda melhor porque você pode comprar canais deles, sem usar nenhum dos seus UTXOs.</p>

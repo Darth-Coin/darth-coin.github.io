@@ -54,8 +54,11 @@ image: /assets/images/lightning-cleaning-machine.jpg
 <li><a href="https://coinos.io/">CoinOS</a> – erstaunlich einfaches Web-LN-Wallet mit vollständiger Kontrolle und Swaps onchain/LN und L-BTC/LN, optional, wenn Sie Guthaben zwischen Liquid und LN tauschen möchten, um einen weiteren Schritt in Ihrem Mischverfahren zu machen.</li>
 <li><a href="https://bitbanana.app/">BitBanana</a> – kann auf zwei Arten verwendet werden, verbunden mit Ihrem eigenen Knoten (als Knotenmanager) oder als Wallet für LNDHUB-Konten.</li>
 <li><a href="https://blixtwallet.com">Blixt Mobile Wallet</a> – ist eine leistungsstarke Wallet-App, die LND + Neutrino auf Ihrem Mobiltelefon verwendet. Sie können Kanäle zu Ihrem Knoten und anderen öffnen und ihn als voll funktionsfähigen Knoten auf Ihrem Mobiltelefon verwenden. Kann auch als Backup-Lösung für Ihren regulären LN-Knoten verwendet werden. Es unterstützt das Importieren von Wallets aus anderen LND-Sitzungen (aber nicht gleichzeitig, nur im SHTF-Fall).</li>
+<ul>
 <li><a href="/wallets/getting-started-blixt-wallet-de.html">Hier finden Sie eine ausführliche Präsentation zum Blixt-Knoten-Wallet</a>.</li>
 <li><a href="/nodes/public-private-node-liquidity-scenario-de.html">Hier finden Sie einen Anwendungsfall des Blixt-Knotens als Begleiter von 2 anderen Knoten in einem „Reinigungsprozess“</a>.</li>
+<li><a href="https://blixtwallet.github.io/guides#guide-ism">Hier habe ich eine Kurzanleitung zur Nutzung von Blixt Wallet für „ISM – Infrastructure Spending Machine“ geschrieben.</a></li>
+</ul>
 <p><img src="/assets/images/blixt-washing-machine.jpg" class="center"></p>
 <li>RTL- und Thunderhub-LN-Knotenverwaltungs-Apps mit integrierten Swaps</li>
 <li>Jedes andere LN-Wallet nach Wunsch und Sie sind vertraut damit. <a href="/beginner/getting-started-stack-sats-de.html">Hier habe ich eine weitere Anleitung geschrieben</a>, wie man Schritt für Schritt damit anfängt. Ja, einige von ihnen sind Depotbanken, aber das bedeutet nicht, dass sie auch KYC-invasiv sind. Die Depotbanken ohne KYC sind ein sehr gutes Täuschungs-Frontend für Ihre privaten Knoten.</li>
@@ -78,6 +81,23 @@ image: /assets/images/lightning-cleaning-machine.jpg
 <center>
 <iframe width="640" height="480" src="https://www.youtube.com/embed/toarjBSPFqI" title="Onion-Routing mit HTLCs im Lightning Network erklärt! - Anfänger / Experten" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 </center>
+
+<h4 style="color:Yellow;">ALLGEMEINE ÜBERLEGUNGEN ZU SZENARIEN</h4>
+<ul>
+<li>Sie können <a href="/nodes/private-ln-nodes-de.html">private LN-Knoten</a></li> verwenden.
+<li>Sie können mehrere LSPs nutzen, die Ihnen eingehende LN-Kanäle „verkaufen“. Das bedeutet, dass Sie Ihre UTXO nicht zum Öffnen der Kanäle verwenden und es sich gleichzeitig um private Taproot-Kanäle handelt.</li>
+<li>Über einen einzigen LN-Kanal können Sie endlose Sats passieren, ohne ihn zu schließen. Das bedeutet, dass Sie über einen einzigen Kanal beliebig viele Sats „reinigen“ können, ohne ihn zu schließen. Nur wenn Sie den Kanal schließen, hinterlassen Sie eine Onchain-Spur.</li>
+</ul>
+<p>Denken Sie an diese einfachen Szenarien, bei denen es unmöglich ist, Ein- oder Ausgangsdaten auf Sie zurückzuverfolgen:</p>
+<p>SZENARIO A</p>
+<p>Erstellen Sie die LN-Rechnung auf einem privaten LN-Knoten --> verwenden Sie eine umschlossene Rechnung mit <a href="https://lnproxy.org/">lnproxy</a> --> wechseln Sie zu Onchain.</p>
+<p>Jeder dieser Schritte umfasst 2–3 Hops mit Onion-Routing.</p>
+<p>SZENARIO B</p>
+<p>Starten Sie einen anonymen LN-Knoten <a href="https://rizful.com/">Rizful-Knoten</a>. Kein KYC, keine privaten Daten erforderlich. Kaufen Sie einen privaten Inbound-Kanal von Ihrem LSP oder <a href="https://stacker.news/items/890432/r/DarthCoin">einem anderen LSP</a>.</p>
+<p>Sie können diesen Rizful-Knoten über NWC mit einer LNbits-Instanz verknüpfen oder die Zeus-App oder eine beliebige NWC-App verwenden. Empfangen Sie Sats und tauschen Sie diese mit den <a href="/nodes/lightning-submarine-swaps-de.html">verfügbaren Swap-Diensten</a> in die Onchain.</p>
+<p>SZENARIO C</p>
+<p>Verwenden Sie den eingebetteten Zeus-Knoten (Sie können mehrere Knoten in derselben App haben!) --> öffnen Sie einen LSP-Kanal mit Olympus --> verwenden Sie Olympus-verpackte Rechnungen (lnproxy) - tauschen Sie in die Onchain.</p>
+
 <h4 style="color:Yellow;">1 - DEN ÖFFENTLICHEN LN-KNOTEN VORBEREITEN</h4>
 <p>Dies wird Ihr Frontend-LSP sein. Wenn Sie die Liquidität dieses Knotens nicht dem Routing widmen möchten, können Sie es überspringen und einen beliebigen anderen öffentlichen LSP verwenden. Manchmal ist es sogar besser, weil Sie Kanäle von ihnen kaufen können, ohne etwas von Ihrem UTXO zu verwenden.</p>
 <p><a href="/nodes/managing-lightning-node-liquidity-de.html">In dieser Anleitung</a> habe ich ausführlicher beschrieben, wie man einen öffentlichen LN-Knoten betreibt, welche Liquidität verwendet werden soll, welche Peers man zum Verbinden sucht usw., daher werde ich hier nicht näher darauf eingehen. Bitte lesen Sie diese Anleitung, wenn Sie einen öffentlichen LN-Knoten betreiben möchten, und wenn Sie Ihre Liquiditätsdienste für Familie und Freunde erweitern möchten, <a href="/merchants/private-banks-over-ln-de.html">lesen Sie auch diese</a>.</p>

@@ -54,8 +54,11 @@ image: /assets/images/lightning-cleaning-machine.jpg
 <li><a href="https://coinos.io/">CoinOS</a> - verbluffend eenvoudige web-LN-wallet, met volledige controle en swaps onchain/LN en L-BTC/LN, optioneel als u fondsen wilt swappen tussen Liquid en LN om een ​​volgende stap te zijn in uw mixprocedure.</li>
 <li><a href="https://bitbanana.app/">BitBanana</a> - kan op 2 manieren worden gebruikt, verbonden met uw eigen node (als nodemanager) of als een LNDHUB-accountwallet.</li>
 <li><a href="https://blixtwallet.com">Blixt mobiele wallet</a> - is een krachtige wallet-app die LND + Neutrino op uw mobiel gebruikt. U kunt kanalen openen naar uw knooppunt en andere knooppunten en deze gebruiken als een volledig functioneel knooppunt op uw mobiel. Kan ook worden gebruikt als een back-upoplossing voor uw normale LN-knooppunt, het ondersteunt het importeren van wallets van andere LND-sessies (maar niet tegelijkertijd, alleen in geval van SHTF).</li>
+<ul>
 <li><a href="/wallets/getting-started-blixt-wallet-nl.html">Hier vindt u een gedetailleerde presentatie over Blixt node wallet</a>.</li>
 <li><a href="/nodes/public-private-node-liquidity-scenario-nl.html">Hier vindt u een use case van Blixt node als metgezel van andere 2 nodes, in een "schoonmaak"-proces</a>.</li>
+<li><a href="https://blixtwallet.github.io/guides#guide-ism">Hier heb ik een korte handleiding geschreven over het gebruik van Blixt Wallet voor "ISM - Infrastructure spending machine"</a>.</li>
+</ul>
 <p><img src="/assets/images/blixt-washing-machine.jpg" class="center"></p>
 <li>RTL en Thunderhub LN node management-apps met ingebouwde swaps</li>
 <li>Elke andere LN-wallet die u wenst en waarmee u zich prettig voelt. <a href="/beginner/getting-started-stack-sats-nl.html">Hier heb ik een andere gids geschreven</a> over hoe je stap voor stap aan de slag kunt gaan met deze stacks. Ja, sommige zijn custodial, maar dat betekent niet dat ze ook KYC-invasief zijn. De non-KYC custodials zijn een erg goede decoy frontend voor je privé-nodes.</li>
@@ -80,6 +83,22 @@ image: /assets/images/lightning-cleaning-machine.jpg
 <center>
 <iframe width="640" height="480" src="https://www.youtube.com/embed/toarjBSPFqI" title="Onion Routing met HTLC's op het Lightning Network uitgelegd! - Beginners / Experts" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 </center>
+
+<h4 style="color:Yellow;">OVERWEGINGEN VOOR ALGEMENE SCENARIO'S</h4>
+<ul>
+<li>U kunt wegwerp <a href="/nodes/private-ln-nodes-nl.html">private LN-nodes</a></li> gebruiken.
+<li>U kunt meerdere LSP's gebruiken die u inkomende LN-kanalen kunnen "verkopen". Dit betekent dat u uw UTXO niet gebruikt om de kanalen te openen en ook privé taproot-kanalen hebt.</li>
+<li>Via één enkel phat LN-kanaal kunt u door eindeloze sats gaan, zonder het te sluiten. Dit betekent dat u via één kanaal zoveel sats kunt "opschonen" als u wilt, zonder het te sluiten. Alleen wanneer u het kanaal sluit, laat u een onchain trace achter.</li>
+</ul>
+<p>Denk aan deze eenvoudige scenario's, die onmogelijk te herleiden zijn tot uw in- of uitgaande satellieten:</p>
+<p>SCENARIO A</p>
+<p>Maak de LN-factuur aan op een privé LN-knooppunt --> gebruik een ingepakte factuur met <a href="https://lnproxy.org/">lnproxy</a> --> wissel naar onchain.</p>
+<p>Elk van deze stappen heeft 2-3 hops ertussen met onion routing.</p>
+<p>SCENARIO B</p>
+<p>Start een anoniem LN <a href="https://rizful.com/">Rizful-knooppunt</a>. Geen KYC, geen privégegevens vereist. Koop een inbound private channel van hun LSP of <a href="https://stacker.news/items/890432/r/DarthCoin">een andere LSP</a>.</p>
+<p>Je kunt die Rizful node via NWC koppelen aan een LNbits-instantie of de Zeus-app of een andere NWC-app gebruiken. Ontvang sats en wissel naar onchain met behulp van de <a href="/nodes/lightning-submarine-swaps-nl.html">beschikbare swapservices</a>.</p>
+<p>SCENARIO C</p>
+<p>Gebruik de embedded Zeus node (je kunt meerdere nodes in dezelfde app hebben!) --> open een LSP-kanaal met Olympus --> gebruik Olympus ingepakte facturen (lnproxy) - wissel naar onchain.</p>
 
 <h4 style="color:Yellow;">1 - BEREID DE PUBLIEKE LN NODE VOOR</h4>
 <p>Dit wordt uw frontend LSP. Als u niet wilt dat deze node liquiditeit is toegewezen aan routing, kunt u deze overslaan en een andere publieke LSP gebruiken. Soms is het zelfs beter omdat je kanalen van hen kunt kopen, zonder dat je een van je UTXO's hoeft te gebruiken.</p>

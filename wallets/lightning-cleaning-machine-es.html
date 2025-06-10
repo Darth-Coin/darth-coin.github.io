@@ -54,8 +54,11 @@ image: /assets/images/lightning-cleaning-machine.jpg
 <li><a href="https://coinos.io/">CoinOS</a>: una billetera web LN increíble y simple, con control total e intercambios onchain/LN y L-BTC/LN, opcional si desea intercambiar fondos entre Liquid y LN para ser otro paso en su procedimiento de mezcla.</li>
 <li><a href="https://bitbanana.app/">BitBanana</a>: se puede usar de 2 maneras, conectado a su propio nodo (como administrador de nodos) o como billetera de cuentas LNDHUB.</li>
 <li><a href="https://blixtwallet.com">Billetera móvil Blixt</a>: es una aplicación de billetera poderosa que usa LND + Neutrino en su dispositivo móvil. Puede abrir canales hacia su nodo y otros y usarlo como un nodo completamente funcional en su dispositivo móvil. También se puede utilizar como una solución de respaldo para su nodo LN habitual, admite la importación de billeteras desde otras sesiones LND (pero no al mismo tiempo, solo en caso de SHTF).</li>
+<ul>
 <li><a href="/wallets/getting-started-blixt-wallet-es.html">Aquí tiene una presentación detallada sobre la billetera del nodo Blixt</a>.</li>
 <li><a href="/nodes/public-private-node-liquidity-scenario-es.html">Aquí tiene un caso de uso del nodo Blixt como compañero de otros 2 nodos, en un proceso de "limpieza"</a>.</li>
+<li><a href="https://blixtwallet.github.io/guides#guide-ism">Aquí escribí una guía rápida sobre cómo usar Blixt Wallet para "ISM - Máquina de gastos de infraestructura"</a>.</li>
+</ul>
 <p><img src="/assets/images/blixt-washing-machine.jpg" class="center"></p>
 <li>Aplicaciones de gestión de nodos LN RTL y Thunderhub con swaps integrados</li>
 <li>Cualquier otra billetera LN que desee y con la que se sienta cómodo. <a href="/beginner/getting-started-stack-sats-es.html">Aquí escribí otra guía</a> sobre cómo comenzar a utilizarlos, paso a paso. Sí, algunos de ellos son de custodia, pero eso no significa que también sean invasivos de KYC. Los de custodia sin KYC son una muy buena interfaz de señuelo para sus nodos privados.</li>
@@ -80,6 +83,22 @@ image: /assets/images/lightning-cleaning-machine.jpg
 <center>
 <iframe width="640" height="480" src="https://www.youtube.com/embed/toarjBSPFqI" title="¡Explicación del enrutamiento de cebolla con HTLC en la red Lightning! - Principiante / Expertos" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 </center>
+
+<h4 style="color:Yellow;">CONSIDERACIONES GENERALES PARA ESCENARIOS</h4>
+<ul>
+<li>Puede usar nodos LN privados desechables <a href="/nodes/private-ln-nodes-es.html">desechables</a></li>
+<li>Puede usar múltiples LSP que puedan "vender" sus canales LN entrantes. Esto significa que no está usando su UTXO para abrir los canales y que también son canales raíz privados.</li>
+<li>A través de un solo canal LN potente, puede pasar por un número infinito de sats sin cerrarlo. Esto significa que, a través de un solo canal, puede "limpiar" todos los sats que desee sin cerrarlo. Solo al cerrar el canal se deja un rastro en la cadena.</li>
+</ul>
+<p>Piensa en estos escenarios simples, donde es imposible rastrear cualquier entrada o salida:</p>
+<p>ESCENARIO A</p>
+<p>Crea la factura de LN en cualquier nodo privado de LN --> usa la factura envuelta con <a href="https://lnproxy.org/">lnproxy</a> --> cambia a la cadena.</p>
+<p>Cada uno de estos pasos tendrá de 2 a 3 saltos intermedios con enrutamiento cebolla.</p>
+<p>ESCENARIO B</p>
+<p>Inicia un <a href="https://rizful.com/">nodo Rizful</a> de LN anónimo. Sin KYC, no se requiere información privada. Compra un canal privado entrante de su proveedor de servicios de red (LSP) o de <a href="https://stacker.news/items/890432/r/DarthCoin">cualquier otro LSP</a>.</p>
+<p>Puedes vincular ese nodo Rizful mediante NWC a una instancia de LNbits, o usar la aplicación Zeus o cualquier aplicación de NWC. Recibe sats e intercambia en la cadena utilizando los <a href="/nodes/lightning-submarine-swaps-es.html">servicios de intercambio disponibles</a>.</p>
+<p>ESCENARIO C</p>
+<p>Usa un nodo integrado de Zeus (¡puedes tener varios nodos en la misma aplicación!) --> abre un canal LSP con Olympus --> usa facturas envueltas de Olympus (lnproxy) para intercambiar en la cadena.</p>
 
 <h4 style="color:Yellow;">1 - PREPARAR EL NODO PÚBLICO LN</h4>
 <p>Este será su LSP de interfaz. Si no desea que la liquidez de este nodo se dedique al enrutamiento, puede omitirlo y utilizar cualquier otro LSP público. A veces es incluso mejor porque puedes comprarles canales sin usar ninguno de tus UTXO.</p>

@@ -54,8 +54,11 @@ image: /assets/images/lightning-cleaning-machine.jpg
 <li><a href="https://coinos.io/">CoinOS</a> - sorprendente portafoglio web LN semplice, con controllo completo e swap onchain/LN e L-BTC/LN, facoltativo se vuoi scambiare fondi tra Liquid e LN per essere un altro passaggio nella tua procedura di mixaggio.</li>
 <li><a href="https://bitbanana.app/">BitBanana</a> - può essere utilizzato in 2 modi, connesso al tuo nodo (come gestore nodo) o come portafoglio account LNDHUB.</li>
 <li><a href="https://blixtwallet.com">Portafoglio mobile Blixt</a> - è una potente app portafoglio che utilizza LND + Neutrino sul tuo cellulare. Puoi aprire canali verso il tuo nodo e altri e utilizzarlo come nodo completamente funzionale sul tuo dispositivo mobile. Può essere utilizzato anche come soluzione di backup per il tuo nodo LN regolare, supporta l'importazione di wallet da altre sessioni LND (ma non contemporaneamente, solo in caso di SHTF).</li>
+<ul>
 <li><a href="/wallets/getting-started-blixt-wallet-it.html">Qui hai una presentazione dettagliata del portafoglio del nodo Blixt</a>.</li>
 <li><a href="/nodes/public-private-node-liquidity-scenario-it.html">Qui hai un caso d'uso del nodo Blixt come compagno di altri 2 nodi, in un processo di "pulizia"</a>.</li>
+<li><a href="https://blixtwallet.github.io/guides#guide-ism">Qui ho scritto una guida rapida su come utilizzare Blixt Wallet per "ISM - Macchina per la spesa infrastrutturale"</a>.</li>
+</ul>
 <p><img src="/assets/images/blixt-washing-machine.jpg" class="center"></p>
 <li>App di gestione dei nodi LN RTL e Thunderhub con swap integrati</li>
 <li>Qualsiasi altro portafoglio LN che desideri e con cui ti trovi a tuo agio. <a href="/beginner/getting-started-stack-sats-it.html">Qui ho scritto un'altra guida</a> su come iniziare a usarli, passo dopo passo. Sì, alcuni di loro sono di custodia, ma ciò non significa che siano anche invasivi per KYC. I custodial non KYC sono un ottimo frontend esca per i tuoi nodi privati.</li>
@@ -80,6 +83,22 @@ image: /assets/images/lightning-cleaning-machine.jpg
 <center>
 <iframe width="640" height="480" src="https://www.youtube.com/embed/toarjBSPFqI" title="Routing onion con HTLC sulla Lightning Network spiegato! - Principiante / Esperti" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 </center>
+
+<h4 style="color:Yellow;">CONSIDERAZIONI GENERALI SUGLI SCENARI</h4>
+<ul>
+<li>È possibile utilizzare <a href="/nodes/private-ln-nodes-it.html">nodi LN privati</a></li>
+<li>È possibile utilizzare più LSP che possono "venderti" canali LN in entrata. Ciò significa che non stai utilizzando il tuo UTXO per aprire i canali e che si tratta di canali privati ​​di root.</li>
+<li>Attraverso un singolo canale LN di tipo phat puoi attraversare un numero infinito di satelliti, senza chiuderlo. Ciò significa che attraverso un singolo canale puoi "pulire" tutti i satelliti che desideri, senza chiuderlo. Solo quando chiudi il canale lasci una traccia onchain.</li>
+</ul>
+<p>Pensa a questi semplici scenari, in cui è impossibile risalire a te da qualsiasi sat in entrata o in uscita:</p>
+<p>SCENARIO A</p>
+<p>Crea la fattura LN su qualsiasi nodo LN privato --> usa la fattura incapsulata con <a href="https://lnproxy.org/">lnproxy</a> --> passa alla onchain.</p>
+<p>Ognuno di questi passaggi avrà 2-3 hop intermedi con routing onion.</p>
+<p>SCENARIO B</p>
+<p>Avvia un <a href="https://rizful.com/">nodo Rizful</a> LN anonimo. Nessun KYC, nessuna informazione privata richiesta. Acquista un canale privato in entrata dal loro LSP o da <a href="https://stacker.news/items/890432/r/DarthCoin">qualsiasi altro LSP</a>.</p>
+<p>Puoi collegare quel nodo Rizful tramite NWC a un'istanza LNbits oppure utilizzare l'app Zeus o qualsiasi app NWC. Ricevi satelliti ed effettua lo swap su onchain utilizzando i <a href="/nodes/lightning-submarine-swaps-it.html">servizi di swap disponibili</a>.</p>
+<p>SCENARIO C</p>
+<p>Utilizza il nodo Zeus embedded (puoi avere più nodi nella stessa app!) --> apri un canale LSP con Olympus --> utilizza le fatture Olympus wrapper (lnproxy) - effettua lo swap su onchain.</p>
 
 <h4 style="color:Yellow;">1 - PREPARA IL NODO LN PUBBLICO</h4>
 <p>Questo sarà il tuo LSP frontend. Se non vuoi che la liquidità di questo nodo sia dedicata al routing, puoi saltarlo e utilizzare qualsiasi altro LSP pubblico. A volte è anche meglio perché puoi acquistare canali da loro, senza usare nessuno dei tuoi UTXO.</p>

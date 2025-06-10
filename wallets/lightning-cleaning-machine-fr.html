@@ -56,8 +56,11 @@ Certains utilisateurs se concentrent uniquement sur l'achat de BTC et le HODL, e
 <li><a href="https://coinos.io/">CoinOS</a> - un portefeuille Web LN incroyablement simple, avec un contrôle total et des échanges onchain/LN et L-BTC/LN, en option si vous souhaitez échanger des fonds entre Liquid et LN pour être une autre étape dans votre procédure de mixage.</li>
 <li><a href="https://bitbanana.app/">BitBanana</a> - peut être utilisé de 2 manières, connecté à votre propre nœud (en tant que gestionnaire de nœuds) ou en tant que portefeuille de comptes LNDHUB.</li>
 <li><a href="https://blixtwallet.com">Blixt mobile wallet</a> - est une puissante application de portefeuille utilisant LND + Neutrino sur votre mobile. Vous pouvez ouvrir des canaux vers votre nœud et d'autres et l'utiliser comme nœud entièrement fonctionnel sur votre mobile. Peut également être utilisé comme solution de sauvegarde pour votre nœud LN habituel, il prend en charge l'importation de portefeuilles à partir d'autres sessions LND (mais pas en même temps, uniquement en cas de SHTF).</li>
+<ul>
 <li><a href="/wallets/getting-started-blixt-wallet-fr.html">Voici une présentation détaillée du portefeuille de nœuds Blixt</a>.</li>
 <li><a href="/nodes/public-private-node-liquidity-scenario-fr.html">Voici un cas d'utilisation du nœud Blixt en tant que compagnon de 2 autres nœuds, dans un processus de « nettoyage »</a>.</li>
+<li><a href="https://blixtwallet.github.io/guides#guide-ism">J'ai rédigé ici un guide rapide expliquant comment utiliser Blixt Wallet pour « ISM - Infrastructure spending machine »</a>.</li>
+</ul>
 <p><img src="/assets/images/blixt-washing-machine.jpg" class="center"></p>
 <li>Applications de gestion de nœuds LN RTL et Thunderhub avec swaps intégrés</li>
 <li>Tout autre portefeuille LN selon vos souhaits et avec lequel vous êtes à l'aise. <a href="/beginner/getting-started-stack-sats-fr.html">Ici, j'ai écrit un autre guide</a> sur la façon de démarrer avec eux, étape par étape. Oui, certains d'entre eux sont dépositaires, mais cela ne signifie pas qu'ils sont également invasifs KYC. Les dépositaires non KYC sont une très bonne interface de leurre pour vos nœuds privés.</li>
@@ -82,6 +85,22 @@ Certains utilisateurs se concentrent uniquement sur l'achat de BTC et le HODL, e
 <center>
 <iframe width="640" height="480" src="https://www.youtube.com/embed/toarjBSPFqI" title="Routage en oignon avec HTLC sur le réseau Lightning expliqué ! - Débutant/Experts" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 </center>
+
+<h4 style="color:Yellow;">CONSIDÉRATIONS GÉNÉRALES SUR LES SCÉNARIOS</h4>
+<ul>
+<li>Vous pouvez utiliser des <a href="/nodes/private-ln-nodes-fr.html">nœuds LN privés</a></li>
+<li>Vous pouvez utiliser plusieurs LSP pour vous « vendre » des canaux LN entrants. Cela signifie que vous n'utilisez pas votre UTXO pour ouvrir les canaux et que ce sont également des canaux privés à racine pivotante.</li>
+<li>Un seul canal LN de grande taille permet de transmettre un nombre illimité de satellites sans le fermer. Cela signifie qu'un seul canal peut « nettoyer » autant de satellites que vous le souhaitez sans le fermer. Ce n'est qu'en fermant le canal que vous laissez une trace onchain.</li>
+</ul>
+<p>Imaginez ces scénarios simples, où il est impossible de remonter jusqu'à vous pour les sats entrants ou sortants :</p>
+<p>SCÉNARIO A</p>
+<p>Créez la facture LN sur un nœud LN privé --> utilisez une facture encapsulée avec <a href="https://lnproxy.org/">lnproxy</a> --> transférez vers onchain.</p>
+<p>Chacune de ces étapes comporte 2 à 3 sauts avec routage en oignon.</p>
+<p>SCÉNARIO B</p>
+<p>Démarrez un nœud LN anonyme <a href="https://rizful.com/">nœud Rizful</a>. Aucun KYC, aucune information privée requise. Achetez un canal privé entrant auprès de leur LSP ou de <a href="https://stacker.news/items/890432/r/DarthCoin">tout autre LSP</a>.</p>
+<p>Vous pouvez relier ce nœud Rizful à une instance LNbits via NWC, ou utiliser l'application Zeus ou toute autre application NWC. Recevez des sats et effectuez des swaps sur la chaîne grâce aux <a href="/nodes/lightning-submarine-swaps-fr.html">services d'échange disponibles</a>.</p>
+<p>SCÉNARIO C</p>
+<p>Utilisez un nœud intégré Zeus (vous pouvez avoir plusieurs nœuds dans la même application !) --> ouvrez un canal LSP avec Olympus --> utilisez les factures encapsulées Olympus (lnproxy) - swaps sur la chaîne.</p>
 
 <h4 style="color:Yellow;">1 - PRÉPARER LE NŒUD LN PUBLIC</h4>
 <p>Celui-ci sera votre LSP frontal. Si vous ne souhaitez pas que la liquidité de ce nœud soit dédiée au routage, vous pouvez l'ignorer et utiliser n'importe quel autre LSP public. Parfois, c'est encore mieux, car vous pouvez acheter des canaux auprès d'eux, sans utiliser aucun de vos UTXO.</p>

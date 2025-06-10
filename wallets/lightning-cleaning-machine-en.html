@@ -56,8 +56,11 @@ image: /assets/images/lightning-cleaning-machine.jpg
 <li><a href="https://coinos.io/">CoinOS</a> - amazing simple web LN wallet, with full control and swaps onchain/LN and L-BTC/LN, optional if you want to swap funds between Liquid and LN to be another step into your mixing procedure.</li>
 <li><a href="https://bitbanana.app/">BitBanana</a> - can be used in 2 ways, connected to your own node (as node manager) or as a LNDHUB accounts wallet.</li>
 <li><a href="https://blixtwallet.com">Blixt mobile wallet</a> - is a powerful wallet app using LND + Neutrino on your mobile. You can open channels towards your node and others and use it as full functional node on your mobile. Can be used also as a backup solution for your regular LN node, it supports importing wallet from other LND sessions (but not in the same time, only in case of SHTF).</li>
+<ul>
 <li><a href="/wallets/getting-started-blixt-wallet-en.html">Here you have a detailed presentation about Blixt node wallet</a>.</li>
 <li><a href="/nodes/public-private-node-liquidity-scenario-en.html">Here you have a use case of Blixt node as companion of other 2 nodes, in a “cleaning” process</a>.</li>
+<li><a href="https://blixtwallet.github.io/guides#guide-ism">Here I wrote a quick guide how to use Blixt Wallet for "ISM - Infrastructure spending machine"</a>.</li>
+</ul>
 <p><img src="/assets/images/blixt-washing-machine.jpg" class="center"></p>
 <li>RTL and Thunderhub LN node management apps with built-in swaps</li>
 <li>Any other LN wallet as you wish and you are comfortable with. <a href="/beginner/getting-started-stack-sats-en.html">Here I wrote another guide</a> about how to get started with them, step-by-step. Yes, some of them are custodial, but that doesn’t mean are also KYC invasive. The non-KYC custodials are a very good decoy frontend for your private nodes.</li>
@@ -82,6 +85,22 @@ image: /assets/images/lightning-cleaning-machine.jpg
 <center>
 <iframe width="640" height="480" src="https://www.youtube.com/embed/toarjBSPFqI" title="Onion Routing with HTLCs on the Lightning Network explained! - Beginner / Experts" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 </center>
+
+<h4 style="color:Yellow;">GENERAL SCENARIOS CONSIDERATIONS</h4>
+<ul>
+    <li>You can use disposable <a href="/nodes/private-ln-nodes-en.html">private LN nodes</a></li>
+    <li>You can use multiple LSP that can "sell" you inbound LN channels. That mean you are not using your UTXO to open the channels and also are private taproot channels.</li>
+    <li>Through a single phat LN channel you can pass through endless sats, without closing it. That means that through a single channel you could "clean" as much sats you want, without closing it. Only when you close the channel you leave an onchain trace.</li>
+</ul>
+<p>Think about these simple scenarios, that is impossible to trace back to you any in or out sats:</p>
+<p>SCENARIO A</p>
+<p>Create the LN invoice on any private LN node --> use wrapped invoice with <a href="https://lnproxy.org/">lnproxy</a> --> swap to onchain.</p>
+<p>Each of these steps will have 2-3 hops in between with onion routing.</p>
+<p>SCENARIO B</p>
+<p>Start an anon LN <a href="https://rizful.com/">Rizful node</a>. No KYC, no private info required. Buy an inbound private channel from their LSP or <a href="https://stacker.news/items/890432/r/DarthCoin">any other LSP</a>.</p>
+<p>You can link that Rizful node using NWC to a LNbits instance or use Zeus app or any NWC app. Receive sats and swap to onchain using the <a href="/nodes/lightning-submarine-swaps-en.html">swap services availablez</a>.</p>
+<p>SCENARIO C</p>
+<p>Use Zeus embedded node (you can have multiple nodes in the same app !) --> open a LSP channel with Olympus --> use Olympus wrapped invoices (lnproxy) - swaps to onchain.</p>
 
 <h4 style="color:Yellow;">1 - PREPARE THE PUBLIC LN NODE</h4>
 <p>This one will be your frontend LSP. If you do not want to have this node liquidity dedicated to routing, you can skip it and use any other public LSP. Sometimes is even better because you can buy channels from them, without using any of your UTXO.</p>
