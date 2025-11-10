@@ -22,7 +22,7 @@ image: /assets/images/zeus-intro-logo.jpg
 <a href="/wallets/getting-started-zeus-wallet-hi.html"><img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
 </center>
 <em><blockquote style="color:Tomato;">
-<p>Oorspronkelijk gepost op <a href="https://darthcoin.substack.com/p/getting-started-zeus-mobile">Substack</a> op 5 feb. 2024. Hier bijgewerkt op 14 maart 2025</p>
+<p>Oorspronkelijk gepost op <a href="https://darthcoin.substack.com/p/getting-started-zeus-mobile">Substack</a> op 5 feb. 2024. Hier bijgewerkt op 10 november 2025</p>
 <p>Deze gids is een viering van het 5-jarig bestaan ​​van de Zeus LN-app, <a href="https://github.com/ZeusLN/zeus/releases/tag/v0.0.1">de eerste release v0.0.1 was op 19 feb. 2019</a>, 5 jaar van voortdurende verbeteringen en toewijding aan de self-custody FOSS-app voor bitcoiners. Een geweldige reis voor een zeer krachtige mobiele app, die zijn plaats aan de top van de Bitcoin-bouwers verdient. Ik zou kunnen zeggen dat je geen echte bitcoiner bent als je Zeus niet op je mobiele apparaat hebt geïnstalleerd. Dank aan Evan Kaloudis!</p>
 </em></blockquote>
 
@@ -34,6 +34,8 @@ image: /assets/images/zeus-intro-logo.jpg
 <h3>Korte samenvatting van de belangrijkste functies voor Zeus Node:</h3>
 <ul>
 <li><strong style="color:Tomato;">Privé LND-knooppunt</strong> - Dat betekent dat dit knooppunt GEEN openbare routering van betalingen van anderen via uw knooppunt zal uitvoeren. Het knooppunt en de kanalen zijn onaangekondigd (privé, niet zichtbaar op de openbare LN-grafiek). Het ontvangen en uitvoeren van betalingen gebeurt via uw verbonden LSP-peers. ONTHOUD: Zeus Embedded Node zal GEEN openbare routering uitvoeren!</li>
+<li><strong style="color:Tomato;">Toegang op afstand tot uw thuis-LN-node</strong> - samen met de ingebouwde LND-node kunt u nog steeds toegang krijgen tot een externe LN-node (LND, CLN).</li>
+<li><strong style="color:Tomato;">Meerdere LNDHUB-, NWC-accounts</strong> - optioneel kunt u meerdere LNDHUB- of NWC-accounts koppelen en deze gebruiken als elke andere LN-wallet.</li>
 <li><strong style="color:Tomato;">Persistente LND-service</strong> - de gebruiker kan deze functie activeren en de LND-service continu actief houden, net als elk normaal LN-knooppunt. De app hoeft niet open te zijn, de persistente service houdt alle communicatie online.</li>
 <li><strong style="color:Tomato;">Neutrino block filters</strong> - block sync wordt gedaan met behulp van <a href="https://bitcoinops.org/en/topics/compact-block-filters/">block filters en het Neutrino protocol</a> (geen informatie over de on-chain fondsen van onze gebruikers). Herinnering: voor hoge latentie / trage internetverbindingen kan deze block sync op basis van neutrino soms mislukken. Proberen over te schakelen naar een nabije neutrino server kan helpen de synchronisatie te herstellen. Zonder deze synchronisatie kon uw LND-knooppunt niet starten!</li>
 <li><strong style="color:Tomato;">Eenvoudige Taproot-kanalen</strong> - Wanneer u deze kanalen sluit, betalen gebruikers minder kosten en krijgen ze meer privacy, omdat ze lijken te houden van elke andere Taproot-uitgave bij het onderzoeken van hun on-chain footprint.</li>
@@ -43,6 +45,8 @@ image: /assets/images/zeus-intro-logo.jpg
 <li><strong style="color:Tomato;">Kassa</strong> - Nu kunnen handelaars hun eigen productartikelen instellen en rechtstreeks vanuit Zeus verkopen, met geïntegreerde PoS. Bevat op dit moment basisbehoeften, maar zal in de toekomst uitgebreide functies bevatten.</li>
 <li><strong style="color:Tomato;">LND-logs</strong> - de gebruiker kan de LND-servicelogs in realtime lezen en gebruiken om mogelijke problemen te debuggen (vooral voor slechte verbindingen)</li>
 <li><strong style="color:Tomato;">Geautomatiseerde back-ups</strong> - de LN-knooppuntkanalen worden automatisch geback-upt op de Olympus-server. Deze geautomatiseerde back-up wordt gecodeerd met uw node-wallet-seed (zonder de seed is het totaal nutteloos). De gebruiker kan ook handmatig een SCB (static channels backup) exporteren voor een noodherstel.</li>
+<li><strong style="color:Tomato;">Ecash cashu wallet</strong> - samen met de ingebouwde LND-node kunt u ook een cashu wallet hebben die gebruikt kan worden zonder dat er een LN-kanaal openstaat.</li>
+<li><strong style="color:Tomato;">Swap service onchain / LN</strong> - nu kunt u meerdere swap services binnen Zeus gebruiken, wanneer u een leeg kanaal wilt aanvullen of wilt omwisselen naar onchain geaccumuleerde cashu tokens.</li>
 </ul>
 <hr style="height:2px">
 
@@ -209,16 +213,27 @@ image: /assets/images/zeus-intro-logo.jpg
 <p>In deze sectie worden meer details weergegeven over de algemene status van het Lightning-netwerk, geëxtraheerd uit uw grafieksynchronisatiegegevens: aantal beschikbare openbare kanalen, aantal knooppunten, aantal zombiekanalen (offline of dood), grafiekdiameter, gemiddelde en maximale uitstapgraad voor de grafiek.</p>
 <p>Deze informatiegegevens kunnen nuttig zijn om te debuggen of gewoon te gebruiken voor statistieken.</p>
 
-<h3 style="color:Orange;">F - Lightning-adres</h3>
+<h3 style="color:Orange;">F - Cashu Mints</h3>
+<p>In dit gedeelte kunt u de cashu mints beheren die u voor uw cashu wallet wilt gebruiken. Ik zal niet te veel ingaan op technische details, maar hier vindt u een uitstekende demovideo over het activeren en gebruiken van de cashu wallet.</p>
+<center>
+<video width="320" height="640" controls>
+<source src="/assets/media/zeus-cashu.mp4" type="video/mp4">
+</video>
+</center>
+
+<h3 style="color:Orange;">G - Lightning-adres</h3>
 <p>In dit gedeelte kan de gebruiker zijn eigen self-custody LN-adres @zeuspay.com instellen.</p>
 <p>ZEUS PAY maakt gebruik van door de gebruiker gegenereerde preimage-hashes, hodl-facturen en het Zaplocker Nostr-attestatieschema om gebruikers die mogelijk niet 24/7 online zijn, betalingen te laten ontvangen op een statisch lightning-adres. Gebruikers hoeven alleen maar binnen 24 uur in te loggen op hun ZEUS-wallets om de betalingen te claimen, anders worden ze teruggestuurd naar de afzender.</p>
 <p>Als u de "persistent mode" activeert, worden alle betalingen naar uw LN-adres direct ontvangen.</p>
 <p>Lees hier hoe <a href="https://github.com/supertestnet/zaplocker#how-it-works">Zaplocker</a>-betalingen werken en meer over <a href="https://docs.zeusln.app/lightning-address/fees">ZeusPay Fees</a>.</p>
 
-<h3 style="color:Orange;">G - Onchain-adressen</h3>
+<h3 style="color:Orange;">H - Swaps</h3>
+<p>Deze sectie biedt een eenvoudige, geïntegreerde manier om geld van je LN-kanalen en Cashu-wallet te swappen naar elk onchainn-adres (intern Zeus of extern vanuit een andere wallet naar keuze).</p>
+
+<h3 style="color:Orange;">I - Onchain-adressen</h3>
 <p>In deze sectie kunt u uw gegenereerde onchain-adressen raadplegen voor een betere controle over munten</p>
 
-<h3 style="color:Orange;">H - Contacten</h3>
+<h3 style="color:Orange;">J - Contacten</h3>
 <p>Er is een nieuw contactenboek geïntroduceerd in Zeus v 0.8.0 die u kunt gebruiken om snel betalingen te sturen naar uw vrienden en familie, ook met de mogelijkheid om uw contacten te importeren van Nostr.</p>
 <p>Voer gewoon uw Nostr npub of menselijk leesbare NIP-05 adres in, en ZEUS zal Nostr raadplegen voor al uw contacten. Vanaf daar kunt u een snelle betaling naar een contactpersoon sturen, of alle of geselecteerde contactpersonen importeren naar uw lokale contactboek./<
 <p>Hier is een korte video over hoe u uw Zeus-contactpersonen configureert en gebruikt:</p>
@@ -228,7 +243,7 @@ image: /assets/images/zeus-intro-logo.jpg
 </video>
 </center>
 
-<h3 style="color:Orange;">I - Tools</h3>
+<h3 style="color:Orange;">K - Tools</h3>
 <p>Hier hebben we verschillende subsecties met meer tools:</p>
 <ol>
 <li><em style="color:Tomato;">Accounts</em> - hier kunt u externe accounts/wallets, cold wallets, hot wallets importeren om te beheren of te gebruiken als externe financieringsbron voor uw Zeus-knooppuntkanalen. Deze functie is nog experimenteel.</li>
@@ -242,10 +257,10 @@ image: /assets/images/zeus-intro-logo.jpg
 <li><em style="color:Tomato;">Valutaconverter</em> - een eenvoudige tool om de wisselkoers tussen BTC en andere fiatvaluta's te berekenen.</li>
 </ol>
 
-<h3 style="color:Orange;">J - Merch en ondersteuning</h3>
+<h3 style="color:Orange;">L - Merch en ondersteuning</h3>
 <p>Hier vindt u meer informatie en links over Zeus, online winkel, sponsors, sociale media.</p>
 
-<h3 style="color:Orange;">K - Help</h3>
+<h3 style="color:Orange;">M - Help</h3>
 <p>In dit laatste gedeelte vindt u links naar de Zeus-documentatiepagina, Github-problemen (als u een bug of verzoek rechtstreeks aan app-ontwikkelaars wilt posten), e-mailondersteuning.</p>
 <hr style="height:2px">
 

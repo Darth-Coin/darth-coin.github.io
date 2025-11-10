@@ -22,7 +22,7 @@ image: /assets/images/zeus-intro-logo.jpg
 <a href="/wallets/getting-started-zeus-wallet-hi.html"><img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
 </center>
 <em><blockquote style="color:Tomato;">
-<p>Pubblicato originariamente su <a href="https://darthcoin.substack.com/p/getting-started-zeus-mobile">Substack</a> il 05/02/2024. Aggiornato qui il 14 marzo 2025</p>
+<p>Pubblicato originariamente su <a href="https://darthcoin.substack.com/p/getting-started-zeus-mobile">Substack</a> il 05/02/2024. Aggiornato qui il 10 novembre 2025</p>
 <p>Questa guida celebra i 5 anni di esistenza dell'app Zeus LN, <a href="https://github.com/ZeusLN/zeus/releases/tag/v0.0.1">la sua prima versione v0.0.1 è stata il 19/02/2019</a>, 5 anni di continui miglioramenti e dedizione all'app FOSS auto-custodita per i bitcoiner. Un viaggio incredibile per un'app mobile molto potente, che merita il suo posto in cima ai costruttori di Bitcoin. Potrei dire che non sei un vero bitcoiner se non hai installato Zeus sul tuo dispositivo mobile. Grazie a Evan Kaloudis!</p>
 </em></blockquote>
 
@@ -34,6 +34,8 @@ image: /assets/images/zeus-intro-logo.jpg
 <h3>Breve riepilogo delle funzionalità principali di Zeus Node:</h3>
 <ul>
 <li><strong style="color:Tomato;">Nodo LND privato</strong> - Ciò significa che questo nodo NON effettuerà il routing pubblico di altri pagamenti tramite il tuo nodo. Il nodo e i canali non sono annunciati (privati, non visibili sul grafico LN pubblico). Ricevere ed effettuare pagamenti sarà fatto tramite i tuoi peer LSP connessi. RICORDA: Zeus Embedded Node NON effettuerà il routing pubblico!</li>
+<li><strong style="color:Tomato;">Accesso remoto al tuo nodo LN di casa</strong>: insieme al nodo LND incorporato, puoi comunque accedere a un nodo LN remoto (LND, CLN).</li>
+<li><strong style="color:Tomato;">Account LNDHUB, NWC multipli</strong>: facoltativamente, puoi collegare più account lndhub o NWC e utilizzarli come qualsiasi altro portafoglio LN.</li>
 <li><strong style="color:Tomato;">Servizio LND persistente</strong> - l'utente può attivare questa funzione e mantenere il servizio LND attivo ininterrottamente come qualsiasi normale nodo LN. L'app non deve essere aperta, il servizio persistente manterrà tutte le comunicazioni online.</li>
 <li><strong style="color:Tomato;">Filtri di blocco Neutrino</strong> - la sincronizzazione dei blocchi viene eseguita utilizzando <a href="https://bitcoinops.org/en/topics/compact-block-filters/">filtri di blocco e il protocollo Neutrino</a> (senza fornire informazioni sui fondi on-chain dei nostri utenti). Promemoria: per connessioni Internet lente/ad alta latenza, questa sincronizzazione dei blocchi basata su Neutrino, a volte potrebbe non funzionare. Provare a passare a un server Neutrino vicino potrebbe aiutare a ripristinare la sincronizzazione. Senza questa sincronizzazione il tuo nodo LND non potrebbe avviarsi!</li>
 <li><strong style="color:Tomato;">Canali Taproot semplici</strong> - Quando chiudono questi canali, gli utenti incorrono in meno commissioni e hanno più privacy poiché sembrano apprezzare qualsiasi altra spesa Taproot quando esaminano la loro impronta on-chain.</li>
@@ -43,6 +45,8 @@ image: /assets/images/zeus-intro-logo.jpg
 <li><strong style="color:Tomato;">Punto vendita</strong>: ora gli utenti commercianti possono impostare i propri articoli di prodotto e vendere direttamente da Zeus, con PoS integrato. Per il momento contengono le esigenze di base, ma in futuro conterranno funzionalità estese.</li>
 <li><strong style="color:Tomato;">Log LND</strong>: l'utente può leggere in tempo reale i log del servizio LND e utilizzarli per risolvere possibili problemi (principalmente per connessioni scadenti)</li>
 <li><strong style="color:Tomato;">Backup automatici</strong>: i canali del nodo LN vengono automaticamente sottoposti a backup sul server Olympus. Questo backup automatico è crittografato con il seed del tuo portafoglio nodo (senza il seed è totalmente inutile). L'utente può anche esportare manualmente un SCB (backup di canali statici) per un disaster recovery.</li>
+<li><strong style="color:Tomato;">Portafoglio Ecash Cashu</strong> - insieme al nodo LND incorporato puoi avere anche un portafoglio Cashu, che può essere utilizzato senza alcun canale LN aperto.</li>
+<li><strong style="color:Tomato;">Servizio di swap onchain / LN</strong> - ora puoi utilizzare più servizi di swap all'interno di Zeus, ogni volta che hai bisogno di ricaricare un canale vuoto o di effettuare uno swap con token Cashu accumulati onchain.</li>
 </ul>
 <hr style="height:2px">
 
@@ -209,16 +213,27 @@ image: /assets/images/zeus-intro-logo.jpg
 <p>Questa sezione mostra maggiori dettagli sullo stato generale della rete Lightning, estratti dai dati di sincronizzazione del grafico: numero di canali pubblici disponibili, numero di nodi, numero di canali zombie (offline o morti), diametro del grafico, media e grado massimo per il grafico.</p>
 <p>Questi dati informativi potrebbero essere utili per il debug o semplicemente utilizzati per le statistiche.</p>
 
-<h3 style="color:Orange;">F - Indirizzo Lightning</h3>
+<h3 style="color:Orange;">F - Cashu Mints</h3>
+<p>In questa sezione puoi gestire le ecash cashu mint che desideri utilizzare per il tuo portafoglio Cashu. Non entrerò in troppi dettagli tecnici, ma qui puoi trovare un eccellente video dimostrativo su come attivare e utilizzare il portafoglio Cashu.</p>
+<center>
+<video width="320" height="640" controls>
+<source src="/assets/media/zeus-cashu.mp4" type="video/mp4">
+</video>
+</center>
+
+<h3 style="color:Orange;">G - Indirizzo Lightning</h3>
 <p>In questa sezione l'utente può impostare il proprio indirizzo LN di auto-custodia @zeuspay.com.</p>
 <p>ZEUS PAY sfrutta hash pre-immagine generati dall'utente, fatture hodl e lo schema di attestazione Zaplocker Nostr per consentire agli utenti che potrebbero non essere online 24 ore su 24, 7 giorni su 7 di ricevere pagamenti su un indirizzo Lightning statico. Gli utenti devono solo accedere ai loro portafogli ZEUS entro 24 ore per richiedere i pagamenti, altrimenti verranno restituiti al mittente.</p>
 <p>Se attivi la "modalità persistente", tutti i pagamenti al tuo indirizzo LN verranno ricevuti immediatamente.</p>
 <p>Scopri come funzionano i pagamenti <a href="https://github.com/supertestnet/zaplocker#how-it-works">Zaplocker</a> e di più sulle <a href="https://docs.zeusln.app/lightning-address/fees">commissioni ZeusPay qui</a>.</p>
 
-<h3 style="color:Orange;">G - Indirizzi Onchain</h3>
+<h3 style="color:Orange;">H - Swap</h3>
+<p>Questa sezione offre un modo semplice e integrato per scambiare fondi dai tuoi canali LN e dal tuo portafoglio Cashu con qualsiasi indirizzo onchainn (interno a Zeus o esterno da qualsiasi altro portafoglio tu voglia).</p>
+
+<h3 style="color:Orange;">I - Indirizzi Onchain</h3>
 <p>In questa sezione puoi consultare i tuoi indirizzi Onchain generati per un migliore controllo delle monete</p>
 
-<h3 style="color:Orange;">H - Contatti</h3>
+<h3 style="color:Orange;">J - Contatti</h3>
 <p>Una nuova rubrica è stata introdotta in Zeus v 0.8.0 che puoi puoi usare per inviare rapidamente pagamenti ai tuoi amici e familiari, anche con la possibilità di importare i tuoi contatti da Nostr.</p>
 <p>Inserisci semplicemente il tuo indirizzo Nostr npub o NIP-05 leggibile dall'uomo e ZEUS interrogherà Nostr per tutti i tuoi contatti. Da lì puoi inviare un pagamento rapido a un contatto o importare tutti o alcuni contatti nella tua rubrica locale./<
 <p>Ecco un breve video su come configurare e usare i tuoi contatti Zeus:</p>
@@ -228,7 +243,7 @@ image: /assets/images/zeus-intro-logo.jpg
 </video>
 </center>
 
-<h3 style="color:Orange;">I - Strumenti</h3>
+<h3 style="color:Orange;">K - Strumenti</h3>
 <p>Qui abbiamo varie sottosezioni con più strumenti:</p>
 <ol>
 <li><em style="color:Tomato;">Account</em> - qui puoi importare account/portafogli esterni, portafogli freddi, portafogli caldi, da controllare o utilizzare come fonte di finanziamento esterna per i tuoi canali nodo Zeus. Questa funzionalità è ancora sperimentale.</li>
@@ -242,10 +257,10 @@ image: /assets/images/zeus-intro-logo.jpg
 <li><em style="color:Tomato;">Convertitore di valuta</em> - un semplice strumento per calcolare il tasso di conversione tra BTC e altre valute legali.</li>
 </ol>
 
-<h3 style="color:Orange;">J - Merch e supporto</h3>
+<h3 style="color:Orange;">L - Merch e supporto</h3>
 <p>Qui troverai maggiori informazioni e link su Zeus, negozio online, sponsor, social media.</p>
 
-<h3 style="color:Orange;">K - Aiuto</h3>
+<h3 style="color:Orange;">M - Aiuto</h3>
 <p>In quest'ultima sezione troverai link alla pagina di documentazione di Zeus, problemi di Github (se vuoi pubblicare un bug o una richiesta direttamente agli sviluppatori di app), supporto via e-mail.</p>
 <hr style="height:2px">
 

@@ -23,7 +23,7 @@ image: /assets/images/zeus-intro-logo.jpg
 <a href="/wallets/getting-started-zeus-wallet-hi.html"><img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
 </center>
 <em><blockquote style="color:Tomato;">
-<p>Originally posted on <a href="https://darthcoin.substack.com/p/getting-started-zeus-mobile">Substack</a> on Feb 05, 2024. Updated here Mar 14, 2025</p>
+<p>Originally posted on <a href="https://darthcoin.substack.com/p/getting-started-zeus-mobile">Substack</a> on Feb 05, 2024. Updated here Nov 10, 2025</p>
 <p>This guide is a celebration of 5 years of existence of Zeus LN app, <a href="https://github.com/ZeusLN/zeus/releases/tag/v0.0.1">its first release v0.0.1 was on Feb 19 2019</a>, 5 years of continuous improvements and dedication to self-custody FOSS app for bitcoiners. An amazing journey for a very powerful mobile app, that deserve its place on top of the Bitcoin builders. I could say that you are not a real bitcoiner if you do not have installed Zeus on your mobile device. Thanks to Evan Kaloudis !</p>
 </em></blockquote>
 
@@ -33,9 +33,11 @@ image: /assets/images/zeus-intro-logo.jpg
 <p>Here comes Zeus, starting with <a href="https://blog.zeusln.com/new-release-zeus-v0-8-0/">version v0.8.0 announced on their blog</a>, is offering now an embedded LND node into the app. Until now Zeus was a remote node management app + LNDhub accounts. But now… the node is in the phone!</p>
 <p>If you want to see more details about the Zeus remote node management, please start with this very good <a href="https://www.youtube.com/watch?v=hmmehTnV3ys">video tutorial from BTC Sessions</a>.</p>
 <p><img src="/assets/images/zeus-node-lagarde.jpg" class="center"></p>
-<h3>Quick recap of main features for Zeus Node:</h3>
+<h3>Quick recap of main features for Zeus Wallet app:</h3>
 <ul>
 <li><strong style="color:Tomato;">Private LND node</strong> - That means this node will NOT do public routing of others payments through your node. The node and the channels are unannounced (private, not visible on the public LN graph). To receive and make payments will be done thorough your connected LSP peers. REMEMBER: Zeus Embedded Node will NOT do public routing!</li>
+<li><strong style="color:Tomato;">Remote access to your home LN node</strong> - together with the embedded LND node you can still access a remote LN node (LND, CLN).</li>
+<li><strong style="color:Tomato;">Multiple LNDHUB, NWC accounts</strong> - optional you can link multiple lndhub or NWC accounts and use them as any other LN wallet.</li>
 <li><strong style="color:Tomato;">Persistent LND service</strong> - user can activate this feature and keep the LND service active continuously as any regular LN node. The app doesn’t have to be open, the persistent service will keep all the communication online.</li>
 <li><strong style="color:Tomato;">Neutrino block filters</strong> - block sync is done using <a href="https://bitcoinops.org/en/topics/compact-block-filters/">block filters and the Neutrino protocol</a> (given no information about our users' on-chain funds). Reminder: for high-latency / slow internet connections this block sync based on neutrino, sometimes could fail. Trying to switch to a near neutrino server could help restore the sync. Without this sync your LND node could not start!</li>
 <li><strong style="color:Tomato;">Simple Taproot Channels</strong> - When closing these channels, users are incur less fees and are given more privacy as they appear to like any other Taproot spend when examining their on-chain footprint.</li>
@@ -45,6 +47,8 @@ image: /assets/images/zeus-intro-logo.jpg
 <li><strong style="color:Tomato;">Point of Sale</strong> - Now merchant users can setup their own product items and sell directly from Zeus, with integrated PoS. For the moment contain basic needs but in the future will contain extended features.</li>
 <li><strong style="color:Tomato;">LND logs</strong> - user can read in real time the LND service logs and use them to debug possible issues (mainly for bad connections)</li>
 <li><strong style="color:Tomato;">Automated Backups</strong> - the LN node channels are automatically back up on the Olympus server. This automated backup is encrypted with your node wallet seed (without the seed is totally useless). User also can export manually a SCB (static channels backup) for a disaster recovery.</li>
+<li><strong style="color:Tomato;">Ecash cashu wallet</strong> - together with the embedded LND node you can have also a cashu wallet, that can be used without any LN channnel open.</li>
+<li><strong style="color:Tomato;">Swap service onchain / LN</strong> - now you can use multiple swap services inside Zeus, anytime you need to refill an emptied channnel or swap out into onchain acummulated cashu tokens.</li>
 </ul>
 <hr style="height:2px">
 
@@ -211,16 +215,27 @@ image: /assets/images/zeus-intro-logo.jpg
 <p>This section displays more details about the general status for the Lightning network, extracted from your graph sync data: number of public channels available, number of nodes, number of zombie channels (offline or dead), graph diameter, average and max out degree for the graph.</p>
 <p>This information data could be useful to debug or just used for statistics.</p>
 
-<h3 style="color:Orange;">F - Lightning Address</h3>
+<h3 style="color:Orange;">F - Cashu Mints</h3>
+<p>In this secttion you can manage the ecash cashu mints you want to use for your cashu wallet. I willnot enter into too much technical details but here you have an excellent demo video about how to activate and use the cashu wallet.</p>
+<center>
+  <video width="320" height="640" controls>
+    <source src="/assets/media/zeus-cashu.mp4" type="video/mp4">
+  </video>
+</center>
+
+<h3 style="color:Orange;">G - Lightning Address</h3>
 <p>In this section the user could setup his own self-custody LN Address @zeuspay.com.</p>
 <p>ZEUS PAY leverages user-generated preimage hashes, hodl invoices, and the Zaplocker Nostr attestation scheme to allow users who may not be online 24/7 to receive payments to a static lightning address. Users just need to log in to their ZEUS wallets within 24 hours to claim the payments, otherwise they will be returned to the sender.</p>
 <p>If you activate the “persistent mode” all the payments to your LN Address will be instantly received.</p>
 <p>Learn about how <a href="https://github.com/supertestnet/zaplocker#how-it-works">Zaplocker</a> payments work and more about <a href="https://docs.zeusln.app/lightning-address/fees">ZeusPay Fees here</a>.</p>
 
-<h3 style="color:Orange;">G - Onchain Addresses</h3>
+<h3 style="color:Orange;">H - Swaps</h3>
+<p>This section is offering a simple integrated way to swap funds from your LN channels and cashu wallet out into any onchainn address (internal Zeus or external from any other wallet you want).</p>
+
+<h3 style="color:Orange;">I - Onchain Addresses</h3>
 <p>In this section you could consult your generated onchain addresses for a better coin control</p>
 
-<h3 style="color:Orange;">H - Contacts</h3>
+<h3 style="color:Orange;">J - Contacts</h3>
 <p>A new contact book was introduced in Zeus v 0.8.0 that you can use to quickly send payments to your friends and family, also with the ability to import your contacts from Nostr.</p>
 <p>Simply enter in your Nostr npub or human readable NIP-05 address, and ZEUS will query Nostr for all your contacts. From there you can send a quick payment to a contact, or import all or select contacts to your local contact book./<
 <p>Here is a short video how to configure and use your Zeus contacts:</p>
@@ -230,7 +245,7 @@ image: /assets/images/zeus-intro-logo.jpg
 </video>
 </center>
 
-<h3 style="color:Orange;">I - Tools</h3>
+<h3 style="color:Orange;">K - Tools</h3>
 <p>Here we have various sub-sections with more tools:</p>
 <ol>
 <li><em style="color:Tomato;">Accounts</em> - here you can import external accounts / wallets, cold wallets, hot wallets, to control or use as external funding source for your Zeus node channels. This feature is still experimental.</li>
@@ -244,10 +259,10 @@ image: /assets/images/zeus-intro-logo.jpg
 <li><em style="color:Tomato;">Currency converter</em> - a simple tool to calculate the rate conversion between BTC and other fiat currencies.</li>
 </ol>
 
-<h3 style="color:Orange;">J - Merch and Support</h3>
+<h3 style="color:Orange;">L - Merch and Support</h3>
 <p>Here you will find more info and links about Zeus, online shop, sponsors, social media.</p>
 
-<h3 style="color:Orange;">K - Help</h3>
+<h3 style="color:Orange;">M - Help</h3>
 <p>In this last section you will find links to Zeus documentation page, Github issues (if you want to post a bug or request directly to app developers), email support.</p>
 <hr style="height:2px">
 

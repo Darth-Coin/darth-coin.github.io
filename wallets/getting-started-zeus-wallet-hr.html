@@ -22,7 +22,7 @@ image: /assets/images/zeus-intro-logo.jpg
 <a href="/wallets/getting-started-zeus-wallet-hi.html"><img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
 </center>
 <em><blockquote style="color:Tomato;">
-<p>Izvorno objavljeno na <a href="https://darthcoin.substack.com/p/getting-started-zeus-mobile">Substack</a> 5. veljače 2024. Ažurirano ovdje 14. ožujka 2025.</p>
+<p>Izvorno objavljeno na <a href="https://darthcoin.substack.com/p/getting-started-zeus-mobile">Substack</a> 5. veljače 2024. Ažurirano ovdje 10. studenog 2025.</p>
 <p>Ovaj vodič je proslava 5 godina postojanja aplikacije Zeus LN, <a href="https://github.com/ZeusLN/zeus/releases/tag/v0.0.1">njegovog prvog izdanja v0.0.1 bio je 19. veljače 2019.</a>, 5 godina kontinuiranih poboljšanja i posvećenosti aplikaciji FOSS za samostalno skrbništvo za bitcoinere. Nevjerojatno putovanje za vrlo moćnu mobilnu aplikaciju, koja zaslužuje svoje mjesto na vrhu Bitcoin graditelja. Mogao bih reći da niste pravi bitcoiner ako na svom mobilnom uređaju nemate instaliran Zeus. Hvala Evanu Kaloudisu!</p>
 </em></blockquote>
 
@@ -34,6 +34,8 @@ image: /assets/images/zeus-intro-logo.jpg
 <h3>Kratki pregled glavnih značajki za Zeus čvor:</h3>
 <ul>
 <li><strong style="color:Tomato;">Privatni LND čvor</strong> - To znači da ovaj čvor NEĆE vršiti javno usmjeravanje drugih plaćanja kroz vaš čvor. Čvor i kanali su nenajavljeni (privatni, nisu vidljivi na javnom LN grafu). Primanje i plaćanje vršit će se putem vaših povezanih LSP peera. ZAPAMTITE: Zeus Embedded Node NEĆE raditi javno usmjeravanje!</li>
+<li><strong style="color:Tomato;">Udaljeni pristup vašem kućnom LN čvoru</strong> - zajedno s ugrađenim LND čvorom i dalje možete pristupiti udaljenom LN čvoru (LND, CLN).</li>
+<li><strong style="color:Tomato;">Više LNDHUB, NWC računa</strong> - opcionalno možete povezati više lndhub ili NWC računa i koristiti ih kao bilo koji drugi LN novčanik.</li>
 <li><strong style="color:Tomato;">Trajna LND usluga</strong> - korisnik može aktivirati ovu značajku i održavati LND uslugu neprekidno aktivnom kao bilo koji uobičajeni LN čvor. Aplikacija ne mora biti otvorena, trajna usluga održava svu komunikaciju online.</li>
 <li><strong style="color:Tomato;">Neutrino blok filtri</strong> - blok sinkronizacija se vrši pomoću <a href="https://bitcoinops.org/en/topics/compact-block-filters/ ">filteri blokova i protokol Neutrino</a> (bez danih informacija o sredstvima naših korisnika u lancu). Podsjetnik: za visoke latencije/spore internetske veze ova sinkronizacija blokova na temelju neutrina ponekad može zakazati. Pokušaj prebacivanja na poslužitelj blizu neutrina mogao bi pomoći u vraćanju sinkronizacije. Bez ove sinkronizacije vaš LND čvor se ne bi mogao pokrenuti!</li>
 <li><strong style="color:Tomato;">Jednostavni Taproot kanali</strong> - Prilikom zatvaranja ovih kanala, korisnici imaju manje naknade i imaju više privatnosti jer se čini da im se sviđa bilo koja druga Taproot potrošnja kada ispituju svoje na -otisak lanca.</li>
@@ -43,6 +45,8 @@ image: /assets/images/zeus-intro-logo.jpg
 <li><strong style="color:Tomato;">Prodajno mjesto</strong> - sada korisnici trgovaca mogu postaviti vlastite proizvode i prodavati izravno iz Zeusa, s integriranim PoS-om. Trenutno sadrži osnovne potrebe, ali će u budućnosti sadržavati proširene značajke.</li>
 <li><strong style="color:Tomato;">LND zapisnici</strong> - korisnik može u stvarnom vremenu čitati zapisnike LND usluge i koristiti ih za otklanjanje mogućih problema (uglavnom za loše veze)</li>
 <li><strong style="color:Tomato;">Automatizirano sigurnosno kopiranje</strong> - kanali LN čvora automatski se sigurnosno kopiraju na Olympusov poslužitelj. Ova automatizirana sigurnosna kopija kriptirana je vašim početnim vrijednostima novčanika čvora (bez početne vrijednosti je potpuno beskorisno). Korisnik također može ručno izvesti SCB (static channel backup) za oporavak od katastrofe.</li>
+<li><strong style="color:Tomato;">Ecash cashu novčanik</strong> - zajedno s ugrađenim LND čvorom možete imati i cashu novčanik koji se može koristiti bez otvorenog LN kanala.</li>
+<li><strong style="color:Tomato;">Usluga zamjene onchain / LN</strong> - sada možete koristiti više usluga zamjene unutar Zeusa, kad god trebate napuniti ispražnjeni kanal ili zamijeniti akumulirane cashu tokene onchain.</li>
 </ul>
 <hr style="height:2px">
 
@@ -209,16 +213,27 @@ image: /assets/images/zeus-intro-logo.jpg
 <p>Ovaj odjeljak prikazuje više pojedinosti o općem statusu za Lightning mrežu, izdvojenih iz vaših sinkroniziranih podataka grafikona: broj dostupnih javnih kanala, broj čvorova, broj zombi kanala (izvan mreže ili mrtvih), promjer grafikona, prosjek i maks. izlazni stupanj za graf.</p>
 <p>Ovi podaci mogu biti korisni za otklanjanje pogrešaka ili samo za statistiku.</p>
 
-<h3 style="color:Orange;">F - Adresa munje</h3>
+<h3 style="color:Orange;">F - Cashu Mints</h3>
+<p>U ovom odjeljku možete upravljati e-cash cashu mintsima koje želite koristiti za svoj cashu novčanik. Neću ulaziti u previše tehničkih detalja, ali ovdje imate odličan demo video o tome kako aktivirati i koristiti cashu novčanik.</p>
+<center>
+<video width="320" height="640" controls>
+<source src="/assets/media/zeus-cashu.mp4" type="video/mp4">
+</video>
+</center>
+
+<h3 style="color:Orange;">G - Adresa munje</h3>
 <p>U ovom odjeljku korisnik može postaviti svoju LN adresu za samostalnu skrbništvo @zeuspay.com.</p>
 <p>ZEUS PAY koristi hashove preslika koje su generirali korisnici, hodl fakture i Zaplocker Nostr shemu atestiranja kako bi omogućio korisnicima koji možda nisu online 24/7 primanje uplata na statičnu munjevitu adresu. Korisnici se samo trebaju prijaviti na svoje ZEUS novčanike u roku od 24 sata kako bi preuzeli uplate, inače će biti vraćene pošiljatelju.</p>
 <p>Ako aktivirate “trajni način rada” sve uplate na vašu LN adresu bit će trenutno primljene.</p>
 <p>Saznajte kako funkcionira <a href="https://github.com/supertestnet/zaplocker#how-it-works">Zaplocker</a> plaćanja i više o <a href="https://docs .zeusln.app/lightning-address/fees">ZeusPay naknade ovdje</a>.</p>
 
-<h3 style="color:Orange;">G - Onchain adrese</h3>
+<h3 style="color:Orange;">H - Onchain adrese</h3>
 <p>U ovom odjeljku možete pregledati svoje generirane onchain adrese radi bolje kontrole novčića</p>
 
-<h3 style="color:Orange;">H - Kontakti</h3>
+<h3 style="color:Orange;">I - Zamjene</h3>
+<p>Ovaj odjeljak nudi jednostavan integrirani način zamjene sredstava s vaših LN kanala i cashu novčanika na bilo koju onchainn adresu (internu Zeus adresu ili eksternu iz bilo kojeg drugog novčanika koji želite).</p>
+
+<h3 style="color:Orange;">J - Kontakti</h3>
 <p>U Zeusu v 0.8.0 predstavljena je nova knjiga kontakata koju možete koristiti za brzo slanje uplata svojim prijateljima i obitelji, također uz mogućnost uvoza vaših kontakata iz Nostr.</p>
 <p>Jednostavno unesite svoju Nostr npub ili čovjeku čitljivu NIP-05 adresu i ZEUS će tražiti Nostr za sve vaše kontakte. Odatle možete poslati brzu uplatu kontaktu ili uvesti sve ili odabrati kontakte u svoj lokalni imenik kontakata./<
 <p>Evo kratkog videa kako konfigurirati i koristiti svoje Zeus kontakte:</p>
@@ -228,7 +243,7 @@ image: /assets/images/zeus-intro-logo.jpg
 </video>
 </center>
 
-<h3 style="color:Orange;">I - Alati</h3>
+<h3 style="color:Orange;">K - Alati</h3>
 <p>Ovdje imamo različite pododjeljke s više alata:</p>
 <ol>
 <li><em style="color:Tomato;">Računi</em> - ovdje možete uvesti vanjske račune/novčanike, hladne novčanike, vruće novčanike, za kontrolu ili upotrebu kao vanjski izvor financiranja za vaše kanale Zeus čvora. Ova je značajka još uvijek eksperimentalna.</li>
@@ -242,10 +257,10 @@ image: /assets/images/zeus-intro-logo.jpg
 <li><em style="color:Tomato;">Konverter valuta</em> - jednostavan alat za izračunavanje pretvorbe tečaja između BTC-a i drugih fiat valuta.</li>
 </ol>
 
-<h3 style="color:Orange;">J - roba i podrška</h3>
+<h3 style="color:Orange;">L - roba i podrška</h3>
 <p>Ovdje ćete pronaći više informacija i poveznica o Zeusu, online trgovini, sponzorima, društvenim medijima.</p>
 
-<h3 style="color:Orange;">K - Pomoć</h3>
+<h3 style="color:Orange;">M - Pomoć</h3>
 <p>U ovom posljednjem odjeljku pronaći ćete poveznice na stranicu s dokumentacijom o Zeusu, probleme s Githubom (ako želite objaviti grešku ili zatražiti izravno razvojnim programerima aplikacije), podršku putem e-pošte.</p>
 <hr style="height:2px">
 
