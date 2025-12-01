@@ -117,16 +117,21 @@ image: /assets/images/zeus-1.jpg
 <p><img src="/assets/images/zeus-ungovernable.jpg" class="center"></p>
 
 <h2 style="color:Orange;" id="migrate">B - Migrar el nodo LN de Zeus a un nuevo dispositivo</h2>
-<p>Este procedimiento requerirá cerrar los canales antiguos.</p>
-<p>Si aún tiene su dispositivo antiguo y Zeus funcionando bien, pero desea migrar a otro dispositivo nuevo, es mucho mejor comenzar de nuevo, con un nuevo ID de nodo y un nuevo conjunto de claves. También para reducir el estrés en el proceso de cierre de canales, UTXO pequeños, mucho historial de transacciones infladas que podrían cargar tu billetera.</p>
+<p><strong>Este procedimiento requerirá cerrar los canales antiguos.</strong></p>
+<p>Zeus aún no admite la migración completa de un nodo existente con canales abiertos.</p>
+<p>Esta función estará disponible próximamente en Zeus (<a href="https://github.com/ZeusLN/zeus/issues/3357">quizás en la versión 0.13</a>), después de que el equipo de LND implemente la base de datos de migración a SQLlite y ofrezca una forma sencilla de respaldar el archivo channels.db para poder migrarlo.</p>
+<p>Hasta entonces, sugiero los siguientes pasos:</p>
 <ul>
-<li>Guarda la semilla de tu nodo Zeus</li>
-<li><a href="https://docs.zeusln.app/for-users/embedded-node/backup-and-recovery#can-i-recover-my-zeus-onchain-wallet-into-other-wallet-applications">Usa este procedimiento para importar tu aezeed LND del antiguo Zeus a Sparrow</a></li>
-<li>Cierra todos tus canales en Zeus y espera hasta que estén todos confirmados, verás también las transacciones en Sparrow</li>
-<li>Desinstala Zeus del dispositivo antiguo.</li>
-<li>Sigue todos los pasos del escenario anterior "Comenzando a abrir canales". Con el envío de los fondos del antiguo Zeus (ahora importado en Sparrow) al nuevo nodo Zeus.</li>
+<li>En el nuevo dispositivo, instala y crea un nuevo nodo Zeus integrado, guarda la semilla y anota el ID del nodo.</li>
+<li>Ve a la sección de canales y compra un canal de entrada de Olympus LSP. Configura la cantidad del canal según la cantidad de sats que quieras transferir desde tu antiguo nodo Zeus + un 10-25% adicional.</li>
+<li>Desde el antiguo nodo Zeus, con canales en línea, paga la factura de LSP en el nuevo Zeus. En breve, el nuevo canal estará listo para recibir los sats de tu antiguo nodo.</li>
+<li>En el nuevo Zeus, crea una factura por la cantidad disponible en tus antiguos canales Zeus. Ten en cuenta que no podrás enviar todos los sats, <a href="https://github.com/lightningnetwork/lnd/blob/6dea86428d031171af30119e3f6599820dc5454a/lnwallet/channel.go#L3803-L3815">debido a los límites del búfer del canal</a>. Envía siempre un máximo del 90-95% y, después de unos minutos, vuelve a enviar el 90% del saldo restante. Recuerda también que al cerrar los canales, recuperarás los sats de reserva de los canales en la cadena, por lo que no es necesario vaciarlos al 100%. También recomiendo tener al menos 1 UTXO en tu antigua billetera Zeus onchain, que se usará como reserva de anclaje, en caso de que las comisiones suban y puedas pagar la transacción de cierre.</li>
+<li>Ve a tu antiguo nodo Zeus y paga la factura de los canales de barrido al nuevo nodo Zeus.</li>
+<li>Ahora puedes iniciar la operación de cierre cooperativo de canales. ¡No fuerces el cierre! Pon tu antiguo nodo Zeus en modo persistente antes de iniciar la operación de cierre para evitar posibles inconvenientes durante el mismo. El modo persistente mantiene activo el servicio LND incluso si cierras la aplicación.</li>
+<li>Una vez que los canales estén cerrados y los fondos regresen a tu billetera onchain, puedes transferirlos a tu nuevo nodo Zeus en un UTXO y mantenerlo como reserva de canal de anclaje. Opcional: al cerrar los canales, puedes indicar una dirección en cadena del nuevo nodo Zeus, pero es un paso más complejo si no sabes exactamente qué estás haciendo.</li>
+<li>Ahora puedes eliminar tu antigua aplicación Zeus del dispositivo anterior.</li>
 </ul>
-<p>Listo, has migrado tu antiguo nodo Zeus a un nuevo dispositivo, con un nuevo ID de nodo.</p>
+<p>De esta manera, comienzas de cero con un nuevo ID de nodo y una transición fluida a un nuevo dispositivo. A veces es mejor empezar de cero.</p>
 <hr style="height:2px">
 
 <p><img src="/assets/images/zeus-2.jpg" class="center"></p>

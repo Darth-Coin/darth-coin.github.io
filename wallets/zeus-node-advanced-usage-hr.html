@@ -117,16 +117,21 @@ image: /assets/images/zeus-1.jpg
 <p><img src="/assets/images/zeus-ungovernable.jpg" class="center"></p>
 
 <h2 style="color:Orange;" id="migrate">B - Migracija Zeus LN čvora na novi uređaj</h2>
-<p>Ovaj postupak će zahtijevati zatvaranje starih kanala.</p>
-<p>Ako još uvijek imate svoj stari uređaj i Zeus koji dobro radi, ali želite migrirati na drugi novi uređaj, puno je bolje početi ispočetka, s novim ID-om čvora, novim setom ključeva. Također za manje stresa u procesu zatvaranja kanala, mali UTXO-ovi, puno napuhane txs povijesti koja bi mogla napuniti vaš novčanik.</p>
+<p><strong>Ovaj postupak zahtijevat će zatvaranje starih kanala.</strong></p>
+<p>Zeus još ne podržava potpunu migraciju postojećeg čvora s otvorenim kanalima.</p>
+<p>Ova će značajka uskoro biti dostupna u Zeusu (<a href="https://github.com/ZeusLN/zeus/issues/3357">možda u verziji 0.13</a>), nakon što LND tim uvede migracijsku bazu podataka u SQLlite i omogući jednostavan način izrade sigurnosne kopije channels.db kako bih mogao migrirati.</p>
+<p>Do tada bih predložio sljedeće korake:</p>
 <ul>
-<li>Spremite svoje početno mjesto čvora Zeus</li>
-<li><a href="https://docs.zeusln.app/for-users/embedded-node/backup-and-recovery#can-i-recover-my-zeus-onchain-wallet-into-other- wallet-applications">Koristite ovaj postupak za uvoz vašeg LND aezeeda iz starog Zeusa u Sparrow</a></li>
-<li>Coop zatvorite sve svoje kanale u Zeusu i pričekajte dok se svi ne potvrde, vidjet ćete i txs u Sparrow</li>
-<li>Deinstalirajte Zeus sa starog uređaja.</li>
-<li>Slijedite sve korake iz prethodnog scenarija “Početak otvaranja kanala”. Uz slanje sredstava iz starog Zeusa (sada uvezenog u Sparrow) u novi Zeus čvor.</li>
+<li>Na novom uređaju instalirajte i stvorite novi ugrađeni Zeus čvor, spremite početnu vrijednost i zabilježite svoj ID čvora.</li>
+<li>Idite na kanale i kupite dolazni kanal od Olympus LSP-a. Postavite iznos kanala prema tome koliko satova želite premjestiti sa svog starog Zeus čvora + 10-25% više</li>
+<li>Sa starog Zeus čvora, s online kanalima, platite LSP račun u novom Zeusu. Za nekoliko trenutaka novi kanal bit će spreman za primanje satova s ​​vašeg starog čvora.</li>
+<li>U novom Zeusu kreirajte račun za iznos koji vam je dostupan u vašim starim Zeus kanalima. Imajte na umu da nećete moći poslati apsolutno sve sate, <a href="https://github.com/lightningnetwork/lnd/blob/6dea86428d031171af30119e3f6599820dc5454a/lnwallet/channel.go#L3803-L3815">zbog ograničenja međuspremnika kanala</a>. Uvijek šaljite maksimalno 90-95%, a zatim nakon nekoliko minuta ponovno pošaljite 90% preostalog stanja. Također imajte na umu da kada zatvorite kanale, dobit ćete natrag u onchain rezervne satove kanala, tako da nije stvarno potrebno isprazniti 100% svojih kanala. Također bih preporučio da imate barem 1UTXO u svom starom Zeus onchain novčaniku, koji će se koristiti kao rezerva sidra, u slučaju da naknade porastu i da biste mogli platiti zatvaranje transakcije.</li>
+<li>Idite na svoj stari Zeus čvor i platite taj račun za kanale novom Zeus čvoru.</li>
+<li>Sada možete započeti operaciju kooperativnog zatvaranja kanala. Nemojte prisilno zatvarati! Stavite svoj stari Zeus čvor u trajni način rada prije nego što započnete operaciju zatvaranja kako biste izbjegli moguće neugodnosti tijekom zatvaranja. Trajni način rada održava LND uslugu aktivnom čak i ako zatvorite aplikaciju.</li>
+<li>Nakon što su kanali zatvoreni i sredstva se vrate u vaš onchain novčanik, možete ih premjestiti na svoj novi Zeus čvor, u jednom UTXO-u i zadržati taj kao rezervu sidra kanala. Opcionalno, kada zatvarate kanale, možete naznačiti onchain adresu novog Zeus čvora, ali je složeniji korak ako ne znate točno što radite.</li>
+<li>Sada možete ukloniti svoju staru Zeus aplikaciju sa starog uređaja.</li>
 </ul>
-<p>Gotovo, migrirali ste svoj stari Zeus čvor na novi uređaj, s novim ID-om čvora.</p>
+<p>Na ovaj način počinjete ispočetka s novim ID-om čvora i glatkim prijelazom na novi uređaj. Ponekad je bolje početi ispočetka.</p>
 <hr style="height:2px">
 
 <p><img src="/assets/images/zeus-2.jpg" class="center"></p>

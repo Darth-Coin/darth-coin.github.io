@@ -117,16 +117,21 @@ image: /assets/images/zeus-1.jpg
 <p><img src="/assets/images/zeus-ungovernable.jpg" class="center"></p>
 
 <h2 style="color:Orange;" id="migrate">B - Migreer Zeus LN-knooppunt naar een nieuw apparaat</h2>
-<p>Voor deze procedure moeten oude kanalen worden gesloten.</p>
-<p>Als uw oude apparaat en Zeus nog goed werken, maar u wilt migreren naar een ander nieuw apparaat, is het veel beter om helemaal opnieuw te beginnen, met een nieuwe nodeID en een nieuwe set sleutels. Ook voor minder stress bij het sluiten van kanalen, kleine UTXO's, veel opgeblazen txs-geschiedenis die je wallet kan laden.</p>
+<p><strong>Voor deze procedure moeten oude kanalen worden gesloten.</strong></p>
+<p>Zeus ondersteunt nog geen volledige migratie van een bestaand knooppunt met open kanalen.</p>
+<p>Deze functionaliteit komt binnenkort naar Zeus (<a href="https://github.com/ZeusLN/zeus/issues/3357">mogelijk in v0.13</a>), nadat het LND-team de migratiedatabase naar SQLlite heeft geïntroduceerd en een eenvoudige manier heeft om een ​​back-up van de channels.db te maken, zodat deze kan worden gemigreerd.</p>
+<p>Tot die tijd stel ik de volgende stappen voor:</p>
 <ul>
-<li>Bewaar je Zeus-node seed</li>
-<li><a href="https://docs.zeusln.app/for-users/embedded-node/backup-and-recovery#can-i-recover-my-zeus-onchain-wallet-into-other-wallet-applications">Gebruik deze procedure om je LND aezeed van oude Zeus naar Sparrow te importeren</a></li>
-<li>Coop sluit al je kanalen in Zeus en wacht tot ze allemaal bevestigd zijn, je ziet dan ook de txs in Sparrow</li>
-<li>Verwijder Zeus van het oude apparaat.</li>
-<li>Volg alle stappen van het vorige scenario "Aan de slag met het openen van kanalen". Met het verzenden van de fondsen van de oude Zeus (nu geïmporteerd in Sparrow) naar de nieuwe Zeus-node.</li>
+<li>Installeer en maak op het nieuwe apparaat een nieuw embedded Zeus-knooppunt aan, sla de seed op en noteer ook uw node-ID.</li>
+<li>Ga naar 'Kanalen' en koop een inkomend kanaal bij Olympus LSP. Stel het kanaalbedrag in op basis van het aantal sats dat u wilt overzetten van uw oude Zeus-node + 10-25% extra.</li>
+<li>Betaal de LSP-factuur in de nieuwe Zeus vanaf de oude Zeus-node, met online kanalen. Binnen enkele ogenblikken is het nieuwe kanaal klaar om de sats van uw oude node te ontvangen.</li>
+<li>Maak in de nieuwe Zeus een factuur aan voor het bedrag dat u beschikbaar heeft in uw oude Zeus-kanalen. Houd er rekening mee dat u niet alle sats kunt versturen, <a href="https://github.com/lightningnetwork/lnd/blob/6dea86428d031171af30119e3f6599820dc5454a/lnwallet/channel.go#L3803-L3815">vanwege de limieten van de kanaalbuffer</a>. Stuur altijd maximaal 90-95% en stuur na een paar minuten nogmaals 90% van het resterende saldo. Houd er ook rekening mee dat wanneer je de kanalen sluit, je de reserve-sat van de kanalen weer terugkrijgt in de onchain, dus het is niet echt nodig om je kanalen 100% leeg te maken. Ik raad ook aan om minimaal 1 UTXO in je oude Zeus onchain wallet te hebben, die als ankerreserve zal worden gebruikt voor het geval de kosten stijgen en om de sluitingstransactie te kunnen betalen.</li>
+<li>Ga naar je oude Zeus-node en betaal de factuur van dat sweep-kanaal aan de nieuwe Zeus-node.</li>
+<li>Nu kun je beginnen met het coöperatief sluiten van kanalen. Forceer het sluiten niet! Zet je oude Zeus-node in de persistente modus voordat je begint met sluiten om mogelijke ongemakken tijdens het sluiten te voorkomen. De persistente modus houdt de LND-service actief, zelfs als u de app sluit.</li>
+<li>Zodra de kanalen gesloten zijn en het geld terugstroomt naar uw onchain-wallet, kunt u ze verplaatsen naar uw nieuwe Zeus-node, in één UTXO, en die als reserve voor het ankerkanaal bewaren. Optioneel kunt u, wanneer u de kanalen sluit, een onchain-adres van de nieuwe Zeus-node opgeven, maar dit is een complexere stap als u niet precies weet wat u doet.</li>
+<li>Nu kunt u uw oude Zeus-app van het oude apparaat verwijderen.</li>
 </ul>
-<p>Klaar, je hebt je oude Zeus-node gemigreerd naar een nieuw apparaat, met een nieuwe nodeID.</p>
+<p>Op deze manier begint u opnieuw met een nieuwe node-ID en verloopt de overgang naar een nieuw apparaat soepel. Soms is het beter om opnieuw te beginnen.</p>
 <hr style="height:2px">
 
 <p><img src="/assets/images/zeus-2.jpg" class="center"></p>

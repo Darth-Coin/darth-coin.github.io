@@ -117,16 +117,21 @@ image: /assets/images/zeus-1.jpg
 <p><img src="/assets/images/zeus-ungovernable.jpg" class="center"></p>
 
 <h2 style="color:Orange;" id="migrate">B - Zeus LN-Knoten auf ein neues Gerät migrieren</h2>
-<p>Für dieses Verfahren müssen alte Kanäle geschlossen werden.</p>
-<p>Wenn Ihr altes Gerät noch funktioniert und Zeus gut funktioniert, Sie aber auf ein anderes neues Gerät migrieren möchten, ist es viel besser, von vorne zu beginnen, mit einer neuen Knoten-ID und einem neuen Schlüsselsatz. Auch für weniger Stress beim Schließen von Kanälen, kleinen UTXOs und vielen aufgeblähten Txs-Verläufen, die Ihr Portemonnaie belasten könnten.</p>
+<p><strong>Dieses Verfahren erfordert das Schließen alter Kanäle.</strong></p>
+<p>Zeus unterstützt derzeit noch keine vollständige Migration eines bestehenden Knotens mit offenen Kanälen.</p>
+<p>Diese Funktion wird in Kürze in Zeus verfügbar sein (<a href="https://github.com/ZeusLN/zeus/issues/3357">voraussichtlich in Version 0.13</a>), sobald das LND-Team die Migrationsdatenbank in SQLite integriert und eine einfache Möglichkeit zum Sichern der channels.db für die Migration bereitgestellt hat.</p>
+<p>Bis dahin empfehle ich folgende Schritte:</p>
 <ul>
-<li>Speichern Sie Ihren Zeus-Knotensamen
-<li><a href="https://docs.zeusln.app/for-users/embedded-node/backup-and-recovery#can-i-recover-my-zeus-onchain-wallet-into-other-wallet-applications">Verwenden Sie dieses Verfahren, um Ihren LND Aezeed vom alten Zeus in Sparrow zu importieren</a></li>
-<li>Schließen Sie alle Ihre Kanäle in Zeus und warten Sie, bis alle bestätigt sind. Sie werden auch die Txs in Sparrow sehen</li>
-<li>Deinstallieren Sie Zeus vom alten Gerät.</li>
-<li>Befolgen Sie alle Schritte aus dem vorherigen Szenario „Erste Schritte mit dem Öffnen von Kanälen“. Mit dem Senden der Gelder vom alten Zeus (jetzt in Sparrow importiert) an den neuen Zeus-Knoten.</li>
+<li>Installieren und erstellen Sie auf dem neuen Gerät einen neuen eingebetteten Zeus-Knoten. Speichern Sie den Seed und notieren Sie sich Ihre Knoten-ID.</li>
+<li>Erwerben Sie unter „Kanäle“ einen eingehenden Kanal von Olympus LSP. Legen Sie den Kanalbetrag entsprechend der Anzahl der Sats fest, die Sie von Ihrem alten Zeus-Knoten übertragen möchten, plus 10–25 %.
+<li>Bezahlen Sie vom alten Zeus-Knoten mit aktiven Kanälen die LSP-Rechnung im neuen Zeus. Der neue Kanal ist in Kürze bereit, die Sats von Ihrem alten Knoten zu empfangen.</li>
+<li>Erstellen Sie in der neuen Zeus-Wallet eine Rechnung über den Betrag, der in Ihren alten Zeus-Kanälen verfügbar ist. Beachten Sie, <a href="https://github.com/lightningnetwork/lnd/blob/6dea86428d031171af30119e3f6599820dc5454a/lnwallet/channel.go#L3803-L3815">dass Sie aufgrund der Pufferbegrenzungen der Kanäle nicht alle Sats senden können</a>. Senden Sie daher immer maximal 90–95 % und nach einigen Minuten weitere 90 % des verbleibenden Guthabens. Denken Sie außerdem daran, dass die reservierten Sats der Kanäle beim Schließen wieder in der Blockchain gutgeschrieben werden. Es ist also nicht notwendig, Ihre Kanäle vollständig zu leeren. Ich würde Ihnen außerdem empfehlen, mindestens 1 UTXO in Ihrer alten Zeus-On-Chain-Wallet zu halten, das als Ankerreserve dient, falls die Gebühren stark ansteigen und Sie die abschließende Transaktion bezahlen können.</li>
+<li>Gehen Sie zu Ihrem alten Zeus-Node und bezahlen Sie die Rechnung für die Sweeping-Kanäle an den neuen Zeus-Node.</li>
+<li>Jetzt können Sie die kooperative Schließung der Kanäle starten. Führen Sie keine erzwungene Schließung durch! Versetzen Sie Ihren alten Zeus-Node vor Beginn der Schließung in den persistenten Modus, um mögliche Probleme während des Vorgangs zu vermeiden. Der persistente Modus hält den LND-Dienst auch dann aktiv, wenn Sie die App schließen.</li>
+<li>Sobald die Kanäle geschlossen sind und die Gelder in Ihre On-Chain-Wallet zurückfließen, können Sie diese in einem UTXO an Ihren neuen Zeus-Node übertragen und diesen als Ankerreserve für die Kanäle verwenden. Optional können Sie beim Schließen der Kanäle die On-Chain-Adresse des neuen Zeus-Knotens angeben. Dies ist jedoch ein komplexerer Schritt, wenn Sie nicht genau wissen, was Sie tun.</li>
+<li>Jetzt können Sie Ihre alte Zeus-App vom alten Gerät entfernen.</li>
 </ul>
-<p>Fertig, Sie haben Ihren alten Zeus-Knoten auf ein neues Gerät mit einer neuen Knoten-ID migriert.</p>
+<p>So starten Sie mit einer neuen Knoten-ID und einem reibungslosen Übergang zu einem neuen Gerät. Manchmal ist ein Neuanfang besser.</p>
 <hr style="height:2px">
 
 <p><img src="/assets/images/zeus-2.jpg" class="center"></p>

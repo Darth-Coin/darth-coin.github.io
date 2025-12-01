@@ -117,16 +117,21 @@ image: /assets/images/zeus-1.jpg
 <p><img src="/assets/images/zeus-ungovernable.jpg" class="center"></p>
 
 <h2 style="color:Orange;" id="migrate">B - Migrer le nœud Zeus LN vers un nouvel appareil</h2>
-<p>Cette procédure nécessitera la fermeture des anciens canaux.</p>
-<p>Si votre ancien appareil et Zeus fonctionnent toujours correctement, mais que vous souhaitez migrer vers un autre nouvel appareil, il est préférable de repartir à zéro, avec un nouvel ID de nœud et un nouvel ensemble de clés. Également pour moins de stress dans le processus de fermeture des canaux, les petits UTXO, beaucoup d'historique de transactions gonflé qui pourraient surcharger votre portefeuille.</p>
+<p><strong>Cette procédure nécessitera la fermeture des anciens canaux.</strong></p>
+<p>Zeus ne prend pas encore en charge la migration complète d'un nœud existant avec des canaux ouverts.</p>
+<p>Cette fonctionnalité sera bientôt disponible dans Zeus (<a href="https://github.com/ZeusLN/zeus/issues/3357">peut-être dans la version 0.13</a>), une fois que l'équipe LND aura intégré la base de données de migration à SQLite et mis en place une méthode simple pour sauvegarder le fichier channels.db en vue de sa migration.</p>
+<p>En attendant, je vous suggère de suivre les étapes suivantes :</p>
 <ul>
-<li>Sauvegardez votre graine de nœud Zeus</li>
-<li><a href="https://docs.zeusln.app/for-users/embedded-node/backup-and-recovery#can-i-recover-my-zeus-onchain-wallet-into-other-wallet-applications">Utilisez cette procédure pour importer votre LND aezeed de l'ancien Zeus dans Sparrow</a></li>
-<li>Fermez en coopération tous vos canaux dans Zeus et attendez qu'ils soient tous confirmés, vous verrez également les transactions dans Sparrow</li>
-<li>Désinstallez Zeus de l'ancien appareil.</li>
-<li>Suivez toutes les étapes du scénario précédent « Démarrage avec l'ouverture de canaux ». Avec l'envoi des fonds de l'ancien Zeus (maintenant importé dans Sparrow) vers le nouveau nœud Zeus.</li>
+<li>Sur le nouvel appareil, installez et créez un nouveau nœud Zeus intégré, enregistrez la configuration initiale et notez l'ID de votre nœud.</li>
+<li>Accédez à la section « Canaux » et achetez un canal entrant auprès d'Olympus LSP.</li> Configurez le montant du canal en fonction du nombre de satoshis que vous souhaitez transférer depuis votre ancien nœud Zeus, plus 10 à 25 %.
+<li>Depuis l'ancien nœud Zeus, avec des canaux actifs, payez la facture LSP sur le nouveau nœud Zeus. Le nouveau canal sera prêt à recevoir les satoshis de votre ancien nœud sous quelques instants.</li>
+<li>Sur le nouveau nœud Zeus, créez une facture pour le montant disponible sur vos anciens canaux Zeus. Notez que vous ne pourrez pas envoyer la totalité des satoshis, <a href="https://github.com/lightningnetwork/lnd/blob/6dea86428d031171af30119e3f6599820dc5454a/lnwallet/channel.go#L3803-L3815">en raison des limites de la mémoire tampon du canal</a>. Envoyez toujours au maximum 90 à 95 %, puis, quelques minutes plus tard, envoyez à nouveau 90 % du solde restant. Sachez également que lorsque vous fermez les canaux, les satoshis réservés sur la blockchain seront remis en place. Il n'est donc pas nécessaire de vider vos canaux à 100 %. Je recommande également de conserver au moins 1 UTXO dans votre ancien portefeuille Zeus onchain. Cette somme servira de réserve d'ancrage en cas de forte hausse des frais et vous permettra de payer la transaction de fermeture.</li>
+<li>Rendez-vous sur votre ancien nœud Zeus et payez la facture de fermeture des canaux au nouveau nœud Zeus.</li>
+<li>Vous pouvez maintenant lancer la fermeture coopérative des canaux. N'effectuez pas de fermeture forcée ! Activez le mode persistant de votre ancien nœud Zeus avant de commencer la fermeture afin d'éviter tout problème. Le mode persistant maintient le service LND actif même si vous fermez l'application.</li>
+<li>Une fois les canaux fermés et les fonds de retour sur votre portefeuille onchain, vous pouvez les transférer vers votre nouveau nœud Zeus, dans un UTXO, et le conserver comme réserve d'ancrage pour le canal. Facultatif : lors de la fermeture des canaux, vous pouvez indiquer l’adresse onchain du nouveau nœud Zeus, mais cette étape est plus complexe si vous ne savez pas exactement ce que vous faites.</li></ul>
+<li>Vous pouvez maintenant supprimer votre ancienne application Zeus de votre ancien appareil.</li>
 </ul>
-<p>C'est fait, vous avez migré votre ancien nœud Zeus vers un nouvel appareil, avec un nouvel ID de nœud.</p>
+<p>Ainsi, vous repartez à zéro avec un nouvel ID de nœud et une transition en douceur vers votre nouvel appareil. Parfois, il est préférable de repartir de zéro.</p>
 <hr style="height:2px">
 
 <p><img src="/assets/images/zeus-2.jpg" class="center"></p>

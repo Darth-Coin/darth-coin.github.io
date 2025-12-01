@@ -117,20 +117,29 @@ image: /assets/images/zeus-1.jpg
 
 <p><img src="/assets/images/zeus-ungovernable.jpg" class="center"></p>
 
+<hr style="height:2px">
+
 <h2 style="color:Orange;" id="migrate">B - Migrate Zeus LN node to a new device</h2>
-<p>This procedure will require closing old channels.</p>
-<p>If you still have your old device and Zeus working well but you want to migrate to another new device it is much better to start fresh, with a new nodeID, new set of keys. Also for less stress in the process of closing channels, small UTXOs, lots of bloated txs history that could load up your wallet.</p>
+<p><strong>This procedure will require closing old channels.</strong></p>
+<p>Zeus is not yet supporting a full migration of an existing node with open channels.</p>
+<p>This feature will come soon to Zeus (<a href="https://github.com/ZeusLN/zeus/issues/3357">maybe in v0.13</a>), after LND team will introduce migration db to SQLlite and have an easy way to backup the channels.db in order to me migrated.</p>
+<p>So until then, I would suggest the following steps:</p>
 <ul>
-<li>Save your Zeus node seed</li>
-<li><a href="https://docs.zeusln.app/for-users/embedded-node/backup-and-recovery#can-i-recover-my-zeus-onchain-wallet-into-other-wallet-applications">Use this procedure to import your LND aezeed from old Zeus into Sparrow</a></li>
-<li>Coop close all your channels in Zeus and wait until are all confirmed, you will see also the txs into Sparrow</li>
-<li>Uninstall Zeus from the old device.</li>
-<li>Follow all the steps from previous scenario “Getting started with opening channels”. With sending the funds from the old Zeus (now imported in Sparrow) to the new Zeus node.</li>
+<li>On the new device, install and create a new Zeus embedded node, save the seed and also note your nodeID.</li>
+<li>Go to channels and buy an inbound channel from Olympus LSP. Set the amount of the channel according to how many sats you want to move from your old Zeus node + 10-25% more</li>
+<li>From the old Zeus node, with online channels, pay the LSP invoice in the new Zeus. In few moments the new channel will be ready to receive the sats from your old node.</li>
+<li>In the new Zeus, create an invoice for the amount you have have available in your old Zeus channels. Keep in mind that you will not be able to send absolutely all sats, <a href="https://github.com/lightningnetwork/lnd/blob/6dea86428d031171af30119e3f6599820dc5454a/lnwallet/channel.go#L3803-L3815">due the limits of channel buffer</a>. Always send like max 90-95% and then after few minutes send the again a 90% of the remaining balance. Keep also in mind that when you close the channels you will get back in onchain the channels reserve sats, so is not really necessary to empty 100% your channels. I would recommend also to have at least 1UTXO in your old Zeus onchain wallet, that will be used as anchor reserves, in case the fees are spiking and be able to pay the closing tx.</li>
+<li>Go to your old Zeus node and pay that sweeping channels invoice to the new Zeus node.</li>
+<li>Now you can start the cooperatively closing channels operation. Do not do force closing! Put your old Zeus node in persistent mode before you start the closing operation tot avoid any possible inconvenient during the closing. The persistent mode is keeping the LND service alive even if you close the app.</li>
+<li>Once the channels are closed and funds coming back to your onchain wallet, you can move them to your new Zeus node, in one UTXO and keep that one as anchor channel reserve. Optional, when you close the channels you can indicate an onchain address of the new Zeus node but is more complex step if you do not know exactly what are you doing.</li>
+<li>Now you can remove your old Zeus app from the old device.</li>
 </ul>
-<p>Done, you’ve migrated your old Zeus node into a new device, with a new nodeID.</p>
+<p>In this way you start fresh with a new nodeID and a smooth transition to a new device. Sometimes is better to start fresh.</p>
 <hr style="height:2px">
 
 <p><img src="/assets/images/zeus-2.jpg" class="center"></p>
+
+<hr style="height:2px">
 
 <h2 style="color:Orange;" id="broken-device">C - Old device or node is dead</h2>
 <p>Let's say you had some problems with syncing, channels got force closed, database corrupted, app not responding correctly etc. Shit can happen all the time and in some situations is better to start over, clean, fresh. In any case, before doing these steps, consult with the devs and more experienced users in the <a href="https://t.me/zeusLN">Zeus Telegram group</a>. In order to be sure that nothing else can be done, is better to have a second opinion for a correct diagnostic of your problems.</p>
