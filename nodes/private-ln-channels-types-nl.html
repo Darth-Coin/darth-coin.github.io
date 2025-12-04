@@ -1,0 +1,232 @@
+---
+layout: default
+title: Typen privé-LN-kanalen
+description: Hoe je verschillende soorten Bitcoin LN-kanalen kunt gebruiken, en de bijbehorende toepassingen.
+image: /assets/images/ln-liquidity-management.jpg
+---
+<article>
+<!DOCTYPE html>
+<html lang="nl">
+<meta name="description" content="Handleidingen voor Bitcoin en Lightning: Hoe je verschillende soorten Bitcoin LN-kanalen gebruikt en toepassingsmogelijkheden.">
+<body>
+<center>
+<h2 style="color:Orange;">Hoe je verschillende soorten kanalen van het Bitcoin Lightning Network kunt gebruiken, en de bijbehorende toepassingsmogelijkheden</h2>
+<p><img src="/assets/images/ln-liquidity-management.jpg" class="center"></p>
+
+| <a href="/nodes/private-ln-channels-types-es.html"><img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/private-ln-channels-types-pt.html"><img src="/assets/images/flag-PT.png" alt="PT" title="Portuguese" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/private-ln-channels-types-de.html"><img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/private-ln-channels-types-fr.html"><img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/private-ln-channels-types-it.html"><img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/private-ln-channels-types-nl.html"><img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/private-ln-channels-types-hr.html"><img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/private-ln-channels-types-hi.html"><img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+</center>
+<blockquote style="color:Tomato;"><em>
+
+<p>Bijgewerkt op 4 december 2025</p>
+</em></blockquote>
+
+<h3 style="color:Red;">Je gebrek aan inzicht van vandaag zal je morgen een fortuin kosten...</h3>
+
+<h2 style="color:Orange;">Inleiding</h2>
+
+<p>Ik draag deze handleiding op aan alle nieuwe LN-gebruikers die willen beginnen met serieuze zelfbeheerde oplossingen zoals: Zeus Wallet, Blixt Wallet, Shock Wallet, Bitkit, Alby Hub of een eenvoudige standalone LND-node in neutrinomodus. Er is ook de oude Breez (LND) wallet, maar die lijkt een beetje verlaten te zijn, dus daar zullen we het niet meer over hebben.</p>
+<p>Ik heb veel nieuwe gebruikers gezien die in de war zijn over hoe LN-liquiditeit werkt en die denken dat alle wallets hetzelfde zouden moeten werken, of zelfs hetzelfde als een gewone on-chain wallet. Dat is een grote misvatting en ik wil dit graag verduidelijken met deze handleiding.</p>
+<p>Deze handleiding is bedoeld om je te helpen begrijpen hoe je elk type LN-kanaal correct gebruikt en hoe je je fondsen beter beheert met behulp van LN. Ja, er zijn verschillende soorten LN-kanalen, hoewel ze allemaal LN-kanalen zijn en op dezelfde manier werken op basis van de LN-protocolstandaarden. De verschillen zitten in hoe je ze opent en in welk scenario ze gebruikt moeten worden.</p>
+<p>Houd er rekening mee dat LN gebaseerd is op een sterke economie van prikkels, misschien zelfs sterker dan het minen van bitcoinblokken, omdat het zeer goede middelen en goed verdeelde liquiditeit vereist, waar en wanneer het nodig is. Dus de volgende keer dat je een LN-wallet wilt gebruiken, denk er dan aan als het toewijzen van kapitaal in een snelle liquiditeitsmarkt, waar sats continu moeten stromen om efficiënt te worden toegewezen. Ja, je bent een privé-LN-gebruiker die je sats alleen wilt gebruiken om LN-betalingen te doen, maar dat betekent niet dat je je sats voor altijd in een LN-kanaal kunt of moet bewaren, zonder ze te verplaatsen of toe te wijzen aan een ongeschikt kanaaltype. Anders betaal je hoge kosten, worden kanalen gesloten en krijg je een slechte ervaring met LN. Bijna alle klachten over LN die "niet werkt" komen voort uit een gebrek aan begrip van gebruikers over hoe LN werkt en hoe ze er middelen aan moeten toewijzen.</p>
+
+<hr style="height:2px">
+
+<h2 style="color:Orange;">Bronnen en woordenlijst</h2>
+
+<blockquote style="color:Tomato;"><em>Lees deze om meer termen en functionaliteiten te begrijpen</em></blockquote>
+
+<p>Onthoud: dit zijn ALLE oplossingen voor een PRIVÉ LN-node, die geen openbare routering uitvoert en alleen wordt gebruikt voor uw persoonlijk gebruik van LN-betalingen.</p>
+<p>Ik heb in eerdere handleidingen de verschillen tussen openbare en privé LN-nodes en enkele andere aspecten uitgelegd die in overweging moeten worden genomen. Het wordt sterk aangeraden om deze eerst te lezen:</p>
+<ul>
+<li><a href="https://darth-coin.github.io/nodes/managing-lightning-node-liquidity-nl.html">Het beheren van de liquiditeit van een Lightning Node</a></li>
+<li><a href="https://darth-coin.github.io/nodes/recommendations-ln-node-operators-nl.html">Aanbevelingen voor LN-nodebeheerders</a></li>
+<li><a href="https://stacker.news/items/486306/r/DarthCoin">Toekomstige topologie van het Lightning Network</a></li>
+<li><a href="https://darth-coin.github.io/nodes/private-ln-nodes-nl.html">Privé LN-nodes</a></li>
+<li><a href="https://stacker.news/items/909079/r/DarthCoin">Onderschatte privacytools van LN</a></li>
+<li><a href="https://docs.megalithic.me/the-lightning-network/how-private/">Hoe privé is LN?</a></li>
+<li><a href="https://docs.lightning.engineering/lightning-network-tools/pool/zero-confirmation-channels">Hoe 0-conf kanalen werken</a></li>
+<li><a href="https://docs.lightning.engineering/lightning-network-tools/lnd/amp">AMP - Atomic multi-path payments</a></li>
+<li><a href="https://docs.lightning.engineering/the-lightning-network/pathfinding/multipath-payments-mpp">MPP - multi-path payment</a></li>
+<li><a href="https://lightningsplice.com">Lees meer over de LN Splicing-functie</a></li>
+<li><a <li><a href="https://github.com/lightningnetwork/lnd/blob/6dea86428d031171af30119e3f6599820dc5454a/lnwallet/channel.go#L3803-L3815">LN-kanaalbuffer</a></li>
+<li><a href="https://lightningwiki.net/index.php/Fees">De transactiekosten voor LN-kanalen zijn variabel</a> | <a href="https://bitcoin.stackexchange.com/questions/89232/why-is-my-spendable-msat-much-lower-than-msatoshi-to-us/89235#89235">Voorbeeld van variatie in transactiekosten</a></li>
+<li>LSP - Lightning Service Provider, wanneer een wallet of node verschillende LN-diensten levert aan de walletgebruiker of een andere LN-node</li>
+<li>LiSP - Liquidity Service Provider, wanneer een openbare node liquiditeitskanalen (inkomend/uitgaand) levert aan elke node-beheerder.</li>
+<li><a href="https://darth-coin.github.io/nodes/lightning-submarine-swaps-nl.html">Lightning Network Submarine Swaps</a></li>
+</ul>
+
+<p>Extra handleidingen om te lezen:</p>
+<ul>
+<li><a href="https://stacker.news/items/552822/r/DarthCoin">Lightning Network uitgelegd met een analogie</a></li>
+<li><a href="https://stacker.news/items/679242/r/DarthCoin">Liquiditeit beheren in privé LN-wallets</a></li>
+<li><a href="https://darth-coin.github.io/wallets/getting-started-zeus-wallet-nl.html">Aan de slag met de Zeus LN-node</a></li>
+<li><a href="https://darth-coin.github.io/wallets/zeus-node-advanced-usage-nl.html">Zeus LN-node - Geavanceerd gebruik</a></li>
+<li><a href="https://darth-coin.github.io/wallets/getting-started-blixt-wallet-nl.html">Aan de slag met Blixt Wallet</a></li>
+<li><a href="https://darth-coin.github.io/wallets/getting-started-alby-hub-nl.html">Aan de slag met Alby Hub</a></li>
+<li>Zeus Docs: <a href="https://docs.zeusln.app/for-users/embedded-node/faq">FAQ</a> | <a href="https://docs.zeusln.app/lsp/intro">LSP</a> | <a href="https://docs.zeusln.app/category/embedded-node">Zeus-node</a></li>
+<li>Blixt Docs: <a href="https://blixtwallet.github.io/faq">FAQ</a> | <a href="https://blixtwallet.github.io/guides">Handleidingen</a></li>
+<li><a href="https://phoenix.acinq.co/faq">Phoenix Acinq FAQ</a></li>
+<li><a href="https://docs.shock.network/wallet/faq">Shock Wallet FAQ</a></li>
+<li><a href="https://guides.getalby.com/user-guide/alby-hub">Alby Hub Handleidingen</a></li>
+</ul>
+
+<hr style="height:2px">
+
+<h2 style="color:Orange;">Typen Lightning Network-kanalen</h2>
+
+<p>Oké, in dit gedeelte ga ik in op een aantal specifieke gebruikssituaties van kanaaltypen en hoe je ze het beste kunt gebruiken. Ik ga niet te veel in op technische details, aangezien deze handleiding voor beginners is. Ik probeer je alleen uit te leggen hoe je deze reis soepel en met minder frustraties kunt beginnen.</p>
+
+<h3 style="color:Yellow;">1. Just-in-Time-kanalen (JiT / 0-conf)</h3>
+
+<p>Deze kanalen worden meestal aangeboden door wallet-LSP's (Lightning Service Providers) om nieuwe gebruikers te helpen gemakkelijk aan de slag te gaan. Maar wees je bewust van hun bijzonderheden en maak er geen misbruik van; ze zijn NIET bedoeld om altijd te gebruiken.</p>
+<p>De just-in-time-kanaalservice maakt gebruik van 'wrapped invoices' en 0-conf-kanalen om gebruikers direct met het Lightning-netwerk te verbinden. Het enige wat je hoeft te doen, is de afzender de factuur laten betalen die je wallet je laat zien, maar dit is wat er achter de schermen gebeurt:</p>
+<ul>
+<li>De ontvanger genereert een factuur op zijn of haar Lightning-node en stuurt deze vervolgens naar de LSP.</li>
+<li>De LSP maakt een 'wrapped invoice' aan en stuurt deze terug naar de ontvanger.</li>
+<li>De ontvanger geeft de 'wrapped invoice' aan de afzender om te betalen.</li>
+<li>De afzender betaalt de factuur, die via de LSP loopt.</li>
+<li>De LSP detecteert de betaling en opent een 0-conf, just-in-time-kanaal naar de ontvanger.</li>
+<li>De LSP stuurt de betaling vervolgens door naar de ontvanger via dat nieuwe kanaal en de betaling is voltooid.</li>
+</ul>
+
+<h4 style="color:Green;">Bijzonderheden van Just-in-Time-kanalen:</h4>
+<ul>
+<li>Direct gebruiksklare kanalen, geen wachttijd voor blokbevestigingen. Daarom worden ze ook wel "0-conf-kanalen" genoemd.</li>
+<li>Geen openbare informatie over je node-ID of de UTXO van de node die het kanaal financiert, wat zorgt voor extra privacy bij het gebruik van SCID-kanalen.</li>
+<li>Er is geen on-chain-saldo vereist, dus je kunt ze direct gebruiken om je eerste betaling van iemand anders te ontvangen. Maar hier is de truc: gebruik deze kanalen niet voor kleine bedragen.</li> Ik zal later uitleggen waarom</li>
+<li>gebruik van versleutelde facturen, die de uiteindelijke bestemming voor de betaler verbergen</li>
+<li>gebruik van Taproot-kanalen, die de transactiekosten op de blockchain verlagen, zowel qua kosten als qua UTXO/kanaalspoor</li>
+<li>LSP's zullen een gebruikelijke minimale openingsvergoeding van 10.000 sats plus de transactiekosten op de blockchain in rekening brengen. Voor grotere kanalen wordt een percentage van de kanaalgrootte in rekening gebracht. Neem contact op met uw walletprovider en/of LSP voor meer details</li>
+</ul>
+
+<h4 style="color:Green;">Gebruiksscenario's voor JiT-kanalen</h4>
+<p>Deze JiT-kanalen worden aangeboden in: Zeus, Phoenix, Blixt, Shock, BitKit.</p>
+<p>Elk van deze wallet-apps geeft je, wanneer je een JiT-kanaal opent, extra inkomende liquiditeit, meestal 100.000 tot 300.000 sats meer dan je hebt gestort. Houd er echter rekening mee dat deze extra inkomende liquiditeit een soort cadeau van de LSP is en dat zij deze te allen tijde kunnen aanpassen of verwijderen. Het is dus niet gegarandeerd dat je deze extra liquiditeit altijd ontvangt. Denk aan de kosten van liquiditeit.</p>
+<p>LET OP: Gebruik deze JiT-kanalen NIET als je allereerste testbetaling via het Lightning Network "om even te testen met 21 sats"! Dit is een fout die veel nieuwe gebruikers maken door hele kleine kanalen te openen die later volledig nutteloos blijken te zijn en gesloten moeten worden, wat erg duur is.</p>
+<p>Door een minimale vergoeding van 10.000 sats te vragen voor het openen van deze kanalen, krijgen nieuwe gebruikers de verkeerde indruk dat deze wallets erg duur zijn in gebruik, maar dat is niet waar. Ze kiezen simpelweg de verkeerde manier om ze te gebruiken.</p>
+
+<h4 style="color:Green;">Algemeen gebruik van JiT-kanalen voor alle ondersteunde wallets</h4>
+<p>Ik raad aan om deze kanalen ALLEEN in specifieke gevallen te gebruiken:</p>
+<ul>
+<li>Je hebt al andere kanalen openstaan, maar deze zitten vol (niet genoeg inkomende liquiditeit) en je hebt snel "ruimte" nodig om een ​​speciale betaling te ontvangen die je niet via je reguliere kanalen wilt ontvangen.</li>
+<li>Je wilt een meer privébetaling ontvangen met behulp van een versleutelde factuur (van je LSP), en zodra je de betaling in een 0-conf kanaal hebt ontvangen, zet je het geld over naar een on-chain wallet en sluit je dit kanaal. Er zal dan vrijwel geen spoor van je node en UTXO op de blockchain te vinden zijn. Ja, het zal hogere kosten met zich meebrengen, maar je betaalt extra voor de privacy. Je betaalt 10.000 sats voor het openen van het 0-conf kanaal + on-chain kosten en vervolgens de transactiekosten voor het sluiten ervan. Daarom wordt het aanbevolen voor grotere bedragen die deze kosten rechtvaardigen.</li>
+</ul>
+
+<h5 style="color:Blue;">1. Het gebruik van de Zeus-wallet
+<p>U moet de LSP-functie hebben geactiveerd om JiT-kanalen te kunnen openen.</p>
+<p>Ga naar <span style="color:Yellow;">"Instellingen" - "LSP" - "JiT-kanalen" - inschakelen</span>. Standaard is dit Olympus LSP van Zeus.</p>
+<p>U vindt hier ook meer details over hoe het werkt en hoe u het aanmaken van JiT-kanalen naar een specifieke LSP kunt laten verwijzen.</p>
+<p>Zodra het is geactiveerd, gaat u naar het hoofdscherm, drukt u op de knop 'Ontvangen', voert u het bedrag in dat u wilt ontvangen en vervolgens ziet u een melding op het scherm dat dit een 'wrapped invoice' is die door een andere LN-wallet aan de LSP moet worden betaald. Nadat de betaling is voltooid, is het kanaal klaar en ziet u het in uw overzicht van LN-kanalen.</p>
+<p>Dit kanaal kan na minimaal 3 maanden worden verlengd door een kleine extra vergoeding te betalen. U kunt de status van het kanaal en de leaseperiode bekijken in de kanaaldetails.</p>
+<p>Ik raad aan om de functie voor JiT-kanalen "UIT" te laten staan ​​en deze alleen te activeren wanneer dat nodig is. Anders kunnen er veel nieuwe JiT-kanalen automatisch worden geopend als een van uw bestaande kanalen offline is of niet voldoende inkomende liquiditeit heeft.</p>
+<p><a href="https://docs.zeusln.app/lsp/channel-differences">Bekijk hier de limieten en kosten van Zeus LSP-kanalen.</a></p>
+
+<h5 style="color:Blue;">2. Blixt-wallet gebruiken</h5>
+<p>Je moet de functie "Dunder-kanalen" hebben geactiveerd in de instellingen om JiT-kanalen te kunnen openen.</p>
+<p>Ga naar <span style="color:Yellow;">"Instellingen" - "Dunder LSP inschakelen"</span>. Standaard is dit node.blixtwallet.com, maar je kunt het ook wijzigen naar andere door Dunder ondersteunde providers.</p>
+<p>Ik raad je ook aan om naar "Instellingen" - sectie Debug - "Dunder-problemen diagnosticeren" te gaan om te controleren of de Dunder-server online beschikbaar is. Neem voor verdere instructies contact op met de Blixt-ondersteuning als Dunder op dat moment niet beschikbaar is.</p>
+<p>Zodra het is geactiveerd, klik je gewoon op de knop "Ontvangen", voer je het bedrag in dat je wilt ontvangen (minder dan 300.000 sats) en betaal je het vanuit een andere LN-wallet. <a href="https://blixtwallet.github.io/guides#guide-lsp">Lees hier meer over LSP Dunder-kanalen</a>.</p>
+<p>De JiT-kanalen in Blixt kunnen niet worden verlengd en het is aan de Blixt-node om te bepalen hoe lang ze open blijven. Meestal hanteren ze geen beleid voor het sluiten van deze privékanaalen.</p>
+<p>Onthoud dat deze JiT-kanalen in Blixt BEPERKT zijn tot 300.000 sats, maar je betaalt geen openingskosten, alleen de reguliere on-chain kosten.</p>
+
+<h5 style="color:Blue;">3. Phoenix-wallet gebruiken</h5>
+<p>In Phoenix zijn deze kanalen standaard altijd actief. Een belangrijk punt hier is dat Phoenix van Acinq de Eclair LN-implementatie gebruikt, die al een splicing-functie heeft geïmplementeerd. Zie meer over splicing in de vorige sectie "Bronnen" hierboven.</p>
+<p>Dit betekent dat ELKE keer dat je een nieuwe betaling wilt ontvangen en je niet genoeg inkomende liquiditeit hebt in je bestaande kanaal, Acinq LSP een splice-in van het kanaal uitvoert, oftewel het kanaal uitbreidt met het aantal sats dat je wilt ontvangen, waarbij opnieuw 10.000 sats plus on-chain kosten in rekening worden gebracht.</p> Daarom zullen veel nieuwe gebruikers denken dat deze walletprocedure erg duur is, maar in feite gebruiken ze de splicing-functies niet correct.</p>
+<p>Gebruik deze splice-in optie ALLEEN wanneer u een groter bedrag wilt ontvangen en u het bestaande kanaal echt wilt uitbreiden.</p>
+<p>Een andere optie is om inkomende liquiditeit te kopen, maar dat is het volgende kanaaltype waar we het over zullen hebben.</p>
+<p>Voor Phoenix is ​​er geen limiet aan het online houden van deze JiT-kanalen en er is ook geen bekende maximale groottebeperking voor deze kanalen.</p>
+<p>Ik raad daarom aan voor degenen die met Phoenix beginnen om NIET een klein bedrag aan sats als eerste storting te doen, maar goed na te denken over hoe u deze wallet gaat gebruiken. Doe liever eerst een grotere storting, zoals 1-2 miljoen sats of zoveel als u denkt in de toekomst te zullen gebruiken. U kunt later vanuit deze storting geld opnemen als u later via dit kanaal wilt ontvangen. Phoenix kan rechtstreeks naar elk on-chain adres verzenden dankzij de geïntegreerde swaps.</p>
+
+<h5 style="color:Blue;">4. Shock wallet gebruiken</h5>
+<p>Om Shock wallet te gebruiken, moet u eerst Lightning Pub uitvoeren, een lichtgewicht LND-node in neutrinomodus die op een desktop-pc moet worden geïnstalleerd. Hier vindt u instructies en een demo.</p>
+<p>Zodra u uw Shock wallet hebt verbonden met uw LN Pub, kunt u gewoon op de ontvangstknop drukken en er wordt een JiT-kanaal geopend met uw LN Pub-node en een LSP van Shock Network.</p>
+<p>U kunt de LSP's en peers aanpassen in het LN Pub-beheer en/of in het omgevingsbestand. Maar dat is een vrij geavanceerde modus, niet voor beginners.</p>
+<p>Er zijn geen bekende gepubliceerde limieten en kosten voor deze Shock JiT-kanalen. Maar nogmaals, open geen kleine kanaaltjes, er zijn altijd kosten aan verbonden en kleine kanalen worden daardoor duur.</p>
+<p>Opmerking: deze wallet bevindt zich nog in een vroege ontwikkelingsfase, dus beschouw het meer als een test- en leeromgeving en niet voor volledig regulier gebruik. Neem gerust contact op met de ontwikkelaar <a href="https://nostr.com/nprofile1qqsrx9hrd9k7wnfejkgj0wwcgt0400wut5w8479qfudu0tkcpdz9pzqfwq5xw">Justin via NOSTR</a> of via <a href="https://stacker.news/justin_shocknet">Stacker News</a> als je vragen of suggesties voor verbeteringen hebt. Hij is erg behulpzaam en reageert snel op alle vragen over deze Shock-wallet.</p>
+
+<h5 style="color:Blue;">5. Bitkit-wallet gebruiken</h5>
+<p>Deze wallet-app is een beetje bijzonder, omdat hij de LDK-implementatie gebruikt en meer beperkende en vreemde beperkingen heeft. Maar het is de moeite waard om hem te vermelden ter vergelijking met andere wallets. Ik raad hem persoonlijk niet aan; ik ben er zelfs sats mee kwijtgeraakt en na 3 jaar reageert hun support nog steeds niet op mijn problemen.</p>
+<p>Waarom is hij vreemd? Omdat hij de verwarrende BIP177-standaard gebruikt (het ₿-teken voor sats) en de kosten in dollars in plaats van sats weergeeft. Je weet nooit hoeveel sats je precies betaalt. Echt een verwarrende interface, misschien alleen geschikt voor fiat-maximalisten.</p>
+<p>Een andere vreemdheid is dat je bij gebruik van hun LSP Blocktank beperkt bent door je IP-adres/locatie tot bepaalde landen en ook tot een maximum van $1000 (USD/EUR) per kanaal. Ja, stom genoeg koppelen ze LN-kanalen aan fiat-limieten, haha.</p>
+<p>Om in Bitkit een JiT-kanaal te openen, ga je gewoon naar het hoofdscherm en klik je op het "Uitgaven"-saldo. Klik op "Ontvangen", voer het gewenste bedrag in, maar maximaal 1 miljoen sats en minimaal 3000 sats (ja, ze vermelden het minimum in sats, maar de kosten in dollars en de kanaalgrootte in ₿). Dus ja, deze procedure is echt verwarrend.</p>
+
+<figure>
+    <img src="/assets/images/bitkit-opening-channel.JPG" class="center">
+    <figcaption>Schermweergave terwijl Bitkit het openen van het LN-kanaal controleert.</figcaption>
+</figure>
+
+<p>Dus ja, uiteindelijk is dit een andere manier om JiT-kanalen te gebruiken. Dezelfde aanbeveling geldt: open geen kleine kanalen.</p>
+<p>Ik kon in hun documentatie geen tijdslimieten voor deze JiT-kanalen vinden, dus ik neem aan dat ze maximaal 6-12 maanden beschikbaar zijn, gebaseerd op het beleid van Blocktank.</p>
+
+<hr style="height:2px">
+
+<h3 style="color:Yellow;">2. Vooraf aangeschafte kanalen (PiA)</h3>
+<p>De service voor het vooraf aanschaffen van kanalen volgt momenteel de <a href="https://github.com/lightning/blips/blob/master/blip-0051.md">LSPS1-specificatie</a> (bLIP-51). In tegenstelling tot de just-in-time kanaalservice, moet de gebruiker bij deze service wachten op bevestiging voordat het kanaal wordt geopend, meestal 3 bevestigingen.</p>
+<p>De PiA-kanalen worden aangeboden door verschillende LSP's/LiSP's en <a href="https://stacker.news/items/890432">ik heb hier een korte tabel met LiSP's samengesteld</a>.</p>
+<p>Deze PiA-kanalen worden dus gebruikt wanneer je van tevoren weet hoeveel sats je in een bepaalde periode zult ontvangen en je hoeft geen sats te storten op het moment dat je ze opent. Het is alsof je een leeg glas water koopt dat je later met water (sats) vult.</p>
+
+<h4 style="color:Green;">Bijzonderheden van vooraf aangeschafte kanalen:</h4>
+<ul>
+<li>Direct beschikbare INBOUND-liquiditeit, dus vooral handig als je meer wilt ontvangen dan verzenden via LN</li>
+<li>Wachten op 3 bevestigingen voordat het kanaal wordt geopend. Soms minder, afhankelijk van het beleid van de LiSP.</li>
+<li>Beperkte huurperiode, maar gegarandeerd een open kanaal gedurende de huurperiode en betrouwbare betalingen van de LSP.</li>
+<li>Geen openbare informatie over je node-ID of de UTXO van de node die het kanaal financiert, wat zorgt voor extra privacy door het gebruik van SCID-kanalen.</li>
+<li>Geen on-chain fondsen vereist; je betaalt alleen de openingskosten vanuit een andere LN-wallet.</li>
+<li>Gebruik van wrapped invoices, die de uiteindelijke bestemming voor de betaler verbergen.</li>
+<li>Gebruik van Taproot-kanalen, die de on-chain footprint verlagen, zowel qua kosten als qua UTXO/kanaalspoor.</li>
+<li>LSP's rekenen een variabele openingsvergoeding (minimaal 10.000 sats) plus on-chain transactiekosten, berekend op basis van de grootte van het aangevraagde kanaal. Dit is meestal 1-1,5% van de kanaalgrootte, maar kan per LiSP verschillen.</li>
+</ul> Zoals ik al zei, is LN gebaseerd op liquiditeitsincentives en kan de beschikbaarheid in de loop van de tijd variëren.
+
+<h4 style="color:Green;">Gebruiksscenario's voor kanalen met vooruitbetaling (Purchase in Advance)</h4>
+<p>Deze PiA-kanalen worden aangeboden in: Zeus, Phoenix, Blixt, Shock, Alby Hub, Bitkit.</p>
+<p>Koop en gebruik deze PiA-kanalen in de volgende scenario's:</p>
+<ul>
+<li>Je hebt geen openstaande LN-kanalen in de bovengenoemde wallets en je wilt gedurende een bepaalde periode grotere hoeveelheden sats ontvangen. Kies de grootte van de kanalen daarom dienovereenkomstig.</li>
+<li>Je verzamelt kleine hoeveelheden sats in een andere wallet, zoals Cashu, een custodial wallet of NWC, en je wilt deze na een bepaalde limiet overzetten naar je eigen self-custodial kanalen. Kies ook hier de grootte van de kanalen dienovereenkomstig.</li>
+<li>Je koopt sats van exchanges die LN ondersteunen. Deze PiA-kanalen, samen met wrapped invoices (indien ondersteund door de tegenpartij), kunnen een extra privacyniveau bieden wanneer je geld van deze exchanges opneemt. Ze zijn ook handig om te hergebruiken. Kopen - meerdere kleine bedragen opnemen - verzamelen - omzetten naar on-chain - herhalen. Je hoeft ze niet te sluiten, je hoeft alleen de lease te verlengen. Via één kanaal kun je een oneindige hoeveelheid sats versturen zonder dat er een spoor op de blockchain achterblijft, zolang je het kanaal niet sluit.</li>
+<li>Je bent een handelaar die meer inkomende liquiditeit nodig heeft. Deze kanalen zijn erg handig en goedkoop.</li>
+</ul>
+
+<hr style="height:2px">
+
+<h3 style="color:Yellow;">3. Je eigen fondskanalen (YoF)</h3>
+<p>Deze kanalen zijn normale LN-kanalen, maar dan privékanalen (niet aangekondigd in de LN-grafiek en niet zichtbaar in openbare LN-explorers). De YoF-kanalen worden door jezelf geïnitieerd, met fondsen uit je eigen on-chain node-wallet, met behulp van je eigen UTXO.</p>
+
+<h4 style="color:Green;">Bijzonderheden van YoF-kanalen:</h4>
+<ul>
+<li>Direct beschikbare UITGAANDE liquiditeit, dus vooral handig als je meer verstuurt dan ontvangt via LN. Je kunt nog steeds ontvangen via deze kanalen, maar pas nadat je een percentage van de sats hebt uitgegeven, waardoor er "ruimte" ontstaat in het kanaal voor inkomende capaciteit.</li>
+<li>Wacht op 3 bevestigingen voordat het kanaal geopend is. Afhankelijk van de peer kan dit worden aangepast, maar alleen bij vertrouwde peers.</li>
+<li>Vereist dat de fondsen zich in je on-chain node-wallet bevinden. Het kanaal kan alleen worden geopend met je eigen fondsen.</li>
+<li>Gebruik van Taproot-kanalen en SCID indien de peer dit ondersteunt.</li>
+<li>Gebruik van wrapped invoices ALLEEN als de peer dit ondersteunt.</li>
+<li>Geen extra kosten voor het openen van het kanaal, afgezien van de reguliere on-chain transactiekosten voor de openingstransactie.</li>
+<li>Geen gegarandeerde tijd dat deze kanalen open blijven. Houd er rekening mee dat sommige openbare routing-peers deze privékanalen niet willen, dus het is beter om je peers zorgvuldig te kiezen. Anders kan het kanaal direct worden gesloten. Gebruik bij voorkeur bekende LiSP's die privékanalen toestaan ​​en waarvan je weet dat ze je kanaal niet sluiten als je er transacties mee uitvoert.</li>
+</ul>
+
+<h4 style="color:Green;">Gebruiksscenario's voor je eigen fondsen / normale kanalen</h4>
+<p>Deze PiA-kanalen worden aangeboden in: Zeus, Phoenix, Blixt, Shock, Alby Hub, Bitkit, Electrum.</p>
+<p>Het gebruiksscenario voor deze YoF-kanalen is dus wanneer je een reguliere gebruiker bent en gewoon betalingen wilt doen aan bepaalde handelaren die Bitcoin-betalingen via LN accepteren.</p>
+<p>Zodra je deze kanalen hebt leeggemaakt, kun je ze opnieuw vullen met een swap vanuit on-chain. Zeus, Phoenix en Alby hebben deze functie al geïntegreerd.</p> Voor andere gevallen moet je een externe swapservice gebruiken (zie het gedeelte met bronnen hierboven).</p>
+<p>Nogmaals, ik raad af om kleine kanalen te openen, minimaal 300k-500k sats per kanaal.</p>
+<p>Voor privégebruik van LN is het voldoende om 2-3 privé LN-kanalen met verschillende LiSP's te hebben, maar pas de grootte aan je behoeften aan voor een bepaalde periode. Bereken je verbruik aan betalingen nauwkeurig en open een LN-kanaal met de juiste grootte.</p>
+<blockquote style="color:Tomato;"><em>Belangrijk: beschouw deze YoF-kanalen NIET als je bewaarportemonnee voor de lange termijn! Gebruik hiervoor alleen een on-chain portemonnee. Dit zijn portemonnees om mee te betalen. Verplaats de fondsen dus zoveel mogelijk met deze YoF-kanalen. Als je weet dat je ze lange tijd niet zult gebruiken, kun je ze beter coöperatief sluiten en niet wachten tot een geforceerde sluiting plaatsvindt, want dat is duur.</em></blockquote>
+
+<hr style="height:2px">
+
+<h2 style="color:Orange;">Conclusie</h2>
+<p>Dat is het dan, dit zijn de belangrijkste soorten PRIVÉ LN-kanalen en hun gebruiksscenario's. Zoals je kunt zien, zijn er kleine verschillen en gebruiksscenario's tussen de verschillende typen, dus kies verstandig wanneer, hoe en waar je ze gebruikt.</p>
+<p>Oefen er meerdere keren mee, noteer de kosten die in rekening zijn gebracht voor de verschillende bedragen en trek niet te snel de verkeerde conclusie dat LN moeilijk te gebruiken of duur is, alleen omdat je niet begreep hoe deze typen kanalen werken.</p>
+<p>Deze kanalen hebben ook een ander kostenbeleid dan openbare kanalen. Wanneer je een openbaar routingknooppunt beheert, gelden andere regels, dus raak niet in de war of gefrustreerd omdat er andere kosten in rekening zijn gebracht. Zoals ik al zei, is LN gebaseerd op prikkels, dus denk na over hoe je LSP/kanaalpartner zijn EIGEN kapitaal in kanaalsats investeert om goedkope, goede en betrouwbare betaalroutes te bieden. Onthoud dat de kosten van een betaling niet alleen worden bepaald door je directe kanaalpartners, maar ook door hun partners, minstens 2-3 hops verder.</p>
+<p>Ik hoop dat deze gids je zal helpen bij je reis door het Lightning Network en je een beter begrip geeft van hoe je je privé-knooppunten kunt beheren. Ik denk dat deze handleiding lang genoeg is en ik wil niet verder ingaan op technische details. Je kunt me meer vragen stellen in deze thread hier op SN en ik zal ze graag beantwoorden met de informatie die ik heb.</p>
+<p>Tot slot: ik wil alle ontwikkelaars van deze geweldige wallet-apps bedanken. Ze hebben fantastisch werk geleverd door een geweldige en veelzijdige ervaring te bieden met het gebruik van zelfbeheerde LN-nodes, praktisch in je broekzak.</p>
+<p>Ja, deze LN-nodes zijn niet voor absolute bitcoin-beginners, ze zijn behoorlijk geavanceerd, maar daarom heb ik al die links in de sectie "Bronnen" geplaatst, zodat je ze kunt lezen en meer studiemateriaal hebt. Negeer de links alsjeblieft niet.</p>
+</body>
+</html>
+</article>

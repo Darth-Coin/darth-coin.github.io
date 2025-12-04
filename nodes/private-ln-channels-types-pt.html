@@ -1,0 +1,233 @@
+---
+layout: default
+title: Tipos de canais LN privados
+description: Como usar diferentes tipos de canais da rede Bitcoin Lightning Network e seus casos de uso.
+image: /assets/images/ln-liquidity-management.jpg
+---
+<article>
+<!DOCTYPE html>
+<html lang="pt">
+<meta name="description" content="Guias sobre Bitcoin e Lightning Network: Como usar diferentes tipos de canais da Bitcoin LN, casos de uso.">
+<body>
+<center>
+<h2 style="color:Orange;">Como usar diferentes tipos de canais da Rede Lightning do Bitcoin e seus casos de uso.</h2>
+<p><img src="/assets/images/ln-liquidity-management.jpg" class="center"></p>
+
+| <a href="/nodes/private-ln-channels-types-es.html"><img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/private-ln-channels-types-pt.html"><img src="/assets/images/flag-PT.png" alt="PT" title="Portuguese" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/private-ln-channels-types-de.html"><img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/private-ln-channels-types-fr.html"><img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/private-ln-channels-types-it.html"><img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/private-ln-channels-types-nl.html"><img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/private-ln-channels-types-hr.html"><img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/private-ln-channels-types-hi.html"><img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+</center>
+<blockquote style="color:Tomato;"><em>
+
+<p>Atualizado em 04 de dezembro de 2025</p>
+</em></blockquote>
+
+<h3 style="color:Red;">Sua falta de compreensão hoje lhe custará uma fortuna amanhã...</h3>
+
+<h2 style="color:Orange;">Introdução</h2>
+
+<p>Dedico este guia a todos os novos usuários da Lightning Network (LN) que desejam começar a usar soluções de autocustódia mais robustas, como: Zeus Wallet, Blixt Wallet, Shock Wallet, Bitkit, Alby Hub ou um simples nó LND autônomo no modo neutrino. Existe também a antiga carteira Breez (LND), mas parece que foi abandonada, então não falaremos mais sobre ela.</p>
+<p>Observei que muitos novos usuários ficam confusos sobre como funciona a liquidez da LN e sempre consideram que todas as carteiras deveriam funcionar da mesma maneira, ou até mesmo como qualquer carteira on-chain. Isso é um grande equívoco e gostaria de esclarecer essa questão com este guia.</p>
+<p>Este guia tem como objetivo ajudá-lo a entender como usar corretamente cada tipo de canal da LN e gerenciar melhor seus fundos usando a LN. Sim, existem diferentes tipos de canais da LN, mesmo que todos sejam canais da LN e funcionem da mesma maneira com base nos padrões do protocolo LN. As diferenças estão em como você os abre e em qual cenário de uso cada um é mais adequado.</p>
+<p>Considere que a LN é baseada em uma forte economia de incentivos, talvez até mais forte do que a mineração de blocos de Bitcoin, porque REQUER recursos muito bons e liquidez bem alocada, onde for necessário e quando for necessário. Portanto, da próxima vez que você quiser começar a usar uma carteira LN, pense nisso como alocar capital em um mercado de liquidez rápida, onde os satoshis devem fluir continuamente para serem alocados de forma eficiente. Sim, você é um usuário privado da LN que só quer usar seus satoshis para fazer pagamentos na LN, mas isso não significa que você possa ou deva manter seus satoshis em um canal da LN para sempre, sem movimentá-los ou alocá-los em um tipo de canal inadequado. Caso contrário, você pagará altas taxas, terá canais fechados e uma experiência ruim usando a LN. Quase todas as reclamações sobre a LN que "não funciona" vêm da falta de compreensão dos usuários sobre como a LN funciona e como devem alocar recursos a ela.</p>
+
+<hr style="height:2px">
+
+<h2 style="color:Orange;">Recursos e glossário</h2>
+
+<blockquote style="color:Tomato;"><em>Leia-os para entender melhor os termos e funcionalidades.</em></blockquote>
+
+<p>Lembre-se: estas são TODAS soluções para um nó LN PRIVADO, que não realiza roteamento público e é usado apenas para seu uso pessoal de pagamentos LN.</p>
+<p>Expliquei em guias anteriores as diferenças entre nós LN públicos e privados e outros aspectos a serem considerados, e recomendo fortemente que você os leia primeiro:</p>
+<ul>
+<li><a href="https://darth-coin.github.io/nodes/managing-lightning-node-liquidity-pt.html">Gerenciando a liquidez do nó Lightning</a></li>
+<li><a href="https://darth-coin.github.io/nodes/recommendations-ln-node-operators-pt.html">Recomendações para operadores de nós LN</a></li>
+<li><a href="https://stacker.news/items/486306/r/DarthCoin">Topologia futura da Lightning Network</a></li>
+<li><a href="https://darth-coin.github.io/nodes/private-ln-nodes-pt.html">Nós LN privados</a></li>
+<li><a href="https://stacker.news/items/909079/r/DarthCoin">Ferramentas de privacidade subestimadas da LN</a></li>
+<li><a href="https://docs.megalithic.me/the-lightning-network/how-private/">Quão privada é a LN?</a></li>
+<li><a href="https://docs.lightning.engineering/lightning-network-tools/pool/zero-confirmation-channels">Como funcionam os canais 0-conf</a></li>
+<li><a href="https://docs.lightning.engineering/lightning-network-tools/lnd/amp">AMP - Pagamentos atômicos multi-caminho</a></li>
+<li><a href="https://docs.lightning.engineering/the-lightning-network/pathfinding/multipath-payments-mpp">MPP - Pagamento multi-caminho</a></li>
+<li><a href="https://lightningsplice.com">Leia mais sobre o recurso de Splicing da LN</a></li>
+<li><a <li><a href="https://github.com/lightningnetwork/lnd/blob/6dea86428d031171af30119e3f6599820dc5454a/lnwallet/channel.go#L3803-L3815">Buffer do canal LN</a></li>
+<li><a href="https://lightningwiki.net/index.php/Fees">As taxas de confirmação do canal LN são variáveis</a> | <a href="https://bitcoin.stackexchange.com/questions/89232/why-is-my-spendable-msat-much-lower-than-msatoshi-to-us/89235#89235">Exemplo de variação de taxas de commit</a></li>
+<li>LSP - Provedor de Serviços Lightning, quando uma carteira ou nó fornece vários serviços LN para o usuário da carteira ou qualquer nó LN</li>
+<li>LiSP - Provedor de Serviços de Liquidez, quando um nó público fornece canais de liquidez, de entrada/saída para qualquer operador de nó.</li>
+<li><a href="https://darth-coin.github.io/nodes/lightning-submarine-swaps-pt.html">Swaps Submarinos da Rede Lightning</a></li>
+</ul>
+
+<p>Guias adicionais para leitura:</p>
+<ul>
+<li><a href="https://stacker.news/items/552822/r/DarthCoin">Rede Lightning explicada por meio de uma analogia</a></li>
+<li><a href="https://stacker.news/items/679242/r/DarthCoin">Gerenciando a liquidez de carteiras LN privadas</a></li>
+<li><a href="https://darth-coin.github.io/wallets/getting-started-zeus-wallet-pt.html">Primeiros passos com o nó Zeus LN</a></li>
+<li><a href="https://darth-coin.github.io/wallets/zeus-node-advanced-usage-pt.html">Nó Zeus LN - Uso avançado</a></li>
+<li><a href="https://darth-coin.github.io/wallets/getting-started-blixt-wallet-pt.html">Primeiros passos com a Carteira Blixt</a></li>
+<li><a href="https://darth-coin.github.io/wallets/getting-started-alby-hub-pt.html">Primeiros passos com o Alby Hub</a></li>
+<li>Documentação do Zeus: <a href="https://docs.zeusln.app/for-users/embedded-node/faq">FAQ</a> | <a href="https://docs.zeusln.app/lsp/intro">LSP</a> | <a href="https://docs.zeusln.app/category/embedded-node">Nó Zeus</a></li>
+<li>Documentação do Blixt: <a href="https://blixtwallet.github.io/faq">FAQ</a> | <a href="https://blixtwallet.github.io/guides">Guias</a></li>
+<li><a href="https://phoenix.acinq.co/faq">FAQ do Phoenix Acinq</a></li>
+<li><a href="https://docs.shock.network/wallet/faq">FAQ da Shock Wallet</a></li>
+<li><a href="https://guides.getalby.com/user-guide/alby-hub">Guias do Alby Hub</a></li>
+</ul>
+
+<hr style="height:2px">
+
+<h2 style="color:Orange;">Tipos de Canais da Rede Lightning</h2>
+
+<p>Nesta seção, abordarei alguns casos de uso específicos dos tipos de canais e como eles devem ser utilizados. Não entrarei em muitos detalhes técnicos, pois este guia é para iniciantes, apenas tentando explicar como você pode começar essa jornada de forma tranquila e com menos frustrações.</p>
+
+<h3 style="color:Yellow;">1. Canais Just-in-Time (JiT / 0-conf)</h3>
+
+<p>Geralmente, esses canais são oferecidos por provedores de serviços de carteira (LSP) para ajudar novos usuários a ingressarem na rede facilmente. Mas esteja ciente de suas particularidades e não abuse deles, pois NÃO devem ser usados ​​o tempo todo.</p>
+<p>O serviço de canais just-in-time usa faturas encapsuladas e canais 0-conf para conectar instantaneamente os usuários à rede Lightning. Tudo o que você precisa fazer é que o remetente pague a fatura que a carteira lhe mostrar, mas veja o que acontece nos bastidores:</p>
+<ul>
+<li>O destinatário gera uma fatura em seu nó Lightning e a envia para o LSP</li>
+<li>O LSP cria uma fatura encapsulada e a retorna ao destinatário</li>
+<li>O destinatário entrega a fatura encapsulada ao remetente para que ele a pague</li>
+<li>O remetente paga a fatura, que passa pelo LSP</li>
+<li>O LSP detecta o pagamento e abre um canal 0-conf, just-in-time, para o destinatário</li>
+<li>O LSP então encaminha o pagamento para o destinatário usando esse novo canal e o pagamento é concluído</li>
+</ul>
+
+<h4 style="color:Green;">Particularidades dos canais Just-in-Time:</h4>
+<ul>
+<li>Canais instantâneos e prontos para uso, sem tempo de espera para confirmações de blocos. É por isso que também são chamados de "canais 0-conf"</li>
+<li>Nenhuma informação pública sobre o seu nodeID, UTXO do nó que financia o canal, proporcionando privacidade extra usando canais SCID</li>
+<li>Não há necessidade de ter fundos on-chain, portanto, podem ser usados ​​imediatamente, recebendo seu primeiro pagamento de qualquer pessoa. Mas aqui está o truque: não use esses canais para pequenas quantias. Explicarei mais tarde o porquê</li>
+<li>Uso de faturas encapsuladas, que ocultam o destino final para o pagador</li>
+<li>Uso de canais Taproot, que reduzem a pegada na blockchain, tanto em taxas quanto no rastreamento de UTXO/canal</li>
+<li>Os LSPs cobrarão uma taxa de abertura mínima usual de 10.000 sats + taxa de transação na blockchain. Para canais de tamanho maior, será uma porcentagem do tamanho do canal. Verifique com o provedor da carteira e/ou LSP para obter mais detalhes</li>
+</ul>
+
+<h4 style="color:Green;">Cenários de uso para canais JiT</h4>
+<p>Esses canais JiT são oferecidos em: Zeus, Phoenix, Blixt, Shock, BitKit.</p>
+<p>Cada um desses aplicativos de carteira, ao abrir um canal JiT, fornecerá liquidez de entrada adicional, que geralmente varia de 100k a 300k sats a mais do que o valor depositado. Mas lembre-se, essa liquidez de entrada extra é como um presente do LSP e eles podem ajustá-la ou removê-la a qualquer momento, portanto, não há garantia de que você sempre receberá esse valor extra. Lembre-se do custo da liquidez.</p>
+<p>NOTA: NÃO use esses canais JiT como seu primeiro pagamento de teste na rede Lightning "apenas para testar com 21 sats para receber"! Este é o erro que muitos novos usuários cometem, abrindo canais muito pequenos que depois se tornam totalmente inúteis e precisam ser fechados, o que é muito caro.</p>
+<p>Ao cobrar uma taxa mínima de 10k sats para abrir esses canais, os novos usuários terão a falsa impressão de que essas carteiras são muito caras de usar, mas estão enganados. Na verdade, eles escolheram a maneira errada de usá-las.</p>
+
+<h4 style="color:Green;">Caso de uso geral de canais JiT para todas as carteiras suportadas</h4>
+<p>Recomendo usar esses canais SOMENTE EM CASOS ESPECÍFICOS:</p>
+<ul>
+<li>Você já possui outros canais abertos, mas estão cheios (sem liquidez de entrada suficiente) e precisa de um "espaço" rápido para receber um pagamento especial que não deseja receber em seus canais regulares.</li>
+<li>Você deseja receber um pagamento mais privado, usando uma fatura encapsulada (do seu LSP), e depois de receber o pagamento em um canal 0-conf, você transfere os fundos para uma carteira on-chain e fecha este canal. Será como se não houvesse nenhum registro on-chain sobre seu nó e UTXO. Sim, terá um custo maior, mas com mais privacidade. Você pagará 10k sats para abrir o canal 0-conf + taxas on-chain e depois as taxas de transação para fechá-lo. É por isso que é recomendado para valores maiores que justifiquem essas taxas.</li>
+</ul>
+
+<h5 style="color:Blue;">1. Usando a carteira Zeus</h5>
+<p>Você precisa ter o recurso LSP ativado para poder abrir canais JiT.</p>
+<p>Vá para <span style="color:Yellow;">"Configurações" - "LSP" - "Canais JiT" - ativar</span>. Por padrão, o LSP utilizado é o Olympus da Zeus.</p>
+<p>Você encontrará mais detalhes sobre como funciona e como direcionar a criação do canal JiT para um LSP específico.</p>
+<p>Depois de ativado, basta ir para a tela principal, tocar no botão "Receber", inserir o valor que deseja receber e você verá uma mensagem na tela informando que esta é uma fatura encapsulada a ser paga ao LSP por qualquer outra carteira LN. Após alguns instantes, o pagamento será processado, o canal estará pronto e você poderá visualizá-lo na tela de canais LN.</p>
+<p>Este canal também pode ser renovado, após o período mínimo de 3 meses, mediante o pagamento de uma pequena taxa adicional. Você pode verificar o status do canal e o período de validade nos detalhes do canal.</p>
+<p>Recomendo manter o recurso de canais JiT "DESATIVADO" e ativá-lo somente quando necessário. Caso contrário, você poderá ter vários canais JiT abertos automaticamente se um dos seus canais existentes estiver offline ou não tiver liquidez de entrada suficiente.</p>
+<p><a href="https://docs.zeusln.app/lsp/channel-differences">Confira os limites e taxas dos canais LSP da Zeus aqui.</a></p>
+
+<h5 style="color:Blue;">2. Usando a carteira Blixt</h5>
+<p>Você precisa ter ativado o recurso "Canais Dunder" nas opções para poder abrir canais JiT.</p>
+<p>Vá para <span style="color:Yellow;">"Configurações" - "Ativar Dunder LSP"</span>. Por padrão, é node.blixtwallet.com, mas você também pode alterá-lo para outros provedores compatíveis com Dunder.</p>
+<p>Recomendo também ir para "Configurações" - seção Depuração - "Diagnosticar problemas do Dunder" para verificar se o servidor Dunder está disponível online. Para mais instruções, entre em contato com o suporte da Blixt se o Dunder não estiver disponível no momento.</p>
+<p>Depois de ativado, basta clicar no botão "Receber", inserir o valor que deseja receber (menos de 300 mil sats) e pagar com qualquer outra carteira LN. <a href="https://blixtwallet.github.io/guides#guide-lsp">Leia mais sobre canais LSP Dunder aqui</a>.</p>
+<p>Os canais JiT na Blixt não têm opção de renovação e a duração de sua abertura fica a critério do nó da Blixt. Geralmente, não há nenhuma política para o fechamento desses canais privados.</p>
+<p>Lembre-se de que, na Blixt, esses canais JiT são LIMITADOS a 300 mil sats, mas você não paga nenhuma taxa de abertura, apenas as taxas on-chain regulares.</p>
+
+<h5 style="color:Blue;">3. Usando a carteira Phoenix</h5>
+<p>Na Phoenix, esses canais estão sempre ativos por padrão. Uma menção especial aqui é que a Phoenix, da Acinq, usa a implementação Eclair LN, que já possui o recurso de splicing implementado. Veja mais sobre splicing na seção "Recursos" acima.</p>
+<p>Isso significa que, CADA vez que você quiser receber um novo pagamento e não tiver liquidez de entrada suficiente em seu canal existente, o LSP da Acinq fará um splice-in do canal, ou seja, expandirá o canal com a quantidade de sats que você deseja receber, cobrando novamente uma taxa de 10 mil sats + taxas on-chain.</p> É por isso que muitos novos usuários pensam que este procedimento de carteira é muito caro, mas na verdade eles não estão usando os recursos de emenda corretamente.</p>
+<p>Use esta opção de emenda SOMENTE quando você tiver um valor maior para receber e realmente quiser expandir o canal existente.</p>
+<p>Outra opção é comprar liquidez de entrada, mas esse é o próximo tipo de canal sobre o qual falaremos.</p>
+<p>Para o Phoenix, não há limite para manter esses canais JiT online e também não há um limite máximo de tamanho conhecido para esses canais.</p>
+<p>Portanto, eu recomendaria para aqueles que estão começando com o Phoenix NÃO fazer o primeiro depósito com uma pequena quantia de sats, mas pensar muito bem em como você vai usar esta carteira. É melhor fazer um depósito maior primeiro, como 1-2 milhões de sats ou o quanto você considerar que usará no futuro. Você pode sacar parte desse depósito se quiser receber mais tarde neste canal. O Phoenix pode enviar diretamente para qualquer endereço on-chain, pois possui as trocas integradas.</p>
+
+<h5 style="color:Blue;">4. Usando a carteira Shock</h5>
+<p>Para usar a carteira Shock, você precisa primeiro executar o Lightning Pub, um nó LND leve no modo neutrino que deve ser instalado em um computador desktop. Aqui você encontra instruções e uma demonstração.</p>
+<p>Depois de conectar sua carteira Shock ao seu LN Pub, basta clicar no botão "receber" e um canal JiT será aberto com seu nó LN Pub e um LSP fornecido pela Shock Network.</p>
+<p>Você pode personalizar os LSPs e pares no gerenciamento do LN Pub e/ou no arquivo de ambiente. Mas esse é um modo mais avançado, não recomendado para iniciantes.</p>
+<p>Não há limites e taxas publicadas conhecidas para esses canais JiT da Shock. Mas, novamente, não abra canais muito pequenos, pois as taxas sempre estarão envolvidas e tornarão os canais pequenos caros.</p>
+<p>Nota: esta carteira ainda está em fase inicial de desenvolvimento, portanto, considere-a mais para testes e aprendizado, e não para uso regular completo. E, por favor, entre em contato com o desenvolvedor <a href="https://nostr.com/nprofile1qqsrx9hrd9k7wnfejkgj0wwcgt0400wut5w8479qfudu0tkcpdz9pzqfwq5xw">Justin no NOSTR</a> ou no <a href="https://stacker.news/justin_shocknet">Stacker News</a> sempre que tiver dúvidas ou sugestões de melhoria. Ele é muito prestativo e responde a qualquer dúvida sobre esta carteira Shock.</p>
+
+<h5 style="color:Blue;">5. Usando a carteira Bitkit</h5>
+<p>Este aplicativo de carteira é um pouco peculiar, usando a implementação LDK e apresentando limitações mais restritivas e estranhas. Mas vale a pena mencioná-lo para comparação com outros. Eu pessoalmente não o recomendo, cheguei a perder sats com ele e, depois de 3 anos, o suporte ainda não respondeu aos meus problemas.</p>
+<p>Por que é estranho? Porque usa o confuso BIP177 (símbolo ₿ para sats) e também taxas expressas em dólares em vez de sats. Você nunca sabe quantos sats pagará.</p> Interface realmente confusa, talvez adequada apenas para maximalistas de moedas fiduciárias.</p>
+<p>Outra estranheza é que, ao usar o LSP Blocktank, você fica restrito por IP/localização a determinados países e também a um máximo de US$ 1000 (USD/EUR) por canal. Sim, incrivelmente, eles alinham os canais da Lightning Network com limites de moeda fiduciária, rsrs.</p>
+<p>No Bitkit, para abrir um canal JiT, basta ir para a tela principal e clicar no saldo de "Gastos". Clique em "Receber", insira o valor desejado, mas o máximo é de 1 milhão de sats e o mínimo de 3000 sats (sim, eles mencionam o mínimo em sats, mas as taxas em dólares e o tamanho do canal em BTC). Então, sim, esse procedimento é realmente confuso.</p>
+
+<figure>
+    <img src="/assets/images/bitkit-opening-channel.JPG" class="center">
+    <figcaption>Tela exibida enquanto o Bitkit está revisando a abertura do canal LN.</figcaption>
+</figure>
+
+<p>Então, sim, no final das contas é mais uma maneira de usar canais JiT. A mesma recomendação: não abra canais pequenos.</p>
+<p>Não encontrei na documentação deles os limites de tempo para esses canais JiT, então suponho que estejam disponíveis por no máximo 6 a 12 meses, com base nas políticas da Blocktank.</p>
+
+<hr style="height:2px">
+
+<h3 style="color:Yellow;">2. Canais de Compra Antecipada (PiA)</h3>
+<p>O serviço de canais de compra antecipada atualmente segue a <a href="https://github.com/lightning/blips/blob/master/blip-0051.md">especificação LSPS1</a> (bLIP-51). Ao contrário do serviço de canais just-in-time, este serviço exige que o usuário aguarde a confirmação antes da abertura do canal, geralmente 3 confirmações.</p>
+<p>Os canais PiA são oferecidos por diversos LSPs/LiSPs e <a href="https://stacker.news/items/890432">eu criei uma tabela rápida de LiSPs aqui</a>.</p>
+<p>Basicamente, esses canais PiA são usados ​​quando você sabe antecipadamente quantos sats receberá em um determinado período e não precisa depositar nenhum sat no momento da abertura. É como comprar um copo de água vazio que você encherá com água (sats) no futuro.</p>
+
+<h4 style="color:Green;">Particularidades dos canais de compra antecipada:</h4>
+<ul>
+<li>Liquidez de entrada (inbound) pronta para uso, ideal para quem deseja receber mais do que enviar pela rede Lightning.</li>
+<li>É necessário aguardar 3 confirmações para a abertura do canal. Às vezes, menos, dependendo das políticas do LiSP.</li>
+<li>Tempo de locação limitado, mas com canal aberto garantido durante o período de locação e confiabilidade nos pagamentos por parte do LSP.</li>
+<li>Sem informações públicas sobre o seu nodeID ou UTXO do nó que financia o canal, proporcionando maior privacidade com o uso de canais SCID.</li>
+<li>Não é necessário ter fundos on-chain; você paga apenas a taxa de abertura a partir de outra carteira Lightning.</li>
+<li>Utiliza faturas encapsuladas, que ocultam o destino final para o pagador.</li>
+<li>Uso de canais Taproot, que reduzem a pegada on-chain, tanto em taxas quanto no rastreamento de UTXO/canal.</li>
+<li>Os LSPs cobram uma taxa de abertura variável (mínimo de 10.000 sats) + taxa de transação on-chain calculada pelo tamanho do canal solicitado. Geralmente, é de 1 a 1,5% do tamanho do canal, mas varia de acordo com cada LiSP. Como mencionei, a rede Lightning é baseada em incentivos de liquidez e pode variar com o tempo.</li>
+</ul>
+
+<h4 style="color:Green;">Cenários de uso para canais de Compra Antecipada (PiA)</h4>
+<p>Esses canais PiA são oferecidos em: Zeus, Phoenix, Blixt, Shock, Alby Hub, Bitkit.</p>
+<p>Compre e use esses canais PiA nos seguintes cenários:</p>
+<ul>
+<li>Você não possui nenhum canal LN aberto nas carteiras mencionadas acima e deseja começar a receber grandes quantias de sats durante um determinado período de tempo. Portanto, dimensione-os adequadamente.</li>
+<li>Você está acumulando pequenas quantias de sats em outra carteira, como Cashu, custodial, NWC, e deseja transferi-las para seus próprios canais autocustodiais após atingir um certo limite. Novamente, dimensione-os adequadamente.</li>
+<li>Você está comprando sats de exchanges que suportam LN. Esses canais PiA, juntamente com faturas encapsuladas (se forem suportadas pelo par), podem oferecer um nível extra de privacidade ao sacar dessas exchanges. Também são bons para reutilizar. Compre - saque várias pequenas quantias - acumule - transfira para a blockchain - repita. Você não precisa fechá-los, basta renovar o contrato. Através de um único canal, você pode movimentar uma quantidade infinita de sats sem deixar rastros na blockchain, se não o fechar.</li>
+<li>Você é um comerciante que precisa de mais liquidez de entrada. Esses canais são muito úteis e baratos.</li>
+</ul>
+
+<hr style="height:2px">
+
+<h3 style="color:Yellow;">3. Canais com Fundos Próprios (YoF)</h3>
+<p>Os canais YoF são canais LN normais, porém são canais privados (não anunciados no gráfico da LN e não visíveis nos exploradores públicos da LN). Os canais YoF são iniciados por você mesmo, com fundos da sua própria carteira de nó na blockchain, usando sua própria UTXO.</p>
+
+<h4 style="color:Green;">Particularidades dos canais YoF:</h4>
+<ul>
+<li>Liquidez de SAÍDA pronta para uso, portanto, são usados ​​principalmente quando você envia mais do que recebe pela LN. Você ainda pode receber nesses canais, mas somente depois de gastar uma porcentagem dos sats, "abrindo espaço" no canal para capacidade de entrada.</li>
+<li>É necessário aguardar 3 confirmações para serem abertos. Dependendo do par, isso pode ser personalizado, mas apenas com pares confiáveis.</li>
+<li>Requisito de ter os fundos na sua carteira de nó na blockchain.</li>
+</ul> Só pode ser iniciado com seus próprios fundos.</li>
+<li>Uso de canais Taproot e SCID se o parceiro oferecer suporte</li>
+<li>Uso de faturas encapsuladas SOMENTE se o parceiro oferecer suporte</li>
+<li>Sem taxas extras para abrir o canal, além das taxas normais de transação on-chain para a transação de abertura</li>
+<li>Não há garantia de tempo para manter esses canais abertos. Esteja ciente de que alguns nós de roteamento públicos não desejam esses canais privados, portanto, é melhor escolher seus parceiros com sabedoria; caso contrário, o canal poderá ser fechado instantaneamente. É melhor usar provedores de serviços Lightning (LiSP) conhecidos que permitam canais privados e que garantam que, se você tiver um certo volume de transações nesses canais, eles não serão fechados.</li>
+</ul>
+
+<h4 style="color:Green;">Cenários de uso para seus próprios fundos / Canais normais</h4>
+<p>Esses canais PiA são oferecidos em: Zeus, Phoenix, Blixt, Shock, Alby Hub, Bitkit, Electrum.</p>
+<p>Portanto, o cenário de uso desses canais YoF é quando você é um usuário regular e deseja apenas fazer pagamentos para determinados comerciantes que aceitam pagamentos em Bitcoin via LN.</p>
+<p>Depois de esvaziar esses canais, você pode recarregá-los usando uma troca on-chain. Zeus, Phoenix e Alby já possuem esse recurso integrado. Para outros, você deve usar um serviço de troca externo (consulte a seção de recursos acima).</p>
+<p>Novamente, eu não recomendaria abrir canais pequenos, pelo menos 300k-500k sats por canal.</p>
+<p>Para uso privado da LN, ter 2-3 canais LN privados com diferentes LiSP é suficiente, mas dimensione-os de acordo com suas necessidades em um determinado período de tempo. Calcule corretamente seu uso em pagamentos e abra um canal LN com o tamanho adequado.</p>
+<blockquote style="color:Tomato;"><em>Aspecto importante aqui: NÃO considere esses canais YoF como sua carteira de armazenamento de longo prazo! Para armazenamento, use apenas carteiras on-chain. Estas são carteiras de GASTOS. Portanto, movimente os fundos o máximo possível com esses canais YoF. Se você sabe que não os usará por muito tempo, é melhor fechá-los, de forma cooperativa, e não esperar que um fechamento forçado aconteça, pois será caro.</em></blockquote>
+
+<hr style="height:2px">
+
+<h2 style="color:Orange;">Conclusão</h2>
+<p>Então é isso, esses são os principais tipos de canais LN PRIVADOS e seus casos de uso. Como você pode ver, existem pequenas diferenças e casos de uso entre eles, portanto, escolha com sabedoria quando, como e onde usá-los.</p>
+<p>Pratique várias vezes com eles, anote as taxas cobradas para os diferentes valores e, por favor, não tire conclusões precipitadas de que a LN é difícil de usar ou cara, apenas porque você não entendeu como esses tipos de canais funcionam.</p>
+<p>Além disso, esses canais têm uma política de taxas diferente dos canais públicos.</p> Ao operar um nó de roteamento público, outras políticas são aplicadas, portanto, não se confunda ou se frustre caso seja cobrado de forma diferente. Como mencionei, a Lightning Network é baseada em incentivos, então pense em como seu LSP/par de canal está alocando seu PRÓPRIO capital em sats nos canais que podem oferecer caminhos de pagamento baratos, bons e confiáveis. Lembre-se de que as taxas de um pagamento não são determinadas apenas pelos seus pares de canais diretos, mas também pelos pares deles, pelo menos 2 a 3 saltos.</p>
+<p>Espero que este guia ajude você em sua jornada na Lightning Network e a entender melhor como gerenciar seus nós privados. Acho que este guia já está longo o suficiente e não quero entrar em mais detalhes técnicos. Você pode me fazer mais perguntas neste tópico aqui no SN e terei prazer em responder com as informações que possuo.</p>
+<p>Por fim: gostaria de agradecer a todos os desenvolvedores desses incríveis aplicativos de carteira, que fizeram um ótimo trabalho oferecendo uma experiência incrível e rica em recursos para o uso de nós LN de autocustódia, praticamente no seu bolso.</p>
+<p>Sim, esses nós LN não são para iniciantes em Bitcoin, são bastante avançados, mas é por isso que coloquei na seção "Recursos" todos esses links, para serem lidos e fornecerem mais material de estudo. Por favor, não ignore os links.</p>
+</body>
+</html>
+</article>

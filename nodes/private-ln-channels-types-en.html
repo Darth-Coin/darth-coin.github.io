@@ -1,0 +1,232 @@
+---
+layout: default
+title: Private LN Channels Types
+description: How to use different Bitcoin LN types of channels, use cases
+image: /assets/images/ln-liquidity-management.jpg
+---
+<article>
+<!DOCTYPE html>
+<html lang="en">
+<meta name="description" content="Bitcoin and Lightning guides: How to use different Bitcoin LN types of channels, use cases">
+<body>
+<center>
+<h2 style="color:Orange;">How to use different Bitcoin Lightning Network types of channels, use cases</h2>
+<p><img src="/assets/images/ln-liquidity-management.jpg" class="center"></p>
+
+| <a href="/nodes/private-ln-channels-types-es.html"><img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/private-ln-channels-types-pt.html"><img src="/assets/images/flag-PT.png" alt="PT" title="Portuguese" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/private-ln-channels-types-de.html"><img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/private-ln-channels-types-fr.html"><img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/private-ln-channels-types-it.html"><img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/private-ln-channels-types-nl.html"><img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/private-ln-channels-types-hr.html"><img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/nodes/private-ln-channels-types-hi.html"><img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+</center>
+<blockquote style="color:Tomato;"><em>
+
+<p>Updated December 04, 2025</p>
+</em></blockquote>
+
+<h3 style="color:Red;">Your lack of understanding today, will cost you a fortune tomorrow...</h3>
+
+<h2 style="color:Orange;">Introduction</h2>
+
+<p>I dedicate this guide for all those new LN users that want to start now with some serious self-custodial solutions like: Zeus Wallet, Blixt Wallet, Shock Wallet, Bitkit, Alby Hub or a simple standalone LND node in neutrino mode. Is also the old Breez (LND) wallet, but seems that is kind of abandoned so we will not talk about it anymore.</p>
+<p>I saw many new users that are confused about how some LN liquidity works and they always consider that all wallets should work the same or even same as any onchain wallet. That is a big confusion and I would like to clear the way with this guide.</p>
+<p>This guide is to help you understand how to use properly each type of LN channel and better manage your funds using LN. Yes, there are different types of LN channel, even that all are LN channels and works the same way based on the LN protocol standards. The differences are in how do you open them and in which case scenario should be used.</p>
+<p>Please consider that LN is based on a strong incentive economy, maybe even stronger than mining bitcoin blocks, because REQUIRE very good resources and well allocated liquidity, where is needed, when is needed. So next time when you want to start with a LN wallet, think about it as allocating capital in a fast liquidity market, where sats must flow continuously in order to be efficiently allocated. Yes, you are a private LN user that only want to use your sats to make LN payments, but that doesn't mean you could or should keep your sats in a LN channel forever, not moving them or allocate them into not suitable type of channel. Otherwise you will pay high amount of fees, get closed channels and a bad experience using LN. Almost all complaints about LN that "doesn't work" comes from users lack of understanding how LN works and how should allocate resources to it.</p>
+
+<hr style="height:2px">
+
+<h2 style="color:Orange;">Resources and glossary</h2>
+
+<blockquote style="color:Tomato;"><em>Please read them to understand more terms and functionalities</em></blockquote>
+
+<p>Remember: these are ALL solutions for a PRIVATE LN node, that is not doing any public routing, are used only for your personal use of LN payments.</p>
+<p>I've explained in previous guides about the differences between public and private LN nodes and some other aspects to be considered and strongly advised to read them first:</p>
+<ul>
+<li><a href="https://darth-coin.github.io/nodes/managing-lightning-node-liquidity-en.html">Managing Lightning Node Liquidity</a></li>
+<li><a href="https://darth-coin.github.io/nodes/recommendations-ln-node-operators-en.html">Recommendations for LN node runners</a></li>
+<li><a href="https://stacker.news/items/486306/r/DarthCoin">Lightning Network future topology</a></li>
+<li><a href="https://darth-coin.github.io/nodes/private-ln-nodes-en.html">Private LN nodes</a></li>
+<li><a href="https://stacker.news/items/909079/r/DarthCoin">Underrated privacy tools of LN</a></li>
+<li><a href="https://docs.megalithic.me/the-lightning-network/how-private/">How private is LN?</a></li>
+<li><a href="https://docs.lightning.engineering/lightning-network-tools/pool/zero-confirmation-channels">How 0-conf channels works</a></li>
+<li><a href="https://docs.lightning.engineering/lightning-network-tools/lnd/amp">AMP - Atomic multi-path pàyments</a></li>
+<li><a href="https://docs.lightning.engineering/the-lightning-network/pathfinding/multipath-payments-mpp">MPP - multi-path payment</a></li>
+<li><a href="https://lightningsplice.com">Read more about LN Splicing feature</a></li>
+<li><a href="https://github.com/lightningnetwork/lnd/blob/6dea86428d031171af30119e3f6599820dc5454a/lnwallet/channel.go#L3803-L3815">LN channel buffer</a></li>
+<li><a href="https://lightningwiki.net/index.php/Fees">LN channel commit fees are variable</a> | <a href="https://bitcoin.stackexchange.com/questions/89232/why-is-my-spendable-msat-much-lower-than-msatoshi-to-us/89235#89235">Commit fees variation example</a></li>
+<li>LSP - Lightning Service Provider, when a wallet or node is providing various LN services for the wallet user or any LN node</li>
+<li>LiSP - Liquidity Service Provider, when a public node is providing liquidity channels, inbound/outbound for any node runner.</li>
+<li><a href="https://darth-coin.github.io/nodes/lightning-submarine-swaps-en.html">Lightning Network Submarine Swaps</a></li>
+</ul>
+
+<p>Extra guides to read:</p>
+<ul>
+<li><a href="https://stacker.news/items/552822/r/DarthCoin">Lightning Network explained in an analogy</a></li>
+<li><a href="https://stacker.news/items/679242/r/DarthCoin">Managing private LN wallets liquidity</a></li>
+<li><a href="https://darth-coin.github.io/wallets/getting-started-zeus-wallet-en.html">Getting started with Zeus LN node</a></li>
+<li><a href="https://darth-coin.github.io/wallets/zeus-node-advanced-usage-en.html">Zeus LN node - Advanced usage</a></li>
+<li><a href="https://darth-coin.github.io/wallets/getting-started-blixt-wallet-en.html">Getting started with Blixt Wallet</a></li>
+<li><a href="https://darth-coin.github.io/wallets/getting-started-alby-hub-en.html">Getting started with Alby Hub</a></li>
+<li>Zeus Docs: <a href="https://docs.zeusln.app/for-users/embedded-node/faq">FAQ</a> | <a href="https://docs.zeusln.app/lsp/intro">LSP</a> | <a href="https://docs.zeusln.app/category/embedded-node">Zeus node</a></li>
+<li>Blixt Docs: <a href="https://blixtwallet.github.io/faq">FAQ</a> | <a href="https://blixtwallet.github.io/guides">Guides</a></li>
+<li><a href="https://phoenix.acinq.co/faq">Phoenix Acinq FAQ</a></li>
+<li><a href="https://docs.shock.network/wallet/faq">Shock Wallet FAQ</a></li>
+<li><a href="https://guides.getalby.com/user-guide/alby-hub">Alby Hub Guides</a></li>
+</ul>
+
+<hr style="height:2px">
+
+<h2 style="color:Orange;">Lightning Network Channels Types</h2>
+
+<p>OK, I will address in this section about some particular use cases of channel types and how it should be used. Will not enter into too many technical details, this guide being for beginners, just trying to explain you how you could start this journey in a smooth way and with less frustrations.</p>
+
+<h3 style="color:Yellow;">1. Just in Time Channels (JiT / 0-conf)</h3>
+
+<p>Usually these channels are offered by wallet LSP, to help new users get onboard easily. But be aware of their particularities and do not abuse them, are NOT to be used all the time.</p>
+<p>The just-in-time channel service uses wrapped invoices and 0-conf channels to instantly connect users to the Lightning network. All you have to do is have the sender pay the invoice that wallet shows you, but here's what happens under the hood:</p>
+<ul>
+<li>The receiver generates an invoices on their lightning node and then sends it to the LSP</li>
+<li>The LSP creates a wrapped invoice and returns it to the receiver</li>
+<li>The receiver gives the wrapped invoices to sender for them to pay</li>
+<li>The sender pays the invoice, which goes through the LSP</li>
+<li>The LSP detects the payment and opens up a 0-conf, just in time, channel to the receiver</li>
+<li>The LSP then forwards the payment to the receiver using that new channel and the payment is completed</li>
+</ul>
+
+<h4 style="color:Green;">Particularities of Just-in-Time channels:</h4>
+<ul>
+<li>instant ready-to-be-used channels, no waiting time for blocks confirmations. That's why are also named "0-conf channels"</li>
+<li>no public info about your nodeID, node UTXO that funds the channel, so extra privacy using SCID channels</li>
+<li>no requirement of having onchain funds, so can be used on the fly, receiving from anybody else your first payment. But here is the trick: do not use these channels for small amounts. Will explain later why</li>
+<li>using wrapped invoices, that hide to the payer, the final destination</li>
+<li>use of Taproot channels, that lower the onchain footprint, in fees and also in UTXO / channel trace</li>
+<li>LSPs will charge a usual min 10k sats opening fee + onchain tx fee. For higher size of the channel, will be a % of the size of the channel. Check with wallet provider and/or LSP for more details</li>
+</ul>
+
+<h4 style="color:Green;">Use case scenarios for JiT channels</h4>
+<p>These JiT channels are offered in: Zeus, Phoenix, Blixt, Shock, BitKit.</p>
+<p>Each one of these wallet apps, when you open a JiT channel, will give you an extra inbound liquidity, that usually goes at 100k up to 300k more than you deposited. But keep in mind, this extra inbound liquidity, is like a gift from LSP and they are free to adjust it or remove it anytime so is not guaranteed that you will always receive this extra. Remember liquidity cost.</p>
+<p>NOTE: DO NOT use these JiT channels as your first ever test LN payment "just to test with 21 sats to receive"! This is the mistake that many new users are doing and opening very tiny channels that later became totally useless and must be closed, but the cost is very expensive.</p>
+<p>By charging a min 10k sats fee for opening these channels, new users will have the false impression that these wallets are very expensive to use, but they are wrong. They actually choose a wrong way to use them.</p>
+
+<h4 style="color:Green;">General use case of JiT channels for all supported wallets</h4>
+<p>I recommend to use these channels ONLY IN SPECIFIC CASES:</p>
+<ul>
+<li>you already have some other channels open but are full (not enough inbound) and you need a quick "space" to receive a special payment that you do not want it into your regular channels.</li>
+<li>you want to receive a more private payment, using a wrapped invoice (from your LSP), and once you receive the payment in a 0-conf channel, you swap out the funds into an onchain wallet and close this channel. Will be like 0 footprint onchain about your node and UTXO. Yes, it will have a higher cost, but extra privacy cost. You will pay 10k sats for opening the 0-conf channel + onchain fees and then the tx fees for closing it. That's why is recommended for larger amounts. that could merit these fees.</li>
+</ul>
+
+<h5 style="color:Blue;">1. Using Zeus wallet</h5>
+<p>You must have activated LSP feature in order to be able to open JiT channels.</p>
+<p>Go to <span style="color:Yellow;">"Settings" - "LSP" - "JiT channels" - enable</span>. By default is Olympus LSP by Zeus.</p>
+<p>You will find inside also more details about how it works and if you want to point the JiT channel creating to a specific LSP.</p>
+<p>Once is activated, just go to main screen, hit the button receive, put the amount you want to receive and then you will see the note on the screen that this is a wrapped invoice to be paid to the LSP from any other LN wallet. After few moments is paid, the channel will be ready and you will see it in your LN channels view screen.</p>
+<p>This channel also can be renewed, after the minimum 3 months, paying an extra small fee. You can check the status of the channel and lease period in the channel view details.</p>
+<p>I recommend to keep the JiT channels feature "OFF" and activate it only when is needed. Otherwise you could get a lot of new JiT opened on the fly if one of your existing channels is offline or doesn't have enough inbound liquidity.</p>
+<p><a href="https://docs.zeusln.app/lsp/channel-differences">Check Zeus LSP channels limits and fees here.</a></p>
+
+<h5 style="color:Blue;">2. Using Blixt wallet</h5>
+<p>You must have activated "Dunder channels" feature in options, to be able to open JiT channels.</p>
+<p>Go to <span style="color:Yellow;">"Settings" - "Enable Dunder LSP"</span>. By default is node.blixtwallet.com but you can switch it to other Dunder supported providers too.</p>
+<p>I would recommend also to go to "Settings" - Debug section - "Diagnose Dunder problems" to check if the Dunder server is available online. For further instructions get in contact with Blixt support if Dunder is not available in that moment.</p>
+<p>Once is activated, just click on "Receive" button, put the amount you want to receive (less than 300k sats) and pay it from any other LN wallet. <a href="https://blixtwallet.github.io/guides#guide-lsp">Read more about LSP Dunder channels here</a>.</p>
+<p>The JiT channels in Blixt do not have option to be renewed and are at the discretion of Blixt node how much time will stay open. Usually they do not have any policy in closing these private channels.</p>
+<p>Remember that in Blixt these JiT channels are LIMITED up to 300k sats but you do not pay any opening fee, only the regular onchain fees.</p>
+
+<h5 style="color:Blue;">3. Using Phoenix wallet</h5>
+<p>In Phoenix these channels are always by default active. A particular mention here is that Phoenix by Acinq is using Eclair LN implementation that already have splicing feature implemented. See more about splicing in the previous "Resources" section above.</p>
+<p>That means that EACH time you want to receive a new payment and you do not have enough inbound liquidity in your existing channel, Acinq LSP will do a splice-in of the channel, aka expanding the channel with the amount of sats you want to receive, charging again a 10k fee + onchain fees. That's why many new users will think that this wallet procedure is very expensive, but in fact they do not used properly the splicing resources.</p>
+<p>Use this splice-in option ONLY when you have a bigger amount to receive and you really want to expand that existing channel.</p>
+<p>Another option is to buy inbound liquidity but that is the next channel type we will talk about.</p>
+<p>For Phoenix there's no limit to keep online these JiT channels and also not known maximum size limit of these channels.</p>
+<p>So I would recommend for those who start with Phoenix TO NOT make the first deposit a small amount of sats, but think very well how you are going to use this wallet. Better do a bigger deposit first, like 1-2 M sats or how much you consider you will use in the future. You could swap out from this deposit if you like to receive later in this channel. Phoenix can send straight to any onchain address having the swaps integrated.</p>
+
+<h5 style="color:Blue;">4. Using Shock wallet</h5>
+<p>In order to use Shock wallet you must run first the Lightning Pub, a lightweight LND node in neutrino mode that must be installed on a desktop PC. Here you have instructions and demo.</p>
+<p>Once you have connected your Shock wallet to your LN Pub, you can just hit the receive button and a JiT channel will be open with your LN Pub node and a LSP provided by Shock Network.</p>
+<p>You can customize the LSPs and peers in the LN Pub management and/or in env file. But that is quite advanced mode, not for beginners.</p>
+<p>There are not known published limits and fees for these Shock JiT channels. But again, do not open small tiny channels, fees will always be involved and will make expensive small channels.</p>
+<p>Note: this wallet is still in early phase of developing, so consider it more for testing and learning not fully regular use. And please consider to get in touch with the developer <a href="https://nostr.com/nprofile1qqsrx9hrd9k7wnfejkgj0wwcgt0400wut5w8479qfudu0tkcpdz9pzqfwq5xw">Justin on NOSTR</a> or on <a href="https://stacker.news/justin_shocknet">Stacker News</a> anytime you have questions and improvements. He's very helpful and responsive to any inquiry about this Shock wallet.</p>
+
+<h5 style="color:Blue;">5. Using Bitkit wallet</h5>
+<p>This wallet app is a bit particular, using LDK implementation and having more restrictive and weird limitations. But worth mention it as comparison with others. I personally do not recommend it, I even lost sats with it and after 3 years their support is unresponsive to my issues.</p>
+<p>Why is weird? because is using confusing BIP177 (₿ sign for sats) and also fees expressed in $ dollars instead of sats. You never know how much sats you will pay. Really confusing interface, maybe suitable only for fiat maxis.</p>
+<p>Another weirdness is that by using their LSP Blocktank, you are restricted by IP/location to certain countries and also to a maximum $1000 (USD/EUR) per channel. Yeah, stupidly enough they align LN channels with fiat limits LOL.</p>
+<p>In Bitkit, to open a JiT channel, you just have to go to main screen and click on "Spending" balance. Click on "Receive", put the amount you want, but maximum 1M sats and min 3000 sats (yeah they mention in sats the minimum, but the fees in $ and the channel size in ₿). So yeah really confusing this procedure.</p>
+
+<figure>
+    <img src="/assets/images/bitkit-opening-channel.JPG" class="center">
+    <figcaption>Screen when Bitkit is reviewing the opening LN channenl</figcaption>
+</figure>
+
+<p>So yes, in the end is another way to use JiT channels. Same recommendation, do not open small channels.</p>
+<p>I couldn't find in their documentation the time limits for these JiT channels so I suppose are a maximum of 6-12 months available, based on Blocktank policies.</p>
+
+<hr style="height:2px">
+
+<h3 style="color:Yellow;">2. Purchase in Advance Channels (PiA)</h3>
+<p>The purchase channels in advance service currently follows the <a href="https://github.com/lightning/blips/blob/master/blip-0051.md">LSPS1 specification</a> (bLIP-51). Unlike the just-in-time channel service, this service has the user await for confirmation before the channel opens and usually are 3 confirmations.</p>
+<p>The PiA channels are offered by a various number of LSP/LiSPs and <a href="https://stacker.news/items/890432">I wrote a quick LiSP table here</a>.</p>
+<p>So basically these PiA channels will be used when you know in advance how much sats you will receive in certain time period and you do not have to deposit any sats in the moment you open them. Is like buying an empty glass of water that you will fill it in the future with water (sats).</p>
+
+<h4 style="color:Green;">Particularities of Purchase in advance channels:</h4>
+<ul>
+<li>ready to go INBOUND liquidity, so mostly used when you want to receive more than you send over LN</li>
+<li>wait for 3 confirmations to be open. Maybe less sometimes, depending on the LiSP policies</li>
+<li>limited lease time but guaranteed open channel for the lease time and payments reliability from the LSP</li>
+<li>no public info about your nodeID, node UTXO that funds the channel, so extra privacy using SCID channels</li>
+<li>no requirement of having onchain funds, you pay only the opening fee from another LN wallet</li>
+<li>using wrapped invoices, that hide to the payer, the final destination</li>
+<li>use of Taproot channels, that lower the onchain footprint, in fees and also in UTXO / channel trace.</li>
+<li>LSPs will charge a variable opening fee (min 10k sats) + onchain tx fee calculated by the size of the channel requested. Usually is a 1-1.5% of the channel size but vary to each LiSP. As I said LN is based on liquidity incentives and could vary in time.</li>
+</ul>
+
+<h4 style="color:Green;">Use case scenarios for Purchase in Advance channels</h4>
+<p>hese PiA channels are offered in: Zeus, Phoenix, Blixt, Shock, Alby Hub, Bitkit.</p>
+<p>Buy and use these PiA channels in the following scenarios:</p>
+<ul>
+<li>you don't have any open LN channels in the wallets mentioned above and you want to start receiving during a certain period of time larger amounts of sats. So size them accordingly.</li>
+<li>you are accumulating small amounts of sats in another wallet, like cashu, custodial, NWC and you want to move them after a certain limit into your own self-custodial channels. So again, size them accordingly.</li>
+<li>you are buying sats from exchanges that support LN. These PiA, together with wrapped invoices (if are supported by the peer) could offer an extra privacy level when you withdraw from these exchanges. Also are good to reuse. Buy - withdraw multiple small amounts - accumulate - swap out into onchain - repeat. You do not have to close them, just renew the lease. Through a single channel you can pass through infinite amount of sats without any trace in onchain, if you do not close it.</li>
+<li>you are a merchant that need more inbound liquidity. These channels are very useful and cheap.</li>
+</ul>
+
+<hr style="height:2px">
+
+<h3 style="color:Yellow;">3. Your own Funds Channels (YoF)</h3>
+<p>The channels are the normal LN channels, only that are private channels (unannounced in the LN graph and not visible in the public LN explorers). The YoF channels are initiated by yourself, with funds from your own onchain node wallet, using your own UTXO.</p>
+
+<h4 style="color:Green;">Particularities of YoF channels:</h4>
+<ul>
+<li>ready to go OUTBOUND liquidity, so mostly used when you send more than you receive over LN. You can still receive into these channels but only after you spend some % of the sats, "making space" into the channel for inbound capacity.</li>
+<li>wait for 3 confirmations to be open. Depending on the peer this can be customized, but only with trusted peers.</li>
+<li>requirement to have the funds in your onchain node wallet. It can be initiated only with your own funds.</li>
+<li>use of Taproot channels and SCID if the peer support it</li>
+<li>use of wrapped invoices ONLY if the peer support it</li>
+<li>no extra fees to open the channel, other than the regular onchain tx fees for the opening tx</li>
+<li>no guaranteed time to keep open these channels. Be aware, some public routing peers do not want these private channels so is better to choose wisely your peers, otherwise you can get instant close of the channel. Better use well known LiSP that allow private channels and you know that if you have certain movement with these channels, you will not get closed.</li>
+</ul>
+
+<h4 style="color:Green;">Use case scenarios for Your own Funds / Normal channels</h4>
+<p>These PiA channels are offered in: Zeus, Phoenix, Blixt, Shock, Alby Hub, Bitkit, Electrum.</p>
+<p>So practically the use case scenario of these YoF channels is when you are a regular user and just want to make payments to certain merchants that accept Bitcoin payments over LN.</p>
+<p>Once you emptied these channels you can refill them using a swap from onchain. Zeus, Phoenix and Alby already have this feature integrated. For others you must use and external swap service (see the resources section above).</p>
+<p>Again, I would not recommend to open small tiny size channels, at least 300k-500k sats per channel.</p>
+<p>For a private use of LN, having 2-3 private LN channels with different LiSP is enough, but size them according to your needs in a certain period of time. Calculate properly your usage in payments and open a Ln channel with according size.</p>
+<blockquote style="color:Tomato;"><em>Important aspect here: DO NOT consider these YoF channels as your holding wallet for long time ! For holding use onchain wallet only. These are SPENDING wallets. So move the funds as much as you can with these YoF channels. If you know that you will not use them for long time, you better close them, cooperatively and not wait for a force close to happen, because it will be costly.</em></blockquote>
+
+<hr style="height:2px">
+
+<h2 style="color:Orange;">Conclusion</h2>
+<p>So that's it, these are the main types of PRIVATE LN channels and their use cases. As you can see there are slight differences and use cases between them so please choose wisely when, how, where to use them.</p>
+<p>Practice multiple times with them, take notes of the fees you were charged for the vary amounts and please do not jump quickly into wrong conclusions that LN is hard to use or is expensive, just because you didn't understand how these types of channels works.</p>
+<p>Also these channels have a different fees policy than public channels. When you run a public routing node, other policies are applied, so don't be confused or even frustrated because you were charged differently. As I said, LN is based on incentives, so think about how your LSP / channel peer is allocating his OWN capital in channels sats that could offer cheap, good and reliable payment paths. Remember that the fees of a payment are not determined only by your direct channels peers, but also of their peers, at least 2-3 hops.</p>
+<p>I hope this guide will help you with your Lightning Network journey and understand better how to manage your private nodes. I think is enough long this guide and don't want to enter in more technical details. You can ask me more questions in this thread here on SN and happily will respond with the information I know.</p>
+<p>In the end: I would like to thank to all developers of these amazing wallet apps, that they did great work offering an amazing and feature rich experience of using self-custodial LN nodes, practically in your pocket.</p>
+<p>Yes, these LN nodes are not for totally bitcoin noobs, are quite advanced, but that's why I put in the "Resources" section all those links, to be read and give you more material to study, please do not ignore the links.</p>
+</body>
+</html>
+</article>
