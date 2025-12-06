@@ -119,7 +119,7 @@ image: /assets/images/ln-liquidity-management.jpg
 <li>you want to receive a more private payment, using a wrapped invoice (from your LSP), and once you receive the payment in a 0-conf channel, you swap out the funds into an onchain wallet and close this channel. Will be like 0 footprint onchain about your node and UTXO. Yes, it will have a higher cost, but extra privacy cost. You will pay 10k sats for opening the 0-conf channel + onchain fees and then the tx fees for closing it. That's why is recommended for larger amounts. that could merit these fees.</li>
 </ul>
 
-<h5 style="color:Blue;">1. Using Zeus wallet</h5>
+<h5 style="color:Orange;">1. Using Zeus wallet</h5>
 <p>You must have activated LSP feature in order to be able to open JiT channels.</p>
 <p>Go to <span style="color:Yellow;">"Settings" - "LSP" - "JiT channels" - enable</span>. By default is Olympus LSP by Zeus.</p>
 <p>You will find inside also more details about how it works and if you want to point the JiT channel creating to a specific LSP.</p>
@@ -128,7 +128,7 @@ image: /assets/images/ln-liquidity-management.jpg
 <p>I recommend to keep the JiT channels feature "OFF" and activate it only when is needed. Otherwise you could get a lot of new JiT opened on the fly if one of your existing channels is offline or doesn't have enough inbound liquidity.</p>
 <p><a href="https://docs.zeusln.app/lsp/channel-differences">Check Zeus LSP channels limits and fees here.</a></p>
 
-<h5 style="color:Blue;">2. Using Blixt wallet</h5>
+<h5 style="color:orange;">2. Using Blixt wallet</h5>
 <p>You must have activated "Dunder channels" feature in options, to be able to open JiT channels.</p>
 <p>Go to <span style="color:Yellow;">"Settings" - "Enable Dunder LSP"</span>. By default is node.blixtwallet.com but you can switch it to other Dunder supported providers too.</p>
 <p>I would recommend also to go to "Settings" - Debug section - "Diagnose Dunder problems" to check if the Dunder server is available online. For further instructions get in contact with Blixt support if Dunder is not available in that moment.</p>
@@ -136,7 +136,7 @@ image: /assets/images/ln-liquidity-management.jpg
 <p>The JiT channels in Blixt do not have option to be renewed and are at the discretion of Blixt node how much time will stay open. Usually they do not have any policy in closing these private channels.</p>
 <p>Remember that in Blixt these JiT channels are LIMITED up to 300k sats but you do not pay any opening fee, only the regular onchain fees.</p>
 
-<h5 style="color:Blue;">3. Using Phoenix wallet</h5>
+<h5 style="color:Orange;">3. Using Phoenix wallet</h5>
 <p>In Phoenix these channels are always by default active. A particular mention here is that Phoenix by Acinq is using Eclair LN implementation that already have splicing feature implemented. See more about splicing in the previous "Resources" section above.</p>
 <p>That means that EACH time you want to receive a new payment and you do not have enough inbound liquidity in your existing channel, Acinq LSP will do a splice-in of the channel, aka expanding the channel with the amount of sats you want to receive, charging again a 10k fee + onchain fees. That's why many new users will think that this wallet procedure is very expensive, but in fact they do not used properly the splicing resources.</p>
 <p>Use this splice-in option ONLY when you have a bigger amount to receive and you really want to expand that existing channel.</p>
@@ -144,14 +144,14 @@ image: /assets/images/ln-liquidity-management.jpg
 <p>For Phoenix there's no limit to keep online these JiT channels and also not known maximum size limit of these channels.</p>
 <p>So I would recommend for those who start with Phoenix TO NOT make the first deposit a small amount of sats, but think very well how you are going to use this wallet. Better do a bigger deposit first, like 1-2 M sats or how much you consider you will use in the future. You could swap out from this deposit if you like to receive later in this channel. Phoenix can send straight to any onchain address having the swaps integrated.</p>
 
-<h5 style="color:Blue;">4. Using Shock wallet</h5>
+<h5 style="color:Orange;">4. Using Shock wallet</h5>
 <p>In order to use Shock wallet you must run first the Lightning Pub, a lightweight LND node in neutrino mode that must be installed on a desktop PC. Here you have instructions and demo.</p>
 <p>Once you have connected your Shock wallet to your LN Pub, you can just hit the receive button and a JiT channel will be open with your LN Pub node and a LSP provided by Shock Network.</p>
 <p>You can customize the LSPs and peers in the LN Pub management and/or in env file. But that is quite advanced mode, not for beginners.</p>
 <p>There are not known published limits and fees for these Shock JiT channels. But again, do not open small tiny channels, fees will always be involved and will make expensive small channels.</p>
 <p>Note: this wallet is still in early phase of developing, so consider it more for testing and learning not fully regular use. And please consider to get in touch with the developer <a href="https://nostr.com/nprofile1qqsrx9hrd9k7wnfejkgj0wwcgt0400wut5w8479qfudu0tkcpdz9pzqfwq5xw">Justin on NOSTR</a> or on <a href="https://stacker.news/justin_shocknet">Stacker News</a> anytime you have questions and improvements. He's very helpful and responsive to any inquiry about this Shock wallet.</p>
 
-<h5 style="color:Blue;">5. Using Bitkit wallet</h5>
+<h5 style="color:Orange;">5. Using Bitkit wallet</h5>
 <p>This wallet app is a bit particular, using LDK implementation and having more restrictive and weird limitations. But worth mention it as comparison with others. I personally do not recommend it, I even lost sats with it and after 3 years their support is unresponsive to my issues.</p>
 <p>Why is weird? because is using confusing BIP177 (₿ sign for sats) and also fees expressed in $ dollars instead of sats. You never know how much sats you will pay. Really confusing interface, maybe suitable only for fiat maxis.</p>
 <p>Another weirdness is that by using their LSP Blocktank, you are restricted by IP/location to certain countries and also to a maximum $1000 (USD/EUR) per channel. Yeah, stupidly enough they align LN channels with fiat limits LOL.</p>

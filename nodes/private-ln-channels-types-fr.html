@@ -119,7 +119,7 @@ image: /assets/images/ln-liquidity-management.jpg
 <li>Vous souhaitez recevoir un paiement plus privé, en utilisant une facture enveloppée (de votre LSP), et une fois le paiement reçu sur un canal 0-conf, vous transférez les fonds vers un portefeuille on-chain et fermez ce canal. Il n'y aura aucune trace on-chain de votre nœud et de votre UTXO. Certes, cela aura un coût plus élevé, mais c'est le prix à payer pour une confidentialité accrue. Vous paierez 10 000 satoshis pour l'ouverture du canal 0-conf + les frais on-chain, puis les frais de transaction pour sa fermeture. C'est pourquoi il est recommandé pour les montants plus importants qui justifient ces frais.</li>
 </ul>
 
-<h5 style="color:Blue;">1. Utilisation du portefeuille Zeus</h5>
+<h5 style="color:Orange;">1. Utilisation du portefeuille Zeus</h5>
 <p>Vous devez avoir activé la fonctionnalité LSP pour pouvoir ouvrir des canaux JiT.</p>
 <p>Allez dans <span style="color:Yellow;">« Paramètres » - « LSP » - « Canaux JiT » - activer</span>. Par défaut, il s'agit d'Olympus LSP de Zeus.</p>
 <p>Vous trouverez également plus de détails sur son fonctionnement et sur la manière de spécifier un LSP particulier pour la création du canal JiT.</p>
@@ -128,7 +128,7 @@ image: /assets/images/ln-liquidity-management.jpg
 <p>Je vous recommande de désactiver la fonctionnalité des canaux JiT et de ne l'activer que lorsque vous en avez besoin. Sinon, de nombreux nouveaux canaux JiT pourraient s'ouvrir automatiquement si l'un de vos canaux existants est hors ligne ou ne dispose pas d'une liquidité entrante suffisante.</p>
 <p><a href="https://docs.zeusln.app/lsp/channel-differences">Consultez les limites et les frais des canaux Zeus LSP ici.</a></p>
 
-<h5 style="color:Blue;">2. Utilisation du portefeuille Blixt</h5>
+<h5 style="color:Orange;">2. Utilisation du portefeuille Blixt</h5>
 <p>Vous devez avoir activé la fonctionnalité « Canaux Dunder » dans les options pour pouvoir ouvrir des canaux JiT.</p>
 <p>Allez dans <span style="color:Yellow;">« Paramètres » - « Activer Dunder LSP »</span>. Par défaut, il s'agit de node.blixtwallet.com, mais vous pouvez également le modifier pour utiliser d'autres fournisseurs compatibles avec Dunder.</p>
 <p>Je vous recommande également d'aller dans « Paramètres » - Section Débogage - « Diagnostiquer les problèmes Dunder » pour vérifier si le serveur Dunder est disponible en ligne. Pour plus d'instructions, contactez le support Blixt si Dunder n'est pas disponible à ce moment-là.</p>
@@ -136,7 +136,7 @@ image: /assets/images/ln-liquidity-management.jpg
 <p>Les canaux JiT dans Blixt n'ont pas d'option de renouvellement et leur durée d'ouverture est à la discrétion du nœud Blixt. Généralement, il n'y a pas de politique spécifique concernant la fermeture de ces canaux privés.</p>
 <p>N'oubliez pas que dans Blixt, ces canaux JiT sont LIMITÉS à 300 000 sats, mais vous ne payez aucun frais d'ouverture, seulement les frais on-chain habituels.</p>
 
-<h5 style="color:Blue;">3. Utilisation du portefeuille Phoenix</h5>
+<h5 style="color:Orange;">3. Utilisation du portefeuille Phoenix</h5>
 <p>Dans Phoenix, ces canaux sont toujours actifs par défaut. Il convient de noter que Phoenix d'Acinq utilise l'implémentation Eclair LN qui intègre déjà la fonctionnalité de « splicing ». Voir plus d'informations sur le « splicing » dans la section « Ressources » ci-dessus.</p>
 <p>Cela signifie que CHAQUE fois que vous souhaitez recevoir un nouveau paiement et que vous n'avez pas suffisamment de liquidités entrantes dans votre canal existant, Acinq LSP effectuera un « splice-in » du canal, c'est-à-dire qu'il étendra le canal avec le montant de sats que vous souhaitez recevoir, en facturant à nouveau des frais de 10 000 sats + les frais on-chain.</ C'est pourquoi de nombreux nouveaux utilisateurs penseront que cette procédure de portefeuille est très coûteuse, mais en réalité, ils n'utilisent pas correctement les ressources de jonction.</p>
 <p>Utilisez cette option de jonction UNIQUEMENT lorsque vous avez un montant plus important à recevoir et que vous souhaitez réellement étendre ce canal existant.</p>
@@ -151,7 +151,7 @@ image: /assets/images/ln-liquidity-management.jpg
 <p>Il n'y a pas de limites ni de frais publiés connus pour ces canaux Shock JiT. Mais encore une fois, n'ouvrez pas de petits canaux, des frais seront toujours appliqués et rendront les petits canaux coûteux.</p>
 <p>Remarque : ce portefeuille est encore en phase de développement, il est donc à considérer davantage pour les tests et l'apprentissage que pour une utilisation régulière. N'hésitez pas à contacter le développeur <a href="https://nostr.com/nprofile1qqsrx9hrd9k7wnfejkgj0wwcgt0400wut5w8479qfudu0tkcpdz9pzqfwq5xw">Justin sur NOSTR</a> ou sur <a href="https://stacker.news/justin_shocknet">Stacker News</a> si vous avez des questions ou des suggestions d'amélioration. Il est très serviable et réactif à toute demande concernant ce portefeuille Shock.</p></body>
 
-<h5 style="color:Blue;">5. Utilisation du portefeuille Bitkit</h5>
+<h5 style="color:Orange;">5. Utilisation du portefeuille Bitkit</h5>
 <p>Cette application de portefeuille est un peu particulière, car elle utilise l'implémentation LDK et présente des limitations plus restrictives et étranges. Mais il est important de la mentionner à titre de comparaison avec d'autres. Personnellement, je ne la recommande pas ; j'ai même perdu des sats avec elle et, après trois ans, leur support ne répond toujours pas à mes problèmes.</p>
 <p>Pourquoi est-elle étrange ? Parce qu'elle utilise le BIP177 (symbole ₿ pour les sats), ce qui est déroutant, et que les frais sont exprimés en dollars au lieu de sats. On ne sait jamais combien de sats on va payer. L'interface est vraiment confuse, peut-être adaptée uniquement aux utilisateurs qui privilégient les monnaies fiduciaires.</p>
 <p>Autre bizarrerie : en utilisant leur LSP Blocktank, vous êtes limité par votre adresse IP/localisation à certains pays et à un maximum de 1000 $ (USD/EUR) par canal. Oui, aussi stupide que cela puisse paraître, ils alignent les canaux LN sur les limites des monnaies fiduciaires.</p>

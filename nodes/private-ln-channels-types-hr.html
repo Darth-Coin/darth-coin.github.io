@@ -119,7 +119,7 @@ image: /assets/images/ln-liquidity-management.jpg
 <li>želite primati privatniju uplatu, koristeći zamotanu fakturu (od vašeg LSP-a), i nakon što primite uplatu u 0-conf kanalu, prebacite sredstva u onchain novčanik i zatvorite ovaj kanal. Bit će kao 0 otiska na lancu (onchain) oko vašeg čvora i UTXO-a. Da, imat će višu cijenu, ali i dodatne troškove privatnosti. Platit ćete 10 tisuća sata za otvaranje 0-conf kanala + naknade na lancu, a zatim naknade za slanje pošte (txt) za njegovo zatvaranje. Zato se preporučuje za veće iznose, što bi moglo opravdati ove naknade.</li>
 </ul>
 
-<h5 style="color:Blue;">1. Korištenje Zeus novčanika</h5>
+<h5 style="color:Orange;">1. Korištenje Zeus novčanika</h5>
 <p>Morate imati aktiviranu LSP značajku kako biste mogli otvarati JiT kanale.</p>
 <p>Idite na <span style="color:Yellow;">"Postavke" - "LSP" - "JiT kanali" - omogući</span>. Prema zadanim postavkama, to je Olympus LSP by Zeus.</p>
 <p>Unutra ćete pronaći i više detalja o tome kako funkcionira i želite li usmjeriti stvaranje JiT kanala na određenog LSP-a.</p>
@@ -128,7 +128,7 @@ image: /assets/images/ln-liquidity-management.jpg
 <p>Preporučujem da značajku JiT kanala držite "ISKLJUČENO" i aktivirate je samo kada je potrebno. Inače biste mogli otvoriti puno novih JiT kanala u hodu ako je jedan od vaših postojećih kanala offline ili nema dovoljno dolazne likvidnosti.</p>
 <p><a href="https://docs.zeusln.app/lsp/channel-differences">Ovdje provjerite ograničenja i naknade Zeus LSP kanala.</a></p>
 
-<h5 style="color:Blue;">2. Korištenje Blixt novčanika</h5>
+<h5 style="color:Orange;">2. Korištenje Blixt novčanika</h5>
 <p>Morate imati aktiviranu značajku "Dunder kanali" u opcijama da biste mogli otvarati JiT kanale.</p>
 <p>Idite na <span style="color:Yellow;">"Postavke" - "Omogući Dunder LSP"</span>. Prema zadanim postavkama to je node.blixtwallet.com, ali možete ga prebaciti i na druge Dunder podržane pružatelje usluga.</p>
 <p>Preporučio bih i da odete na "Postavke" - odjeljak za otklanjanje pogrešaka - "Dijagnosticiranje problema s Dunderom" kako biste provjerili je li Dunder poslužitelj dostupan online. Za daljnje upute obratite se Blixtovoj podršci ako Dunder nije dostupan u tom trenutku.</p>
@@ -136,7 +136,7 @@ image: /assets/images/ln-liquidity-management.jpg
 <p>JiT kanali u Blixtu nemaju mogućnost obnavljanja i na diskreciji je Blixt čvora koliko dugo će ostati otvoreni. Obično nemaju nikakvu politiku zatvaranja ovih privatnih kanala.</p>
 <p>Imajte na umu da su u Blixtu ovi JiT kanali OGRANIČENI na do 300 tisuća sata, ali ne plaćate nikakvu naknadu za otvaranje, samo redovne naknade za onchain.</p>
 
-<h5 style="color:Blue;">3. Korištenje Phoenix novčanika</h5>
+<h5 style="color:Orange;">3. Korištenje Phoenix novčanika</h5>
 <p>U Phoenixu su ovi kanali uvijek prema zadanim postavkama aktivni. Posebno treba spomenuti da Phoenix tvrtke Acinq koristi implementaciju Eclair LN koja već ima implementiranu značajku spajanja. Više o spajanju pogledajte u prethodnom odjeljku "Resursi".</p>
 <p>To znači da će SVAKI put kada želite primiti novu uplatu, a nemate dovoljno ulazne likvidnosti u svom postojećem kanalu, Acinq LSP izvršiti spajanje kanala, tj. proširiti kanal s količinom satova koju želite primiti, ponovno naplaćujući naknadu od 10 tisuća + naknade za onchain. Zato će mnogi novi korisnici misliti da je ovaj postupak novčanika vrlo skup, ali zapravo ne koriste pravilno resurse za spajanje.</p>
 <p>Koristite ovu opciju spajanja SAMO kada imate veći iznos za primiti i stvarno želite proširiti taj postojeći kanal.</p>
@@ -144,14 +144,14 @@ image: /assets/images/ln-liquidity-management.jpg
 <p>Za Phoenix ne postoji ograničenje za održavanje online ovih JiT kanala, a također nije poznat maksimalni limit veličine ovih kanala.</p>
 <p>Stoga bih preporučio onima koji počinju s Phoenixom da NE uplate prvi depozit u malom iznosu sata, već da dobro razmisle kako ćete koristiti ovaj novčanik. Bolje je da prvo uplatite veći depozit, poput 1-2 milijuna sata ili koliko mislite da ćete koristiti u budućnosti. Možete zamijeniti ovaj depozit ako želite kasnije primati u ovom kanalu. Phoenix može poslati izravno na bilo koju onchain adresu koja ima integrirane swapove.</p>
 
-<h5 style="color:Blue;">4. Korištenje Shock novčanika</h5>
+<h5 style="color:Orange;">4. Korištenje Shock novčanika</h5>
 <p>Da biste koristili Shock novčanik, prvo morate pokrenuti Lightning Pub, lagani LND čvor u neutrino načinu rada koji mora biti instaliran na stolno računalo. Ovdje imate upute i demo.</p>
 <p>Nakon što ste povezali svoj Shock novčanik s LN Pubom, možete jednostavno pritisnuti gumb za primanje i otvorit će se JiT kanal s vašim LN Pub čvorom i LSP-om kojeg pruža Shock Network.</p>
 <p>LSP-ove i peerove možete prilagoditi u upravljanju LN Pubom i/ili u env datoteci. Ali to je prilično napredni način rada, nije za početnike.</p>
 <p>Nema poznatih objavljenih ograničenja i naknada za ove Shock JiT kanale. Ali opet, nemojte otvarati male kanale, naknade će uvijek biti uključene i učinit će male kanale skupima.</p>
 <p>Napomena: ovaj novčanik je još uvijek u ranoj fazi razvoja, stoga ga smatrajte više za testiranje i učenje, a ne za potpuno redovitu upotrebu. I molimo vas da razmislite o kontaktiranju programera <a href="https://nostr.com/nprofile1qqsrx9hrd9k7wnfejkgj0wwcgt0400wut5w8479qfudu0tkcpdz9pzqfwq5xw">Justina na NOSTR-u</a> ili na <a href="https://stacker.news/justin_shocknet">Stacker News</a> kad god imate pitanja i poboljšanja. Vrlo je koristan i odgovara na sva pitanja o ovom Shock novčaniku.</p>
 
-<h5 style="color:Blue;">5. Korištenje Bitkit novčanika</h5>
+<h5 style="color:Orange;">5. Korištenje Bitkit novčanika</h5>
 <p>Ova aplikacija za novčanik je malo specifična, koristi LDK implementaciju i ima restriktivnija i čudnija ograničenja. Ali vrijedi je spomenuti kao usporedbu s drugima. Osobno je ne preporučujem, čak sam izgubio satove zbog nje i nakon 3 godine njihova podrška ne reagira na moje probleme.</p>
 <p>Zašto je čudna? jer koristi zbunjujući BIP177 (znak ₿ za satove) i također naknade izražene u $ dolarima umjesto u satovima. Nikad ne znate koliko ćete satova platiti. Zaista zbunjujuće sučelje, možda prikladno samo za fiat maxije.</p>
 <p>Još jedna čudna stvar je da korištenjem njihovog LSP Blocktanka ograničeni ste IP adresom/lokacijom na određene zemlje, a također i na maksimalno 1000 USD (USD/EUR) po kanalu. Da, glupo je što usklađuju LN kanale s ograničenjima fiat valute LOL.</p>

@@ -119,7 +119,7 @@ image: /assets/images/ln-liquidity-management.jpg
 <li>Quieres recibir un pago más privado, utilizando una factura encapsulada (de tu LSP), y una vez que recibes el pago en un canal de confirmación cero, transfieres los fondos a una billetera on-chain y cierras este canal. No dejará prácticamente ningún rastro en la cadena de bloques sobre tu nodo y UTXO. Sí, tendrá un costo mayor, pero es el precio de la privacidad adicional. Pagarás 10.000 sats por abrir el canal de confirmación cero + las comisiones on-chain y luego las comisiones de transacción para cerrarlo. Por eso se recomienda para cantidades mayores que justifiquen estas comisiones.</li>
 </ul>
 
-<h5 style="color:Blue;">1. Uso de la billetera Zeus</h5>
+<h5 style="color:Orange;">1. Uso de la billetera Zeus</h5>
 <p>Debe haber activado la función LSP para poder abrir canales JiT.</p>
 <p>Vaya a <span style="color:Yellow;">"Configuración" - "LSP" - "Canales JiT" - habilitar</span>. Por defecto es Olympus LSP de Zeus.</p>
 <p>Dentro encontrará más detalles sobre cómo funciona y si desea dirigir la creación del canal JiT a un LSP específico.</p>
@@ -128,7 +128,7 @@ image: /assets/images/ln-liquidity-management.jpg
 <p>Recomiendo mantener la función de canales JiT "DESACTIVADA" y activarla solo cuando sea necesario. De lo contrario, podría abrir muchos canales JiT nuevos automáticamente si uno de sus canales existentes está fuera de línea o no tiene suficiente liquidez entrante.</p>
 <p><a href="https://docs.zeusln.app/lsp/channel-differences">Consulte los límites y las tarifas de los canales Zeus LSP aquí.</a></p>
 
-<h5 style="color:Blue;">2. Uso de la billetera Blixt</h5>
+<h5 style="color:Orange;">2. Uso de la billetera Blixt</h5>
 <p>Debe haber activado la función "Canales Dunder" en las opciones para poder abrir canales JiT.</p>
 <p>Vaya a <span style="color:Yellow;">"Configuración" - "Habilitar Dunder LSP"</span>. Por defecto es node.blixtwallet.com, pero también puede cambiarlo a otros proveedores compatibles con Dunder.</p>
 <p>También recomiendo ir a "Configuración" - Sección de depuración - "Diagnosticar problemas de Dunder" para verificar si el servidor Dunder está disponible en línea.</p> Para obtener más instrucciones, póngase en contacto con el soporte de Blixt si Dunder no está disponible en ese momento.</body>
@@ -136,7 +136,7 @@ image: /assets/images/ln-liquidity-management.jpg
 <p>Los canales JiT en Blixt no tienen opción de renovación y la duración de su apertura queda a discreción del nodo Blixt. Por lo general, no tienen ninguna política para cerrar estos canales privados.</p>
 <p>Recuerde que en Blixt, estos canales JiT están LIMITADOS hasta 300k sats, pero no paga ninguna tarifa de apertura, solo las tarifas onchain habituales.</p>
 
-<h5 style="color:Blue;">3. Uso de la billetera Phoenix</h5>
+<h5 style="color:Orange;">3. Uso de la billetera Phoenix</h5>
 <p>En Phoenix, estos canales siempre están activos por defecto. Cabe mencionar que Phoenix de Acinq utiliza la implementación Eclair LN, que ya tiene la función de splicing implementada. Vea más sobre splicing en la sección "Recursos" anterior.</p>
 <p>Esto significa que CADA vez que desee recibir un nuevo pago y no tenga suficiente liquidez entrante en su canal existente, Acinq LSP realizará un splice-in del canal, es decir, expandirá el canal con la cantidad de sats que desea recibir, cobrando nuevamente una tarifa de 10k + tarifas onchain. Es por eso que muchos usuarios nuevos pensarán que este procedimiento de billetera es muy costoso, pero en realidad no están utilizando correctamente los recursos de splicing.</p>
 <p>Utilice esta opción de splice-in SOLO cuando tenga una cantidad mayor para recibir y realmente desee expandir ese canal existente.</p>
@@ -144,14 +144,14 @@ image: /assets/images/ln-liquidity-management.jpg
 <p>Para Phoenix, no hay límite para mantener estos canales JiT en línea ni tampoco se conoce un límite máximo de tamaño para estos canales.</p>
 <p>Por lo tanto, recomendaría a quienes comienzan con Phoenix QUE NO realicen el primer depósito con una pequeña cantidad de sats, sino que piensen muy bien cómo van a usar esta billetera. Es mejor hacer un depósito inicial mayor, como de 1-2 millones de sats o la cantidad que creas que vas a usar en el futuro. Podrás retirar fondos de este depósito si deseas recibirlos más adelante en este canal. Phoenix puede enviar directamente a cualquier dirección on-chain, ya que tiene las funciones de intercambio integradas.</p>
 
-<h5 style="color:Blue;">4. Uso de la billetera Shock</h5>
+<h5 style="color:Orange;">4. Uso de la billetera Shock</h5>
 <p>Para usar la billetera Shock, primero debe ejecutar Lightning Pub, un nodo LND ligero en modo neutrino que debe instalarse en una PC de escritorio. Aquí tiene las instrucciones y una demostración.</p>
 <p>Una vez que haya conectado su billetera Shock a su LN Pub, simplemente presione el botón de recibir y se abrirá un canal JiT con su nodo LN Pub y un LSP proporcionado por Shock Network.</p>
 <p>Puede personalizar los LSP y los pares en la administración de LN Pub y/o en el archivo env. Pero ese es un modo bastante avanzado, no para principiantes.</p>
 <p>No se conocen límites ni tarifas publicadas para estos canales JiT de Shock. Pero, de nuevo, no abra canales pequeños, siempre habrá tarifas involucradas y harán que los canales pequeños sean caros.</p>
 <p>Nota: esta billetera aún se encuentra en una fase temprana de desarrollo, así que considérela más para pruebas y aprendizaje que para un uso regular completo. Y por favor, considere ponerse en contacto con el desarrollador <a href="https://nostr.com/nprofile1qqsrx9hrd9k7wnfejkgj0wwcgt0400wut5w8479qfudu0tkcpdz9pzqfwq5xw">Justin en NOSTR</a> o en <a href="https://stacker.news/justin_shocknet">Stacker News</a> si tiene preguntas o sugerencias de mejora. Es muy servicial y responde a cualquier consulta sobre esta billetera Shock.</p>
 
-<h5 style="color:Blue;">5. Uso de la billetera Bitkit</h5>
+<h5 style="color:Orange;">5. Uso de la billetera Bitkit</h5>
 <p>Esta aplicación de billetera es un poco particular, ya que utiliza la implementación LDK y tiene limitaciones más restrictivas y extrañas. Pero vale la pena mencionarla como comparación con otras. Personalmente no la recomiendo, incluso perdí sats con ella y después de 3 años su soporte no responde a mis problemas.</p>
 <p>¿Por qué es extraña? Porque utiliza el confuso BIP177 (signo ₿ para sats) y también las tarifas se expresan en dólares en lugar de sats. Nunca se sabe cuántos sats pagará.</p> Interfaz realmente confusa, quizás solo apta para maximalistas de las monedas fiduciarias.
 <p>Otra rareza es que, al usar su LSP Blocktank, estás restringido por IP/ubicación a ciertos países y también a un máximo de 1000 $ (USD/EUR) por canal. Sí, por increíble que parezca, alinean los canales de LN con los límites de las monedas fiduciarias, jajaja.</p>
