@@ -102,6 +102,41 @@ image: /assets/images/tails.png
 <p>Fato engraçado:</p>
 <p>Tenho vários destinatários como esses escondidos em florestas profundas/montanhas, fácil (para mim) recuperá-los em qualquer caso SHTF. Mesmo se forem encontrados por outra pessoa (eu realmente duvido), não podem ser acessados ​​devido à criptografia rígida. Estou muito confortável com essa criptografia e o lugar secreto onde estão escondidos. Mas cabe a cada indivíduo onde e como salvar essas cópias. Também pode estar em um armazenamento online, basta que o arquivo KeePass seja armazenado e, opcionalmente, uma cópia do arquivo da sua carteira electrum (não mais do que algumas centenas de kb de dados).</p>
 
+  <h3 id="e-bitcoin-safe-como-solução-alternativa-de-carteira-fria" style="color:Orange;">E. Bitcoin-Safe como solução alternativa de carteira fria</h3>
+<p>Tudo o que foi descrito acima funciona bem, mas exige gerenciar TailsOS, Electrum e KeePass separadamente. Se você já tem uma máquina limpa dedicada — ou está disposto a configurar uma — <a href="https://github.com/andreasgriffin/bitcoin-safe">Bitcoin-Safe</a> é uma moderna carteira Bitcoin de desktop de código aberto que cobre tudo isso em um único aplicativo, com um fluxo de trabalho mais limpo e opções de armazenamento a frio mais poderosas.</p>
+<p>O Bitcoin-Safe roda em Windows, Mac e Linux. Suporta Taproot (P2TR) desde o início, tem etiquetagem de UTXO integrada (para que você possa dispensar as entradas separadas do KeePass para rastreamento de endereços), conecta-se ao seu próprio nó Bitcoin Core ou servidor Electrum, e inclui um assistente multisig dedicado. O mais importante para armazenamento a frio: ele gerencia o fluxo de trabalho de assinatura airgap com PSBT — o mesmo princípio do TailsOS — mas com uma interface gráfica adequada.</p>
+<p><strong>Opção 1 – Carteira fria de software em uma máquina offline dedicada</strong></p>
+<p>O princípio é idêntico ao método TailsOS: use uma máquina que nunca se conecte à internet e use-a apenas para assinar transações.</p>
+<ol>
+<li>Pegue um notebook de segunda mão, instale um Linux limpo (ex.: Linux Mint) e <strong>nunca o conecte à internet</strong>. Esta é sua máquina de assinatura.</li>
+<li>Instale o <a href="https://github.com/andreasgriffin/bitcoin-safe/releases">Bitcoin-Safe</a> nessa máquina offline.</li>
+<li>Crie uma nova carteira de assinatura única no Bitcoin-Safe, salve as palavras-semente no KeePass e escreva-as em papel (duas cópias, dois locais diferentes).</li>
+<li>Exporte o xpub/zpub da carteira (Carteira → Informações → Chave Pública Mestra).</li>
+<li>Na sua máquina <strong>online</strong>, instale o Bitcoin-Safe novamente e importe esse xpub como carteira de <strong>somente leitura</strong>. Esta é sua interface de depósito e monitoramento — as chaves privadas nunca saem da máquina offline.</li>
+<li>Para gastar: crie um PSBT na carteira watch-only online → transfira-o para a máquina offline via USB → assine-o com o Bitcoin-Safe na máquina offline → traga o PSBT assinado de volta para a máquina online → transmita.</li>
+</ol>
+<p>Suas chaves privadas nunca tocam um dispositivo conectado à internet. Mesmo modelo de segurança que o TailsOS, melhor experiência de uso.</p>
+<p><strong>Opção 2 – Armazenamento a frio com carteira hardware (atualização recomendada)</strong></p>
+<p>Se você quiser ir além de uma carteira fria de software puro, o Bitcoin-Safe tem suporte nativo para todas as principais carteiras hardware: Trezor, Ledger, ColdCard, Jade, BitBox02, Foundation Passport.</p>
+<ol>
+<li>Adquira uma carteira hardware de sua escolha e configure-a (gere a semente no dispositivo, anote-a, mantenha-a offline e segura).</li>
+<li>Instale o Bitcoin-Safe na sua máquina online.</li>
+<li>Conecte sua carteira hardware e importe-a no Bitcoin-Safe. O xpub é lido automaticamente — as chaves privadas nunca saem do dispositivo.</li>
+<li>Use o Bitcoin-Safe como sua interface de somente leitura e assinatura: ele solicitará confirmação da carteira hardware para cada transação.</li>
+</ol>
+<p>A carteira hardware É o armazenamento a frio. Bitcoin-Safe é a interface. Separação limpa.</p>
+<p><strong>Opção 3 – Carteira fria multisig (segurança máxima para HODLers sérios)</strong></p>
+<p>Para stacks grandes, um único ponto de falha é inaceitável. O Bitcoin-Safe tem um assistente de configuração multisig dedicado que torna o multisig 2-de-3 simples — sem linha de comando, sem arquivos de configuração.</p>
+<ol>
+<li>Adquira dois ou três carteiras hardware (podem ser de marcas diferentes para maior resiliência).</li>
+<li>Abra o Bitcoin-Safe e inicie o assistente multisig.</li>
+<li>Adicione cada carteira hardware como co-signatário. O Bitcoin-Safe coleta os xpubs e constrói o descritor multisig.</li>
+<li>Salve o descritor da carteira no seu arquivo KeePass e como backup em texto simples — você precisará dele para recuperar o multisig posteriormente.</li>
+<li>Para assinar uma transação, o Bitcoin-Safe cria um PSBT e você assina com quaisquer 2 dos seus 3 dispositivos.</li>
+</ol>
+<p>Este é o padrão ouro para armazenamento a frio HODL. Qualquer dispositivo pode ser perdido, roubado ou destruído e seus fundos permanecem totalmente recuperáveis com os dois restantes.</p>
+<p>Meu conselho: se estiver configurando uma nova carteira fria HODL hoje, use o <a href="https://github.com/andreasgriffin/bitcoin-safe">Bitcoin-Safe</a> com pelo menos uma carteira hardware, com endereços Taproot, e considere o multisig se seu stack justificar. <a href="https://darth-coin.github.io/wallets/move-btc-taproot-address-pt.html">Leia aqui o guia sobre migração para Taproot</a>.</p>
+
 </body>
 </html>
 </article>
