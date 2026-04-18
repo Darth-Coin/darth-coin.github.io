@@ -101,6 +101,42 @@ image: /assets/images/tails.png
 <p>Lustige Tatsache:</p>
 <p>Ich habe mehrere Empfänger wie diese in tiefen Wäldern/Bergen versteckt, die (für mich) in jedem SHTF-Fall leicht wiederherzustellen sind. Selbst wenn sie von jemand anderem gefunden werden (was ich wirklich bezweifle), kann aufgrund der harten Verschlüsselung nicht darauf zugegriffen werden. Ich bin mit dieser Verschlüsselung und dem geheimen Ort, an dem sie versteckt sind, sehr zufrieden. Aber es ist jedem selbst überlassen, wo und wie er diese Kopien speichert. Es könnte auch in einem Online-Speicher sein, es reicht aus, dass die KeePass-Datei gespeichert wird und optional eine Kopie Ihrer Electrum-Wallet-Datei (nicht mehr als ein paar hundert KB Daten).</p>
 
+  <h3 id="e-bitcoin-safe-als-alternative-cold-wallet-lösung" style="color:Orange;">E. Bitcoin-Safe als alternative Cold-Wallet-Lösung</h3>
+<p>Alles oben Beschriebene funktioniert gut, erfordert aber die separate Verwaltung von TailsOS, Electrum und KeePass. Wenn du bereits eine dedizierte saubere Maschine hast — oder bereit bist, eine einzurichten — ist <a href="https://github.com/andreasgriffin/bitcoin-safe">Bitcoin-Safe</a> eine moderne, quelloffene Desktop-Bitcoin-Wallet, die all das in einer einzigen App abdeckt, mit einem saubereren Workflow und leistungsfähigeren Cold-Storage-Optionen.</p>
+<p>Bitcoin-Safe läuft auf Windows, Mac und Linux. Es unterstützt Taproot (P2TR) von Anfang an, hat integrierte UTXO-Beschriftung (so kannst du auf die separaten KeePass-Einträge zur Adressverfolgung verzichten), verbindet sich mit deinem eigenen Bitcoin-Core-Node oder Electrum-Server und enthält einen dedizierten Multisig-Assistenten. Am wichtigsten für Cold Storage: Es verwaltet den vollständigen PSBT-Airgap-Signing-Workflow — dasselbe Prinzip wie TailsOS — aber mit einer ordentlichen GUI.</p>
+<p><strong>Option 1 – Software-Cold-Wallet auf einer dedizierten Offline-Maschine</strong></p>
+<p>Das Prinzip ist identisch mit der TailsOS-Methode: Verwende eine Maschine, die niemals online geht, und nutze sie nur zum Signieren von Transaktionen.</p>
+<ol>
+<li>Nimm einen gebrauchten Laptop, installiere ein sauberes Linux (z. B. Linux Mint) und <strong>verbinde ihn niemals mit dem Internet</strong>. Das ist deine Signing-Maschine.</li>
+<li>Installiere <a href="https://github.com/andreasgriffin/bitcoin-safe/releases">Bitcoin-Safe</a> auf dieser Offline-Maschine.</li>
+<li>Erstelle eine neue Single-Signature-Wallet in Bitcoin-Safe, speichere die Seed-Wörter in KeePass und schreibe sie auf Papier (zwei Kopien, zwei verschiedene Orte).</li>
+<li>Exportiere den xpub/zpub der Wallet (Wallet → Informationen → Master Public Key).</li>
+<li>Installiere auf deiner <strong>Online</strong>-Maschine Bitcoin-Safe erneut und importiere diesen xpub als <strong>Watch-only</strong>-Wallet. Das ist deine Einzahlungs- und Überwachungsoberfläche — die privaten Schlüssel verlassen niemals die Offline-Maschine.</li>
+<li>Zum Ausgeben: erstelle einen PSBT auf der Online-Watch-only-Wallet → übertrage ihn per USB auf die Offline-Maschine → signiere ihn mit Bitcoin-Safe auf der Offline-Maschine → bringe den signierten PSBT zurück zur Online-Maschine → sende ihn.</li>
+</ol>
+<p>Deine privaten Schlüssel berühren niemals ein mit dem Internet verbundenes Gerät. Gleiche Sicherheitsarchitektur wie TailsOS, bessere Bedienbarkeit.</p>
+<p><strong>Option 2 – Hardware-Wallet-Cold-Storage (empfohlenes Upgrade)</strong></p>
+<p>Wenn du über eine reine Software-Cold-Wallet hinausgehen möchtest, hat Bitcoin-Safe nativen Support für alle gängigen Hardware-Wallets: Trezor, Ledger, ColdCard, Jade, BitBox02, Foundation Passport.</p>
+<ol>
+<li>Hol dir eine Hardware-Wallet deiner Wahl und richte sie ein (generiere den Seed auf dem Gerät, schreibe ihn auf, bewahre ihn offline und sicher auf).</li>
+<li>Installiere Bitcoin-Safe auf deiner Online-Maschine.</li>
+<li>Verbinde deine Hardware-Wallet und importiere sie in Bitcoin-Safe. Der xpub wird automatisch ausgelesen — die privaten Schlüssel verlassen das Gerät niemals.</li>
+<li>Nutze Bitcoin-Safe als deine Watch-only- und Signing-Oberfläche: Es fordert für jede Transaktion eine Bestätigung der Hardware-Wallet.</li>
+</ol>
+<p>Die Hardware-Wallet IST der Cold Storage. Bitcoin-Safe ist die Oberfläche. Saubere Trennung.</p>
+<p><strong>Option 3 – Multisig-Cold-Wallet (maximale Sicherheit für ernsthafte HODLer)</strong></p>
+<p>Bei großen Stacks ist ein einzelner Schwachpunkt inakzeptabel. Bitcoin-Safe hat einen dedizierten Multisig-Einrichtungsassistenten, der 2-von-3-Multisig unkompliziert macht — ohne Kommandozeile, ohne Konfigurationsdateien.</p>
+<ol>
+<li>Hol dir zwei oder drei Hardware-Wallets (verschiedene Marken für zusätzliche Ausfallsicherheit).</li>
+<li>Öffne Bitcoin-Safe und starte den Multisig-Assistenten.</li>
+<li>Füge jede Hardware-Wallet als Mitsignierer hinzu. Bitcoin-Safe sammelt die xpubs und erstellt den Multisig-Deskriptor.</li>
+<li>Speichere den Wallet-Deskriptor in deiner KeePass-Datei und als Klartext-Backup — du brauchst ihn, um das Multisig später wiederherzustellen.</li>
+<li>Zum Signieren einer Transaktion erstellt Bitcoin-Safe einen PSBT, den du mit beliebigen 2 deiner 3 Geräte signierst.</li>
+</ol>
+<p>Das ist der Goldstandard für HODL-Cold-Storage. Jedes einzelne Gerät kann verloren gehen, gestohlen oder zerstört werden, und deine Gelder bleiben mit den verbleibenden zwei vollständig wiederherstellbar.</p>
+<p>Mein Rat: Wenn du heute eine neue HODL-Cold-Wallet einrichtest, verwende <a href="https://github.com/andreasgriffin/bitcoin-safe">Bitcoin-Safe</a> mit mindestens einer Hardware-Wallet, mit Taproot-Adressen, und erwäge Multisig, wenn dein Stack es rechtfertigt. <a href="https://darth-coin.github.io/wallets/move-btc-taproot-address-de.html">Hier findest du die Anleitung zur Migration zu Taproot</a>.</p>
+
+
 </body>
 </html>
 </article>
