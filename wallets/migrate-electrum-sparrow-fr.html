@@ -69,6 +69,34 @@ image: /assets/images/electrum-sparrow-1.jpg
 <p>Suivez les écrans et vous verrez comment se déroule l'importation des UTXO et des transactions précédentes. Non, vous pouvez aller les vérifier, il doit s'agir des mêmes adresses BTC que celles du précédent portefeuille Electrum natif segwit (bech32).</p>
 <p><img src="/assets/images/electrum-sparrow-7.jpg" class="center"></p>
 <p>C'est fait ! Vous avez maintenant importé votre ancien portefeuille Electrum bech32 dans Sparrow.</p>
+<hr>
+<h2 id="c-ou-migrer-vers-bitcoin-safe" style="color:Orange;">C. Ou migrer vers Bitcoin-Safe</h2>
+<p><a href="https://github.com/andreasgriffin/bitcoin-safe">Bitcoin-Safe</a> est un portefeuille Bitcoin de bureau moderne et open source, conçu aussi bien pour les débutants que pour les utilisateurs avancés. Il prend en charge les configurations single-sig et multisig, tous les principaux portefeuilles matériels (Trezor, Ledger, ColdCard, Jade, BitBox, Foundation Passport), le contrôle des pièces, l&#39;étiquetage des UTXO, Taproot (P2TR) et peut se connecter à ton propre serveur Electrum ou nœud Bitcoin Core. Pense-y comme un Sparrow plus épuré et plus accessible, avec un assistant multisig intégré.</p>
+<p>Si tu veux moderniser Electrum sans te battre avec la complexité de Sparrow, Bitcoin-Safe est une excellente destination.</p>
+<p><strong>Méthode 1 – Importer ta graine Electrum (simple)</strong></p>
+<ol>
+<li>Télécharge et installe <a href="https://github.com/andreasgriffin/bitcoin-safe/releases">Bitcoin-Safe</a> pour ton système d&#39;exploitation (Windows, Mac, Linux).</li>
+<li>Ouvre Bitcoin-Safe et commence à créer un nouveau portefeuille.</li>
+<li>Sélectionne &quot;Portefeuille à signature unique&quot; et choisis &quot;Restaurer depuis les mots de graine&quot;.</li>
+<li>Saisis ta graine BIP39 de 12 ou 24 mots depuis Electrum.</li>
+<li>Choisis le bon type de script :<ul>
+<li>Native SegWit (BIP84 / bech32) si tes adresses Electrum commençaient par <code>bc1q</code></li>
+<li>Taproot (BIP86 / P2TR) si tu veux migrer directement vers le type d&#39;adresse le plus récent</li>
+</ul>
+</li>
+<li>Vérifie que les premières adresses affichées correspondent bien à ton ancienne adresse Electrum. Si elles correspondent, l&#39;import est correct.</li>
+<li>Définis un mot de passe fort et sauvegarde le fichier du portefeuille dans un endroit sûr (KeePass ou clé USB chiffrée).</li>
+</ol>
+<p>Terminé ! Bitcoin-Safe va scanner la blockchain et afficher tous tes UTXOs et transactions précédents.</p>
+<p><strong>Méthode 2 – Importer xpub/zpub en lecture seule (avancé)</strong></p>
+<ol>
+<li>Dans Electrum, va dans le menu Portefeuille → Informations. Copie ta Clé Publique Maîtresse (xpub ou zpub).</li>
+<li>Dans Bitcoin-Safe, crée un nouveau portefeuille et choisis &quot;Lecture seule&quot;.</li>
+<li>Colle le xpub/zpub. Bitcoin-Safe dérivera toutes les adresses et affichera ton solde sans jamais exposer tes clés privées.</li>
+</ol>
+<p>Idéal si tes clés privées restent sur un portefeuille matériel ou un système hors ligne, et que tu as seulement besoin de surveiller le solde et de générer des adresses de dépôt.</p>
+<p><strong>Bonus : Multisig avec portefeuilles matériels</strong></p>
+<p>Bitcoin-Safe dispose d&#39;un assistant dédié à la configuration multisig. Tu peux créer un multisig 2-de-3 avec des portefeuilles matériels directement depuis l&#39;interface graphique — sans ligne de commande, sans fichiers de configuration. C&#39;est là que Bitcoin-Safe surpasse Electrum et même Sparrow en termes de facilité d&#39;utilisation.</p>
 <p>Mon conseil est de migrer tous vos anciens portefeuilles BIP39 HODL vers des portefeuilles de type Taproot (P2TR). <a href="/wallets/move-btc-taproot-address-fr.html">Lisez ici le guide à ce sujet</a>.</p>
 </body>
 </html>
