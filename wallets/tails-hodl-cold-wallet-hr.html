@@ -101,6 +101,41 @@ image: /assets/images/tails.png
 <p>Zabavna činjenica:</p>
 <p>Imam nekoliko primatelja poput ovih skrivenih u dubokim šumama/planinskim mjestima, koje je lako (za mene) vratiti u bilo kojem SHTF slučaju. Čak i ako ih pronađe netko drugi (stvarno sumnjam), ne može im se pristupiti zbog hard enkripcije. Vrlo mi je ugodno to šifriranje i tajno mjesto gdje su skriveni. No, svaki odlučuje gdje će i kako spremiti te kopije. Također može biti u mrežnoj pohrani, dovoljna je KeePass datoteka za pohranjivanje i opcionalna kopija vaše Electrum wallet datoteke (ne više od nekoliko stotina kb podataka).</p>
 
+<h3 id="e-bitcoin-safe-kao-alternativno-rješenje-hladnog-novčanika" style="color:Orange;">E. Bitcoin-Safe kao alternativno rješenje hladnog novčanika</h3>
+<p>Sve opisano gore funkcionira dobro, ali zahtijeva zasebno upravljanje TailsOS-om, Electrumom i KeePassom. Ako već imate namjensko čisto računalo — ili ste voljni ga postaviti — <a href="https://github.com/andreasgriffin/bitcoin-safe">Bitcoin-Safe</a> je moderan, open-source desktop Bitcoin novčanik koji pokriva sve to u jednoj aplikaciji, s čišćim radnim tokom i moćnijim opcijama hladnog pohrane.</p>
+<p>Bitcoin-Safe radi na Windowsu, Macu i Linuxu. Podržava Taproot (P2TR) od samog početka, ima ugrađeno označavanje UTXO-a (tako da možete izostaviti zasebne KeePass unose za praćenje adresa), spaja se na vaš vlastiti Bitcoin Core čvor ili Electrum server, te uključuje namjenskog čarobnjaka za multisig. Najvažnije za hladno pohranjivanje: upravlja potpunim PSBT airgap radnim tokom potpisivanja — isti princip kao TailsOS — ali s odgovarajućim grafičkim sučeljem.</p>
+<p><strong>Opcija 1 – Softverski hladni novčanik na namjenskom offline računalu</strong></p>
+<p>Princip je identičan metodi TailsOS: koristite računalo koje nikada ne ide online i koristite ga samo za potpisivanje transakcija.</p>
+<ol>
+<li>Uzmite rabljeni laptop, instalirajte čisti Linux (npr. Linux Mint) i <strong>nikada ga ne spajajte na internet</strong>. Ovo je vaše računalo za potpisivanje.</li>
+<li>Instalirajte <a href="https://github.com/andreasgriffin/bitcoin-safe/releases">Bitcoin-Safe</a> na to offline računalo.</li>
+<li>Stvorite novi novčanik s jednim potpisom u Bitcoin-Safe, pohranite seed riječi u KeePass i zapišite ih na papir (dvije kopije, dva različita mjesta).</li>
+<li>Izvezite xpub/zpub novčanika (Novčanik → Informacije → Glavni javni ključ).</li>
+<li>Na vašem <strong>online</strong> računalu, ponovo instalirajte Bitcoin-Safe i uvezite taj xpub kao novčanik za <strong>samo praćenje</strong>. Ovo je vaše sučelje za depozit i praćenje — privatni ključevi nikada ne napuštaju offline računalo.</li>
+<li>Za trošenje: stvorite PSBT na online watch-only novčaniku → prebacite ga na offline računalo putem USB-a → potpišite ga s Bitcoin-Safe na offline računalu → dovedite potpisani PSBT natrag na online računalo → emitujte ga.</li>
+</ol>
+<p>Vaši privatni ključevi nikada ne diraju uređaj spojen na internet. Isti sigurnosni model kao TailsOS, bolje korisničko iskustvo.</p>
+<p><strong>Opcija 2 – Hladno pohranjivanje s hardverskim novčanikom (preporučena nadogradnja)</strong></p>
+<p>Ako želite ići dalje od čistog softverskog hladnog novčanika, Bitcoin-Safe ima nativnu podršku za sve glavne hardverske novčanike: Trezor, Ledger, ColdCard, Jade, BitBox02, Foundation Passport.</p>
+<ol>
+<li>Nabavite hardverski novčanik po svom izboru i postavite ga (generišite seed na uređaju, zapišite ga, čuvajte ga offline i sigurno).</li>
+<li>Instalirajte Bitcoin-Safe na vaše online računalo.</li>
+<li>Spojite hardverski novčanik i uvezite ga u Bitcoin-Safe. xpub se čita automatski — privatni ključevi nikada ne napuštaju uređaj.</li>
+<li>Koristite Bitcoin-Safe kao sučelje za samo praćenje i potpisivanje: zahtijevat će potvrdu hardverskog novčanika za svaku transakciju.</li>
+</ol>
+<p>Hardverski novčanik JEST hladno pohranjivanje. Bitcoin-Safe je sučelje. Čisto odvajanje.</p>
+<p><strong>Opcija 3 – Multisig hladni novčanik (maksimalna sigurnost za ozbiljne HODLere)</strong></p>
+<p>Za velike stackove, jedina točka kvara je neprihvatljiva. Bitcoin-Safe ima namjenskog čarobnjaka za postavljanje multisiga koji čini 2-od-3 multisig jednostavnim — bez naredbenog retka, bez konfiguracijskih datoteka.</p>
+<ol>
+<li>Nabavite dva ili tri hardverska novčanika (mogu biti različitih marki za veću otpornost).</li>
+<li>Otvorite Bitcoin-Safe i pokrenite čarobnjaka za multisig.</li>
+<li>Dodajte svaki hardverski novčanik kao supotpisnika. Bitcoin-Safe prikuplja xpubove i gradi multisig deskriptor.</li>
+<li>Pohranite deskriptor novčanika u vašu KeePass datoteku i kao obični tekstualni backup — trebat će vam za kasniji oporavak multisiga.</li>
+<li>Za potpisivanje transakcije, Bitcoin-Safe stvara PSBT koji potpisujete s bilo koja 2 od vaša 3 uređaja.</li>
+</ol>
+<p>Ovo je zlatni standard za HODL hladno pohranjivanje. Bilo koji pojedinačni uređaj može biti izgubljen, ukraden ili uništen i vaša sredstva ostaju potpuno obnovljiva s preostalim dvama.</p>
+<p>Moj savjet: ako danas postavljate novi HODL hladni novčanik, koristite <a href="https://github.com/andreasgriffin/bitcoin-safe">Bitcoin-Safe</a> s barem jednim hardverskim novčanikom, s Taproot adresama, i razmotrite multisig ako vaš stack to opravdava. <a href="https://darth-coin.github.io/wallets/move-btc-taproot-address-hr.html">Pročitajte ovdje vodič o migraciji na Taproot</a>.</p>
+
 </body>
 </html>
 </article>
