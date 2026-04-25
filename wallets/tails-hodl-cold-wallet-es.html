@@ -100,6 +100,43 @@ image: /assets/images/tails.png
 <p><a href="/wallets/deposit-only-btc-wallets-es.html">Aquí hay una guía más detallada</a> sobre cómo importar y usar el MPK de esta billetera fría en una aplicación para billeteras solo para depósitos.</p>
 <p>Dato curioso:</p>
 <p>Tengo varios destinatarios como estos escondidos en lugares profundos del bosque o la montaña, fáciles (para mí) de recuperar en cualquier caso de SHTF. Incluso si alguien más los encuentra (realmente lo dudo), no se puede acceder a ellos debido al cifrado estricto. Me siento muy cómodo con ese cifrado y el lugar secreto donde están escondidos. Pero depende de cada individuo dónde y cómo guardar esas copias. También podría ser en un almacenamiento en línea, es suficiente con que se almacene el archivo KeePass y, opcionalmente, una copia del archivo de su billetera electrum (no más de unos pocos cientos de kb de datos).</p>
+
+<h3 id="e-bitcoin-safe-como-solución-alternativa-de-monedero-frío" style="color:Orange;">E. Bitcoin-Safe como solución alternativa de monedero frío</h3>
+<p>Todo lo descrito anteriormente funciona bien, pero requiere manejar TailsOS, Electrum y KeePass por separado. Si ya tienes una máquina limpia dedicada — o estás dispuesto a configurar una — <a href="https://github.com/andreasgriffin/bitcoin-safe">Bitcoin-Safe</a> es un moderno monedero Bitcoin de escritorio de código abierto que cubre todo esto en una sola aplicación, con un flujo de trabajo más limpio y opciones de almacenamiento en frío más potentes.</p>
+<p>Bitcoin-Safe funciona en Windows, Mac y Linux. Soporta Taproot (P2TR) desde el principio, tiene etiquetado de UTXO integrado (para que puedas prescindir de las entradas separadas de KeePass para el seguimiento de direcciones), se conecta a tu propio nodo Bitcoin Core o servidor Electrum, e incluye un asistente multisig dedicado. Lo más importante para el almacenamiento en frío: gestiona el flujo de trabajo de firma airgap con PSBT — el mismo principio que TailsOS — pero con una interfaz gráfica adecuada.</p>
+<p><strong>Opción 1 – Monedero frío de software en una máquina offline dedicada</strong></p>
+<p>El principio es idéntico al método TailsOS: usa una máquina que nunca se conecte a internet y úsala solo para firmar transacciones.</p>
+<ol>
+<li>Toma un portátil de segunda mano, instala un Linux limpio (p. ej. Linux Mint) y <strong>nunca lo conectes a internet</strong>. Esta es tu máquina de firma.</li>
+<li>Instala <a href="https://github.com/andreasgriffin/bitcoin-safe/releases">Bitcoin-Safe</a> en esa máquina offline.</li>
+<li>Crea un nuevo monedero de firma única en Bitcoin-Safe, guarda las palabras semilla en KeePass y escríbelas en papel (dos copias, dos lugares distintos).</li>
+<li>Exporta el xpub/zpub del monedero (Monedero → Información → Clave Pública Maestra).</li>
+<li>En tu máquina <strong>online</strong>, instala Bitcoin-Safe de nuevo e importa ese xpub como monedero de <strong>solo lectura</strong>. Esta es tu interfaz de depósito y monitoreo — las claves privadas nunca salen de la máquina offline.</li>
+<li>Para gastar: crea un PSBT en el monedero watch-only online → transfiérelo a la máquina offline por USB → fírmalo con Bitcoin-Safe en la máquina offline → lleva el PSBT firmado de vuelta a la máquina online → transmítelo.</li>
+</ol>
+<p>Tus claves privadas nunca tocan un dispositivo conectado a internet. Mismo modelo de seguridad que TailsOS, mejor experiencia de uso.</p>
+<p><strong>Opción 2 – Almacenamiento en frío con monedero hardware (mejora recomendada)</strong></p>
+<p>Si quieres ir más allá de un monedero frío de software puro, Bitcoin-Safe tiene soporte nativo para todos los principales monederos hardware: Trezor, Ledger, ColdCard, Jade, BitBox02, Foundation Passport.</p>
+<ol>
+<li>Consigue un monedero hardware de tu elección y configúralo (genera la semilla en el dispositivo, escríbela, mantenla offline y segura).</li>
+<li>Instala Bitcoin-Safe en tu máquina online.</li>
+<li>Conecta tu monedero hardware e impórtalo en Bitcoin-Safe. El xpub se lee automáticamente — las claves privadas nunca salen del dispositivo.</li>
+<li>Usa Bitcoin-Safe como tu interfaz de solo lectura y firma: solicitará la confirmación del monedero hardware para cada transacción.</li>
+</ol>
+<p>El monedero hardware ES el almacenamiento en frío. Bitcoin-Safe es la interfaz. Separación limpia.</p>
+<p><strong>Opción 3 – Monedero frío multisig (máxima seguridad para HODLers serios)</strong></p>
+<p>Para stacks grandes, un único punto de fallo es inaceptable. Bitcoin-Safe tiene un asistente multisig dedicado que hace que el multisig 2-de-3 sea sencillo — sin línea de comandos, sin archivos de configuración.</p>
+<ol>
+<li>Consigue dos o tres monederos hardware (pueden ser de diferentes marcas para mayor resiliencia).</li>
+<li>Abre Bitcoin-Safe e inicia el asistente multisig.</li>
+<li>Añade cada monedero hardware como co-firmante. Bitcoin-Safe recopila los xpubs y construye el descriptor multisig.</li>
+<li>Guarda el descriptor del monedero en tu archivo KeePass y como copia de texto plano — lo necesitarás para recuperar el multisig más adelante.</li>
+<li>Para firmar una transacción, Bitcoin-Safe crea un PSBT y lo firmas con cualquiera de 2 de tus 3 dispositivos.</li>
+</ol>
+<p>Este es el estándar de oro para el almacenamiento en frío HODL. Cualquier dispositivo individual puede perderse, ser robado o destruido y tus fondos permanecen completamente recuperables con los dos restantes.</p>
+<p>Mi consejo: si estás configurando un nuevo monedero frío HODL hoy, usa <a href="https://github.com/andreasgriffin/bitcoin-safe">Bitcoin-Safe</a> con al menos un monedero hardware, con direcciones Taproot, y considera el multisig si tu stack lo justifica. <a href="https://darth-coin.github.io/wallets/move-btc-taproot-address-es.html">Lee aquí la guía sobre migración a Taproot</a>.</p>
+
+
 </body>
 </html>
 </article>

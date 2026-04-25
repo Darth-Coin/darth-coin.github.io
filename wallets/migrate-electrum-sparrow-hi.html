@@ -69,7 +69,35 @@ image: /assets/images/electrum-sparrow-1.jpg
 <p>स्क्रीन का अनुसरण करें और आप देखेंगे कि पिछले UTXO और लेनदेन को कैसे आयात किया जा रहा है। नहीं, आप जाकर उन्हें सत्यापित कर सकते हैं, यह पिछले सेगविट नेटिव (bech32) इलेक्ट्रम वॉलेट से समान BTC पते होने चाहिए।</p>
 <p><img src="/assets/images/electrum-sparrow-7.jpg" class="center"></p>
 <p>हो गया! अब आपने अपने पहले के इलेक्ट्रम बेच32 वॉलेट को स्पैरो में आयात कर लिया है।</p>
-<p>मेरी सलाह है, अपने सभी पुराने BIP39 HODL वॉलेट को टैपरूट (P2TR) प्रकार के वॉलेट में माइग्रेट करें। <a href="/wallets/move-btc-taproot-address-hi.html">इसके बारे में गाइड यहाँ पढ़ें</a>.</p>
+<hr>
+<h2 id="c-या-bitcoin-safe-पर-माइग्रेट-करें" style="color:Orange;">C. या Bitcoin-Safe पर माइग्रेट करें</h2>
+<p><a href="https://github.com/andreasgriffin/bitcoin-safe">Bitcoin-Safe</a> एक आधुनिक, ओपन-सोर्स डेस्कटॉप Bitcoin वॉलेट है, जो शुरुआती और अनुभवी दोनों उपयोगकर्ताओं के लिए बनाया गया है। यह single-sig और multisig सेटअप, सभी प्रमुख हार्डवेयर वॉलेट (Trezor, Ledger, ColdCard, Jade, BitBox, Foundation Passport), coin control, UTXO लेबलिंग, Taproot (P2TR) को सपोर्ट करता है और अपने खुद के Electrum सर्वर या Bitcoin Core नोड से जुड़ सकता है। इसे एक साफ, शुरुआती-अनुकूल Sparrow समझें जिसमें multisig विज़ार्ड भी शामिल है।</p>
+<p>अगर आप Electrum को आधुनिक बनाना चाहते हैं बिना Sparrow की जटिलता के, तो Bitcoin-Safe एक बेहतरीन विकल्प है।</p>
+<p><strong>विधि 1 – अपना Electrum seed आयात करें (सरल)</strong></p>
+<ol>
+<li>अपने ऑपरेटिंग सिस्टम (Windows, Mac, Linux) के लिए <a href="https://github.com/andreasgriffin/bitcoin-safe/releases">Bitcoin-Safe</a> डाउनलोड और इंस्टॉल करें।</li>
+<li>Bitcoin-Safe खोलें और नया वॉलेट बनाना शुरू करें।</li>
+<li>&quot;Single-Signature wallet&quot; चुनें और &quot;Restore from seed words&quot; चुनें।</li>
+<li>Electrum से अपना 12 या 24 शब्दों का BIP39 seed दर्ज करें।</li>
+<li>सही स्क्रिप्ट प्रकार चुनें:<ul>
+<li>Native SegWit (BIP84 / bech32) अगर आपके Electrum पते <code>bc1q</code> से शुरू होते थे</li>
+<li>Taproot (BIP86 / P2TR) अगर आप तुरंत नवीनतम पता प्रकार पर अपग्रेड करना चाहते हैं</li>
+</ul>
+</li>
+<li>जांचें कि दिखाए गए पहले कुछ पते आपके पुराने Electrum वॉलेट से मेल खाते हैं। अगर मेल खाते हैं, तो आयात सही है।</li>
+<li>एक मजबूत पासवर्ड सेट करें और वॉलेट फ़ाइल को सुरक्षित स्थान पर सहेजें (KeePass या एन्क्रिप्टेड USB)।</li>
+</ol>
+<p>हो गया! Bitcoin-Safe blockchain स्कैन करेगा और आपके सभी पुराने UTXO और लेनदेन दिखाएगा।</p>
+<p><strong>विधि 2 – xpub/zpub को watch-only के रूप में आयात करें (उन्नत)</strong></p>
+<ol>
+<li>Electrum में, Wallet मेनू → Information पर जाएं। अपनी Master Public Key (xpub या zpub) कॉपी करें।</li>
+<li>Bitcoin-Safe में, एक नया वॉलेट बनाएं और &quot;Watch-only&quot; चुनें।</li>
+<li>xpub/zpub पेस्ट करें। Bitcoin-Safe सभी पते व्युत्पन्न करेगा और आपकी private keys कभी उजागर किए बिना आपका बैलेंस दिखाएगा।</li>
+</ol>
+<p>यह आदर्श है अगर आपकी private keys किसी हार्डवेयर वॉलेट या ऑफलाइन सिस्टम पर रहती हैं और आपको केवल बैलेंस देखना और जमा पते उत्पन्न करने की जरूरत है।</p>
+<p><strong>बोनस: हार्डवेयर वॉलेट के साथ Multisig</strong></p>
+<p>Bitcoin-Safe में एक समर्पित multisig सेटअप विज़ार्ड है। आप सीधे GUI से हार्डवेयर वॉलेट के साथ 2-of-3 multisig बना सकते हैं — कोई कमांड लाइन नहीं, कोई कॉन्फ़िग फ़ाइलें नहीं। यहीं Bitcoin-Safe उपयोग में आसानी के मामले में Electrum और Sparrow दोनों को पीछे छोड़ता है।</p>
+ <p>मेरी सलाह है, अपने सभी पुराने BIP39 HODL वॉलेट को टैपरूट (P2TR) प्रकार के वॉलेट में माइग्रेट करें। <a href="/wallets/move-btc-taproot-address-hi.html">इसके बारे में गाइड यहाँ पढ़ें</a>.</p>
 </body>
 </html>
 </article>

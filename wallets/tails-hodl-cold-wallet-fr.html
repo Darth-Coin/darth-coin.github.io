@@ -101,6 +101,42 @@ image: /assets/images/tails.png
 <p>Fait amusant :</p>
 <p>J'ai plusieurs destinataires comme ceux-ci cachés dans des endroits de forêt profonde / montagne, facile (pour moi) de les récupérer dans n'importe quel cas SHTF. Même s'ils sont trouvés par quelqu'un d'autre (j'en doute vraiment), ils ne sont pas accessibles en raison du cryptage dur. Je suis très à l'aise avec ce cryptage et l'endroit secret où ils sont cachés. Mais c'est à chaque individu de décider où et comment sauvegarder ces copies. Cela peut également être dans un stockage en ligne, il suffit que le fichier KeePass soit stocké et en option une copie de votre fichier de portefeuille Electrum (pas plus de quelques centaines de Ko de données).</p>
 
+  <h3 id="e-bitcoin-safe-comme-solution-alternative-de-portefeuille-froid" style="color:Orange;">E. Bitcoin-Safe comme solution alternative de portefeuille froid</h3>
+<p>Tout ce qui est décrit ci-dessus fonctionne bien, mais nécessite de gérer TailsOS, Electrum et KeePass séparément. Si tu as déjà une machine dédiée et propre — ou si tu es prêt à en configurer une — <a href="https://github.com/andreasgriffin/bitcoin-safe">Bitcoin-Safe</a> est un portefeuille Bitcoin de bureau moderne et open source qui couvre tout cela dans une seule application, avec un flux de travail plus propre et des options de stockage à froid plus puissantes.</p>
+<p>Bitcoin-Safe tourne sur Windows, Mac et Linux. Il supporte Taproot (P2TR) dès le départ, dispose d&#39;un étiquetage des UTXO intégré (tu peux ainsi te passer des entrées KeePass séparées pour le suivi des adresses), se connecte à ton propre nœud Bitcoin Core ou serveur Electrum, et inclut un assistant multisig dédié. Le plus important pour le stockage à froid : il gère le flux de signature airgap via PSBT — le même principe que TailsOS — mais avec une interface graphique correcte.</p>
+<p><strong>Option 1 – Portefeuille froid logiciel sur une machine hors ligne dédiée</strong></p>
+<p>Le principe est identique à la méthode TailsOS : utiliser une machine qui ne se connecte jamais à internet et ne s&#39;en servir que pour signer des transactions.</p>
+<ol>
+<li>Prends un ordinateur portable d&#39;occasion, installe un Linux propre (ex. : Linux Mint) et <strong>ne le connecte jamais à internet</strong>. C&#39;est ta machine de signature.</li>
+<li>Installe <a href="https://github.com/andreasgriffin/bitcoin-safe/releases">Bitcoin-Safe</a> sur cette machine hors ligne.</li>
+<li>Crée un nouveau portefeuille à signature unique dans Bitcoin-Safe, sauvegarde les mots de graine dans KeePass et note-les sur papier (deux copies, deux endroits différents).</li>
+<li>Exporte le xpub/zpub du portefeuille (Portefeuille → Informations → Clé Publique Maîtresse).</li>
+<li>Sur ta machine <strong>en ligne</strong>, réinstalle Bitcoin-Safe et importe ce xpub comme portefeuille en <strong>lecture seule</strong>. C&#39;est ton interface de dépôt et de suivi — les clés privées ne quittent jamais la machine hors ligne.</li>
+<li>Pour dépenser : crée un PSBT sur le portefeuille watch-only en ligne → transfère-le sur la machine hors ligne via USB → signe-le avec Bitcoin-Safe sur la machine hors ligne → ramène le PSBT signé sur la machine en ligne → diffuse-le.</li>
+</ol>
+<p>Tes clés privées ne touchent jamais un appareil connecté à internet. Même modèle de sécurité que TailsOS, meilleure expérience d&#39;utilisation.</p>
+<p><strong>Option 2 – Stockage à froid avec portefeuille matériel (mise à niveau recommandée)</strong></p>
+<p>Si tu veux aller au-delà d&#39;un portefeuille froid purement logiciel, Bitcoin-Safe prend en charge nativement tous les principaux portefeuilles matériels : Trezor, Ledger, ColdCard, Jade, BitBox02, Foundation Passport.</p>
+<ol>
+<li>Procure-toi un portefeuille matériel de ton choix et configure-le (génère la graine sur l&#39;appareil, note-la, garde-la hors ligne et en sécurité).</li>
+<li>Installe Bitcoin-Safe sur ta machine en ligne.</li>
+<li>Connecte ton portefeuille matériel et importe-le dans Bitcoin-Safe. Le xpub est lu automatiquement — les clés privées ne quittent jamais l&#39;appareil.</li>
+<li>Utilise Bitcoin-Safe comme interface de lecture seule et de signature : il demandera une confirmation du portefeuille matériel pour chaque transaction.</li>
+</ol>
+<p>Le portefeuille matériel EST le stockage à froid. Bitcoin-Safe est l&#39;interface. Séparation nette.</p>
+<p><strong>Option 3 – Portefeuille froid multisig (sécurité maximale pour les HODLeurs sérieux)</strong></p>
+<p>Pour les stacks importants, un seul point de défaillance est inacceptable. Bitcoin-Safe dispose d&#39;un assistant de configuration multisig dédié qui rend le multisig 2-de-3 simple — pas de ligne de commande, pas de fichiers de configuration.</p>
+<ol>
+<li>Procure-toi deux ou trois portefeuilles matériels (de marques différentes pour plus de résilience).</li>
+<li>Ouvre Bitcoin-Safe et lance l&#39;assistant multisig.</li>
+<li>Ajoute chaque portefeuille matériel comme co-signataire. Bitcoin-Safe collecte les xpubs et construit le descripteur multisig.</li>
+<li>Sauvegarde le descripteur du portefeuille dans ton fichier KeePass et en texte brut comme sauvegarde — tu en auras besoin pour récupérer le multisig plus tard.</li>
+<li>Pour signer une transaction, Bitcoin-Safe crée un PSBT que tu signes avec n&#39;importe lesquels 2 de tes 3 appareils.</li>
+</ol>
+<p>C&#39;est l&#39;étalon-or pour le stockage à froid HODL. N&#39;importe quel appareil peut être perdu, volé ou détruit et tes fonds restent entièrement récupérables avec les deux restants.</p>
+<p>Mon conseil : si tu configures un nouveau portefeuille froid HODL aujourd&#39;hui, utilise <a href="https://github.com/andreasgriffin/bitcoin-safe">Bitcoin-Safe</a> avec au moins un portefeuille matériel, avec des adresses Taproot, et envisage le multisig si ton stack le justifie. <a href="https://darth-coin.github.io/wallets/move-btc-taproot-address-fr.html">Lis ici le guide sur la migration vers Taproot</a>.</p>
+
+
 </body>
 </html>
 </article>
