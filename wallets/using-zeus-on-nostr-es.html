@@ -1,0 +1,97 @@
+---
+layout: default-es
+title: Cómo usar Zeus Mobile Node con NOSTR
+description: Una guía paso a paso sobre cómo empezar a usar el nodo integrado Zeus LDK y NWC con clientes NOSTR, para zaps
+image: /assets/images/zeus-throne.jpg
+---
+<article>
+<!DOCTYPE html>
+<html lang="es">
+<meta name="description" content="Una guía paso a paso sobre cómo empezar a usar el nodo integrado Zeus LDK y NWC con clientes NOSTR, para zaps">
+<body>
+<center>
+<h2 style="color:Orange;">Una guía paso a paso sobre cómo empezar a usar el nodo integrado Zeus LDK y NWC con clientes NOSTR, para zaps</h2>
+<p><img src="/assets/images/zeus-throne.jpg" class="center"></p>
+
+| <a href="/wallets/using-zeus-on-nostr-en.html"><img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/using-zeus-on-nostr-pt.html"><img src="/assets/images/flag-PT.png" alt="PT" title="Portuguese" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/using-zeus-on-nostr-de.html"><img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/using-zeus-on-nostr-fr.html"><img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/using-zeus-on-nostr-it.html"><img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/using-zeus-on-nostr-nl.html"><img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/using-zeus-on-nostr-hr.html"><img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/using-zeus-on-nostr-hi.html"><img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+</center>
+<em><blockquote style="color:Tomato;">
+<p>Publicado originalmente en <a href="https://stacker.news/items/1478495">Stacker News</a> el 25 de abril de 2026. Actualizado aquí el 25 de abril de 2026</p>
+</em></blockquote>
+
+<p>Últimamente he visto a muchísimos usuarios (¡ESTÚPIDOS!) usando las nuevas carteras Spark para nostr. Su falta de conocimiento me saca de quicio... ¡simplemente caen en la trampa de Spark!</p>
+<p>REPITO: SPARK ES UNA TRAMPA GIGANTE PARA TODOS. Por favor, dejen de caer en esa estafa.</p>
+<p>Ahora vamos a hablar de Zeus, una de las aplicaciones de cartera más complejas, completas y potentes para móviles. Normalmente no me gusta adular a nadie, ya me conocen. Pero hay que reconocer que el equipo de Zeus hizo un trabajo excelente con la última versión v0.13, que integra el nodo LDK y el CDK. Esta miniguía está dirigida a quienes desean o necesitan una cartera LN para nostr.</p> Supongamos que empiezas desde cero: acabas de llegar a nostr y quieres recibir/enviar algunos sats a través de zaps.
+
+<h3 style="color:Yellow;">PASO 1: Inicia un nodo LDK integrado en Zeus</h3>
+<ol>
+<li>Una vez que instales Zeus, se te mostrará un cuestionario del asistente para ayudarte a decidir qué tipo de configuración deseas usar. <a href="/wallets/zeus-graduated-wallet-es.html">Más información sobre la billetera graduada de Zeus aquí.</a></li>
+<li>También puedes elegir "Configuración avanzada" y luego seleccionar un nodo LDK integrado. En pocos segundos, tu nodo estará funcionando. La sincronización con LDK es instantánea.</li>
+<li>Suponemos que no tienes sats para abrir o comprar un nuevo canal de entrada de LSP. No te preocupes, no lo necesitas en esta fase. Primero configuraremos la dirección LN para recibir sats y también la subcuenta NWC. Posteriormente, se cambiará a un canal LN, después de la "graduación".
+<li>Ve a Configuración - Cashu Mints. Agrega un cashu mint como desees, siguiendo las instrucciones. Esta función te permitirá recibirlos inmediatamente, sin necesidad de tener un canal LN abierto. Por el momento, empezar así es perfectamente válido.</li>
+<li><p>Ve a Configuración - Dirección Lightning. Genera una aleatoria y elige vincularla a tu cuenta de cashu ecash.</p> Si agregaste varias cuentas Cashu, podrás alternar entre ellas para recibir fondos en la configuración de la dirección LN.
+
+<p><img src="/assets/images/zeus-LN-address-settings.jpg" class="center"></p>
+
+<p>Por el momento, no actives la opción "Canjear en autocustodia", ya que aún no tienes un canal LN. Más adelante podrás activarla en Configuración - Opciones de Ecash.</p>
+
+<p><img src="/assets/images/zeus-ecash-settings.jpg" class="center"></p>
+</li>
+<li><p>Configura la cuenta NWC: ve a Configuración - Herramientas - Servicio Nostr Wallet Connect. No hagas clic inmediatamente en el botón "+". Primero configura el NWC para usar la billetera Cashu, ya que aún no tienes un canal LN con un saldo suficiente.
+<p><img src="/assets/images/zeus-nwc-settings.jpg" class="center"></p>
+<p>Si deseas usarlo con regularidad, casi todo el tiempo, puedes activar el "modo persistente" para el servicio NWC. Pero si lo usas solo unas pocas veces de forma esporádica, no es realmente necesario; simplemente abre Zeus antes de querer enviar un hechizo a alguien y espera unos segundos a que el servicio NWC se reconecte.</p>
+<p><strong>RECORDATORIO:</strong></p>
+<p>Tenga en cuenta que si desea usar Zeus en modo persistente todo el tiempo (sin abrir la aplicación) y poder realizar transacciones y recibir pagos en cualquier momento, también debe configurar el nodo LDK/LND en modo persistente para mantener la conexión activa.</p>
+<p>Para configurar el nodo LDK en modo persistente, vaya a Configuración - Nodo integrado - active la opción de persistencia. Esta opción mantendrá el servicio del nodo activo incluso con la aplicación Zeus cerrada, en segundo plano o con la pantalla apagada.</p>
+<p>Ahora, volvamos a la configuración de la cuenta NWC y, en la pantalla de opciones, ingrese el nombre de la cuenta y seleccione "Personalizada". Desactive la opción "Pagar factura". Esta opción solo se aplica cuando no tienes saldo suficiente o empiezas desde cero.
+<p><img src="/assets/images/zeus-nwc-custom-connection.jpg" class="center"></p>
+<p>Introduce el presupuesto deseado y haz clic en el botón "Crear conexión".</p>
+<p>Una vez creada la conexión NWC, vuelve a editarla (es una pequeña etiqueta en la esquina superior) y activa la opción "Pagar facturas". Establece el límite de presupuesto según corresponda.</p>
+<p>Se te mostrará un código QR para escanear y conectar una billetera externa, o copia la cadena y guárdala para más tarde.</p> Puedes copiar esa cadena y pegarla en cualquier cliente de NOSTR en su conexión de billetera para poder enviar sats de inmediato para realizar pruebas.
+<p>Más adelante, cuando tengas un canal LN, puedes cambiar de la billetera cashu al saldo del canal LN y el NWC utilizará ese saldo, no el cashu.</p>
+<li>Configura tu dirección LN de Zeus en cualquier cliente de NOSTR y comienza a recibir zaps. Puedes usar esa dirección LN en cualquier momento para recibir, incluso cuando tu Zeus no esté en línea. Utiliza una casa de moneda cashu como "zona de búfer" y puedes canjear los tokens cuando quieras.</li>
+<li><p>Para canjear los zaps recibidos, una vez que abras Zeus, verás un ícono de Zeus parpadeando en la esquina superior izquierda. Esto significa que tu dirección LN está sincronizando los zaps recibidos. Ve a Configuración - Dirección Lightning y los verás todos listados.</p> Haz clic en el botón "Canjear" y en unos instantes todos los tokens se transferirán a tu billetera Cashu.</p>
+<p>Más adelante, podrás cambiarlos a autocustodia cuando tengas un canal LN disponible con suficiente liquidez entrante. Por ahora, acumula más, lo suficiente para arrendar un canal entrante adecuado al LSP.</p>
+</li>
+</ol>
+<p>Eso es todo para el paso 1: acumulación de sats.</p>
+
+<h3 style="color:Yellow;">PASO 2 - Actualización a autocustodia y NWC</h3>
+<ol>
+<li><p>Supongamos que acumulas suficientes sats para comenzar con un nuevo canal LN. Normalmente, 10.000 sats son suficientes para comprar un canal entrante de tamaño decente. Para empezar, recomiendo usar Zeus LSP - Olympus; la opción en la aplicación permite comprar un nuevo canal. Para empezar, un canal de 100.000, 200.000 o 300.000 sats es adecuado. Para usuarios avanzados, recomiendo comenzar con un canal de al menos 1 millón de sats para que les sirva a largo plazo y para cantidades mayores.</p>
+<p>También puedes abrir canales con tus propios fondos de la cadena de bloques y con cualquier otro nodo. No hay límite para usar solo Olympus LSP.</p> Para empezar, es mucho mejor comenzar con un canal LSP para familiarizarse con él y contar con el apoyo completo del equipo.
+<p><a href="/nodes/private-ln-channels-types-es.html">Lea más sobre los tipos de canales privados aquí</a> y cómo usarlos.</p>
+<p>Para recibir mensajes directamente en autocustodia, necesita un "canal vacío", un canal de entrada. <a href="https://stacker.news/items/552822">Aquí explico (para principiantes) cómo funciona LN con una analogía sencilla</a>, por favor, léalo.</p>
+<p>Para comprar un nuevo canal de entrada (canal vacío), en la pantalla principal, haga clic en el icono inferior de la pantalla de canales. Allí, en la parte superior derecha, encontrará el botón "+". Una vez que haga clic, se le mostrarán 3 opciones:
+<p><img src="/assets/images/zeus-buy-channels.jpg" class="center"></p>
+<p>Seleccione "Comprar por adelantado" y siga las instrucciones. Puede pagar la factura del LSP con el saldo existente de su billetera Cashu o cualquier otra billetera LN. Después del primer bloque de confirmación, su canal estará listo. Ahora puede recibir los tokens inmediatamente en su canal LN de autocustodia.</p>
+</li>
+<li>Si desea canjear los tokens de ecash directamente en su canal LN de autocustodia, vaya a Configuración - Ecash y active la opción "Transferir automáticamente ecash a autocustodia".</li> Esto transferirá instantáneamente todos los tokens que recibas a través de tu dirección LN a tu canal LN.</li>
+</ol>
+<p>También puedes dejar que se acumulen en tu billetera Cashu y luego realizar el intercambio manualmente, cuando quieras.</p>
+<p>OPCIONAL:</p>
+<p>Para realizar el intercambio manual de tokens Cashu a sats en autocustodia, sigue estos pasos:</p>
+<ul>
+<li>En la pantalla principal, desliza el recuadro de la billetera Cashu hacia la derecha y selecciona "Enviar ecash".</li>
+<li>Si tienes varias casas de moneda, selecciona la(s) desde la(s) que deseas transferir los fondos e ingresa la cantidad. Opcionalmente, puedes bloquear tu clave nostr generada en tu billetera Zeus.</li>
+<li>Una vez que hagas clic en enviar, se creará un token QR con la cantidad de sats que hayas configurado.</li>
+<li>Haz clic en canjear para autocustodiar y en unos instantes se completará el intercambio, con una pequeña comisión.</li>
+</ul>
+<hr style="height:2px">
+<p>¡Listo! Ese es el proceso, puedes repetirlo tantas veces como quieras. Recuerda intercambiar a onchainn desde tus canales LN completos cuando sea necesario. Puedes usar los servicios de intercambio integrados de Zeus.</p> Recordatorio: puedes cambiar a varios proveedores de intercambio en la configuración de intercambio.
+<p><img src="/assets/images/zeus-swap-settings.jpg" class="center"></p>
+<p>Puedes intercambiar a cualquier dirección en la cadena o a la misma dirección de billetera en la cadena del nodo Zeus.</p>
+<p>De esta manera, con un canal de entrada LSP, puedes reutilizarlo una y otra vez y transferir una cantidad infinita de sats a través de ese canal, sin dejar rastro en la cadena ni tener que mantener la liquidez del canal, reequilibrarlo, etc. Este es un canal PRIVADO; solo debes prestar atención cuando esté lleno.</p> Recuerda mi explicación sobre la analogía de LN.</p>
+<hr style="height:2px">
+<h4 style="color:Orange;">Gracias por tu atención.</h4>
+<p>Si quieres probarlo, puedes enviar esta guía a mi dirección de Zeus LN: <a href="https://zeuspay.com/adventuroustortoise06">adventuroustortoise06@zeuspay.com</a></p>
+</body>
+</html>
+</article>

@@ -1,0 +1,97 @@
+---
+layout: default-hr
+title: Kako koristiti Zeus Mobile Node s NOSTR-om
+description: Vodič s uputama o tome kako započeti korištenje ugrađenog čvora Zeus LDK i NWC-a s NOSTR klijentima za zaps
+image: /assets/images/zeus-throne.jpg
+---
+<article>
+<!DOCTYPE html>
+<html lang="hr">
+<meta name="description" content="Vodič s uputama o tome kako započeti korištenje ugrađenog čvora Zeus LDK i NWC-a s NOSTR klijentima za zaps">
+<body>
+<center>
+<h2 style="color:Orange;">Vodič s uputama o tome kako započeti korištenje ugrađenog čvora Zeus LDK i NWC-a s NOSTR klijentima za zaps</h2>
+<p><img src="/assets/images/zeus-throne.jpg" class="center"></p>
+
+| <a href="/wallets/using-zeus-on-nostr-es.html"><img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/using-zeus-on-nostr-pt.html"><img src="/assets/images/flag-PT.png" alt="PT" title="Portuguese" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/using-zeus-on-nostr-de.html"><img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/using-zeus-on-nostr-fr.html"><img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/using-zeus-on-nostr-it.html"><img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/using-zeus-on-nostr-nl.html"><img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/using-zeus-on-nostr-en.html"><img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/using-zeus-on-nostr-hi.html"><img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+</center>
+<em><blockquote style="color:Tomato;">
+<p>Izvorno objavljeno na <a href="https://stacker.news/items/1478495">Stacker News</a> 25. travnja 2026. Ažurirano ovdje 25. travnja 2026.</p>
+</em></blockquote>
+
+<p>Nedavno sam vidio mnoštvo (GLUPIH) korisnika kako koriste nove Spark novčanike za nostr. Njihov nedostatak znanja mi uzavre... jednostavno nasjednu na tu Spark zamku.</p>
+<p>PONAVLJAM: SPARK JE VELIKA ZAMKA ZA SVE NAS. Molim vas, prestanite nasjedati na tu prijevaru.</p>
+<p>Sada krenimo sa Zeusom, jednom od najsloženijih, najpotpunijih i najmoćnijih aplikacija za novčanike za mobitele. Obično ne volim nikome "ljubiti guzicu", dobro me poznajete. Ali moramo se složiti da je Zeusov tim odradio sjajan posao s ovom najnovijom verzijom v0.13 koja integrira LDK čvor i CDK. Ovaj mini vodič usmjeren je na one koji žele/trebaju LN novčanik za nostr. Recimo da počinjete od NULE, upravo ste stigli na nostr i želite primati/slati neke satove putem zapa.</p>
+
+<h3 style="color:Yellow;">KORAK 1 - Pokrenite ugrađeni LDK čvor na Zeusu</h3>
+<ol>
+<li>Nakon što instalirate Zeus, bit će vam ponuđen upitnik čarobnjaka koji će vam pomoći da odlučite koju vrstu postavljanja želite pokrenuti. <a href="/wallets/zeus-graduated-wallet-hr.html">Više o Zeus graduiranom novčaniku pogledajte ovdje.</a></li>
+<li>Možete odabrati i "Napredno postavljanje", a zatim odabrati ugrađeni LDK čvor. Za nekoliko sekundi vaš čvor će biti pokrenut i raditi. Sinkronizacija s LDK-om je trenutna.</li>
+<li>Pretpostavljamo da nemate satove za otvaranje ili kupnju novog dolaznog kanala od LSP-a. Ne brinite, ne trebate ga u ovoj fazi. Prvo ćemo postaviti LN adresu za primanje satova, a također i NWC podračun. Kasnije će se prebaciti na LN kanal, nakon "diplomiranja".</li>
+<li>Idite na Postavke - Cashu Mints. Dodajte cashu mint kako želite, slijedeći upute. Ova značajka će vam dati mogućnost da odmah primate, bez potrebe da imate otvoren LN kanal. Za sada je za početak sasvim u redu.</li>
+<li><p>Idite na Postavke - Lightning adresa. Generirajte jednu, nasumično i odaberite da bude povezana s cashu ecash računom. Ako ste dodali više cashu mints, moći ćete prebacivati ​​​​za primanje između njih, u postavkama LN adrese.</p>
+
+<p><img src="/assets/images/zeus-LN-address-settings.jpg" class="center"></p>
+
+<p>Također, za sada nemojte aktivirati opciju "iskoristiti u vlastitom skrbništvu", jer još nemate LN kanal. Kasnije se možete UKLJUČITI, iz Postavke - Opcije ecash-a.</p>
+<p><img src="/assets/images/zeus-ecash-settings.jpg" class="center"></p>
+</li>
+<li><p>Postavite NWC račun, idite na Postavke - Alati - Nostr Wallet Connect usluga. Nemojte odmah kliknuti gumb "+". Prvo postavite NWC za korištenje cashu novčanika, jer još nemate LN kanal s pristojnim stanjem.</p>
+<p><img src="/assets/images/zeus-nwc-settings.jpg" class="center"></p>
+<p>Ako želite redovito koristiti, gotovo cijelo vrijeme, možete prebaciti na "trajni način rada" za NWC uslugu. Ali ako ga koristite samo nekoliko puta sporadično, to nije baš potrebno, samo otvorite Zeus prije nego što želite nekoga kontaktirati i pričekajte nekoliko sekundi da se NWC usluga ponovno poveže.</p>
+<p><strong>PODSJETNIK:</strong></p>
+<p>Imajte na umu da ako želite koristiti Zeus u punom "trajnom načinu rada" cijelo vrijeme (bez otvaranja aplikacije) i moći koristiti uslugu bilo kada i primati uplate, također morate postaviti LDK/LND čvor u "trajni način rada" kako biste održali vezu aktivnom.</p>
+<p>Da biste postavili LDK čvor u trajni način rada, idite na Postavke - Ugrađeni čvor - postavite prekidač za trajni način rada na UKLJUČENO. Ta će opcija održavati uslugu čvora aktivnom čak i kada je Zeus aplikacija zatvorena / u pozadini / zaslon isključen.</p>
+<p>Sada se vratimo na postavke NWC računa i na zaslonu s opcijama unesite naziv računa i odaberite "Prilagođeno". Isključite opciju "plati račun". Ovaj odabir je SAMO kada nemate dovoljno stanja ili jednostavno počinjete od 0.</p>
+<p><img src="/assets/images/zeus-nwc-custom-connection.jpg" class="center"></p>
+<p>Postavite željeni proračun i kliknite gumb "kreiraj vezu".</p>
+<p>Sada, nakon što je NWC veza kreirana, vratite se na uređivanje (mala oznaka u gornjem kutu) i uključite opciju za "plaćanje računa". Postavite ograničenje proračuna u skladu s tim.</p>
+<p>Dobit ćete upit s QR kodom za skeniranje i povezivanje s vanjskim novčanikom ili kopiranje niza i spremanje za kasnije. Taj niz možete kopirati i zalijepiti u bilo koji nostr klijent u njihovoj vezi s novčanikom i odmah ćete moći slati sats na testiranje.</p>
+<p>Kasnije, kada imate LN kanal, možete se prebaciti s cashu novčanika na stanje LN kanala i NWC će koristiti to stanje, a ne cashu.</p>
+</li>
+<li>Postavite svoju Zeus LN adresu u bilo kojem NOSTR klijentu i počnite primati zaps. Ta LN adresa može se koristiti u bilo kojem trenutku za primanje, čak i kada vaš Zeus nije online. Koristi cashu kovnicu kao "tampon zonu" i možete iskoristiti tokene kad god želite.</li>
+<li><p>Da biste iskoristili primljene zaps, nakon što otvorite Zeus, vidjet ćete ikonu Zeus gore lijevo kako treperi. To znači da vaša LN adresa sinkronizira moguće primljene zaps. Idite na Postavke - Lightning adresa i vidjet ćete ih sve navedene. Kliknite na gumb "iskoristi" i za nekoliko trenutaka svi tokeni bit će premješteni u vaš cashu novčanik.</p>
+<p>Kasnije ih možete zamijeniti u samostalno čuvanje, kada budete imali dostupan LN kanal s dovoljno dolazne likvidnosti. Za sada samo akumulirajte više, dovoljno da zakupite odgovarajući dolazni kanal od LSP-a.</p>
+</li>
+</ol>
+<p>To je to za ovaj 1. korak, akumulacija sat-ova.</p>
+
+<h3 style="color:Yellow;">KORAK 2 - Nadogradnja na samostalno čuvanje i NWC</h3>
+<ol>
+<li><p>Uzmimo u obzir da ste akumulirali dovoljno satelita za početak s novim LN kanalom, obično je 10 tisuća satelita dovoljno za kupnju pristojne veličine dolaznog kanala. Za početak preporučujem korištenje Zeus LSP-a - Olympus, opcije u aplikaciji za kupnju novog kanala. Za početak, kanal od 100-200-300 tisuća satelita je u redu. Za napredne korisnike preporučio bih početak s kanalom od najmanje 1 milijun satelita kako biste ga imali dugoročno i za veće iznose.</p>
+<p>Kanale možete otvarati i vlastitim sredstvima s onchaina i s bilo kojim drugim peerom, nema ograničenja za korištenje samo Olympus LSP-a. Ali za početak je puno bolje započeti s LSP kanalom, kako biste se osjećali ugodno i imali punu podršku tima.</p>
+<p><a href="/nodes/private-ln-channels-types-hr.html">Pročitajte više o vrstama privatnih kanala ovdje</a> i kako ih koristiti.</p>
+<p>Da biste odmah primili u samostalno skrbništvo, morate imati "prazan kanal", dolazni kanal. <a href="https://stacker.news/items/552822">Ovdje sam (za početnike) objasnio kako LN funkcionira jednostavnom analogijom</a>, molimo vas da je pročitate.</p>
+<p>Za kupnju novog dolaznog kanala (praznog kanala), na glavnom zaslonu kliknite na donju ikonu za zaslon kanala. Tamo, gore desno, imate gumb "+". Nakon što kliknete na to, bit će vam ponuđene 3 opcije:</p>
+<p><img src="/assets/images/zeus-buy-channels.jpg" class="center"></p>
+<p>Odaberite "kupi unaprijed" i slijedite upute. LSP račun možete platiti postojećim stanjem iz svog cashu novčanika ili bilo kojeg drugog LN novčanika. Nakon prvog bloka potvrde vaš će kanal biti spreman. Sada možete odmah primiti na LN kanal za samostalno čuvanje.</p>
+</li>
+<li>Ako želite izravno unovčiti e-cash tokene na LN kanal za samostalno čuvanje, idite na Postavke - E-cash i postavite prekidač na UKLJUČENO za "automatski prijenos e-casha na samostalno čuvanje". To će odmah prebaciti sve tokene koje primite putem vaše LN adrese u vaš LN kanal.</li>
+</ol>
+<p>Također možete dopustiti da se akumuliraju u cashu novčaniku i kasnije ručno izvršiti zamjenu, u bilo kojem trenutku.</p>
+<p>IZBORNO:</p>
+<p>Za ručnu zamjenu iz cashu tokena u sats u vlastitom čuvanju morate učiniti sljedeće korake:</p>
+<ul>
+<li>na glavnom zaslonu povucite okvir cashu novčanika udesno i odaberite "Pošalji ecash".</li>
+<li>odaberite kovnicu(e) ako ih imate više, s koje želite povući i upisati iznos. Opcionalno, možete zaključati svoj Nostr ključ generiran u vašem Zeus novčaniku.</li>
+<li>Nakon što kliknete na slanje, kreirat će se QR token s iznosom sata koji ste postavili.</li>
+<li>Kliknite na iskorištenje za samostalno čuvanje i za nekoliko trenutaka zamjena će biti izvršena, uz malu naknadu.</li>
+</ul>
+<hr style="height:2px">
+<p>Iii gotovo! To je to, postupak možete ponavljati iznova i iznova. Imajte na umu da se prebacite u onchainn iz svojih punih LN kanala, kada je to potrebno. Možete koristiti integrirane Zeus usluge zamjene. Podsjetnik: možete se prebaciti na više pružatelja swap usluga u postavkama swapa:</p>
+<p><img src="/assets/images/zeus-swap-settings.jpg" class="center"></p>
+<p>Možete prebaciti na bilo koju onchain adresu ili na istu onchain adresu novčanika Zeus čvora.</p>
+<p>Na ovaj način, s LSP dolaznim kanalom, možete ga ponovno koristiti iznova i iznova i propuštati beskonačan broj satova kroz taj kanal, bez ostavljanja onchain traga ili potrebe za održavanjem likvidnosti kanala, rebalansiranjem itd. Ovo je PRIVATNI kanal, brinete se samo kada je pun. Zapamtite moje objašnjenje o LN analogiji.</p>
+<hr style="height:2px">
+<h4 style="color:Orange;">Hvala vam na pažnji u vezi s ovim pitanjem.</h4>
+<p>Ako želite testirati, sada možete poslati ovaj vodič na moju Zeus LN adresu: <a href="https://zeuspay.com/adventuroustortoise06">adventuroustortoise06@zeuspay.com</a></p>
+</body>
+</html>
+</article>

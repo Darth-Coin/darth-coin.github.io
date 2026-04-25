@@ -1,0 +1,104 @@
+---
+layout: default-de
+title: Wie man Zeus Mobile Node mit NOSTR verwendet
+description: Eine Schritt-für-Schritt-Anleitung zur Verwendung des eingebetteten Zeus LDK-Knotens und NWC mit NOSTR-Clients für Zaps
+image: /assets/images/zeus-throne.jpg
+---
+<article>
+<!DOCTYPE html>
+<html lang="de">
+<meta name="description" content="Eine Schritt-für-Schritt-Anleitung zur Verwendung des eingebetteten Zeus LDK-Knotens und NWC mit NOSTR-Clients für Zaps">
+<body>
+<center>
+<h2 style="color:Orange;">Eine Schritt-für-Schritt-Anleitung zur Verwendung des eingebetteten Zeus LDK-Knotens und NWC mit NOSTR-Clients für Zaps</h2>
+<p><img src="/assets/images/zeus-throne.jpg" class="center"></p>
+
+| <a href="/wallets/using-zeus-on-nostr-es.html"><img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/using-zeus-on-nostr-pt.html"><img src="/assets/images/flag-PT.png" alt="PT" title="Portuguese" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/using-zeus-on-nostr-en.html"><img src="/assets/images/flag-UK.png" alt="EN" title="English" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/using-zeus-on-nostr-fr.html"><img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/using-zeus-on-nostr-it.html"><img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/using-zeus-on-nostr-nl.html"><img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/using-zeus-on-nostr-hr.html"><img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/using-zeus-on-nostr-hi.html"><img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+</center>
+<em><blockquote style="color:Tomato;">
+<p>Ursprünglich veröffentlicht auf <a href="https://stacker.news/items/1478495">Stacker News</a> am 25. April 2026. Aktualisiert hier am 25. April 2026.</p>
+</em></blockquote>
+
+<p>Ich habe in letzter Zeit unzählige (DUMMKÖPFE) Nutzer gesehen, die sich sofort auf die neuen Spark-Wallets für Nostr-Dienste stürzen. Ihr Unwissen macht mich wütend … sie fallen einfach auf diesen Spark-Schrott herein.</p>
+<p>ICH WIEDERHOLE: SPARK IST EINE RIESIGE FALLE FÜR UNS ALLE. Bitte lasst euch nicht von diesem Betrug täuschen.</p>
+<p>Nun zu Zeus, einer der komplexesten, umfassendsten und leistungsstärksten Wallet-Apps für Mobilgeräte. Normalerweise bin ich nicht dafür bekannt, jemandem zu schmeicheln, ihr kennt mich ja. Aber wir müssen zugeben, dass das Zeus-Team mit der neuesten Version v0.13, die LDK-Node und CDK integriert, hervorragende Arbeit geleistet hat. Diese Kurzanleitung richtet sich an alle, die eine Lightning Network Wallet für Nostr-Dienste benötigen. Angenommen, Sie fangen bei Null an, sind gerade erst auf Nostr angekommen und möchten Sats über Zaps empfangen/senden.
+
+<h3 style="color:Yellow;">SCHRITT 1 – Einen eingebetteten LDK-Knoten auf Zeus starten</h3>
+<ol>
+<li>Nach der Installation von Zeus werden Sie durch einen Assistenten geführt, der Ihnen bei der Auswahl des gewünschten Setups hilft. <a href="/wallets/zeus-graduated-wallet-de.html">Hier erfahren Sie mehr über die Zeus Graduated Wallet.</a></li>
+<li>Alternativ können Sie die „Erweiterte Einrichtung“ wählen und anschließend einen eingebetteten LDK-Knoten auswählen. Ihr Knoten ist innerhalb weniger Sekunden betriebsbereit. Die Synchronisierung mit LDK erfolgt sofort.</li>
+<li>Wir gehen davon aus, dass Sie keine Sats besitzen, um einen neuen eingehenden Kanal von einem LSP zu eröffnen oder zu kaufen. Keine Sorge, das ist in dieser Phase nicht nötig. Zuerst richten wir die LN-Adresse für den Empfang von Sats und das NWC-Unterkonto ein. Später wird nach der „Abschluss“-Phase auf einen Lightning-Kanal umgeschaltet.</li>
+<li>Gehen Sie zu Einstellungen – Cashu Mints. Fügen Sie nach Belieben eine Cashu Mint hinzu und folgen Sie dabei den Anweisungen. Mit dieser Funktion können Sie sofort Zahlungen empfangen, ohne einen Lightning-Kanal öffnen zu müssen. Für den Anfang ist das völlig ausreichend.</li>
+<li><p>Gehen Sie zu Einstellungen – Lightning-Adresse. Generieren Sie eine zufällige Adresse und wählen Sie die Verknüpfung mit Ihrem Cashu-Ecash-Konto. Wenn Sie mehrere Cashu Mints hinzugefügt haben, können Sie in den Lightning-Adresseinstellungen zwischen diesen wechseln.</p>
+<p><img src="/assets/images/zeus-LN-address-settings.jpg" class="center"></p>
+
+<p>Aktivieren Sie vorerst nicht die Option „Einlösen in Eigenverwahrung“, da Sie noch keinen LN-Kanal besitzen. Sie können diese später unter Einstellungen – Ecash-Optionen aktivieren.</p>
+
+<p><img src="/assets/images/zeus-ecash-settings.jpg" class="center"></p>
+
+<li><p>Richten Sie Ihr NWC-Konto ein. Gehen Sie dazu zu Einstellungen – Tools – Nostr Wallet Connect. Klicken Sie nicht sofort auf die Schaltfläche „+“. Richten Sie NWC zunächst für die Verwendung der Cashu-Wallet ein, da Sie noch keinen LN-Kanal mit ausreichendem Guthaben besitzen.
+
+<p><img src="/assets/images/zeus-nwc-settings.jpg" class="center"></p>
+
+<p>Wenn Sie den NWC-Dienst regelmäßig und fast durchgehend nutzen möchten, können Sie ihn in den „persistenten Modus“ versetzen. Wenn Sie die App nur gelegentlich nutzen, ist das nicht unbedingt nötig. Öffnen Sie Zeus einfach, bevor Sie jemanden „zappen“ möchten, und warten Sie einige Sekunden, bis der NWC-Dienst die Verbindung wiederhergestellt hat.</p>
+<p><strong>HINWEIS:</strong></p>
+<p>Wenn Sie Zeus dauerhaft im permanenten Modus nutzen möchten (ohne die App zu öffnen), um jederzeit „zappen“ zu können und Zahlungen zu empfangen, müssen Sie den LDK/LND-Knoten ebenfalls in den permanenten Modus versetzen, um die Verbindung aufrechtzuerhalten.</p>
+<p>Um den LDK-Knoten in den permanenten Modus zu versetzen, gehen Sie zu Einstellungen – Eingebetteter Knoten – und aktivieren Sie den Schalter „Persistent“. Dadurch bleibt der Knotendienst auch dann aktiv, wenn die Zeus-App geschlossen ist, im Hintergrund läuft oder der Bildschirm ausgeschaltet ist.</p>
+<p>Gehen Sie nun zurück zu den NWC-Kontoeinstellungen, geben Sie im Optionsmenü den Kontonamen ein und wählen Sie „Benutzerdefiniert“. Deaktivieren Sie die Option „Rechnung bezahlen“. Diese Option ist NUR dann erforderlich, wenn Ihr Guthaben nicht ausreicht oder Sie bei 0 beginnen.</p>
+<p><img src="/assets/images/zeus-nwc-custom-connection.jpg" class="center"></p>
+<p>Geben Sie Ihr gewünschtes Ausgabenbudget ein und klicken Sie auf „Verbindung erstellen“.</p>
+<p>Sobald die NWC-Verbindung erstellt ist, gehen Sie zurück, um sie zu bearbeiten (kleines Symbol oben rechts), und aktivieren Sie die Option „Rechnungen bezahlen“. Legen Sie das Budgetlimit entsprechend fest.</p>
+<p>Sie werden aufgefordert, einen QR-Code zu scannen, um eine externe Wallet zu verbinden, oder den Code zu kopieren und für später zu speichern. Sie können diese Zeichenkette kopieren und in einem beliebigen NOSTR-Client in die Wallet-Verbindung einfügen, um sofort Sats zum Testen zu senden.</p>
+<p>Später, wenn Sie einen Lightning-Kanal haben, können Sie von Ihrem Cashu-Wallet zum Guthaben des Lightning-Kanals wechseln. Der NWC verwendet dann dieses Guthaben, nicht das von Cashu.</p>
+</li>
+<li>Richten Sie Ihre Zeus-Lightning-Adresse in einem beliebigen NOSTR-Client ein und empfangen Sie Zaps. Diese Lightning-Adresse kann jederzeit zum Empfangen verwendet werden, auch wenn Ihr Zeus offline ist. Sie nutzt Cashu Mint als „Pufferzone“, und Sie können die Token jederzeit einlösen.</li>
+<li><p>Um Ihre empfangenen Zaps einzulösen, öffnen Sie Zeus. Oben links blinkt ein Zeus-Symbol. Das bedeutet, dass Ihre Lightning-Adresse mögliche empfangene Zaps synchronisiert. Gehen Sie zu Einstellungen – Lightning-Adresse, um alle Zaps aufgelistet zu sehen. Klicken Sie auf „Einlösen“, und in wenigen Augenblicken werden alle Token in Ihre Cashu-Wallet übertragen.</p>
+<p>Später können Sie die Token in Selbstverwahrung tauschen, sobald Ihnen ein Lightning Network-Kanal mit ausreichend eingehender Liquidität zur Verfügung steht. Sammeln Sie vorerst einfach weitere Token an, bis Sie einen geeigneten eingehenden Kanal vom LSP mieten können.</p>
+</li>
+</ol>
+
+<p>Das war's für Schritt 1, das Sammeln von Sats.</p>
+
+<h3  style="color:Yellow;">Schritt 2 – Upgrade auf Selbstverwahrung und NWC</h3>
+<ol>
+<li><p>Angenommen, Sie haben genügend Sats gesammelt, um einen neuen LN-Kanal zu eröffnen. Normalerweise reichen 10.000 Sats für einen ausreichend großen eingehenden Kanal. Für den Anfang empfehle ich die Nutzung des Zeus LSP – Olympus. Die Option zum Kauf eines neuen Kanals finden Sie in der App. Für den Anfang sind Kanäle mit 100.000, 200.000 oder 300.000 Sats geeignet. Fortgeschrittenen Nutzern empfehle ich, mit mindestens 1 Million Sats zu beginnen, um langfristig größere Beträge verwalten zu können.</p>
+<p>Sie können Kanäle auch mit Ihren eigenen On-Chain-Guthaben und mit beliebigen anderen Peers eröffnen. Es gibt keine Beschränkung auf die Nutzung des Olympus LSP. Für den Anfang empfiehlt es sich, mit einem LSP-Kanal zu beginnen, um sich mit der Plattform vertraut zu machen und volle Unterstützung vom Team zu erhalten.</p>
+
+<p><a href="/nodes/private-ln-channels-types-de.html">Hier erfahren Sie mehr über die verschiedenen Arten von privaten Kanälen</a> und deren Verwendung.</p>
+
+<p>Um Ihre E-Mails direkt in Ihrer Selbstverwahrung zu empfangen, benötigen Sie einen leeren Kanal, einen Inbound-Kanal. <a href="https://stacker.news/items/552822">Hier habe ich (für Einsteiger) die Funktionsweise von Lightning Network anhand einer einfachen Analogie erklärt.</a> Bitte lesen Sie diese Erklärung.</p>
+
+<p>Um einen neuen Inbound-Kanal (leeren Kanal) zu erstellen, klicken Sie auf dem Hauptbildschirm unten auf das Kanal-Symbol. Dort finden Sie oben rechts die Schaltfläche „+“.</p> Sobald Sie darauf klicken, werden Ihnen drei Optionen angezeigt:</p>
+<p><img src="/assets/images/zeus-buy-channels.jpg" class="center"></p>
+<p>Wählen Sie „Vorauskauf“ und folgen Sie den Anweisungen. Sie können die LSP-Rechnung mit Ihrem vorhandenen Guthaben aus Ihrer Cashu-Wallet oder einer anderen LN-Wallet bezahlen. Nach der ersten Bestätigung ist Ihr Kanal bereit. Sie können nun sofort Ecash in Ihrem selbstverwahrten LN-Kanal empfangen.</p>
+</li>
+<li>Wenn Sie die Ecash-Token direkt in Ihrem selbstverwahrten LN-Kanal einlösen möchten, gehen Sie zu Einstellungen – Ecash und aktivieren Sie die Option „Ecash automatisch in Selbstverwahrung übertragen“. Dadurch werden alle Token, die Sie über Ihre LN-Adresse erhalten, sofort in Ihren LN-Kanal übertragen.</li>
+</ol>
+<p>Sie können die Token auch in Ihrer Cashu-Wallet ansammeln lassen und den Tausch später jederzeit manuell durchführen.</p>
+<p>OPTIONAL:</p>
+<p>Um Cashu-Token manuell in Sats in Ihrer Selbstverwahrung umzutauschen, gehen Sie wie folgt vor:</p>
+<ul>
+<li>Wischen Sie im Hauptbildschirm das Cashu-Wallet-Feld nach rechts und wählen Sie „Ecash senden“.</li>
+<li>Wählen Sie die Mint(s) aus, von denen Sie die Token übertragen möchten, falls Sie mehrere haben, und geben Sie den Betrag ein. Optional können Sie Ihren Nostr-Schlüssel, der in Ihrer Zeus-Wallet generiert wurde, sperren.</li>
+<li>Sobald Sie auf „Senden“ klicken, wird ein QR-Token mit der von Ihnen festgelegten Anzahl an Sats erstellt.</li>
+<li>Klicken Sie auf „Einlösen“ zur Selbstverwahrung. Der Tausch wird in wenigen Augenblicken durchgeführt, wobei eine geringe Gebühr anfällt.</li>
+</ul>
+<hr style="height:2px">
+<p>Und fertig! Das war der Vorgang. Sie können ihn beliebig oft wiederholen. Denken Sie daran, bei Bedarf von Ihren vollständigen LN-Kanälen in On-Chain zu tauschen. Sie können die integrierten Swap-Dienste von Zeus verwenden. Hinweis: Sie können in den Swap-Einstellungen zwischen mehreren Swap-Anbietern wechseln:</p>
+<p><img src="/assets/images/zeus-swap-settings.jpg" class="center"></p>
+<p>Sie können an jede beliebige On-Chain-Adresse oder an die On-Chain-Wallet-Adresse desselben Zeus-Nodes tauschen.</p>
+<p>Mit einem LSP-Eingangskanal können Sie diesen beliebig oft wiederverwenden und unbegrenzt viele Sats über diesen Kanal transferieren, ohne Spuren in der Blockchain zu hinterlassen oder die Liquidität, das Rebalancing usw. des Kanals verwalten zu müssen. Dies ist ein privater Kanal; Sie müssen sich nur darum kümmern, wenn er voll ist. Erinnern Sie sich an meine Erklärung zur LN-Analogie?</p>
+<hr style="height:2px">
+<h4 style="color:Orange;">Vielen Dank für Ihre Aufmerksamkeit.</h4>
+<p>Wenn Sie es testen möchten, können Sie diese Anleitung jetzt an meine Zeus LN-Adresse senden: <a href="https://zeuspay.com/adventuroustortoise06">adventuroustortoise06@zeuspay.com</a></p>
+
+</body>
+</html>
+</article>

@@ -1,0 +1,98 @@
+---
+layout: default
+title: How to use Zeus Mobile Node with NOSTR
+description: A walk-through guide about how to start using Zeus LDK embedded node and NWC with NOSTR clients, for zaps
+image: /assets/images/zeus-throne.jpg
+---
+<article>
+<!DOCTYPE html>
+<html lang="en">
+<meta name="description" content="A walk-through guide about how to start using Zeus LDK embedded node and NWC with NOSTR clients, for zaps">
+<body>
+<center>
+<h2 style="color:Orange;">A walk-through guide about how to start using Zeus LDK embedded node and NWC with NOSTR clients, for zaps</h2>
+<p><img src="/assets/images/zeus-throne.jpg" class="center"></p>
+
+| <a href="/wallets/using-zeus-on-nostr-es.html"><img src="/assets/images/flag-ES.png" alt="ES" title="Español" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/using-zeus-on-nostr-pt.html"><img src="/assets/images/flag-PT.png" alt="PT" title="Portuguese" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/using-zeus-on-nostr-de.html"><img src="/assets/images/flag-DE.png" alt="DE" title="Deutsch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/using-zeus-on-nostr-fr.html"><img src="/assets/images/flag-FR.png" alt="FR" title="Français" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/using-zeus-on-nostr-it.html"><img src="/assets/images/flag-IT.png" alt="IT" title="Italiano" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/using-zeus-on-nostr-nl.html"><img src="/assets/images/flag-NL.png" alt="NL" title="Dutch" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/using-zeus-on-nostr-hr.html"><img src="/assets/images/flag-HR.png" alt="HR" title="Hrvatski" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+<a href="/wallets/using-zeus-on-nostr-hi.html"><img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
+</center>
+<em><blockquote style="color:Tomato;">
+<p>Originally posted on <a href="https://stacker.news/items/1478495">Stacker News</a> on Apr 25, 2026. Updated here Apr 25, 2026</p>
+</em></blockquote>
+
+<p>I saw recently a plethora of (STUPID) users jumping on using new Spark wallets for nostr. Their lack of knowledge makes my blood boiling... they simply fall for that Spark crap trap.</p>
+<p>I REPEAT: SPARK IS A GIANT TRAP FOR ALL OF US. Please stop falling for that scam.</p>
+<p>Now let's get started with Zeus, one of the most complex, complete and powerful wallet apps for mobiles. I usually do not like to "kiss ass" of anybody, you know me well. But we have to agree that Zeus team did a wonderful job with this latest version v0.13 integrating LDK node and CDK. This mini guide is focused for those that want/need a LN wallet for nostr. Let's say you start from ZERO, you just arrived on nostr and want receive / send some sats over zaps.</p>
+
+<h3  style="color:Yellow;">STEP 1 - Start an embedded LDK node on Zeus</h3>
+<ol>
+<li>Once you install Zeus you will be prompted with a wizard questionnaire, helping you to decide which type of setup you want to run. <a href="/wallets/zeus-graduated-wallet-en.html">See more about Zeus graduated wallet here.</a></li>
+<li>You can also choose "Advanced setup" and then select a LDK embedded node. In few seconds your node will be up and running. The sync with LDK is instant.</li>
+<li>We assume you do not have any sats to open or buy a new inbound channel from LSP. No worry, you do not need it in this phase. First we will setup the LN address to receive sats and also the NWC sub-account. Later will be switched to a LN channel, after "graduation".</li>
+<li>Go to Settings - Cashu Mints. Add a cashu mint as you wish, following the instructions. This feature will give you the option to receive straight away, without the need to have a LN channel open. For the moment. to start is perfectly fine.</li>
+<li><p>Go to Settings - Lightning Address. Generate one, is random and choose to be linked to cashu ecash account. If you added multiple cashu mints, you will be able to switch to receive between them, in the LN address settings.</p>
+
+<p><img src="/assets/images/zeus-LN-address-settings.jpg" class="center"></p>
+
+<p>Also for the time being, do not activate the option to "redeem in self-custody", because you do not have a LN channel yet. Later you can be switched ON, from Settings - Ecash options.</p>
+
+<p><img src="/assets/images/zeus-ecash-settings.jpg" class="center"></p>
+</li>
+<li><p>Setup the NWC account, go to Settings - Tools - Nostr Wallet Connect service. Do not click right away on the "+" button. First setup the NWC to use the cashu wallet, because you do not have yet a LN channel with a decent balance.</p>
+<p><img src="/assets/images/zeus-nwc-settings.jpg" class="center"></p>
+<p>If you want to use regularly, almost all the time, you can switch to "persistent mode" for NWC service. But if you use it just few times sporadically is not really necessary, just open Zeus before you want to zap somebody and wait few seconds for NWC service to reconnect.</p>
+<p><strong>REMINDER:</strong></p>
+<p>Keep in mind that if want to use Zeus in full "persistent mode" all the time (without opening the app) and be able to zap anytime and receive payments, you also need to set the LDK/LND node in "persistent mode" to keep alive the connection.</p>
+<p>To set the LDK node in persistent mode, go to Settings - Embedded node - set persistent switch ON. That option will keep alive the node service even with Zeus app closed / in background / screen off.</p>
+<p>Now, let's go back to NWC account settings and in options screen put the name of the account and select "Custom". Switch off the option "pay invoice". This selection is ONLY when you do not have enough balance or you just start from 0.</p>
+<p><img src="/assets/images/zeus-nwc-custom-connection.jpg" class="center"></p>
+<p>Put a desired spending budget and click on "create connection" button.</p>
+<p>Now, once is created the NWC connection, go back to edit it (is a small tag on the top corner) and switch ON the option for "pay invoices". Set accordingly the budget limit.</p>
+<p>You will be prompted with a QR code to scan and connect an external wallet or copy the string and save it for later. You can copy that string and paste it in whatever nostr client in their wallet connection and be able to send sats right away for testing.</p>
+<p>Later, when you have a LN channel, you can switch from cashu wallet to the LN channels balance and the NWC will use that balance, not the cashu.</p>
+</li>
+<li>Set your Zeus LN address in any NOSTR client and start receiving zaps. That LN address can be used anytime to receive, even when your Zeus is not online. It uses a cashu mint as "buffer zone" and you can redeem the tokens anytime you want.</li>
+<li><p>To redeem your received zaps, once you open Zeus you will see a Zeus icon on top left blinking. That means your LN address is syncing possible received zaps. Go to Settings - Lightning Address and you will see them all listed. Click on "redeem" button and in few moments all tokens are moved to your cashu wallet.</p>
+<p>Later you can swap them into self-custody, when you will have a LN channel available with enough inbound liquidity. For the time being, just accumulate more, enough to lease a proper inbound channel from the LSP.</p>
+</li>
+</ol>
+<p>That's it for this step 1, accumulation of sats.</p>
+
+<h3  style="color:Yellow;">STEP 2 - Upgrade to self-custody and NWC</h3>
+<ol>
+<li><p>Let's consider that you accumulate enough sats to start with a new LN channel, usually 10k sats are enough to buy a decent size of an inbound channel. For starters I recommend to use Zeus LSP - Olympus, in app option to buy a new channel. For starters, 100-200-300k sats channel is OK. For advanced users, I would recommend to start with min 1M sats channel so you will have it for long run and bigger amounts.</p>
+<p>You can open channels also with your own funds from onchain and with any other peer, there's no limit to use only Olympus LSP. But for starters is much better to start with a LSP channel, to get comfortable and have full support from team.</p>
+<p><a href="/nodes/private-ln-channels-types-en.html">Read more about types of private channels here</a> and how to use them.</p>
+<p>In order to receive straight away into self-custody, you need to have an "empty channel", an inbound channel. <a href="https://stacker.news/items/552822">I've explained here (for newbies) how LN works in a simple analogy</a>, please read it.</p>
+<p>To buy a new inbound channel (empty channel), on the main screen, click on the bottom icon for channels screen. In there, on top right you have the "+" button. Once you click it, you will be prompted with 3 options:</p>
+<p><img src="/assets/images/zeus-buy-channels.jpg" class="center"></p>
+<p>Select "purchase in advance" and follow the instructions. You can pay the LSP invoice with existing balance from your cashu wallet or any other LN wallet. Then after the first confirmation block your channel will be ready. Now you can receive right away into self-custody LN channel.</p>
+</li>
+<li>If you want to redeem the ecash tokens straight into self-custody LN channel, then go to Settings - Ecash and set the switch ON for "automatically seep ecash to self-custody". That will swap instantly all the tokens you receive through your LN address into your LN channel.</li>
+</ol>
+<p>You can also let it to accumulate into cashu wallet and later make the swap manually, anytime.</p>
+<p>OPTIONAL:</p>
+<p>To make the swap manually from cashu tokens into sats in self-custody you have to do these steps:</p>
+<ul>
+<li>swipe in the main screen the cashu wallet box to ther right and select "Send ecash".</li>
+<li>select the mint(s) if you have multiple one, from which you want to sweep amd put the amount. Optional you can lock to your nostr key generated into your Zeus wallet.</li>
+<li>once you click send it will create a QR token with the amounnt of sats you set.</li>
+<li>click on redeem to self-custody and in few moments the swap will be done, with a small fee incurred.</li>
+</ul>
+<hr style="height:2px">
+<p>Aaaand done! That's it the process, you can repeat it over and over. Keep in mind to swap out into onchainn from your full LN channels, whenn is needed. You can use the Zeus integrated swap services. Reminder: you can switch to multiple swap providers in the swap settings:</p>
+<p><img src="/assets/images/zeus-swap-settings.jpg" class="center"></p>
+<p>You can swap out to any onchain address or to the same Zeus node onchain wallet address.</p>
+<p>In this way, with a LSP inbound channel, you can re-use it over and over and pass infinite amount of sats through that channel, without leaving onchain trace or having to maintain channels liquidity, rebalancing etc. This is a PRIVATE channel, you take care only when is full. Remember my explanation about LN analogy.</p>
+<hr style="height:2px">
+<h4 style="color:Orange;">Thank you for your attention in this matter.</h4>
+<p>If you want to test it, now you can zap this guide to my Zeus LN address: <a href="https://zeuspay.com/adventuroustortoise06">adventuroustortoise06@zeuspay.com</a></p>
+</body>
+</html>
+</article>
