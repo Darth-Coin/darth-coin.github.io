@@ -22,7 +22,7 @@ image: /assets/images/submarine-swaps.jpg
 <a href="/nodes/lightning-submarine-swaps-hi.html"><img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
 </center>
 <blockquote style="color:Tomato;"><em>
-<p>Izvorno objavljeno na <a href="https://darthcoin.substack.com/p/lightning-network-submarine-swaps">Substack</a> 29. ožujka 2022. Ovdje ažurirano 25. prosinca 2024. </p>
+<p>Izvorno objavljeno na <a href="https://darthcoin.substack.com/p/lightning-network-submarine-swaps">Substack</a> 29. ožujka 2022. Ažurirano ovdje 15. studenoga 2026.. </p>
 </em></blockquote>
 
 <p>Danas imamo mnogo Lightning čvorova, ali njihovi operateri još uvijek ne znaju kako iskoristiti puni potencijal.</p>
@@ -39,21 +39,20 @@ image: /assets/images/submarine-swaps.jpg
 <p>Dakle, u osnovi, s submarine swapovima, možemo premjestiti likvidnost u/iz HODL/cache onchain novčanika u/iz LN čvora/novčanika. Također se može vrlo dobro koristiti kao metoda coinjoin-a, kako biste izgubili trag svojim KYC kovanicama.</p>
 <p>Razmotrit ćemo dva moguća scenarija upotrebe:</p>
 <ul>
- <li><a href="#scenario-a">Scenarij A</a> - trgovački čvor koji treba češće mijenjati satove primljene od plaćanja. Korištene metode:</li>
- <ul>
- <li>Aplikacije za upravljanje čvorovima RTL ili Thunderhub ili proširenje LNbits Boltz</li>
- <li>CoinOS web novčanik</li>
- <li>Vanjske usluge zamjene</li>
- <li><a href="#ghetto-swap">Ghetto Swap</a> ili metoda PeerSwap između izravnih kolega</li>
- <li>Bluewallet LNDHUB</li>
- </ul>
- <li><a href="#scenario-b">Scenarij B</a> - redoviti korisnik koji redovito kupuje satove na burzama. Korištene metode:</li>
- <ul>
- <li>Zamjene Robosata</li>
- <li>Kupujte satove od P2P LN razmjena</li>
- <li>Kupujte satove na onchain burzama i koristite razinu cache walleta za razmjenu</li>
- <li>Electrum LN novčanik</li>
- </ul>
+<li><a href="#scenario-a">Scenarij A</a> – javni čvor za usmjeravanje (routing node) ili čvor trgovca koji mora češće mijenjati (swapati) satoshije primljene putem plaćanja. Korištene metode:</li>
+<ul>
+<li>Aplikacije za upravljanje čvorovima: RTL ili Thunderhub</li>
+<li>PeerSwap i Lightning Loop – tržišta likvidnosti</li>
+<li>Vanjske usluge za zamjenu (swap)</li>
+<li><a href="#ghetto-swap">Ghetto Swap</a></li>
+</ul>
+<li><a href="#scenario-b">Scenarij B</a> – običan korisnik koji redovito kupuje satoshije na mjenjačnicama. Korištene metode:</li>
+<ul>
+<li>Zamjene (swaps) putem platformi Robosats ili Mostro</li>
+<li>Kupnja satoshija na P2P LN mjenjačnicama</li>
+<li>Kupnja satoshija na on-chain mjenjačnicama uz korištenje novčanika kao posrednika za zamjenu</li>
+<li>Electrum LN novčanik</li>
+</ul>
 </ul>
 <hr style="height:2px">
 
@@ -81,24 +80,16 @@ image: /assets/images/submarine-swaps.jpg
 <p>Gotovo, nakon što postavite uvjete, proći će neko vrijeme dok se izlazna petlja ne odobri i sredstva pošalju na vašu navedenu onchain adresu. Na istoj stranici možete pratiti status.</p>
 <p>Druga metoda: ako pokrenete čvor s instancom LNbits, integrirali ste i <a href="https://extensions.lnbits.com/boltz">Boltz Swap proširenje</a> ili <a href ="https://extensions.lnbits.com/deezy">Deezy swap proširenje</a> izravno u LNBits, za jednostavne zamjene. Kao trgovac koji koristi <a href="/merchants/lnbits-small-merchants-hr.html">LNbits za svoje poslovanje</a> ovo je vrlo zgodan alat za "pražnjenje" vašeg popunjeni kanali od plaćanja, sa zamjenama u onchain adresu.</p>
 
-<h3>2 - <a href="https://coinos.io">CoinOS</a> - web novčanik, s onchain i LN funkcijama</h3>
-<p>Ova se aplikacija također može koristiti kao novčanik prve razine prihoda (ako nemate vlastiti čvor) za malog trgovca, kao što je opisano <a href="/merchants/getting-started-bitcoin-small-merchants-hr.html">u drugom vodiču ovdje</a>.</p>
-<p>CoinOS ima integrirane zamjene i može se koristiti anonimno, uključujući zamjene s Liquid Networkom.</p>
-<p>Jednostavan postupak zamjene s CoinOS-om bit će:</p>
-<ul>
-<li>Otvorite račun u CoinOS-u (spremite podatke za prijavu, ako ih želite ponovno koristiti)</li>
-<li>Stvorite LN fakturu ili upotrijebite LN adresu koju vam daje CoinOS, a koja će biti korisničkoime@coinos.io. Također možete koristiti navedenu LNURL-pay adresu i možete platiti bilo koji iznos koji želite.</li>
-<li>Platite na tu LN fakturu / LN adresu / LNURL-p adresu sa svog čvora (upotreba Thunderhub-a puno je lakša za LN adresu/LNURL, također možete koristiti Zeus novčanik povezan s vašim čvorom).</li>
-<li>Kad budete imali sredstava u CoinOS LN, izvršite uplatu na bilo koju od svojih onchain BTC adresa, vašeg čvora (za buduće nove LN kanale) ili bilo koji drugi HODL onchain novčanik, ili se možete podijeliti.</li>
-<li>Gotovo, upravo ste se preselili iz LN-a kako biste ulančali svoja sredstva, uz minimalne naknade i gnjavažu, potpuno privatno.</li>
-</ul>
+<h3>2 - Tržišta likvidnosti</h3>
+<p>Ova su tržišta namijenjena javnim čvorovima za usmjeravanje (routing nodes) koji su stalno aktivni, a razmjene (swapovi) između Lightning Networka (LN) i glavnog lanca (onchain) odvijaju se trenutno, u hodu. Koriste se prvenstveno za ponovno uravnoteženje likvidnosti kanala kada se ona iscrpi.</p>
+<p><a href="https://www.peerswap.dev">PeerSwap</a> uglavnom funkcionira s CLN čvorovima.</p>
+<p><a href="https://lightning.engineering/loop/">Lightning Loop</a> je otvoreni standard za sve implementacije Lightning Networka, no prvenstveno je namijenjen LND čvorovima.</p>
 
-<h3>3 - Korištenje raznih vanjskih swap usluga</h3>
-<a href="https://boltz.exchange/">Boltz</a> | <a href="https://swapmarket.github.io/">SwapMarket</a> | <a href="https://fixedfloat.com/">FixedFloat</a>| <a href="https://lightning.engineering/loop/">Lightning Loop</a>
-<p>Ovo su mrežne razmjene namijenjene zamjenama i korištenjem jednostavne procedure u 3-4 koraka, dobivate svoj sats swap s LN-a na bilo koju onchain adresu:</p>
-<p>BUDITE SVJESNI: Ponekad bi ZigZag.io mogao imati ozbiljne probleme s likvidnošću i ne može ispuniti vaše zamjene. Primijetio sam da se mnogi drugi korisnici žale na to.</p>
-<p>Da, naplaćuju naknadu, ali sve je vrlo transparentno i prikazano prije nego što kliknete "swap".</p>
-<p>Isti postupak, plaćate LN fakturu sa svog čvora i naznačite onchain adresu na koju želite primati.</p>
+<h3>3 - Korištenje raznih vanjskih usluga za razmjenu (swap)</h3>
+<a href="https://swapmarket.github.io/">SwapMarket</a> | <a href="https://ff.io">FixedFloat</a>| <a href="https://satsrouting.exchange">SATS Routing</a> | <a href="https://whales.exchange">Whales Exchange</a> | <a href="https://swiss-bitcoin-pay.ch/services">Swiss Bitcoin Pay</a>
+<p>Riječ je o internetskim platformama specijaliziranim za razmjenu sredstava. Putem jednostavnog postupka u 3 do 4 koraka možete zamijeniti svoje satoshije (sats) s Lightning Networka i prebaciti ih na bilo koju adresu na glavnom lancu (onchain):</p>
+<p>Da, naplaćuju naknadu, no sve je vrlo transparentno i prikazano prije nego što kliknete na gumb za razmjenu („swap”).</p>
+<p>Postupak je sljedeći: plaćate Lightning fakturu (invoice) sa svog čvora i navodite adresu na glavnom lancu na koju želite primiti sredstva.</p>
 <figure>
  <img src="/assets/images/boltz-swap.png" class="center">
  <figcaption>Boltz zamijeni zaslon LN na onchain</figcaption>
@@ -154,21 +145,6 @@ image: /assets/images/submarine-swaps.jpg
 <p>PeerSwap omogućuje čvorovima Lightning Network da uravnoteže svoje kanale omogućavanjem atomskih zamjena s izravnim ravnopravnim uređajima. PeerSwap poboljšava decentralizaciju Lightning mreže omogućujući svim čvorovima da budu vlastiti swap provider. Bez centraliziranog koordinatora, bez sakupljača rente treće strane i balansiranja kanala po najnižoj cijeni znači da se mali čvorovi mogu bolje natjecati s velikim čvorovima.</p>
 <p>PeerSwap trenutno ima radnu implementaciju za CLN i LND čvorove.</p>
 <p>Trenutno je PeerSwap prikladan za operatere energetskih čvorova s ​​vještinama Linux naredbenog retka. Trenutačno su u tijeku implementacije GUI sučelja upravljačke ploče koje će običnim krajnjim korisnicima olakšati korištenje PeerSwapa.</p>
-
-<h3>5 - Bluewallet LNDHUB</h3>
-<p>Ako je vaš čvor (Umbrel, MyNode, RaspiBlitz, Embassy) već instalirao i konfigurirao BW LNDHUB, ovo bi mogla biti jednostavna metoda za dobivanje brze likvidnosti iz vanjskog onchain novčanika.</p>
-<p>Koraci koje treba učiniti:</p>
-<ul>
-<li>Povežite BW mobilnu aplikaciju sa svojim čvorom BW LNDHUB</li>
-<li>Stvorite novi LN novčanik (stvorit će se na vašem čvoru, ne na BW poslužiteljima)</li>
-<li>Ovaj LN novčanik bit će "prazan" kao stanje, ali će koristiti vašu likvidnost čvora.</li>
-<li>Spremite ovu sigurnosnu kopiju novčanika! Idite na detalje novčanika i odaberite izvoz sigurnosne kopije, to će biti URL vašeg LNDHUB novčanika.</li>
-<li>U BW-u otvorite ovaj LN novčanik i kliknite na gumb "nadopuni - iz vanjskog izvora". Prikazat će QR kod s onchain adresom s vašeg čvora.</li>
-<li>Jednom kada platite na tu adresu (nemojte koristiti male iznose kao što su 100, 10k sats), vaš LN novčanik će imati ravnotežu s tim sats i vaš LN čvor će također imati povećanu likvidnost s tim iznosom.</li> >
-<li>Tx će se odraziti na vaš onchain txs čvora, ali će uvijek biti na "namjenskoj" onchain adresi za taj LNDHUB novčanik. A sredstva će također biti u vašim LN kanalima (pogledajte popis txs vašeg LN čvora).</li>
-<li>Gotovo, u jednom jednostavnom koraku prešli ste s onchaina na LN, koristeći svoj čvor.</li>
-</ul>
-<p><a href="https://darthcoin.substack.com/p/umbrel-lndhub-bluewallet">Više o tome kako koristiti Bluewallet LNDHUB s čvorom Umbrel ovdje, namjenski vodič</a>.</p>
 <hr style="height:2px">
 
 <h2 id="scenario-b">SCENARIJ B <a href="#scenario-b">#</a></h2>
@@ -191,13 +167,12 @@ image: /assets/images/submarine-swaps.jpg
 <h3>2 - Kupite BTC fiatom i povucite u kanale LN novčanika/čvora</h3>
 <p>Ova je metoda dobra za male iznose ili ako ne želite imati posla s onchain adresama, dobivate više privatnosti, a također je možete koristiti kao metodu "uključivanja" za svoje LN kanale ili LN novčanike.</p>
 <p>Opcionalno možete zatražiti (dati nalog) za LN <-->onchain zamjene kao metodu trgovanja</p>
-<p>Ovdje imate vodič za usporedbu svih LN novčanika s njihovim značajkama.</p>
+<p><a href="/wallets/lightning-wallets-comparison-hr.html">Ovdje možete pronaći vodič za usporedbu</a> svih LN novčanika, zajedno s njihovim značajkama.</p>
 <p>Alati koje možete koristiti:</p>
 <ul>
 <li><a href="http://robosats6tkf3eva7x2voqso3a5wcorsnw34jveyxfqi2fu7oyheasid.onion/">RoboSats</a>, prethodno spomenuto, samo Tor (uskoro mobilna aplikacija), <a href="https://learn.robosats.com" >više dokumentacije ovdje</a>.</li>
 <li><a href="https://app.mostro.network/">Mostro</a> - P2P preko NOSTR-a. Više dokumentacije <a href="https://mostro.network/">ovdje</a>.</li>
 <li><a href="https://bisq.network/">Bisq P2P Exchange</a> - novi Bisq2 podržava trgovanje preko LN-a, <a href="https://stacker.news/items/663856 /r/DarthCoin">ovdje je detaljan vodič</a>.
-<li><a href="https://t.me/lnp2pBot">LNP2P Telegram bot P2P razmjena</a></li>
 <li><a href="https://t.me/SatsMobiBot">SatsMobi Telegram bot P2P razmjena</a></li>
 <li><a href="https://azte.co/">Azte.co</a> LN vaučeri ili njihov <a href="https://t.me/BitcoinVoucherBot">Telegram bot</a > također</li>
 <li><a href="/beginner/buy-bitcoin-hr.html">više razmjena s LN podrškom ovdje</a></li>
@@ -227,6 +202,9 @@ image: /assets/images/submarine-swaps.jpg
 <li>Dakle, spremni ste primati nove satove na ove Electrum LN kanale.</li>
 <li>Nakon što kupite iz drugih izvora i primite u Electrum, možete napraviti internu zamjenu, u Electrumu. Sredstva će biti prebačena na jednu od vaših Electrum adresa.</li>
 </ul>
+<p><a href="https://stacker.news/items/1540674">Ovdje se nalazi detaljan vodič</a> o tome kako koristiti Electrum LN razmjene (swaps)</p>
+<p><a href="https://electrum.readthedocs.io/en/latest/swapserver.html">Ovdje se nalazi detaljan vodič</a> o tome kako postati pružatelj usluge razmjene (swap provider) na Electrum poslužitelju</p>
+<p><a href="https://github.com/nothing-stops-this-train/electrum_swapgui">Ovdje se nalazi detaljan vodič</a> o tome kako postaviti i instalirati grafičko sučelje (GUI) za pružatelja usluge razmjene na Electrum poslužitelju, putem protokola Nostr</p>
 <p>Ovdje imate demo kako koristiti Electrum s Lightningom (videozapis od 5 minuta).</p>
 <center>
 <iframe width="640" height="480" src="https://www.youtube.com/embed/dg1fyd5_foA" title="Electrum Lightning Demo" frameborder="0" allow="akcelerometar; autoplay; clipboard- pisati; šifrirani medij; slika u slici; referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>

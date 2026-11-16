@@ -23,7 +23,7 @@ image: /assets/images/submarine-swaps.jpg
 <a href="/nodes/lightning-submarine-swaps-hi.html"><img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
 </center>
 <blockquote style="color:Tomato;"><em>
-<p>Postado originalmente em <a href="https://darthcoin.substack.com/p/lightning-network-submarine-swaps">Substack</a> em 29 de março de 2022. Atualizado aqui em 25 de dezembro de 2024</p>
+<p>Postado originalmente em <a href="https://darthcoin.substack.com/p/lightning-network-submarine-swaps">Substack</a> em 29 de março de 2022. Atualizado aqui em 15 de novembro de 2026</p>
 </em></blockquote>
 
 <p>Atualmente, temos muitos Lightning Nodes, mas seus operadores ainda não sabem como usar todo o seu potencial.</p>
@@ -40,20 +40,19 @@ image: /assets/images/submarine-swaps.jpg
 <p>Então, basicamente, com swaps submarinos, podemos mover liquidez de/para uma carteira onchain HODL/cache para/de um nó/carteira LN. Também pode ser usado muito bem como um método de coinjoin, para perder o rastro de suas moedas KYC.</p>
 <p>Consideraremos dois cenários de caso de uso possíveis:</p>
 <ul>
-<li><a href="#scenario-a">Cenário A</a> - um nó de comerciante que precisa trocar com mais frequência os sats recebidos de pagamentos. Métodos usados:</li>
+<li><a href="#scenario-a">Cenário A</a> – um nó de roteamento público ou um nó de comerciante que precisa converter com mais frequência os sats recebidos por meio de pagamentos. Métodos utilizados:</li>
 <ul>
-<li>Aplicativos de gerenciamento de nó RTL ou Thunderhub ou extensão LNbits Boltz</li>
-<li>Carteira web CoinOS</li>
-<li>Serviços de swap externo</li>
-<li><a href="#ghetto-swap">Método Ghetto Swap</a> ou PeerSwap entre pares diretos</li>
-<li>Bluewallet LNDHUB</li>
+<li>Aplicativos de gerenciamento de nós, como RTL ou Thunderhub</li>
+<li>PeerSwap e Lightning Loop – marketplaces de liquidez</li>
+<li>Serviços externos de swap (troca/conversão)</li>
+<li><a href="#ghetto-swap">Ghetto Swap</a></li>
 </ul>
-<li><a href="#scenario-b">Cenário B</a> - um usuário regular que compra sats de exchanges regularmente. Métodos usados:</li>
+<li><a href="#scenario-b">Cenário B</a> – um usuário comum que compra sats em corretoras (exchanges) regularmente. Métodos utilizados:</li>
 <ul>
-<li>Trocas de Robosats</li>
-<li>Compre sats de exchanges P2P LN</li>
-<li>Compre sats de exchanges onchain e use o nível da carteira de cache para fazer o swap</li>
-<li>Carteira Electrum LN</li>
+<li>Swaps via Robosats ou Mostro</li>
+<li>Compra de sats em corretoras P2P na Lightning Network (LN)</li>
+<li>Compra de sats em corretoras on-chain, utilizando uma carteira intermediária para realizar a troca</li>
+<li>Carteira Electrum com suporte à Lightning Network (LN)</li>
 </ul>
 </ul>
 <hr style="height:2px">
@@ -82,24 +81,16 @@ image: /assets/images/submarine-swaps.jpg
 <p>Feito, depois de definir os termos, levará um tempo até que o loop out seja aprovado e os fundos sejam enviados para o endereço onchain indicado. Você pode monitorar o status na mesma página.</p>
 <p>Outro método: se você executar um nó com uma instância LNbits, você também integrou a <a href="https://extensions.lnbits.com/boltz">extensão Boltz Swap</a> ou a <a href="https://extensions.lnbits.com/deezy">extensão Deezy swap</a> diretamente no LNBits, para trocas fáceis. Como um comerciante que usa <a href="/merchants/lnbits-small-merchants-en.html">LNbits para seus negócios</a>, esta é uma ferramenta muito útil para "esvaziar" seus canais preenchidos de pagamentos, com swaps para endereços onchain.</p>
 
-<h3>2 - <a href="https://coinos.io">CoinOS</a> - carteira da web, com funcionalidades onchain e LN</h3>
-<p>Este aplicativo também pode ser usado como carteira de renda de primeiro nível (se você não tiver seu próprio nó) para um pequeno comerciante, conforme descrito <a href="/merchants/getting-started-bitcoin-small-merchants-pt.html">em outro guia aqui</a>.</p>
-<p>O CoinOS tem swaps integrados e pode ser usado anonimamente, incluindo swaps com a Liquid Network.</p>
-<p>O processo de swap simples com o CoinOS será:</p>
-<ul>
-<li>Abra uma conta no CoinOS (salve os detalhes de login, se quiser reutilizá-los)</li>
-<li>Crie uma fatura LN ou use o endereço LN fornecido pelo CoinOS, que será username@coinos.io. Você também pode usar o endereço LNURL-pay fornecido e pagar qualquer quantia que desejar.</li>
-<li>Pague para essa fatura LN / endereço LN / endereço LNURL-p do seu nó (usar o Thunderhub é muito mais fácil para endereço LN/LNURL, você também pode usar a carteira Zeus conectada ao seu nó).</li>
-<li>Depois de ter os fundos no CoinOS LN, faça um pagamento para qualquer um dos seus endereços BTC onchain, do seu nó (para futuros novos canais LN) ou qualquer outra carteira HODL onchain, ou você pode dividir.</li>
-<li>Pronto, você acabou de sair do LN para o onchain seus fundos, com taxas e aborrecimentos mínimos, totalmente privado.</li>
-</ul>
+<h3>2 - Marketplaces de Liquidez</h3>
+<p>Esses marketplaces são voltados para nós de roteamento públicos, que permanecem sempre online, permitindo que trocas (swaps) entre a Lightning Network (LN) e a rede principal (onchain) sejam realizadas instantaneamente. Eles são utilizados, principalmente, para rebalancear a liquidez de canais quando esta se esgota.</p>
+<p>O <a href="https://www.peerswap.dev">PeerSwap</a> funciona majoritariamente com nós CLN.</p>
+<p>O <a href="https://lightning.engineering/loop/">Lightning Loop</a> é um padrão aberto para todas as implementações da Lightning Network, sendo utilizado predominantemente por nós LND.</p>
 
-<h3>3 - Usando vários serviços de swap externos</h3>
-<a href="https://boltz.exchange/">Boltz</a> | <a href="https://swapmarket.github.io/">SwapMarket</a> | <a href="https://fixedfloat.com/">FixedFloat</a>| <a href="https://lightning.engineering/loop/">Lightning Loop</a>
-<p>Estas são exchanges online dedicadas a swaps e usando um procedimento simples em 3-4 etapas, você obtém seu swap sats da LN para qualquer endereço onchain:</p>
-<p>ESTEJA CIENTE: Às vezes, a ZigZag.io pode ter sérios problemas de liquidez e não pode cumprir seus swaps. Percebo que muitos outros usuários estão reclamando sobre isso.</p>
-<p>Sim, eles estão cobrando uma taxa, mas tudo é muito transparente e exibido antes de você clicar em "trocar".</p>
-<p>O mesmo processo, você está pagando uma fatura LN do seu nó e indica um endereço onchain onde deseja receber.</p>
+<h3>3 - Utilização de diversos serviços externos de swap</h3>
+<a href="https://swapmarket.github.io/">SwapMarket</a> | <a href="https://ff.io">FixedFloat</a>| <a href="https://satsrouting.exchange">SATS Routing</a> | <a href="https://whales.exchange">Whales Exchange</a> | <a href="https://swiss-bitcoin-pay.ch/services">Swiss Bitcoin Pay</a>
+<p>Trata-se de plataformas online dedicadas a realizar trocas (swaps). Por meio de um procedimento simples de 3 a 4 etapas, você pode converter seus sats da Lightning Network para qualquer endereço na rede principal (onchain):</p>
+<p>Sim, há a cobrança de uma taxa, mas todo o processo é bastante transparente, com os valores exibidos antes mesmo de você confirmar a operação (clicar em “swap”).</p>
+<p>O funcionamento é o seguinte: você paga uma fatura (invoice) da Lightning Network a partir do seu nó e indica um endereço na rede principal (onchain) onde deseja receber os fundos.</p>
 <figure>
 <img src="/assets/images/boltz-swap.png" class="center">
 <figcaption>Tela de troca de Boltz LN para onchain</figcaption>
@@ -155,21 +146,6 @@ image: /assets/images/submarine-swaps.jpg
 <p>O PeerSwap habilita o Lightning Nós de rede para equilibrar seus canais facilitando trocas atômicas com pares diretos. O PeerSwap aprimora a descentralização da Lightning Network permitindo que todos os nós sejam seus próprios provedores de troca. Nenhum coordenador centralizado, nenhum coletor de aluguel de terceiros e o balanceamento de canal de menor custo significa que nós pequenos podem competir melhor com nós grandes.</p>
 <p>O PeerSwap atualmente tem uma implementação funcional para nós CLN e LND.</p>
 <p>No momento, o PeerSwap é adequado para operadores de nós de energia com habilidades de linha de comando Linux. Implementações de interfaces GUI do painel de controle estão em andamento, o que tornará o PeerSwap mais fácil de usar para usuários finais comuns.</p>
-
-<h3>5 - Bluewallet LNDHUB</h3>
-<p>Se seu nó (Umbrel, MyNode, RaspiBlitz, Embassy) já tiver instalado e configurado o BW LNDHUB, este pode ser um método fácil para obter liquidez rápida de uma carteira onchain externa.</p>
-<p>Etapas a serem seguidas:</p>
-<ul>
-<li>Conecte o aplicativo móvel BW ao seu nó BW LNDHUB</li>
-<li>Crie uma nova carteira LN (será criada em seu nó, não em servidores BW)</li>
-<li>Esta carteira LN estará "vazia" como saldo, mas usará a liquidez do seu nó.</li>
-<li>Salve o backup desta carteira! Vá para os detalhes da carteira e selecione exportar backup, será uma URL para sua carteira LNDHUB.</li>
-<li>No BW, abra esta carteira LN e clique no botão "recarregar - de fonte externa". Ele exibirá um código QR com um endereço onchain do seu nó.</li>
-<li>Depois de pagar para esse endereço (não use quantias pequenas como 100, 10k sats), sua carteira LN terá um saldo com esses sats e seu nó LN também terá uma liquidez aumentada com esse valor.</li>
-<li>A tx será refletida nas txs onchain do seu nó, mas será sempre para um endereço onchain "dedicado" para essa carteira LNDHUB. E os fundos também estarão em seus canais LN (veja sua lista de transações de nós LN).</li>
-<li>Pronto, em uma etapa simples você mudou de onchain para LN, usando seu nó.</li>
-</ul>
-<p><a href="https://darthcoin.substack.com/p/umbrel-lndhub-bluewallet">Mais sobre como usar o Bluewallet LNDHUB com o nó Umbrel aqui, guia dedicado</a>.</p>
 <hr style="height:2px">
 
 <h2 id="scenario-b">CENÁRIO B <a href="#scenario-b">#</a></h2>
@@ -192,13 +168,12 @@ image: /assets/images/submarine-swaps.jpg
 <h3>2 - Compre BTC com fiat e retire para canais de carteira/nó LN</h3>
 <p>Este método é bom para pequenas quantias, ou você não quer lidar com endereços onchain, você obtém mais privacidade e também pode usá-lo como método de "loop in" para seus canais LN ou carteiras LN.</p>
 <p>Opcionalmente, você pode pedir (colocar um pedido) para LN <-->swaps onchain como método de negociação</p>
-<p>Aqui você tem um guia de comparação sobre todas as carteiras LN com seus recursos.</p>
+<p><a href="/wallets/lightning-wallets-comparison-pt.html">Aqui você encontra um guia comparativo</a> de todas as carteiras Lightning (LN), com suas respectivas funcionalidades.</p>
 <p>Ferramentas que você pode usar:</p>
 <ul>
 <li><a href="http://robosats6tkf3eva7x2voqso3a5wcorsnw34jveyxfqi2fu7oyheasid.onion/">RoboSats</a>, mencionado anteriormente, somente Tor (em breve aplicativo móvel), <a href="https://learn.robosats.com">mais documentação aqui</a>.</li>
 <li><a href="https://app.mostro.network/">Mostro</a> - P2P sobre NOSTR. Mais documentação <a href="https://mostro.network/">aqui</a>.</li>
 <li><a href="https://bisq.network/">Bisq P2P Exchange</a> - o novo Bisq2 suporta negociações sobre LN, <a href="https://stacker.news/items/663856/r/DarthCoin">aqui está um guia detalhado</a>.
-<li><a href="https://t.me/lnp2pBot">Troca P2P do bot Telegram LNP2P</a></li>
 <li><a href="https://t.me/SatsMobiBot">Troca P2P do bot Telegram SatsMobi</a></li>
 <li><a href="https://azte.co/">Azte.co</a> vouchers LN ou seu <a href="https://t.me/BitcoinVoucherBot">bot Telegram</a> também</li>
 <li><a href="/beginner/buy-bitcoin-pt.html">mais trocas com suporte LN aqui</a></li>
@@ -228,6 +203,9 @@ image: /assets/images/submarine-swaps.jpg
 <li>Então você está pronto para receber novos sats nesses canais Electrum LN.</li>
 <li>Depois de comprar de outras fontes e receber no Electrum, você pode fazer uma troca interna, no Electrum. Os fundos serão movidos para um dos seus endereços Electrum.</li>
 </ul>
+<p><a href="https://stacker.news/items/1540674">Aqui está um guia detalhado</a> sobre como usar os swaps da Electrum LN</p>
+<p><a href="https://electrum.readthedocs.io/en/latest/swapserver.html">Aqui está um guia detalhado</a> sobre como se tornar um provedor de swaps em um servidor Electrum</p>
+<p><a href="https://github.com/nothing-stops-this-train/electrum_swapgui">Aqui está um guia detalhado</a> sobre como configurar e instalar uma interface gráfica (GUI) para um provedor de swaps em um servidor Electrum, utilizando o protocolo Nostr</p>
 <p>Aqui você tem uma demonstração de como usar o Electrum com o Lightning (vídeo de 5 min).</p>
 <iframe width="640" height="480" src="https://www.youtube.com/embed/dg1fyd5_foA" title="Electrum Lightning Demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 <hr style="height:2px">

@@ -23,7 +23,7 @@ image: /assets/images/submarine-swaps.jpg
 <a href="/nodes/lightning-submarine-swaps-hi.html"><img src="/assets/images/flag-IN.png" alt="HI" title="Hindi" style="width:25px;height:10px; style="vertical-align:bottom"></a> |
 </center>
 <blockquote style="color:Tomato;"><em>
-<p>Originally posted on <a href="https://darthcoin.substack.com/p/lightning-network-submarine-swaps">Substack</a> on Mar 29, 2022. Updated here on Dec 25, 2024</p>
+<p>Originally posted on <a href="https://darthcoin.substack.com/p/lightning-network-submarine-swaps">Substack</a> on Mar 29, 2022. Updated here on Nov 15, 2026</p>
 </em></blockquote>
 
 <p>Nowadays, we have many Lightning Nodes, but still their operators don’t know how to use at fully potential.</p>
@@ -40,17 +40,16 @@ image: /assets/images/submarine-swaps.jpg
 <p>So basically, with submarine swaps, we can move liquidity in/from a HODL/cache onchain wallet into/from a LN node/wallet. Also could be used very well as a method of coinjoin, to lose trace of your KYC coins.</p>
 <p>We will consider two possible use case scenarios:</p>
 <ul>
-  <li><a href="#scenario-a">Scenario A</a> - a merchant node that need to swap out more often the sats received from payments. Methods used:</li>
+  <li><a href="#scenario-a">Scenario A</a> - a public routing node or a merchant node that need to swap out more often the sats received from payments. Methods used:</li>
     <ul>
-      <li>RTL or Thunderhub node management apps or LNbits Boltz extension</li>
-      <li>CoinOS web wallet</li>
+      <li>RTL or Thunderhub node management apps</li>
+      <li>PeerSwap and Lightning Loop - liquidity marketplace</li>
       <li>External swap services</li>
-      <li><a href="#ghetto-swap">Ghetto Swap</a> or PeerSwap method between direct peers</li>
-      <li>Bluewallet LNDHUB</li>
+      <li><a href="#ghetto-swap">Ghetto Swap</a></li>
     </ul>
   <li><a href="#scenario-b">Scenario B</a> - a regular user that buys sats from exchanges regularly. Methods used:</li>
     <ul>
-      <li>Robosats swaps</li>
+      <li>Robosats or Mostro swaps</li>
       <li>Buy sats from P2P LN exchanges</li>
       <li>Buy sats from onchain exchanges and use cache wallet level to swap</li>
       <li>Electrum LN wallet</li>
@@ -82,22 +81,14 @@ image: /assets/images/submarine-swaps.jpg
 <p>Done, once you set the terms, it will take a while until the loop out is approved and the funds are sent to your indicated onchain address. You can monitor the status in the same page.</p>
 <p>Another method: If you run a node with a LNbits instance, you have integrated also the <a href="https://extensions.lnbits.com/boltz">Boltz Swap extension</a> or <a href="https://extensions.lnbits.com/deezy">Deezy swap extension</a> right into LNBits, for easy swaps. As a merchant that use <a href="/merchants/lnbits-small-merchants-en.html">LNbits for its business</a> this is a very handy tool to “empty” your filled channels from payments, with swaps into onchain address.</p>
 
-<h3>2 - <a href="https://coinos.io">CoinOS</a> - web wallet, with onchain and LN functionalities</h3>
-<p>This app also could be used as first level of income wallet (if you do not have your own node) for a small merchant, as described <a href="/merchants/getting-started-bitcoin-small-merchants-en.html">in another guide here</a>.</p>
-<p>CoinOS have integrated swaps and could be used anonymously, including swaps with Liquid Network.</p>
-<p>Simple swap process with CoinOS will be:</p>
-<ul>
-<li>Open an account in CoinOS (save the login details, if you want to reuse it)</li>
-<li>Create a LN invoice, or use the LN address provided by CoinOS, that will be username@coinos.io. Also you can use the LNURL-pay address provided and you can pay any amount you want.</li>
-<li>Pay to that LN invoice / LN address / LNURL-p address from your node (using Thunderhub is much easier for LN address/ LNURL, also you can use Zeus wallet connected to your node).</li>
-<li>Once you have the funds in CoinOS LN, make a payment to any of your onchain BTC addresses, of your node (for future new LN channels) or any other HODL onchain wallet, or you can split.</li>
-<li>Done, you’ve just moved out from LN to onchain your funds, with minimal fees and hassle, total private.</li>
-</ul>
+<h3>2 - Liquidity Marketplaces</h3>
+<p>These marketplaces are designed for public routing nodes, where are always online and the swaps between LN and onchain are made instantly, on the go. These are used more for rebalancing channels liquidity when are depleted.</p>
+<p><a href="https://www.peerswap.dev">PeerSwap</a> is working mostly with CLN nodes.</p>
+<p><a href="https://lightning.engineering/loop/">Lightning Loop</a> is an open standard for all LN implementations but mostly for LND nodes.</p>
 
 <h3>3 - Using various external swap services</h3>
-<a href="https://boltz.exchange/">Boltz</a> | <a href="https://swapmarket.github.io/">SwapMarket</a> | <a href="https://fixedfloat.com/">FixedFloat</a>| <a href="https://lightning.engineering/loop/">Lightning Loop</a>
+<a href="https://swapmarket.github.io/">SwapMarket</a> | <a href="https://ff.io">FixedFloat</a>| <a href="https://satsrouting.exchange">SATS Routing</a> | <a href="https://whales.exchange">Whales Exchange</a> | <a href="https://swiss-bitcoin-pay.ch/services">Swiss Bitcoin Pay</a>
 <p>These are online exchanges dedicated for swaps and using a simple procedure in 3-4 steps, you get your sats swap from LN into any onchain address:</p>
-<p>BE AWARE: Sometimes ZigZag.io could have serious liquidity issues and cannot fulfill your swaps. I notice many other users complaining about it.</p>
 <p>Yes, they are charging a fee, but all is very transparent and displayed before you click “swap”.</p>
 <p>The same process, you are paying a LN invoice from your node and indicate an onchain address where you want to receive.</p>
 <figure>
@@ -156,22 +147,6 @@ image: /assets/images/submarine-swaps.jpg
 <p>PeerSwap currently has a working implementation for both CLN and LND nodes.</p>
 <p>At the moment PeerSwap is suitable for power node operators with Linux command line skills. Implementations of control panel GUI interfaces are currently underway which will make PeerSwap easier to use for ordinary end users.</p>
 
-<h3>5 - Bluewallet LNDHUB</h3>
-<p>If your node (Umbrel, MyNode, RaspiBlitz, Embassy) have already installed and configured the BW LNDHUB, this could be an easy method to get quick liquidity from an external onchain wallet.</p>
-<p>Steps to do:</p>
-<ul>
-<li>Connect BW mobile app to your node BW LNDHUB</li>
-<li>Create a new LN wallet (will be created on your node, not on BW servers)</li>
-<li>This LN wallet will be “empty” as balance, but will use your node liquidity.</li>
-<li>Save this wallet backup! Go to wallet details and select export backup, will be a URL to your LNDHUB wallet.</li>
-<li>In BW, open this LN wallet and click on the button “refill - from external source”. It will bring up a QR code with an onchain address from your node.</li>
-<li>Once you pay to that address (don’t use small amounts like 100, 10k sats), your LN wallet will have a balance with those sats and your LN node also will have an increased liquidity with that amount.</li>
-<li>The tx will be reflected on your node onchain txs but will be always to a “dedicated” onchain address for that LNDHUB wallet. And the funds will be also in your LN channels (see your LN node txs list).</li>
-<li>Done, in one simple step you moved from onchain to LN, using your node.</li>
-</ul>
-<p><a href="https://darthcoin.substack.com/p/umbrel-lndhub-bluewallet">More about how to use Bluewallet LNDHUB with Umbrel node here, dedicated guide</a>.</p>
-<hr style="height:2px">
-
 <h2 id="scenario-b">SCENARIO B <a href="#scenario-b">#</a></h2>
 <blockquote style="color:Tomato;"><em>
 <p>Case: You are a regular user, that only want more privacy and lose trace of some BTC bought from a KYC exchange or you received some BTC from an unknown source and don’t want to be linked in any way with it.</p>
@@ -192,13 +167,12 @@ image: /assets/images/submarine-swaps.jpg
 <h3>2 - Buy BTC with fiat and withdraw into LN wallet/node channels</h3>
 <p>This method is good for small amounts, or you do not want to deal with onchain addresses, you get more privacy and also you can use it as “loop in” method for your LN channels or LN wallets.</p>
 <p>Optionally you could ask (put an order) for LN <-->onchain swaps as trade method</p>
-<p>Here you have a comparison guide about all LN wallets with their features.</p>
+<p><a href="/wallets/lightning-wallets-comparison-en.html">Here you have a comparison guide</a> about all LN wallets with their features.</p>
 <p>Tools that you can use:</p>
 <ul>
 <li><a href="http://robosats6tkf3eva7x2voqso3a5wcorsnw34jveyxfqi2fu7oyheasid.onion/">RoboSats</a>, previously mentioned, Tor only (soon mobile app), <a href="https://learn.robosats.com">more documentation here</a>.</li>
 <li><a href="https://app.mostro.network/">Mostro</a> - P2P over NOSTR. More documentation <a href="https://mostro.network/">here</a>.</li>
 <li><a href="https://bisq.network/">Bisq P2P Exchange</a> - the new Bisq2 supports trades over LN, <a href="https://stacker.news/items/663856/r/DarthCoin">here is a detailed guide</a>.
-<li><a href="https://t.me/lnp2pBot">LNP2P Telegram bot P2P exchange</a></li>
 <li><a href="https://t.me/SatsMobiBot">SatsMobi Telegram bot P2P exchange</a></li>
 <li><a href="https://azte.co/">Azte.co</a> LN vouchers or their <a href="https://t.me/BitcoinVoucherBot">Telegram bot</a> too</li>
 <li><a href="/beginner/buy-bitcoin-en.html">more exchanges with LN support here</a></li>
@@ -213,7 +187,7 @@ image: /assets/images/submarine-swaps.jpg
 <p>For this process I suggest to use an external wallet, not form your node. <a href="/nodes/public-private-node-liquidity-scenario-en.html">As I described in this another guide</a> about liquidity between nodes. Blixt, Zeus, Breeze, Phoenix are good choices for this process.</p>
 <p>From that LN wallet, you can also send to your own node (if you need more liquidity) and or to any other HODL wallet onchain (using another swap).</p>
 
-<h3>4 - Electrum Desktop Lightning</h3>
+<h3>4 - Electrum Desktop / Mobile Lightning</h3>
 <p>This is a quite powerful (but underated) LN wallet with integrated swaps too. I personally find it very useful.</p>
 <p>Steps to do for this process:</p>
 <ul>
@@ -228,6 +202,9 @@ image: /assets/images/submarine-swaps.jpg
 <li>So you are ready to receive new sats into these Electrum LN channels.</li>
 <li>Once you buy from other sources and receive into Electrum, you can do an internal swap, in Electrum. Funds will be moved to one of your Electrum adresses.</li>
 </ul>
+<p><a href="https://stacker.news/items/1540674">Here is a detailed guide</a> about how to use Electrum LN swaps</p>
+<p><a href="https://electrum.readthedocs.io/en/latest/swapserver.html">Here is a detailed guide</a> about how to became an Electrum server swap provider</p>
+<p><a href="https://github.com/nothing-stops-this-train/electrum_swapgui">Here is a detailed guide</a> about how to became and install a GUI for Electrum server swap provider, over nostr</p>
 <p>Here you have a demo how to use Electrum with Lightning (5 min video).</p>
 <iframe width="640" height="480" src="https://www.youtube.com/embed/dg1fyd5_foA" title="Electrum Lightning Demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 <hr style="height:2px">
